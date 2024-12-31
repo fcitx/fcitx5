@@ -1,4 +1,4 @@
-#include <fcitx-utils/log.h>
+#include "fcitx-utils/log.h"
 
 FCITX_DEFINE_LOG_CATEGORY(dummyaddondeps, "dummyaddondeps");
 

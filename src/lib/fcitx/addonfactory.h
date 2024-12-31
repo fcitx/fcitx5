@@ -8,7 +8,7 @@
 #define _FCITX_ADDONFACTORY_H_
 
 #include <fcitx/addoninstance.h>
-#include "fcitxcore_export.h"
+#include <fcitx/fcitxcore_export.h>
 
 /// \addtogroup FcitxCore
 /// \{

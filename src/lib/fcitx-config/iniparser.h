@@ -9,9 +9,9 @@
 
 #include <cstdio>
 #include <string>
+#include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/standardpath.h>
-#include "fcitxconfig_export.h"
 
 namespace fcitx {
 class Configuration;

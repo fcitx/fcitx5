@@ -21,7 +21,7 @@
 #include <utility>
 #include <vector>
 #include <fcitx-utils/fcitxutils_export.h>
-#include "stringutils_details.h"
+#include <fcitx-utils/stringutils_details.h> // IWYU pragma: export
 
 namespace fcitx::stringutils {
 

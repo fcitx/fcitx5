@@ -10,11 +10,11 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-config/option.h>
 #include <fcitx-config/optiontypename.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxconfig_export.h"
 
 #define FCITX_CONFIGURATION_EXTEND(NAME, SUBCLASS, ...)                        \
     class NAME;                                                                \

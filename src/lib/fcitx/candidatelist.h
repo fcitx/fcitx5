@@ -10,8 +10,8 @@
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/candidateaction.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/text.h>
-#include "fcitxcore_export.h"
 
 namespace fcitx {
 

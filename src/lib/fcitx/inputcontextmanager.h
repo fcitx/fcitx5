@@ -10,8 +10,8 @@
 #include <memory>
 #include <fcitx-config/enum.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/inputcontext.h>
-#include "fcitxcore_export.h"
 
 namespace fcitx {
 

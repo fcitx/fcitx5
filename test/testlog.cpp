@@ -5,8 +5,8 @@
  *
  */
 #include <sstream>
-#include <fcitx-utils/log.h>
-#include <fcitx-utils/metastring.h>
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/metastring.h"
 
 int main() {
     int a = 0;

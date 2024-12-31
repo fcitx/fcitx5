@@ -9,8 +9,8 @@
 
 #include <string>
 #include <unordered_map>
-#include "addoninfo.h"
-#include "addoninstance.h"
+#include <fcitx/addoninfo.h>
+#include <fcitx/addoninstance.h>
 
 namespace fcitx {
 

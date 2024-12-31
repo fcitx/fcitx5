@@ -5,10 +5,10 @@
  *
  */
 #include <fcntl.h>
-#include <fcitx-utils/log.h>
-#include <fcitx-utils/standardpath.h>
-#include <fcitx-utils/testing.h>
-#include <fcitx/addonmanager.h>
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/testing.h"
+#include "fcitx/addonmanager.h"
 #include "emoji_public.h"
 #include "testdir.h"
 

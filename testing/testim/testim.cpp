@@ -5,8 +5,8 @@
  *
  */
 #include "testim.h"
-#include <fcitx/addonfactory.h>
-#include <fcitx/addonmanager.h>
+#include "fcitx/addonfactory.h"
+#include "fcitx/addonmanager.h"
 
 namespace fcitx {
 

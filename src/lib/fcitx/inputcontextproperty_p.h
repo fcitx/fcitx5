@@ -8,7 +8,9 @@
 #define _FCITX_INPUTCONTEXTPROPERTY_P_H_
 
 #include <string>
-#include "inputcontextproperty.h"
+#include <fcitx/inputcontextproperty.h>
+#include "fcitx-utils/macros.h"
+#include "fcitx/inputcontextmanager.h"
 
 namespace fcitx {
 class InputContextManagerPrivate;

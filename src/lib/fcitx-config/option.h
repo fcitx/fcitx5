@@ -14,13 +14,13 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-config/marshallfunction.h>
 #include <fcitx-config/option_details.h> // IWYU pragma: export
 #include <fcitx-config/optiontypename.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/flags.h>
-#include "fcitx-utils/key.h"
-#include "fcitxconfig_export.h"
+#include <fcitx-utils/key.h>
 
 namespace fcitx {
 

@@ -7,7 +7,7 @@
 #ifndef _FCITX_UTILS_STRINGUTILS_DETAIL_H_
 #define _FCITX_UTILS_STRINGUTILS_DETAIL_H_
 
-// IWYU pragma: private, include "stringutils.h"
+// IWYU pragma: private, include <fcitx/stringutils.h>
 
 #include <cassert>
 #include <cstdio>

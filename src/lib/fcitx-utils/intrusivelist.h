@@ -13,7 +13,7 @@
 #include <type_traits>
 #include <utility>
 #include <fcitx-utils/macros.h>
-#include "misc.h"
+#include <fcitx-utils/misc.h>
 
 namespace fcitx {
 

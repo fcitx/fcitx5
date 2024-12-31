@@ -8,10 +8,10 @@
 #define _FCITX_MODULES_XCB_XCBCONNECTION_H_
 
 #include <string>
-#include <fcitx/instance.h>
 #include <xcb/xcb_keysyms.h>
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/key.h"
+#include "fcitx/instance.h"
 #include "xcb_public.h"
 
 namespace fcitx {

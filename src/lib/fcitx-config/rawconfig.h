@@ -13,9 +13,9 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxconfig_export.h"
 
 namespace fcitx {
 

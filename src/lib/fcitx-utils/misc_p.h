@@ -19,8 +19,8 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <fcitx-utils/endian_p.h>
 #include "config.h"
-#include "endian_p.h"
 
 namespace fcitx {
 

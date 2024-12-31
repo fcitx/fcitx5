@@ -11,7 +11,7 @@
 #include <fcitx-utils/element.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/action.h>
-#include "fcitxcore_export.h"
+#include <fcitx/fcitxcore_export.h>
 
 /// \addtogroup FcitxCore
 /// \{

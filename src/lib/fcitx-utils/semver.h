@@ -14,8 +14,8 @@
 #include <variant>
 #include <vector>
 #include <fcitx-utils/fcitxutils_export.h>
-#include "log.h"
-#include "macros.h"
+#include <fcitx-utils/log.h>
+#include <fcitx-utils/macros.h>
 
 namespace fcitx {
 

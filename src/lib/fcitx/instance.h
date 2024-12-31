@@ -10,12 +10,12 @@
 #include <memory>
 #include <string>
 #include <fcitx-utils/connectableobject.h>
+#include <fcitx-utils/eventdispatcher.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/event.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/globalconfig.h>
 #include <fcitx/text.h>
-#include "fcitx-utils/eventdispatcher.h"
-#include "fcitxcore_export.h"
 
 #define FCITX_INVALID_COMPOSE_RESULT 0xffffffff
 

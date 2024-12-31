@@ -7,7 +7,7 @@
 #ifndef _FCITX_UI_CLASSIC_COLORHELPER_H_
 #define _FCITX_UI_CLASSIC_COLORHELPER_H_
 
-#include <fcitx-utils/color.h>
+#include "fcitx-utils/color.h"
 
 namespace fcitx::classicui {
 

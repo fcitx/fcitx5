@@ -9,10 +9,10 @@
 
 #include <mutex>
 #include <thread>
-#include <fcitx-utils/event.h>
-#include <fcitx-utils/eventdispatcher.h>
-#include <fcitx-utils/trackableobject.h>
 #include <xcb/xcb.h>
+#include "fcitx-utils/event.h"
+#include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/trackableobject.h"
 #include "xcb_public.h"
 
 namespace fcitx {

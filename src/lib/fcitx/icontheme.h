@@ -14,7 +14,7 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/standardpath.h>
-#include "fcitxcore_export.h"
+#include <fcitx/fcitxcore_export.h>
 
 /// \addtogroup FcitxCore
 /// \{

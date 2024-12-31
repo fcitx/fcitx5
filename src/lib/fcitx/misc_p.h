@@ -12,14 +12,14 @@
 #include <functional>
 #include <string>
 #include <type_traits>
-#include "fcitx-utils/charutils.h"
-#include "fcitx-utils/log.h"
-#include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/stringutils.h"
-#include "fcitx/candidatelist.h"
-#include "fcitx/inputmethodentry.h"
-#include "fcitx/inputmethodmanager.h"
-#include "fcitx/instance.h"
+#include <fcitx-utils/charutils.h>
+#include <fcitx-utils/log.h>
+#include <fcitx-utils/misc_p.h>
+#include <fcitx-utils/stringutils.h>
+#include <fcitx/candidatelist.h>
+#include <fcitx/inputmethodentry.h>
+#include <fcitx/inputmethodmanager.h>
+#include <fcitx/instance.h>
 
 // This ia a file for random private util functions that we'd like to share
 // among different modules.

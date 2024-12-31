@@ -9,12 +9,12 @@
 
 #include <functional>
 #include <thread>
-#include <fcitx-utils/event.h>
-#include <fcitx-utils/eventdispatcher.h>
-#include <fcitx-utils/signals.h>
-#include <fcitx-utils/trackableobject.h>
-#include <fcitx-utils/unixfd.h>
+#include "fcitx-utils/event.h"
+#include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx-utils/trackableobject.h"
+#include "fcitx-utils/unixfd.h"
 #include "display.h"
 #include "zwlr_data_control_device_v1.h"
 #include "zwlr_data_control_manager_v1.h"

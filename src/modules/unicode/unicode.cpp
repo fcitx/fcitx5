@@ -5,8 +5,8 @@
  *
  */
 #include "unicode.h"
-#include <fcitx-utils/charutils.h>
 #include <fmt/format.h>
+#include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx-utils/utf8.h"

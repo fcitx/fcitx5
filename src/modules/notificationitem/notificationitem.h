@@ -8,10 +8,10 @@
 #define _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_H_
 
 #include <memory>
-#include <fcitx/addonmanager.h>
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "dbus_public.h"
 #include "notificationitem_public.h"

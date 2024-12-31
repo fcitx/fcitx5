@@ -13,8 +13,8 @@
 #include <vector>
 #include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/inputmethodgroup.h>
-#include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
 /// \{

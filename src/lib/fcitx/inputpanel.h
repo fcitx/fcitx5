@@ -9,7 +9,7 @@
 
 #include <functional>
 #include <fcitx/candidatelist.h>
-#include "fcitxcore_export.h"
+#include <fcitx/fcitxcore_export.h>
 
 /// \addtogroup FcitxCore
 /// \{

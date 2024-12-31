@@ -17,9 +17,9 @@
 #include <fcitx-utils/rect.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx/event.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/inputcontextproperty.h>
 #include <fcitx/surroundingtext.h>
-#include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
 /// \{

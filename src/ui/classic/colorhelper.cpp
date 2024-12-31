@@ -6,7 +6,7 @@
 
 #include "colorhelper.h"
 #include <cmath>
-#include <fcitx-utils/color.h>
+#include "fcitx-utils/color.h"
 
 namespace fcitx::classicui {
 

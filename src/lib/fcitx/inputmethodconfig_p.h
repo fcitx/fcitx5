@@ -8,9 +8,9 @@
 #define _FCITX_INPUTMETHODCONFIG_P_H_
 
 #include <vector>
-#include "fcitx-config/configuration.h"
-#include "fcitx-utils/i18nstring.h"
-#include "inputmethodentry.h"
+#include <fcitx-config/configuration.h>
+#include <fcitx-utils/i18nstring.h>
+#include <fcitx/inputmethodentry.h>
 
 namespace fcitx {
 FCITX_CONFIGURATION(InputMethodGroupItemConfig,

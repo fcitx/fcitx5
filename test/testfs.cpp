@@ -7,10 +7,10 @@
 
 #include <libgen.h>
 #include <unistd.h>
-#include <fcitx-utils/stringutils.h>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/stringutils.h"
 
 using namespace fcitx::fs;
 using namespace fcitx;

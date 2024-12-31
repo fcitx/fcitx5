@@ -10,8 +10,8 @@
 #include <cstdint>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/key.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/userinterface.h>
-#include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
 /// \{

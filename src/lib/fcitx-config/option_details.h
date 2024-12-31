@@ -10,8 +10,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-config/rawconfig.h>
-#include "fcitxconfig_export.h"
 
 namespace fcitx {
 

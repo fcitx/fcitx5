@@ -9,8 +9,8 @@
 
 #include <fcitx/addoninstance.h>
 #include <fcitx/event.h>
+#include <fcitx/fcitxcore_export.h>
 #include <fcitx/inputmethodentry.h>
-#include "fcitxcore_export.h"
 
 namespace fcitx {
 

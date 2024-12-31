@@ -10,12 +10,12 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <fcitx-config/fcitxconfig_export.h>
+#include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/color.h>
 #include <fcitx-utils/i18nstring.h>
+#include <fcitx-utils/key.h>
 #include <fcitx-utils/semver.h>
-#include "fcitx-utils/key.h"
-#include "fcitxconfig_export.h"
-#include "rawconfig.h"
 
 namespace fcitx {
 

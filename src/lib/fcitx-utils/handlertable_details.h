@@ -7,7 +7,7 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_DETAILS_H_
 #define _FCITX_UTILS_HANDLERTABLE_DETAILS_H_
 
-// IWYU pragma: private, include "handlertable.h"
+// IWYU pragma: private, include <fcitx-utils/handlertable.h>
 
 #include <cstddef>
 #include <iterator>

@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
-#include <fcitx-utils/intrusivelist.h>
+#include "fcitx-utils/intrusivelist.h"
 #include "fcitx-utils/log.h"
 
 using namespace fcitx;

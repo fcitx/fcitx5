@@ -11,16 +11,16 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "fcitx-utils/event.h"
-#include "fcitx-utils/eventdispatcher.h"
-#include "fcitx-utils/handlertable.h"
-#include "fcitx-utils/misc.h"
-#include "fcitx-utils/trackableobject.h"
+#include <fcitx-utils/event.h>
+#include <fcitx-utils/eventdispatcher.h>
+#include <fcitx-utils/handlertable.h>
+#include <fcitx-utils/misc.h>
+#include <fcitx-utils/trackableobject.h>
+#include <fcitx/inputcontextproperty.h>
+#include <fcitx/inputmethodmanager.h>
+#include <fcitx/instance.h>
+#include <fcitx/userinterfacemanager.h>
 #include "config.h"
-#include "inputcontextproperty.h"
-#include "inputmethodmanager.h"
-#include "instance.h"
-#include "userinterfacemanager.h"
 
 #ifdef ENABLE_KEYBOARD
 #include <xkbcommon/xkbcommon-compose.h>

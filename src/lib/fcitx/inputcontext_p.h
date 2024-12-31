@@ -10,13 +10,13 @@
 #include <unordered_map>
 #include <fcitx-utils/intrusivelist.h>
 #include <fcitx-utils/uuid_p.h>
+#include <fcitx/event.h>
 #include <fcitx/inputcontext.h>
 #include <fcitx/inputcontextmanager.h>
 #include <fcitx/inputcontextproperty.h>
 #include <fcitx/inputpanel.h>
 #include <fcitx/instance.h>
 #include <fcitx/statusarea.h>
-#include "fcitx/event.h"
 
 namespace fcitx {
 

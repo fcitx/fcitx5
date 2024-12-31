@@ -7,9 +7,9 @@
 
 #include "testconfig.h"
 #include <vector>
-#include <fcitx-config/configuration.h>
-#include <fcitx-config/enum.h>
-#include <fcitx-config/iniparser.h>
+#include "fcitx-config/configuration.h"
+#include "fcitx-config/enum.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
 
 using namespace fcitx;

@@ -9,9 +9,9 @@
 
 #include <memory>
 #include <fcitx-utils/macros.h>
-#include "fcitxcore_export.h"
-#include "inputcontext.h"
-#include "inputpanel.h"
+#include <fcitx/fcitxcore_export.h>
+#include <fcitx/inputcontext.h>
+#include <fcitx/inputpanel.h>
 
 namespace fcitx {
 

@@ -8,8 +8,8 @@
 #define _FCITX_FOCUSGROUP_P_H_
 
 #include <unordered_set>
-#include "fcitx-utils/intrusivelist.h"
-#include "focusgroup.h"
+#include <fcitx-utils/intrusivelist.h>
+#include <fcitx/focusgroup.h>
 
 namespace fcitx {
 

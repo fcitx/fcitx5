@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <fcitx/addoninfo.h>
 #include <fcitx/addoninstance.h>
-#include "fcitxcore_export.h"
+#include <fcitx/fcitxcore_export.h>
 
 namespace fcitx {
 

@@ -5,10 +5,10 @@
  *
  */
 #include "testfrontend.h"
-#include <fcitx/addonfactory.h>
-#include <fcitx/addonmanager.h>
-#include <fcitx/inputcontextmanager.h>
-#include <fcitx/inputpanel.h>
+#include "fcitx/addonfactory.h"
+#include "fcitx/addonmanager.h"
+#include "fcitx/inputcontextmanager.h"
+#include "fcitx/inputpanel.h"
 
 namespace fcitx {
 

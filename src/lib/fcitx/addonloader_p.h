@@ -13,13 +13,13 @@
 #include <string_view>
 #include <unordered_map>
 #include <utility>
-#include "fcitx-utils/library.h"
-#include "fcitx-utils/standardpath.h"
-#include "fcitx-utils/stringutils.h"
-#include "addonfactory.h"
-#include "addoninfo.h"
-#include "addoninstance.h"
-#include "addonloader.h"
+#include <fcitx-utils/library.h>
+#include <fcitx-utils/standardpath.h>
+#include <fcitx-utils/stringutils.h>
+#include <fcitx/addonfactory.h>
+#include <fcitx/addoninfo.h>
+#include <fcitx/addoninstance.h>
+#include <fcitx/addonloader.h>
 
 namespace fcitx {
 
