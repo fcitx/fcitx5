@@ -1012,106 +1012,6 @@ check_fcitx() {
     fi
 }
 
-_find_config_gtk() {
-    [ -n "${_config_tool_gtk_exe}" ] && {
-        echo "${_config_tool_gtk_exe}"
-        return 0
-    }
-    local config_gtk
-    config_gtk="$(command -v "fcitx5-config-gtk" 2> /dev/null)" || return 1
-    echo "${config_gtk}"
-    _config_tool_gtk_exe="${config_gtk}"
-}
-
-_check_config_gtk_version() {
-    local version=$1
-    local config_gtk
-    [ -z "${_config_tool_gtk_version}" ] && {
-        config_gtk="$(_find_config_gtk)" || return 1
-        ld_info="$(ldd "$config_gtk" 2> /dev/null)" ||
-        ld_info="$(objdump -p "$config_gtk" 2> /dev/null)" || return 1
-        if [[ $ld_info =~ libgtk[-._a-zA-Z0-9]*3[-._a-zA-Z0-9]*\.so ]]; then
-            _config_tool_gtk_version=3
-        elif [[ $ld_info =~ libgtk[-._a-zA-Z0-9]*2[-._a-zA-Z0-9]*\.so ]]; then
-            _config_tool_gtk_version=2
-        else
-            return 1
-        fi
-    }
-    [ "${_config_tool_gtk_version}" = "$version" ]
-}
-
-_check_config_gtk() {
-    local version=$1
-    local config_gtk config_gtk_name
-    write_order_list_eval "$(_ 'Config GUI for gtk${1}:')" "${version}"
-    if ! config_gtk="$(command -v "fcitx5-config-gtk${version}" 2> /dev/null)"; then
-        if ! _check_config_gtk_version "${version}"; then
-            write_error_eval \
-                "$(_ 'Config GUI for gtk${1} not found.')" "${version}"
-            return 1
-        else
-            config_gtk=$(_find_config_gtk)
-            config_gtk_name="fcitx5-config-gtk"
-        fi
-    else
-        config_gtk_name="fcitx5-config-gtk${version}"
-    fi
-    write_eval "$(_ 'Found ${1} at ${2}.')" \
-        "$(code_inline "${config_gtk_name}")" \
-        "$(code_inline "${config_gtk}")"
-}
-
-_check_config_qt() {
-    local config_qt config_qt_name
-    config_qt_name="fcitx5-config-qt"
-    write_order_list_eval "$(_ 'Config GUI for qt:')" "${version}"
-    if ! config_qt="$(command -v "${config_qt_name}" 2> /dev/null)"; then
-        write_error "$(_ 'Config GUI for qt not found.')"
-        return 1
-    fi
-    write_eval "$(_ 'Found ${1} at ${2}.')" \
-        "$(code_inline "${config_qt_name}")" \
-        "$(code_inline "${config_qt}")"
-}
-
-_check_config_kcm() {
-    local version=$1
-    local kcm_shell config_kcm
-    write_order_list "$(_ 'Config GUI for kde:')"
-    if ! kcm_shell="$(command -v "kcmshell${version}" 2> /dev/null)"; then
-        write_error "$(print_not_found "kcmshell${version}")"
-        return 1
-    fi
-    config_kcm="$(${kcm_shell} --list 2> /dev/null | grep -i fcitx5)" && {
-        write_eval "$(_ 'Found ${1} kcm module.')" fcitx5
-        write_quote_str "${config_kcm}"
-        return 0
-    }
-    return 1
-}
-
-check_config_ui() {
-    local IFS=$'\n'
-    write_title 1 "$(_ 'Fcitx Configure UI:')"
-    write_order_list "$(_ 'Config Tool Wrapper:')"
-    if ! fcitx_configtool="$(command -v fcitx5-configtool 2> /dev/null)"; then
-        write_error_eval "$(_ 'Cannot find ${1} executable!')" fcitx5-configtool
-    else
-        write_eval "$(_ 'Found ${1} at ${2}.')" \
-                   fcitx5-configtool \
-                   "$(code_inline "${fcitx_configtool}")"
-    fi
-    local config_backend_found=0
-    _check_config_qt && config_backend_found=1
-    _check_config_kcm 5 && config_backend_found=1
-    if ((!config_backend_found)) && [[ -n "$DISPLAY$WAYLAND_DISPLAY" ]]; then
-        write_error_eval "$(_ 'Cannot find a GUI config tool, please install one of ${1}, or ${2}.')" \
-                         "$(code_inline kcm-fcitx5)" "$(code_inline fcitx5-config-qt)"
-    fi
-}
-
-
 #############################
 # front end
 #############################
@@ -1779,7 +1679,6 @@ check_istty
 check_system
 check_env
 check_fcitx
-check_config_ui
 
 ((_check_frontend)) && {
     write_title 1 "$(_ 'Frontends setup:')"
