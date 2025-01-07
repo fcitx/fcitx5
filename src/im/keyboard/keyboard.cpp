@@ -234,13 +234,24 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         if (uniqueName == "keyboard-us") {
             usExists = true;
         }
-        result.push_back(std::move(
-            InputMethodEntry(uniqueName, description, language, "keyboard")
-                .setLabel(layoutInfo.shortDescription.empty()
-                              ? layoutInfo.name
-                              : layoutInfo.shortDescription)
-                .setIcon("input-keyboard")
-                .setConfigurable(true)));
+        if (uniqueName == "keyboard-us" && getDesktopType() == DesktopType::UKUI) {
+            result.push_back(std::move(
+                InputMethodEntry(uniqueName, description, language, "keyboard")
+                    .setLabel(layoutInfo.shortDescription.empty()
+                                  ? layoutInfo.name
+                                  : layoutInfo.shortDescription)
+                    .setIcon("ukui-english-en-symbolic")
+                    .setConfigurable(true)));
+        } else {
+            result.push_back(std::move(
+                InputMethodEntry(uniqueName, description, language, "keyboard")
+                    .setLabel(layoutInfo.shortDescription.empty()
+                                ? layoutInfo.name
+                                : layoutInfo.shortDescription)
+                    .setIcon("input-keyboard")
+                    .setConfigurable(true)));
+        }
+
         for (const auto &variantInfo : layoutInfo.variantInfos) {
             auto language = findBestLanguage(isoCodes, variantInfo.description,
                                              !variantInfo.languages.empty()
