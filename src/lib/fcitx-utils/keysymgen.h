@@ -11,6 +11,8 @@
 
 #include <fcitx-utils/macros.h>
 
+// IWYU pragma: private, include "fcitx-utils/keysym.h"
+
 FCITX_C_DECL_BEGIN
 
 typedef enum _FcitxKeySym // NOLINT(modernize-use-using)
