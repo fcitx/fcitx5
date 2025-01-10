@@ -5,17 +5,53 @@
  *
  */
 #include "unicode.h"
+#include <algorithm>
+#include <cctype>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 #include <fmt/format.h>
+#include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
+#include "fcitx/instance.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
+#include "clipboard_public.h"
 
 namespace fcitx {
+
+namespace {
+
+bool isHexKey(const Key &key) {
+    if (key.isDigit()) {
+        return true;
+    }
+    if (key.isUAZ() || key.isLAZ()) {
+        // sym is in valid range.
+        return charutils::isxdigit(key.sym());
+    }
+    return false;
+}
+
+} // namespace
 
 enum class UnicodeMode {
     Off = 0,
@@ -307,11 +343,12 @@ void Unicode::handleDirect(KeyEvent &keyEvent) {
         return;
     }
 
-    if ((keyEvent.key().isDigit() || keyEvent.key().isLAZ() ||
-         keyEvent.key().isUAZ()) &&
-        isxdigit(keyEvent.key().sym())) {
-        keyEvent.accept();
-        if (!state->buffer_.type(keyEvent.key().sym())) {
+    if (isHexKey(keyEvent.key())) {
+        const auto keyStr = Key::keySymToUTF8(keyEvent.key().sym());
+        if (keyStr.empty()) {
+            return;
+        }
+        if (!state->buffer_.type(keyStr)) {
             return;
         }
         if (bufferIsValid(state->buffer_.userInput(), nullptr)) {

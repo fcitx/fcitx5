@@ -5,6 +5,10 @@
  *
  */
 #include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
@@ -58,7 +62,8 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("p"),
                                                     false); // ignored
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("1"), false);
-        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("8"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key(FcitxKey_KP_8),
+                                                    false);
         testfrontend->call<ITestFrontend::keyEvent>(
             uuid, Key(FcitxKey_BackSpace), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("9"), false);
