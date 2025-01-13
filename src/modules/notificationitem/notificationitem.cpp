@@ -67,7 +67,7 @@ public:
             icon = parent_->instance()->inputMethodIcon(ic);
         }
 
-        if (icon == "input-keyboard") {
+        if (!icon.empty() || icon == "input-keyboard") {
             icon = keyboardIconName();
         }
 
