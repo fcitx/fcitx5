@@ -8,18 +8,24 @@ const struct wl_shell_surface_listener WlShellSurface::listener = {
     [](void *data, wl_shell_surface *wldata, uint32_t serial) {
         auto *obj = static_cast<WlShellSurface *>(data);
         assert(*obj == wldata);
-        { return obj->ping()(serial); }
+        {
+            return obj->ping()(serial);
+        }
     },
     [](void *data, wl_shell_surface *wldata, uint32_t edges, int32_t width,
        int32_t height) {
         auto *obj = static_cast<WlShellSurface *>(data);
         assert(*obj == wldata);
-        { return obj->configure()(edges, width, height); }
+        {
+            return obj->configure()(edges, width, height);
+        }
     },
     [](void *data, wl_shell_surface *wldata) {
         auto *obj = static_cast<WlShellSurface *>(data);
         assert(*obj == wldata);
-        { return obj->popupDone()(); }
+        {
+            return obj->popupDone()();
+        }
     },
 };
 WlShellSurface::WlShellSurface(wl_shell_surface *data)
@@ -28,7 +34,9 @@ WlShellSurface::WlShellSurface(wl_shell_surface *data)
     wl_shell_surface_add_listener(*this, &WlShellSurface::listener, this);
 }
 void WlShellSurface::destructor(wl_shell_surface *data) {
-    { return wl_shell_surface_destroy(data); }
+    {
+        return wl_shell_surface_destroy(data);
+    }
 }
 void WlShellSurface::pong(uint32_t serial) {
     return wl_shell_surface_pong(*this, serial);

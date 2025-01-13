@@ -7,7 +7,9 @@ ZwpInputPanelV1::ZwpInputPanelV1(zwp_input_panel_v1 *data)
     zwp_input_panel_v1_set_user_data(*this, this);
 }
 void ZwpInputPanelV1::destructor(zwp_input_panel_v1 *data) {
-    { return zwp_input_panel_v1_destroy(data); }
+    {
+        return zwp_input_panel_v1_destroy(data);
+    }
 }
 ZwpInputPanelSurfaceV1 *
 ZwpInputPanelV1::getInputPanelSurface(WlSurface *surface) {

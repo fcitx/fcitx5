@@ -5,32 +5,44 @@ const struct wl_data_source_listener WlDataSource::listener = {
     [](void *data, wl_data_source *wldata, const char *mimeType) {
         auto *obj = static_cast<WlDataSource *>(data);
         assert(*obj == wldata);
-        { return obj->target()(mimeType); }
+        {
+            return obj->target()(mimeType);
+        }
     },
     [](void *data, wl_data_source *wldata, const char *mimeType, int32_t fd) {
         auto *obj = static_cast<WlDataSource *>(data);
         assert(*obj == wldata);
-        { return obj->send()(mimeType, fd); }
+        {
+            return obj->send()(mimeType, fd);
+        }
     },
     [](void *data, wl_data_source *wldata) {
         auto *obj = static_cast<WlDataSource *>(data);
         assert(*obj == wldata);
-        { return obj->cancelled()(); }
+        {
+            return obj->cancelled()();
+        }
     },
     [](void *data, wl_data_source *wldata) {
         auto *obj = static_cast<WlDataSource *>(data);
         assert(*obj == wldata);
-        { return obj->dndDropPerformed()(); }
+        {
+            return obj->dndDropPerformed()();
+        }
     },
     [](void *data, wl_data_source *wldata) {
         auto *obj = static_cast<WlDataSource *>(data);
         assert(*obj == wldata);
-        { return obj->dndFinished()(); }
+        {
+            return obj->dndFinished()();
+        }
     },
     [](void *data, wl_data_source *wldata, uint32_t dndAction) {
         auto *obj = static_cast<WlDataSource *>(data);
         assert(*obj == wldata);
-        { return obj->action()(dndAction); }
+        {
+            return obj->action()(dndAction);
+        }
     },
 };
 WlDataSource::WlDataSource(wl_data_source *data)

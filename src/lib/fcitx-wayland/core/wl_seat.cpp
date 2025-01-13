@@ -8,12 +8,16 @@ const struct wl_seat_listener WlSeat::listener = {
     [](void *data, wl_seat *wldata, uint32_t capabilities) {
         auto *obj = static_cast<WlSeat *>(data);
         assert(*obj == wldata);
-        { return obj->capabilities()(capabilities); }
+        {
+            return obj->capabilities()(capabilities);
+        }
     },
     [](void *data, wl_seat *wldata, const char *name) {
         auto *obj = static_cast<WlSeat *>(data);
         assert(*obj == wldata);
-        { return obj->name()(name); }
+        {
+            return obj->name()(name);
+        }
     },
 };
 WlSeat::WlSeat(wl_seat *data)

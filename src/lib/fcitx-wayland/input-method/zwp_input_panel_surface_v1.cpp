@@ -6,7 +6,9 @@ ZwpInputPanelSurfaceV1::ZwpInputPanelSurfaceV1(zwp_input_panel_surface_v1 *data)
     zwp_input_panel_surface_v1_set_user_data(*this, this);
 }
 void ZwpInputPanelSurfaceV1::destructor(zwp_input_panel_surface_v1 *data) {
-    { return zwp_input_panel_surface_v1_destroy(data); }
+    {
+        return zwp_input_panel_surface_v1_destroy(data);
+    }
 }
 void ZwpInputPanelSurfaceV1::setToplevel(WlOutput *output, uint32_t position) {
     return zwp_input_panel_surface_v1_set_toplevel(*this, rawPointer(output),

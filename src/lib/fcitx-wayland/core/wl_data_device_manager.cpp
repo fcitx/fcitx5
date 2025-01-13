@@ -8,7 +8,9 @@ WlDataDeviceManager::WlDataDeviceManager(wl_data_device_manager *data)
     wl_data_device_manager_set_user_data(*this, this);
 }
 void WlDataDeviceManager::destructor(wl_data_device_manager *data) {
-    { return wl_data_device_manager_destroy(data); }
+    {
+        return wl_data_device_manager_destroy(data);
+    }
 }
 WlDataSource *WlDataDeviceManager::createDataSource() {
     return new WlDataSource(wl_data_device_manager_create_data_source(*this));

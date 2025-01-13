@@ -8,30 +8,40 @@ const struct org_kde_plasma_window_management_listener
            uint32_t state) {
             auto *obj = static_cast<OrgKdePlasmaWindowManagement *>(data);
             assert(*obj == wldata);
-            { return obj->showDesktopChanged()(state); }
+            {
+                return obj->showDesktopChanged()(state);
+            }
         },
         [](void *data, org_kde_plasma_window_management *wldata, uint32_t id) {
             auto *obj = static_cast<OrgKdePlasmaWindowManagement *>(data);
             assert(*obj == wldata);
-            { return obj->window()(id); }
+            {
+                return obj->window()(id);
+            }
         },
         [](void *data, org_kde_plasma_window_management *wldata,
            wl_array *ids) {
             auto *obj = static_cast<OrgKdePlasmaWindowManagement *>(data);
             assert(*obj == wldata);
-            { return obj->stackingOrderChanged()(ids); }
+            {
+                return obj->stackingOrderChanged()(ids);
+            }
         },
         [](void *data, org_kde_plasma_window_management *wldata,
            const char *uuids) {
             auto *obj = static_cast<OrgKdePlasmaWindowManagement *>(data);
             assert(*obj == wldata);
-            { return obj->stackingOrderUuidChanged()(uuids); }
+            {
+                return obj->stackingOrderUuidChanged()(uuids);
+            }
         },
         [](void *data, org_kde_plasma_window_management *wldata, uint32_t id,
            const char *uuid) {
             auto *obj = static_cast<OrgKdePlasmaWindowManagement *>(data);
             assert(*obj == wldata);
-            { return obj->windowWithUuid()(id, uuid); }
+            {
+                return obj->windowWithUuid()(id, uuid);
+            }
         },
 };
 OrgKdePlasmaWindowManagement::OrgKdePlasmaWindowManagement(
@@ -44,7 +54,9 @@ OrgKdePlasmaWindowManagement::OrgKdePlasmaWindowManagement(
 }
 void OrgKdePlasmaWindowManagement::destructor(
     org_kde_plasma_window_management *data) {
-    { return org_kde_plasma_window_management_destroy(data); }
+    {
+        return org_kde_plasma_window_management_destroy(data);
+    }
 }
 void OrgKdePlasmaWindowManagement::showDesktop(uint32_t state) {
     return org_kde_plasma_window_management_show_desktop(*this, state);

@@ -16,17 +16,23 @@ const struct wl_output_listener WlOutput::listener = {
        int32_t height, int32_t refresh) {
         auto *obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        { return obj->mode()(flags, width, height, refresh); }
+        {
+            return obj->mode()(flags, width, height, refresh);
+        }
     },
     [](void *data, wl_output *wldata) {
         auto *obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        { return obj->done()(); }
+        {
+            return obj->done()();
+        }
     },
     [](void *data, wl_output *wldata, int32_t factor) {
         auto *obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        { return obj->scale()(factor); }
+        {
+            return obj->scale()(factor);
+        }
     },
 };
 WlOutput::WlOutput(wl_output *data)

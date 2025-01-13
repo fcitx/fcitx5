@@ -32,6 +32,8 @@ ZwpInputMethodV1::ZwpInputMethodV1(zwp_input_method_v1 *data)
     zwp_input_method_v1_add_listener(*this, &ZwpInputMethodV1::listener, this);
 }
 void ZwpInputMethodV1::destructor(zwp_input_method_v1 *data) {
-    { return zwp_input_method_v1_destroy(data); }
+    {
+        return zwp_input_method_v1_destroy(data);
+    }
 }
 } // namespace fcitx::wayland

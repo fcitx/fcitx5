@@ -79,9 +79,8 @@ private:
     FCITX_DECLARE_PRIVATE(SurroundingText);
 };
 
-FCITXCORE_EXPORT
-LogMessageBuilder &operator<<(LogMessageBuilder &log,
-                              const SurroundingText &surroundingText);
+FCITXCORE_EXPORT LogMessageBuilder &
+operator<<(LogMessageBuilder &log, const SurroundingText &surroundingText);
 
 } // namespace fcitx
 

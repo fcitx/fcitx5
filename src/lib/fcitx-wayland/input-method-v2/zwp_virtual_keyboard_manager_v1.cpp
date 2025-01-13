@@ -9,7 +9,9 @@ ZwpVirtualKeyboardManagerV1::ZwpVirtualKeyboardManagerV1(
 }
 void ZwpVirtualKeyboardManagerV1::destructor(
     zwp_virtual_keyboard_manager_v1 *data) {
-    { return zwp_virtual_keyboard_manager_v1_destroy(data); }
+    {
+        return zwp_virtual_keyboard_manager_v1_destroy(data);
+    }
 }
 ZwpVirtualKeyboardV1 *
 ZwpVirtualKeyboardManagerV1::createVirtualKeyboard(WlSeat *seat) {

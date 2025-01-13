@@ -7,7 +7,9 @@ const struct zwp_input_popup_surface_v2_listener
            int32_t width, int32_t height) {
             auto *obj = static_cast<ZwpInputPopupSurfaceV2 *>(data);
             assert(*obj == wldata);
-            { return obj->textInputRectangle()(x, y, width, height); }
+            {
+                return obj->textInputRectangle()(x, y, width, height);
+            }
         },
 };
 ZwpInputPopupSurfaceV2::ZwpInputPopupSurfaceV2(zwp_input_popup_surface_v2 *data)

@@ -10,13 +10,17 @@ const struct zwlr_foreign_toplevel_handle_v1_listener
            const char *title) {
             auto *obj = static_cast<ZwlrForeignToplevelHandleV1 *>(data);
             assert(*obj == wldata);
-            { return obj->title()(title); }
+            {
+                return obj->title()(title);
+            }
         },
         [](void *data, zwlr_foreign_toplevel_handle_v1 *wldata,
            const char *appId) {
             auto *obj = static_cast<ZwlrForeignToplevelHandleV1 *>(data);
             assert(*obj == wldata);
-            { return obj->appId()(appId); }
+            {
+                return obj->appId()(appId);
+            }
         },
         [](void *data, zwlr_foreign_toplevel_handle_v1 *wldata,
            wl_output *output) {
@@ -48,17 +52,23 @@ const struct zwlr_foreign_toplevel_handle_v1_listener
            wl_array *state) {
             auto *obj = static_cast<ZwlrForeignToplevelHandleV1 *>(data);
             assert(*obj == wldata);
-            { return obj->state()(state); }
+            {
+                return obj->state()(state);
+            }
         },
         [](void *data, zwlr_foreign_toplevel_handle_v1 *wldata) {
             auto *obj = static_cast<ZwlrForeignToplevelHandleV1 *>(data);
             assert(*obj == wldata);
-            { return obj->done()(); }
+            {
+                return obj->done()();
+            }
         },
         [](void *data, zwlr_foreign_toplevel_handle_v1 *wldata) {
             auto *obj = static_cast<ZwlrForeignToplevelHandleV1 *>(data);
             assert(*obj == wldata);
-            { return obj->closed()(); }
+            {
+                return obj->closed()();
+            }
         },
         [](void *data, zwlr_foreign_toplevel_handle_v1 *wldata,
            zwlr_foreign_toplevel_handle_v1 *parent) {

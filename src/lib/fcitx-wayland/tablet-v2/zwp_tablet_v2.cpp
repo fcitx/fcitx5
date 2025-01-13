@@ -4,27 +4,37 @@ const struct zwp_tablet_v2_listener ZwpTabletV2::listener = {
     [](void *data, zwp_tablet_v2 *wldata, const char *name) {
         auto *obj = static_cast<ZwpTabletV2 *>(data);
         assert(*obj == wldata);
-        { return obj->name()(name); }
+        {
+            return obj->name()(name);
+        }
     },
     [](void *data, zwp_tablet_v2 *wldata, uint32_t vid, uint32_t pid) {
         auto *obj = static_cast<ZwpTabletV2 *>(data);
         assert(*obj == wldata);
-        { return obj->id()(vid, pid); }
+        {
+            return obj->id()(vid, pid);
+        }
     },
     [](void *data, zwp_tablet_v2 *wldata, const char *path) {
         auto *obj = static_cast<ZwpTabletV2 *>(data);
         assert(*obj == wldata);
-        { return obj->path()(path); }
+        {
+            return obj->path()(path);
+        }
     },
     [](void *data, zwp_tablet_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletV2 *>(data);
         assert(*obj == wldata);
-        { return obj->done()(); }
+        {
+            return obj->done()();
+        }
     },
     [](void *data, zwp_tablet_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletV2 *>(data);
         assert(*obj == wldata);
-        { return obj->removed()(); }
+        {
+            return obj->removed()();
+        }
     },
 };
 ZwpTabletV2::ZwpTabletV2(zwp_tablet_v2 *data)

@@ -20,34 +20,46 @@ const struct wl_touch_listener WlTouch::listener = {
        int32_t id) {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        { return obj->up()(serial, time, id); }
+        {
+            return obj->up()(serial, time, id);
+        }
     },
     [](void *data, wl_touch *wldata, uint32_t time, int32_t id, wl_fixed_t x,
        wl_fixed_t y) {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        { return obj->motion()(time, id, x, y); }
+        {
+            return obj->motion()(time, id, x, y);
+        }
     },
     [](void *data, wl_touch *wldata) {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        { return obj->frame()(); }
+        {
+            return obj->frame()();
+        }
     },
     [](void *data, wl_touch *wldata) {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        { return obj->cancel()(); }
+        {
+            return obj->cancel()();
+        }
     },
     [](void *data, wl_touch *wldata, int32_t id, wl_fixed_t major,
        wl_fixed_t minor) {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        { return obj->shape()(id, major, minor); }
+        {
+            return obj->shape()(id, major, minor);
+        }
     },
     [](void *data, wl_touch *wldata, int32_t id, wl_fixed_t orientation) {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        { return obj->orientation()(id, orientation); }
+        {
+            return obj->orientation()(id, orientation);
+        }
     },
 };
 WlTouch::WlTouch(wl_touch *data)

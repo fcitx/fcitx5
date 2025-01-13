@@ -8,7 +8,9 @@ WlShell::WlShell(wl_shell *data)
     wl_shell_set_user_data(*this, this);
 }
 void WlShell::destructor(wl_shell *data) {
-    { return wl_shell_destroy(data); }
+    {
+        return wl_shell_destroy(data);
+    }
 }
 WlShellSurface *WlShell::getShellSurface(WlSurface *surface) {
     return new WlShellSurface(

@@ -7,13 +7,17 @@ const struct zwp_input_method_keyboard_grab_v2_listener
            uint32_t format, int32_t fd, uint32_t size) {
             auto *obj = static_cast<ZwpInputMethodKeyboardGrabV2 *>(data);
             assert(*obj == wldata);
-            { return obj->keymap()(format, fd, size); }
+            {
+                return obj->keymap()(format, fd, size);
+            }
         },
         [](void *data, zwp_input_method_keyboard_grab_v2 *wldata,
            uint32_t serial, uint32_t time, uint32_t key, uint32_t state) {
             auto *obj = static_cast<ZwpInputMethodKeyboardGrabV2 *>(data);
             assert(*obj == wldata);
-            { return obj->key()(serial, time, key, state); }
+            {
+                return obj->key()(serial, time, key, state);
+            }
         },
         [](void *data, zwp_input_method_keyboard_grab_v2 *wldata,
            uint32_t serial, uint32_t modsDepressed, uint32_t modsLatched,
@@ -29,7 +33,9 @@ const struct zwp_input_method_keyboard_grab_v2_listener
            int32_t delay) {
             auto *obj = static_cast<ZwpInputMethodKeyboardGrabV2 *>(data);
             assert(*obj == wldata);
-            { return obj->repeatInfo()(rate, delay); }
+            {
+                return obj->repeatInfo()(rate, delay);
+            }
         },
 };
 ZwpInputMethodKeyboardGrabV2::ZwpInputMethodKeyboardGrabV2(

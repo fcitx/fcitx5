@@ -51,6 +51,7 @@ SpaceBeforeAssignmentOperators: true
 ContinuationIndentWidth: 4
 CommentPragmas:  '^ IWYU pragma:'
 ForEachMacros:   [ Q_FOREACH, BOOST_FOREACH ]
+AttributeMacros: [ FCITXCORE_EXPORT, FCITXUTILS_EXPORT, FCITXCONFIG_EXPORT ]
 SpaceBeforeParens: ControlStatements
 DisableFormat:   false
 SortIncludes: true

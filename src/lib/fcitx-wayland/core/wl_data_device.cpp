@@ -32,18 +32,24 @@ const struct wl_data_device_listener WlDataDevice::listener = {
     [](void *data, wl_data_device *wldata) {
         auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
-        { return obj->leave()(); }
+        {
+            return obj->leave()();
+        }
     },
     [](void *data, wl_data_device *wldata, uint32_t time, wl_fixed_t x,
        wl_fixed_t y) {
         auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
-        { return obj->motion()(time, x, y); }
+        {
+            return obj->motion()(time, x, y);
+        }
     },
     [](void *data, wl_data_device *wldata) {
         auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
-        { return obj->drop()(); }
+        {
+            return obj->drop()();
+        }
     },
     [](void *data, wl_data_device *wldata, wl_data_offer *id) {
         auto *obj = static_cast<WlDataDevice *>(data);

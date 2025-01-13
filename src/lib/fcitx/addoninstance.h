@@ -192,8 +192,7 @@ private:
 
 #define FCITX_ADDON_FACTORY(ClassName)                                         \
     extern "C" {                                                               \
-    FCITXCORE_EXPORT                                                           \
-    ::fcitx::AddonFactory *fcitx_addon_factory_instance() {                    \
+    FCITXCORE_EXPORT ::fcitx::AddonFactory *fcitx_addon_factory_instance() {   \
         static ClassName factory;                                              \
         return &factory;                                                       \
     }                                                                          \
@@ -201,8 +200,8 @@ private:
 
 #define FCITX_ADDON_FACTORY_V2(AddonName, ClassName)                           \
     extern "C" {                                                               \
-    FCITXCORE_EXPORT                                                           \
-    ::fcitx::AddonFactory *fcitx_addon_factory_instance_##AddonName() {        \
+    FCITXCORE_EXPORT ::fcitx::AddonFactory *                                   \
+        fcitx_addon_factory_instance_##AddonName() {                           \
         static ClassName factory;                                              \
         return &factory;                                                       \
     }                                                                          \

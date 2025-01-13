@@ -5,7 +5,9 @@ const struct wl_callback_listener WlCallback::listener = {
     [](void *data, wl_callback *wldata, uint32_t callbackData) {
         auto *obj = static_cast<WlCallback *>(data);
         assert(*obj == wldata);
-        { return obj->done()(callbackData); }
+        {
+            return obj->done()(callbackData);
+        }
     },
 };
 WlCallback::WlCallback(wl_callback *data)
@@ -14,6 +16,8 @@ WlCallback::WlCallback(wl_callback *data)
     wl_callback_add_listener(*this, &WlCallback::listener, this);
 }
 void WlCallback::destructor(wl_callback *data) {
-    { return wl_callback_destroy(data); }
+    {
+        return wl_callback_destroy(data);
+    }
 }
 } // namespace fcitx::wayland

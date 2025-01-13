@@ -7,7 +7,9 @@ OrgKdeKwinBlurManager::OrgKdeKwinBlurManager(org_kde_kwin_blur_manager *data)
     org_kde_kwin_blur_manager_set_user_data(*this, this);
 }
 void OrgKdeKwinBlurManager::destructor(org_kde_kwin_blur_manager *data) {
-    { return org_kde_kwin_blur_manager_destroy(data); }
+    {
+        return org_kde_kwin_blur_manager_destroy(data);
+    }
 }
 OrgKdeKwinBlur *OrgKdeKwinBlurManager::create(WlSurface *surface) {
     return new OrgKdeKwinBlur(

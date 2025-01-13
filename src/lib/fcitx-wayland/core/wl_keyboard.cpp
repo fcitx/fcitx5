@@ -6,7 +6,9 @@ const struct wl_keyboard_listener WlKeyboard::listener = {
        uint32_t size) {
         auto *obj = static_cast<WlKeyboard *>(data);
         assert(*obj == wldata);
-        { return obj->keymap()(format, fd, size); }
+        {
+            return obj->keymap()(format, fd, size);
+        }
     },
     [](void *data, wl_keyboard *wldata, uint32_t serial, wl_surface *surface,
        wl_array *keys) {
@@ -37,7 +39,9 @@ const struct wl_keyboard_listener WlKeyboard::listener = {
        uint32_t key, uint32_t state) {
         auto *obj = static_cast<WlKeyboard *>(data);
         assert(*obj == wldata);
-        { return obj->key()(serial, time, key, state); }
+        {
+            return obj->key()(serial, time, key, state);
+        }
     },
     [](void *data, wl_keyboard *wldata, uint32_t serial, uint32_t modsDepressed,
        uint32_t modsLatched, uint32_t modsLocked, uint32_t group) {
@@ -51,7 +55,9 @@ const struct wl_keyboard_listener WlKeyboard::listener = {
     [](void *data, wl_keyboard *wldata, int32_t rate, int32_t delay) {
         auto *obj = static_cast<WlKeyboard *>(data);
         assert(*obj == wldata);
-        { return obj->repeatInfo()(rate, delay); }
+        {
+            return obj->repeatInfo()(rate, delay);
+        }
     },
 };
 WlKeyboard::WlKeyboard(wl_keyboard *data)

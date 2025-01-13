@@ -7,34 +7,46 @@ const struct zwp_tablet_tool_v2_listener ZwpTabletToolV2::listener = {
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t toolType) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->type()(toolType); }
+        {
+            return obj->type()(toolType);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t hardwareSerialHi,
        uint32_t hardwareSerialLo) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->hardwareSerial()(hardwareSerialHi, hardwareSerialLo); }
+        {
+            return obj->hardwareSerial()(hardwareSerialHi, hardwareSerialLo);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t hardwareIdHi,
        uint32_t hardwareIdLo) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->hardwareIdWacom()(hardwareIdHi, hardwareIdLo); }
+        {
+            return obj->hardwareIdWacom()(hardwareIdHi, hardwareIdLo);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t capability) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->capability()(capability); }
+        {
+            return obj->capability()(capability);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->done()(); }
+        {
+            return obj->done()();
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->removed()(); }
+        {
+            return obj->removed()();
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t serial,
        zwp_tablet_v2 *tablet, wl_surface *surface) {
@@ -57,65 +69,89 @@ const struct zwp_tablet_tool_v2_listener ZwpTabletToolV2::listener = {
     [](void *data, zwp_tablet_tool_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->proximityOut()(); }
+        {
+            return obj->proximityOut()();
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t serial) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->down()(serial); }
+        {
+            return obj->down()(serial);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->up()(); }
+        {
+            return obj->up()();
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, wl_fixed_t x, wl_fixed_t y) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->motion()(x, y); }
+        {
+            return obj->motion()(x, y);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t pressure) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->pressure()(pressure); }
+        {
+            return obj->pressure()(pressure);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t distance) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->distance()(distance); }
+        {
+            return obj->distance()(distance);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, wl_fixed_t tiltX,
        wl_fixed_t tiltY) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->tilt()(tiltX, tiltY); }
+        {
+            return obj->tilt()(tiltX, tiltY);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, wl_fixed_t degrees) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->rotation()(degrees); }
+        {
+            return obj->rotation()(degrees);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, int32_t position) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->slider()(position); }
+        {
+            return obj->slider()(position);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, wl_fixed_t degrees,
        int32_t clicks) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->wheel()(degrees, clicks); }
+        {
+            return obj->wheel()(degrees, clicks);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t serial, uint32_t button,
        uint32_t state) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->button()(serial, button, state); }
+        {
+            return obj->button()(serial, button, state);
+        }
     },
     [](void *data, zwp_tablet_tool_v2 *wldata, uint32_t time) {
         auto *obj = static_cast<ZwpTabletToolV2 *>(data);
         assert(*obj == wldata);
-        { return obj->frame()(time); }
+        {
+            return obj->frame()(time);
+        }
     },
 };
 ZwpTabletToolV2::ZwpTabletToolV2(zwp_tablet_tool_v2 *data)

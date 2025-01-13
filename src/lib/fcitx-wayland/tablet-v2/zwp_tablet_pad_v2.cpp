@@ -17,23 +17,31 @@ const struct zwp_tablet_pad_v2_listener ZwpTabletPadV2::listener = {
     [](void *data, zwp_tablet_pad_v2 *wldata, const char *path) {
         auto *obj = static_cast<ZwpTabletPadV2 *>(data);
         assert(*obj == wldata);
-        { return obj->path()(path); }
+        {
+            return obj->path()(path);
+        }
     },
     [](void *data, zwp_tablet_pad_v2 *wldata, uint32_t buttons) {
         auto *obj = static_cast<ZwpTabletPadV2 *>(data);
         assert(*obj == wldata);
-        { return obj->buttons()(buttons); }
+        {
+            return obj->buttons()(buttons);
+        }
     },
     [](void *data, zwp_tablet_pad_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletPadV2 *>(data);
         assert(*obj == wldata);
-        { return obj->done()(); }
+        {
+            return obj->done()();
+        }
     },
     [](void *data, zwp_tablet_pad_v2 *wldata, uint32_t time, uint32_t button,
        uint32_t state) {
         auto *obj = static_cast<ZwpTabletPadV2 *>(data);
         assert(*obj == wldata);
-        { return obj->button()(time, button, state); }
+        {
+            return obj->button()(time, button, state);
+        }
     },
     [](void *data, zwp_tablet_pad_v2 *wldata, uint32_t serial,
        zwp_tablet_v2 *tablet, wl_surface *surface) {
@@ -69,7 +77,9 @@ const struct zwp_tablet_pad_v2_listener ZwpTabletPadV2::listener = {
     [](void *data, zwp_tablet_pad_v2 *wldata) {
         auto *obj = static_cast<ZwpTabletPadV2 *>(data);
         assert(*obj == wldata);
-        { return obj->removed()(); }
+        {
+            return obj->removed()();
+        }
     },
 };
 ZwpTabletPadV2::ZwpTabletPadV2(zwp_tablet_pad_v2 *data)

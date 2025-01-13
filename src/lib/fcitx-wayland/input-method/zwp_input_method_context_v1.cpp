@@ -8,35 +8,47 @@ const struct zwp_input_method_context_v1_listener
            uint32_t cursor, uint32_t anchor) {
             auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
-            { return obj->surroundingText()(text, cursor, anchor); }
+            {
+                return obj->surroundingText()(text, cursor, anchor);
+            }
         },
         [](void *data, zwp_input_method_context_v1 *wldata) {
             auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
-            { return obj->reset()(); }
+            {
+                return obj->reset()();
+            }
         },
         [](void *data, zwp_input_method_context_v1 *wldata, uint32_t hint,
            uint32_t purpose) {
             auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
-            { return obj->contentType()(hint, purpose); }
+            {
+                return obj->contentType()(hint, purpose);
+            }
         },
         [](void *data, zwp_input_method_context_v1 *wldata, uint32_t button,
            uint32_t index) {
             auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
-            { return obj->invokeAction()(button, index); }
+            {
+                return obj->invokeAction()(button, index);
+            }
         },
         [](void *data, zwp_input_method_context_v1 *wldata, uint32_t serial) {
             auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
-            { return obj->commitState()(serial); }
+            {
+                return obj->commitState()(serial);
+            }
         },
         [](void *data, zwp_input_method_context_v1 *wldata,
            const char *language) {
             auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
-            { return obj->preferredLanguage()(language); }
+            {
+                return obj->preferredLanguage()(language);
+            }
         },
 };
 ZwpInputMethodContextV1::ZwpInputMethodContextV1(

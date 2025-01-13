@@ -7,12 +7,16 @@ const struct zwlr_data_control_source_v1_listener
            const char *mimeType, int32_t fd) {
             auto *obj = static_cast<ZwlrDataControlSourceV1 *>(data);
             assert(*obj == wldata);
-            { return obj->send()(mimeType, fd); }
+            {
+                return obj->send()(mimeType, fd);
+            }
         },
         [](void *data, zwlr_data_control_source_v1 *wldata) {
             auto *obj = static_cast<ZwlrDataControlSourceV1 *>(data);
             assert(*obj == wldata);
-            { return obj->cancelled()(); }
+            {
+                return obj->cancelled()();
+            }
         },
 };
 ZwlrDataControlSourceV1::ZwlrDataControlSourceV1(

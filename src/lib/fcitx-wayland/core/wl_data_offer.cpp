@@ -5,17 +5,23 @@ const struct wl_data_offer_listener WlDataOffer::listener = {
     [](void *data, wl_data_offer *wldata, const char *mimeType) {
         auto *obj = static_cast<WlDataOffer *>(data);
         assert(*obj == wldata);
-        { return obj->offer()(mimeType); }
+        {
+            return obj->offer()(mimeType);
+        }
     },
     [](void *data, wl_data_offer *wldata, uint32_t sourceActions) {
         auto *obj = static_cast<WlDataOffer *>(data);
         assert(*obj == wldata);
-        { return obj->sourceActions()(sourceActions); }
+        {
+            return obj->sourceActions()(sourceActions);
+        }
     },
     [](void *data, wl_data_offer *wldata, uint32_t dndAction) {
         auto *obj = static_cast<WlDataOffer *>(data);
         assert(*obj == wldata);
-        { return obj->action()(dndAction); }
+        {
+            return obj->action()(dndAction);
+        }
     },
 };
 WlDataOffer::WlDataOffer(wl_data_offer *data)

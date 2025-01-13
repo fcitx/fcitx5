@@ -14,11 +14,9 @@
 #define MAGIC "MAGIC_TEST_DATA"
 
 extern "C" {
-FCITXUTILS_EXPORT
-char magic_test[] = MAGIC DATA;
+FCITXUTILS_EXPORT char magic_test[] = MAGIC DATA;
 
-FCITXUTILS_EXPORT
-int func() { return 0; }
+FCITXUTILS_EXPORT int func() { return 0; }
 }
 
 void parser(const char *data) { FCITX_ASSERT(strcmp(data, DATA) == 0); }

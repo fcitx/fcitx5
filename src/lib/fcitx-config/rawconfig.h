@@ -108,8 +108,8 @@ private:
     std::unique_ptr<RawConfigPrivate> d_ptr;
 };
 
-FCITXCONFIG_EXPORT
-LogMessageBuilder &operator<<(LogMessageBuilder &log, const RawConfig &config);
+FCITXCONFIG_EXPORT LogMessageBuilder &operator<<(LogMessageBuilder &log,
+                                                 const RawConfig &config);
 } // namespace fcitx
 
 #endif // _FCITX_CONFIG_RAWCONFIG_H_

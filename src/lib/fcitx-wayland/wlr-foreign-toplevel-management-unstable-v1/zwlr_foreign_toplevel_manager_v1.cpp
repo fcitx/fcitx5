@@ -16,7 +16,9 @@ const struct zwlr_foreign_toplevel_manager_v1_listener
         [](void *data, zwlr_foreign_toplevel_manager_v1 *wldata) {
             auto *obj = static_cast<ZwlrForeignToplevelManagerV1 *>(data);
             assert(*obj == wldata);
-            { return obj->finished()(); }
+            {
+                return obj->finished()();
+            }
         },
 };
 ZwlrForeignToplevelManagerV1::ZwlrForeignToplevelManagerV1(
@@ -29,7 +31,9 @@ ZwlrForeignToplevelManagerV1::ZwlrForeignToplevelManagerV1(
 }
 void ZwlrForeignToplevelManagerV1::destructor(
     zwlr_foreign_toplevel_manager_v1 *data) {
-    { return zwlr_foreign_toplevel_manager_v1_destroy(data); }
+    {
+        return zwlr_foreign_toplevel_manager_v1_destroy(data);
+    }
 }
 void ZwlrForeignToplevelManagerV1::stop() {
     return zwlr_foreign_toplevel_manager_v1_stop(*this);

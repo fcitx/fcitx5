@@ -59,8 +59,7 @@ trimInplace(std::string_view str);
 /// \brief Trim the white space in string view
 /// \see trimInplace
 /// \since 5.0.16
-FCITXUTILS_EXPORT
-std::string_view trimView(std::string_view);
+FCITXUTILS_EXPORT std::string_view trimView(std::string_view);
 
 /// \brief Trim the white space in str.
 /// \see trimInplace

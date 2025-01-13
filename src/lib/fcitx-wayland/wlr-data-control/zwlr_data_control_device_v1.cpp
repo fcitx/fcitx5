@@ -29,7 +29,9 @@ const struct zwlr_data_control_device_v1_listener
         [](void *data, zwlr_data_control_device_v1 *wldata) {
             auto *obj = static_cast<ZwlrDataControlDeviceV1 *>(data);
             assert(*obj == wldata);
-            { return obj->finished()(); }
+            {
+                return obj->finished()();
+            }
         },
         [](void *data, zwlr_data_control_device_v1 *wldata,
            zwlr_data_control_offer_v1 *id) {

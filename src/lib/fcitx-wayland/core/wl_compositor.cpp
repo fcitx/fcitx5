@@ -7,7 +7,9 @@ WlCompositor::WlCompositor(wl_compositor *data)
     wl_compositor_set_user_data(*this, this);
 }
 void WlCompositor::destructor(wl_compositor *data) {
-    { return wl_compositor_destroy(data); }
+    {
+        return wl_compositor_destroy(data);
+    }
 }
 WlSurface *WlCompositor::createSurface() {
     return new WlSurface(wl_compositor_create_surface(*this));

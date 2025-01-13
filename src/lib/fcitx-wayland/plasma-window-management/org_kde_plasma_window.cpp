@@ -7,37 +7,51 @@ const struct org_kde_plasma_window_listener OrgKdePlasmaWindow::listener = {
     [](void *data, org_kde_plasma_window *wldata, const char *title) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->titleChanged()(title); }
+        {
+            return obj->titleChanged()(title);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *appId) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->appIdChanged()(appId); }
+        {
+            return obj->appIdChanged()(appId);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, uint32_t flags) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->stateChanged()(flags); }
+        {
+            return obj->stateChanged()(flags);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, int32_t number) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->virtualDesktopChanged()(number); }
+        {
+            return obj->virtualDesktopChanged()(number);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *name) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->themedIconNameChanged()(name); }
+        {
+            return obj->themedIconNameChanged()(name);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->unmapped()(); }
+        {
+            return obj->unmapped()();
+        }
     },
     [](void *data, org_kde_plasma_window *wldata) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->initialState()(); }
+        {
+            return obj->initialState()();
+        }
     },
     [](void *data, org_kde_plasma_window *wldata,
        org_kde_plasma_window *parent) {
@@ -55,48 +69,66 @@ const struct org_kde_plasma_window_listener OrgKdePlasmaWindow::listener = {
        uint32_t width, uint32_t height) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->geometry()(x, y, width, height); }
+        {
+            return obj->geometry()(x, y, width, height);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->iconChanged()(); }
+        {
+            return obj->iconChanged()();
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, uint32_t pid) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->pidChanged()(pid); }
+        {
+            return obj->pidChanged()(pid);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *id) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->virtualDesktopEntered()(id); }
+        {
+            return obj->virtualDesktopEntered()(id);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *is) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->virtualDesktopLeft()(is); }
+        {
+            return obj->virtualDesktopLeft()(is);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *serviceName,
        const char *objectPath) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->applicationMenu()(serviceName, objectPath); }
+        {
+            return obj->applicationMenu()(serviceName, objectPath);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *id) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->activityEntered()(id); }
+        {
+            return obj->activityEntered()(id);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *id) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->activityLeft()(id); }
+        {
+            return obj->activityLeft()(id);
+        }
     },
     [](void *data, org_kde_plasma_window *wldata, const char *resourceName) {
         auto *obj = static_cast<OrgKdePlasmaWindow *>(data);
         assert(*obj == wldata);
-        { return obj->resourceNameChanged()(resourceName); }
+        {
+            return obj->resourceNameChanged()(resourceName);
+        }
     },
 };
 OrgKdePlasmaWindow::OrgKdePlasmaWindow(org_kde_plasma_window *data)

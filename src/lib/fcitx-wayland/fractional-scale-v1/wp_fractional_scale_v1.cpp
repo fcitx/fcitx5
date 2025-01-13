@@ -5,7 +5,9 @@ const struct wp_fractional_scale_v1_listener WpFractionalScaleV1::listener = {
     [](void *data, wp_fractional_scale_v1 *wldata, uint32_t scale) {
         auto *obj = static_cast<WpFractionalScaleV1 *>(data);
         assert(*obj == wldata);
-        { return obj->preferredScale()(scale); }
+        {
+            return obj->preferredScale()(scale);
+        }
     },
 };
 WpFractionalScaleV1::WpFractionalScaleV1(wp_fractional_scale_v1 *data)

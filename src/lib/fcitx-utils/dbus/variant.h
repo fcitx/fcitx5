@@ -53,8 +53,8 @@ private:
     FCITX_DECLARE_PRIVATE(VariantTypeRegistry);
 };
 
-std::shared_ptr<VariantHelperBase>
-    FCITXUTILS_EXPORT lookupVariantType(const std::string &signature);
+std::shared_ptr<VariantHelperBase> FCITXUTILS_EXPORT
+lookupVariantType(const std::string &signature);
 
 template <typename TypeName>
 inline void registerVariantType() {

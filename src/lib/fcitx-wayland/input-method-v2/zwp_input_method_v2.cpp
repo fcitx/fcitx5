@@ -8,39 +8,53 @@ const struct zwp_input_method_v2_listener ZwpInputMethodV2::listener = {
     [](void *data, zwp_input_method_v2 *wldata) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->activate()(); }
+        {
+            return obj->activate()();
+        }
     },
     [](void *data, zwp_input_method_v2 *wldata) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->deactivate()(); }
+        {
+            return obj->deactivate()();
+        }
     },
     [](void *data, zwp_input_method_v2 *wldata, const char *text,
        uint32_t cursor, uint32_t anchor) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->surroundingText()(text, cursor, anchor); }
+        {
+            return obj->surroundingText()(text, cursor, anchor);
+        }
     },
     [](void *data, zwp_input_method_v2 *wldata, uint32_t cause) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->textChangeCause()(cause); }
+        {
+            return obj->textChangeCause()(cause);
+        }
     },
     [](void *data, zwp_input_method_v2 *wldata, uint32_t hint,
        uint32_t purpose) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->contentType()(hint, purpose); }
+        {
+            return obj->contentType()(hint, purpose);
+        }
     },
     [](void *data, zwp_input_method_v2 *wldata) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->done()(); }
+        {
+            return obj->done()();
+        }
     },
     [](void *data, zwp_input_method_v2 *wldata) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
-        { return obj->unavailable()(); }
+        {
+            return obj->unavailable()();
+        }
     },
 };
 ZwpInputMethodV2::ZwpInputMethodV2(zwp_input_method_v2 *data)

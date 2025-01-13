@@ -7,7 +7,9 @@ const struct zwlr_data_control_offer_v1_listener
            const char *mimeType) {
             auto *obj = static_cast<ZwlrDataControlOfferV1 *>(data);
             assert(*obj == wldata);
-            { return obj->offer()(mimeType); }
+            {
+                return obj->offer()(mimeType);
+            }
         },
 };
 ZwlrDataControlOfferV1::ZwlrDataControlOfferV1(zwlr_data_control_offer_v1 *data)
