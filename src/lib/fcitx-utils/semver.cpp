@@ -33,7 +33,7 @@ bool isIdChar(char c) {
 }
 
 std::optional<uint32_t> consumeNumericIdentifier(std::string_view &str) {
-    const auto *endOfNum =
+    std::string_view::iterator endOfNum =
         std::find_if_not(str.begin(), str.end(), charutils::isdigit);
     auto length = std::distance(str.begin(), endOfNum);
     if (length == 0) {
@@ -45,8 +45,8 @@ std::optional<uint32_t> consumeNumericIdentifier(std::string_view &str) {
 
     auto numberStr = str.substr(0, length);
     uint32_t number;
-    if (auto [p, ec] =
-            std::from_chars(numberStr.begin(), numberStr.end(), number);
+    if (auto [p, ec] = std::from_chars(
+            numberStr.data(), numberStr.data() + numberStr.size(), number);
         ec == std::errc()) {
         str.remove_prefix(length);
         return number;
