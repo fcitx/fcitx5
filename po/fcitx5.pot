@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-12-31 20:24+0000\n"
+"POT-Creation-Date: 2025-01-18 20:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:457
+#: src/modules/unicode/unicode.cpp:494
 msgid "(Type to search unicode by code or description)"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 msgid "<not assigned>"
 msgstr ""
 
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:4
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
 msgid "A virtual keyboard backend based on DBus"
 msgstr ""
 
@@ -107,11 +107,11 @@ msgstr ""
 msgid "Accent Colors"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:87
+#: src/lib/fcitx/globalconfig.cpp:93
 msgid "Activate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:155
+#: src/lib/fcitx/globalconfig.cpp:162
 msgid "Active By Default"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgctxt "Key name"
 msgid "Add Favorite"
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in.in:4
+#: src/modules/unicode/unicode.conf.in.in:3
 msgid "Add Unicode Typing Support"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:30
+#: src/lib/fcitx/globalconfig.cpp:36
 msgid "All"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:208
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Allow input method in the password field"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:225
+#: src/lib/fcitx/globalconfig.cpp:232
 msgid "Behavior"
 msgstr ""
 
@@ -422,7 +422,7 @@ msgstr ""
 msgid "Center Right"
 msgstr ""
 
-#: data/fcitx5-configtool.desktop.in.in:5
+#: data/fcitx5-configtool.desktop.in.in:4
 msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
@@ -434,7 +434,7 @@ msgstr ""
 msgid "Choose key modifier"
 msgstr ""
 
-#: src/ui/classic/classicui.conf.in.in:3
+#: src/ui/classic/classicui.conf.in.in:2
 msgid "Classic User Interface"
 msgstr ""
 
@@ -447,7 +447,7 @@ msgstr ""
 msgid "Click Margin"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.conf.in.in:3
+#: src/modules/clipboard/clipboard.conf.in.in:2
 msgid "Clipboard"
 msgstr ""
 
@@ -533,7 +533,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:198
+#: src/lib/fcitx/globalconfig.cpp:205
 msgid "Custom Xkb Option"
 msgstr ""
 
@@ -542,19 +542,19 @@ msgctxt "Key name"
 msgid "Cut"
 msgstr ""
 
-#: src/modules/dbus/dbus.conf.in.in:3
+#: src/modules/dbus/dbus.conf.in.in:2
 msgid "DBus"
 msgstr ""
 
-#: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:3
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:2
 msgid "DBus Frontend"
 msgstr ""
 
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:2
 msgid "DBus Virtual Keyboard"
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.conf.in.in:4
+#: src/modules/notificationitem/notificationitem.conf.in.in:3
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr ""
 
@@ -571,7 +571,7 @@ msgstr ""
 msgid "Dark Theme"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:96
+#: src/lib/fcitx/globalconfig.cpp:102
 msgid "Deactivate Input Method"
 msgstr ""
 
@@ -580,31 +580,31 @@ msgid "Debug information from dbus:"
 msgstr ""
 
 #: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:369
-#: src/ui/classic/themes/default/theme.conf.in:3
+#: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr ""
 
-#: src/ui/classic/themes/default-dark/theme-dark.conf.in:3
+#: src/ui/classic/themes/default-dark/theme-dark.conf.in:2
 msgid "Default Dark"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:138
 msgid "Default Next Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Default Next page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:126
+#: src/lib/fcitx/globalconfig.cpp:132
 msgid "Default Previous Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:104
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:182
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Default page size"
 msgstr ""
 
@@ -690,7 +690,7 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr ""
 
-#: src/modules/emoji/emoji.conf.in.in:3
+#: src/modules/emoji/emoji.conf.in.in:2
 msgid "Emoji"
 msgstr ""
 
@@ -735,23 +735,23 @@ msgstr ""
 msgid "Entries"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:63
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Enumerate Input Method Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:56
+#: src/lib/fcitx/globalconfig.cpp:62
 msgid "Enumerate Input Method Forward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:80
+#: src/lib/fcitx/globalconfig.cpp:86
 msgid "Enumerate Input Method Group Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:73
+#: src/lib/fcitx/globalconfig.cpp:79
 msgid "Enumerate Input Method Group Forward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:45
+#: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate when press trigger key repeatedly"
 msgstr ""
 
@@ -817,16 +817,16 @@ msgstr ""
 msgid "Fcitx"
 msgstr ""
 
-#: data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.desktop.in.in:2
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
 msgstr ""
 
-#: data/fcitx5-configtool.desktop.in.in:3
+#: data/fcitx5-configtool.desktop.in.in:2
 msgid "Fcitx 5 Configuration"
 msgstr ""
 
-#: data/fcitx5-wayland-launcher.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:2
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "Fcitx version: ${1}"
 msgstr ""
 
-#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:3
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:2
 msgid "Fcitx4 Frontend"
 msgstr ""
 
@@ -982,7 +982,7 @@ msgstr ""
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr ""
 
-#: src/modules/notifications/notifications.conf.in.in:4
+#: src/modules/notifications/notifications.conf.in.in:3
 msgid "Freedesktop.org Notification Support"
 msgstr ""
 
@@ -1182,7 +1182,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:223
+#: src/lib/fcitx/globalconfig.cpp:230
 msgid "Hotkey"
 msgstr ""
 
@@ -1200,7 +1200,7 @@ msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
 
-#: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:3
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:2
 msgid "IBus Frontend"
 msgstr ""
 
@@ -1211,7 +1211,7 @@ msgid ""
 "bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:219
+#: src/lib/fcitx/globalconfig.cpp:226
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -1237,15 +1237,15 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:708 src/lib/fcitx/instance.cpp:461
 #: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
-#: src/modules/notificationitem/notificationitem.cpp:144
-#: src/modules/notificationitem/notificationitem.cpp:232
-#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:4
-#: data/fcitx5-wayland-launcher.desktop.in.in:4
+#: src/modules/notificationitem/notificationitem.cpp:148
+#: src/modules/notificationitem/notificationitem.cpp:236
+#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr ""
 
-#: data/fcitx5-configtool.desktop.in.in:4
+#: data/fcitx5-configtool.desktop.in.in:3
 msgid "Input Method Configuration"
 msgstr ""
 
@@ -1281,11 +1281,11 @@ msgstr ""
 msgid "Input Panel Highlight Candidate Border"
 msgstr ""
 
-#: src/modules/imselector/imselector.conf.in.in:3
+#: src/modules/imselector/imselector.conf.in.in:2
 msgid "Input method selector"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:108 src/lib/fcitx/globalconfig.cpp:120
+#: src/lib/fcitx/globalconfig.cpp:114 src/lib/fcitx/globalconfig.cpp:126
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1296,7 +1296,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:215
+#: src/lib/fcitx/globalconfig.cpp:222
 msgid "Interval of saving user data in minutes"
 msgstr ""
 
@@ -1319,7 +1319,7 @@ msgid ""
 "fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.conf.in.in:3
+#: src/ui/kimpanel/kimpanel.conf.in.in:2
 msgid "KDE Input Method Panel"
 msgstr ""
 
@@ -1355,7 +1355,7 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr ""
 
@@ -1853,10 +1853,6 @@ msgctxt "Key name"
 msgid "Microphone Mute"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:144
-msgid "Modifier Only Hotkey Timeout in Milliseconds"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:138
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
@@ -1909,7 +1905,7 @@ msgstr ""
 msgid "Next Page Button"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:31
+#: src/lib/fcitx/globalconfig.cpp:37
 msgid "No"
 msgstr ""
 
@@ -1940,7 +1936,7 @@ msgstr ""
 msgid "Note for GNOME Later than 3.6"
 msgstr ""
 
-#: src/modules/notifications/notifications.conf.in.in:3
+#: src/modules/notifications/notifications.conf.in.in:2
 msgid "Notification"
 msgstr ""
 
@@ -1994,7 +1990,7 @@ msgstr ""
 msgid "Overlay position"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:196
 msgid "Override Xkb Option"
 msgstr ""
 
@@ -2112,7 +2108,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:31
+#: src/lib/fcitx/globalconfig.cpp:37
 msgid "Program"
 msgstr ""
 
@@ -2120,7 +2116,7 @@ msgstr ""
 msgid "Qt IM module files:"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.conf.in.in:3
+#: src/modules/quickphrase/quickphrase.conf.in.in:2
 msgid "Quick Phrase"
 msgstr ""
 
@@ -2153,7 +2149,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:159
+#: src/lib/fcitx/globalconfig.cpp:166
 msgid "Reset state on Focus In"
 msgstr ""
 
@@ -2258,7 +2254,7 @@ msgstr ""
 msgid "Select local input method:"
 msgstr ""
 
-#: src/modules/imselector/imselector.conf.in.in:4
+#: src/modules/imselector/imselector.conf.in.in:3
 msgid "Select specific input method via keyboard"
 msgstr ""
 
@@ -2286,7 +2282,7 @@ msgstr ""
 msgid "Shadow Margin"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:163
+#: src/lib/fcitx/globalconfig.cpp:170
 msgid "Share Input State"
 msgstr ""
 
@@ -2300,11 +2296,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:174
+#: src/lib/fcitx/globalconfig.cpp:181
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:171
+#: src/lib/fcitx/globalconfig.cpp:178
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
@@ -2312,11 +2308,11 @@ msgstr ""
 msgid "Show Layout Name In Icon"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:177
+#: src/lib/fcitx/globalconfig.cpp:184
 msgid "Show compact input method information"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:180
+#: src/lib/fcitx/globalconfig.cpp:187
 msgid "Show first input method information"
 msgstr ""
 
@@ -2326,11 +2322,11 @@ msgid ""
 "text icon is set to true, this option will be ignored."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:167
+#: src/lib/fcitx/globalconfig.cpp:174
 msgid "Show preedit in application"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:211
+#: src/lib/fcitx/globalconfig.cpp:218
 msgid "Show preedit text when typing password"
 msgstr ""
 
@@ -2340,7 +2336,7 @@ msgid ""
 "sequence."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:75
 msgid "Skip first input method while enumerating"
 msgstr ""
 
@@ -2358,7 +2354,7 @@ msgstr ""
 msgid "Spacing"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:91 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:91 src/modules/spell/spell.conf.in.in:2
 msgid "Spell"
 msgstr ""
 
@@ -2382,12 +2378,12 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr ""
 
-#: data/org.fcitx.Fcitx5.desktop.in.in:5
-#: data/fcitx5-wayland-launcher.desktop.in.in:5
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
 msgid "Start Input Method"
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.conf.in.in:3
+#: src/modules/notificationitem/notificationitem.conf.in.in:2
 msgid "Status Notifier"
 msgstr ""
 
@@ -2458,7 +2454,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:49
+#: src/lib/fcitx/globalconfig.cpp:55
 msgid "Temporally switch between first and current Input Method"
 msgstr ""
 
@@ -2522,6 +2518,10 @@ msgctxt "Key name"
 msgid "Time"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:150
+msgid "Time limit in milliseconds for triggering modifier key shortcuts"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:750
 #, sh-format
 msgid ""
@@ -2530,7 +2530,7 @@ msgid ""
 "freezing, see ${link2}."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:137
+#: src/lib/fcitx/globalconfig.cpp:143
 msgid "Toggle embedded preedit"
 msgstr ""
 
@@ -2597,7 +2597,7 @@ msgstr ""
 msgid "Tray Label Text Color"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:38
+#: src/lib/fcitx/globalconfig.cpp:44
 msgid "Trigger Input Method"
 msgstr ""
 
@@ -2640,11 +2640,11 @@ msgctxt "Key name"
 msgid "Undo"
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in.in:3
+#: src/modules/unicode/unicode.conf.in.in:2
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:455
+#: src/modules/unicode/unicode.cpp:492
 msgid "Unicode: "
 msgstr ""
 
@@ -2750,7 +2750,7 @@ msgid ""
 "programs, etc."
 msgstr ""
 
-#: src/modules/wayland/wayland.conf.in.in:3
+#: src/modules/wayland/wayland.conf.in.in:2
 msgid "Wayland"
 msgstr ""
 
@@ -2758,7 +2758,7 @@ msgstr ""
 msgid "Wayland Diagnose"
 msgstr ""
 
-#: src/frontend/waylandim/waylandim.conf.in.in:3
+#: src/frontend/waylandim/waylandim.conf.in.in:2
 msgid "Wayland Input method frontend"
 msgstr ""
 
@@ -2774,13 +2774,13 @@ msgid ""
 "will be ignored."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:149
+#: src/lib/fcitx/globalconfig.cpp:156
 msgid ""
-"When using modifier only hotkey, the action may only be triggered if it is "
-"released within the timeout. -1 means there is no timeout."
+"When using modifier only hotkey, the action may only be triggered if the "
+"modifier key is released within the timeout. -1 means there is no limit."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:200
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -2801,11 +2801,11 @@ msgctxt "Key name"
 msgid "Word Processor"
 msgstr ""
 
-#: src/frontend/xim/xim.conf.in.in:3
+#: src/frontend/xim/xim.conf.in.in:2
 msgid "X Input Method Frontend"
 msgstr ""
 
-#: src/modules/xcb/xcb.conf.in.in:3
+#: src/modules/xcb/xcb.conf.in.in:2
 msgid "XCB"
 msgstr ""
 
