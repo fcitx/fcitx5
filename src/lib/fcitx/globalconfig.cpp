@@ -7,13 +7,19 @@
 
 #include "globalconfig.h"
 #include <cstdint>
+#include <memory>
+#include <string>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
 #include "config.h"
 #include "inputcontextmanager.h"
 
@@ -141,14 +147,15 @@ FCITX_CONFIGURATION(
         modifierOnlyKeyTimeout{
             this,
             "ModifierOnlyKeyTimeout",
-            _("Modifier Only Hotkey Timeout in Milliseconds"),
+            _("Time limit in milliseconds for triggering modifier key "
+              "shortcuts"),
             250,
             IntConstrain{-1, 5000},
             {},
             ToolTipAnnotation{
                 _("When using modifier only hotkey, the action may "
-                  "only be triggered if it is released within the timeout. -1 "
-                  "means there is no timeout.")}};);
+                  "only be triggered if the modifier key is released within "
+                  "the timeout. -1 means there is no limit.")}};);
 
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
