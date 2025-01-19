@@ -40,6 +40,8 @@ using QuickPhraseAddCandidateCallbackV2 =
 using QuickPhraseProviderCallbackV2 =
     std::function<bool(InputContext *ic, const std::string &,
                        const QuickPhraseAddCandidateCallbackV2 &)>;
+using QuickPhraseRestoreCallback =
+    std::function<void(InputContext *ic, const std::string &buffer)>;
 
 } // namespace fcitx
 
@@ -52,6 +54,14 @@ FCITX_ADDON_DECLARE_FUNCTION(QuickPhrase, trigger,
                                   const std::string &alt, const Key &key));
 FCITX_ADDON_DECLARE_FUNCTION(QuickPhrase, setBuffer,
                              void(InputContext *ic, const std::string &text));
+// Set buffer with a restore callback.
+// If after "backspace", the current buffer is restore to the original value,
+// the callback will be invoked, to allow input method to restore the buffer to
+// original state.
+FCITX_ADDON_DECLARE_FUNCTION(QuickPhrase, setBufferWithRestoreCallback,
+                             void(InputContext *ic, const std::string &text,
+                                  const std::string &original,
+                                  QuickPhraseRestoreCallback callback));
 
 FCITX_ADDON_DECLARE_FUNCTION(
     QuickPhrase, addProvider,
