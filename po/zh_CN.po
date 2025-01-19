@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-18 20:25+0000\n"
+"POT-Creation-Date: 2025-01-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2025\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -2167,7 +2167,7 @@ msgstr "Qt 输入法模块文件："
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:488
+#: src/modules/quickphrase/quickphrase.cpp:509
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -2576,7 +2576,7 @@ msgstr "时间"
 
 #: src/lib/fcitx/globalconfig.cpp:150
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
-msgstr ""
+msgstr "触发修饰键快捷键的时限 (毫秒)"
 
 #: data/fcitx5-diagnose.sh:750
 #, sh-format
@@ -2839,6 +2839,8 @@ msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
 msgstr ""
+"当使用只有修饰键的快捷键时，对应动作只会在修饰键在时限内松开时触发。-1 表示没"
+"有时限。"
 
 #: src/lib/fcitx/globalconfig.cpp:200
 msgid ""

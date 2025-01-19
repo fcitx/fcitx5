@@ -5,15 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017
-# Dmitry <dmitrydmitry761@gmail.com>, 2024
+# Dmitry <dmitrydmitry761@gmail.com>, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-18 20:25+0000\n"
+"POT-Creation-Date: 2025-01-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
+"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -2206,7 +2206,7 @@ msgstr "Файлы модуля Qt IM:"
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
 
-#: src/modules/quickphrase/quickphrase.cpp:488
+#: src/modules/quickphrase/quickphrase.cpp:509
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза: "
 
@@ -2627,6 +2627,8 @@ msgstr "Время"
 #: src/lib/fcitx/globalconfig.cpp:150
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
 msgstr ""
+"Ограничение по времени в миллисекундах для запуска сочетаний клавиш-"
+"модификаторов"
 
 #: data/fcitx5-diagnose.sh:750
 #, sh-format
@@ -2899,6 +2901,9 @@ msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
 msgstr ""
+"При использовании только горячей клавиши-модификатора действие может быть "
+"запущено только в том случае, если клавиша-модификатор отпущена в течение "
+"тайм-аута. -1 означает, что ограничений нет."
 
 #: src/lib/fcitx/globalconfig.cpp:200
 msgid ""
