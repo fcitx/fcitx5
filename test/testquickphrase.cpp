@@ -14,6 +14,7 @@
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "quickphrase_public.h"
@@ -194,6 +195,28 @@ void testProviderV2(Instance *instance) {
     });
 }
 
+void testRestoreCallback(Instance *instance) {
+    instance->eventDispatcher().schedule([instance]() {
+        auto *testfrontend = instance->addonManager().addon("testfrontend");
+        auto uuid =
+            testfrontend->call<ITestFrontend::createInputContext>("testapp");
+        auto *ic = instance->inputContextManager().findByUUID(uuid);
+        auto *quickphrase = instance->addonManager().addon("quickphrase");
+        quickphrase->call<IQuickPhrase::trigger>(ic, "", "", "", "", Key());
+        bool restore = false;
+        quickphrase->call<IQuickPhrase::setBufferWithRestoreCallback>(
+            ic, "ABC.", "ABC",
+            [&restore](InputContext * /*ic*/, const std::string &origin) {
+                FCITX_ASSERT(origin == "ABC");
+                restore = true;
+            });
+        FCITX_ASSERT(!restore);
+        FCITX_ASSERT(testfrontend->call<ITestFrontend::sendKeyEvent>(
+            uuid, Key(FcitxKey_BackSpace), false));
+        FCITX_ASSERT(restore);
+    });
+}
+
 int main() {
     setupTestingEnvironment(
         FCITX5_BINARY_DIR,
@@ -210,6 +233,7 @@ int main() {
     testInit(&instance);
     testBasic(&instance);
     testProviderV2(&instance);
+    testRestoreCallback(&instance);
     instance.eventDispatcher().schedule([&instance]() {
         handle.reset();
         instance.exit();

@@ -78,6 +78,9 @@ public:
                  const std::string &prefix, const std::string &str,
                  const std::string &alt, const Key &key);
     void setBuffer(InputContext *ic, const std::string &text);
+    void setBufferWithRestoreCallback(InputContext *ic, const std::string &text,
+                                      const std::string &original,
+                                      QuickPhraseRestoreCallback callback);
 
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
         addProvider(QuickPhraseProviderCallback);
@@ -90,6 +93,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, addProvider);
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, addProviderV2);
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, setBuffer);
+    FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, setBufferWithRestoreCallback);
 
     void setSelectionKeys(QuickPhraseAction action);
 

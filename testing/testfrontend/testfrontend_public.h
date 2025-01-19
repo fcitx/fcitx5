@@ -8,6 +8,7 @@
 #define _TESTFRONTEND_TESTFRONTEND_PUBLIC_H_
 
 #include <string>
+#include <fcitx-utils/key.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
 

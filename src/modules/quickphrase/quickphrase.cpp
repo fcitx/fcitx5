@@ -41,6 +41,9 @@ public:
     InputBuffer buffer_;
     QuickPhrase *q_;
 
+    std::string originalBuffer_;
+    QuickPhraseRestoreCallback restoreCallback_;
+
     bool typed_ = false;
     std::string text_;
     std::string prefix_;
@@ -57,6 +60,8 @@ public:
         prefix_.clear();
         str_.clear();
         alt_.clear();
+        originalBuffer_.clear();
+        restoreCallback_ = nullptr;
         key_ = Key(FcitxKey_None);
         ic->inputPanel().reset();
         ic->updatePreedit();
@@ -222,10 +227,22 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 return;
             }
             if (keyEvent.key().check(FcitxKey_BackSpace)) {
+                keyEvent.accept();
                 if (state->buffer_.empty()) {
                     state->reset(inputContext);
                 } else {
                     if (state->buffer_.backspace()) {
+                        if (state->restoreCallback_ &&
+                            state->buffer_.cursor() == state->buffer_.size() &&
+                            state->buffer_.userInput() ==
+                                state->originalBuffer_) {
+                            auto callback = std::move(state->restoreCallback_);
+                            auto original = std::move(state->originalBuffer_);
+                            state->reset(inputContext);
+                            callback(inputContext, original);
+                            return;
+                        }
+
                         if (state->buffer_.empty()) {
                             state->reset(inputContext);
                         } else {
@@ -233,7 +250,6 @@ QuickPhrase::QuickPhrase(Instance *instance)
                         }
                     }
                 }
-                keyEvent.accept();
                 return;
             }
             if (keyEvent.key().check(FcitxKey_Delete)) {
@@ -256,12 +272,14 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 if (key.check(FcitxKey_Home) || key.check(FcitxKey_KP_Home)) {
                     state->buffer_.setCursor(0);
                     keyEvent.accept();
-                    return updateUI(inputContext);
+                    updateUI(inputContext);
+                    return;
                 }
                 if (key.check(FcitxKey_End) || key.check(FcitxKey_KP_End)) {
                     state->buffer_.setCursor(state->buffer_.size());
                     keyEvent.accept();
-                    return updateUI(inputContext);
+                    updateUI(inputContext);
+                    return;
                 }
                 if (key.check(FcitxKey_Left) || key.check(FcitxKey_KP_Left)) {
                     auto cursor = state->buffer_.cursor();
@@ -269,7 +287,8 @@ QuickPhrase::QuickPhrase(Instance *instance)
                         state->buffer_.setCursor(cursor - 1);
                     }
                     keyEvent.accept();
-                    return updateUI(inputContext);
+                    updateUI(inputContext);
+                    return;
                 }
                 if (key.check(FcitxKey_Right) || key.check(FcitxKey_KP_Right)) {
                     auto cursor = state->buffer_.cursor();
@@ -277,7 +296,8 @@ QuickPhrase::QuickPhrase(Instance *instance)
                         state->buffer_.setCursor(cursor + 1);
                     }
                     keyEvent.accept();
-                    return updateUI(inputContext);
+                    updateUI(inputContext);
+                    return;
                 }
             }
             if (!state->typed_ && !state->str_.empty() &&
@@ -294,7 +314,8 @@ QuickPhrase::QuickPhrase(Instance *instance)
 
             // compose is invalid, ignore it.
             if (!compose) {
-                return event.accept();
+                event.accept();
+                return;
             }
 
             if (!compose->empty()) {
@@ -536,6 +557,20 @@ void QuickPhrase::setBuffer(InputContext *ic, const std::string &text) {
     }
     state->buffer_.clear();
     state->buffer_.type(text);
+    updateUI(ic);
+}
+
+void QuickPhrase::setBufferWithRestoreCallback(
+    InputContext *ic, const std::string &text, const std::string &original,
+    QuickPhraseRestoreCallback callback) {
+    auto *state = ic->propertyFor(&factory_);
+    if (!state->enabled_) {
+        return;
+    }
+    state->buffer_.clear();
+    state->buffer_.type(text);
+    state->originalBuffer_ = original;
+    state->restoreCallback_ = std::move(callback);
     updateUI(ic);
 }
 
