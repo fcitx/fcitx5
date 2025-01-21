@@ -931,7 +931,8 @@ Instance::Instance(int argc, char **argv) {
                              << " rawKey: " << keyEvent.rawKey()
                              << " origKey: " << keyEvent.origKey()
                              << " Release:" << keyEvent.isRelease()
-                             << " keycode: " << keyEvent.origKey().code();
+                             << " keycode: " << keyEvent.origKey().code()
+                             << " program: " << ic->program();
 
             if (keyEvent.isRelease()) {
                 return;
