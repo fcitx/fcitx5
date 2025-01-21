@@ -194,7 +194,8 @@ void DBusMenu::fillLayoutItem(
             appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
         }
         if (parent_->instance()->canRestart() &&
-            getDesktopType() != DesktopType::DEEPIN) {
+            getDesktopType() != DesktopType::DEEPIN &&
+            getDesktopType() != DesktopType::UKUI) {
             appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
         }
     } else if (id == BII_InputMethodGroup) {
