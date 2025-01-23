@@ -118,7 +118,8 @@ void testModifierOnlyHotkey(Instance &instance) {
 
 int main() {
     setupTestingEnvironment(FCITX5_BINARY_DIR,
-                            {"testing/testim", "testing/testfrontend"}, {});
+                            {"testing/testim", "testing/testfrontend"},
+                            {"test"});
 
     char arg0[] = "testinstance";
     char arg1[] = "--disable=all";

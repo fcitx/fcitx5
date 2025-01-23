@@ -106,6 +106,8 @@ foreach(TESTCASE ${FCITX_CORE_TEST})
 endforeach()
 
 add_dependencies(testaddon dummyaddon)
+add_dependencies(testinstance copy-addon testfrontend testim)
+add_dependencies(testinputcontext copy-addon testfrontend testim)
 
 if (ENABLE_KEYBOARD)
     add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp ../src/im/keyboard/xmlparser.cpp)
