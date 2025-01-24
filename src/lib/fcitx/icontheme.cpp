@@ -8,14 +8,29 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
 #include <fstream>
+#include <ios>
 #include <limits>
+#include <memory>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#include <tuple>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/i18nstring.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/mtime_p.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
 #include "misc_p.h"
 
 namespace fcitx {
@@ -730,6 +745,7 @@ std::string getGtkTheme(const std::string &filename) {
 std::string IconTheme::defaultIconThemeName() {
     DesktopType desktopType = getDesktopType();
     switch (desktopType) {
+    case DesktopType::KDE6:
     case DesktopType::KDE5: {
         auto files = StandardPath::global().openAll(StandardPath::Type::Config,
                                                     "kdeglobals", O_RDONLY);

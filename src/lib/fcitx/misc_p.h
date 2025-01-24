@@ -111,6 +111,7 @@ static inline bool isSessionType(std::string_view type) {
 }
 
 enum class DesktopType {
+    KDE6,
     KDE5,
     KDE4,
     GNOME,
@@ -157,22 +158,33 @@ static inline DesktopType getDesktopType() {
             if (versionInt == 4) {
                 return DesktopType::KDE4;
             }
-            return DesktopType::KDE5;
-        } else if (desktop == "x-cinnamon") {
+            if (versionInt == 5) {
+                return DesktopType::KDE5;
+            }
+            return DesktopType::KDE6;
+        }
+        if (desktop == "x-cinnamon") {
             return DesktopType::Cinnamon;
-        } else if (desktop == "lxde") {
+        }
+        if (desktop == "lxde") {
             return DesktopType::LXDE;
-        } else if (desktop == "mate") {
+        }
+        if (desktop == "mate") {
             return DesktopType::MATE;
-        } else if (desktop == "gnome") {
+        }
+        if (desktop == "gnome") {
             return DesktopType::GNOME;
-        } else if (desktop == "xfce") {
+        }
+        if (desktop == "xfce") {
             return DesktopType::XFCE;
-        } else if (desktop == "deepin") {
+        }
+        if (desktop == "deepin") {
             return DesktopType::DEEPIN;
-        } else if (desktop == "ukui") {
+        }
+        if (desktop == "ukui") {
             return DesktopType::UKUI;
-        } else if (desktop == "sway") {
+        }
+        if (desktop == "sway") {
             return DesktopType::Sway;
         }
     }

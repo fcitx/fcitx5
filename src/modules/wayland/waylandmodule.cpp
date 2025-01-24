@@ -17,6 +17,7 @@
 #include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
@@ -45,9 +46,9 @@ namespace fcitx {
 FCITX_DEFINE_LOG_CATEGORY(wayland_log, "wayland");
 
 namespace {
-bool isKDE5() {
+bool isKDE5Plus() {
     static const DesktopType desktop = getDesktopType();
-    return desktop == DesktopType::KDE5;
+    return desktop == DesktopType::KDE5 || desktop == DesktopType::KDE6;
 }
 
 class ScopedEnvvar {
@@ -199,8 +200,8 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
                 return;
             }
 
-            if (isKDE5()) {
-                setLayoutToKDE5();
+            if (isKDE5Plus()) {
+                setLayoutToKDE();
             } else if (getDesktopType() == DesktopType::GNOME) {
                 setLayoutToGNOME();
             }
@@ -423,7 +424,7 @@ void WaylandModule::reloadXkbOptionReal() {
 
     FCITX_WAYLAND_DEBUG() << "Try to reload Xkb option from desktop";
     std::optional<std::string> xkbOption = std::nullopt;
-    if (isKDE5()) {
+    if (isKDE5Plus()) {
 
         auto dbusAddon = dbus();
         if (!dbusAddon) {
@@ -468,9 +469,9 @@ void WaylandModule::reloadXkbOptionReal() {
 #endif
 }
 
-void WaylandModule::setLayoutToKDE5() {
+void WaylandModule::setLayoutToKDE() {
 #ifdef ENABLE_DBUS
-    auto dbusAddon = dbus();
+    auto *dbusAddon = dbus();
     if (!dbusAddon) {
         return;
     }
@@ -591,12 +592,14 @@ void WaylandModule::selfDiagnose() {
 
     auto *gtk = getenv("GTK_IM_MODULE");
     auto *qt = getenv("QT_IM_MODULE");
+    auto *qts = getenv("QT_IM_MODULES");
     std::string gtkIM = gtk ? gtk : "";
     std::string qtIM = qt ? qt : "";
+    std::string qtsIM = qts ? qts : "";
 
     std::vector<std::string> messages;
     const auto desktop = getDesktopType();
-    if (desktop == DesktopType::KDE5) {
+    if (desktop == DesktopType::KDE5 || desktop == DesktopType::KDE6) {
         if (!isWaylandIM) {
             sendMessage(
                 "wayland-diagnose-kde",
@@ -611,7 +614,9 @@ void WaylandModule::selfDiagnose() {
                   "more details see "
                   "https://fcitx-im.org/wiki/"
                   "Using_Fcitx_5_on_Wayland#KDE_Plasma"));
-        } else if (!gtkIM.empty() || !qtIM.empty()) {
+        } else if (desktop == DesktopType::KDE5 &&
+                   (!gtkIM.empty() || !qtIM.empty())) {
+            // On qt5 system, QT_IM_MODULE unset is most likely required.
             sendMessage("wayland-diagnose-kde",
                         _("Detect GTK_IM_MODULE and QT_IM_MODULE being set and "
                           "Wayland Input method frontend is working. It is "
@@ -620,6 +625,21 @@ void WaylandModule::selfDiagnose() {
                           "more details see "
                           "https://fcitx-im.org/wiki/"
                           "Using_Fcitx_5_on_Wayland#KDE_Plasma"));
+        } else if (desktop == DesktopType::KDE6) {
+            // On qt6 system, QT_IM_MODULES can be used to override QT_IM_MODULE
+            // if not empty.
+            if (!gtkIM.empty() ||
+                (!qtIM.empty() && qtsIM.find("wayland") == std::string::npos)) {
+
+                sendMessage(
+                    "wayland-diagnose-kde",
+                    _("Detect GTK_IM_MODULE and QT_IM_MODULE being set and "
+                      "Wayland Input method frontend is working. It is "
+                      "recommended to use Wayland input method frontend. For "
+                      "more details see "
+                      "https://fcitx-im.org/wiki/"
+                      "Using_Fcitx_5_on_Wayland#KDE_Plasma"));
+            }
         }
     } else if (desktop == DesktopType::GNOME) {
         if (instance_->currentUI() != "kimpanel") {

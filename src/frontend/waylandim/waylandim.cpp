@@ -103,7 +103,8 @@ AggregatedAppMonitor *WaylandIMModule::appMonitor(const std::string &display) {
         auto plasmaMonitor = std::make_unique<PlasmaAppMonitor>(display);
         auto wlrMonitor = std::make_unique<WlrAppMonitor>(display);
         appMonitorPtr = std::make_unique<AggregatedAppMonitor>();
-        if (getDesktopType() == DesktopType::KDE5) {
+        if (getDesktopType() == DesktopType::KDE5 ||
+            getDesktopType() == DesktopType::KDE6) {
             appMonitorPtr->addSubMonitor(std::move(plasmaMonitor));
             appMonitorPtr->addSubMonitor(std::move(wlrMonitor));
         } else {

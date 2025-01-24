@@ -143,7 +143,7 @@ private:
     void refreshCanRestart();
     void reloadXkbOptionReal();
     void setLayoutToGNOME();
-    void setLayoutToKDE5();
+    void setLayoutToKDE();
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
