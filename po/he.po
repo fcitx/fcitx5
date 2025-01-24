@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-18 20:25+0000\n"
+"POT-Creation-Date: 2025-01-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e "
 "<ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021\n"
@@ -501,7 +501,7 @@ msgid "Configuration:"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:254
 msgid "Configure"
 msgstr "הגדרה"
 
@@ -631,7 +631,7 @@ msgstr ""
 msgid "Desktop environment is ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:616
+#: src/modules/wayland/waylandmodule.cpp:621
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -639,7 +639,15 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:645
+#: src/modules/wayland/waylandmodule.cpp:636
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to use Wayland input method frontend. "
+"For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:665
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -798,7 +806,7 @@ msgid "Execute"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:57
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:268
 msgid "Exit"
 msgstr "יציאה"
 
@@ -819,7 +827,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "מועדפים"
 
-#: src/modules/wayland/waylandmodule.cpp:588
+#: src/modules/wayland/waylandmodule.cpp:589
 msgid "Fcitx"
 msgstr ""
 
@@ -851,7 +859,7 @@ msgid ""
 "experience."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:603
+#: src/modules/wayland/waylandmodule.cpp:606
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -911,7 +919,7 @@ msgid ""
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:671
+#: src/modules/wayland/waylandmodule.cpp:691
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1012,7 +1020,7 @@ msgid "Green"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:244
 msgid "Group"
 msgstr ""
 
@@ -1316,7 +1324,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:628
+#: src/modules/wayland/waylandmodule.cpp:648
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2126,7 +2134,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:488
+#: src/modules/quickphrase/quickphrase.cpp:509
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -2160,7 +2168,7 @@ msgid "Reset state on Focus In"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Restart"
 msgstr ""
 
@@ -2273,7 +2281,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "שליחה"
 
-#: src/modules/wayland/waylandmodule.cpp:660
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2760,7 +2768,7 @@ msgstr ""
 msgid "Wayland"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:588
+#: src/modules/wayland/waylandmodule.cpp:589
 msgid "Wayland Diagnose"
 msgstr ""
 

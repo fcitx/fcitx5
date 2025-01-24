@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-18 20:25+0000\n"
+"POT-Creation-Date: 2025-01-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -503,7 +503,7 @@ msgid "Configuration:"
 msgstr "Konfiguration:"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:254
 msgid "Configure"
 msgstr "Konfigurer"
 
@@ -633,7 +633,7 @@ msgstr "Skrivebordsmiljø:"
 msgid "Desktop environment is ${1}."
 msgstr "Skrivebordsmiljø er ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:616
+#: src/modules/wayland/waylandmodule.cpp:621
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -641,7 +641,15 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:645
+#: src/modules/wayland/waylandmodule.cpp:636
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to use Wayland input method frontend. "
+"For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:665
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -804,7 +812,7 @@ msgid "Execute"
 msgstr "Udfør"
 
 #: src/ui/classic/xcbtraywindow.cpp:57
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:268
 msgid "Exit"
 msgstr "Afslut"
 
@@ -825,7 +833,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: src/modules/wayland/waylandmodule.cpp:588
+#: src/modules/wayland/waylandmodule.cpp:589
 msgid "Fcitx"
 msgstr ""
 
@@ -860,7 +868,7 @@ msgstr ""
 "sprog du kender. Det har også en vifte af tilføjelser som forbedre din "
 "skriveoplevelse."
 
-#: src/modules/wayland/waylandmodule.cpp:603
+#: src/modules/wayland/waylandmodule.cpp:606
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -920,7 +928,7 @@ msgid ""
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:671
+#: src/modules/wayland/waylandmodule.cpp:691
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1021,7 +1029,7 @@ msgid "Green"
 msgstr "Grøn"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:244
 msgid "Group"
 msgstr "Gruppe"
 
@@ -1333,7 +1341,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:628
+#: src/modules/wayland/waylandmodule.cpp:648
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2150,7 +2158,7 @@ msgstr "Filer for Qt IM-modul:"
 msgid "Quick Phrase"
 msgstr "Hurtigfrase"
 
-#: src/modules/quickphrase/quickphrase.cpp:488
+#: src/modules/quickphrase/quickphrase.cpp:509
 msgid "Quick Phrase: "
 msgstr "Hurtigfrase: "
 
@@ -2184,7 +2192,7 @@ msgid "Reset state on Focus In"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Restart"
 msgstr "Genstart"
 
@@ -2297,7 +2305,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/modules/wayland/waylandmodule.cpp:660
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2787,7 +2795,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:588
+#: src/modules/wayland/waylandmodule.cpp:589
 msgid "Wayland Diagnose"
 msgstr ""
 
