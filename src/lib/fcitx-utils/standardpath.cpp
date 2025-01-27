@@ -627,9 +627,10 @@ bool StandardPath::safeSave(Type type, const std::string &pathOrig,
     }
     try {
         if (callback(file.fd())) {
-
+#ifndef _WIN32
             // close it
             fchmod(file.fd(), 0666 & ~(d->umask()));
+#endif
             return true;
         }
     } catch (const std::exception &) {
