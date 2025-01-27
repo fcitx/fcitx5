@@ -13,7 +13,7 @@
 #include "misc.h"
 
 #ifndef LC_MESSAGES
-#define LC_MESSAGES 0
+#define LC_MESSAGES LC_ALL
 #endif
 
 namespace fcitx {
