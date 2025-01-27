@@ -44,6 +44,11 @@
 #define O_ACCMODE (O_RDONLY | O_WRONLY | O_RDWR)
 #endif
 
+#ifdef _WIN32
+#include <Windows.h>
+#define fsync(fd) FlushFileBuffers((HANDLE)_get_osfhandle(fd))
+#endif
+
 namespace fcitx {
 
 namespace {
