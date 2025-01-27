@@ -12,6 +12,10 @@
 #include "charutils.h"
 #include "misc.h"
 
+#ifndef LC_MESSAGES
+#define LC_MESSAGES 0
+#endif
+
 namespace fcitx {
 const std::string &I18NString::match(const std::string &locale_) const {
     std::string locale = locale_;
