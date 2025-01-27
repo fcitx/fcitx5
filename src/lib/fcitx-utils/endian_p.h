@@ -29,6 +29,11 @@
 #define be64toh(x) OSSwapBigToHostInt64(x)
 #define le64toh(x) OSSwapLittleToHostInt64(x)
 
+#elif defined(_WIN32)
+#define htole16(x) (x)
+#define le16toh(x) (x)
+#define htole32(x) (x)
+#define le32toh(x) (x)
 #else
 #include <sys/endian.h> // IWYU pragma: export
 #endif
