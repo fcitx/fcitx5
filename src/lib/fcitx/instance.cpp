@@ -75,6 +75,10 @@ FCITX_CONFIGURATION(DefaultInputMethod,
                         this, "ExtraLayout", "ExtraLayout"};);
 
 void initAsDaemon() {
+#ifdef _WIN32
+    FCITX_ERROR() << "Not implemented";
+    return;
+#else
     pid_t pid;
     if ((pid = fork()) > 0) {
         waitpid(pid, nullptr, 0);
@@ -100,6 +104,7 @@ void initAsDaemon() {
     signal(SIGTTOU, oldttou);
     signal(SIGTTIN, oldttin);
     signal(SIGCHLD, oldchld);
+#endif
 }
 
 // Switch IM when these capabilities change.

@@ -34,7 +34,7 @@ namespace fcitx {
 
 void startProcess(const std::vector<std::string> &args,
                   const std::string &workingDirectory) {
-#if defined(__APPLE__) && TARGET_OS_IPHONE
+#if (defined(__APPLE__) && TARGET_OS_IPHONE) || defined(_WIN32)
     FCITX_UNUSED(args);
     FCITX_UNUSED(workingDirectory);
     FCITX_ERROR() << "Not implemented";
