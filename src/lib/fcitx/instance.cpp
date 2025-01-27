@@ -8,7 +8,9 @@
 
 #include <fcntl.h>
 #include <signal.h>
+#ifndef _WIN32
 #include <sys/wait.h>
+#endif
 #include <unistd.h>
 #include <cstdint>
 #include <ctime>
@@ -1365,6 +1367,7 @@ bool Instance::exiting() const {
 }
 
 void Instance::handleSignal() {
+#ifndef _WIN32
     FCITX_D();
     uint8_t signo = 0;
     while (fs::safeRead(d->signalPipe_, &signo, sizeof(signo)) > 0) {
@@ -1378,6 +1381,7 @@ void Instance::handleSignal() {
             d->zombieReaper_->setOneShot();
         }
     }
+#endif
 }
 
 void Instance::initialize() {
@@ -1426,6 +1430,7 @@ void Instance::initialize() {
             }
             return false;
         });
+#ifndef _WIN32
     d->zombieReaper_ = d->eventLoop_.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
         [](EventSourceTime *, uint64_t) {
@@ -1435,6 +1440,7 @@ void Instance::initialize() {
             return false;
         });
     d->zombieReaper_->setEnabled(false);
+#endif
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_DEBUG() << "Running save...";
