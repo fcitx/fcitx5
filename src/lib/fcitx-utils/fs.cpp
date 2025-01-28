@@ -28,7 +28,12 @@ namespace fcitx::fs {
 namespace {
 
 bool makePathHelper(const std::string &name) {
-    if (::mkdir(name.c_str(), 0777) == 0) {
+    if (::mkdir(name.c_str()
+#ifndef _WIN32
+                    ,
+                0777
+#endif
+                ) == 0) {
         return true;
     }
     if (errno == EEXIST) {
@@ -52,7 +57,12 @@ bool makePathHelper(const std::string &name) {
     }
 
     // try again
-    if (::mkdir(name.c_str(), 0777) == 0) {
+    if (::mkdir(name.c_str()
+#ifndef _WIN32
+                    ,
+                0777
+#endif
+                ) == 0) {
         return true;
     }
     return errno == EEXIST && isdir(name);
