@@ -146,6 +146,28 @@ std::string getProcessName(pid_t pid) {
 #endif
 }
 
+#ifdef _WIN32
+ssize_t getline(char **lineptr, size_t *n, FILE *stream) {
+    if (lineptr == nullptr || n == nullptr || stream == nullptr) {
+        return -1;
+    }
+    std::string line;
+    int ch;
+    while ((ch = fgetc(stream)) != EOF) {
+        line.push_back(static_cast<char>(ch));
+        if (ch == '\n') {
+            break;
+        }
+    }
+    if (line.empty()) {
+        return -1;
+    }
+    *lineptr = _strdup(line.c_str());
+    *n = line.size();
+    return line.size();
+}
+#endif
+
 ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n, std::FILE *stream) {
     auto *lineRawPtr = lineptr.release();
     auto ret = getline(&lineRawPtr, n, stream);
