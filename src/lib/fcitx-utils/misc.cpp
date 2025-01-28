@@ -5,7 +5,9 @@
  *
  */
 #include "misc.h"
+#ifndef _WIN32
 #include <sys/wait.h>
+#endif
 #include <unistd.h>
 #include <cstdio>
 #include <string>
