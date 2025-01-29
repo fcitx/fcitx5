@@ -22,18 +22,21 @@
 #include "mtime_p.h"
 #include "standardpath.h"
 #include "stringutils.h"
+#ifdef _WIN32
+#include <direct.h>
+#endif
 
 namespace fcitx::fs {
 
 namespace {
 
 bool makePathHelper(const std::string &name) {
-    if (::mkdir(name.c_str()
-#ifndef _WIN32
-                    ,
-                0777
+#ifdef _WIN32
+    int res = _mkdir(name.c_str());
+#else
+    int res = ::mkdir(name.c_str(), 0777);
 #endif
-                ) == 0) {
+    if (res == 0) {
         return true;
     }
     if (errno == EEXIST) {
@@ -57,12 +60,12 @@ bool makePathHelper(const std::string &name) {
     }
 
     // try again
-    if (::mkdir(name.c_str()
-#ifndef _WIN32
-                    ,
-                0777
+#ifdef _WIN32
+    res = _mkdir(name.c_str());
+#else
+    res = ::mkdir(name.c_str(), 0777);
 #endif
-                ) == 0) {
+    if (res == 0) {
         return true;
     }
     return errno == EEXIST && isdir(name);
