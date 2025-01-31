@@ -163,16 +163,18 @@ bool XkbRules::read(const std::vector<std::string> &directories,
                     const std::string &name, const std::string &extraFile) {
     clear();
 
+    bool success = false;
     for (const auto &directory : directories) {
         std::string fileName = stringutils::joinPath(
             directory, "rules", stringutils::concat(name, ".xml"));
+
         {
             XkbRulesParseState state;
             state.rules_ = this;
-            if (!state.parse(fileName)) {
-                return false;
+            if (state.parse(fileName)) {
+                success = true;
+                state.merge(this);
             }
-            state.merge(this);
         }
 
         std::string extraFileName = stringutils::joinPath(
@@ -181,6 +183,7 @@ bool XkbRules::read(const std::vector<std::string> &directories,
             XkbRulesParseState state;
             state.rules_ = this;
             if (state.parse(extraFileName)) {
+                success = true;
                 state.merge(this);
             }
         }
@@ -190,10 +193,11 @@ bool XkbRules::read(const std::vector<std::string> &directories,
         XkbRulesParseState state;
         state.rules_ = this;
         if (state.parse(extraFile)) {
+            success = true;
             state.merge(this);
         }
     }
-    return true;
+    return success;
 }
 
 #ifdef _TEST_XKBRULES

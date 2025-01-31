@@ -29,6 +29,7 @@
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
 #include "fcitx-utils/keysymgen.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
@@ -221,8 +222,13 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     if (directories.empty()) {
         directories.push_back(XKEYBOARDCONFIG_XKBBASE);
     }
+    FCITX_INFO() << "Attempting to load keyboard from: " << directories
+                 << " Rule: " << DEFAULT_XKB_RULES;
     if (!xkbRules_.read(directories, ruleName, extraRuleFile)) {
-        xkbRules_.read(directories, DEFAULT_XKB_RULES, "");
+        FCITX_WARN() << "Fallback to using compile time rule: "
+                     << XKEYBOARDCONFIG_XKBBASE
+                     << " Rule: " << DEFAULT_XKB_RULES;
+        xkbRules_.read({XKEYBOARDCONFIG_XKBBASE}, DEFAULT_XKB_RULES, "");
     }
 
     instance_->inputContextManager().registerProperty("keyboardState",
