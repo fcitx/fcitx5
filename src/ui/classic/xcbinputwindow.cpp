@@ -223,7 +223,9 @@ void XCBInputWindow::update(InputContext *inputContext) {
     }
 
     cairo_t *c = cairo_create(prerender());
-    updatePosition(inputContext);
+    if (inputContext) {
+        updatePosition(inputContext);
+    }
     if (!oldVisible) {
         xcb_map_window(ui_->connection(), wid_);
     }
