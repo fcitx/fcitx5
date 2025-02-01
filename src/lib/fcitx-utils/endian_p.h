@@ -29,6 +29,23 @@
 #define be64toh(x) OSSwapBigToHostInt64(x)
 #define le64toh(x) OSSwapLittleToHostInt64(x)
 
+#elif defined(_WIN32)
+#include <cstdlib>
+
+#define htobe16(x) _byteswap_ushort(x)
+#define htole16(x) (x)
+#define be16toh(x) _byteswap_ushort(x)
+#define le16toh(x) (x)
+
+#define htobe32(x) _byteswap_ulong(x)
+#define htole32(x) (x)
+#define be32toh(x) _byteswap_ulong(x)
+#define le32toh(x) (x)
+
+#define htobe64(x) _byteswap_uint64(x)
+#define htole64(x) (x)
+#define be64toh(x) _byteswap_uint64(x)
+#define le64toh(x) (x)
 #else
 #include <sys/endian.h> // IWYU pragma: export
 #endif
