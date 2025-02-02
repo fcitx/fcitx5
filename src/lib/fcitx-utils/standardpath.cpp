@@ -29,7 +29,8 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include "config.h"
+#include "config.h" // IWYU pragma: keep
+#include "environ.h"
 #include "fs.h"
 #include "macros.h"
 #include "misc.h"
@@ -136,9 +137,10 @@ public:
             stringutils::join(pkgdataDirFallback, ":").c_str(), builtInPathMap,
             skipBuiltInPath_ ? nullptr : "pkgdatadir");
         cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
-        const char *tmpdir = getenv("TMPDIR");
-        runtimeDir_ = defaultPath("XDG_RUNTIME_DIR",
-                                  !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
+        auto tmpdir = getEnvironment("TMPDIR");
+        runtimeDir_ =
+            defaultPath("XDG_RUNTIME_DIR",
+                        (!tmpdir || tmpdir->empty()) ? "/tmp" : tmpdir->data());
         // Though theoratically, this is also fcitxPath, we just simply don't
         // use it here.
         addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR,
@@ -203,21 +205,21 @@ public:
 private:
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     static std::string defaultPath(const char *env, const char *defaultPath) {
-        char *cdir = nullptr;
+        std::optional<std::string> cdir;
         if (env) {
-            cdir = getenv(env);
+            cdir = getEnvironment(env);
         }
         std::string dir;
-        if (cdir && cdir[0]) {
-            dir = cdir;
+        if (cdir && !cdir->empty()) {
+            dir = *cdir;
         } else {
             // caller need to ensure HOME is not empty;
             if (defaultPath[0] != '/') {
-                const char *home = getenv("HOME");
+                auto home = getEnvironment("HOME");
                 if (!home) {
                     throw std::runtime_error("Home is not set");
                 }
-                dir = stringutils::joinPath(home, defaultPath);
+                dir = stringutils::joinPath(*home, defaultPath);
             } else {
                 if (env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
                     dir = stringutils::joinPath(
@@ -250,15 +252,16 @@ private:
         const char *builtInPathType) {
         std::vector<std::string> dirs;
 
-        const char *dir = nullptr;
+        std::optional<std::string> dir;
         if (env) {
-            dir = getenv(env);
+            dir = getEnvironment(env);
         }
         if (!dir) {
             dir = defaultPath;
         }
+        assert(dir.has_value());
 
-        auto rawDirs = stringutils::split(dir, ":");
+        auto rawDirs = stringutils::split(*dir, ":");
         for (auto &rawDir : rawDirs) {
             rawDir = fs::cleanPath(rawDir);
         }
@@ -742,9 +745,8 @@ std::string StandardPath::findExecutable(const std::string &name) {
     }
 
     std::string sEnv;
-    const char *pEnv = getenv("PATH");
-    if (pEnv) {
-        sEnv = pEnv;
+    if (auto pEnv = getEnvironment("PATH")) {
+        sEnv = std::move(*pEnv);
     } else {
 #if defined(_PATH_DEFPATH)
         sEnv = _PATH_DEFPATH;
