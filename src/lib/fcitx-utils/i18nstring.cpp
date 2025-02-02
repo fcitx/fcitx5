@@ -10,23 +10,36 @@
 #include <cstddef>
 #include <string>
 #include "charutils.h"
+#include "environ.h"
 #include "misc.h"
 
 namespace fcitx {
 const std::string &I18NString::match(const std::string &locale_) const {
     std::string locale = locale_;
     if (locale == "system") {
-        char *lc = nullptr;
-        if constexpr (isAndroid() || isApple()) {
+        std::optional<std::string> lc;
+        if constexpr (isAndroid() || isApple() || isWindows()) {
             // bionic doesn't recognize locale other than C or C.UTF-8
             // https://android.googlesource.com/platform/bionic/+/refs/tags/android-11.0.0_r48/libc/bionic/locale.cpp#175
             // macOS returns C for setlocale(LC_MESSAGES, nullptr)
-            lc = getenv("FCITX_LOCALE");
+            // Windows's locale value doesn't like the one on linux,
+            // While it is also Lang_Country.Encoding, it's based on windows own
+            // naming. E.g.  Chinese (Simplified)_China.936 so assume
+            // FCITX_LOCALE for now, until we have code to convert it to the
+            // unix standard.
+            lc = getEnvironment("FCITX_LOCALE");
         } else {
-            lc = setlocale(LC_MESSAGES, nullptr);
+#ifndef LC_MESSAGES
+            auto *lcMessages = setlocale(LC_ALL, nullptr);
+#else
+            auto *lcMessages = setlocale(LC_MESSAGES, nullptr);
+#endif
+            if (lcMessages) {
+                lc = lcMessages;
+            }
         }
         if (lc) {
-            locale = lc;
+            locale = std::move(*lc);
         } else {
             locale = "";
         }
