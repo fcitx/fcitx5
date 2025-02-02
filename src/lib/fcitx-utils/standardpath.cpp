@@ -36,6 +36,10 @@
 #include "misc_p.h"
 #include "stringutils.h"
 
+#ifdef _WIN32
+#include <io.h>
+#endif
+
 #if __has_include(<paths.h>)
 #include <paths.h>
 #endif
@@ -80,7 +84,11 @@ void StandardPathTempFile::removeTemp() {
 void StandardPathTempFile::close() {
     if (fd_.fd() >= 0) {
         // sync first.
+#ifdef _WIN32
+        _commit(fd_.fd());
+#else
         fsync(fd_.fd());
+#endif
         fd_.reset();
         if (rename(tempPath_.c_str(), path_.c_str()) < 0) {
             unlink(tempPath_.c_str());
