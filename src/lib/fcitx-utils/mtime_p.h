@@ -20,7 +20,7 @@ struct Timespec {
 
 template <typename T>
 inline std::enable_if_t<(&T::st_mtim, true), Timespec>
-modifiedTime(const T &p) {
+modifiedTimeImpl(const T &p, int /*unused*/) {
     return {p.st_mtim.tv_sec, p.st_mtim.tv_nsec};
 }
 
@@ -29,18 +29,22 @@ modifiedTime(const T &p) {
 #if !defined(st_mtimespec)
 template <typename T>
 inline std::enable_if_t<(&T::st_mtimespec, true), Timespec>
-modifiedTime(const T &p) {
+modifiedTimeImpl(const T &p, int /*unused*/) {
     return {p.st_mtimespec.tv_sec, p.st_mtimespec.tv_nsec};
 }
 #endif
 
 #if !defined(st_mtimensec) && !defined(__alpha__)
 template <typename T>
-inline std::enable_if_t<(&T::st_mtimensec, true), Timespec>
-modifiedTime(const T &p) {
+inline std::enable_if_t<(&T::st_mtime, &T::st_mtimensec, true), Timespec>
+modifiedTimeImpl(const T &p, int /*unused*/) {
     return {p.st_mtime, p.st_mtimensec};
 }
 #endif
+
+Timespec modifiedTimeImpl(const struct stat &p, unsigned long /*unused*/) {
+    return {p.st_mtime, 0};
+}
 
 } // namespace fcitx
 
