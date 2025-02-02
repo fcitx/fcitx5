@@ -44,6 +44,7 @@
 #define DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "@DBUS_SYSTEM_BUS_DEFAULT_ADDRESS@"
 
 #cmakedefine HAVE_PIPE2
+#cmakedefine HAVE_SYS_WAIT_H
 #cmakedefine HAVE_SYS_MMAN_H
 
 #ifndef _GNU_SOURCE

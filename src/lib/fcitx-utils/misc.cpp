@@ -5,7 +5,6 @@
  *
  */
 #include "misc.h"
-#include <sys/wait.h>
 #include <unistd.h>
 #include <cstdio>
 #include <string>
@@ -14,6 +13,10 @@
 #include "fs.h"
 #include "log.h"
 #include "misc_p.h"
+
+#ifdef HAVE_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
 
 #if defined(LIBKVM_FOUND)
 #include <fcntl.h>
@@ -34,7 +37,7 @@ namespace fcitx {
 
 void startProcess(const std::vector<std::string> &args,
                   const std::string &workingDirectory) {
-#if defined(__APPLE__) && TARGET_OS_IPHONE
+#if defined(_WIN32) || (defined(__APPLE__) && TARGET_OS_IPHONE)
     FCITX_UNUSED(args);
     FCITX_UNUSED(workingDirectory);
     FCITX_ERROR() << "Not implemented";
@@ -137,6 +140,9 @@ std::string getProcessName(pid_t pid) {
     }
     return result;
 #endif
+#elif defined(_WIN32)
+    FCITX_UNUSED(pid);
+    return {};
 #else
     auto path = fmt::format("/proc/{}/exe", pid);
     if (auto link = fs::readlink(path)) {
