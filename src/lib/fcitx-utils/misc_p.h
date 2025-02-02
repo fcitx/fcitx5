@@ -300,11 +300,10 @@ static inline int safePipe(int pipefd[2]) {
 }
 
 static inline bool checkBoolEnvVar(const char *name) {
-    const char *var = getenv(name);
+    auto var = getEnvironment(name);
     bool value = false;
-    if (var && var[0] &&
-        (strcmp(var, "True") == 0 || strcmp(var, "true") == 0 ||
-         strcmp(var, "1") == 0)) {
+    if (var && !var->empty() &&
+        (var == "True" || var == "true" || var == "1")) {
         value = true;
     }
     return value;
