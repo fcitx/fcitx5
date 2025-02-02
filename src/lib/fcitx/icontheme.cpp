@@ -6,7 +6,6 @@
  */
 #include "icontheme.h"
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
 #include <cstddef>
 #include <cstdint>
@@ -25,13 +24,19 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18nstring.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/mtime_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "config.h" // IWYU pragma: keep
 #include "misc_p.h"
+
+#ifdef HAVE_SYS_MMAN_H
+#include <sys/mman.h>
+#endif
 
 namespace fcitx {
 
@@ -192,6 +197,9 @@ static uint32_t iconNameHash(const char *p) {
 class IconThemeCache {
 public:
     IconThemeCache(const std::string &filename) {
+#ifdef _WIN32
+        FCITX_UNUSED(filename);
+#else
         auto fd = UnixFD::own(open(filename.c_str(), O_RDONLY));
         if (!fd.isValid()) {
             return;
@@ -205,7 +213,7 @@ public:
         if (stat(dirName.c_str(), &dirSt) != 0) {
             return;
         }
-        if (timespecLess(modifiedTime(st), modifiedTime(dirSt))) {
+        if (timespecLess(modifiedTimeImpl(st, 0), modifiedTimeImpl(dirSt, 0))) {
             return;
         }
 
@@ -244,11 +252,13 @@ public:
                 isValid_ = false;
                 return;
             }
-            if (timespecLess(modifiedTime(st), modifiedTime(subDirSt))) {
+            if (timespecLess(modifiedTimeImpl(st, 0),
+                             modifiedTimeImpl(subDirSt, 0))) {
                 isValid_ = false;
                 return;
             }
         }
+#endif
     }
 
     IconThemeCache() = default;
@@ -269,9 +279,11 @@ public:
     bool isValid() const { return isValid_; }
 
     ~IconThemeCache() {
+#ifndef _WIN32
         if (memory_) {
             munmap(memory_, size_);
         }
+#endif
     }
 
     uint16_t readWord(uint32_t offset) const {
@@ -366,9 +378,8 @@ class IconThemePrivate : QPtrHolder<IconTheme> {
 public:
     IconThemePrivate(IconTheme *q, const StandardPath &path)
         : QPtrHolder(q), standardPath_(path) {
-        const char *home = getenv("HOME");
-        if (home) {
-            home_ = home;
+        if (auto home = getEnvironment("HOME")) {
+            home_ = *home;
         }
     }
 
@@ -759,11 +770,11 @@ std::string IconTheme::defaultIconThemeName() {
         return "breeze";
     }
     case DesktopType::KDE4: {
-        const char *home = getenv("HOME");
-        if (home && home[0]) {
+        auto home = getEnvironment("HOME");
+        if (home && !home->empty()) {
             std::string files[] = {
-                stringutils::joinPath(home, ".kde4/share/config/kdeglobals"),
-                stringutils::joinPath(home, ".kde/share/config/kdeglobals"),
+                stringutils::joinPath(*home, ".kde4/share/config/kdeglobals"),
+                stringutils::joinPath(*home, ".kde/share/config/kdeglobals"),
                 "/etc/kde4/kdeglobals"};
             for (auto &file : files) {
                 auto fd = UnixFD::own(open(file.c_str(), O_RDONLY));
@@ -788,10 +799,9 @@ std::string IconTheme::defaultIconThemeName() {
         if (!theme.empty()) {
             return theme;
         }
-        const char *home = getenv("HOME");
-        if (home && home[0]) {
-            std::string homeStr(home);
-            std::string files[] = {stringutils::joinPath(homeStr, ".gtkrc-2.0"),
+        auto home = getEnvironment("HOME");
+        if (home && !home->empty()) {
+            std::string files[] = {stringutils::joinPath(*home, ".gtkrc-2.0"),
                                    "/etc/gtk-2.0/gtkrc"};
             for (auto &file : files) {
                 auto theme = getGtkTheme(file);

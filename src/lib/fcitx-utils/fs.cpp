@@ -22,13 +22,27 @@
 #include "mtime_p.h"
 #include "standardpath.h"
 #include "stringutils.h"
+#include "utf8.h" // IWYU pragma: keep
+
+#ifdef _WIN32
+#include <wchar.h>
+#endif
 
 namespace fcitx::fs {
 
 namespace {
 
+int makeDir(const std::string &name) {
+#ifdef _WIN32
+    const auto path = utf8::UTF8ToUTF16(name);
+    return ::_wmkdir(path.data());
+#else
+    return ::mkdir(name.c_str(), 0777);
+#endif
+}
+
 bool makePathHelper(const std::string &name) {
-    if (::mkdir(name.c_str(), 0777) == 0) {
+    if (makeDir(name) == 0) {
         return true;
     }
     if (errno == EEXIST) {
@@ -52,7 +66,7 @@ bool makePathHelper(const std::string &name) {
     }
 
     // try again
-    if (::mkdir(name.c_str(), 0777) == 0) {
+    if (makeDir(name) == 0) {
         return true;
     }
     return errno == EEXIST && isdir(name);
@@ -79,8 +93,13 @@ bool isexe(const std::string &path) {
 }
 
 bool islnk(const std::string &path) {
+#ifdef _WIN32
+    FCITX_UNUSED(path);
+    return false;
+#else
     struct stat stats;
     return lstat(path.c_str(), &stats) == 0 && S_ISLNK(stats.st_mode);
+#endif
 }
 
 std::string cleanPath(const std::string &path) {
@@ -233,6 +252,9 @@ ssize_t safeWrite(int fd, const void *data, size_t maxlen) {
 }
 
 std::optional<std::string> readlink(const std::string &path) {
+#ifdef _WIN32
+    FCITX_UNUSED(path);
+#else
     std::string buffer;
     buffer.resize(256);
     ssize_t readSize;
@@ -250,6 +272,7 @@ std::optional<std::string> readlink(const std::string &path) {
 
         buffer.resize(buffer.size() * 2);
     }
+#endif
     return std::nullopt;
 }
 
@@ -258,7 +281,7 @@ int64_t modifiedTime(const std::string &path) {
     if (stat(path.c_str(), &stats) != 0) {
         return 0;
     }
-    return fcitx::modifiedTime(stats).sec;
+    return fcitx::modifiedTimeImpl(stats, 0).sec;
 }
 
 template <typename FDLike>
