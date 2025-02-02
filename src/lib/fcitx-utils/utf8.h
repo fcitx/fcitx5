@@ -298,6 +298,13 @@ auto MakeUTF8StringViewRange(const T &str) {
         MakeUTF8StringViewIterator(std::end(str), std::end(str)));
 }
 
+#ifdef _WIN32
+
+std::string UTF16ToUTF8(std::wstring_view data);
+std::wstring UTF8ToUTF16(std::string_view str);
+
+#endif
+
 } // namespace fcitx::utf8
 
 #endif // _FCITX_UTILS_UTF8_H_
