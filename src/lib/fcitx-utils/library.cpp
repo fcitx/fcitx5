@@ -8,7 +8,6 @@
 #include "library.h"
 #include <dlfcn.h>
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <cerrno>
@@ -23,7 +22,21 @@
 #include "misc.h"
 #include "stringutils.h"
 
+#ifdef HAVE_SYS_MMAN_H
+#include <sys/mman.h>
+#endif
+
 namespace fcitx {
+
+namespace {
+
+#ifdef RTLD_NODELETE
+constexpr bool hasRTLDNoDelete = true;
+#else
+constexpr bool hasRTLDNoDelete = false;
+#endif
+
+} // namespace
 
 class LibraryPrivate {
 public:
@@ -34,9 +47,15 @@ public:
         if (!handle_) {
             return false;
         }
-        if (dlclose(handle_)) {
-            error_ = dlerror();
-            return false;
+
+        // If there is no RTLD_NODELETE and we don't want to unload, we leak
+        // it on purpose.
+        if (hasRTLDNoDelete ||
+            !loadFlag_.test(LibraryLoadHint::PreventUnloadHint)) {
+            if (dlclose(handle_)) {
+                error_ = dlerror();
+                return false;
+            }
         }
 
         handle_ = nullptr;
@@ -46,6 +65,7 @@ public:
     std::string path_;
     void *handle_ = nullptr;
     std::string error_;
+    Flags<fcitx::LibraryLoadHint> loadFlag_;
 };
 
 Library::Library(const std::string &path)
@@ -54,6 +74,9 @@ Library::Library(const std::string &path)
 FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(Library)
 
 bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
+    if (loaded()) {
+        return true;
+    }
     FCITX_D();
     int flag = 0;
     if (hint & LibraryLoadHint::ResolveAllSymbolsHint) {
@@ -62,9 +85,11 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
         flag |= RTLD_LAZY;
     }
 
+#ifdef RTLD_NODELETE
     if (hint & LibraryLoadHint::PreventUnloadHint) {
         flag |= RTLD_NODELETE;
     }
+#endif
 
     if (hint & LibraryLoadHint::ExportExternalSymbolsHint) {
         flag |= RTLD_GLOBAL;
@@ -85,6 +110,8 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
         d->error_ = dlerror();
         return false;
     }
+
+    d->loadFlag_ = hint;
 
     return true;
 }
@@ -141,9 +168,12 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
             d->error_ = strerror(errno);
             break;
         }
+        void *data = nullptr;
+#ifdef HAVE_SYS_MMAN_H
+        data = mmap(nullptr, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
         void *needunmap = nullptr;
-        void *data = needunmap =
-            mmap(nullptr, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+        needunmap = data;
+#endif
         if (!data) {
             data = malloc(statbuf.st_size);
             needfree.reset(data);
@@ -163,9 +193,11 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
             parser(pos);
         }
         result = true;
+#ifdef HAVE_SYS_MMAN_H
         if (needunmap) {
             munmap(needunmap, statbuf.st_size);
         }
+#endif
     } while (false);
 
     close(fd);
