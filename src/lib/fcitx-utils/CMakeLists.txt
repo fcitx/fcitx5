@@ -59,6 +59,7 @@ list(APPEND FCITX_UTILS_SOURCES
     keydata.cpp
     event.cpp
     eventloopinterface.cpp
+    environ.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -101,6 +102,7 @@ set(FCITX_UTILS_HEADERS
     log.h
     testing.h
     semver.h
+    environ.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
