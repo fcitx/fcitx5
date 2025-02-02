@@ -635,9 +635,13 @@ bool StandardPath::safeSave(Type type, const std::string &pathOrig,
     }
     try {
         if (callback(file.fd())) {
-
+#ifdef _WIN32
+            auto wfile = utf8::UTF8ToUTF16(file.tempPath());
+            ::_wchmod(wfile.data(), 0666 & ~(d->umask()));
+#else
             // close it
             fchmod(file.fd(), 0666 & ~(d->umask()));
+#endif
             return true;
         }
     } catch (const std::exception &) {
