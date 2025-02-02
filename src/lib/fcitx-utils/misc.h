@@ -184,6 +184,19 @@ FCITXUTILS_EXPORT constexpr inline bool isEmscripten() {
 #endif
 }
 
+/**
+ * Util function that returns whether it is compile against emscripten.
+ *
+ * @since 5.1.13
+ */
+FCITXUTILS_EXPORT constexpr inline bool isWindows() {
+#if defined(_WIN32)
+    return true;
+#else
+    return false;
+#endif
+}
+
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_MISC_H_
