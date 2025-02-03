@@ -103,6 +103,7 @@ void withContext() {
 }
 
 int main() {
+    fcitx::Log::setLogRule("*=5");
     basicTest();
     testOrder();
     recursiveSchedule();

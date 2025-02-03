@@ -20,7 +20,9 @@
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/intrusivelist.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx-utils/unixfd.h"
 #include "eventlooptests.h"
 
 using namespace fcitx;
@@ -158,7 +160,43 @@ IOEventFlags PollToIOEventFlags(short revent) {
     return result;
 }
 
-class PollEventLoop : public EventLoopInterface,
+struct PollEventSourceAsync : public EventSourceAsync {
+public:
+    PollEventSourceAsync(EventLoopInterfaceV2 *event, EventCallback callback) {
+        int selfpipe[2];
+        if (safePipe(selfpipe)) {
+            throw EventLoopException(-EPIPE);
+        }
+        fd_[0].give(selfpipe[0]);
+        fd_[1].give(selfpipe[1]);
+        ioEvent_ = event->addIOEvent(
+            fd_[0].fd(), IOEventFlag::In,
+            [this, callback = std::move(callback)](EventSource *, int fd,
+                                                   IOEventFlags) {
+                uint8_t dummy;
+                while (fs::safeRead(fd, &dummy, sizeof(dummy)) > 0) {
+                }
+                callback(this);
+                return true;
+            });
+    }
+
+    bool isEnabled() const override { return ioEvent_->isEnabled(); }
+    void setEnabled(bool enabled) override { ioEvent_->setEnabled(enabled); }
+    bool isOneShot() const override { return ioEvent_->isOneShot(); }
+    void setOneShot() override { ioEvent_->setOneShot(); }
+
+    void send() override {
+        uint8_t dummy = 0;
+        fs::safeWrite(fd_[1].fd(), &dummy, 1);
+    }
+
+protected:
+    UnixFD fd_[2];
+    std::unique_ptr<EventSourceIO> ioEvent_;
+};
+
+class PollEventLoop : public EventLoopInterfaceV2,
                       public TrackableObject<PollEventLoop> {
     struct Recheck {};
 
@@ -346,6 +384,12 @@ public:
         auto event = std::make_unique<PollEventSource>(
             this, PollSourceEnableState::Enabled, std::move(callback));
         exitEvents_.push_back(*event);
+        return event;
+    }
+    std::unique_ptr<EventSourceAsync>
+    addAsyncEvent(EventCallback callback) override {
+        auto event =
+            std::make_unique<PollEventSourceAsync>(this, std::move(callback));
         return event;
     }
 

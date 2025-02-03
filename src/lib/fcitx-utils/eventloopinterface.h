@@ -62,6 +62,21 @@ struct FCITXUTILS_EXPORT EventSourceTime : public EventSource {
     FCITX_NODISCARD virtual clockid_t clock() const = 0;
 };
 
+/**
+ * A thread-safe event source can be triggered from other threads.
+ *
+ * @since 5.1.13
+ */
+struct FCITXUTILS_EXPORT EventSourceAsync : public EventSource {
+    /**
+     * Trigger the event from other thread.
+     *
+     * The callback is guranteed to be called send() if it is enabled.
+     * Multiple call to send() may only trigger the callback once.
+     */
+    virtual void send() = 0;
+};
+
 using IOCallback =
     std::function<bool(EventSourceIO *, int fd, IOEventFlags flags)>;
 using TimeCallback = std::function<bool(EventSourceTime *, uint64_t usec)>;
@@ -131,6 +146,13 @@ public:
     FCITX_NODISCARD virtual std::unique_ptr<EventSource>
     addPostEvent(EventCallback callback) = 0;
 };
+
+class FCITXUTILS_EXPORT EventLoopInterfaceV2 : public EventLoopInterface {
+public:
+    FCITX_NODISCARD virtual std::unique_ptr<EventSourceAsync>
+    addAsyncEvent(EventCallback callback) = 0;
+};
+
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_EVENTLOOPINTERFACE_H_

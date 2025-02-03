@@ -219,7 +219,23 @@ struct LibUVSourceExit final : public EventSource,
     EventCallback callback_;
 };
 
-class EventLoopLibUV : public EventLoopInterface {
+struct LibUVSourceAsync final
+    : public LibUVSource<EventSourceAsync, uv_async_t>,
+      public TrackableObject<LibUVSourceAsync> {
+    LibUVSourceAsync(EventCallback callback, std::shared_ptr<UVLoop> loop)
+        : LibUVSource(std::move(loop)),
+          callback_(std::make_shared<EventCallback>(std::move(callback))) {
+        setEnabled(true);
+    }
+
+    bool setup(uv_loop_t *loop, uv_async_t *async) override;
+
+    void send() override;
+
+    std::shared_ptr<EventCallback> callback_;
+};
+
+class EventLoopLibUV : public EventLoopInterfaceV2 {
 public:
     EventLoopLibUV();
     bool exec() override;
@@ -238,6 +254,8 @@ public:
     addDeferEvent(EventCallback callback) override;
     FCITX_NODISCARD std::unique_ptr<EventSource>
     addPostEvent(EventCallback callback) override;
+    FCITX_NODISCARD std::unique_ptr<EventSourceAsync>
+    addAsyncEvent(EventCallback callback) override;
 
 private:
     std::shared_ptr<UVLoop> loop_;
