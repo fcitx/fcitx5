@@ -335,9 +335,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
 
 void test_custom_panel() {
 
-    setupTestingEnvironment(FCITX5_BINARY_DIR,
-                            {"testing/testfrontend", "testing/testui"},
-                            {"test"});
+    setupTestingEnvironment(FCITX5_BINARY_DIR, {"bin"}, {"test"});
 
     char arg0[] = "testcompose";
     char arg1[] = "--disable=all";

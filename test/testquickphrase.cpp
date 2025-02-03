@@ -219,9 +219,7 @@ void testRestoreCallback(Instance *instance) {
 
 int main() {
     setupTestingEnvironment(
-        FCITX5_BINARY_DIR,
-        {"src/modules/quickphrase", "testing/testfrontend", "testing/testui",
-         "testing/testim"},
+        FCITX5_BINARY_DIR, {"bin"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/test/addon/fcitx5"});
 
     char arg0[] = "testquickphrase";
