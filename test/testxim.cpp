@@ -159,9 +159,7 @@ private:
 int main() {
     setenv("XMODIFIERS", xmodifiers, 1);
     setupTestingEnvironment(
-        FCITX5_BINARY_DIR,
-        {"src/modules/quickphrase", "src/frontend/xim", "src/modules/xcb",
-         "testing/testui", "testing/testim"},
+        FCITX5_BINARY_DIR, {"bin"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/test/addon/fcitx5"});
 
     char arg0[] = "testquickphrase";

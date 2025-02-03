@@ -68,9 +68,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
 
 int main() {
     setupTestingEnvironment(
-        FCITX5_BINARY_DIR,
-        {"src/modules/spell", "testing/testfrontend", "testing/testui",
-         "testing/testim"},
+        FCITX5_BINARY_DIR, {"bin"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/src/modules"});
 
     char arg0[] = "testspell";

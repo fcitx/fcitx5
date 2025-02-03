@@ -60,7 +60,7 @@ if (ENABLE_DBUS)
 
         if (DBUS_DAEMON_BIN)
             add_test(NAME ${TESTCASE}
-                    COMMAND DBusWrapper "${DBUS_DAEMON_BIN}" "${CMAKE_CURRENT_BINARY_DIR}/${TESTCASE}" ${${TESTCASE}_ARGS})
+                    COMMAND DBusWrapper "${DBUS_DAEMON_BIN}" "$<TARGET_FILE:${TESTCASE}>" ${${TESTCASE}_ARGS})
         endif()
     endforeach()
 endif()
