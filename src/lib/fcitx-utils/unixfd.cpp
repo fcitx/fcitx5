@@ -12,6 +12,10 @@
 #include <stdexcept>
 #include <utility>
 
+#if defined(_WIN32)
+#include <io.h>
+#endif
+
 namespace fcitx {
 
 UnixFD::UnixFD() noexcept = default;
@@ -48,7 +52,12 @@ void UnixFD::set(int fd, int min) {
     if (fd == -1) {
         reset();
     } else {
+#if defined(_WIN32)
+        FCITX_UNUSED(min);
+        int nfd = _dup(fd);
+#else
         int nfd = ::fcntl(fd, F_DUPFD_CLOEXEC, min);
+#endif
         if (nfd == -1) {
             throw std::runtime_error("Failed to dup file descriptor");
         }
