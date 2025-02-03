@@ -100,4 +100,13 @@ std::unique_ptr<EventSource> EventLoop::addPostEvent(EventCallback callback) {
     return d->impl_->addPostEvent(std::move(callback));
 }
 
+std::unique_ptr<EventSourceAsync>
+EventLoop::addAsyncEvent(EventCallback callback) {
+    FCITX_D();
+    if (auto *v2 = dynamic_cast<EventLoopInterfaceV2 *>(d->impl_.get())) {
+        return v2->addAsyncEvent(std::move(callback));
+    }
+    return nullptr;
+}
+
 } // namespace fcitx

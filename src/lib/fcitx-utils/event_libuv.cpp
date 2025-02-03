@@ -57,6 +57,32 @@ void IOEventCallback(uv_poll_t *handle, int status, int events);
 void TimeEventCallback(uv_timer_t *handle);
 void PostEventCallback(uv_prepare_t *handle);
 
+void AsyncEventCallback(uv_async_t *handle) {
+    auto *source = static_cast<LibUVSourceAsync *>(
+        static_cast<LibUVSourceBase *>(handle->data));
+
+    if (!source->isEnabled()) {
+        return;
+    }
+
+    try {
+        auto sourceRef = source->watch();
+        if (source->isOneShot()) {
+            source->setEnabled(false);
+        }
+        auto callback = source->callback_;
+        auto ret = (*callback)(source);
+        if (sourceRef.isValid()) {
+            if (!ret) {
+                source->setEnabled(false);
+            }
+        }
+    } catch (const std::exception &e) {
+        // some abnormal things threw{
+        FCITX_FATAL() << e.what();
+    }
+}
+
 UVLoop::~UVLoop() {
     // Close and detach all handle.
     uv_walk(
@@ -98,6 +124,7 @@ bool LibUVSourceTime::setup(uv_loop_t *loop, uv_timer_t *timer) {
     }
     return true;
 }
+
 bool LibUVSourcePost::setup(uv_loop_t *loop, uv_prepare_t *prepare) {
     if (int err = uv_prepare_init(loop, prepare); err < 0) {
         FCITX_LIBUV_DEBUG() << "Failed to init prepare with error: " << err;
@@ -109,6 +136,19 @@ bool LibUVSourcePost::setup(uv_loop_t *loop, uv_prepare_t *prepare) {
     }
     return true;
 }
+
+bool LibUVSourceAsync::setup(uv_loop_t *loop, uv_async_t *async) {
+    if (int err = uv_async_init(loop, async, &AsyncEventCallback); err < 0) {
+        FCITX_LIBUV_DEBUG() << "Failed to init async with error: " << err;
+        return false;
+    }
+    return true;
+}
+
+void LibUVSourceAsync::send() {
+    uv_async_send(reinterpret_cast<uv_async_t *>(handle_));
+}
+
 bool LibUVSourceIO::setup(uv_loop_t *loop, uv_poll_t *poll) {
     if (int err = uv_poll_init(loop, poll, fd_); err < 0) {
         FCITX_LIBUV_DEBUG()
@@ -266,4 +306,12 @@ EventLoopLibUV::addPostEvent(EventCallback callback) {
     auto source = std::make_unique<LibUVSourcePost>(std::move(callback), loop_);
     return source;
 }
+
+std::unique_ptr<EventSourceAsync>
+EventLoopLibUV::addAsyncEvent(EventCallback callback) {
+    auto source =
+        std::make_unique<LibUVSourceAsync>(std::move(callback), loop_);
+    return source;
+}
+
 } // namespace fcitx

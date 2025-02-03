@@ -14,6 +14,7 @@
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc_p.h"
 
 using namespace fcitx;
 
@@ -22,7 +23,7 @@ void test_basic() {
     EventLoop e;
 
     int pipefd[2];
-    int r = pipe(pipefd);
+    int r = safePipe(pipefd);
     FCITX_ASSERT(r == 0);
 
     std::unique_ptr<EventSource> source(
@@ -107,25 +108,17 @@ void test_source_deleted() {
     FCITX_INFO() << __func__;
     EventLoop e;
 
-    int pipefd[2];
-    int r = pipe(pipefd);
-    FCITX_ASSERT(r == 0);
-
-    std::unique_ptr<EventSource> source(
-        e.addIOEvent(pipefd[0], IOEventFlag::In,
-                     [&source](EventSource *, int, IOEventFlags flags) {
-                         if (flags & IOEventFlag::In) {
-                             FCITX_INFO() << "RESET";
-                             source.reset();
-                         }
-                         return true;
-                     }));
+    std::unique_ptr<EventSourceAsync> source(
+        e.addAsyncEvent([&source](EventSource *) {
+            FCITX_INFO() << "RESET";
+            source.reset();
+            return true;
+        }));
 
     std::unique_ptr<EventSource> source2(
-        e.addDeferEvent([pipefd](EventSource *) {
+        e.addDeferEvent([&source](EventSource *) {
             FCITX_INFO() << "WRITE";
-            auto r = write(pipefd[1], "a", 1);
-            FCITX_ASSERT(r == 1);
+            source->send();
             return true;
         }));
 
@@ -145,7 +138,7 @@ void test_post_time() {
     EventLoop e;
     bool ready = false;
     auto post = e.addPostEvent([&ready, &e](EventSource *) {
-        FCITX_INFO() << "POST";
+        FCITX_INFO() << "POST TIME";
         if (ready) {
             e.exit();
         }
@@ -166,7 +159,7 @@ void test_post_io() {
     EventDispatcher dispatcher;
     bool ready = false;
     auto post = e.addPostEvent([&ready, &e](EventSource *) {
-        FCITX_INFO() << "POST";
+        FCITX_INFO() << "POST IO";
         if (ready) {
             e.exit();
         }

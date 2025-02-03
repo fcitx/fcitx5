@@ -39,7 +39,10 @@ set(FCITX_UTILS_DBUS_TEST
 set(testdbus_LIBS Pthread::Pthread)
 set(testeventdispatcher_LIBS Pthread::Pthread)
 set(testevent_LIBS Pthread::Pthread eventlooptests)
+
+if (NOT WIN32)
 set(testcustomeventloop_LIBS Pthread::Pthread eventlooptests)
+endif()
 
 find_program(XVFB_BIN Xvfb)
 

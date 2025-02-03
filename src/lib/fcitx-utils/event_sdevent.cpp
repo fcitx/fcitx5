@@ -17,7 +17,9 @@
 #include "eventloopinterface.h"
 #include "log.h"
 #include "macros.h"
+#include "misc_p.h"
 #include "stringutils.h"
+#include "unixfd.h"
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
@@ -57,7 +59,7 @@ IOEventFlags EpollFlagsToIOEventFlags(uint32_t flags) {
 
 } // namespace
 
-class EventLoopSDEvent : public EventLoopInterface {
+class EventLoopSDEvent : public EventLoopInterfaceV2 {
 public:
     EventLoopSDEvent();
     ~EventLoopSDEvent();
@@ -77,6 +79,8 @@ public:
     addDeferEvent(EventCallback callback) override;
     FCITX_NODISCARD std::unique_ptr<EventSource>
     addPostEvent(EventCallback callback) override;
+    FCITX_NODISCARD std::unique_ptr<EventSourceAsync>
+    addAsyncEvent(EventCallback callback) override;
 
 private:
     std::mutex mutex_;
@@ -374,4 +378,46 @@ EventLoopSDEvent::addPostEvent(EventCallback callback) {
     source->setEventSource(sdEventSource);
     return source;
 }
+
+struct SDEventSourceAsync : public EventSourceAsync {
+public:
+    SDEventSourceAsync(EventLoopInterfaceV2 *event, EventCallback callback) {
+        int selfpipe[2];
+        if (safePipe(selfpipe)) {
+            throw EventLoopException(-EPIPE);
+        }
+        fd_[0].give(selfpipe[0]);
+        fd_[1].give(selfpipe[1]);
+        ioEvent_ = event->addIOEvent(
+            fd_[0].fd(), IOEventFlag::In,
+            [this, callback = std::move(callback)](EventSource *, int fd,
+                                                   IOEventFlags) {
+                uint8_t dummy;
+                while (fs::safeRead(fd, &dummy, sizeof(dummy)) > 0) {
+                }
+                callback(this);
+                return true;
+            });
+    }
+
+    bool isEnabled() const override { return ioEvent_->isEnabled(); }
+    void setEnabled(bool enabled) override { ioEvent_->setEnabled(enabled); }
+    bool isOneShot() const override { return ioEvent_->isOneShot(); }
+    void setOneShot() override { ioEvent_->setOneShot(); }
+
+    void send() override {
+        uint8_t dummy = 0;
+        fs::safeWrite(fd_[1].fd(), &dummy, 1);
+    }
+
+protected:
+    UnixFD fd_[2];
+    std::unique_ptr<EventSourceIO> ioEvent_;
+};
+
+std::unique_ptr<EventSourceAsync>
+EventLoopSDEvent::addAsyncEvent(EventCallback callback) {
+    return std::make_unique<SDEventSourceAsync>(this, std::move(callback));
+}
+
 } // namespace fcitx
