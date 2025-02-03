@@ -47,7 +47,7 @@ std::optional<std::string> getEnvironment(const char *variable) {
     auto wname = utf8::UTF8ToUTF16(variable);
     DWORD len = GetEnvironmentVariableW(wname.data(), nullptr, 0);
 
-    if (GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+    if (len == 0 && GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
         return std::nullopt;
     }
     std::vector<wchar_t> wdata(len);
