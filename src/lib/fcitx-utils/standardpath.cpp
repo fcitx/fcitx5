@@ -39,6 +39,7 @@
 
 #ifdef _WIN32
 #include <io.h>
+#include "utf8.h"
 #endif
 
 #if __has_include(<paths.h>)
