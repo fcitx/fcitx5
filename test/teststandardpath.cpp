@@ -10,6 +10,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
@@ -20,11 +21,10 @@ using namespace fcitx;
 #define TEST_ADDON_DIR FCITX5_SOURCE_DIR "/test/addon"
 
 void test_basic() {
-    FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS",
-                        "/TEST/PATH1/:/TEST/PATH2:/TEST/PATH2/:/TEST/PATH1",
-                        1) == 0);
-    FCITX_ASSERT(setenv("XDG_DATA_DIRS", TEST_ADDON_DIR, 1) == 0);
+    setEnvironment("XDG_CONFIG_HOME", "/TEST/PATH");
+    setEnvironment("XDG_CONFIG_DIRS",
+                   "/TEST/PATH1/:/TEST/PATH2:/TEST/PATH2/:/TEST/PATH1");
+    setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPath standardPath(true);
 
     FCITX_ASSERT(standardPath.userDirectory(StandardPath::Type::Config) ==
@@ -87,9 +87,9 @@ void test_basic() {
 }
 
 void test_nouser() {
-    FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_DATA_DIRS", TEST_ADDON_DIR, 1) == 0);
+    setEnvironment("XDG_CONFIG_HOME", "/TEST/PATH");
+    setEnvironment("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2");
+    setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPath standardPath(true, true);
 
     FCITX_ASSERT(
@@ -137,9 +137,9 @@ void test_nouser() {
 }
 
 void test_custom() {
-    FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_DATA_DIRS", TEST_ADDON_DIR, 1) == 0);
+    setEnvironment("XDG_CONFIG_HOME", "/TEST/PATH");
+    setEnvironment("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2");
+    setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPath path("mypackage", {{"datadir", "/TEST/PATH3"}}, false, false);
     FCITX_ASSERT(path.directories(fcitx::StandardPath::Type::PkgConfig) ==
                  std::vector<std::string>{"/TEST/PATH1/mypackage",

@@ -10,9 +10,20 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/unixfd.h"
 
+#ifdef _WIN32
+#include <io.h>
+#endif
+
 using namespace fcitx;
 
-bool fd_is_valid(int fd) { return fcntl(fd, F_GETFD) != -1 || errno != EBADF; }
+bool fd_is_valid(int fd) {
+
+#ifdef _WIN32
+    return _get_osfhandle(fd) != -1 || errno != EBADF;
+#else
+    return fcntl(fd, F_GETFD) != -1 || errno != EBADF;
+#endif
+}
 
 int main() {
     char fname[] = "XXXXXX";

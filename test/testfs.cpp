@@ -18,8 +18,6 @@ using namespace fcitx;
 UniqueCPtr<char> cdUp(const char *path) {
     return makeUniqueCPtr(
         strdup(cleanPath(stringutils::joinPath(path, "..")).data()));
-    return makeUniqueCPtr(
-        realpath(stringutils::joinPath(path, "..").data(), nullptr));
 }
 
 #define TEST_PATH(PATHSTR, EXPECT)                                             \
@@ -34,7 +32,7 @@ UniqueCPtr<char> cdUp(const char *path) {
         char pathstr[] = PATHSTR;                                              \
         auto cleanStr = dirName(pathstr);                                      \
         const char *r = dirname(pathstr);                                      \
-        FCITX_ASSERT(cleanStr == r);                                           \
+        FCITX_ASSERT(cleanStr == r) << cleanStr << " " << r;                   \
     } while (0);
 
 #define TEST_BASENAME(PATHSTR)                                                 \
@@ -75,21 +73,29 @@ int main() {
     TEST_PATH("/usr/share/", "/usr/share");
 
     TEST_DIRNAME("/usr/lib");
+#ifndef _WIN32
     TEST_DIRNAME("/usr/");
+#endif
     TEST_DIRNAME("usr");
+#ifndef _WIN32
     TEST_DIRNAME("/");
+#endif
     TEST_DIRNAME(".");
     TEST_DIRNAME("..");
     TEST_DIRNAME("a///b");
     TEST_DIRNAME("a//b///");
+#ifndef _WIN32
     TEST_DIRNAME("///a/b");
+#endif
     TEST_DIRNAME("/a/b/");
     TEST_DIRNAME("/a/b///");
 
     TEST_BASENAME("/usr/lib");
     TEST_BASENAME("/usr/");
     TEST_BASENAME("usr");
+#ifndef _WIN32
     TEST_BASENAME("/");
+#endif
     TEST_BASENAME(".");
     TEST_BASENAME("..");
     TEST_BASENAME("a///b");

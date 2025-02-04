@@ -14,7 +14,6 @@ set(FCITX_UTILS_TEST
     testcolor
     testi18nstring
     testevent
-    testcustomeventloop
     testlist
     testfs
     testlibrary
@@ -41,6 +40,7 @@ set(testeventdispatcher_LIBS Pthread::Pthread)
 set(testevent_LIBS Pthread::Pthread eventlooptests)
 
 if (NOT WIN32)
+list(APPEND FCITX_UTILS_TEST testcustomeventloop)
 set(testcustomeventloop_LIBS Pthread::Pthread eventlooptests)
 endif()
 
