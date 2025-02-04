@@ -24,9 +24,9 @@
 #include "environ.h"
 
 #ifdef _WIN32
-#include <windows.h>
 #include <io.h>
 #include <namedpipeapi.h>
+#include <windows.h>
 #endif
 
 namespace fcitx {
@@ -301,10 +301,10 @@ static inline int safePipe(int pipefd[2]) {
     }
     std::array handle = {_get_osfhandle(pipefd[0]), _get_osfhandle(pipefd[1])};
     DWORD mode = PIPE_NOWAIT;
-    SetNamedPipeHandleState(reinterpret_cast<HANDLE>(handle[0]), &mode,
-                                 nullptr, nullptr);
-    SetNamedPipeHandleState(reinterpret_cast<HANDLE>(handle[1]), &mode,
-                                 nullptr, nullptr);
+    SetNamedPipeHandleState(reinterpret_cast<HANDLE>(handle[0]), &mode, nullptr,
+                            nullptr);
+    SetNamedPipeHandleState(reinterpret_cast<HANDLE>(handle[1]), &mode, nullptr,
+                            nullptr);
     return ret;
 #else
     int ret = ::pipe(pipefd);
