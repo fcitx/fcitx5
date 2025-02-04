@@ -20,8 +20,14 @@
 #include <unordered_map>
 #include <utility>
 #include <fcitx-utils/endian_p.h>
-#include "config.h"
+#include "config.h" // IWYU pragma: keep
 #include "environ.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#include <io.h>
+#include <namedpipeapi.h>
+#endif
 
 namespace fcitx {
 
@@ -286,8 +292,20 @@ private:
 };
 
 static inline int safePipe(int pipefd[2]) {
-#ifdef HAVE_PIPE2
+#if defined(HAVE_PIPE2)
     return ::pipe2(pipefd, O_NONBLOCK | O_CLOEXEC);
+#elif defined(_WIN32)
+    auto ret = ::_pipe(pipefd, 256, O_BINARY | O_NOINHERIT);
+    if (ret == -1) {
+        return -1;
+    }
+    std::array handle = {_get_osfhandle(pipefd[0]), _get_osfhandle(pipefd[1])};
+    DWORD mode = PIPE_NOWAIT;
+    SetNamedPipeHandleState(reinterpret_cast<HANDLE>(handle[0]), &mode,
+                                 nullptr, nullptr);
+    SetNamedPipeHandleState(reinterpret_cast<HANDLE>(handle[1]), &mode,
+                                 nullptr, nullptr);
+    return ret;
 #else
     int ret = ::pipe(pipefd);
     if (ret == -1)
