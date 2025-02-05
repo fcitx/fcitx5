@@ -20,7 +20,6 @@
 #include <utility>
 #include <vector>
 #include <cairo.h>
-#include <xcb/xcb.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/color.h"
@@ -45,6 +44,7 @@
 #include "plasmathemewatchdog.h"
 #include "theme.h"
 #ifdef ENABLE_X11
+#include <xcb/xcb.h>
 #include "xcb_public.h"
 #include "xcbui.h"
 #endif
