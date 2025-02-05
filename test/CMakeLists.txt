@@ -28,7 +28,8 @@ set(FCITX_UTILS_TEST
     testrect
     testfallbackuuid
     testsemver
-    testenviron)
+    testenviron
+    testfdstreambuf)
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage
