@@ -152,12 +152,16 @@ std::string getProcessName(pid_t pid) {
 #endif
 }
 
+#ifndef _WIN32
+
 ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n, std::FILE *stream) {
     auto *lineRawPtr = lineptr.release();
     auto ret = getline(&lineRawPtr, n, stream);
     lineptr.reset(lineRawPtr);
     return ret;
 }
+
+#endif
 
 bool isInFlatpak() {
 #ifdef __APPLE__

@@ -132,8 +132,10 @@ inline auto makeUniqueCPtr(T *ptr) {
     return UniqueCPtr<T>(ptr);
 }
 
+#ifndef _WIN32
 FCITXUTILS_DEPRECATED_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr,
                                              size_t *n, std::FILE *stream);
+#endif
 
 /**
  * Util function to check whether fcitx is running in flatpak.
