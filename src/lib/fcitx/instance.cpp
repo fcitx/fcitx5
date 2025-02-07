@@ -8,7 +8,6 @@
 
 #include <fcntl.h>
 #include <signal.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <cstdint>
 #include <ctime>
@@ -50,6 +49,10 @@
 #include "misc_p.h"
 #include "userinterfacemanager.h"
 
+#ifdef HAVE_SYS_WAIT_H
+#include <sys/wait.h>
+#endif
+
 #ifdef ENABLE_X11
 #define FCITX_NO_XCB
 #include <../modules/xcb/xcb_public.h>
@@ -76,6 +79,7 @@ FCITX_CONFIGURATION(DefaultInputMethod,
                         this, "ExtraLayout", "ExtraLayout"};);
 
 void initAsDaemon() {
+#ifndef _WIN32
     pid_t pid;
     if ((pid = fork()) > 0) {
         waitpid(pid, nullptr, 0);
@@ -101,6 +105,7 @@ void initAsDaemon() {
     signal(SIGTTOU, oldttou);
     signal(SIGTTIN, oldttin);
     signal(SIGCHLD, oldchld);
+#endif
 }
 
 // Switch IM when these capabilities change.
@@ -1342,6 +1347,9 @@ void InstanceArgument::parseOption(int argc, char **argv) {
 }
 
 void Instance::setSignalPipe(int fd) {
+#ifdef _WIN32
+    FCITX_UNUSED(fd);
+#else
     FCITX_D();
     d->signalPipe_ = fd;
     d->signalPipeEvent_ = d->eventLoop_.addIOEvent(
@@ -1349,6 +1357,7 @@ void Instance::setSignalPipe(int fd) {
             handleSignal();
             return true;
         });
+#endif
 }
 
 bool Instance::willTryReplace() const {
@@ -1367,6 +1376,7 @@ bool Instance::exiting() const {
 }
 
 void Instance::handleSignal() {
+#ifndef _WIN32
     FCITX_D();
     uint8_t signo = 0;
     while (fs::safeRead(d->signalPipe_, &signo, sizeof(signo)) > 0) {
@@ -1380,6 +1390,7 @@ void Instance::handleSignal() {
             d->zombieReaper_->setOneShot();
         }
     }
+#endif
 }
 
 void Instance::initialize() {
