@@ -132,8 +132,8 @@ inline auto makeUniqueCPtr(T *ptr) {
     return UniqueCPtr<T>(ptr);
 }
 
-FCITXUTILS_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n,
-                                  std::FILE *stream);
+FCITXUTILS_DEPRECATED_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr,
+                                             size_t *n, std::FILE *stream);
 
 /**
  * Util function to check whether fcitx is running in flatpak.
