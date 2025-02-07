@@ -46,6 +46,7 @@
 #cmakedefine HAVE_PIPE2
 #cmakedefine HAVE_SYS_WAIT_H
 #cmakedefine HAVE_SYS_MMAN_H
+#cmakedefine HAVE_SYS_UIO_H
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
