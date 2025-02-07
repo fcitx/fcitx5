@@ -228,13 +228,6 @@ public:
         resetBuffer();
     }
 
-    ~OFDStreamBufPrivate() {
-        FCITX_Q();
-        if (q->is_open()) {
-            q->sync();
-        }
-    }
-
     void resetBuffer() {
         FCITX_Q();
         q->setp(buffer_.get(), buffer_.get() + OBufferSize - 1);
@@ -259,7 +252,11 @@ OFDStreamBuf::OFDStreamBuf(int fd)
     d->fd_ = fd;
 }
 
-OFDStreamBuf::~OFDStreamBuf() {}
+OFDStreamBuf::~OFDStreamBuf() {
+    if (is_open()) {
+        sync();
+    }
+}
 
 bool OFDStreamBuf::is_open() const noexcept {
     FCITX_D();
