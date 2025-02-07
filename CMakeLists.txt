@@ -232,6 +232,7 @@ endif()
 check_function_exists(pipe2 HAVE_PIPE2)
 check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_file(sys/mman.h HAVE_SYS_MMAN_H)
+check_include_file(sys/uio.h HAVE_SYS_UIO_H)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

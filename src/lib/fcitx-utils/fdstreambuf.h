@@ -13,9 +13,9 @@
 
 namespace fcitx {
 
-class IFdStreamBufPrivate;
+class IFDStreamBufPrivate;
 
-class FCITXUTILS_EXPORT IFdStreamBuf : public std::streambuf {
+class FCITXUTILS_EXPORT IFDStreamBuf : public std::streambuf {
 
 public:
     using base_type = std::streambuf;
@@ -25,13 +25,13 @@ public:
     using pos_type = base_type::pos_type;
     using off_type = base_type::off_type;
 
-    IFdStreamBuf(UnixFD fd);
-    IFdStreamBuf(int fd);
-    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(IFdStreamBuf);
+    IFDStreamBuf(UnixFD fd);
+    IFDStreamBuf(int fd);
+    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(IFDStreamBuf);
 
     bool is_open() const noexcept;
 
-    IFdStreamBuf *close();
+    IFDStreamBuf *close();
 
     int fd() const noexcept;
 
@@ -46,13 +46,13 @@ protected:
                                                std::ios_base::out) override;
 
 private:
-    FCITX_DECLARE_PRIVATE(IFdStreamBuf);
-    std::unique_ptr<IFdStreamBufPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(IFDStreamBuf);
+    std::unique_ptr<IFDStreamBufPrivate> d_ptr;
 };
 
-class OFdStreamBufPrivate;
+class OFDStreamBufPrivate;
 
-class FCITXUTILS_EXPORT OFdStreamBuf : public std::streambuf {
+class FCITXUTILS_EXPORT OFDStreamBuf : public std::streambuf {
 
 public:
     using base_type = std::streambuf;
@@ -62,13 +62,13 @@ public:
     using pos_type = base_type::pos_type;
     using off_type = base_type::off_type;
 
-    OFdStreamBuf(UnixFD fd);
-    OFdStreamBuf(int fd);
-    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(OFdStreamBuf);
+    OFDStreamBuf(UnixFD fd);
+    OFDStreamBuf(int fd);
+    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(OFDStreamBuf);
 
     bool is_open() const noexcept;
 
-    OFdStreamBuf *close();
+    OFDStreamBuf *close();
 
     int fd() const noexcept;
 
@@ -84,8 +84,8 @@ protected:
                                                std::ios_base::out) override;
 
 private:
-    FCITX_DECLARE_PRIVATE(OFdStreamBuf);
-    std::unique_ptr<OFdStreamBufPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(OFDStreamBuf);
+    std::unique_ptr<OFDStreamBufPrivate> d_ptr;
 };
 
 } // namespace fcitx

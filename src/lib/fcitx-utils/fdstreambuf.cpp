@@ -1,56 +1,109 @@
-#include "fcitx-utils/fdstreambuf.h"
+/*
+ * SPDX-FileCopyrightText: 2025-2025 CSSlayer <wengxt@gmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+#include "fdstreambuf.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <algorithm>
+#include <cassert>
 #include <cstring>
 #include <ios>
 #include <limits>
 #include <memory>
 #include <streambuf>
 #include <utility>
-#include <bits/types/mbstate_t.h>
-#include "fcitx-utils/fs.h"
-#include "fcitx-utils/macros.h"
-#include "fcitx-utils/unixfd.h"
+#include "config.h"
+#include "fs.h"
+#include "macros.h"
+#include "unixfd.h"
+
+#ifdef HAVE_SYS_UIO_H
+#include <sys/uio.h>
+#endif
 
 namespace fcitx {
 
-static inline constexpr int IBufferSize = 4096;
-static inline constexpr int PutBackSize = 4;
-static inline constexpr int OBufferSize = 8192;
+namespace {
+
+inline constexpr int IBufferSize = 8192;
+inline constexpr int OBufferSize = 8192;
 
 // Wrapper handling partial write.
-static std::streamsize xwrite(int fd, const char *s, std::streamsize n) {
-    std::streamsize nleft = n;
+std::streamsize xwrite(int fd, const char *s, std::streamsize bytesToWrite) {
+    const std::streamsize n = bytesToWrite;
 
-    for (;;) {
-        const std::streamsize ret = fs::safeWrite(fd, s, nleft);
-        if (ret == -1L) {
+    while (true) {
+        const std::streamsize bytesWritten = fs::safeWrite(fd, s, bytesToWrite);
+        if (bytesWritten < 0) {
             break;
         }
-        nleft -= ret;
-        if (nleft == 0) {
+        bytesToWrite -= bytesWritten;
+        if (bytesToWrite == 0) {
             break;
         }
 
-        s += ret;
+        s += bytesWritten;
     }
 
-    return n - nleft;
+    return n - bytesToWrite;
 }
 
-class IFdStreamBufPrivate : public QPtrHolder<IFdStreamBuf> {
-public:
-    IFdStreamBufPrivate(IFdStreamBuf *q) : QPtrHolder(q) {
-        buffer_ = std::make_unique<char[]>(IBufferSize + PutBackSize);
-        resetBuffer(0, 0);
+#ifdef HAVE_SYS_UIO_H
+std::streamsize xwritev(int fd, const char *s1, std::streamsize bytesToWrite1,
+                        const char *s2, std::streamsize bytesToWrite2) {
+    assert(bytesToWrite1 >= 0 && bytesToWrite2 >= 0);
+    const std::streamsize n = bytesToWrite1 + bytesToWrite2;
+
+    struct iovec iov[2];
+    iov[1].iov_base = const_cast<char *>(s2);
+    iov[1].iov_len = bytesToWrite2;
+
+    // Use writev to write s1 & s2
+    while (bytesToWrite1 > 0) {
+        iov[0].iov_base = const_cast<char *>(s1);
+        iov[0].iov_len = bytesToWrite1;
+
+        std::streamsize bytesWritten;
+        do {
+            bytesWritten = writev(fd, iov, 2);
+        } while (bytesWritten == -1 && errno == EINTR);
+        if (bytesWritten < 0) {
+            break;
+        }
+
+        if (bytesToWrite1 < bytesWritten) {
+            // s2 is also partially done, update bytesToWrite2.
+            const std::streamsize bytesWritten2 = bytesWritten - bytesToWrite1;
+            bytesToWrite2 -= bytesWritten2;
+            s2 += bytesToWrite2;
+            bytesToWrite1 = 0;
+        } else {
+            bytesToWrite1 -= bytesWritten;
+        }
     }
 
-    void resetBuffer(size_t nputback, size_t nread) {
+    if (bytesToWrite1 == 0 && bytesToWrite2 > 0) {
+        bytesToWrite2 -= xwrite(fd, s2, bytesToWrite2);
+    }
+
+    return n - bytesToWrite1 - bytesToWrite2;
+}
+#endif
+
+} // namespace
+
+class IFDStreamBufPrivate : public QPtrHolder<IFDStreamBuf> {
+public:
+    IFDStreamBufPrivate(IFDStreamBuf *q) : QPtrHolder(q) {
+        buffer_ = std::make_unique<char[]>(IBufferSize);
+        resetBuffer(0);
+    }
+
+    void resetBuffer(size_t nread) {
         FCITX_Q();
-        q->setg(buffer_.get() + (PutBackSize - nputback),
-                buffer_.get() + PutBackSize,
-                buffer_.get() + PutBackSize + nread);
+        q->setg(buffer_.get(), buffer_.get(), buffer_.get() + nread);
     }
 
     int fd_ = -1;
@@ -59,140 +112,127 @@ public:
     std::unique_ptr<char[]> buffer_;
 };
 
-IFdStreamBuf::IFdStreamBuf(UnixFD fd)
-    : d_ptr(std::make_unique<IFdStreamBufPrivate>(this)) {
+IFDStreamBuf::IFDStreamBuf(UnixFD fd)
+    : d_ptr(std::make_unique<IFDStreamBufPrivate>(this)) {
     FCITX_D();
     d->fd_ = fd.fd();
     d->fdOwner_ = std::move(fd);
 }
 
-IFdStreamBuf::IFdStreamBuf(int fd)
-    : d_ptr(std::make_unique<IFdStreamBufPrivate>(this)) {
+IFDStreamBuf::IFDStreamBuf(int fd)
+    : d_ptr(std::make_unique<IFDStreamBufPrivate>(this)) {
     FCITX_D();
     d->fd_ = fd;
 }
 
-IFdStreamBuf::~IFdStreamBuf() {}
+IFDStreamBuf::~IFDStreamBuf() {}
 
-bool IFdStreamBuf::is_open() const noexcept {
+bool IFDStreamBuf::is_open() const noexcept {
     FCITX_D();
     return d->fd_ != -1;
 }
 
-int IFdStreamBuf::fd() const noexcept {
+int IFDStreamBuf::fd() const noexcept {
     FCITX_D();
     return d->fd_;
 }
 
-IFdStreamBuf *IFdStreamBuf::close() {
+IFDStreamBuf *IFDStreamBuf::close() {
     FCITX_D();
     d->fd_ = -1;
     d->fdOwner_.reset();
     return this;
 }
 
-IFdStreamBuf::int_type IFdStreamBuf::underflow() {
+IFDStreamBuf::int_type IFDStreamBuf::underflow() {
     FCITX_D();
     if (gptr() >= egptr()) {
-
-        // Move the putback_size most-recently-read characters into the putback
-        // area
-        size_t nputback = std::min<size_t>(gptr() - eback(), PutBackSize);
-        std::memmove(d->buffer_.get() + (PutBackSize - nputback),
-                     gptr() - nputback, nputback);
-
-        // Now read new characters from the file descriptor
-        auto nread =
-            fs::safeRead(d->fd_, d->buffer_.get() + PutBackSize, IBufferSize);
-        if (nread <= 0) {
+        auto bytesRead = fs::safeRead(d->fd_, d->buffer_.get(), IBufferSize);
+        if (bytesRead <= 0) {
             // EOF
             return traits_type::eof();
         }
 
         // Reset the buffer
-        d->resetBuffer(nputback, nread);
+        d->resetBuffer(bytesRead);
     }
 
     // Return the next character
     return traits_type::to_int_type(*gptr());
 }
 
-std::streamsize IFdStreamBuf::xsgetn(char *s, std::streamsize n) {
+std::streamsize IFDStreamBuf::xsgetn(char *s, std::streamsize bytesToRead) {
     FCITX_D();
-    // Use heuristic to decide whether to read directly
-    // Read directly only if n >= bytes_available + 4096
+    const std::streamsize bytesAvailable = egptr() - gptr();
 
-    std::streamsize bytes_available = egptr() - gptr();
-
-    if (n < bytes_available + IBufferSize) {
-        // Not worth it to do a direct read
-        return std::streambuf::xsgetn(s, n);
+    if (bytesToRead < bytesAvailable + IBufferSize) {
+        // For small read, reuse std::streambuf logic
+        // It will call overflow().
+        return std::streambuf::xsgetn(s, bytesToRead);
     }
 
-    std::streamsize total_bytes_read = 0;
+    assert(bytesToRead >= bytesAvailable);
+    const std::streamsize n = bytesToRead;
 
-    // First, copy out the bytes currently in the buffer
+    // Copy all existing buffer to output
     s = std::copy(gptr(), egptr(), s);
-    n -= bytes_available;
-    total_bytes_read += bytes_available;
+    bytesToRead -= bytesAvailable;
 
-    // Now do the direct read
-    while (n > 0) {
-        const auto bytesRead = fs::safeRead(d->fd_, s, n);
+    while (bytesToRead > 0) {
+        const auto bytesRead = fs::safeRead(d->fd_, s, bytesToRead);
         if (bytesRead <= 0) {
             // EOF
             break;
         }
 
         s += bytesRead;
-        n -= bytesRead;
-        total_bytes_read += bytesRead;
+        bytesToRead -= bytesRead;
     }
 
-    // Fill up the putback area with the most recently read characters
-    size_t nputback = std::min<size_t>(total_bytes_read, PutBackSize);
-    std::memcpy(d->buffer_.get() + (PutBackSize - nputback), s - nputback,
-                nputback);
+    d->resetBuffer(0);
 
-    // Reset the buffer with no bytes available for reading, but with some
-    // putback characters
-    d->resetBuffer(nputback, 0);
-
-    // Return the total number of bytes read
-    return total_bytes_read;
+    return n - bytesToRead;
 }
 
-IFdStreamBuf::pos_type
-IFdStreamBuf::seekoff(off_type off, std::ios_base::seekdir dir,
+IFDStreamBuf::pos_type
+IFDStreamBuf::seekoff(off_type off, std::ios_base::seekdir dir,
                       std::ios_base::openmode /*unused*/) {
     FCITX_D();
     if (!is_open()) {
-        return -1L;
+        return -1;
     }
 
     if (off != 0 || dir != std::ios_base::cur) {
-        d->resetBuffer(0, 0);
+        d->resetBuffer(0);
     }
 
     if constexpr (sizeof(off_type) > sizeof(off_t)) {
         if (off > std::numeric_limits<off_t>::max() ||
             off < std::numeric_limits<off_t>::min()) {
-            return -1L;
+            return -1;
         }
     }
     return lseek(fd(), off, dir);
 }
 
-IFdStreamBuf::pos_type
-IFdStreamBuf::seekpos(pos_type pos, std::ios_base::openmode /*unused*/) {
+IFDStreamBuf::pos_type
+IFDStreamBuf::seekpos(pos_type pos, std::ios_base::openmode /*unused*/) {
     std::fpos<mbstate_t> f;
     return seekoff(pos - pos_type(0), std::ios_base::beg);
 }
 
-class OFdStreamBufPrivate : public QPtrHolder<OFdStreamBuf> {
+class OFDStreamBufPrivate : public QPtrHolder<OFDStreamBuf> {
 public:
-    OFdStreamBufPrivate(OFdStreamBuf *q) : QPtrHolder(q) {
+    OFDStreamBufPrivate(OFDStreamBuf *q) : QPtrHolder(q) {
         buffer_ = std::make_unique<char[]>(OBufferSize);
+        resetBuffer();
+    }
+
+    ~OFDStreamBufPrivate() {
+        FCITX_Q();
+        if (q->is_open()) {
+            q->sync();
+        }
     }
 
     void resetBuffer() {
@@ -206,32 +246,32 @@ public:
     std::unique_ptr<char[]> buffer_;
 };
 
-OFdStreamBuf::OFdStreamBuf(UnixFD fd)
-    : d_ptr(std::make_unique<OFdStreamBufPrivate>(this)) {
+OFDStreamBuf::OFDStreamBuf(UnixFD fd)
+    : d_ptr(std::make_unique<OFDStreamBufPrivate>(this)) {
     FCITX_D();
     d->fd_ = fd.fd();
     d->fdOwner_ = std::move(fd);
 }
 
-OFdStreamBuf::OFdStreamBuf(int fd)
-    : d_ptr(std::make_unique<OFdStreamBufPrivate>(this)) {
+OFDStreamBuf::OFDStreamBuf(int fd)
+    : d_ptr(std::make_unique<OFDStreamBufPrivate>(this)) {
     FCITX_D();
     d->fd_ = fd;
 }
 
-OFdStreamBuf::~OFdStreamBuf() {}
+OFDStreamBuf::~OFDStreamBuf() {}
 
-bool OFdStreamBuf::is_open() const noexcept {
+bool OFDStreamBuf::is_open() const noexcept {
     FCITX_D();
     return d->fd_ != -1;
 }
 
-int OFdStreamBuf::fd() const noexcept {
+int OFDStreamBuf::fd() const noexcept {
     FCITX_D();
     return d->fd_;
 }
 
-OFdStreamBuf *OFdStreamBuf::close() {
+OFDStreamBuf *OFDStreamBuf::close() {
     FCITX_D();
     d->fd_ = -1;
     d->fdOwner_.reset();
@@ -239,7 +279,7 @@ OFdStreamBuf *OFdStreamBuf::close() {
     return this;
 }
 
-OFdStreamBuf::int_type OFdStreamBuf::overflow(int_type ch) {
+OFDStreamBuf::int_type OFDStreamBuf::overflow(int_type ch) {
     FCITX_D();
     const char *p = pbase();
     std::streamsize bytesToWrite = pptr() - p;
@@ -247,7 +287,7 @@ OFdStreamBuf::int_type OFdStreamBuf::overflow(int_type ch) {
     const bool isEOF = traits_type::eq_int_type(ch, traits_type::eof());
 
     if (!isEOF) {
-        // We always reserver 1 byte in buffer, even if
+        // We always reserver 1 byte in buffer, so even if
         // pptr == epptr, we can still write 1 byte.
         *pptr() = ch;
         ++bytesToWrite;
@@ -262,35 +302,45 @@ OFdStreamBuf::int_type OFdStreamBuf::overflow(int_type ch) {
     return traits_type::eof();
 }
 
-int OFdStreamBuf::sync() {
+int OFDStreamBuf::sync() {
     const auto ret = overflow(traits_type::eof());
     return traits_type::eq_int_type(ret, traits_type::eof()) ? 0 : -1;
 }
 
-std::streamsize OFdStreamBuf::xsputn(const char *s, std::streamsize n) {
+std::streamsize OFDStreamBuf::xsputn(const char *s, std::streamsize n) {
     FCITX_D();
-    const std::streamsize bufferCapacity = this->epptr() - this->pptr();
+    const std::streamsize bufferCapacity = epptr() - pptr();
     if (n < std::min<std::streamsize>(OBufferSize / 2, bufferCapacity)) {
-        // Not worth it to do a direct write
+        // For small write, reuse std::streambuf logic.
         return std::streambuf::xsputn(s, n);
     }
 
-    // Before we can do a direct write of this string, we need to flush
-    // out the current contents of the buffer.
+    // Flush buffer if not empty.
     if (pbase() != pptr()) {
-        overflow(traits_type::eof()); // throws an exception or it succeeds
+#ifdef HAVE_SYS_UIO_H
+        const std::streamsize bytesInBuffer = pptr() - pbase();
+        const std::streamsize bytesWritten =
+            xwritev(d->fd_, pbase(), bytesInBuffer, s, n);
+        d->resetBuffer();
+        // Return only bytes written belong to s.
+        return (bytesWritten > bytesInBuffer) ? (bytesWritten - bytesInBuffer)
+                                              : 0;
+#else
+        if (sync() < 0) {
+            return 0;
+        }
+#endif
     }
 
-    // Now we can go ahead and write out the string.
     return xwrite(d->fd_, s, n);
 }
 
-OFdStreamBuf::pos_type
-OFdStreamBuf::seekoff(off_type off, std::ios_base::seekdir dir,
+OFDStreamBuf::pos_type
+OFDStreamBuf::seekoff(off_type off, std::ios_base::seekdir dir,
                       std::ios_base::openmode /*unused*/) {
     FCITX_D();
     if (!is_open()) {
-        return -1L;
+        return -1;
     }
 
     if (off != 0 || dir != std::ios_base::cur) {
@@ -300,14 +350,14 @@ OFdStreamBuf::seekoff(off_type off, std::ios_base::seekdir dir,
     if constexpr (sizeof(off_type) > sizeof(off_t)) {
         if (off > std::numeric_limits<off_t>::max() ||
             off < std::numeric_limits<off_t>::min()) {
-            return -1L;
+            return -1;
         }
     }
     return lseek(fd(), off, dir);
 }
 
-OFdStreamBuf::pos_type
-OFdStreamBuf::seekpos(pos_type pos, std::ios_base::openmode /*unused*/) {
+OFDStreamBuf::pos_type
+OFDStreamBuf::seekpos(pos_type pos, std::ios_base::openmode /*unused*/) {
     std::fpos<mbstate_t> f;
     return seekoff(pos - pos_type(0), std::ios_base::beg);
 }
