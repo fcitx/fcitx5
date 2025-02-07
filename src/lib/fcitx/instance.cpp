@@ -1427,6 +1427,7 @@ void Instance::initialize() {
             }
             return false;
         });
+#ifndef _WIN32
     d->zombieReaper_ = d->eventLoop_.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
         [](EventSourceTime *, uint64_t) {
@@ -1436,6 +1437,7 @@ void Instance::initialize() {
             return false;
         });
     d->zombieReaper_->setEnabled(false);
+#endif
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_DEBUG() << "Running save...";
