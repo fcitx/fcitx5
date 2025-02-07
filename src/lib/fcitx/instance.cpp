@@ -8,9 +8,7 @@
 
 #include <fcntl.h>
 #include <signal.h>
-#ifndef _WIN32
 #include <sys/wait.h>
-#endif
 #include <unistd.h>
 #include <cstdint>
 #include <ctime>
