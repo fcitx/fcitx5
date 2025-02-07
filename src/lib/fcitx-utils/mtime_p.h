@@ -42,7 +42,8 @@ modifiedTimeImpl(const T &p, int /*unused*/) {
 }
 #endif
 
-inline Timespec modifiedTimeImpl(const struct stat &p, unsigned long /*unused*/) {
+inline Timespec modifiedTimeImpl(const struct stat &p,
+                                 unsigned long /*unused*/) {
     return {p.st_mtime, 0};
 }
 
