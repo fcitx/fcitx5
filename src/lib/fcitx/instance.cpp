@@ -1365,7 +1365,6 @@ bool Instance::exiting() const {
 }
 
 void Instance::handleSignal() {
-#ifndef _WIN32
     FCITX_D();
     uint8_t signo = 0;
     while (fs::safeRead(d->signalPipe_, &signo, sizeof(signo)) > 0) {
@@ -1379,7 +1378,6 @@ void Instance::handleSignal() {
             d->zombieReaper_->setOneShot();
         }
     }
-#endif
 }
 
 void Instance::initialize() {
