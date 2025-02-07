@@ -13,6 +13,7 @@
 #include <string>
 #include <type_traits>
 #include <fcitx-utils/charutils.h>
+#include <fcitx-utils/environ.h>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/misc_p.h>
 #include <fcitx-utils/stringutils.h>
@@ -103,8 +104,8 @@ static inline std::string getLocalMachineId(const std::string &fallback = {}) {
 
 // Return false if XDG_SESSION_TYPE is set and is not given type.
 static inline bool isSessionType(std::string_view type) {
-    const char *sessionType = getenv("XDG_SESSION_TYPE");
-    if (sessionType && std::string_view(sessionType) != type) {
+    auto sessionType = getEnvironment("XDG_SESSION_TYPE");
+    if (sessionType && *sessionType != type) {
         return false;
     }
     return true;
@@ -128,15 +129,13 @@ enum class DesktopType {
 static inline DesktopType getDesktopType() {
     std::string desktop;
     // new standard
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
+    if (auto desktopEnv = getEnvironment("XDG_CURRENT_DESKTOP")) {
+        desktop = std::move(*desktopEnv);
     }
     if (desktop.empty()) {
         // old standard, guaranteed by display manager.
-        desktopEnv = getenv("DESKTOP_SESSION");
-        if (desktopEnv) {
-            desktop = desktopEnv;
+        if (auto desktopEnv = getEnvironment("DESKTOP_SESSION")) {
+            desktop = std::move(*desktopEnv);
         }
     }
 
@@ -147,11 +146,10 @@ static inline DesktopType getDesktopType() {
         stringutils::split(desktop, ":", stringutils::SplitBehavior::SkipEmpty);
     for (const auto &desktop : desktops) {
         if (desktop == "kde") {
-            auto *version = getenv("KDE_SESSION_VERSION");
             auto versionInt = 0;
-            if (version) {
+            if (auto version = getEnvironment("KDE_SESSION_VERSION")) {
                 try {
-                    versionInt = std::stoi(version);
+                    versionInt = std::stoi(*version);
                 } catch (...) {
                 }
             }
@@ -223,9 +221,9 @@ static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
 
 static inline std::string getCurrentLanguage() {
     for (const char *vars : {"LC_ALL", "LC_MESSAGES", "LANG"}) {
-        auto *lang = getenv(vars);
-        if (lang && lang[0]) {
-            return lang;
+        auto lang = getEnvironment(vars);
+        if (lang && !lang->empty()) {
+            return std::move(*lang);
         }
     }
     return "";

@@ -22,6 +22,7 @@
 #include <getopt.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
@@ -157,23 +158,23 @@ void InstanceArgument::printUsage() const {
 }
 
 InstancePrivate::InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {
-
-    const char *locale = getenv("LC_ALL");
+#ifdef ENABLE_KEYBOARD
+    auto locale = getEnvironment("LC_ALL");
     if (!locale) {
-        locale = getenv("LC_CTYPE");
+        locale = getEnvironment("LC_CTYPE");
     }
     if (!locale) {
-        locale = getenv("LANG");
+        locale = getEnvironment("LANG");
     }
     if (!locale) {
         locale = "C";
     }
-#ifdef ENABLE_KEYBOARD
+    assert(locale.has_value());
     xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
     if (xkbContext_) {
         xkb_context_set_log_level(xkbContext_.get(), XKB_LOG_LEVEL_CRITICAL);
         xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
-            xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
+            xkbContext_.get(), locale->data(), XKB_COMPOSE_COMPILE_NO_FLAGS));
         if (!xkbComposeTable_) {
             FCITX_INFO()
                 << "Trying to fallback to compose table for en_US.UTF-8";

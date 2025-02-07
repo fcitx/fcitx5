@@ -11,6 +11,7 @@
 #include <regex>
 #include <stdexcept>
 #include <string>
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/utf8.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"
@@ -26,11 +27,11 @@ namespace {
 bool shouldDisablePreeditByDefault(const std::string &program) {
     static const std::vector<std::regex> matchers = []() {
         std::vector<std::regex> matchers;
-        const char *apps = getenv("FCITX_NO_PREEDIT_APPS");
+        auto apps = getEnvironment("FCITX_NO_PREEDIT_APPS");
         if (!apps) {
             apps = NO_PREEDIT_APPS;
         }
-        auto matcherStrings = stringutils::split(apps, ",");
+        auto matcherStrings = stringutils::split(*apps, ",");
         for (const auto &matcherString : matcherStrings) {
             try {
                 matchers.emplace_back(matcherString, std::regex::icase |

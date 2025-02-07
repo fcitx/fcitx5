@@ -8,6 +8,7 @@
 #include <iostream>
 #include <getopt.h>
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/utf8.h"
 
 using namespace fcitx;
@@ -251,15 +252,15 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     if (messageType == FCITX_DBUS_OPEN_X11_CONNECTION) {
-        auto x11Display = getenv("DISPLAY");
+        auto x11Display = getEnvironment("DISPLAY");
         if (!x11Display) {
             std::cerr << "DISPLAY is not set." << std::endl;
             return 1;
         }
-        message << x11Display;
+        message << *x11Display;
         auto reply = message.call(defaultTimeout);
         if (reply.isError()) {
-            std::cerr << "Failed to open X11 display: " << x11Display
+            std::cerr << "Failed to open X11 display: " << *x11Display
                       << std::endl
                       << reply.errorName() << " " << reply.errorMessage()
                       << std::endl;

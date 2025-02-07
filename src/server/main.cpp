@@ -14,6 +14,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
@@ -44,8 +45,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    auto *home = getenv("HOME");
-    if (!home || home[0] == '\0') {
+    auto home = getEnvironment("HOME");
+    if (!home || home->empty()) {
         fprintf(stderr, "Please set HOME.\n");
         return 1;
     }
