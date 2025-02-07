@@ -7,9 +7,11 @@
 #include "quickphraseprovider.h"
 #include <fcntl.h>
 #include <cstddef>
+#include <istream>
 #include <string>
 #include <string_view>
 #include <utility>
+#include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
@@ -45,7 +47,7 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
     if (auto file = StandardPath::global().open(
             StandardPath::Type::PkgData, "data/QuickPhrase.mb", O_RDONLY);
         file.fd() >= 0) {
-        load(fs::openFD(file, "rb"));
+        load(file.fd());
     }
 
     auto files = StandardPath::global().locate(StandardPath::Type::PkgData,
@@ -59,19 +61,18 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
             continue;
         }
         UnixFD fd = UnixFD::own(open(p.second.c_str(), O_RDONLY));
-        load(fs::openFD(fd, "rb"));
+        if (fd.isValid()) {
+            load(fd.fd());
+        }
     }
 }
 
-void BuiltInQuickPhraseProvider::load(UniqueFilePtr fp) {
-    if (!fp) {
-        return;
-    }
-
-    UniqueCPtr<char> buf;
-    size_t len = 0;
-    while (getline(buf, &len, fp.get()) != -1) {
-        std::string_view text = stringutils::trimView(buf.get());
+void BuiltInQuickPhraseProvider::load(int fd) {
+    IFDStreamBuf buf(fd);
+    std::istream in(&buf);
+    std::string line;
+    while (std::getline(in, line)) {
+        std::string_view text = stringutils::trimView(line);
         if (text.empty()) {
             continue;
         }

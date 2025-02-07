@@ -8,8 +8,10 @@
 #include <fcntl.h>
 #include <cstdio>
 #include <functional>
+#include <istream>
 #include <string>
 #include <string_view>
+#include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
@@ -21,17 +23,11 @@
 
 namespace fcitx {
 
-void readFromIni(RawConfig &config, int fd) {
-    if (fd < 0) {
-        return;
-    }
-    // dup it
-    UnixFD unixFD(fd);
-    UniqueFilePtr fp = fs::openFD(unixFD, "rb");
+void readFromIni(RawConfig &config, FILE *fp) {
     if (!fp) {
         return;
     }
-    readFromIni(config, fp.get());
+    readFromIni(config, fileno(fp));
 }
 
 bool writeAsIni(const RawConfig &config, int fd) {
@@ -47,15 +43,17 @@ bool writeAsIni(const RawConfig &config, int fd) {
     return writeAsIni(config, fp.get());
 }
 
-void readFromIni(RawConfig &config, FILE *fin) {
+void readFromIni(RawConfig &config, int fd) {
     std::string currentGroup;
 
-    UniqueCPtr<char> clineBuf;
-    size_t bufSize = 0;
-    unsigned int line = 0;
-    while (getline(clineBuf, &bufSize, fin) >= 0) {
-        line++;
-        std::string_view lineBuf = stringutils::trimView(clineBuf.get());
+    IFDStreamBuf buf(fd);
+    std::istream in(&buf);
+    std::string line;
+
+    unsigned int lineNumber = 0;
+    while (std::getline(in, line)) {
+        lineNumber++;
+        std::string_view lineBuf = stringutils::trimView(line);
         if (lineBuf.empty() || lineBuf.front() == '#') {
             continue;
         }
@@ -63,9 +61,9 @@ void readFromIni(RawConfig &config, FILE *fin) {
         if (lineBuf.front() == '[' && lineBuf.back() == ']') {
             currentGroup = lineBuf.substr(1, lineBuf.size() - 2);
             config.visitItemsOnPath(
-                [line](RawConfig &config, const std::string &) {
+                [lineNumber](RawConfig &config, const std::string &) {
                     if (!config.lineNumber()) {
-                        config.setLineNumber(line);
+                        config.setLineNumber(lineNumber);
                     }
                 },
                 currentGroup);
@@ -90,7 +88,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
                 subConfig = config.get(std::string(name), true);
             }
             subConfig->setValue(*value);
-            subConfig->setLineNumber(line);
+            subConfig->setLineNumber(lineNumber);
         }
     }
 }

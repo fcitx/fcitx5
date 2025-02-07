@@ -39,7 +39,7 @@ public:
     void reloadConfig();
 
 private:
-    void load(UniqueFilePtr fp);
+    void load(int fd);
     std::multimap<std::string, std::string> map_;
 };
 
