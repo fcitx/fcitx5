@@ -681,6 +681,27 @@ public:
 
     void setLogRule(const std::string &rule) { Log::setLogRule(rule); }
 
+    std::vector<
+        dbus::DBusStruct<std::string, std::string, std::string, std::string,
+                         std::string, std::string, std::string, bool>>
+    currentInputMethodInfo() {
+        std::vector<
+            dbus::DBusStruct<std::string, std::string, std::string, std::string,
+                             std::string, std::string, std::string, bool>>
+            result;
+        std::string currentIM = instance_->currentInputMethod();
+        const auto *entry = instance_->inputMethodManager().entry(currentIM);
+        if (entry == nullptr) {
+            return {};
+        }
+
+        result.emplace_back(entry->uniqueName(), entry->name(),
+                            entry->nativeName(), entry->icon(), entry->label(),
+                            entry->languageCode(), entry->addon(),
+                            entry->isConfigurable());
+        return result;
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -750,6 +771,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(save, "Save", "", "");
     FCITX_OBJECT_VTABLE_METHOD(setLogRule, "SetLogRule", "s", "");
     FCITX_OBJECT_VTABLE_METHOD(canRestart, "CanRestart", "", "b");
+    FCITX_OBJECT_VTABLE_METHOD(currentInputMethodInfo, "CurrentInputMethodInfo",
+                               "", "a(sssssssb)");
 };
 
 DBusModule::DBusModule(Instance *instance)
