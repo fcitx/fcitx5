@@ -6,11 +6,18 @@
  */
 #include "testing.h"
 #include <cstdlib>
+#include <filesystem>
 #include <string>
 #include <vector>
 #include "environ.h"
 #include "standardpath.h"
 #include "stringutils.h"
+
+#ifdef _WIN32
+#define PATH_DELIMITER ";"
+#else
+#define PATH_DELIMITER ":"
+#endif
 
 namespace fcitx {
 
@@ -36,7 +43,7 @@ void setupTestingEnvironment(const std::string &testBinaryDir,
     fullAddonDirs.push_back(StandardPath::fcitxPath("addondir"));
 
     setEnvironment("FCITX_ADDON_DIRS",
-                   stringutils::join(fullAddonDirs, ":").data());
+                   stringutils::join(fullAddonDirs, PATH_DELIMITER).data());
     // Make sure we don't write to user data.
     setEnvironment("FCITX_DATA_HOME", "/Invalid/Path");
     // Make sure we don't write to user data.
@@ -48,7 +55,7 @@ void setupTestingEnvironment(const std::string &testBinaryDir,
         if (dataDir.empty()) {
             continue;
         }
-        if (dataDir[0] == '/') {
+        if (std::filesystem::path(dataDir).is_absolute()) {
             fullDataDirs.push_back(dataDir);
         } else {
             fullDataDirs.push_back(
@@ -58,7 +65,7 @@ void setupTestingEnvironment(const std::string &testBinaryDir,
     // Include the three testing only addons.
     fullDataDirs.push_back(StandardPath::fcitxPath("pkgdatadir", "testing"));
     setEnvironment("FCITX_DATA_DIRS",
-                   stringutils::join(fullDataDirs, ":").data());
+                   stringutils::join(fullDataDirs, PATH_DELIMITER).data());
 }
 
 } // namespace fcitx

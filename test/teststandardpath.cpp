@@ -20,10 +20,17 @@ using namespace fcitx;
 
 #define TEST_ADDON_DIR FCITX5_SOURCE_DIR "/test/addon"
 
+#ifdef _WIN32
+#define PATH_DELIMITER ";"
+#else
+#define PATH_DELIMITER ":"
+#endif
+
 void test_basic() {
     setEnvironment("XDG_CONFIG_HOME", "/TEST/PATH");
     setEnvironment("XDG_CONFIG_DIRS",
-                   "/TEST/PATH1/:/TEST/PATH2:/TEST/PATH2/:/TEST/PATH1");
+                   "/TEST/PATH1/" PATH_DELIMITER "/TEST/PATH2" PATH_DELIMITER
+                   "/TEST/PATH2/" PATH_DELIMITER "/TEST/PATH1");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPath standardPath(true);
 
@@ -88,7 +95,8 @@ void test_basic() {
 
 void test_nouser() {
     setEnvironment("XDG_CONFIG_HOME", "/TEST/PATH");
-    setEnvironment("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2");
+    setEnvironment("XDG_CONFIG_DIRS",
+                   "/TEST/PATH1" PATH_DELIMITER "/TEST/PATH2");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPath standardPath(true, true);
 
@@ -138,7 +146,8 @@ void test_nouser() {
 
 void test_custom() {
     setEnvironment("XDG_CONFIG_HOME", "/TEST/PATH");
-    setEnvironment("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2");
+    setEnvironment("XDG_CONFIG_DIRS",
+                   "/TEST/PATH1" PATH_DELIMITER "/TEST/PATH2");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPath path("mypackage", {{"datadir", "/TEST/PATH3"}}, false, false);
     FCITX_ASSERT(path.directories(fcitx::StandardPath::Type::PkgConfig) ==

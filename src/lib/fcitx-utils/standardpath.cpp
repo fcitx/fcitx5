@@ -40,6 +40,9 @@
 #ifdef _WIN32
 #include <io.h>
 #include "utf8.h"
+#define PATH_DELIMITER ";"
+#else
+#define PATH_DELIMITER ":"
 #endif
 
 #if __has_include(<paths.h>)
@@ -117,10 +120,10 @@ public:
         for (auto &path : pkgconfigDirFallback) {
             path = constructPath(path, packageName);
         }
-        pkgconfigDirs_ =
-            defaultPaths((isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
-                         stringutils::join(pkgconfigDirFallback, ":").c_str(),
-                         builtInPathMap, nullptr);
+        pkgconfigDirs_ = defaultPaths(
+            (isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
+            stringutils::join(pkgconfigDirFallback, PATH_DELIMITER).c_str(),
+            builtInPathMap, nullptr);
 
         dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
         pkgdataHome_ =
@@ -135,8 +138,8 @@ public:
         }
         pkgdataDirs_ = defaultPaths(
             (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
-            stringutils::join(pkgdataDirFallback, ":").c_str(), builtInPathMap,
-            skipBuiltInPath_ ? nullptr : "pkgdatadir");
+            stringutils::join(pkgdataDirFallback, PATH_DELIMITER).c_str(),
+            builtInPathMap, skipBuiltInPath_ ? nullptr : "pkgdatadir");
         cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
         auto tmpdir = getEnvironment("TMPDIR");
         runtimeDir_ =
@@ -262,7 +265,7 @@ private:
         }
         assert(dir.has_value());
 
-        auto rawDirs = stringutils::split(*dir, ":");
+        auto rawDirs = stringutils::split(*dir, PATH_DELIMITER);
         for (auto &rawDir : rawDirs) {
             rawDir = fs::cleanPath(rawDir);
         }
@@ -762,7 +765,7 @@ std::string StandardPath::findExecutable(const std::string &name) {
         }
 #endif
     }
-    auto paths = stringutils::split(sEnv, ":");
+    auto paths = stringutils::split(sEnv, PATH_DELIMITER);
     for (auto &path : paths) {
         path = fs::cleanPath(path);
         auto fullPath = constructPath(path, name);
