@@ -6,10 +6,12 @@
  */
 #include <unistd.h>
 #include <atomic>
+#include <mutex>
 #include <thread>
 #include <vector>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/trackableobject.h"
 
@@ -102,11 +104,43 @@ void withContext() {
     FCITX_ASSERT(!invalidCalled);
 }
 
+void scheduleNull() {
+    EventLoop e;
+    EventDispatcher dispatcher;
+    std::mutex readyLock;
+    bool ready = false;
+    // Post event may run immediately after exec, so we need a "ready" to ensure
+    // it is after schedule the event.
+    auto post = e.addPostEvent([&ready, &readyLock, &e](EventSource *) {
+        FCITX_INFO() << "POST IO";
+        {
+            std::lock_guard<std::mutex> lock(readyLock);
+            if (ready) {
+                e.exit();
+            }
+        }
+        return true;
+    });
+    dispatcher.attach(&e);
+    std::thread thread([&dispatcher, &ready, &readyLock]() {
+        sleep(2);
+        {
+            std::lock_guard<std::mutex> lock(readyLock);
+            ready = true;
+        }
+        // Test schedule nullptr is accepted.
+        dispatcher.schedule(nullptr);
+    });
+    e.exec();
+    thread.join();
+}
+
 int main() {
     fcitx::Log::setLogRule("*=5");
     basicTest();
     testOrder();
     recursiveSchedule();
     withContext();
+    scheduleNull();
     return 0;
 }

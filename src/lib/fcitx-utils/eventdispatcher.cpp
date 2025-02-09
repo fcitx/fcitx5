@@ -65,14 +65,14 @@ void EventDispatcher::detach() {
 
 void EventDispatcher::schedule(std::function<void()> functor) {
     FCITX_D();
-    if (!functor) {
-        return;
-    }
     std::lock_guard<std::mutex> lock(d->mutex_);
-    if (!d->asyncEvent_) {
-        return;
+    // functor can be null and we will still trigger async event.
+    if (functor) {
+        if (!d->asyncEvent_) {
+            return;
+        }
+        d->eventList_.push(std::move(functor));
     }
-    d->eventList_.push(std::move(functor));
     d->asyncEvent_->send();
 }
 
