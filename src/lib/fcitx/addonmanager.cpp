@@ -250,7 +250,9 @@ void AddonManager::unregisterLoader(const std::string &name) {
 }
 
 void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
+#ifndef FCITX_NO_DL
     registerLoader(std::make_unique<SharedLibraryLoader>());
+#endif
     if (registry) {
         registerLoader(std::make_unique<StaticLibraryLoader>(registry));
     }
