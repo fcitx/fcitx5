@@ -92,7 +92,6 @@ set(FCITX_UTILS_HEADERS
     intrusivelist.h
     misc.h
     utf8.h
-    cutf8.h
     element.h
     rect.h
     charutils.h
