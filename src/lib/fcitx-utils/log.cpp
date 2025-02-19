@@ -6,6 +6,7 @@
  */
 
 #include "log.h"
+#include <chrono>
 #include <cstdlib>
 #include <exception>
 #include <iostream>
@@ -17,14 +18,9 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <fmt/format.h>
+#include <format>
 #include "macros.h"
 #include "stringutils.h"
-
-#if FMT_VERSION >= 50300
-#include <chrono>
-#include <fmt/chrono.h>
-#endif
 
 namespace fcitx {
 
@@ -215,20 +211,19 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
         break;
     }
 
-#if FMT_VERSION >= 50300
     if (globalLogConfig.showTimeDate) {
         try {
-            auto now = std::chrono::system_clock::now();
-            auto floor = std::chrono::floor<std::chrono::seconds>(now);
-            auto micro = std::chrono::duration_cast<std::chrono::microseconds>(
-                now - floor);
-            auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
-            auto timeString = fmt::format("{:%F %T}.{:06d}", t, micro.count());
+            auto now = std::chrono::time_point_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now());
+            auto current_zone = std::chrono::current_zone();
+            std::chrono::zoned_time zoned_time{current_zone, now};
+
+            auto timeString = std::format("{:%F %T}", zoned_time);
             out_ << timeString << " ";
         } catch (...) {
         }
     }
-#endif
+
     out_ << filename << ":" << lineNumber << "] ";
 }
 

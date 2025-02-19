@@ -21,7 +21,9 @@
 #include <iomanip>
 #include <set>
 #include <sstream>
-#include <fmt/format.h>
+#include <string>
+#include <vector>
+#include <format>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
@@ -442,7 +444,7 @@ CharSelectData::approximateEquivalents(uint32_t unicode) const {
 }
 
 std::string FormatCode(uint32_t code, int length, const char *prefix) {
-    return fmt::format("{0}{1:0{2}x}", prefix, code, length);
+    return std::format("{0}{1:0{2}x}", prefix, code, length);
 }
 
 void CharSelectData::appendToIndex(uint32_t unicode, const std::string &str) {
