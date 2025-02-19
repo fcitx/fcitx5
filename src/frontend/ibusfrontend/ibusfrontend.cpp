@@ -23,8 +23,7 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-#include <fmt/core.h>
-#include <fmt/format.h>
+#include <format>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/capabilityflags.h"
@@ -933,7 +932,7 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     ICUUID uuid;
     generateUUID(uuid.data());
     for (auto v : uuid) {
-        address.append(fmt::format("{:02x}", static_cast<int>(v)));
+        address.append(std::format("{:02x}", static_cast<int>(v)));
     }
     FCITX_IBUS_DEBUG() << "IBus address is written with: " << address;
     config.setValueByPath("IBUS_ADDRESS", address);

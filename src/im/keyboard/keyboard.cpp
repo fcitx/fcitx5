@@ -18,8 +18,6 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-#include <fmt/core.h>
-#include <fmt/format.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
@@ -255,8 +253,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto language = findBestLanguage(isoCodes, layoutInfo.description,
                                          layoutInfo.languages);
         auto description =
-            fmt::format(_("Keyboard - {0}"),
-                        D_("xkeyboard-config", layoutInfo.description));
+            formatUnchecked(_("Keyboard - {0}"),
+                            D_("xkeyboard-config", layoutInfo.description));
         auto uniqueName = imNamePrefix + layoutInfo.name;
         if (uniqueName == "keyboard-us") {
             usExists = true;
@@ -273,10 +271,10 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                              !variantInfo.languages.empty()
                                                  ? variantInfo.languages
                                                  : layoutInfo.languages);
-            auto description =
-                fmt::format(_("Keyboard - {0} - {1}"),
-                            D_("xkeyboard-config", layoutInfo.description),
-                            D_("xkeyboard-config", variantInfo.description));
+            auto description = formatUnchecked(
+                _("Keyboard - {0} - {1}"),
+                D_("xkeyboard-config", layoutInfo.description),
+                D_("xkeyboard-config", variantInfo.description));
             auto uniqueName = stringutils::concat(imNamePrefix, layoutInfo.name,
                                                   "-", variantInfo.name);
 
@@ -289,7 +287,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
             // chr. So "chr (chr)" would be redundant in this case.
             if (variantLabel != variantInfo.name) {
                 variantLabel =
-                    fmt::format("{0} ({1})", variantLabel, variantInfo.name);
+                    std::format("{0} ({1})", variantLabel, variantInfo.name);
             }
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
@@ -313,13 +311,13 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                 if (uniqueName == "keyboard-us") {
                     usExists = true;
                 }
-                result.push_back(
-                    std::move(InputMethodEntry(
-                                  uniqueName,
-                                  fmt::format(_("{0} (Not Available)"), *desc),
-                                  *lang, "keyboard")
-                                  .setLabel(*label)
-                                  .setIcon("input-keyboard")));
+                result.push_back(std::move(
+                    InputMethodEntry(
+                        uniqueName,
+                        formatUnchecked(_("{0} (Not Available)"), *desc), *lang,
+                        "keyboard")
+                        .setLabel(*label)
+                        .setIcon("input-keyboard")));
             }
         }
     } else {

@@ -17,7 +17,6 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <fmt/format.h>
 #include <getopt.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/capabilityflags.h"
@@ -30,6 +29,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
@@ -374,7 +374,8 @@ void InstancePrivate::buildDefaultGroup() {
         if (imLayouts.size() == 1) {
             groupName = _("Default");
         } else {
-            groupName = fmt::format(_("Group {}"), imManager_.groupCount() + 1);
+            groupName =
+                formatUnchecked(_("Group {}"), imManager_.groupCount() + 1);
         }
         imManager_.addEmptyGroup(groupName);
         groupOrders.push_back(groupName);
@@ -420,17 +421,17 @@ void InstancePrivate::showInputMethodInformation(InputContext *ic) {
         } else if (subMode.empty()) {
             display = std::move(name);
         } else {
-            display = fmt::format(_("{0} ({1})"), name, subMode);
+            display = formatUnchecked(_("{0} ({1})"), name, subMode);
         }
     } else if (entry) {
-        display = fmt::format(_("{0} (Not available)"), entry->name());
+        display = formatUnchecked(_("{0} (Not available)"), entry->name());
     } else {
         display = _("(Not available)");
     }
     if (!globalConfig_.compactInputMethodInformation() &&
         imManager.groupCount() > 1) {
-        display = fmt::format(_("Group {0}: {1}"),
-                              imManager.currentGroup().name(), display);
+        display = formatUnchecked(_("Group {0}: {1}"),
+                                  imManager.currentGroup().name(), display);
     }
     inputState->showInputMethodInformation(display);
 }
@@ -466,8 +467,9 @@ void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
         notifications_->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),
-            fmt::format(_("Switch group to {0}"),
-                        imManager_.groups()[inputState->pendingGroupIndex_]),
+            formatUnchecked(
+                _("Switch group to {0}"),
+                imManager_.groups()[inputState->pendingGroupIndex_]),
             3000);
     }
 }
@@ -695,8 +697,8 @@ Instance::Instance(int argc, char **argv) {
                     d->notifications_->call<INotifications::showTip>(
                         "enumerate-group", _("Input Method"), "input-keyboard",
                         _("Switch group"),
-                        fmt::format(_("Switched group to {0}"),
-                                    d->imManager_.currentGroup().name()),
+                        formatUnchecked(_("Switched group to {0}"),
+                                        d->imManager_.currentGroup().name()),
                         3000);
                 }
                 d->lastGroup_ = newGroup;

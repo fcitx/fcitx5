@@ -20,7 +20,7 @@
 #include <utility>
 #include <vector>
 #include <cairo.h>
-#include <fmt/format.h>
+#include <format>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <gio/gunixinputstream.h>
@@ -298,7 +298,7 @@ ThemeImage::ThemeImage(const std::string &name,
     if (!cfg.image->empty()) {
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,
-            fmt::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
+            std::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
         image_.reset(loadImage(imageFile));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
@@ -310,7 +310,7 @@ ThemeImage::ThemeImage(const std::string &name,
     if (!cfg.overlay->empty()) {
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,
-            fmt::format("themes/{0}/{1}", name, *cfg.overlay), O_RDONLY);
+            std::format("themes/{0}/{1}", name, *cfg.overlay), O_RDONLY);
         overlay_.reset(loadImage(imageFile));
         if (overlay_ &&
             cairo_surface_status(overlay_.get()) != CAIRO_STATUS_SUCCESS) {
@@ -361,7 +361,7 @@ ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
     if (!cfg.image->empty()) {
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,
-            fmt::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
+            std::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
         image_.reset(loadImage(imageFile));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {

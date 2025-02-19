@@ -45,7 +45,7 @@ target_link_libraries(classicui
     PkgConfig::GdkPixbuf PkgConfig::GioUnix
     Fcitx5::Module::NotificationItem
     ${CLASSICUI_LIBS}
-    ${FMT_TARGET})
+   )
 
 install(TARGETS classicui DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(classicui.conf.in.in classicui.conf.in @ONLY)
