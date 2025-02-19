@@ -7,7 +7,6 @@
 
 #include "xcbconnection.h"
 #include <stdexcept>
-#include <fmt/format.h>
 #include <xcb/randr.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
@@ -564,8 +563,8 @@ void XCBConnection::navigateGroup(const Key &key, bool forward) {
         parent_->notifications()->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),
-            fmt::format(_("Switch group to {0}"),
-                        imManager.groups()[groupIndex_]),
+            formatUnchecked(_("Switch group to {0}"),
+                            imManager.groups()[groupIndex_]),
             3000);
     }
 }

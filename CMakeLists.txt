@@ -131,16 +131,6 @@ find_package(Pthread REQUIRED)
 find_package(Execinfo)
 find_package(Gettext REQUIRED)
 
-if (NOT (TARGET fmt::fmt OR TARGET fmt::fmt-header-only))
-    find_package(fmt REQUIRED)
-endif()
-
-if (TARGET fmt::fmt-header-only)
-  set(FMT_TARGET fmt::fmt-header-only)
-else()
-  set(FMT_TARGET fmt::fmt)
-endif ()
-
 set(REQUIRED_XKBCOMMON_COMPONENTS XKBCommon)
 if (ENABLE_X11)
     set(REQUIRED_XKBCOMMON_COMPONENTS ${REQUIRED_XKBCOMMON_COMPONENTS} X11)

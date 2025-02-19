@@ -18,7 +18,7 @@
 #include <utility>
 #include <variant>
 #include <vector>
-#include <fmt/format.h>
+#include <format>
 #include "charutils.h"
 #include "misc.h"
 #include "stringutils.h"
@@ -160,7 +160,7 @@ void SemanticVersion::setMinor(uint32_t minor) { minor_ = minor; }
 void SemanticVersion::setPatch(uint32_t patch) { patch_ = patch; }
 
 std::string SemanticVersion::toString() const {
-    std::string result = fmt::format("{0}.{1}.{2}", major_, minor_, patch_);
+    std::string result = std::format("{0}.{1}.{2}", major_, minor_, patch_);
     if (!preReleaseIds_.empty()) {
         result.append("-");
         result.append(preReleaseIds_.front().toString());

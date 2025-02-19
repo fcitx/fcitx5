@@ -1,5 +1,5 @@
 add_fcitx5_addon(dbus dbusmodule.cpp)
-target_link_libraries(dbus Fcitx5::Core Fcitx5::Module::Keyboard ${FMT_TARGET})
+target_link_libraries(dbus Fcitx5::Core Fcitx5::Module::Keyboard)
 if (ENABLE_X11)
     target_link_libraries(dbus Fcitx5::Module::XCB XCB::XCB)
 endif()

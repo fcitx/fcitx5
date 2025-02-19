@@ -11,7 +11,7 @@
 #include <fstream>
 #include <set>
 #include <sstream>
-#include <fmt/format.h>
+#include <format>
 #include "fcitx-config/dbushelper.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/variant.h"
@@ -633,11 +633,11 @@ public:
             group->foreach([&ss](InputContext *ic) {
                 ss << "  IC [";
                 for (auto v : ic->uuid()) {
-                    ss << fmt::format("{:02x}", static_cast<int>(v));
+                    ss << std::format("{:02x}", static_cast<int>(v));
                 }
                 ss << "] program:" << ic->program()
                    << " frontend:" << ic->frontendName() << " cap:"
-                   << fmt::format("{:x}",
+                   << std::format("{:x}",
                                   static_cast<uint64_t>(ic->capabilityFlags()))
                    << " focus:" << ic->hasFocus() << std::endl;
                 return true;
@@ -654,7 +654,7 @@ public:
             }
             ss << "  IC [";
             for (auto v : ic->uuid()) {
-                ss << fmt::format("{:02x}", static_cast<int>(v));
+                ss << std::format("{:02x}", static_cast<int>(v));
             }
             ss << "] program:" << ic->program()
                << " frontend:" << ic->frontendName()

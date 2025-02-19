@@ -13,7 +13,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <fmt/format.h>
+#include <format>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
@@ -458,10 +458,10 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
                     auto name = data_.name(chr);
                     std::string display;
                     if (!name.empty()) {
-                        display = fmt::format("{0} U+{1:04X} {2}",
+                        display = std::format("{0} U+{1:04X} {2}",
                                               utf8::UCS4ToUTF8(chr), chr, name);
                     } else {
-                        display = fmt::format("{0} U+{1:04X}",
+                        display = std::format("{0} U+{1:04X}",
                                               utf8::UCS4ToUTF8(chr), chr);
                     }
                     candidateList->append<DisplayOnlyCandidateWord>(

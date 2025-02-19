@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
-#include <fmt/format.h>
+#include <format>
 #include "fs.h"
 #include "log.h"
 #include "misc_p.h"
@@ -144,7 +144,7 @@ std::string getProcessName(pid_t pid) {
     FCITX_UNUSED(pid);
     return {};
 #else
-    auto path = fmt::format("/proc/{}/exe", pid);
+    auto path = std::format("/proc/{}/exe", pid);
     if (auto link = fs::readlink(path)) {
         return fs::baseName(*link);
     }
