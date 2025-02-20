@@ -374,8 +374,7 @@ void InstancePrivate::buildDefaultGroup() {
         if (imLayouts.size() == 1) {
             groupName = _("Default");
         } else {
-            groupName =
-                formatUnchecked(_("Group {}"), imManager_.groupCount() + 1);
+            groupName = _("Group {}", imManager_.groupCount() + 1);
         }
         imManager_.addEmptyGroup(groupName);
         groupOrders.push_back(groupName);
@@ -421,17 +420,16 @@ void InstancePrivate::showInputMethodInformation(InputContext *ic) {
         } else if (subMode.empty()) {
             display = std::move(name);
         } else {
-            display = formatUnchecked(_("{0} ({1})"), name, subMode);
+            display = _("{0} ({1})", name, subMode);
         }
     } else if (entry) {
-        display = formatUnchecked(_("{0} (Not available)"), entry->name());
+        display = _("{0} (Not available)", entry->name());
     } else {
         display = _("(Not available)");
     }
     if (!globalConfig_.compactInputMethodInformation() &&
         imManager.groupCount() > 1) {
-        display = formatUnchecked(_("Group {0}: {1}"),
-                                  imManager.currentGroup().name(), display);
+        display = _("Group {0}: {1}", imManager.currentGroup().name(), display);
     }
     inputState->showInputMethodInformation(display);
 }
@@ -467,9 +465,8 @@ void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
         notifications_->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),
-            formatUnchecked(
-                _("Switch group to {0}"),
-                imManager_.groups()[inputState->pendingGroupIndex_]),
+            _("Switch group to {0}",
+              imManager_.groups()[inputState->pendingGroupIndex_]),
             3000);
     }
 }
@@ -697,8 +694,8 @@ Instance::Instance(int argc, char **argv) {
                     d->notifications_->call<INotifications::showTip>(
                         "enumerate-group", _("Input Method"), "input-keyboard",
                         _("Switch group"),
-                        formatUnchecked(_("Switched group to {0}"),
-                                        d->imManager_.currentGroup().name()),
+                        _("Switched group to {0}",
+                          d->imManager_.currentGroup().name()),
                         3000);
                 }
                 d->lastGroup_ = newGroup;

@@ -563,9 +563,7 @@ void XCBConnection::navigateGroup(const Key &key, bool forward) {
         parent_->notifications()->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),
-            formatUnchecked(_("Switch group to {0}"),
-                            imManager.groups()[groupIndex_]),
-            3000);
+            _("Switch group to {0}", imManager.groups()[groupIndex_]), 3000);
     }
 }
 

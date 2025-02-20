@@ -253,8 +253,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto language = findBestLanguage(isoCodes, layoutInfo.description,
                                          layoutInfo.languages);
         auto description =
-            formatUnchecked(_("Keyboard - {0}"),
-                            D_("xkeyboard-config", layoutInfo.description));
+            _("Keyboard - {0}", D_("xkeyboard-config", layoutInfo.description));
         auto uniqueName = imNamePrefix + layoutInfo.name;
         if (uniqueName == "keyboard-us") {
             usExists = true;
@@ -271,10 +270,10 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                              !variantInfo.languages.empty()
                                                  ? variantInfo.languages
                                                  : layoutInfo.languages);
-            auto description = formatUnchecked(
-                _("Keyboard - {0} - {1}"),
-                D_("xkeyboard-config", layoutInfo.description),
-                D_("xkeyboard-config", variantInfo.description));
+            auto description =
+                _("Keyboard - {0} - {1}",
+                  D_("xkeyboard-config", layoutInfo.description),
+                  D_("xkeyboard-config", variantInfo.description));
             auto uniqueName = stringutils::concat(imNamePrefix, layoutInfo.name,
                                                   "-", variantInfo.name);
 
@@ -311,13 +310,12 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                 if (uniqueName == "keyboard-us") {
                     usExists = true;
                 }
-                result.push_back(std::move(
-                    InputMethodEntry(
-                        uniqueName,
-                        formatUnchecked(_("{0} (Not Available)"), *desc), *lang,
-                        "keyboard")
-                        .setLabel(*label)
-                        .setIcon("input-keyboard")));
+                result.push_back(
+                    std::move(InputMethodEntry(uniqueName,
+                                               _("{0} (Not Available)", *desc),
+                                               *lang, "keyboard")
+                                  .setLabel(*label)
+                                  .setIcon("input-keyboard")));
             }
         }
     } else {
