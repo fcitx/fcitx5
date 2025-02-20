@@ -23,7 +23,6 @@
 #include <fcitx-utils/endian_p.h>
 #include <fcitx-utils/environ.h>
 #include <fcitx-utils/macros.h>
-#include <format>
 #include "config.h" // IWYU pragma: keep
 
 #ifdef _WIN32
@@ -337,12 +336,6 @@ static inline uint32_t FromLittleEndian32(const T *d) {
     uint32_t t;
     memcpy(&t, data, sizeof(t));
     return le32toh(t);
-}
-
-template <typename... Args>
-FCITX_NODISCARD inline std::string formatUnchecked(std::string_view fmt,
-                                                   Args &&...args) {
-    return std::vformat(fmt, std::make_format_args(args...));
 }
 
 } // namespace fcitx
