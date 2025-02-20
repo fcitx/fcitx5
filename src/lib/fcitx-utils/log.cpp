@@ -215,10 +215,14 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
         try {
             auto now = std::chrono::time_point_cast<std::chrono::microseconds>(
                 std::chrono::system_clock::now());
+#if __cpp_lib_chrono >= 201907L
             auto current_zone = std::chrono::current_zone();
             std::chrono::zoned_time zoned_time{current_zone, now};
 
             auto timeString = std::format("{:%F %T}", zoned_time);
+#else
+            auto timeString = std::format("{:%F %T}", now);
+#endif
             out_ << timeString << " ";
         } catch (...) {
         }
