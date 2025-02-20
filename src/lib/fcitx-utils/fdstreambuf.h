@@ -15,6 +15,11 @@ namespace fcitx {
 
 class IFDStreamBufPrivate;
 
+/**
+ * Provides a streambuf for reading from file descriptor
+ *
+ * @since 5.1.13
+ */
 class FCITXUTILS_EXPORT IFDStreamBuf : public std::streambuf {
 
 public:
@@ -25,10 +30,26 @@ public:
     using pos_type = base_type::pos_type;
     using off_type = base_type::off_type;
 
-    IFDStreamBuf(UnixFD fd);
-    IFDStreamBuf(int fd);
+    /**
+     * Constructor that will make IFDStreamBuf own the file descriptor.
+     *
+     * You can use following code to make it own the file descriptor.
+     * @code{.cpp}
+     * IFDStreamBuf buf(UnixFD::own(fd));
+     * IFDStreamBuf(UnixFD::own(fd))
+     * @endcode
+     */
+    explicit IFDStreamBuf(UnixFD fd);
+
+    /**
+     * Create an non-owning IFDStreamBuf
+     */
+    explicit IFDStreamBuf(int fd = -1);
     FCITX_DECLARE_VIRTUAL_DTOR_MOVE(IFDStreamBuf);
 
+    /**
+     * Return true if fd is not -1.
+     */
     bool is_open() const noexcept;
 
     IFDStreamBuf *close();
@@ -52,6 +73,11 @@ private:
 
 class OFDStreamBufPrivate;
 
+/**
+ * Provides a streambuf for writing to file descriptor
+ *
+ * @since 5.1.13
+ */
 class FCITXUTILS_EXPORT OFDStreamBuf : public std::streambuf {
 
 public:
@@ -62,10 +88,25 @@ public:
     using pos_type = base_type::pos_type;
     using off_type = base_type::off_type;
 
+    /**
+     * Constructor that will make OFDStreamBuf own the file descriptor.
+     *
+     * You can use following code to make it own the file descriptor.
+     * @code{.cpp}
+     * OFDStreamBuf buf(UnixFD::own(fd));
+     * @endcode
+     */
     OFDStreamBuf(UnixFD fd);
-    OFDStreamBuf(int fd);
+
+    /**
+     * Create an non-owning IFDStreamBuf
+     */
+    OFDStreamBuf(int fd = -1);
     FCITX_DECLARE_VIRTUAL_DTOR_MOVE(OFDStreamBuf);
 
+    /**
+     * Return true if fd is not -1.
+     */
     bool is_open() const noexcept;
 
     OFDStreamBuf *close();
