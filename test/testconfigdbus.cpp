@@ -8,7 +8,9 @@
 #include <unistd.h>
 #include "fcitx-config/dbushelper.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/dbus/variant.h"
+#include "fcitx-utils/log.h"
 #include "testconfig.h"
 
 using namespace fcitx;

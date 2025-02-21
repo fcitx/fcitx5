@@ -8,6 +8,8 @@
 #define _FCITX_CONFIG_INIPARSER_H_
 
 #include <cstdio>
+#include <istream>
+#include <ostream>
 #include <string>
 #include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-config/rawconfig.h>
@@ -19,6 +21,25 @@ FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, int fd);
 FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, FILE *fin);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, FILE *fout);
+
+/**
+ * Read raw config from std::istream
+ *
+ * @param config raw config
+ * @param in input stream
+ * @since 5.1.13
+ */
+FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, std::istream &in);
+
+/**
+ * Write raw config to std::istream
+ *
+ * @param config raw config
+ * @param out out stream
+ * @since 5.1.13
+ */
+FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, std::ostream &out);
+
 FCITXCONFIG_EXPORT void readAsIni(Configuration &configuration,
                                   const std::string &path);
 FCITXCONFIG_EXPORT void readAsIni(RawConfig &rawConfig,

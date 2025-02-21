@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <functional>
 #include <istream>
+#include <ostream>
 #include <string>
 #include <string_view>
 #include "fcitx-utils/fdstreambuf.h"
@@ -30,24 +31,34 @@ void readFromIni(RawConfig &config, FILE *fp) {
     readFromIni(config, fileno(fp));
 }
 
-bool writeAsIni(const RawConfig &config, int fd) {
-    if (fd < 0) {
+bool writeAsIni(const RawConfig &config, FILE *fout) {
+    if (!fout) {
         return false;
     }
-    // dup it
-    UnixFD unixFD(fd);
-    UniqueFilePtr fp = fs::openFD(unixFD, "wb");
-    if (!fp) {
-        return false;
-    }
-    return writeAsIni(config, fp.get());
+    return writeAsIni(config, fileno(fout));
 }
 
 void readFromIni(RawConfig &config, int fd) {
-    std::string currentGroup;
-
+    if (fd == -1) {
+        return;
+    }
     IFDStreamBuf buf(fd);
     std::istream in(&buf);
+    readFromIni(config, in);
+}
+
+bool writeAsIni(const RawConfig &config, int fd) {
+    if (fd == -1) {
+        return false;
+    }
+    OFDStreamBuf buf(fd);
+    std::ostream fout(&buf);
+    return writeAsIni(config, fout);
+}
+
+void readFromIni(RawConfig &config, std::istream &in) {
+    std::string currentGroup;
+
     std::string line;
 
     unsigned int lineNumber = 0;
@@ -93,10 +104,10 @@ void readFromIni(RawConfig &config, int fd) {
     }
 }
 
-bool writeAsIni(const RawConfig &config, FILE *fout) {
+bool writeAsIni(const RawConfig &config, std::ostream &out) {
     std::function<bool(const RawConfig &, const std::string &path)> callback;
 
-    callback = [fout, &callback](const RawConfig &config,
+    callback = [&out, &callback](const RawConfig &config,
                                  const std::string &path) {
         if (config.hasSubItems()) {
             std::string values;
@@ -122,11 +133,11 @@ bool writeAsIni(const RawConfig &config, FILE *fout) {
                 "", false, path);
             if (!values.empty()) {
                 if (!path.empty()) {
-                    FCITX_RETURN_IF(fprintf(fout, "[%s]\n", path.c_str()) < 0,
-                                    false);
+                    out << "[" << path << "]\n";
+                    FCITX_RETURN_IF(!out, false);
                 }
-                FCITX_RETURN_IF(fprintf(fout, "%s\n", values.c_str()) < 0,
-                                false);
+                out << values << "\n";
+                FCITX_RETURN_IF(!out, false);
             }
         }
         config.visitSubItems(callback, "", false, path);

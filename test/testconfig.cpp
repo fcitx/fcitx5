@@ -6,10 +6,12 @@
  */
 
 #include "testconfig.h"
+#include <sstream>
+#include <string>
 #include <vector>
-#include "fcitx-config/configuration.h"
-#include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/i18nstring.h"
 #include "fcitx-utils/log.h"
 
 using namespace fcitx;
@@ -42,9 +44,14 @@ void testBasics() {
     // Invalid value is not set.
     FCITX_ASSERT((*config.intVector == std::vector<int>{1, 2}));
 
-    writeAsIni(rawConfig, stdout);
+    std::stringstream ss;
+    writeAsIni(rawConfig, ss);
+
+    RawConfig another;
+    readFromIni(another, ss);
 
     FCITX_ASSERT(*rawConfig.valueByPath("IntOption") == "0");
+    FCITX_ASSERT(*another.valueByPath("IntOption") == "0") << another;
 
     config.intValue.setValue(5);
     FCITX_ASSERT(config.intValue.value() == 5);
