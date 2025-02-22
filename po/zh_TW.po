@@ -11,16 +11,16 @@
 # 菘菘 <rrt467778@gmail.com>, 2022
 # yan12125, 2022
 # Neko ◣ 0xFF, 2022
-# Yiyu Liu, 2024
 # Kisaragi Hiu <flyingfeather1501@gmail.com>, 2024
+# Yiyu Liu, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-24 20:24+0000\n"
+"POT-Creation-Date: 2025-02-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Kisaragi Hiu <flyingfeather1501@gmail.com>, 2024\n"
+"Last-Translator: Yiyu Liu, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -57,7 +57,7 @@ msgstr "找不到 ${1}。"
 msgid "${1} works properly."
 msgstr "${1} 運作正常。"
 
-#: src/lib/fcitx/instance.cpp:422
+#: src/lib/fcitx/instance.cpp:428
 msgid "(Not available)"
 msgstr "（無法使用）"
 
@@ -89,11 +89,11 @@ msgstr "/XIM"
 msgid "0 means never clear password."
 msgstr "0 表示永不清除密碼。"
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<低半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:209
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非專用高半代理區>"
 
@@ -101,15 +101,15 @@ msgstr "<非專用高半代理區>"
 msgid "<Passowrd>"
 msgstr "<Passowrd>"
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<專用區>"
 
-#: src/modules/unicode/charselectdata.cpp:245
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<未指定>"
 
@@ -488,19 +488,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:709
+#: src/im/keyboard/keyboard.cpp:711
 msgid "Completion"
 msgstr "補全"
 
-#: src/im/keyboard/keyboard.cpp:700
+#: src/im/keyboard/keyboard.cpp:702
 msgid "Completion is disabled."
 msgstr "補全已停用。"
 
-#: src/im/keyboard/keyboard.cpp:703
+#: src/im/keyboard/keyboard.cpp:705
 msgid "Completion is enabled temporarily."
 msgstr "補全暫時啟用。"
 
-#: src/im/keyboard/keyboard.cpp:705
+#: src/im/keyboard/keyboard.cpp:707
 msgid "Completion is enabled."
 msgstr "已啟用補全。"
 
@@ -593,7 +593,7 @@ msgstr "停用輸入法"
 msgid "Debug information from dbus:"
 msgstr "來自 dbus 的除錯訊息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:369
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:375
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "預設"
@@ -658,6 +658,9 @@ msgid ""
 "For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"偵測到已設定 GTK_IM_MODULE 和 QT_IM_MODULE 環境變數，且 Wayland 輸入法前端正"
+"在運行。推薦使用 Wayland 輸入法前端。更多信息請參見 https://fcitx-im.org/"
+"wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: src/modules/wayland/waylandmodule.cpp:665
 msgid ""
@@ -1053,12 +1056,12 @@ msgstr "綠色"
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:426
+#: src/lib/fcitx/instance.cpp:432
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:371
+#: src/lib/fcitx/instance.cpp:377
 #, c++-format
 msgid "Group {}"
 msgstr "群組 {}"
@@ -1253,6 +1256,9 @@ msgid ""
 "zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
 "bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
 msgstr ""
+"啟用後，使用 zwp_input_method_v2 協議時，激活和停用時不會創建和銷燬 "
+"zwp_virtual_keyboard_v1 對象。這可以繞過某些混成器的問題，包括 Sway<=1.9，"
+"RiverWM<=0.3.0。"
 
 #: src/lib/fcitx/globalconfig.cpp:226
 msgid ""
@@ -1283,11 +1289,11 @@ msgstr ""
 msgid "Image"
 msgstr "圖片"
 
-#: src/im/keyboard/keyboard.cpp:708 src/lib/fcitx/instance.cpp:461
-#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
+#: src/im/keyboard/keyboard.cpp:710 src/lib/fcitx/instance.cpp:466
+#: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1405,22 +1411,22 @@ msgstr "片假名"
 
 #: src/frontend/waylandim/waylandim.h:43
 msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
-msgstr ""
+msgstr "對 V2 協議保持虛擬鍵盤對象（需要重新啟動）"
 
 #: src/im/keyboard/longpress.h:20
 msgid "Key"
 msgstr "按鍵"
 
-#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:338 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "鍵盤"
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:256
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "鍵盤 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:271
+#: src/im/keyboard/keyboard.cpp:274
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "鍵盤 - {0} - {1}"
@@ -2007,7 +2013,7 @@ msgstr "數字鎖定 (NumLock)"
 msgid "Number of entries"
 msgstr "項目數"
 
-#: src/im/keyboard/keyboard.cpp:694
+#: src/im/keyboard/keyboard.cpp:696
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2130,15 +2136,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "關機"
 
-#: src/lib/fcitx/instance.cpp:859
+#: src/lib/fcitx/instance.cpp:864
 msgid "Preedit"
 msgstr "預編輯"
 
-#: src/lib/fcitx/instance.cpp:861
+#: src/lib/fcitx/instance.cpp:866
 msgid "Preedit disabled"
 msgstr "預編輯已停用"
 
-#: src/lib/fcitx/instance.cpp:860
+#: src/lib/fcitx/instance.cpp:865
 msgid "Preedit enabled"
 msgstr "預編輯已啟用"
 
@@ -2484,17 +2490,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "暫停"
 
-#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
-#: src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "切換分組"
 
-#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:567
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切換分組到 {0}"
 
-#: src/lib/fcitx/instance.cpp:692
+#: src/lib/fcitx/instance.cpp:697
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切換分組到 {0}"
@@ -2589,7 +2595,7 @@ msgstr "時間"
 
 #: src/lib/fcitx/globalconfig.cpp:150
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
-msgstr ""
+msgstr "觸發修飾鍵快捷鍵的時限（毫秒）"
 
 #: data/fcitx5-diagnose.sh:750
 #, sh-format
@@ -2852,6 +2858,8 @@ msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
 msgstr ""
+"使用只有修飾鍵的快捷鍵時，對應動作只會於修飾鍵在時限內鬆開時觸發。-1 表示沒有"
+"時限。"
 
 #: src/lib/fcitx/globalconfig.cpp:200
 msgid ""
@@ -3032,17 +3040,17 @@ msgstr "sudo 的環境變數"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:313
+#: src/im/keyboard/keyboard.cpp:315
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:420
+#: src/lib/fcitx/instance.cpp:426
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:423
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
