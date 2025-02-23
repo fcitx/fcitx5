@@ -8,15 +8,27 @@
 #include "waylandmodule.h"
 #include <fcntl.h>
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
+#include <exception>
 #include <memory>
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <tuple>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+#include <fcitx-utils/handlertable.h>
 #include <gio/gio.h>
+#include <glib-object.h>
+#include <glib.h>
+#include <wayland-client-core.h>
 #include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
@@ -24,12 +36,17 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx-utils/unixfd.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "config.h"
+#include "display.h"
 #include "notifications_public.h"
+#include "wayland_public.h"
 #include "waylandeventreader.h"
 #include "wl_seat.h"
 
@@ -136,6 +153,11 @@ void WaylandConnection::init(wl_display *display) {
         [this](const std::string &name, const std::shared_ptr<void> &seat) {
             if (name == wayland::WlSeat::interface) {
                 setupKeyboard(static_cast<wayland::WlSeat *>(seat.get()));
+            } else if (name == "zwp_input_method_v1") {
+                // Do a defered layou sync, since this is callback is called
+                // before waylandim setup.
+                parent_->instance()->eventDispatcher().scheduleWithContext(
+                    watch(), [this]() { parent_->setLayoutToCompositor(); });
             }
         });
     panelRemovedConn_ = display_->globalRemoved().connect(
@@ -190,22 +212,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
 #ifdef ENABLE_DBUS
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
-        [this](Event &) {
-            if (!isWaylandSession_ || !*config_.allowOverrideXKB) {
-                return;
-            }
-
-            auto connection = findValue(conns_, "");
-            if (!connection) {
-                return;
-            }
-
-            if (isKDE5Plus()) {
-                setLayoutToKDE();
-            } else if (getDesktopType() == DesktopType::GNOME) {
-                setLayoutToGNOME();
-            }
-        }));
+        [this](Event &) { setLayoutToCompositor(); }));
 
     deferredDiagnose_ = instance_->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 7000000, 0,
@@ -346,7 +353,7 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
         // Transfer it to new connection's IC group, we do create two focus
         // group with same name, but well, ic manager doesn't check that.
         for (const auto &icRef : ics) {
-            if (auto ic = icRef.get()) {
+            if (auto *ic = icRef.get()) {
                 if (!ic->focusGroup()) {
                     ic->setFocusGroup(iter->second->focusGroup());
                 }
@@ -476,6 +483,10 @@ void WaylandModule::setLayoutToKDE() {
         return;
     }
 
+    if (!hasWaylandInputMethod()) {
+        return;
+    }
+
     auto layoutAndVariant = parseLayout(
         instance_->inputMethodManager().currentGroup().defaultLayout());
 
@@ -543,8 +554,8 @@ void WaylandModule::setLayoutToGNOME() {
 #endif
 }
 
-void WaylandModule::selfDiagnose() {
-    if (!isWaylandSession_) {
+void WaylandModule::setLayoutToCompositor() {
+    if (!isWaylandSession_ || !*config_.allowOverrideXKB) {
         return;
     }
 
@@ -553,10 +564,14 @@ void WaylandModule::selfDiagnose() {
         return;
     }
 
-    if (!notifications()) {
-        return;
+    if (isKDE5Plus()) {
+        setLayoutToKDE();
+    } else if (getDesktopType() == DesktopType::GNOME) {
+        setLayoutToGNOME();
     }
+}
 
+bool WaylandModule::hasWaylandInputMethod() const {
     bool isWaylandIM = false;
     if (isInFlatpak()) {
         // In flatpak, ReopenWaylandConnection will not replace existing
@@ -574,14 +589,38 @@ void WaylandModule::selfDiagnose() {
             }
         }
     } else {
-        (*connection)->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
-            if (stringutils::startsWith(ic->frontendName(), "wayland")) {
-                isWaylandIM = true;
-                return false;
-            }
-            return true;
-        });
+        const auto *connection = findValue(conns_, "");
+        if (connection) {
+            (*connection)
+                ->focusGroup()
+                ->foreach([&isWaylandIM](InputContext *ic) {
+                    if (stringutils::startsWith(ic->frontendName(),
+                                                "wayland")) {
+                        isWaylandIM = true;
+                        return false;
+                    }
+                    return true;
+                });
+        }
     }
+    return isWaylandIM;
+}
+
+void WaylandModule::selfDiagnose() {
+    if (!isWaylandSession_) {
+        return;
+    }
+
+    auto *connection = findValue(conns_, "");
+    if (!connection) {
+        return;
+    }
+
+    if (!notifications()) {
+        return;
+    }
+
+    bool isWaylandIM = hasWaylandInputMethod();
 
     auto sendMessage = [this](const std::string &category,
                               const std::string &message) {

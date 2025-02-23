@@ -7,14 +7,25 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
+#include <unistd.h>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
+#include <tuple>
+#include <unordered_map>
+#include <vector>
 #include <wayland-client-protocol.h>
+#include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
-#include "fcitx-utils/event.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx-utils/trackableobject.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
@@ -28,11 +39,12 @@ namespace fcitx {
 class WaylandModule;
 class WaylandEventReader;
 
-FCITX_CONFIGURATION(
-    WaylandConfig,
-    Option<bool> allowOverrideXKB{
-        this, "Allow Overriding System XKB Settings",
-        _("Allow Overriding System XKB Settings (Only support KDE 5)"), true};);
+FCITX_CONFIGURATION(WaylandConfig,
+                    Option<bool> allowOverrideXKB{
+                        this, "Allow Overriding System XKB Settings",
+                        _("Allow Overriding System XKB Settings (Only support "
+                          "KDE5+ and GNOME)"),
+                        true};);
 
 class WaylandKeyboard {
 public:
@@ -69,7 +81,7 @@ private:
     std::optional<std::tuple<int32_t, int32_t>> repeatInfo_;
 };
 
-class WaylandConnection {
+class WaylandConnection : public TrackableObject<WaylandConnection> {
 public:
     WaylandConnection(WaylandModule *wayland, std::string name);
     WaylandConnection(WaylandModule *wayland, std::string name, int fd,
@@ -137,6 +149,8 @@ public:
     std::optional<std::tuple<int32_t, int32_t>>
     repeatInfo(const std::string &name, wl_seat *seat) const;
 
+    void setLayoutToCompositor();
+
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
@@ -144,6 +158,8 @@ private:
     void reloadXkbOptionReal();
     void setLayoutToGNOME();
     void setLayoutToKDE();
+
+    bool hasWaylandInputMethod() const;
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
