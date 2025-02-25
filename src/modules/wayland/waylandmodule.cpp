@@ -27,6 +27,7 @@
 #include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
@@ -72,11 +73,7 @@ class ScopedEnvvar {
 public:
     explicit ScopedEnvvar(std::string name, const char *value)
         : name_(std::move(name)) {
-        auto old = getenv(name_.data());
-        if (old) {
-            oldValue_ = std::string(old);
-        }
-
+        oldValue_ = getEnvironment(name_.data());
         setenv(name_.data(), value, true);
     }
 
@@ -105,7 +102,7 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
         }
         // When WAYLAND_SOCKET is set, wl_display_connect will use it
         // regardlessly, no matter it is valid or not.
-        if (getenv("WAYLAND_SOCKET")) {
+        if (getEnvironment("WAYLAND_SOCKET")) {
             isWaylandSocket_ = true;
         }
         display = wl_display_connect(name_.empty() ? nullptr : name_.c_str());
@@ -116,8 +113,8 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
     if (!isWaylandSocket_ && name_.empty()) {
         // This is same as wl_display_connect(nullptr) logic.
         realName_ = "wayland-0";
-        if (auto displayEnv = getenv("WAYLAND_DISPLAY")) {
-            realName_ = displayEnv;
+        if (auto displayEnv = getEnvironment("WAYLAND_DISPLAY")) {
+            realName_ = *displayEnv;
         }
     }
     init(display);
@@ -311,7 +308,7 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
                     break;
                 }
 
-                if (auto displayEnv = getenv("WAYLAND_DISPLAY")) {
+                if (auto displayEnv = getEnvironment("WAYLAND_DISPLAY")) {
                     if (name == displayEnv) {
                         name = "";
                     }
@@ -629,12 +626,9 @@ void WaylandModule::selfDiagnose() {
             60000);
     };
 
-    auto *gtk = getenv("GTK_IM_MODULE");
-    auto *qt = getenv("QT_IM_MODULE");
-    auto *qts = getenv("QT_IM_MODULES");
-    std::string gtkIM = gtk ? gtk : "";
-    std::string qtIM = qt ? qt : "";
-    std::string qtsIM = qts ? qts : "";
+    auto gtkIM = getEnvironmentOrEmpty("GTK_IM_MODULE");
+    auto qtIM = getEnvironmentOrEmpty("QT_IM_MODULE");
+    auto qtsIM = getEnvironmentOrEmpty("QT_IM_MODULES");
 
     std::vector<std::string> messages;
     const auto desktop = getDesktopType();

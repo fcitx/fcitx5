@@ -1,10 +1,13 @@
 #include "waylandcursortheme.h"
+#include <charconv>
 #include <cstdlib>
 #include <memory>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <wayland-cursor.h>
 #include "fcitx-utils/dbus/variant.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/misc_p.h"
 #include "dbus_public.h"
 #include "portalsettingmonitor.h"
@@ -16,17 +19,17 @@ namespace fcitx::classicui {
 WaylandCursorTheme::WaylandCursorTheme(WaylandUI *ui)
     : shm_(ui->display()->getGlobal<wayland::WlShm>()) {
 
-    char *size = getenv("XCURSOR_SIZE");
-    if (size) {
-        try {
-            setCursorSize(std::stoi(size));
-        } catch (...) {
+    if (auto size = getEnvironment("XCURSOR_SIZE")) {
+        unsigned int cursorSize = 0;
+        if (std::from_chars(size->data(), size->data() + size->size(),
+                            cursorSize)
+                .ec == std::errc()) {
+            setCursorSize(cursorSize);
         }
     }
 
-    char *theme = getenv("XCURSOR_THEME");
-    if (theme) {
-        setTheme(theme);
+    if (auto theme = getEnvironment("XCURSOR_THEME")) {
+        setTheme(*theme);
     } else {
         setTheme({});
     }

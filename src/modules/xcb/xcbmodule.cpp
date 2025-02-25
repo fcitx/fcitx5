@@ -7,9 +7,24 @@
 
 #include "xcbmodule.h"
 
+#include <cstdlib>
+#include <exception>
+#include <memory>
+#include <string>
+#include <tuple>
 #include <utility>
+#include <xcb/xcb_ewmh.h>
+#include <xcb/xproto.h>
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/environ.h"
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/misc_p.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "xcb_public.h"
 #include "xcbconnection.h"
 
 namespace fcitx {
@@ -19,9 +34,8 @@ FCITX_DEFINE_LOG_CATEGORY(xcb_log, "xcb");
 XCBModule::XCBModule(Instance *instance) : instance_(instance) {
     reloadConfig();
 
-    auto *env = getenv("DISPLAY");
-    if (env) {
-        mainDisplay_ = env;
+    if (auto env = getEnvironment("DISPLAY")) {
+        mainDisplay_ = *env;
     }
 
     if (!containerContains(instance->addonManager().addonOptions("xcb"),
@@ -39,9 +53,8 @@ void XCBModule::openConnection(const std::string &name_) {
 bool XCBModule::openConnectionChecked(const std::string &name_) {
     std::string name = name_;
     if (name.empty()) {
-        auto *env = getenv("DISPLAY");
-        if (env) {
-            name = env;
+        if (auto env = getEnvironment("DISPLAY")) {
+            name = *env;
         }
     }
     if (name.empty() || conns_.count(name)) {
@@ -76,9 +89,8 @@ void XCBModule::removeConnection(const std::string &name) {
     FCITX_INFO() << "Disconnected from X11 Display " << localName;
     if (localName == mainDisplay_) {
         mainDisplay_.clear();
-        char *sessionType = getenv("XDG_SESSION_TYPE");
         // We assume that empty XDG_SESSION_TYPE is X11.
-        if ((isSessionType("x11") || !sessionType || sessionType[0] == '\0') &&
+        if ((isSessionType("x11")) &&
             instance_->exitWhenMainDisplayDisconnected()) {
             instance_->exit();
         }
