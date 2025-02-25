@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-24 20:24+0000\n"
+"POT-Creation-Date: 2025-02-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -48,7 +48,7 @@ msgstr "${1} ikke fundet."
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
-#: src/lib/fcitx/instance.cpp:422
+#: src/lib/fcitx/instance.cpp:428
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -80,11 +80,11 @@ msgstr "/XIM"
 msgid "0 means never clear password."
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<Lav surrogat>"
 
-#: src/modules/unicode/charselectdata.cpp:209
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Høj surrogat for ikke privat brug>"
 
@@ -92,15 +92,15 @@ msgstr "<Høj surrogat for ikke privat brug>"
 msgid "<Passowrd>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<Høj surrogat for privat brug>"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<Privat brug>"
 
-#: src/modules/unicode/charselectdata.cpp:245
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<ikke tildelt>"
 
@@ -166,8 +166,8 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 
-#: src/modules/wayland/waylandmodule.h:35
-msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
+#: src/modules/wayland/waylandmodule.h:45
+msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:215
@@ -482,19 +482,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Fællesskab"
 
-#: src/im/keyboard/keyboard.cpp:709
+#: src/im/keyboard/keyboard.cpp:711
 msgid "Completion"
 msgstr "Fuldførsel"
 
-#: src/im/keyboard/keyboard.cpp:700
+#: src/im/keyboard/keyboard.cpp:702
 msgid "Completion is disabled."
 msgstr "Fuldførsel er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:703
+#: src/im/keyboard/keyboard.cpp:705
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:705
+#: src/im/keyboard/keyboard.cpp:707
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
@@ -587,7 +587,7 @@ msgstr "Deaktivér inputmetode"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:369
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:375
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "Standard"
@@ -633,7 +633,7 @@ msgstr "Skrivebordsmiljø:"
 msgid "Desktop environment is ${1}."
 msgstr "Skrivebordsmiljø er ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:621
+#: src/modules/wayland/waylandmodule.cpp:660
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -641,7 +641,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:636
+#: src/modules/wayland/waylandmodule.cpp:675
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -649,7 +649,7 @@ msgid ""
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:665
+#: src/modules/wayland/waylandmodule.cpp:704
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -833,7 +833,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: src/modules/wayland/waylandmodule.cpp:589
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid "Fcitx"
 msgstr ""
 
@@ -868,7 +868,7 @@ msgstr ""
 "sprog du kender. Det har også en vifte af tilføjelser som forbedre din "
 "skriveoplevelse."
 
-#: src/modules/wayland/waylandmodule.cpp:606
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -928,7 +928,7 @@ msgid ""
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:691
+#: src/modules/wayland/waylandmodule.cpp:730
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1033,12 +1033,12 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:426
+#: src/lib/fcitx/instance.cpp:432
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:371
+#: src/lib/fcitx/instance.cpp:377
 #, c++-format
 msgid "Group {}"
 msgstr "Gruppe {}"
@@ -1266,11 +1266,11 @@ msgstr ""
 msgid "Image"
 msgstr "Billede"
 
-#: src/im/keyboard/keyboard.cpp:708 src/lib/fcitx/instance.cpp:461
-#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
+#: src/im/keyboard/keyboard.cpp:710 src/lib/fcitx/instance.cpp:466
+#: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1341,7 +1341,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:648
+#: src/modules/wayland/waylandmodule.cpp:687
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1386,16 +1386,16 @@ msgstr ""
 msgid "Key"
 msgstr "Tast"
 
-#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:338 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:256
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:271
+#: src/im/keyboard/keyboard.cpp:274
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
@@ -1980,7 +1980,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Antal poster"
 
-#: src/im/keyboard/keyboard.cpp:694
+#: src/im/keyboard/keyboard.cpp:696
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2108,15 +2108,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:859
+#: src/lib/fcitx/instance.cpp:864
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:861
+#: src/lib/fcitx/instance.cpp:866
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:860
+#: src/lib/fcitx/instance.cpp:865
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -2305,7 +2305,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/modules/wayland/waylandmodule.cpp:680
+#: src/modules/wayland/waylandmodule.cpp:719
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2458,17 +2458,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
-#: src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "Skift gruppe"
 
-#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:567
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:692
+#: src/lib/fcitx/instance.cpp:697
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
@@ -2795,7 +2795,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:589
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid "Wayland Diagnose"
 msgstr ""
 
@@ -3000,17 +3000,17 @@ msgstr "sudo-miljøvariabler"
 msgid "version:"
 msgstr "version:"
 
-#: src/im/keyboard/keyboard.cpp:313
+#: src/im/keyboard/keyboard.cpp:315
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:420
+#: src/lib/fcitx/instance.cpp:426
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:423
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

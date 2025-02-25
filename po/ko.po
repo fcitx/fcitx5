@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-01-24 20:24+0000\n"
+"POT-Creation-Date: 2025-02-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -51,7 +51,7 @@ msgstr "${1}을(를) 찾을 수 없습니다."
 msgid "${1} works properly."
 msgstr "${1}이(가) 제대로 작동합니다."
 
-#: src/lib/fcitx/instance.cpp:422
+#: src/lib/fcitx/instance.cpp:428
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -83,11 +83,11 @@ msgstr "/XIM"
 msgid "0 means never clear password."
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:209
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
@@ -95,15 +95,15 @@ msgstr "<비 개인용 상위 확장코드>"
 msgid "<Passowrd>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:245
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
@@ -169,9 +169,9 @@ msgstr "모든 로케일:"
 msgid "Allow Overriding System XKB Settings"
 msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
-#: src/modules/wayland/waylandmodule.h:35
-msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
-msgstr "시스템 XKB 설정 무시 허용(KDE 5만 지원)"
+#: src/modules/wayland/waylandmodule.h:45
+msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:215
 msgid "Allow input method in the password field"
@@ -484,19 +484,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:709
+#: src/im/keyboard/keyboard.cpp:711
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:700
+#: src/im/keyboard/keyboard.cpp:702
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:703
+#: src/im/keyboard/keyboard.cpp:705
 msgid "Completion is enabled temporarily."
 msgstr "완성이 일시적으로 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:705
+#: src/im/keyboard/keyboard.cpp:707
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -589,7 +589,7 @@ msgstr "입력기 비활성화"
 msgid "Debug information from dbus:"
 msgstr "dbus의 디버그 정보:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:369
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:375
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "기본값"
@@ -635,7 +635,7 @@ msgstr "데스크탑 환경:"
 msgid "Desktop environment is ${1}."
 msgstr "데스크톱 환경은 ${1}입니다."
 
-#: src/modules/wayland/waylandmodule.cpp:621
+#: src/modules/wayland/waylandmodule.cpp:660
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -643,7 +643,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:636
+#: src/modules/wayland/waylandmodule.cpp:675
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -651,7 +651,7 @@ msgid ""
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:665
+#: src/modules/wayland/waylandmodule.cpp:704
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -833,7 +833,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "즐겨찾기"
 
-#: src/modules/wayland/waylandmodule.cpp:589
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid "Fcitx"
 msgstr ""
 
@@ -867,7 +867,7 @@ msgstr ""
 "Fcitx는 입력기 프레임워크입니다. 자신의 언어를 입력하는데 도움이 될 수 있습니"
 "다. 또한 타이핑 경험을 향상시키는 다양한 애드온을 선택할 수 있습니다."
 
-#: src/modules/wayland/waylandmodule.cpp:606
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -930,7 +930,7 @@ msgstr ""
 "일본어 변형으로 문자를 표시합니다. 이 기능을 사용하려면 글꼴 구성에서 이를 지"
 "원해야 합니다."
 
-#: src/modules/wayland/waylandmodule.cpp:691
+#: src/modules/wayland/waylandmodule.cpp:730
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1035,12 +1035,12 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:426
+#: src/lib/fcitx/instance.cpp:432
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:371
+#: src/lib/fcitx/instance.cpp:377
 #, c++-format
 msgid "Group {}"
 msgstr "그룹 {}"
@@ -1265,11 +1265,11 @@ msgstr ""
 msgid "Image"
 msgstr "이미지"
 
-#: src/im/keyboard/keyboard.cpp:708 src/lib/fcitx/instance.cpp:461
-#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
+#: src/im/keyboard/keyboard.cpp:710 src/lib/fcitx/instance.cpp:466
+#: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1342,7 +1342,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:648
+#: src/modules/wayland/waylandmodule.cpp:687
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1387,16 +1387,16 @@ msgstr ""
 msgid "Key"
 msgstr "키"
 
-#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:338 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:256
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:271
+#: src/im/keyboard/keyboard.cpp:274
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
@@ -1981,7 +1981,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "항목 수"
 
-#: src/im/keyboard/keyboard.cpp:694
+#: src/im/keyboard/keyboard.cpp:696
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2107,15 +2107,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "전원 끄기"
 
-#: src/lib/fcitx/instance.cpp:859
+#: src/lib/fcitx/instance.cpp:864
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:861
+#: src/lib/fcitx/instance.cpp:866
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
-#: src/lib/fcitx/instance.cpp:860
+#: src/lib/fcitx/instance.cpp:865
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
@@ -2304,7 +2304,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/modules/wayland/waylandmodule.cpp:680
+#: src/modules/wayland/waylandmodule.cpp:719
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2459,17 +2459,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
-#: src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:567
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:692
+#: src/lib/fcitx/instance.cpp:697
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
@@ -2800,7 +2800,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:589
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid "Wayland Diagnose"
 msgstr ""
 
@@ -3005,17 +3005,17 @@ msgstr "sudo 환경 변수"
 msgid "version:"
 msgstr "버전:"
 
-#: src/im/keyboard/keyboard.cpp:313
+#: src/im/keyboard/keyboard.cpp:315
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:420
+#: src/lib/fcitx/instance.cpp:426
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:423
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
