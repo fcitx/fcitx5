@@ -20,6 +20,7 @@
 #include <dbus/dbus-protocol.h>
 #include <dbus/dbus-shared.h>
 #include <dbus/dbus.h>
+#include "fcitx-utils/environ.h"
 #include "../../charutils.h"
 #include "../../dbus/matchrule.h"
 #include "../../dbus/message.h"
@@ -444,15 +445,15 @@ std::string escapePath(const std::string &path) {
 }
 
 std::string sessionBusAddress() {
-    auto *e = getenv("DBUS_SESSION_BUS_ADDRESS");
+    auto e = getEnvironment("DBUS_SESSION_BUS_ADDRESS");
     if (e) {
-        return e;
+        return *e;
     }
-    auto *xdg = getenv("XDG_RUNTIME_DIR");
+    auto xdg = getEnvironment("XDG_RUNTIME_DIR");
     if (!xdg) {
         return {};
     }
-    auto escapedXdg = escapePath(xdg);
+    auto escapedXdg = escapePath(*xdg);
     return stringutils::concat("unix:path=", escapedXdg, "/bus");
 }
 
@@ -461,23 +462,23 @@ std::string addressByType(BusType type) {
     case BusType::Session:
         return sessionBusAddress();
     case BusType::System:
-        if (char *env = getenv("DBUS_SYSTEM_BUS_ADDRESS")) {
-            return env;
+        if (auto env = getEnvironment("DBUS_SYSTEM_BUS_ADDRESS")) {
+            return *env;
         } else {
             return DBUS_SYSTEM_BUS_DEFAULT_ADDRESS;
         }
     case BusType::Default:
-        if (char *starter = getenv("DBUS_STARTER_BUS_TYPE")) {
-            if (strcmp(starter, "system") == 0) {
+        if (auto starter = getEnvironment("DBUS_STARTER_BUS_TYPE")) {
+            if (stringutils::startsWith(*starter, "system")) {
                 return addressByType(BusType::System);
             }
-            if (strcmp(starter, "user") == 0 ||
-                strcmp(starter, "session") == 0) {
+            if (stringutils::startsWith(*starter, "user") ||
+                stringutils::startsWith(*starter, "session")) {
                 return addressByType(BusType::Session);
             }
         }
-        if (char *address = getenv("DBUS_STARTER_ADDRESS")) {
-            return address;
+        if (auto address = getEnvironment("DBUS_STARTER_ADDRESS")) {
+            return *address;
         }
 
         {

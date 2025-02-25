@@ -8,8 +8,12 @@
 #ifndef _FCITX5_FRONTEND_FCITX4FRONTEND_FCITX4FRONTEND_H_
 #define _FCITX5_FRONTEND_FCITX4FRONTEND_FCITX4FRONTEND_H_
 
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx/addonfactory.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"

@@ -6,13 +6,33 @@
  */
 
 #include "xcbui.h"
+#include <sys/types.h>
+#include <algorithm>
+#include <charconv>
+#include <cstdint>
+#include <cstring>
+#include <iterator>
+#include <limits>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <system_error>
+#include <vector>
 #include <cairo.h>
 #include <xcb/randr.h>
+#include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xinerama.h>
 #include <xcb/xproto.h>
 #include "fcitx-utils/endian_p.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx/userinterface.h"
+#include "classicui.h"
+#include "common.h"
+#include "xcb_public.h"
 #include "xcbinputwindow.h"
 #include "xcbtraywindow.h"
 #include "xcbwindow.h"
@@ -77,15 +97,14 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
         }
     };
     parse(resources, "Xft.dpi:\t", [&option](const std::string &value) {
-        try {
-            option.dpi = std::stoi(value);
-        } catch (const std::exception &e) {
-        }
+        std::from_chars(value.data(), value.data() + value.size(), option.dpi);
     });
     parse(resources, "Xft.antialias:\t", [&option](const std::string &value) {
-        try {
-            option.antialias = std::stoi(value) != 0;
-        } catch (const std::exception &e) {
+        int antialias = 0;
+        if (std::from_chars(value.data(), value.data() + value.size(),
+                            antialias)
+                .ec == std::errc()) {
+            option.antialias = antialias;
         }
     });
     parse(resources, "Xft.hintstyle:\t", [&option](const std::string &value) {
@@ -405,9 +424,7 @@ void XCBUI::initScreen() {
                             int dpiY = 25.4 * crtc->height / outputHeight;
                             rect.setSize(crtc->width, crtc->height);
                             rects_.emplace_back(rect, std::min(dpiX, dpiY));
-                            if (maxDpi_ < rects_.back().second) {
-                                maxDpi_ = rects_.back().second;
-                            }
+                            maxDpi_ = std::max(maxDpi_, rects_.back().second);
 
                             if (outputs[i] == primary->output) {
                                 primaryDpi_ = rects_.back().second;
@@ -699,7 +716,7 @@ void XCBUI::updateCurrentInputMethod(InputContext *inputContext) {
 }
 
 int XCBUI::dpiByPosition(int x, int y) {
-    int shortestDistance = INT_MAX;
+    int shortestDistance = std::numeric_limits<int>::max();
     int screenDpi = -1;
     for (const auto &rect : screenRects()) {
         int thisDistance = rect.first.distance(x, y);

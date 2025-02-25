@@ -7,11 +7,16 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
+#include <charconv>
 #include <cstdlib>
 #include <fstream>
 #include <functional>
+#include <ios>
 #include <string>
-#include <type_traits>
+#include <string_view>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 #include <fcitx-utils/charutils.h>
 #include <fcitx-utils/environ.h>
 #include <fcitx-utils/log.h>
@@ -21,6 +26,7 @@
 #include <fcitx/inputmethodentry.h>
 #include <fcitx/inputmethodmanager.h>
 #include <fcitx/instance.h>
+#include "fcitx-utils/key.h"
 
 // This ia a file for random private util functions that we'd like to share
 // among different modules.
@@ -47,8 +53,8 @@ parseLayout(const std::string &layout) {
 using GetCandidateListSizeCallback = std::function<int()>;
 using GetCandidateWordCallback = std::function<const CandidateWord &(int idx)>;
 static inline const CandidateWord *nthCandidateIgnorePlaceholder(
-    GetCandidateListSizeCallback getCandidateListSizeCallback,
-    GetCandidateWordCallback getCandidateWordCallback, int idx) {
+    const GetCandidateListSizeCallback &getCandidateListSizeCallback,
+    const GetCandidateWordCallback &getCandidateWordCallback, int idx) {
     int total = 0;
     const int size = getCandidateListSizeCallback();
     if (idx < 0 || idx >= size) {
@@ -105,10 +111,7 @@ static inline std::string getLocalMachineId(const std::string &fallback = {}) {
 // Return false if XDG_SESSION_TYPE is set and is not given type.
 static inline bool isSessionType(std::string_view type) {
     auto sessionType = getEnvironment("XDG_SESSION_TYPE");
-    if (sessionType && *sessionType != type) {
-        return false;
-    }
-    return true;
+    return !sessionType || *sessionType == type;
 }
 
 enum class DesktopType {
@@ -146,12 +149,10 @@ static inline DesktopType getDesktopType() {
         stringutils::split(desktop, ":", stringutils::SplitBehavior::SkipEmpty);
     for (const auto &desktop : desktops) {
         if (desktop == "kde") {
-            auto versionInt = 0;
+            int versionInt = 0;
             if (auto version = getEnvironment("KDE_SESSION_VERSION")) {
-                try {
-                    versionInt = std::stoi(*version);
-                } catch (...) {
-                }
+                std::from_chars(version->data(),
+                                version->data() + version->size(), versionInt);
             }
             if (versionInt == 4) {
                 return DesktopType::KDE4;
@@ -198,7 +199,8 @@ static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
     size_t numOfKeyboard = 0;
     for (const auto &item :
          instance->inputMethodManager().currentGroup().inputMethodList()) {
-        if (auto entry = instance->inputMethodManager().entry(item.name());
+        if (const auto *entry =
+                instance->inputMethodManager().entry(item.name());
             entry && entry->isKeyboard()) {
             ++numOfKeyboard;
         }
@@ -209,7 +211,8 @@ static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
 
     std::unordered_set<std::string> groupLayouts;
     for (const auto &groupName : instance->inputMethodManager().groups()) {
-        if (auto group = instance->inputMethodManager().group(groupName)) {
+        if (const auto *group =
+                instance->inputMethodManager().group(groupName)) {
             groupLayouts.insert(group->defaultLayout());
         }
         if (groupLayouts.size() >= 2) {

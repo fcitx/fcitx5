@@ -16,6 +16,7 @@
 #include <iterator>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -29,6 +30,7 @@
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
@@ -48,13 +50,13 @@
 #include "fcitx/userinterface.h"
 #include "xcb_public.h"
 
-FCITX_DEFINE_LOG_CATEGORY(xim, "xim")
-FCITX_DEFINE_LOG_CATEGORY(xim_key, "xim_key")
-
 #define XIM_DEBUG() FCITX_LOGC(::xim, Debug)
 #define XIM_KEY_DEBUG() FCITX_LOGC(::xim_key, Debug)
 
 namespace {
+
+FCITX_DEFINE_LOG_CATEGORY(xim, "xim")
+FCITX_DEFINE_LOG_CATEGORY(xim_key, "xim_key")
 
 uint32_t style_array[] = {
     XCB_IM_PreeditPosition | XCB_IM_StatusArea,    // OverTheSpot
@@ -86,9 +88,12 @@ xcb_im_styles_t onthespot_styles = {FCITX_ARRAY_SIZE(onthespot_style_array),
                                     onthespot_style_array};
 
 std::string guess_server_name() {
-    char *env = getenv("XMODIFIERS");
-    if (env && fcitx::stringutils::startsWith(env, "@im=")) {
-        return env + 4; // length of "@im="
+    const auto envValue = fcitx::getEnvironment("XMODIFIERS");
+    if (envValue) {
+        std::string_view server = *envValue;
+        if (fcitx::stringutils::consumePrefix(server, "@im=")) {
+            return std::string{server};
+        }
     }
 
     return "fcitx";
@@ -115,6 +120,15 @@ void XimLogFunc(const char *fmt, ...) {
     std::vsnprintf(buf.data(), len, fmt, argp);
     va_end(argp);
     XIM_DEBUG() << buf.data();
+}
+
+uint32_t getWindowPid(xcb_ewmh_connection_t *ewmh, xcb_window_t w) {
+    auto cookie = xcb_ewmh_get_wm_pid(ewmh, w);
+    uint32_t pid = 0;
+    if (xcb_ewmh_get_wm_pid_reply(ewmh, cookie, &pid, nullptr) == 1) {
+        return pid;
+    }
+    return 0;
 }
 
 } // namespace
@@ -200,6 +214,33 @@ public:
         return parent_->xcb()->call<IXCBModule::xkbState>(name_);
     }
 
+    std::string getProgramName(xcb_im_input_context_t *ic) {
+        auto w = xcb_im_input_context_get_client_window(ic);
+        if (!w) {
+            w = xcb_im_input_context_get_focus_window(ic);
+        }
+        if (w) {
+            while (w != root_) {
+                if (auto pid = getWindowPid(ewmh_, w)) {
+                    return getProcessName(pid);
+                }
+
+                auto cookie = xcb_query_tree(conn_, w);
+                auto reply = makeUniqueCPtr(
+                    xcb_query_tree_reply(conn_, cookie, nullptr));
+                if (!reply) {
+                    break;
+                }
+                // This should never happen, but just as a sanity check.
+                if (reply->root != root_ || w == reply->parent) {
+                    break;
+                }
+                w = reply->parent;
+            }
+        }
+        return {};
+    }
+
 private:
     xcb_connection_t *conn_;
     FocusGroup *group_;
@@ -216,47 +257,11 @@ private:
     UniqueCPtr<struct xkb_state, xkb_state_unref> localState_;
 };
 
-pid_t getWindowPid(xcb_ewmh_connection_t *ewmh, xcb_window_t w) {
-    auto cookie = xcb_ewmh_get_wm_pid(ewmh, w);
-    uint32_t pid = 0;
-    if (xcb_ewmh_get_wm_pid_reply(ewmh, cookie, &pid, nullptr) == 1) {
-        return pid;
-    }
-    return 0;
-}
-
-std::string getProgramName(XIMServer *server, xcb_im_input_context_t *ic) {
-    auto w = xcb_im_input_context_get_client_window(ic);
-    if (!w) {
-        w = xcb_im_input_context_get_focus_window(ic);
-    }
-    if (w) {
-        while (w != server->root()) {
-            if (auto pid = getWindowPid(server->ewmh(), w)) {
-                return getProcessName(pid);
-            }
-
-            auto cookie = xcb_query_tree(server->conn(), w);
-            auto reply = makeUniqueCPtr(
-                xcb_query_tree_reply(server->conn(), cookie, nullptr));
-            if (!reply) {
-                break;
-            }
-            // This should never happen, but just as a sanity check.
-            if (reply->root != server->root() || w == reply->parent) {
-                break;
-            }
-            w = reply->parent;
-        }
-    }
-    return {};
-}
-
 class XIMInputContext final : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server,
                     xcb_im_input_context_t *ic, bool useUtf8)
-        : InputContext(inputContextManager, getProgramName(server, ic)),
+        : InputContext(inputContextManager, server->getProgramName(ic)),
           server_(server), xic_(ic), useUtf8_(useUtf8) {
         setFocusGroup(server->focusGroup());
         xcb_im_input_context_set_data(xic_, this, nullptr);
@@ -276,15 +281,15 @@ public:
 
     uint32_t validatedInputStyle() {
         auto style = xcb_im_input_context_get_input_style(xic_);
-        if (server_->supportedStyles().count(style)) {
+        if (server_->supportedStyles().contains(style)) {
             return style;
         }
         auto preeditStyle = (style & 0xff) | XCB_IM_StatusNothing;
-        if (server_->supportedStyles().count(preeditStyle)) {
+        if (server_->supportedStyles().contains(preeditStyle)) {
             return preeditStyle;
         }
         auto statusStyle = (style & 0xff00) | XCB_IM_PreeditNothing;
-        if (server_->supportedStyles().count(statusStyle)) {
+        if (server_->supportedStyles().contains(statusStyle)) {
             return statusStyle;
         }
 

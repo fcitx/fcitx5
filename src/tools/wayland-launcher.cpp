@@ -4,13 +4,30 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <charconv>
+#include <cstdint>
+#include <cstdio>
 #include <cstdlib>
+#include <exception>
+#include <iostream>
+#include <memory>
+#include <ostream>
+#include <stdexcept>
+#include <string>
+#include <utility>
 #include <getopt.h>
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/unixfd.h"
 
 using namespace fcitx;
+
+namespace {
 
 void usage(std::ostream &stream) {
     stream
@@ -36,7 +53,6 @@ public:
         if (!bus_.isOpen()) {
             throw std::runtime_error("Failed to open dbus connection.");
         }
-        std::string connectedName;
         bus_.attachEventLoop(&loop_);
 
         watcher_ = std::make_unique<dbus::ServiceWatcher>(bus_);
@@ -71,7 +87,7 @@ private:
                                                  "org.freedesktop.DBus",
                                                  "StartServiceByName");
             message << "org.fcitx.Fcitx5";
-            message << 0u;
+            message << 0U;
             message.send();
             return;
         }
@@ -149,6 +165,8 @@ private:
     bool reopen_ = false;
 };
 
+} // namespace
+
 int main(int argc, char *argv[]) {
     bool reopen = false;
     struct option longOptions[] = {{"reopen", no_argument, nullptr, 0},
@@ -181,19 +199,18 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    auto socket = getenv("WAYLAND_SOCKET");
     int fd = -1;
-    if (socket) {
-        fd = std::stoi(socket);
+    if (auto socket = getEnvironment("WAYLAND_SOCKET")) {
+        std::from_chars(socket->data(), socket->data() + socket->size(), fd);
     }
-    const char *display = getenv("WAYLAND_DISPLAY");
-    if ((!display || !display[0]) && fd < 0) {
+    auto display = getEnvironmentOrEmpty("WAYLAND_DISPLAY");
+    if (display.empty() && fd < 0) {
         FCITX_ERROR() << "WAYLAND_SOCKET or WAYLAND_DISPLAY is not set.";
         return 1;
     }
 
     try {
-        Launcher launcher(fd, (display ? display : ""), reopen);
+        Launcher launcher(fd, display, reopen);
         launcher.run();
         if (launcher.error()) {
             return 1;

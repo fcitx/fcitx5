@@ -6,8 +6,10 @@
  */
 
 #include "marshallfunction.h"
+#include <charconv>
 #include <exception>
 #include <string>
+#include <system_error>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/i18nstring.h"
 #include "fcitx-utils/key.h"
@@ -34,13 +36,9 @@ void marshallOption(RawConfig &config, int value) {
 }
 
 bool unmarshallOption(int &value, const RawConfig &config, bool /*unused*/) {
-    try {
-        value = std::stoi(config.value());
-    } catch (const std::exception &) {
-        return false;
-    }
-
-    return true;
+    return std::from_chars(config.value().data(),
+                           config.value().data() + config.value().size(), value)
+               .ec == std::errc();
 }
 
 void marshallOption(RawConfig &config, const std::string &value) {

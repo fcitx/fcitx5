@@ -6,6 +6,7 @@
  */
 
 #include "log.h"
+#include <charconv>
 #include <chrono>
 #include <cstdlib>
 #include <exception>
@@ -14,6 +15,7 @@
 #include <mutex>
 #include <ostream>
 #include <string>
+#include <system_error>
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
@@ -170,13 +172,13 @@ void Log::setLogRule(const std::string &ruleString) {
             continue;
         }
         auto &name = ruleItem[0];
-        try {
-            auto level = std::stoi(ruleItem[1]);
+        int level;
+        if (std::from_chars(ruleItem[1].data(),
+                            ruleItem[1].data() + ruleItem[1].size(), level)
+                .ec == std::errc()) {
             if (validateLogLevel(level)) {
                 parsedRules.emplace_back(name, static_cast<LogLevel>(level));
             }
-        } catch (const std::exception &) {
-            continue;
         }
     }
     LogRegistry::instance().setLogRules(parsedRules);

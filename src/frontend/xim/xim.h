@@ -7,11 +7,16 @@
 #ifndef _FCITX_FRONTEND_XIM_XIM_H_
 #define _FCITX_FRONTEND_XIM_XIM_H_
 
+#include <memory>
+#include <string>
 #include <unordered_map>
 #include <xcb-imdkit/imdkit.h>
+#include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
-#include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
