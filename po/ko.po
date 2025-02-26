@@ -92,7 +92,7 @@ msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
 #: src/modules/clipboard/clipboard.cpp:116
-msgid "<Passowrd>"
+msgid "<Password>"
 msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:213

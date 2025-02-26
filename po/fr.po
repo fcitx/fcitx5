@@ -90,7 +90,7 @@ msgid "<Non Private Use High Surrogate>"
 msgstr "<Usage non privé haut substitut>"
 
 #: src/modules/clipboard/clipboard.cpp:116
-msgid "<Passowrd>"
+msgid "<Password>"
 msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:213
