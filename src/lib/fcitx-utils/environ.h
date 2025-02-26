@@ -34,6 +34,8 @@ FCITXUTILS_EXPORT void setEnvironment(const char *variable, const char *value);
 FCITXUTILS_EXPORT std::optional<std::string>
 getEnvironment(const char *variable);
 
+FCITXUTILS_EXPORT std::string getEnvironmentOrEmpty(const char *variable);
+
 } // namespace fcitx
 
 #endif

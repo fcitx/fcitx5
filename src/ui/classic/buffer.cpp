@@ -17,6 +17,7 @@
 #include <cairo.h>
 #include <sys/syscall.h>
 #include <wayland-client.h>
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
@@ -75,7 +76,7 @@ UnixFD openShm() {
     }
 #endif
 
-    const char *path = getenv("XDG_RUNTIME_DIR");
+    auto path = getEnvironment("XDG_RUNTIME_DIR");
     if (!path) {
         throw std::runtime_error("XDG_RUNTIME_DIR is not set");
     }
@@ -85,7 +86,7 @@ UnixFD openShm() {
     // It is said that some old glibc may have problem.
 #if defined(O_TMPFILE) && (O_TMPFILE & O_DIRECTORY) == O_DIRECTORY
     do {
-        std::string pathStr = fs::cleanPath(path);
+        std::string pathStr = fs::cleanPath(*path);
         RETRY_ON_EINTR(ret =
                            open(pathStr.data(),
                                 O_TMPFILE | O_CLOEXEC | O_EXCL | O_RDWR, 0600));
@@ -99,7 +100,7 @@ UnixFD openShm() {
     } while (0);
 #endif
 
-    auto filename = stringutils::joinPath(path, "fcitx-wayland-shm-XXXXXX");
+    auto filename = stringutils::joinPath(*path, "fcitx-wayland-shm-XXXXXX");
     std::vector<char> v(filename.begin(), filename.end());
     v.push_back('\0');
     RETRY_ON_EINTR(ret = mkstemp(v.data()));

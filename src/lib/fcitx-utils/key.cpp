@@ -7,10 +7,12 @@
 
 #include "key.h"
 #include <algorithm>
+#include <charconv>
 #include <cstdint>
 #include <cstring>
 #include <exception>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 #include "charutils.h"
@@ -320,15 +322,15 @@ Key::Key(const char *keyString) : Key() {
 #undef _CHECK_MODIFIER
 
     // Special code for keycode baesd parsing.
-    std::string keyValue = lastModifier;
+    std::string_view keyValue = lastModifier;
     if (stringutils::startsWith(keyValue, "<") &&
         stringutils::endsWith(keyValue, ">")) {
-        try {
-            code_ = std::stoi(keyValue.substr(1, keyValue.size() - 2));
-        } catch (const std::exception &) {
-        }
+        keyValue.remove_prefix(1);
+        keyValue.remove_suffix(1);
+        std::from_chars(keyValue.data(), keyValue.data() + keyValue.size(),
+                        code_);
     } else {
-        sym_ = keySymFromString(lastModifier);
+        sym_ = keySymFromString(std::string(keyValue));
     }
     states_ = states;
 }

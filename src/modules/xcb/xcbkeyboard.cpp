@@ -55,13 +55,13 @@ namespace fcitx {
 namespace {
 
 std::string xmodmapFile() {
-    auto *home = getenv("HOME");
+    auto home = getEnvironment("HOME");
     if (!home) {
         return {};
     }
-    auto path = stringutils::joinPath(home, ".Xmodmap");
+    auto path = stringutils::joinPath(*home, ".Xmodmap");
     if (!fs::isreg(path)) {
-        path = stringutils::joinPath(home, ".xmodmap");
+        path = stringutils::joinPath(*home, ".xmodmap");
     }
     if (!fs::isreg(path)) {
         return {};

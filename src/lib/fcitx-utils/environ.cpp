@@ -9,6 +9,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include "fcitx-utils/utf8.h"
 #include "stringutils.h"
 #include "utf8.h"
@@ -76,6 +77,13 @@ std::optional<std::string> getEnvironment(const char *variable) {
     }
     return std::nullopt;
 #endif
+}
+
+std::string getEnvironmentOrEmpty(const char *variable) {
+    if (auto value = getEnvironment(variable)) {
+        return {std::move(*value)};
+    }
+    return {};
 }
 
 } // namespace fcitx

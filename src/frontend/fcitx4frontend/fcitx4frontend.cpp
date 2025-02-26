@@ -6,18 +6,44 @@
  */
 
 #include "fcitx4frontend.h"
+#include <charconv>
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <system_error>
+#include <tuple>
+#include <vector>
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/metastring.h"
+#include "fcitx-utils/flags.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/textformatflags.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/text.h"
 #include "dbus_public.h"
+
+#ifdef ENABLE_X11
+#include <xcb/xcb.h>
+#include "xcb_public.h"
+#endif
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext"
@@ -40,24 +66,25 @@ buildFormattedTextVector(const Text &text) {
     return vector;
 }
 
-int getDisplayNumber(const std::string &var) {
+int getDisplayNumber(std::string_view var) {
     auto pos = var.find(':');
-    if (pos == std::string::npos) {
+    if (pos == std::string_view::npos) {
         return 0;
     }
     // skip :
     pos += 1;
     // Handle address like :0.0
     auto period = var.find(pos, '.');
-    if (period != std::string::npos) {
+    if (period != std::string_view::npos) {
         period -= pos;
     }
 
-    try {
-        std::string num(var.substr(pos, period));
-        int displayNumber = std::stoi(num);
+    std::string_view num(var.substr(pos, period));
+    int displayNumber;
+    if (std::from_chars(num.data(), num.data() + num.size(), displayNumber)
+            .ec == std::errc()) {
+
         return displayNumber;
-    } catch (...) {
     }
     return 0;
 }
