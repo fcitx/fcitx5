@@ -113,7 +113,7 @@ public:
                 length -= 1;
             }
             text.append(dot);
-            setComment(Text{_("<Passowrd>")});
+            setComment(Text{_("<Password>")});
         } else {
             text.append(ClipboardSelectionStrip(str));
         }
