@@ -84,7 +84,7 @@ public:
         }
 
         if (auto subConfig = config.get("Scale")) {
-            unmarshallOption(size_, *subConfig, false);
+            unmarshallOption(scale_, *subConfig, false);
         }
         if (auto subConfig = config.get("Context")) {
             unmarshallOption(context_, *subConfig, false);
