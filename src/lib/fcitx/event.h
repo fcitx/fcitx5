@@ -7,9 +7,14 @@
 #ifndef _FCITX_EVENT_H_
 #define _FCITX_EVENT_H_
 
+#include <cstddef>
 #include <cstdint>
+#include <memory>
+#include <string>
+#include <utility>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/macros.h>
 #include <fcitx/fcitxcore_export.h>
 #include <fcitx/userinterface.h>
 

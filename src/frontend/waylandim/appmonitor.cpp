@@ -17,15 +17,15 @@ namespace fcitx {
 AggregatedAppMonitor::AggregatedAppMonitor() = default;
 
 bool AggregatedAppMonitor::isAvailable() const {
-    return std::any_of(
-        subMonitors_.begin(), subMonitors_.end(),
-        [](const auto &monitor) { return monitor->isAvailable(); });
+    return std::ranges::any_of(subMonitors_, [](const auto &monitor) {
+        return monitor->isAvailable();
+    });
 }
 
 AppMonitor *AggregatedAppMonitor::activeMonitor() const {
-    auto iter = std::find_if(
-        subMonitors_.begin(), subMonitors_.end(),
-        [](const auto &subMonitor) { return subMonitor->isAvailable(); });
+    auto iter = std::ranges::find_if(subMonitors_, [](const auto &subMonitor) {
+        return subMonitor->isAvailable();
+    });
     return iter == subMonitors_.end() ? nullptr : iter->get();
 }
 

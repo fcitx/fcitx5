@@ -148,21 +148,21 @@ bool IconThemeDirectory::matchesSize(int iconsize, int iconscale) const {
 int IconThemeDirectory::sizeDistance(int iconsize, int iconscale) const {
     switch (type()) {
     case IconThemeDirectoryType::Fixed:
-        return std::abs(size() * scale() - iconsize * iconscale);
+        return std::abs((size() * scale()) - (iconsize * iconscale));
     case IconThemeDirectoryType::Scalable:
         if (iconsize * iconscale < minSize() * scale()) {
-            return minSize() * scale() - iconsize * iconscale;
+            return (minSize() * scale()) - (iconsize * iconscale);
         }
         if (iconsize * iconscale > maxSize() * scale()) {
-            return iconsize * iconscale - maxSize() * scale();
+            return (iconsize * iconscale) - (maxSize() * scale());
         }
         return 0;
     case IconThemeDirectoryType::Threshold:
         if (iconsize * iconscale < (size() - threshold()) * scale()) {
-            return (size() - threshold()) * scale() - iconsize * iconscale;
+            return ((size() - threshold()) * scale()) - (iconsize * iconscale);
         }
         if (iconsize * iconscale > (size() + threshold()) * scale()) {
-            return iconsize * iconscale - (size() - threshold()) * scale();
+            return (iconsize * iconscale) - ((size() - threshold()) * scale());
         }
     }
     return 0;
@@ -240,7 +240,7 @@ public:
             return;
         }
         for (uint32_t i = 0; i < dirListLen; ++i) {
-            uint32_t offset = readDoubleWord(dirListOffset + 4 + 4 * i);
+            uint32_t offset = readDoubleWord(dirListOffset + 4 + (4 * i));
             if (!isValid_ || offset >= size_) {
                 isValid_ = false;
                 return;
@@ -337,7 +337,7 @@ IconThemeCache::lookup(const std::string &name) const {
     }
 
     uint32_t bucketIndex = hash % hashBucketCount;
-    uint32_t bucketOffset = readDoubleWord(hashOffset + 4 + bucketIndex * 4);
+    uint32_t bucketOffset = readDoubleWord(hashOffset + 4 + (bucketIndex * 4));
     while (bucketOffset > 0 && bucketOffset <= size_ - 12) {
         uint32_t nameOff = readDoubleWord(bucketOffset + 4);
         auto *namePtr = checkString(nameOff);
@@ -355,8 +355,8 @@ IconThemeCache::lookup(const std::string &name) const {
 
             ret.reserve(listLen);
             for (uint32_t j = 0; j < listLen && isValid_; ++j) {
-                uint32_t dirIndex = readWord(listOffset + 4 + 8 * j);
-                uint32_t o = readDoubleWord(dirListOffset + 4 + dirIndex * 4);
+                uint32_t dirIndex = readWord(listOffset + 4 + (8 * j));
+                uint32_t o = readDoubleWord(dirListOffset + 4 + (dirIndex * 4));
                 if (!isValid_ || dirIndex >= dirListLen || o >= size_) {
                     isValid_ = false;
                     return ret;
@@ -443,7 +443,7 @@ public:
         }
 
         // Always inherit hicolor.
-        if (!parent && !subThemeNames_.count("hicolor")) {
+        if (!parent && !subThemeNames_.contains("hicolor")) {
             addInherit("hicolor");
         }
     }
@@ -533,7 +533,7 @@ public:
                 hasCache = true;
             }
             for (const auto &directory : directories_) {
-                if ((hasCache && !dirFilter.count(directory.path())) ||
+                if ((hasCache && !dirFilter.contains(directory.path())) ||
                     !directory.matchesSize(size, scale)) {
                     continue;
                 }
@@ -545,7 +545,7 @@ public:
 
             if (scale != 1) {
                 for (const auto &directory : scaledDirectories_) {
-                    if ((hasCache && !dirFilter.count(directory.path())) ||
+                    if ((hasCache && !dirFilter.contains(directory.path())) ||
                         !directory.matchesSize(size, scale)) {
                         continue;
                     }
@@ -571,7 +571,7 @@ public:
             auto checkDirectoryWithSize =
                 [&checkDirectory, &closestFilename, &dirFilter, hasCache, size,
                  scale, &minSize, &baseDir](const IconThemeDirectory &dir) {
-                    if (hasCache && !dirFilter.count(dir.path())) {
+                    if (hasCache && !dirFilter.contains(dir.path())) {
                         return;
                     }
                     auto distance = dir.sizeDistance(size, scale);
@@ -815,7 +815,8 @@ std::string IconTheme::defaultIconThemeName() {
 
     if (desktopType == DesktopType::Unknown) {
         return "Tango";
-    } else if (desktopType == DesktopType::GNOME) {
+    }
+    if (desktopType == DesktopType::GNOME) {
         return "Adwaita";
     }
     return "gnome";

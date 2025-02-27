@@ -55,12 +55,9 @@ struct XkbRulesParseState : public XMLParser {
             optionGroupInfos_.emplace_back();
             ptrdiff_t i = 0;
             while (attrs && attrs[i * 2] != nullptr) {
-                if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]),
-                           "allowMultipleSelection") == 0) {
+                if (strcmp(attrs[i * 2], "allowMultipleSelection") == 0) {
                     optionGroupInfos_.back().exclusive =
-                        (strcmp(
-                             reinterpret_cast<const char *>(attrs[i * 2 + 1]),
-                             "true") != 0);
+                        (strcmp(attrs[(i * 2) + 1], "true") != 0);
                 }
                 i++;
             }
@@ -69,11 +66,9 @@ struct XkbRulesParseState : public XMLParser {
         } else if (match({"xkbConfigRegistry"})) {
             ptrdiff_t i = 0;
             while (attrs && attrs[i * 2] != nullptr) {
-                if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]),
-                           "version") == 0 &&
-                    strlen(reinterpret_cast<const char *>(attrs[i * 2 + 1])) !=
-                        0) {
-                    version_ = reinterpret_cast<const char *>(attrs[i * 2 + 1]);
+                if (strcmp(attrs[i * 2], "version") == 0 &&
+                    strlen(attrs[(i * 2) + 1]) != 0) {
+                    version_ = attrs[(i * 2) + 1];
                 }
                 i++;
             }
@@ -131,7 +126,7 @@ struct XkbRulesParseState : public XMLParser {
         parseStack_.pop_back();
     }
     void characterData(const char *ch, int len) override {
-        textBuff_.append(reinterpret_cast<const char *>(ch), len);
+        textBuff_.append(ch, len);
     }
 
     void merge(XkbRules *rules) {

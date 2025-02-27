@@ -6,6 +6,11 @@
  */
 
 #include "action.h"
+#include <memory>
+#include <string>
+#include "fcitx-utils/connectableobject.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/macros.h"
 #include "menu.h"
 #include "userinterfacemanager.h"
 
@@ -114,7 +119,7 @@ public:
 };
 
 SimpleAction::SimpleAction()
-    : Action(), d_ptr(std::make_unique<SimpleActionPrivate>(this)) {}
+    : d_ptr(std::make_unique<SimpleActionPrivate>(this)) {}
 
 FCITX_DEFINE_DEFAULT_DTOR(SimpleAction);
 
@@ -138,22 +143,22 @@ void SimpleAction::setLongText(const std::string &text) {
     d->longText_ = text;
 }
 
-std::string SimpleAction::icon(InputContext *) const {
+std::string SimpleAction::icon(InputContext * /*unused*/) const {
     FCITX_D();
     return d->icon_;
 }
 
-bool SimpleAction::isChecked(InputContext *) const {
+bool SimpleAction::isChecked(InputContext * /*unused*/) const {
     FCITX_D();
     return d->checked_;
 }
 
-std::string SimpleAction::shortText(InputContext *) const {
+std::string SimpleAction::shortText(InputContext * /*unused*/) const {
     FCITX_D();
     return d->shortText_;
 }
 
-std::string SimpleAction::longText(InputContext *) const {
+std::string SimpleAction::longText(InputContext * /*unused*/) const {
     FCITX_D();
     return d->longText_;
 }

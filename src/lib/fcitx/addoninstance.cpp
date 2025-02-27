@@ -6,6 +6,11 @@
  */
 
 #include "addoninstance.h"
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include "fcitx-utils/macros.h"
+#include "fcitx/addoninfo.h"
 #include "addoninstance_p.h"
 
 namespace fcitx {

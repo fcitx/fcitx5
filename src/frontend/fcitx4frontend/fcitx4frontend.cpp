@@ -6,6 +6,7 @@
  */
 
 #include "fcitx4frontend.h"
+#include <unistd.h>
 #include <charconv>
 #include <cstddef>
 #include <cstdint>
@@ -212,7 +213,7 @@ public:
 
     void closeInputContext() {}
 
-    void mouseEvent(int) {}
+    void mouseEvent(int /*unused*/) {}
 
     void setCursorLocation(int x, int y) {
         CHECK_SENDER_OR_RETURN;
@@ -317,7 +318,7 @@ Fcitx4InputMethod::createICv3(const std::string &appname, int /*pid*/) {
     int icid = module_->nextIcIdx();
     auto *ic = new Fcitx4InputContext(icid, instance_->inputContextManager(),
                                       this, sender, appname);
-    auto group =
+    auto *group =
         instance_->defaultFocusGroup(stringutils::concat("x11::", display_));
     if (!group) {
         group = instance_->defaultFocusGroup("x11:");

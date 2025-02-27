@@ -5,6 +5,8 @@
  *
  */
 #include "candidateaction.h"
+#include <memory>
+#include <string>
 #include "fcitx-utils/macros.h"
 
 namespace fcitx {

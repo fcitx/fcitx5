@@ -8,7 +8,11 @@
 #define _FCITX_FRONTEND_IBUSFRONTEND_IBUSFRONTEND_H_
 
 #include <unistd.h>
+#include <memory>
+#include <set>
+#include <string>
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"

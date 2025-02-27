@@ -12,6 +12,8 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <wayland-client-core.h>
+#include <wayland-client-protocol.h>
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"

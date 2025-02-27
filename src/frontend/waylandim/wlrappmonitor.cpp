@@ -12,6 +12,8 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <wayland-client-core.h>
+#include <wayland-util.h>
 #include "fcitx-utils/signals.h"
 #include "display.h"
 #include "zwlr_foreign_toplevel_handle_v1.h"

@@ -14,6 +14,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <vector>
+#include <wayland-client-core.h>
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysymgen.h"

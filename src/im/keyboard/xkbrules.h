@@ -10,7 +10,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "fcitx/misc_p.h"
+#include "fcitx-utils/misc_p.h"
 
 namespace fcitx {
 

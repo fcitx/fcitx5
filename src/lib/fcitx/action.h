@@ -8,6 +8,8 @@
 #define _FCITX_ACTION_H_
 
 #include <memory>
+#include <string>
+#include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/element.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
@@ -93,7 +95,7 @@ public:
      * It is only meaningful when isCheckable is true.
      * @see setCheckable
      */
-    virtual bool isChecked(InputContext *) const { return false; }
+    virtual bool isChecked(InputContext * /*unused*/) const { return false; }
 
     /**
      * Return a long description for this action.
@@ -101,7 +103,7 @@ public:
      * In some UI implementation, this is not displayed at all. In some other
      * implemented, it is only displayed as tooltip.
      */
-    virtual std::string longText(InputContext *) const { return {}; }
+    virtual std::string longText(InputContext * /*unused*/) const { return {}; }
 
     /**
      * Set the sub menu of this action.
@@ -129,7 +131,7 @@ public:
      *
      * This function may be triggered by user mouse click of the given action.
      */
-    virtual void activate(InputContext *) {}
+    virtual void activate(InputContext * /*unused*/) {}
 
     /**
      * Notify that this action is required to be updated of given input context.
@@ -176,12 +178,12 @@ public:
     void setShortText(const std::string &text);
     void setLongText(const std::string &text);
 
-    std::string shortText(InputContext *) const override;
-    std::string icon(InputContext *) const override;
-    bool isChecked(InputContext *) const override;
-    std::string longText(InputContext *) const override;
+    std::string shortText(InputContext * /*unused*/) const override;
+    std::string icon(InputContext * /*unused*/) const override;
+    bool isChecked(InputContext * /*unused*/) const override;
+    std::string longText(InputContext * /*unused*/) const override;
 
-    void activate(fcitx::InputContext *) override;
+    void activate(fcitx::InputContext * /*unused*/) override;
 
     FCITX_DECLARE_SIGNAL(SimpleAction, Activated, void(InputContext *));
 

@@ -7,7 +7,9 @@
 #ifndef _FCITX_FOCUSGROUP_H_
 #define _FCITX_FOCUSGROUP_H_
 
+#include <cstddef>
 #include <memory>
+#include <string>
 #include <fcitx-utils/macros.h>
 #include <fcitx/fcitxcore_export.h>
 #include <fcitx/inputcontext.h>

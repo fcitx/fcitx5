@@ -6,6 +6,11 @@
  */
 
 #include <cassert>
+#include <cstddef>
+#include <memory>
+#include <string>
+#include "fcitx-utils/macros.h"
+#include "fcitx/event.h"
 #include "focusgroup_p.h"
 #include "inputcontext.h"
 #include "inputcontextmanager.h"
@@ -29,7 +34,7 @@ FocusGroup::~FocusGroup() {
 
 void FocusGroup::setFocusedInputContext(InputContext *ic) {
     FCITX_D();
-    assert(!ic || d->ics_.count(ic) > 0);
+    assert(!ic || d->ics_.contains(ic));
     if (ic == d->focus_) {
         return;
     }

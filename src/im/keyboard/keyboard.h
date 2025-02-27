@@ -20,11 +20,12 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
 #include "fcitx-config/rawconfig.h"
-#include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx-utils/key.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -199,7 +200,7 @@ public:
                  const std::vector<std::string> &languages)> &callback);
 
     bool isBlockedForLongPress(const std::string &program) const {
-        return longPressBlocklistSet_.count(program) > 0;
+        return longPressBlocklistSet_.contains(program);
     }
     const auto &longPressData() const { return longPressData_; }
     bool supportHint(const std::string &language);
