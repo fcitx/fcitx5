@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-02-26 20:24+0000\n"
+"POT-Creation-Date: 2025-02-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -92,8 +92,8 @@ msgid "<Non Private Use High Surrogate>"
 msgstr "<Не лично использовать высокий заменитель>"
 
 #: src/modules/clipboard/clipboard.cpp:116
-msgid "<Passowrd>"
-msgstr "<Пароль>"
+msgid "<Password>"
+msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
