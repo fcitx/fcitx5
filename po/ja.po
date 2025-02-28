@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-02-27 20:24+0000\n"
+"POT-Creation-Date: 2025-02-28 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -92,7 +92,7 @@ msgstr "<Non Private Use High Surrogate>"
 
 #: src/modules/clipboard/clipboard.cpp:116
 msgid "<Password>"
-msgstr ""
+msgstr "<Password>"
 
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
@@ -176,7 +176,7 @@ msgstr "システム XKB 設定の上書きを許可する (KDE5+ と GNOME の�
 msgid "Allow input method in the password field"
 msgstr "パスワード欄に入力メソッドを許可する"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:31
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
 msgstr "Alt"
 
@@ -199,7 +199,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "右側のアプリケーション"
 
-#: src/im/keyboard/keyboard.h:100
+#: src/im/keyboard/keyboard.h:101
 msgid "Applications disabled for long press"
 msgstr "長押しを無効にするアプリケーション"
 
@@ -439,7 +439,7 @@ msgstr "Fcitx5 設定を変更"
 msgid "Check box"
 msgstr "チェックボックス"
 
-#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:43
+#: src/im/keyboard/keyboard.h:69 src/modules/quickphrase/quickphrase.h:43
 msgid "Choose key modifier"
 msgstr "キーモディファイアーを選択"
 
@@ -483,19 +483,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:711
+#: src/im/keyboard/keyboard.cpp:718
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:702
+#: src/im/keyboard/keyboard.cpp:709
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:705
+#: src/im/keyboard/keyboard.cpp:712
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:707
+#: src/im/keyboard/keyboard.cpp:714
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -508,7 +508,7 @@ msgstr "設定:"
 msgid "Configure"
 msgstr "設定"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
+#: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
 msgstr "Control"
 
@@ -670,7 +670,7 @@ msgstr ""
 "とを検出しました。GTK_IM_MODULE の設定を解除し、代わりにWayland 入力メソッド"
 "フロントエンドを使用することを推奨します。"
 
-#: src/frontend/waylandim/waylandim.h:35
+#: src/frontend/waylandim/waylandim.h:36
 msgid "Detect current running application (Need restart)"
 msgstr "現在実行中のアプリケーションを検出する（再起動が必要）"
 
@@ -736,11 +736,11 @@ msgstr "KWin でブラーを有効にする"
 msgid "Enable Spell check"
 msgstr "スペルチェックを有効にする"
 
-#: src/im/keyboard/keyboard.h:63
+#: src/im/keyboard/keyboard.h:64
 msgid "Enable emoji in hint"
 msgstr "絵文字のヒントを有効にする"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:67
 msgid "Enable emoji in quickphrase"
 msgstr "絵文字のクイックフレーズを有効にする"
 
@@ -748,7 +748,7 @@ msgstr "絵文字のクイックフレーズを有効にする"
 msgid "Enable fractional scale under Wayland"
 msgstr "Wayland で分数スケールを有効にする"
 
-#: src/im/keyboard/keyboard.h:71
+#: src/im/keyboard/keyboard.h:72
 msgid "Enable hint by default"
 msgstr "デフォルトでヒントを有効にする"
 
@@ -971,7 +971,7 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "Forward"
 
-#: src/frontend/waylandim/waylandim.h:38
+#: src/frontend/waylandim/waylandim.h:39
 msgid "Forward key event instead of commiting text if it is not handled"
 msgstr ""
 "キーイベントが処理されない場合、テキストをコミットする代わりにキーイベントを"
@@ -1259,7 +1259,7 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "IBus フロントエンド"
 
-#: src/frontend/waylandim/waylandim.h:47
+#: src/frontend/waylandim/waylandim.h:48
 msgid ""
 "If enabled, when using zwp_input_method_v2, do not create and destroy "
 "zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
@@ -1302,7 +1302,7 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:710 src/lib/fcitx/instance.cpp:466
+#: src/im/keyboard/keyboard.cpp:717 src/lib/fcitx/instance.cpp:466
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
@@ -1424,7 +1424,7 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "カタカナ"
 
-#: src/frontend/waylandim/waylandim.h:43
+#: src/frontend/waylandim/waylandim.h:44
 msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
 msgstr "V2 プロトコルの仮想キーボードオブジェクトを維持する (再起動が必要)"
 
@@ -1432,16 +1432,16 @@ msgstr "V2 プロトコルの仮想キーボードオブジェクトを維持す
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:338 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:340 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:256
+#: src/im/keyboard/keyboard.cpp:258
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:274
+#: src/im/keyboard/keyboard.cpp:276
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
@@ -1786,7 +1786,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "ログオフ"
 
-#: src/im/keyboard/keyboard.h:103
+#: src/im/keyboard/keyboard.h:104
 msgid "Long Press behavior"
 msgstr "長押し時の動作"
 
@@ -1974,7 +1974,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr "ニュース"
 
-#: src/im/keyboard/keyboard.h:60
+#: src/im/keyboard/keyboard.h:61
 msgid "Next Candidate"
 msgstr "次の候補"
 
@@ -1990,7 +1990,7 @@ msgstr "いいえ"
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:30
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:30
 msgid "None"
 msgstr "なし"
 
@@ -2029,7 +2029,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:696
+#: src/im/keyboard/keyboard.cpp:703
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2098,7 +2098,7 @@ msgstr "Page Up"
 msgid "Page button vertical alignment"
 msgstr "ページボタンの垂直方向の配置"
 
-#: src/im/keyboard/keyboard.h:49
+#: src/im/keyboard/keyboard.h:50
 msgid "Page size"
 msgstr "ページサイズ"
 
@@ -2177,7 +2177,7 @@ msgstr "テキストアイコンを優先する"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:54
+#: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
 msgstr "前の候補"
 
@@ -2423,7 +2423,7 @@ msgstr "アプリケーションにプリエディットを表示する"
 msgid "Show preedit text when typing password"
 msgstr "パスワード入力時にプリエディットテキストを表示する"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:90
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2449,7 +2449,7 @@ msgstr "スペース"
 msgid "Spacing"
 msgstr "間隔"
 
-#: src/im/keyboard/keyboard.h:91 src/modules/spell/spell.conf.in.in:2
+#: src/im/keyboard/keyboard.h:92 src/modules/spell/spell.conf.in.in:2
 msgid "Spell"
 msgstr "スペル"
 
@@ -2496,7 +2496,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "サブタイトル"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
+#: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
 msgid "Super"
 msgstr "Super"
 
@@ -2715,15 +2715,15 @@ msgstr "トリガーキー"
 msgid "Trigger Key for only current input context"
 msgstr "現在の入力コンテキストのみのトリガーキー"
 
-#: src/im/keyboard/keyboard.h:74
+#: src/im/keyboard/keyboard.h:75
 msgid "Trigger hint mode"
 msgstr "ヒントモードの切り替え"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:80
 msgid "Trigger hint mode for one time"
 msgstr "ヒントモードに一時的に切り替え"
 
-#: src/im/keyboard/keyboard.h:94
+#: src/im/keyboard/keyboard.h:95
 msgid "Type special characters with long press"
 msgstr "長押しで特殊文字を入力する"
 
@@ -2777,7 +2777,7 @@ msgstr "入力メソッドの言語を使用してテキストを表示する"
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 
-#: src/im/keyboard/keyboard.h:85
+#: src/im/keyboard/keyboard.h:86
 msgid "Use new compose behavior"
 msgstr "新規入力時の動作を使用する"
 
@@ -3076,7 +3076,7 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:315
+#: src/im/keyboard/keyboard.cpp:317
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
