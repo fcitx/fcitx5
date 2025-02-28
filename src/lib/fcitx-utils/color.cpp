@@ -6,6 +6,7 @@
  */
 
 #include "color.h"
+#include <algorithm>
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -20,9 +21,7 @@ static unsigned short roundColor(unsigned short c) {
     return c <= 255 ? c : 255;
 }
 
-static float roundColorF(float f) {
-    return f < 0 ? 0.0F : (f > 1.0 ? 1.0F : f);
-}
+static float roundColorF(float f) { return std::clamp(f, 0.0F, 1.0F); }
 
 static unsigned short extendColor(unsigned short c) {
     c = roundColor(c);
@@ -49,7 +48,7 @@ static inline unsigned short to_hex_digit(char hi, char lo) {
         dlo = lo - 'a' + 10;
     }
 
-    return dhi * 16 + dlo;
+    return (dhi * 16) + dlo;
 }
 
 Color::Color(unsigned short r, unsigned short g, unsigned short b,

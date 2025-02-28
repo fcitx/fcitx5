@@ -8,6 +8,8 @@
 #define _FCITX_UTILS_ICONTHEME_H_
 
 #include <memory>
+#include <string>
+#include <vector>
 #include <fcitx-config/enum.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/i18nstring.h>

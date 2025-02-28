@@ -6,17 +6,38 @@
  */
 
 #include "dbusfrontend.h"
+#include <cassert>
+#include <cstdint>
+#include <memory>
+#include <optional>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+#include <fcitx-utils/handlertable.h>
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/dbus/variant.h"
+#include "fcitx-utils/flags.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/metastring.h"
+#include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
 
@@ -41,10 +62,7 @@ bool useClientSideUI(Instance *instance) {
         return true;
     }
     const static DesktopType desktop = getDesktopType();
-    if (desktop == DesktopType::GNOME) {
-        return false;
-    }
-    return true;
+    return desktop != DesktopType::GNOME;
 }
 
 bool x11UseClientSideUI() {
@@ -65,7 +83,7 @@ buildFormattedTextVector(const Text &text) {
 std::string
 getArgument(const std::unordered_map<std::string, std::string> &args,
             const std::string &name, const std::string &defaultValue = "") {
-    if (auto *value = findValue(args, name)) {
+    if (const auto *value = findValue(args, name)) {
         return *value;
     }
     return defaultValue;
@@ -194,25 +212,27 @@ public:
     }
 
     void updateClientSideUIImpl() override {
-        auto instance = im_->instance();
+        auto *instance = im_->instance();
         auto preedit = instance->outputFilter(this, inputPanel().preedit());
         auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
         auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
         auto candidateList = inputPanel().candidateList();
         int cursorIndex = 0;
 
-        std::vector<dbus::DBusStruct<std::string, int>> preeditStrings,
-            auxUpStrings, auxDownStrings;
+        std::vector<dbus::DBusStruct<std::string, int>> preeditStrings;
+        std::vector<dbus::DBusStruct<std::string, int>> auxUpStrings;
+        std::vector<dbus::DBusStruct<std::string, int>> auxDownStrings;
         std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
 
         preeditStrings = buildFormattedTextVector(preedit);
         auxUpStrings = buildFormattedTextVector(auxUp);
         auxDownStrings = buildFormattedTextVector(auxDown);
-        bool hasPrev = false, hasNext = false;
+        bool hasPrev = false;
+        bool hasNext = false;
         int layoutHint = 0;
         if (candidateList) {
             for (int i = 0, e = candidateList->size(); i < e; i++) {
-                auto &candidate = candidateList->candidate(i);
+                const auto &candidate = candidateList->candidate(i);
                 if (candidate.isPlaceHolder()) {
                     continue;
                 }
@@ -296,8 +316,8 @@ public:
         // use supportedCapability_'s value to get all the effective bits.
         if (supportedCapability_.has_value()) {
             cap &= supportedCapability_.value();
-        } else if ((cap & (~static_cast<uint64_t>(0xffffffffffull))) != 0ull) {
-            cap &= 0xffffffffull;
+        } else if ((cap & (~static_cast<uint64_t>(0xffffffffffULL))) != 0ULL) {
+            cap &= 0xffffffffULL;
         }
         rawCapabilityFlags_ = CapabilityFlags(cap);
         updateCapability();

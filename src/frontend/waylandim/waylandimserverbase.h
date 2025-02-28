@@ -12,6 +12,7 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <wayland-client-core.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/misc.h"

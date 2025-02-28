@@ -7,8 +7,10 @@
 #ifndef _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 #define _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 
-#include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx/addonfactory.h"
+#include <memory>
+#include <vector>
+#include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"

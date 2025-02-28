@@ -6,11 +6,20 @@
  */
 
 #include "candidatelist.h"
-#include <functional>
+#include <algorithm>
+#include <cstddef>
+#include <memory>
 #include <stdexcept>
+#include <string>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/utf8.h>
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx/text.h"
 
 namespace fcitx {
 
@@ -354,7 +363,9 @@ public:
         return remain;
     }
 
-    int toGlobalIndex(int idx) const { return idx + currentPage_ * pageSize_; }
+    int toGlobalIndex(int idx) const {
+        return idx + (currentPage_ * pageSize_);
+    }
 
     void checkIndex(int idx) const {
         if (idx < 0 || idx >= size()) {
@@ -416,7 +427,7 @@ std::string keyToLabel(const Key &key) {
 
 #define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
     if (key.states() & KeyState::VALUE) {                                      \
-        result += STR;                                                         \
+        result += (STR);                                                       \
     }
     _APPEND_MODIFIER_STRING("C-", Ctrl)
     _APPEND_MODIFIER_STRING("A-", Alt)
@@ -441,9 +452,7 @@ std::string keyToLabel(const Key &key) {
 
 void CommonCandidateList::setLabels(const std::vector<std::string> &labels) {
     FCITX_D();
-    fillLabels(
-        d->labels_, labels,
-        [](const std::string &str) -> const std::string & { return str; });
+    fillLabels(d->labels_, labels, [](const std::string &str) { return str; });
 }
 
 void CommonCandidateList::setSelectionKey(const KeyList &keyList) {
@@ -668,9 +677,10 @@ void CommonCandidateList::moveCursor(bool prev) {
                 setPage(d->cursorIndex_ / d->pageSize_);
             }
         }
-    } while (!deadloopDetect.count(d->cursorIndex_) && d->cursorIndex_ >= 0 &&
+    } while (!deadloopDetect.contains(d->cursorIndex_) &&
+             d->cursorIndex_ >= 0 &&
              candidateFromAll(d->cursorIndex_).isPlaceHolder());
-    if (deadloopDetect.count(d->cursorIndex_)) {
+    if (deadloopDetect.contains(d->cursorIndex_)) {
         d->cursorIndex_ = startCursor;
         d->currentPage_ = startPage;
     }

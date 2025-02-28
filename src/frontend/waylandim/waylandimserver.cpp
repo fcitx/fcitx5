@@ -17,6 +17,9 @@
 #include <string_view>
 #include <tuple>
 #include <utility>
+#include <wayland-client-core.h>
+#include <wayland-client-protocol.h>
+#include <wayland-util.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/event.h"
@@ -494,7 +497,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
             // Let's trick the key event system by fake our first.
             // Remove 100 from the initial interval.
             timeEvent_->setNextInterval(std::max(
-                0, std::max(0, repeatDelay() * 1000 - repeatHackDelay)));
+                0, std::max(0, (repeatDelay() * 1000) - repeatHackDelay)));
             timeEvent_->setOneShot();
         }
     }
@@ -514,7 +517,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
         WAYLANDIM_DEBUG() << "Engine handling speed can not keep up with key "
                              "repetition rate.";
         timeEvent_->setNextInterval(
-            std::clamp(repeatDelay() * 1000 - repeatHackDelay, 0, 1000));
+            std::clamp((repeatDelay() * 1000) - repeatHackDelay, 0, 1000));
     }
 }
 void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,

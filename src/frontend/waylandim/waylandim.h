@@ -11,6 +11,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <wayland-client-core.h>
 #include <wayland-client.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"

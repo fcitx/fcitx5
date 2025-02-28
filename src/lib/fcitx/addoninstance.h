@@ -88,11 +88,13 @@ public:
     virtual const Configuration *getConfig() const { return nullptr; }
 
     /// Set configuration from Raw Config.
-    virtual void setConfig(const RawConfig &) {}
-    virtual const Configuration *getSubConfig(const std::string &) const {
+    virtual void setConfig(const RawConfig & /*unused*/) {}
+    virtual const Configuration *
+    getSubConfig(const std::string & /*unused*/) const {
         return nullptr;
     }
-    virtual void setSubConfig(const std::string &, const RawConfig &) {}
+    virtual void setSubConfig(const std::string & /*unused*/,
+                              const RawConfig & /*unused*/) {}
 
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type

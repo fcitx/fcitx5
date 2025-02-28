@@ -18,11 +18,13 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+#include <format>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
@@ -382,7 +384,7 @@ static inline bool isValidSym(const Key &key) {
         return false;
     }
 
-    return validSyms.count(key.sym());
+    return validSyms.contains(key.sym());
 }
 
 static KeyList FCITX_HYPHEN_APOS = Key::keyListFromString("minus apostrophe");
@@ -438,15 +440,18 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     // Always update preedit after key event.
     Finally finally([state]() { state->setPreedit(); });
     if (state->handleLongPress(event)) {
-        return event.filterAndAccept();
+        event.filterAndAccept();
+        return;
     }
 
     if (state->handleSpellModeTrigger(entry, event)) {
-        return event.filterAndAccept();
+        event.filterAndAccept();
+        return;
     }
 
     if (state->handleCandidateSelection(event)) {
-        return event.filterAndAccept();
+        event.filterAndAccept();
+        return;
     }
 
     if (event.key().check(FcitxKey_BackSpace)) {
@@ -467,7 +472,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     auto range = utf8::MakeUTF8CharRange(compose);
     for (auto i = std::begin(range); i != std::end(range); ++i) {
         // If char will break the word, commit the compose char.
-        if (!validChars.count(*i) || !state->updateBuffer(i.view())) {
+        if (!validChars.contains(*i) || !state->updateBuffer(i.view())) {
             state->commitBuffer();
             inputContext->commitString(std::string(i.view()));
         }
@@ -482,14 +487,16 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
           event.key().checkKeyList(FCITX_HYPHEN_APOS)))) {
         auto text = Key::keySymToUTF8(event.key().sym());
         if (!text.empty() && state->updateBuffer(text)) {
-            return event.filterAndAccept();
+            event.filterAndAccept();
+            return;
         }
     }
 
     // At this point, compose is already handled. The remaining is key event
     // and now we want to forward key.
     if (consumeKey) {
-        return event.filterAndAccept();
+        event.filterAndAccept();
+        return;
     }
 
     // if we reach here, just commit and discard buffer.
@@ -844,7 +851,6 @@ std::string KeyboardEngineState::preeditString() const {
 
 std::string KeyboardEngineState::currentSelection() const {
     auto candidateList = inputContext_->inputPanel().candidateList();
-    std::string preedit;
     if (mode_ == CandidateMode::Hint) {
         if (candidateList && candidateList->cursorIndex() >= 0) {
             if (const auto *candidate =

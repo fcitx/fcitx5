@@ -15,6 +15,8 @@
 #include <string>
 #include <tuple>
 #include <utility>
+#include <wayland-client-core.h>
+#include <wayland-client-protocol.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/event.h"
@@ -118,7 +120,7 @@ void WaylandIMServerV2::refreshSeat() {
     }
     auto seats = display_->getGlobals<wayland::WlSeat>();
     for (const auto &seat : seats) {
-        if (icMap_.count(seat.get())) {
+        if (icMap_.contains(seat.get())) {
             continue;
         }
         auto *ic =
@@ -495,7 +497,8 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
             repeatSym_ = event.rawKey().sym();
             // Let's trick the key event system by fake our first.
             // Remove 100 from the initial interval.
-            timeEvent_->setNextInterval(repeatDelay() * 1000 - repeatHackDelay);
+            timeEvent_->setNextInterval((repeatDelay() * 1000) -
+                                        repeatHackDelay);
             timeEvent_->setOneShot();
         }
     }
@@ -517,7 +520,7 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
         WAYLANDIM_DEBUG() << "Engine handling speed can not keep up with key "
                              "repetition rate.";
         timeEvent_->setNextInterval(
-            std::clamp(repeatDelay() * 1000 - repeatHackDelay, 0, 1000));
+            std::clamp((repeatDelay() * 1000) - repeatHackDelay, 0, 1000));
     }
 }
 void WaylandIMInputContextV2::modifiersCallback(uint32_t /*serial*/,

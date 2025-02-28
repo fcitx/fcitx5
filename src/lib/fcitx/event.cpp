@@ -6,6 +6,12 @@
  */
 
 #include "event.h"
+#include <cstdint>
+#include <memory>
+#include <string>
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/macros.h"
 
 namespace fcitx {
 
@@ -20,7 +26,7 @@ public:
     uint64_t userAction_ = 0;
     std::string text_;
     bool isLongPress_ = false;
-    float x_ = 0.0f, y_ = 0.0f;
+    float x_ = 0.0F, y_ = 0.0F;
 };
 
 Event::~Event() {}
