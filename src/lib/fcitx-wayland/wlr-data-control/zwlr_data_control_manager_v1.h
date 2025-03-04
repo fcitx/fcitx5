@@ -1,19 +1,23 @@
-#ifndef ZWLR_DATA_CONTROL_MANAGER_V1
-#define ZWLR_DATA_CONTROL_MANAGER_V1
+#ifndef ZWLR_DATA_CONTROL_MANAGER_V1_H_
+#define ZWLR_DATA_CONTROL_MANAGER_V1_H_
+#include <cstdint>
 #include <wayland-client.h>
-#include "fcitx-utils/signals.h"
-#include "wayland-wlr-data-control-unstable-v1-client-protocol.h"
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
+#include "wayland-wlr-data-control-unstable-v1-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class WlSeat;
 class ZwlrDataControlDeviceV1;
 class ZwlrDataControlSourceV1;
+
 class ZwlrDataControlManagerV1 final {
 public:
     static constexpr const char *interface = "zwlr_data_control_manager_v1";
     static constexpr const wl_interface *const wlInterface =
         &zwlr_data_control_manager_v1_interface;
     static constexpr const uint32_t version = 2;
-    typedef zwlr_data_control_manager_v1 wlType;
+    using wlType = zwlr_data_control_manager_v1;
     operator zwlr_data_control_manager_v1 *() { return data_.get(); }
     ZwlrDataControlManagerV1(wlType *data);
     ZwlrDataControlManagerV1(ZwlrDataControlManagerV1 &&other) noexcept =
@@ -28,6 +32,7 @@ public:
 
 private:
     static void destructor(zwlr_data_control_manager_v1 *);
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<zwlr_data_control_manager_v1, &destructor> data_;
@@ -36,5 +41,7 @@ static inline zwlr_data_control_manager_v1 *
 rawPointer(ZwlrDataControlManagerV1 *p) {
     return p ? static_cast<zwlr_data_control_manager_v1 *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // ZWLR_DATA_CONTROL_MANAGER_V1_H_

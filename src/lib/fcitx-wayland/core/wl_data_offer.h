@@ -1,15 +1,19 @@
-#ifndef WL_DATA_OFFER
-#define WL_DATA_OFFER
+#ifndef WL_DATA_OFFER_H_
+#define WL_DATA_OFFER_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {
+
 class WlDataOffer final {
 public:
     static constexpr const char *interface = "wl_data_offer";
     static constexpr const wl_interface *const wlInterface =
         &wl_data_offer_interface;
     static constexpr const uint32_t version = 3;
-    typedef wl_data_offer wlType;
+    using wlType = wl_data_offer;
     operator wl_data_offer *() { return data_.get(); }
     WlDataOffer(wlType *data);
     WlDataOffer(WlDataOffer &&other) noexcept = delete;
@@ -21,6 +25,7 @@ public:
     void receive(const char *mimeType, int32_t fd);
     void finish();
     void setActions(uint32_t dndActions, uint32_t preferredAction);
+
     auto &offer() { return offerSignal_; }
     auto &sourceActions() { return sourceActionsSignal_; }
     auto &action() { return actionSignal_; }
@@ -31,6 +36,7 @@ private:
     fcitx::Signal<void(const char *)> offerSignal_;
     fcitx::Signal<void(uint32_t)> sourceActionsSignal_;
     fcitx::Signal<void(uint32_t)> actionSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_data_offer, &destructor> data_;
@@ -38,5 +44,7 @@ private:
 static inline wl_data_offer *rawPointer(WlDataOffer *p) {
     return p ? static_cast<wl_data_offer *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_DATA_OFFER_H_

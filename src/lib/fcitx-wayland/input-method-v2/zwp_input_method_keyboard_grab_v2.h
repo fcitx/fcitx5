@@ -1,10 +1,13 @@
-#ifndef ZWP_INPUT_METHOD_KEYBOARD_GRAB_V2
-#define ZWP_INPUT_METHOD_KEYBOARD_GRAB_V2
-#include <memory>
+#ifndef ZWP_INPUT_METHOD_KEYBOARD_GRAB_V2_H_
+#define ZWP_INPUT_METHOD_KEYBOARD_GRAB_V2_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
-#include "wayland-input-method-unstable-v2-client-protocol.h"
+#include "wayland-input-method-unstable-v2-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class ZwpInputMethodKeyboardGrabV2 final {
 public:
     static constexpr const char *interface =
@@ -12,7 +15,7 @@ public:
     static constexpr const wl_interface *const wlInterface =
         &zwp_input_method_keyboard_grab_v2_interface;
     static constexpr const uint32_t version = 1;
-    typedef zwp_input_method_keyboard_grab_v2 wlType;
+    using wlType = zwp_input_method_keyboard_grab_v2;
     operator zwp_input_method_keyboard_grab_v2 *() { return data_.get(); }
     ZwpInputMethodKeyboardGrabV2(wlType *data);
     ZwpInputMethodKeyboardGrabV2(
@@ -22,6 +25,7 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+
     auto &keymap() { return keymapSignal_; }
     auto &key() { return keySignal_; }
     auto &modifiers() { return modifiersSignal_; }
@@ -35,6 +39,7 @@ private:
     fcitx::Signal<void(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t)>
         modifiersSignal_;
     fcitx::Signal<void(int32_t, int32_t)> repeatInfoSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<zwp_input_method_keyboard_grab_v2, &destructor> data_;
@@ -43,5 +48,7 @@ static inline zwp_input_method_keyboard_grab_v2 *
 rawPointer(ZwpInputMethodKeyboardGrabV2 *p) {
     return p ? static_cast<zwp_input_method_keyboard_grab_v2 *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // ZWP_INPUT_METHOD_KEYBOARD_GRAB_V2_H_

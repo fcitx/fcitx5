@@ -1,16 +1,20 @@
-#ifndef WL_SHM_POOL
-#define WL_SHM_POOL
+#ifndef WL_SHM_POOL_H_
+#define WL_SHM_POOL_H_
+#include <cstdint>
 #include <wayland-client.h>
-#include "fcitx-utils/signals.h"
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 namespace fcitx::wayland {
+
 class WlBuffer;
+
 class WlShmPool final {
 public:
     static constexpr const char *interface = "wl_shm_pool";
     static constexpr const wl_interface *const wlInterface =
         &wl_shm_pool_interface;
     static constexpr const uint32_t version = 1;
-    typedef wl_shm_pool wlType;
+    using wlType = wl_shm_pool;
     operator wl_shm_pool *() { return data_.get(); }
     WlShmPool(wlType *data);
     WlShmPool(WlShmPool &&other) noexcept = delete;
@@ -24,6 +28,7 @@ public:
 
 private:
     static void destructor(wl_shm_pool *);
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_shm_pool, &destructor> data_;
@@ -31,5 +36,7 @@ private:
 static inline wl_shm_pool *rawPointer(WlShmPool *p) {
     return p ? static_cast<wl_shm_pool *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_SHM_POOL_H_

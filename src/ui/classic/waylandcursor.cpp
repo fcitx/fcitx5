@@ -5,13 +5,17 @@
  *
  */
 #include "waylandcursor.h"
+#include <algorithm>
+#include <cstdint>
 #include <ctime>
 #include <memory>
+#include <string>
+#include <utility>
 #include <wayland-client-protocol.h>
 #include <wayland-cursor.h>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "display.h"
-#include "wayland-cursor-shape-client-protocol.h"
 #include "waylandpointer.h"
 #include "waylandui.h"
 #include "wl_callback.h"
@@ -24,7 +28,7 @@ namespace fcitx::classicui {
 
 WaylandCursor::WaylandCursor(WaylandPointer *pointer)
     : pointer_(pointer), animationStart_(now(CLOCK_MONOTONIC)) {
-    auto display = pointer->ui()->display();
+    auto *display = pointer->ui()->display();
     time_ = pointer->ui()->parent()->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, 0, 1000, [this](EventSourceTime *, uint64_t) {
             timerCallback();
@@ -98,13 +102,13 @@ void WaylandCursor::update() {
         return;
     }
     auto info = pointer_->ui()->cursorTheme()->loadCursorTheme(scale());
-    auto surface = getOrCreateSurface();
+    auto *surface = getOrCreateSurface();
     if (info.theme != theme_) {
         surface->attach(nullptr, 0, 0);
         surface->commit();
         theme_ = info.theme;
     }
-    auto cursor = info.cursor;
+    auto *cursor = info.cursor;
     if (!cursor) {
         return;
     }
@@ -145,7 +149,7 @@ void WaylandCursor::update() {
     if (duration) {
         newCallback.reset(surface->frame());
         time_->setOneShot();
-        time_->setNextInterval(duration * 1000);
+        time_->setNextInterval(duration * 1000ULL);
         newCallback->done().connect([this](uint32_t) { frameCallback(); });
     }
 

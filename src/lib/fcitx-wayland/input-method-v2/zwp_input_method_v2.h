@@ -1,19 +1,24 @@
-#ifndef ZWP_INPUT_METHOD_V2
-#define ZWP_INPUT_METHOD_V2
+#ifndef ZWP_INPUT_METHOD_V2_H_
+#define ZWP_INPUT_METHOD_V2_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
-#include "wayland-input-method-unstable-v2-client-protocol.h"
+#include "wayland-input-method-unstable-v2-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class WlSurface;
 class ZwpInputMethodKeyboardGrabV2;
 class ZwpInputPopupSurfaceV2;
+
 class ZwpInputMethodV2 final {
 public:
     static constexpr const char *interface = "zwp_input_method_v2";
     static constexpr const wl_interface *const wlInterface =
         &zwp_input_method_v2_interface;
     static constexpr const uint32_t version = 1;
-    typedef zwp_input_method_v2 wlType;
+    using wlType = zwp_input_method_v2;
     operator zwp_input_method_v2 *() { return data_.get(); }
     ZwpInputMethodV2(wlType *data);
     ZwpInputMethodV2(ZwpInputMethodV2 &&other) noexcept = delete;
@@ -28,6 +33,7 @@ public:
     void commit(uint32_t serial);
     ZwpInputPopupSurfaceV2 *getInputPopupSurface(WlSurface *surface);
     ZwpInputMethodKeyboardGrabV2 *grabKeyboard();
+
     auto &activate() { return activateSignal_; }
     auto &deactivate() { return deactivateSignal_; }
     auto &surroundingText() { return surroundingTextSignal_; }
@@ -47,6 +53,7 @@ private:
     fcitx::Signal<void(uint32_t, uint32_t)> contentTypeSignal_;
     fcitx::Signal<void()> doneSignal_;
     fcitx::Signal<void()> unavailableSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<zwp_input_method_v2, &destructor> data_;
@@ -54,5 +61,7 @@ private:
 static inline zwp_input_method_v2 *rawPointer(ZwpInputMethodV2 *p) {
     return p ? static_cast<zwp_input_method_v2 *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // ZWP_INPUT_METHOD_V2_H_

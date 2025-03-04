@@ -1,19 +1,24 @@
-#ifndef ZWP_TABLET_SEAT_V2
-#define ZWP_TABLET_SEAT_V2
+#ifndef ZWP_TABLET_SEAT_V2_H_
+#define ZWP_TABLET_SEAT_V2_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
-#include "wayland-tablet-client-protocol.h"
+#include "wayland-tablet-unstable-v2-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class ZwpTabletPadV2;
 class ZwpTabletToolV2;
 class ZwpTabletV2;
+
 class ZwpTabletSeatV2 final {
 public:
     static constexpr const char *interface = "zwp_tablet_seat_v2";
     static constexpr const wl_interface *const wlInterface =
         &zwp_tablet_seat_v2_interface;
     static constexpr const uint32_t version = 1;
-    typedef zwp_tablet_seat_v2 wlType;
+    using wlType = zwp_tablet_seat_v2;
     operator zwp_tablet_seat_v2 *() { return data_.get(); }
     ZwpTabletSeatV2(wlType *data);
     ZwpTabletSeatV2(ZwpTabletSeatV2 &&other) noexcept = delete;
@@ -21,6 +26,7 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+
     auto &tabletAdded() { return tabletAddedSignal_; }
     auto &toolAdded() { return toolAddedSignal_; }
     auto &padAdded() { return padAddedSignal_; }
@@ -31,6 +37,7 @@ private:
     fcitx::Signal<void(ZwpTabletV2 *)> tabletAddedSignal_;
     fcitx::Signal<void(ZwpTabletToolV2 *)> toolAddedSignal_;
     fcitx::Signal<void(ZwpTabletPadV2 *)> padAddedSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<zwp_tablet_seat_v2, &destructor> data_;
@@ -38,5 +45,7 @@ private:
 static inline zwp_tablet_seat_v2 *rawPointer(ZwpTabletSeatV2 *p) {
     return p ? static_cast<zwp_tablet_seat_v2 *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // ZWP_TABLET_SEAT_V2_H_
