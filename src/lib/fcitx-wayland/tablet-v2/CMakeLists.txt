@@ -1,6 +1,6 @@
 ecm_add_wayland_client_protocol(WAYLAND_TABLET_PROTOCOL_SRCS
     PROTOCOL ${WAYLAND_PROTOCOLS_PKGDATADIR}/unstable/tablet/tablet-unstable-v2.xml
-    BASENAME tablet)
+    BASENAME tablet-unstable-v2)
 
 set(FCITX_WAYLAND_TABLET_SOURCES
     zwp_tablet_manager_v2.cpp

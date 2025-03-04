@@ -1,18 +1,22 @@
-#ifndef WP_VIEWPORTER
-#define WP_VIEWPORTER
+#ifndef WP_VIEWPORTER_H_
+#define WP_VIEWPORTER_H_
+#include <cstdint>
 #include <wayland-client.h>
-#include "fcitx-utils/signals.h"
-#include "wayland-viewporter-client-protocol.h"
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
+#include "wayland-viewporter-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class WlSurface;
 class WpViewport;
+
 class WpViewporter final {
 public:
     static constexpr const char *interface = "wp_viewporter";
     static constexpr const wl_interface *const wlInterface =
         &wp_viewporter_interface;
     static constexpr const uint32_t version = 1;
-    typedef wp_viewporter wlType;
+    using wlType = wp_viewporter;
     operator wp_viewporter *() { return data_.get(); }
     WpViewporter(wlType *data);
     WpViewporter(WpViewporter &&other) noexcept = delete;
@@ -24,6 +28,7 @@ public:
 
 private:
     static void destructor(wp_viewporter *);
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wp_viewporter, &destructor> data_;
@@ -31,5 +36,7 @@ private:
 static inline wp_viewporter *rawPointer(WpViewporter *p) {
     return p ? static_cast<wp_viewporter *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WP_VIEWPORTER_H_

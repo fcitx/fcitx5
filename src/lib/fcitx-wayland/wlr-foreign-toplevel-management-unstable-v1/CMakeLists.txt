@@ -1,6 +1,6 @@
 ecm_add_wayland_client_protocol(WLR_FOREIGN_TOPLEVEL_MANAGEMENT_PROTOCOL_SRCS
     PROTOCOL ${CMAKE_CURRENT_SOURCE_DIR}/wlr-foreign-toplevel-management-unstable-v1.xml
-    BASENAME wlr-foreign-toplevel-management)
+    BASENAME wlr-foreign-toplevel-management-unstable-v1)
 
 set(FCITX_WAYLAND_WLR_FOREIGN_TOPLEVEL_MANAGEMENT_PROTOCOL_SOURCES
     zwlr_foreign_toplevel_manager_v1.cpp

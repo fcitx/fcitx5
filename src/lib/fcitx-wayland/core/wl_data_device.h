@@ -1,18 +1,23 @@
-#ifndef WL_DATA_DEVICE
-#define WL_DATA_DEVICE
+#ifndef WL_DATA_DEVICE_H_
+#define WL_DATA_DEVICE_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {
+
 class WlDataOffer;
 class WlDataSource;
 class WlSurface;
+
 class WlDataDevice final {
 public:
     static constexpr const char *interface = "wl_data_device";
     static constexpr const wl_interface *const wlInterface =
         &wl_data_device_interface;
     static constexpr const uint32_t version = 3;
-    typedef wl_data_device wlType;
+    using wlType = wl_data_device;
     operator wl_data_device *() { return data_.get(); }
     WlDataDevice(wlType *data);
     WlDataDevice(WlDataDevice &&other) noexcept = delete;
@@ -23,6 +28,7 @@ public:
     void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon,
                    uint32_t serial);
     void setSelection(WlDataSource *source, uint32_t serial);
+
     auto &dataOffer() { return dataOfferSignal_; }
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }
@@ -41,6 +47,7 @@ private:
     fcitx::Signal<void(uint32_t, wl_fixed_t, wl_fixed_t)> motionSignal_;
     fcitx::Signal<void()> dropSignal_;
     fcitx::Signal<void(WlDataOffer *)> selectionSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_data_device, &destructor> data_;
@@ -48,5 +55,7 @@ private:
 static inline wl_data_device *rawPointer(WlDataDevice *p) {
     return p ? static_cast<wl_data_device *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_DATA_DEVICE_H_

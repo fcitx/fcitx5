@@ -166,7 +166,7 @@ endif()
 
 if (ENABLE_WAYLAND)
     set(REQUIRED_WAYLAND_COMPONENTS Client Cursor)
-    find_package(Wayland REQUIRED COMPONENTS ${REQUIRED_WAYLAND_COMPONENTS})
+    find_package(Wayland 1.22 REQUIRED COMPONENTS ${REQUIRED_WAYLAND_COMPONENTS})
     find_package(WaylandScanner REQUIRED)
     find_package(WaylandProtocols REQUIRED)
     pkg_check_modules(Gio IMPORTED_TARGET gio-2.0)

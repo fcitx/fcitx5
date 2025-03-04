@@ -1,17 +1,22 @@
-#ifndef ZWP_INPUT_METHOD_CONTEXT_V1
-#define ZWP_INPUT_METHOD_CONTEXT_V1
+#ifndef ZWP_INPUT_METHOD_CONTEXT_V1_H_
+#define ZWP_INPUT_METHOD_CONTEXT_V1_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
-#include "wayland-input-method-unstable-v1-client-protocol.h"
+#include "wayland-input-method-unstable-v1-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class WlKeyboard;
+
 class ZwpInputMethodContextV1 final {
 public:
     static constexpr const char *interface = "zwp_input_method_context_v1";
     static constexpr const wl_interface *const wlInterface =
         &zwp_input_method_context_v1_interface;
     static constexpr const uint32_t version = 1;
-    typedef zwp_input_method_context_v1 wlType;
+    using wlType = zwp_input_method_context_v1;
     operator zwp_input_method_context_v1 *() { return data_.get(); }
     ZwpInputMethodContextV1(wlType *data);
     ZwpInputMethodContextV1(ZwpInputMethodContextV1 &&other) noexcept = delete;
@@ -35,6 +40,7 @@ public:
                    uint32_t modsLatched, uint32_t modsLocked, uint32_t group);
     void language(uint32_t serial, const char *language);
     void textDirection(uint32_t serial, uint32_t direction);
+
     auto &surroundingText() { return surroundingTextSignal_; }
     auto &reset() { return resetSignal_; }
     auto &contentType() { return contentTypeSignal_; }
@@ -52,6 +58,7 @@ private:
     fcitx::Signal<void(uint32_t, uint32_t)> invokeActionSignal_;
     fcitx::Signal<void(uint32_t)> commitStateSignal_;
     fcitx::Signal<void(const char *)> preferredLanguageSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<zwp_input_method_context_v1, &destructor> data_;
@@ -60,5 +67,7 @@ static inline zwp_input_method_context_v1 *
 rawPointer(ZwpInputMethodContextV1 *p) {
     return p ? static_cast<zwp_input_method_context_v1 *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // ZWP_INPUT_METHOD_CONTEXT_V1_H_

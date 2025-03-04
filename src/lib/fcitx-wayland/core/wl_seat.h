@@ -1,17 +1,22 @@
-#ifndef WL_SEAT
-#define WL_SEAT
+#ifndef WL_SEAT_H_
+#define WL_SEAT_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {
+
 class WlKeyboard;
 class WlPointer;
 class WlTouch;
+
 class WlSeat final {
 public:
     static constexpr const char *interface = "wl_seat";
     static constexpr const wl_interface *const wlInterface = &wl_seat_interface;
-    static constexpr const uint32_t version = 7;
-    typedef wl_seat wlType;
+    static constexpr const uint32_t version = 9;
+    using wlType = wl_seat;
     operator wl_seat *() { return data_.get(); }
     WlSeat(wlType *data);
     WlSeat(WlSeat &&other) noexcept = delete;
@@ -22,6 +27,7 @@ public:
     WlPointer *getPointer();
     WlKeyboard *getKeyboard();
     WlTouch *getTouch();
+
     auto &capabilities() { return capabilitiesSignal_; }
     auto &name() { return nameSignal_; }
 
@@ -30,6 +36,7 @@ private:
     static const struct wl_seat_listener listener;
     fcitx::Signal<void(uint32_t)> capabilitiesSignal_;
     fcitx::Signal<void(const char *)> nameSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_seat, &destructor> data_;
@@ -37,5 +44,7 @@ private:
 static inline wl_seat *rawPointer(WlSeat *p) {
     return p ? static_cast<wl_seat *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_SEAT_H_

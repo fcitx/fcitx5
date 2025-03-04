@@ -1,18 +1,23 @@
-#ifndef WL_SHELL_SURFACE
-#define WL_SHELL_SURFACE
+#ifndef WL_SHELL_SURFACE_H_
+#define WL_SHELL_SURFACE_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {
+
 class WlOutput;
 class WlSeat;
 class WlSurface;
+
 class WlShellSurface final {
 public:
     static constexpr const char *interface = "wl_shell_surface";
     static constexpr const wl_interface *const wlInterface =
         &wl_shell_surface_interface;
     static constexpr const uint32_t version = 1;
-    typedef wl_shell_surface wlType;
+    using wlType = wl_shell_surface;
     operator wl_shell_surface *() { return data_.get(); }
     WlShellSurface(wlType *data);
     WlShellSurface(WlShellSurface &&other) noexcept = delete;
@@ -31,6 +36,7 @@ public:
     void setMaximized(WlOutput *output);
     void setTitle(const char *title);
     void setClass(const char *class_);
+
     auto &ping() { return pingSignal_; }
     auto &configure() { return configureSignal_; }
     auto &popupDone() { return popupDoneSignal_; }
@@ -41,6 +47,7 @@ private:
     fcitx::Signal<void(uint32_t)> pingSignal_;
     fcitx::Signal<void(uint32_t, int32_t, int32_t)> configureSignal_;
     fcitx::Signal<void()> popupDoneSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_shell_surface, &destructor> data_;
@@ -48,5 +55,7 @@ private:
 static inline wl_shell_surface *rawPointer(WlShellSurface *p) {
     return p ? static_cast<wl_shell_surface *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_SHELL_SURFACE_H_

@@ -1,19 +1,24 @@
-#ifndef ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1
-#define ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1
+#ifndef ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1_H_
+#define ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
-#include "wayland-wlr-foreign-toplevel-management-client-protocol.h"
+#include "wayland-wlr-foreign-toplevel-management-unstable-v1-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
+
 class WlOutput;
 class WlSeat;
 class WlSurface;
+
 class ZwlrForeignToplevelHandleV1 final {
 public:
     static constexpr const char *interface = "zwlr_foreign_toplevel_handle_v1";
     static constexpr const wl_interface *const wlInterface =
         &zwlr_foreign_toplevel_handle_v1_interface;
     static constexpr const uint32_t version = 3;
-    typedef zwlr_foreign_toplevel_handle_v1 wlType;
+    using wlType = zwlr_foreign_toplevel_handle_v1;
     operator zwlr_foreign_toplevel_handle_v1 *() { return data_.get(); }
     ZwlrForeignToplevelHandleV1(wlType *data);
     ZwlrForeignToplevelHandleV1(ZwlrForeignToplevelHandleV1 &&other) noexcept =
@@ -33,6 +38,7 @@ public:
                       int32_t height);
     void setFullscreen(WlOutput *output);
     void unsetFullscreen();
+
     auto &title() { return titleSignal_; }
     auto &appId() { return appIdSignal_; }
     auto &outputEnter() { return outputEnterSignal_; }
@@ -53,6 +59,7 @@ private:
     fcitx::Signal<void()> doneSignal_;
     fcitx::Signal<void()> closedSignal_;
     fcitx::Signal<void(ZwlrForeignToplevelHandleV1 *)> parentSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<zwlr_foreign_toplevel_handle_v1, &destructor> data_;
@@ -61,5 +68,7 @@ static inline zwlr_foreign_toplevel_handle_v1 *
 rawPointer(ZwlrForeignToplevelHandleV1 *p) {
     return p ? static_cast<zwlr_foreign_toplevel_handle_v1 *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1_H_

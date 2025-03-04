@@ -1,16 +1,20 @@
-#ifndef WL_SUBSURFACE
-#define WL_SUBSURFACE
+#ifndef WL_SUBSURFACE_H_
+#define WL_SUBSURFACE_H_
+#include <cstdint>
 #include <wayland-client.h>
-#include "fcitx-utils/signals.h"
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 namespace fcitx::wayland {
+
 class WlSurface;
+
 class WlSubsurface final {
 public:
     static constexpr const char *interface = "wl_subsurface";
     static constexpr const wl_interface *const wlInterface =
         &wl_subsurface_interface;
     static constexpr const uint32_t version = 1;
-    typedef wl_subsurface wlType;
+    using wlType = wl_subsurface;
     operator wl_subsurface *() { return data_.get(); }
     WlSubsurface(wlType *data);
     WlSubsurface(WlSubsurface &&other) noexcept = delete;
@@ -26,6 +30,7 @@ public:
 
 private:
     static void destructor(wl_subsurface *);
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_subsurface, &destructor> data_;
@@ -33,5 +38,7 @@ private:
 static inline wl_subsurface *rawPointer(WlSubsurface *p) {
     return p ? static_cast<wl_subsurface *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_SUBSURFACE_H_

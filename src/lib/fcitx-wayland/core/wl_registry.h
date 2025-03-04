@@ -1,15 +1,19 @@
-#ifndef WL_REGISTRY
-#define WL_REGISTRY
+#ifndef WL_REGISTRY_H_
+#define WL_REGISTRY_H_
+#include <cstdint>
 #include <wayland-client.h>
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {
+
 class WlRegistry final {
 public:
     static constexpr const char *interface = "wl_registry";
     static constexpr const wl_interface *const wlInterface =
         &wl_registry_interface;
     static constexpr const uint32_t version = 1;
-    typedef wl_registry wlType;
+    using wlType = wl_registry;
     operator wl_registry *() { return data_.get(); }
     WlRegistry(wlType *data);
     WlRegistry(WlRegistry &&other) noexcept = delete;
@@ -17,11 +21,13 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+
     template <typename T>
     T *bind(uint32_t name, uint32_t requested_version) {
         return new T(static_cast<typename T::wlType *>(
             wl_registry_bind(*this, name, T::wlInterface, requested_version)));
     }
+
     auto &global() { return globalSignal_; }
     auto &globalRemove() { return globalRemoveSignal_; }
 
@@ -30,6 +36,7 @@ private:
     static const struct wl_registry_listener listener;
     fcitx::Signal<void(uint32_t, const char *, uint32_t)> globalSignal_;
     fcitx::Signal<void(uint32_t)> globalRemoveSignal_;
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_registry, &destructor> data_;
@@ -37,5 +44,7 @@ private:
 static inline wl_registry *rawPointer(WlRegistry *p) {
     return p ? static_cast<wl_registry *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_REGISTRY_H_

@@ -1,15 +1,18 @@
-#ifndef WL_REGION
-#define WL_REGION
+#ifndef WL_REGION_H_
+#define WL_REGION_H_
+#include <cstdint>
 #include <wayland-client.h>
-#include "fcitx-utils/signals.h"
+#include <wayland-util.h>
+#include "fcitx-utils/misc.h"
 namespace fcitx::wayland {
+
 class WlRegion final {
 public:
     static constexpr const char *interface = "wl_region";
     static constexpr const wl_interface *const wlInterface =
         &wl_region_interface;
     static constexpr const uint32_t version = 1;
-    typedef wl_region wlType;
+    using wlType = wl_region;
     operator wl_region *() { return data_.get(); }
     WlRegion(wlType *data);
     WlRegion(WlRegion &&other) noexcept = delete;
@@ -22,6 +25,7 @@ public:
 
 private:
     static void destructor(wl_region *);
+
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_region, &destructor> data_;
@@ -29,5 +33,7 @@ private:
 static inline wl_region *rawPointer(WlRegion *p) {
     return p ? static_cast<wl_region *>(*p) : nullptr;
 }
+
 } // namespace fcitx::wayland
-#endif
+
+#endif // WL_REGION_H_
