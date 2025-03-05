@@ -598,6 +598,65 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
     vk_->key(time, code, state);
 }
 
+void WaylandIMInputContextV2::sendModifiers(const int keycode,
+                                          uint32_t state) const {
+    if (!vkReady_ || !server_->state_) {
+        return;
+    }
+
+    if (!isModifier(keycode)) {
+        return;
+    }
+
+    xkb_mod_mask_t modsDepressed, modsLatched, modsLocked, mask = 0;
+    xkb_layout_index_t group;
+
+    modsDepressed = xkb_state_serialize_mods(server_->state_.get(),
+                                    XKB_STATE_MODS_DEPRESSED);
+    modsLatched = xkb_state_serialize_mods(server_->state_.get(),
+                                    XKB_STATE_MODS_LATCHED);
+    modsLocked = xkb_state_serialize_mods(server_->state_.get(),
+                                    XKB_STATE_MODS_LATCHED);
+    group = xkb_state_serialize_layout(server_->state_.get(),
+                                    XKB_STATE_LAYOUT_LOCKED);
+
+    int code = keycode - 8;
+
+    bool isLock = false;
+    if (code == KEY_LEFTCTRL || code == KEY_RIGHTCTRL) {
+        mask = server_->stateMask_.control_mask;
+    } else if (code == KEY_LEFTSHIFT || code == KEY_LEFTSHIFT) {
+        mask = server_->stateMask_.shift_mask;
+    } else if (code == KEY_LEFTALT || code == KEY_RIGHTALT) {
+        mask = server_->stateMask_.mod1_mask;
+    } else if (code == KEY_LEFTMETA || code == KEY_RIGHTMETA) {
+        mask = server_->stateMask_.mod4_mask;
+    } else if (code == KEY_CAPSLOCK) {
+        mask = server_->stateMask_.lock_mask;
+        isLock = true;
+    } else if (code == KEY_NUMLOCK) {
+        mask = server_->stateMask_.mod2_mask;
+        isLock = true;
+    }
+
+    if (isLock) {
+        if (state == WL_KEYBOARD_KEY_STATE_RELEASED) {
+            modsLocked ^= mask;
+        } else {
+            // only update lock modifiers after released.
+            return;
+        }
+    } else {
+        if (state == WL_KEYBOARD_KEY_STATE_RELEASED) {
+            modsDepressed &= ~mask;
+        } else {
+            modsDepressed |= mask;
+        }
+    }
+
+    vk_->modifiers(modsDepressed, modsLatched, modsLocked, group);
+}
+
 void WaylandIMInputContextV2::forwardKeyDelegate(
     InputContext * /*ic*/, const ForwardKeyEvent &key) const {
     uint32_t code = 0;
@@ -616,13 +675,19 @@ void WaylandIMInputContextV2::forwardKeyDelegate(
         }
     }
 
-    Key keyWithCode(key.rawKey().sym(), key.rawKey().states(), code);
+    if (code && isModifier(code)) {
+        sendModifiers(key.rawKey().code(),
+                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                    : WL_KEYBOARD_KEY_STATE_PRESSED);
+    } else {
+        Key keyWithCode(key.rawKey().sym(), key.rawKey().states(), code);
 
-    sendKeyToVK(time_, keyWithCode,
-                key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                : WL_KEYBOARD_KEY_STATE_PRESSED);
-    if (!key.isRelease()) {
-        sendKeyToVK(time_, keyWithCode, WL_KEYBOARD_KEY_STATE_RELEASED);
+        sendKeyToVK(time_, keyWithCode,
+                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                    : WL_KEYBOARD_KEY_STATE_PRESSED);
+        if (!key.isRelease()) {
+            sendKeyToVK(time_, keyWithCode, WL_KEYBOARD_KEY_STATE_RELEASED);
+        }
     }
 }
 

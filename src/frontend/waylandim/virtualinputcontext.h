@@ -17,6 +17,23 @@
 #include "fcitx/inputcontext.h"
 #include "appmonitor.h"
 
+#ifdef __linux__
+#include <linux/input-event-codes.h>
+#elif __FreeBSD__
+#include <dev/evdev/input-event-codes.h>
+#else
+#define KEY_LEFTCTRL    29
+#define KEY_LEFTSHIFT   42
+#define KEY_RIGHTSHIFT  54
+#define KEY_LEFTALT     56
+#define KEY_CAPSLOCK    58
+#define KEY_NUMLOCK     69
+#define KEY_RIGHTCTRL   97
+#define KEY_RIGHTALT    100
+#define KEY_LEFTMETA    125
+#define KEY_RIGHTMETA   126
+#endif
+
 namespace fcitx {
 
 class VirtualInputContextManager;
@@ -51,6 +68,20 @@ public:
     void focusOutWrapper();
     void updateSurroundingTextWrapper();
     void setCapabilityFlagsWrapper(CapabilityFlags flags);
+
+    static bool isModifier(const int keycode) {
+        int code = keycode - 8;
+        return code == KEY_LEFTCTRL ||
+            code == KEY_LEFTSHIFT ||
+            code == KEY_RIGHTSHIFT ||
+            code == KEY_LEFTALT ||
+            code == KEY_CAPSLOCK ||
+            code == KEY_NUMLOCK ||
+            code == KEY_RIGHTCTRL ||
+            code == KEY_RIGHTALT ||
+            code == KEY_LEFTMETA ||
+            code == KEY_RIGHTMETA;
+    }
 
 private:
     void commitStringImpl(const std::string &text) override {
