@@ -222,6 +222,7 @@ private:
                 }
                 dir = stringutils::joinPath(*home, defaultPath);
             } else {
+#ifndef _WIN32
                 if (env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
                     dir = stringutils::joinPath(
                         defaultPath,
@@ -232,11 +233,15 @@ private:
                         }
                     }
                 } else {
+#endif
                     dir = defaultPath;
+#ifndef _WIN32
                 }
+#endif
             }
         }
 
+#ifndef _WIN32
         if (!dir.empty() && env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
             struct stat buf;
             if (stat(dir.c_str(), &buf) != 0 || buf.st_uid != geteuid() ||
@@ -244,6 +249,7 @@ private:
                 return {};
             }
         }
+#endif
         return dir;
     }
 
