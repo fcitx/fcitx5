@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -62,6 +63,7 @@ FCITXUTILS_EXPORT std::optional<std::string> readlink(const std::string &path);
  * \since 5.0.10
  */
 FCITXUTILS_EXPORT int64_t modifiedTime(const std::string &path);
+FCITXUTILS_EXPORT int64_t modifiedTime(const std::filesystem::path &path);
 
 /**
  * \brief open the unix fd with fdopen.

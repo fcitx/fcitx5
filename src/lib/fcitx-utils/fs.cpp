@@ -11,15 +11,17 @@
 #include <unistd.h>
 #include <algorithm>
 #include <cerrno>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <iterator>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <fcitx-utils/fcitxutils_export.h>
 #include "misc.h"
-#include "mtime_p.h"
 #include "standardpath.h"
 #include "stringutils.h"
 #include "utf8.h" // IWYU pragma: keep
@@ -277,11 +279,18 @@ std::optional<std::string> readlink(const std::string &path) {
 }
 
 int64_t modifiedTime(const std::string &path) {
-    struct stat stats;
-    if (stat(path.c_str(), &stats) != 0) {
+    return modifiedTime(std::filesystem::path(path));
+}
+
+int64_t modifiedTime(const std::filesystem::path &path) {
+    std::error_code ec;
+    const auto time = std::filesystem::last_write_time(path, ec);
+    if (ec) {
         return 0;
     }
-    return fcitx::modifiedTimeImpl(stats, 0).sec;
+    auto timeInSeconds =
+        std::chrono::time_point_cast<std::chrono::seconds>(time);
+    return timeInSeconds.time_since_epoch().count();
 }
 
 template <typename FDLike>
