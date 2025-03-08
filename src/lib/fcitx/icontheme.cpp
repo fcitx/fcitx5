@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <ios>
 #include <limits>
@@ -28,7 +29,6 @@
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18nstring.h"
 #include "fcitx-utils/macros.h"
-#include "fcitx-utils/mtime_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "config.h" // IWYU pragma: keep
@@ -179,13 +179,6 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, maxSize);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, minSize);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, threshold);
 
-bool timespecLess(const Timespec &lhs, const Timespec &rhs) {
-    if (lhs.sec != rhs.sec) {
-        return lhs.sec < rhs.sec;
-    }
-    return lhs.nsec < rhs.nsec;
-}
-
 static uint32_t iconNameHash(const char *p) {
     uint32_t h = static_cast<signed char>(*p);
     for (p += 1; *p != '\0'; p++) {
@@ -196,7 +189,7 @@ static uint32_t iconNameHash(const char *p) {
 
 class IconThemeCache {
 public:
-    IconThemeCache(const std::string &filename) {
+    IconThemeCache(const std::filesystem::path &filename) {
 #ifdef _WIN32
         FCITX_UNUSED(filename);
 #else
@@ -204,16 +197,21 @@ public:
         if (!fd.isValid()) {
             return;
         }
+        auto fileModifiedTime = fs::modifiedTime(filename);
+        if (fileModifiedTime == 0) {
+            return;
+        }
+        auto dirName = filename.parent_path();
+        auto dirModifiedTime = fs::modifiedTime(dirName);
+        if (dirModifiedTime == 0) {
+            return;
+        }
+        if (fileModifiedTime < dirModifiedTime) {
+            return;
+        }
+
         struct stat st;
-        if (fstat(fd.fd(), &st) != 0) {
-            return;
-        }
-        struct stat dirSt;
-        auto dirName = fs::dirName(filename);
-        if (stat(dirName.c_str(), &dirSt) != 0) {
-            return;
-        }
-        if (timespecLess(modifiedTimeImpl(st, 0), modifiedTimeImpl(dirSt, 0))) {
+        if (fstat(fd.fd(), &st) < 0) {
             return;
         }
 
@@ -245,15 +243,18 @@ public:
                 isValid_ = false;
                 return;
             }
-            struct stat subDirSt;
             auto *dir = checkString(offset);
-            if (!dir || stat(stringutils::joinPath(dirName, dir).c_str(),
-                             &subDirSt) != 0) {
+            if (!dir) {
                 isValid_ = false;
                 return;
             }
-            if (timespecLess(modifiedTimeImpl(st, 0),
-                             modifiedTimeImpl(subDirSt, 0))) {
+            std::filesystem::path subdirName(dir);
+            if (subdirName.is_absolute()) {
+                isValid_ = false;
+                return;
+            }
+            auto subDirTime = fs::modifiedTime(dirName / subdirName);
+            if (fileModifiedTime < subDirTime) {
                 isValid_ = false;
                 return;
             }
