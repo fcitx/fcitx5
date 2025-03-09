@@ -104,12 +104,18 @@ protected:
             return;
         }
         if (key.rawKey().code() && key.rawKey().states() == KeyState::NoState) {
-            sendKeyToVK(time_, key.rawKey(),
-                        key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                        : WL_KEYBOARD_KEY_STATE_PRESSED);
-            if (!key.isRelease()) {
+            if (isModifier(key.rawKey().code())) {
+                sendModifiers(key.rawKey().code(),
+                            key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                            : WL_KEYBOARD_KEY_STATE_PRESSED);
+            } else {
                 sendKeyToVK(time_, key.rawKey(),
-                            WL_KEYBOARD_KEY_STATE_RELEASED);
+                            key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                            : WL_KEYBOARD_KEY_STATE_PRESSED);
+                if (!key.isRelease()) {
+                    sendKeyToVK(time_, key.rawKey(),
+                                WL_KEYBOARD_KEY_STATE_RELEASED);
+                }
             }
         } else {
             sendKey(time_, key.rawKey().sym(),
@@ -146,6 +152,7 @@ private:
     void sendKey(uint32_t time, uint32_t sym, uint32_t state,
                  KeyStates states) const;
     void sendKeyToVK(uint32_t time, const Key &key, uint32_t state) const;
+    void sendModifiers(const int keycode, uint32_t state) const;
 
     static uint32_t toModifiers(KeyStates states) {
         uint32_t modifiers = 0;
