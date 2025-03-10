@@ -48,10 +48,10 @@ public:
      * @param skipBuiltInPath skip built-in path
      * @param skipUserPath skip user path, useful when doing readonly-test.
      */
-    StandardPaths(
-        const std::string &packageName,
-        const std::unordered_map<std::string, std::string> &builtInPath,
-        bool skipBuiltInPath, bool skipUserPath);
+    StandardPaths(const std::string &packageName,
+                  const std::unordered_map<std::string, std::filesystem::path>
+                      &builtInPath,
+                  bool skipBuiltInPath, bool skipUserPath);
 
     virtual ~StandardPaths();
 
