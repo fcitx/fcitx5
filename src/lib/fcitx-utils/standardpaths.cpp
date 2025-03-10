@@ -29,6 +29,7 @@
 #include <string>
 #include <string_view>
 #include <system_error>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -165,27 +166,34 @@ public:
 
     mode_t umask() const { return umask_.load(std::memory_order_relaxed); }
 
-    UnixFD openUserTemp(Type type, const std::string &pathOrig) const {
-        std::string path = pathOrig + "_XXXXXX";
-        std::string fullPath;
+    std::tuple<UnixFD, std::filesystem::path>
+    openUserTemp(StandardPaths::Type type,
+                 const std::filesystem::path &pathOrig) const {
+        if (!pathOrig.has_filename()) {
+            return {};
+        }
         std::string fullPathOrig;
-        if (isAbsolutePath(pathOrig)) {
-            fullPath = std::move(path);
+        if (pathOrig.is_absolute()) {
             fullPathOrig = pathOrig;
         } else {
-            auto dirPath = userDirectory(type);
-            if (dirPath.empty()) {
+            const auto &dirPaths = directories(type);
+            if (dirPaths.empty() || dirPaths[0].empty()) {
                 return {};
             }
-            fullPath = constructPath(dirPath, path);
-            fullPathOrig = constructPath(dirPath, pathOrig);
+            fullPathOrig = dirPaths[0] / pathOrig;
+            if (std::filesystem::exists(fullPathOrig)) {
+                fullPathOrig = std::filesystem::read_symlink(fullPathOrig);
+            }
         }
-        if (fs::makePath(fs::dirName(fullPath))) {
-            std::vector<char> cPath(fullPath.data(),
-                                    fullPath.data() + fullPath.size() + 1);
+        std::filesystem::path fullPath = fullPathOrig;
+        fullPath += "_XXXXXX";
+        if (fs::makePath(fullPath.parent_path())) {
+            std::vector<char> cPath(fullPath.c_str(),
+                                    fullPath.c_str() +
+                                        fullPath.native().size() + 1);
             int fd = mkstemp(cPath.data());
             if (fd >= 0) {
-                return {fd, fullPathOrig, cPath.data()};
+                return {UnixFD::own(fd), std::string(cPath.data())};
             }
         }
         return {};
@@ -194,7 +202,7 @@ public:
 private:
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     static std::vector<std::filesystem::path>
-    defaultPaths(const char *homeEnv, std::filesystem::path homeFallback,
+    defaultPaths(const char *homeEnv, const std::filesystem::path &homeFallback,
                  const char *systemEnv = nullptr,
                  const std::vector<std::filesystem::path> &systemFallback = {},
                  const char *builtInPathType = nullptr,
@@ -247,10 +255,9 @@ private:
         std::erase_if(dirs, [&seen](const auto &dir) {
             if (seen.contains(dir)) {
                 return true;
-            } else {
-                seen.insert(dir);
-                return false;
             }
+            seen.insert(dir);
+            return false;
         });
 
         return dirs;
@@ -272,7 +279,7 @@ private:
 
 StandardPaths::StandardPaths(
     const std::string &packageName,
-    const std::unordered_map<std::string, std::string> &builtInPath,
+    const std::unordered_map<std::string, std::filesystem::path> &builtInPath,
     bool skipBuiltInPath, bool skipUserPath)
     : d_ptr(std::make_unique<StandardPathsPrivate>(
           packageName, builtInPath, skipBuiltInPath, skipUserPath)) {}
@@ -313,7 +320,7 @@ StandardPaths::fcitxPath(const char *path,
                 "libexecdir", FCITX_INSTALL_LIBEXECDIR),
         };
 
-    if (auto p = findValue(pathMap, path)) {
+    if (const auto *p = findValue(pathMap, path)) {
         return *p / subPath;
     }
 
@@ -406,55 +413,32 @@ UnixFD StandardPaths::open(Type type, const std::filesystem::path &path,
     return retFD;
 }
 
-UnixFD StandardPaths::openUser(Type type, const std::filesystem::path &path,
-                               int flags,
-                               std::filesystem::path *outPath = nullptr) const {
-    std::filesystem::path fullPath;
-    if (path.is_absolute()) {
-        fullPath = path;
-    } else {
-        auto dirPath = userDirectory(type);
-        if (dirPath.empty()) {
-            return {};
-        }
-        fullPath = dirPath / path;
-    }
-
-    // Try ensure directory exists if we want to write.
-    if ((flags & O_ACCMODE) == O_WRONLY || (flags & O_ACCMODE) == O_RDWR) {
-        if (!fs::makePath(fs::dirName(fullPath))) {
-            return {};
-        }
-    }
-
-    UnixFD fd = UnixFD::own(::open(fullPath.c_str(), flags, 0600));
-    if (fd.isValid() && outPath) {
-        *outPath = std::move(fullPath);
-    }
-    return fd;
-}
-
-bool StandardPaths::safeSave(Type type, const std::string &pathOrig,
+bool StandardPaths::safeSave(Type type, const std::filesystem::path &pathOrig,
                              const std::function<bool(int)> &callback) const {
     FCITX_D();
-    UnixFD file = openUserTemp(type, pathOrig);
+    auto [file, path] = d->openUserTemp(type, pathOrig);
     if (!file.isValid()) {
         return false;
     }
     try {
         if (callback(file.fd())) {
+            // sync first.
 #ifdef _WIN32
             auto wfile = utf8::UTF8ToUTF16(file.tempPath());
             ::_wchmod(wfile.data(), 0666 & ~(d->umask()));
+            _commit(fd_.fd());
 #else
             // close it
             fchmod(file.fd(), 0666 & ~(d->umask()));
+            fsync(file.fd());
 #endif
+            file.reset();
+            std::filesystem::rename(path, pathOrig);
             return true;
         }
     } catch (const std::exception &) {
     }
-    file.removeTemp();
+    unlink(path.c_str());
     return false;
 }
 
@@ -467,9 +451,9 @@ int64_t StandardPaths::timestamp(Type type, const std::filesystem::path &path,
         if (ec) {
             return 0;
         }
-        auto timeMs =
-            std::chrono::time_point_cast<std::chrono::microseconds>(time);
-        return time.time_since_epoch().count();
+        auto timeInSeconds =
+            std::chrono::time_point_cast<std::chrono::seconds>(time);
+        return timeInSeconds.time_since_epoch().count();
     }
 
     int64_t timestamp = 0;
@@ -482,47 +466,6 @@ int64_t StandardPaths::timestamp(Type type, const std::filesystem::path &path,
         });
 
     return timestamp;
-}
-
-std::string StandardPaths::findExecutable(const std::string &name) {
-    if (name.empty()) {
-        return "";
-    }
-
-    if (name[0] == '/') {
-        return fs::isexe(name) ? name : "";
-    }
-
-    std::string sEnv;
-    if (auto pEnv = getEnvironment("PATH")) {
-        sEnv = std::move(*pEnv);
-    } else {
-#if defined(_PATH_DEFPATH)
-        sEnv = _PATH_DEFPATH;
-#elif defined(_CS_PATH)
-        size_t n = confstr(_CS_PATH, nullptr, 0);
-        if (n) {
-            std::vector<char> data;
-            data.resize(n + 1);
-            confstr(_CS_PATH, data.data(), data.size());
-            data.push_back('\0');
-            sEnv = data.data();
-        }
-#endif
-    }
-    auto paths = stringutils::split(sEnv, ":");
-    for (auto &path : paths) {
-        path = fs::cleanPath(path);
-        auto fullPath = constructPath(path, name);
-        if (!fullPath.empty() && fs::isexe(fullPath)) {
-            return fullPath;
-        }
-    }
-    return "";
-}
-
-bool StandardPaths::hasExecutable(const std::string &name) {
-    return !findExecutable(name).empty();
 }
 
 void StandardPaths::syncUmask() const { d_ptr->syncUmask(); }
