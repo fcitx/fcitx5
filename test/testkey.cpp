@@ -89,6 +89,8 @@ int main() {
     FCITX_ASSERT(fcitx::Key("`").sym() == FcitxKey_grave);
     FCITX_ASSERT(fcitx::Key("Alt+Shift+Shift_L")
                      .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
+    FCITX_ASSERT(!fcitx::Key("Alt+Shift+Shift_R")
+                      .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
     FCITX_ASSERT(fcitx::Key("Alt+Shift+Meta_L")
                      .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
     FCITX_ASSERT(fcitx::Key("Alt+Shift+Meta_R")
