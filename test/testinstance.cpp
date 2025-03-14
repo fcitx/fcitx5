@@ -113,6 +113,17 @@ void testModifierOnlyHotkey(Instance &instance) {
         FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
             uuid, Key("Shift+Shift_L"), true));
         FCITX_ASSERT(instance.inputMethod(ic) == "testim");
+
+        // Some other modifier key pressed between shift, should not trigger.
+        FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
+            uuid, Key("Shift_R"), false));
+        FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
+            uuid, Key("Shift_L"), false));
+        FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
+            uuid, Key("Shift+Shift_R"), true));
+        FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
+            uuid, Key("Shift+Shift_L"), true));
+        FCITX_ASSERT(instance.inputMethod(ic) == "testim");
     });
 }
 
