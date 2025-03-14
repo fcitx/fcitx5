@@ -4,15 +4,15 @@
 #
 # Translators:
 # zenfas, 2024
-# Huy Võ <hoanghuy309@gmail.com>, 2025
+# hoanghuy309 <hoanghuy309@gmail.com>, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-12 20:24+0000\n"
+"POT-Creation-Date: 2025-03-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Huy Võ <hoanghuy309@gmail.com>, 2025\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Thêm hỗ trợ gõ Unicode"
 
 #: data/fcitx5-diagnose.sh:1465
 msgid "Addon Config Dir:"
-msgstr "Addon cấu hình đường đẫn:"
+msgstr "Thư mục cấu hình addon:"
 
 #: data/fcitx5-diagnose.sh:1550
 msgid "Addon Libraries:"
@@ -139,7 +139,7 @@ msgstr "Thư viện Addon:"
 
 #: data/fcitx5-diagnose.sh:1493
 msgid "Addon List:"
-msgstr "Danh sách Addon:"
+msgstr "Danh sách tiện ích bổ sung:"
 
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
@@ -152,7 +152,7 @@ msgstr "Tất cả"
 
 #: data/fcitx5-diagnose.sh:1267
 msgid "All found Gtk ${1} immodule files exist."
-msgstr "Module Gtk ${1} tồn tại"
+msgstr "Tất cả các tệp immodule Gtk ${1} được tìm thấy đều tồn tại."
 
 #: data/fcitx5-diagnose.sh:1576
 msgid "All libraries for all addons are found."
@@ -391,14 +391,14 @@ msgstr "Không thể tìm thấy thư viện yêu cầu cho ${1} của addon ${2
 
 #: data/fcitx5-diagnose.sh:1412
 msgid "Cannot find immodules cache for gtk ${1}"
-msgstr "Không thể tìm thấy cache immodule cho gtk ${1}"
+msgstr "Không tìm thấy bộ nhớ đệm immodules cho gtk ${1}"
 
 #: data/fcitx5-diagnose.sh:1598
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
-"Không thể tìm thấy giao diện dbus kimpanel hoặc đang bật giao điện người "
-"dùng non-kimpane"
+"Không tìm thấy giao diện dbus kimpanel hoặc giao diện người dùng không phải "
+"kimpanel được bật."
 
 #: data/fcitx5-diagnose.sh:1003
 msgid "Cannot find pid of DBus name ${1} owner."
@@ -1013,7 +1013,7 @@ msgstr "Hỗ trợ thông báo Freedesktop.org"
 
 #: data/fcitx5-diagnose.sh:1684
 msgid "Frontends setup:"
-msgstr "Cấu hình giao diện:"
+msgstr "Thiết lập giao diện:"
 
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
