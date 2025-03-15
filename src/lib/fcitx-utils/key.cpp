@@ -15,6 +15,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include "fcitx-utils/keysym.h"
 #include "charutils.h"
 #include "i18n.h"
 #include "keydata.h"
@@ -345,26 +346,40 @@ bool Key::isReleaseOfModifier(const Key &key) const {
     std::vector<Key> keys;
     keys.emplace_back(key.sym(), states);
     if (key.states() & KeyState::Ctrl) {
-        keys.emplace_back(FcitxKey_Control_L, states);
-        keys.emplace_back(FcitxKey_Control_R, states);
+        if (key.sym() != FcitxKey_Control_R) {
+            keys.emplace_back(FcitxKey_Control_L, states);
+        }
+        if (key.sym() != FcitxKey_Control_L) {
+            keys.emplace_back(FcitxKey_Control_R, states);
+        }
     }
     if (key.states() & KeyState::Alt) {
-        keys.emplace_back(FcitxKey_Alt_L, states);
-        keys.emplace_back(FcitxKey_Alt_R, states);
-        keys.emplace_back(FcitxKey_Meta_L, states);
-        keys.emplace_back(FcitxKey_Meta_R, states);
+        if (key.sym() != FcitxKey_Alt_R && key.sym() != FcitxKey_Meta_R) {
+            keys.emplace_back(FcitxKey_Alt_L, states);
+            keys.emplace_back(FcitxKey_Meta_L, states);
+        }
+        if (key.sym() != FcitxKey_Alt_L && key.sym() != FcitxKey_Meta_L) {
+            keys.emplace_back(FcitxKey_Alt_R, states);
+            keys.emplace_back(FcitxKey_Meta_R, states);
+        }
     }
     if (key.states() & KeyState::Shift) {
-        keys.emplace_back(FcitxKey_Shift_L, states);
-        keys.emplace_back(FcitxKey_Shift_R, states);
+        if (key.sym() != FcitxKey_Shift_R) {
+            keys.emplace_back(FcitxKey_Shift_L, states);
+        }
+        if (key.sym() != FcitxKey_Shift_L) {
+            keys.emplace_back(FcitxKey_Shift_R, states);
+        }
     }
     if ((key.states() & KeyState::Super) || (key.states() & KeyState::Super2)) {
-        keys.emplace_back(FcitxKey_Super_L, states);
-        keys.emplace_back(FcitxKey_Super_R, states);
-    }
-    if ((key.states() & KeyState::Super) || (key.states() & KeyState::Hyper2)) {
-        keys.emplace_back(FcitxKey_Hyper_L, states);
-        keys.emplace_back(FcitxKey_Hyper_R, states);
+        if (key.sym() != FcitxKey_Super_R && key.sym() != FcitxKey_Hyper_R) {
+            keys.emplace_back(FcitxKey_Super_L, states);
+            keys.emplace_back(FcitxKey_Hyper_L, states);
+        }
+        if (key.sym() != FcitxKey_Super_L && key.sym() != FcitxKey_Hyper_L) {
+            keys.emplace_back(FcitxKey_Super_R, states);
+            keys.emplace_back(FcitxKey_Hyper_R, states);
+        }
     }
 
     return checkKeyList(keys);
