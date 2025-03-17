@@ -129,7 +129,8 @@ private:
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
     void sendKeyToVK(uint32_t time, const Key &key, uint32_t state) const;
-    void sendModifiers(const int keycode, uint32_t state) const;
+
+    void sendModifiers(const WlModifiersParams &params) const;
 
     int32_t repeatRate() const;
     int32_t repeatDelay() const;
