@@ -65,6 +65,10 @@ detectDE() {
             XFCE)
             DE=xfce
             break
+            ;;
+            UKUI)
+            DE=ukui
+            break
         esac
       done
     fi
@@ -133,6 +137,9 @@ run_xdg() {
         kde)
             message "$(_ "You're currently running KDE, but the configuration tool for fcitx5 couldn't be found. The package name of the configuration tool is usually kcm-fcitx5, kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
+        ukui)
+            message "$(_ "You're currently running UKUI desktop environment, but the configuration tool for fcitx5 couldn't be found. The package name of the configuration tool is usually ukui-control-center, or fcitx5-configtool. Now it will open the configuration directory.")"
+            ;;
         *)
             message "$(_ "You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be found. The package name of the configuration tool is usually fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
@@ -146,6 +153,23 @@ run_xdg() {
     if command="$(command -v xdg-open 2>/dev/null)"; then
         exec "$command" "$HOME/.config/fcitx5"
     fi
+}
+
+run_ukui() {
+    version=$(ukui-control-center -v 2>/dev/null | awk '{print $2}')
+    if [ -z "$version" ]; then
+        return 1
+    fi
+
+    version_num=$(echo "$version" | tr -d '.')
+
+    target=5000
+
+    if [ "$version_num" -lt "$target" ]; then
+        return 1
+    fi
+
+    exec ukui-control-center -m keyboard inputmethod
 }
 
 _which_cmdline() {
@@ -163,6 +187,9 @@ detectDE
 case "$DE" in
     kde)
         order="kde qt xdg"
+        ;;
+    ukui)
+        order="ukui qt xdg"
         ;;
     *)
         order="qt kde xdg"
