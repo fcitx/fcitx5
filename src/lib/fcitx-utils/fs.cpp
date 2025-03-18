@@ -177,20 +177,8 @@ std::string cleanPath(const std::string &path) {
     return buf;
 }
 
-bool makePath(const std::string &path) {
-    if (isdir(path)) {
-        return true;
-    }
-    auto opath = cleanPath(path);
-    while (!opath.empty() && opath.back() == '/') {
-        opath.pop_back();
-    }
-
-    if (opath.empty()) {
-        return true;
-    }
-
-    return makePathHelper(opath);
+FCITXUTILS_DEPRECATED_EXPORT bool makePath(const std::string &path) {
+    return makePath(std::filesystem::path(path));
 }
 
 bool makePath(const std::filesystem::path &path) {
@@ -288,7 +276,7 @@ std::optional<std::string> readlink(const std::string &path) {
     return std::nullopt;
 }
 
-int64_t modifiedTime(const std::string &path) {
+FCITXUTILS_DEPRECATED int64_t modifiedTime(const std::string &path) {
     return modifiedTime(std::filesystem::path(path));
 }
 
