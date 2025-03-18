@@ -35,6 +35,7 @@
 #include <utility>
 #include <vector>
 #include <ranges>
+#include <span>
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "config.h" // IWYU pragma: keep
@@ -139,14 +140,17 @@ public:
     }
 
     template <typename Callback>
-    void scanDirectories(StandardPaths::Type type, StandardPaths::Modes modes,
-                         Callback callback) const {
-        const auto &dirs = directories(type);
+    void scanDirectories(StandardPaths::Type type,
+                         const std::filesystem::path &path,
+                         StandardPaths::Modes modes,
+                         const Callback &callback) const {
+        std::span<const std::filesystem::path> dirs =
+            path.is_absolute() ? emptyPaths_ : directories(type);
         size_t from = modes.test(StandardPaths::Mode::User) ? 0 : 1;
         size_t to = modes.test(StandardPaths::Mode::System) ? dirs.size() : 1;
-
-        for (size_t i = from; i < to; i++) {
-            if (!callback(dirs[i], i == 0)) {
+        dirs = dirs.subspan(from, to - from);
+        for (const auto &dir : dirs) {
+            if (!callback(dir / path)) {
                 return;
             }
         }
@@ -274,7 +278,8 @@ private:
     std::vector<std::filesystem::path> addonDirs_;
     std::atomic<mode_t> umask_;
     static const inline std::filesystem::path emptyPath_;
-    static const inline std::vector<std::filesystem::path> emptyPaths_;
+    static const inline std::vector<std::filesystem::path> emptyPaths_ = {
+        std::filesystem::path()};
 };
 
 StandardPaths::StandardPaths(
@@ -327,12 +332,13 @@ StandardPaths::fcitxPath(const char *path,
     return {};
 }
 
-std::filesystem::path StandardPaths::userDirectory(Type type) const {
+const std::filesystem::path &StandardPaths::userDirectory(Type type) const {
     FCITX_D();
     return d->directories(type)[0];
 }
 
-std::vector<std::filesystem::path> StandardPaths::directories(Type type) const {
+const std::vector<std::filesystem::path> &
+StandardPaths::directories(Type type) const {
     FCITX_D();
     return d->directories(type);
 }
@@ -342,74 +348,47 @@ std::filesystem::path StandardPaths::locate(Type type,
                                             Modes modes) const {
     FCITX_D();
     std::string retPath;
-    std::error_code ec;
-    if (path.is_absolute()) {
-        if (std::filesystem::is_regular_file(path, ec)) {
-            retPath = path;
-        }
-    } else {
-        d->scanDirectories(
-            type, modes,
-            [&retPath, &path](const std::filesystem::path &dirPath, bool) {
-                std::string fullPath = dirPath / path;
-                if (!fs::isreg(fullPath)) {
-                    return true;
-                }
-                retPath = std::move(fullPath);
-                return false;
-            });
-    }
+    d->scanDirectories(type, path, modes,
+                       [&retPath](const std::filesystem::path &fullPath) {
+                           if (!std::filesystem::is_regular_file(fullPath)) {
+                               return true;
+                           }
+                           retPath = std::move(fullPath);
+                           return false;
+                       });
     return retPath;
 }
 
 std::vector<std::filesystem::path>
-StandardPaths::locateAll(Type type, const std::filesystem::path &path) const {
+StandardPaths::locateAll(Type type, const std::filesystem::path &path,
+                         Modes modes) const {
     FCITX_D();
     std::vector<std::filesystem::path> retPaths;
-    std::error_code ec;
-    if (path.is_absolute()) {
-        if (std::filesystem::is_regular_file(path, ec)) {
-            retPaths.push_back(path);
-        }
-    } else {
-        d->scanDirectories(
-            type, {Mode::User, Mode::System},
-            [&retPaths, &path](const std::filesystem::path &dirPath, bool) {
-                auto fullPath = dirPath / path;
-                if (fs::isreg(fullPath)) {
-                    retPaths.push_back(fullPath);
-                }
-                return true;
-            });
-    }
+    d->scanDirectories(type, path, modes,
+                       [&retPaths](const std::filesystem::path &fullPath) {
+                           if (std::filesystem::is_regular_file(fullPath)) {
+                               retPaths.push_back(fullPath);
+                           }
+                           return true;
+                       });
     return retPaths;
 }
 
 UnixFD StandardPaths::open(Type type, const std::filesystem::path &path,
-                           int flags, Modes modes,
-                           std::filesystem::path *outPath) const {
+                           Modes modes, std::filesystem::path *outPath) const {
     FCITX_D();
     UnixFD retFD;
-    if (path.is_absolute()) {
-        retFD.give(::open(path.c_str(), flags));
-        if (retFD.isValid() && outPath) {
-            *outPath = path;
-        }
-    } else {
-        d->scanDirectories(
-            type, modes,
-            [flags, &retFD, outPath, &path](const std::string &dirPath, bool) {
-                auto fullPath = dirPath / path;
-                retFD.give(::open(fullPath.c_str(), flags));
-                if (!retFD.isValid()) {
-                    return true;
-                }
-                if (outPath) {
-                    *outPath = std::move(fullPath);
-                }
-                return false;
-            });
-    }
+    d->scanDirectories(type, path, modes,
+                       [&retFD, outPath](std::string fullPath) {
+                           retFD.give(::open(fullPath.c_str(), O_RDONLY));
+                           if (!retFD.isValid()) {
+                               return true;
+                           }
+                           if (outPath) {
+                               *outPath = std::move(fullPath);
+                           }
+                           return false;
+                       });
     return retFD;
 }
 
@@ -445,23 +424,20 @@ bool StandardPaths::safeSave(Type type, const std::filesystem::path &pathOrig,
 int64_t StandardPaths::timestamp(Type type, const std::filesystem::path &path,
                                  Modes modes) const {
     FCITX_D();
-    std::error_code ec;
-    if (path.is_absolute()) {
-        const auto time = std::filesystem::last_write_time(path, ec);
-        if (ec) {
-            return 0;
-        }
-        auto timeInSeconds =
-            std::chrono::time_point_cast<std::chrono::seconds>(time);
-        return timeInSeconds.time_since_epoch().count();
-    }
 
     int64_t timestamp = 0;
     d->scanDirectories(
-        type, modes,
-        [&timestamp, &path](const std::filesystem::path &dirPath, bool) {
-            auto fullPath = dirPath / path;
-            timestamp = std::max(timestamp, fs::modifiedTime(fullPath));
+        type, path, modes, [&timestamp](const std::filesystem::path &fullPath) {
+            std::error_code ec;
+            const auto time = std::filesystem::last_write_time(fullPath, ec);
+            if (ec) {
+                return true;
+            }
+            auto timeInSeconds =
+                std::chrono::time_point_cast<std::chrono::seconds>(time)
+                    .time_since_epoch()
+                    .count();
+            timestamp = std::max(timestamp, timeInSeconds);
             return true;
         });
 

@@ -36,7 +36,13 @@ public:
     /** \brief Enum for location type. */
     enum class Type { Config, PkgConfig, Data, Cache, Runtime, Addon, PkgData };
 
-    enum class Mode : uint8_t { User = (1 << 0), System = (1 << 1) };
+    enum class Mode : uint8_t {
+        User = (1 << 0),
+        System = (1 << 1),
+        Files = (1 << 1),
+        Dirs = (1 << 2),
+        Default = User | System | Files,
+    };
 
     using Modes = Flags<Mode>;
 
@@ -72,30 +78,29 @@ public:
     /**
      * \brief Get user writable directory for given type.
      */
-    std::filesystem::path userDirectory(Type type) const;
+    const std::filesystem::path &userDirectory(Type type) const;
 
     /**
      * \brief Get all directories in the order of priority.
      */
-    std::vector<std::filesystem::path> directories(Type type) const;
+    const std::vector<std::filesystem::path> &directories(Type type) const;
 
     /** \brief Check if a file exists. */
     std::filesystem::path locate(Type type, const std::filesystem::path &path,
-                                 Modes modes = {Mode::User,
-                                                Mode::System}) const;
+                                 Modes modes = Mode::Default) const;
 
     /** \brief list all matched files. */
     std::vector<std::filesystem::path>
-    locateAll(Type type, const std::filesystem::path &path) const;
+    locateAll(Type type, const std::filesystem::path &path,
+              Modes modes = Mode::Default) const;
 
-    /** \brief Open the first matched and succeeded file.
+    /** \brief Open the first matched and succeeded file for read.
      *
      *  This function is preferred over locate if you just want to open the
      *  file. Then you can avoid the race condition.
-     *  \see openUser()
      */
-    UnixFD open(Type type, const std::filesystem::path &path, int flags,
-                Modes modes = {Mode::User, Mode::System},
+    UnixFD open(Type type, const std::filesystem::path &path,
+                Modes modes = Mode::Default,
                 std::filesystem::path *outPath = nullptr) const;
 
     /**
@@ -115,12 +120,12 @@ public:
      * \brief Open all files match the first [directory]/[path].
      */
     void
-    openAll(Type type, const std::filesystem::path &path, int flags,
+    openAll(Type type, const std::filesystem::path &path,
             const std::function<void(UnixFD, const std::filesystem::path &)>
                 &callback) const;
 
     int64_t timestamp(Type type, const std::filesystem::path &path,
-                      Modes modes = {Mode::User, Mode::System}) const;
+                      Modes modes = Mode::Default) const;
 
     /**
      * Sync system umask to internal state. This will affect the file
