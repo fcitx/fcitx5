@@ -18,6 +18,7 @@ set(FCITX_UTILS_TEST
     testfs
     testlibrary
     teststandardpath
+    teststandardpaths
     testunixfd
     testmetastring
     testhandlertable

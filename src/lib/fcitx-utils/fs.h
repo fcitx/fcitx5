@@ -44,8 +44,6 @@ FCITXUTILS_EXPORT bool islnk(const std::string &path);
 /// \brief Get the clean path by removing . , .. , and duplicate / in the path.
 FCITXUTILS_EXPORT std::string cleanPath(const std::string &path);
 /// \brief Create directory recursively.
-FCITXUTILS_EXPORT bool makePath(const std::string &path);
-/// \brief Create directory recursively.
 FCITXUTILS_EXPORT bool makePath(const std::filesystem::path &path);
 /// \brief Get directory name of path
 FCITXUTILS_EXPORT std::string dirName(const std::string &path);
@@ -62,9 +60,8 @@ FCITXUTILS_EXPORT std::optional<std::string> readlink(const std::string &path);
  * \brief Return modified time in seconds of given path. 0 will be returned upon
  * error.
  *
- * \since 5.0.10
+ * \since 5.1.13
  */
-FCITXUTILS_EXPORT int64_t modifiedTime(const std::string &path);
 FCITXUTILS_EXPORT int64_t modifiedTime(const std::filesystem::path &path);
 
 /**

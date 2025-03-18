@@ -35,6 +35,7 @@
 #include <utility>
 #include <vector>
 #include <ranges>
+#include <span>
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "config.h" // IWYU pragma: keep
@@ -139,9 +140,12 @@ public:
     }
 
     template <typename Callback>
-    void scanDirectories(StandardPaths::Type type, StandardPaths::Modes modes,
-                         Callback callback) const {
-        const auto &dirs = directories(type);
+    void scanDirectories(StandardPaths::Type type,
+                         const std::filesystem::path &path,
+                         StandardPaths::Modes modes,
+                         const Callback &callback) const {
+        std::span<std::filesystem::path> dirs;
+        const auto &dirs = path.is_absolute() ? emptyPaths_ : directories(type);
         size_t from = modes.test(StandardPaths::Mode::User) ? 0 : 1;
         size_t to = modes.test(StandardPaths::Mode::System) ? dirs.size() : 1;
 
@@ -274,7 +278,8 @@ private:
     std::vector<std::filesystem::path> addonDirs_;
     std::atomic<mode_t> umask_;
     static const inline std::filesystem::path emptyPath_;
-    static const inline std::vector<std::filesystem::path> emptyPaths_;
+    static const inline std::vector<std::filesystem::path> emptyPaths_ = {
+        std::filesystem::path()};
 };
 
 StandardPaths::StandardPaths(
@@ -327,12 +332,13 @@ StandardPaths::fcitxPath(const char *path,
     return {};
 }
 
-std::filesystem::path StandardPaths::userDirectory(Type type) const {
+const std::filesystem::path &StandardPaths::userDirectory(Type type) const {
     FCITX_D();
     return d->directories(type)[0];
 }
 
-std::vector<std::filesystem::path> StandardPaths::directories(Type type) const {
+const std::vector<std::filesystem::path> &
+StandardPaths::directories(Type type) const {
     FCITX_D();
     return d->directories(type);
 }
@@ -342,28 +348,22 @@ std::filesystem::path StandardPaths::locate(Type type,
                                             Modes modes) const {
     FCITX_D();
     std::string retPath;
-    std::error_code ec;
-    if (path.is_absolute()) {
-        if (std::filesystem::is_regular_file(path, ec)) {
-            retPath = path;
-        }
-    } else {
-        d->scanDirectories(
-            type, modes,
-            [&retPath, &path](const std::filesystem::path &dirPath, bool) {
-                std::string fullPath = dirPath / path;
-                if (!fs::isreg(fullPath)) {
-                    return true;
-                }
-                retPath = std::move(fullPath);
-                return false;
-            });
-    }
+    d->scanDirectories(
+        type, modes,
+        [&retPath, &path](const std::filesystem::path &dirPath, bool) {
+            std::string fullPath = dirPath / path;
+            if (!std::filesystem::is_regular_file(fullPath)) {
+                return true;
+            }
+            retPath = std::move(fullPath);
+            return false;
+        });
     return retPath;
 }
 
 std::vector<std::filesystem::path>
-StandardPaths::locateAll(Type type, const std::filesystem::path &path) const {
+StandardPaths::locateAll(Type type, const std::filesystem::path &path,
+                         Modes modes) const {
     FCITX_D();
     std::vector<std::filesystem::path> retPaths;
     std::error_code ec;
