@@ -573,6 +573,8 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
     if (mask & server_->stateMask_.meta_mask) {
         server_->modifiers_ |= KeyState::Meta;
     }
+
+    ic_->modifiers(serial_, mods_depressed, mods_latched, mods_locked, group);
 }
 
 // This is not sent by either kwin/weston, but since it's unclear whether any
