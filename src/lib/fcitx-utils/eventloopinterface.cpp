@@ -9,6 +9,7 @@
 #include <cstring>
 #include <ctime>
 #include <stdexcept>
+#include <format>
 
 namespace fcitx {
 
@@ -17,6 +18,13 @@ namespace {
 constexpr uint64_t USEC_INFINITY = static_cast<uint64_t>(-1);
 constexpr uint64_t USEC_PER_SEC = 1000000ULL;
 constexpr uint64_t NSEC_PER_USEC = 1000ULL;
+
+std::string getErrorMessage(int error) {
+    if (error < 0) {
+        error = -error;
+    }
+    return std::format("EventLoopException: {0}", std::strerror(error));
+}
 
 } // namespace
 
@@ -43,7 +51,7 @@ uint64_t now(clockid_t clock_id) {
 }
 
 EventLoopException::EventLoopException(int error)
-    : std::runtime_error(std::strerror(error)), errno_(error) {}
+    : std::runtime_error(getErrorMessage(error)), errno_(error) {}
 
 void EventSourceTime::setNextInterval(uint64_t time) {
     setTime(now(clock()) + time);
