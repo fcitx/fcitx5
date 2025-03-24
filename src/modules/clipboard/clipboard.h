@@ -66,8 +66,7 @@ FCITX_CONFIGURATION(
                "manager supports marking the clipboard content as password, "
                "this clipboard update will be ignored.")}};
     ConditionalHidden<isAndroid(), Option<bool>> showPassword{
-        this, "ShowPassword",
-        _("Hidden clipboard content that contains a password"), false};
+        this, "ShowPassword", _("Display passwords as plain text"), false};
     ConditionalHidden<
         isAndroid(),
         Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>>
