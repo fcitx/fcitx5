@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-24 20:24+0000\n"
+"POT-Creation-Date: 2025-03-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -85,7 +85,7 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/clipboard/clipboard.h:80
+#: src/modules/clipboard/clipboard.h:79
 msgid "0 means never clear password."
 msgstr "0 表示永不清除密碼。"
 
@@ -685,6 +685,10 @@ msgctxt "Key name"
 msgid "Display"
 msgstr "顯示"
 
+#: src/modules/clipboard/clipboard.h:69
+msgid "Display passwords as plain text"
+msgstr ""
+
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "不再顯示"
@@ -1160,10 +1164,6 @@ msgstr "休眠"
 #: src/modules/notifications/notifications.h:26
 msgid "Hidden Notifications"
 msgstr "隱藏通知"
-
-#: src/modules/clipboard/clipboard.h:70
-msgid "Hidden clipboard content that contains a password"
-msgstr "隱藏剪貼簿中包含密碼的內容"
 
 #: src/ui/classic/theme.h:122
 msgid "Hide overlay if size does not fit"
@@ -2303,7 +2303,7 @@ msgctxt "Key name"
 msgid "Search"
 msgstr "搜尋"
 
-#: src/modules/clipboard/clipboard.h:76
+#: src/modules/clipboard/clipboard.h:75
 msgid "Seconds before clearing password"
 msgstr "自動清除密碼的時間間隔（單位：秒）"
 

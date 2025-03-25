@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-22 20:24+0000\n"
+"POT-Creation-Date: 2025-03-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -76,7 +76,7 @@ msgstr "/Ghi_chú_cho_GNOC_mới_hơn_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/clipboard/clipboard.h:80
+#: src/modules/clipboard/clipboard.h:79
 msgid "0 means never clear password."
 msgstr ""
 
@@ -668,6 +668,10 @@ msgctxt "Key name"
 msgid "Display"
 msgstr "Hiển thị"
 
+#: src/modules/clipboard/clipboard.h:69
+msgid "Display passwords as plain text"
+msgstr ""
+
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "Không hiển thị lại"
@@ -1138,10 +1142,6 @@ msgstr "Hibernate"
 
 #: src/modules/notifications/notifications.h:26
 msgid "Hidden Notifications"
-msgstr ""
-
-#: src/modules/clipboard/clipboard.h:70
-msgid "Hidden clipboard content that contains a password"
 msgstr ""
 
 #: src/ui/classic/theme.h:122
@@ -2271,7 +2271,7 @@ msgctxt "Key name"
 msgid "Search"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.h:76
+#: src/modules/clipboard/clipboard.h:75
 msgid "Seconds before clearing password"
 msgstr ""
 
