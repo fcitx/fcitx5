@@ -7,14 +7,15 @@
 # Tim Hofstede <timhofstede.va@gmail.com>, 2018
 # Ettore Atalan <atalanttore@googlemail.com>, 2022
 # mar well <m.wellendorf@gmx.de>, 2023
+# TheChosen One, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-25 20:24+0000\n"
+"POT-Creation-Date: 2025-03-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: mar well <m.wellendorf@gmx.de>, 2023\n"
+"Last-Translator: TheChosen One, 2025\n"
 "Language-Team: German (https://app.transifex.com/fcitx/teams/12005/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +57,7 @@ msgstr "(nicht vorhanden)"
 
 #: src/modules/unicode/unicode.cpp:494
 msgid "(Type to search unicode by code or description)"
-msgstr ""
+msgstr "(Tippe um Unicode via Code oder Beschreibung zu suchen)"
 
 #: data/fcitx5-diagnose.sh:707
 msgid "/Beginner%27s_Guide"
@@ -80,7 +81,7 @@ msgstr "/XIM"
 
 #: src/modules/clipboard/clipboard.h:79
 msgid "0 means never clear password."
-msgstr ""
+msgstr "0 bedeutet das Passwort nie zu löschen"
 
 #: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
@@ -112,7 +113,7 @@ msgstr "Eine virtuelle Tastatur basierend auf DBus"
 
 #: src/ui/classic/theme.h:210
 msgid "Accent Colors"
-msgstr ""
+msgstr "Akzentfarben"
 
 #: src/lib/fcitx/globalconfig.cpp:93
 msgid "Activate Input Method"
@@ -174,7 +175,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:215
 msgid "Allow input method in the password field"
-msgstr ""
+msgstr "Eingabemethode im Passwortfeld erlauben"
 
 #: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
@@ -405,7 +406,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1003
 msgid "Cannot find pid of DBus name ${1} owner."
-msgstr ""
+msgstr "PID für den Eigentümer des D-Bus Namen {1} nicht gefunden."
 
 #: data/fcitx5-diagnose.sh:1075
 msgid "Cannot find xim_server on root window."
@@ -673,7 +674,7 @@ msgstr "Zeigen"
 
 #: src/modules/clipboard/clipboard.h:69
 msgid "Display passwords as plain text"
-msgstr ""
+msgstr "Passwörter im Klartext anzeigen"
 
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
@@ -681,7 +682,7 @@ msgstr "Nicht mehr zeigen"
 
 #: src/modules/clipboard/clipboard.h:61
 msgid "Do not show password from password managers"
-msgstr ""
+msgstr "Passwörter aus Passwortmanagern nicht anzeigen"
 
 #: src/lib/fcitx-utils/key.cpp:173
 msgctxt "Key name"
@@ -935,6 +936,8 @@ msgstr ""
 #: src/modules/wayland/waylandmodule.cpp:724
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
+"Weitere Detais sind auf https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland "
+"zu finden"
 
 #: src/ui/classic/classicui.h:184
 msgid "Force font DPI on Wayland"
@@ -1239,6 +1242,8 @@ msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr ""
+"Wenn der Wert 0 ist, werden die Nutzerdaten nur beim Beednen von fcitx "
+"gespeichert (bsp. beim ausloggen)"
 
 #: data/fcitx5-diagnose.sh:742
 msgid ""
@@ -1262,7 +1267,7 @@ msgstr "Bild"
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1348,7 +1353,7 @@ msgstr "Einstellungen KDE Eingabemethode"
 
 #: src/ui/classic/classicui.cpp:302
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE Plasma (Experimentell)"
 
 #: src/lib/fcitx-utils/key.cpp:257
 msgctxt "Key name"
@@ -1960,7 +1965,7 @@ msgstr "Nicht verfügbar"
 
 #: data/fcitx5-diagnose.sh:733
 msgid "Note for GNOME Later than 3.6"
-msgstr ""
+msgstr "Hinweis für GNOME neuer als 3.6"
 
 #: src/modules/notifications/notifications.conf.in.in:2
 msgid "Notification"
@@ -2447,11 +2452,11 @@ msgid "Suspend"
 msgstr "Suspend"
 
 #: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
-#: src/modules/xcb/xcbconnection.cpp:565
+#: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "Gruppe umschalten"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Gruppe auf {0} umschalten"
@@ -2526,7 +2531,7 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:179
 msgid "This option will be always disabled on XWayland."
-msgstr ""
+msgstr "Diese Option ist auf XWayland immer deaktiviert"
 
 #: src/ui/classic/theme.h:115
 msgid "This value should be less than any of margin value."
@@ -2659,7 +2664,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1011
 msgid "Unable to find a program to check dbus."
-msgstr ""
+msgstr "Kein Programm zum Prüfen vom D-Bus gefunden."
 
 #: src/lib/fcitx-utils/key.cpp:237
 msgctxt "Key name"
