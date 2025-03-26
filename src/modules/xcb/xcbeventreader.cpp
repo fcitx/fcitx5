@@ -21,6 +21,7 @@ XCBEventReader::XCBEventReader(XCBConnection *conn)
             }
             FCITX_XCB_DEBUG() << "xcb_flush";
             xcb_flush(conn_->connection());
+            wakeUp();
             return true;
         });
     thread_ = std::make_unique<std::thread>(&XCBEventReader::runThread, this);
