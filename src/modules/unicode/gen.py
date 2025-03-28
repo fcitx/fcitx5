@@ -137,6 +137,7 @@ Old Permic
 Phaistos Disc
 Runic
 Shavian
+Todhri
 Vithkuqi
 
 SECTION Modifier Letters
@@ -164,11 +165,13 @@ Coptic
 Coptic Epact Numbers
 Egyptian Hieroglyphs
 Egyptian Hieroglyph Format Controls
+Egyptian Hieroglyphs Extended-A
 Ethiopic
 Ethiopic Supplement
 Ethiopic Extended
 Ethiopic Extended-A
 Ethiopic Extended-B
+Garay
 Medefaidrin
 Mende Kikakui
 Meroitic Cursive
@@ -241,10 +244,12 @@ Grantha
 Gujarati
 Gunjala Gondi
 Gurmukhi
+Gurung Khema
 Kaithi
 Kannada
 Kharoshthi
 Khojki
+Kirat Rai
 Khudawadi
 Lepcha
 Limbu
@@ -260,6 +265,7 @@ Nag Mundari
 Nandinagari
 Newa
 Ol Chiki
+Ol Onal
 Oriya
 Saurashtra
 Sharada
@@ -267,6 +273,7 @@ Siddham
 Sinhala
 Sinhala Archaic Numbers
 Sora Sompeng
+Sunuwar
 Syloti Nagri
 Takri
 Tamil
@@ -275,6 +282,7 @@ Telugu
 Thaana
 Tirhuta
 Toto
+Tulu-Tigalari
 Vedic Extensions
 Wancho
 Warang Citi
@@ -289,6 +297,7 @@ Lao
 Myanmar
 Myanmar Extended-A
 Myanmar Extended-B
+Myanmar Extended-C
 New Tai Lue
 Nyiakeng Puachue Hmong
 Pahawh Hmong
@@ -452,6 +461,7 @@ Mahjong Tiles
 Playing Cards
 Miscellaneous Symbols and Arrows
 Symbols for Legacy Computing
+Symbols for Legacy Computing Supplement
 Yijing Hexagram Symbols
 Tai Xuan Jing Symbols
 
