@@ -65,6 +65,10 @@ detectDE() {
             XFCE)
             DE=xfce
             break
+            ;;
+            UKUI)
+            DE=ukui
+            break
         esac
       done
     fi
@@ -131,10 +135,13 @@ run_qt() {
 run_xdg() {
     case "$DE" in
         kde)
-            message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found. The package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration directory.")"
+            message "$(_ "You're currently running KDE, but the configuration tool for fcitx5 couldn't be found. The package name of the configuration tool is usually kcm-fcitx5, kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration directory.")"
+            ;;
+        ukui)
+            message "$(_ "You're currently running UKUI desktop environment, but the configuration tool for fcitx5 couldn't be found. The package name of the configuration tool is usually ukui-control-center, or fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
         *)
-            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. The package name provides this binary is usually fcitx5-configtool. Now it will open the configuration directory.")"
+            message "$(_ "You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be found. The package name of the configuration tool is usually fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
     esac
 
@@ -146,6 +153,19 @@ run_xdg() {
     if command="$(command -v xdg-open 2>/dev/null)"; then
         exec "$command" "$HOME/.config/fcitx5"
     fi
+}
+
+run_ukui() {
+    local arch=$(uname -m)
+    local keyboard_lib_path="/usr/lib/${arch}-linux-gnu/ukui-control-center/libkeyboard.so"
+    if [ ! -f ${keyboard_lib_path} ]; then
+        return 1
+    fi
+
+    if command -v ukui-control-center > /dev/null 2>&1; then
+        exec ukui-control-center -m keyboard inputmethod
+    fi
+    return 1
 }
 
 _which_cmdline() {
@@ -163,6 +183,9 @@ detectDE
 case "$DE" in
     kde)
         order="kde qt xdg"
+        ;;
+    ukui)
+        order="ukui qt xdg"
         ;;
     *)
         order="qt kde xdg"
