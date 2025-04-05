@@ -223,6 +223,10 @@ private:
                 dir = stringutils::joinPath(*home, defaultPath);
             } else {
                 if (env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
+#ifdef _WIN32
+                    dir = stringutils::joinPath(
+                        defaultPath, stringutils::concat("fcitx-runtime"));
+#else
                     dir = stringutils::joinPath(
                         defaultPath,
                         stringutils::concat("fcitx-runtime-", geteuid()));
@@ -231,12 +235,14 @@ private:
                             return {};
                         }
                     }
+#endif
                 } else {
                     dir = defaultPath;
                 }
             }
         }
 
+#ifndef _WIN32
         if (!dir.empty() && env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
             struct stat buf;
             if (stat(dir.c_str(), &buf) != 0 || buf.st_uid != geteuid() ||
@@ -244,6 +250,7 @@ private:
                 return {};
             }
         }
+#endif
         return dir;
     }
 
