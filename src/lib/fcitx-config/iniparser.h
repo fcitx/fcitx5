@@ -8,12 +8,13 @@
 #define _FCITX_CONFIG_INIPARSER_H_
 
 #include <cstdio>
+#include <filesystem>
 #include <istream>
 #include <ostream>
 #include <string>
 #include <fcitx-config/fcitxconfig_export.h>
 #include <fcitx-config/rawconfig.h>
-#include <fcitx-utils/standardpath.h>
+#include <fcitx-utils/standardpaths.h>
 
 namespace fcitx {
 class Configuration;
@@ -44,21 +45,56 @@ FCITXCONFIG_EXPORT void readAsIni(Configuration &configuration,
                                   const std::string &path);
 FCITXCONFIG_EXPORT void readAsIni(RawConfig &rawConfig,
                                   const std::string &path);
+FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &configuration,
+                                      const std::string &path);
+FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &rawConfig,
+                                      const std::string &path);
+
 FCITXCONFIG_EXPORT void readAsIni(Configuration &configuration,
-                                  StandardPath::Type type,
-                                  const std::string &path);
-FCITXCONFIG_EXPORT void readAsIni(RawConfig &rawConfig, StandardPath::Type type,
-                                  const std::string &path);
+                                  StandardPathsType type,
+                                  const std::filesystem::path &path);
+FCITXCONFIG_EXPORT void readAsIni(RawConfig &rawConfig, StandardPathsType type,
+                                  const std::filesystem::path &path);
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &configuration,
-                                      const std::string &path);
+                                      StandardPathsType type,
+                                      const std::filesystem::path &path);
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &rawConfig,
-                                      const std::string &path);
+                                      StandardPathsType type,
+                                      const std::filesystem::path &path);
+
+// API compatible with old standardpath, while not pull in standardpath.h
+template <typename T,
+          typename = typename StandardPathsTypeConverter<T>::self_type>
+void readAsIni(Configuration &configuration, T type, const std::string &path) {
+    readAsIni(configuration,
+              typename StandardPathsTypeConverter<T>::convert(type), path);
+}
+
+template <typename T,
+          typename = typename StandardPathsTypeConverter<T>::self_type>
+void readAsIni(RawConfig &rawConfig, T type, const std::string &path) {
+    readAsIni(rawConfig, typename StandardPathsTypeConverter<T>::convert(type),
+              path);
+}
+
+template <typename T,
+          typename = typename StandardPathsTypeConverter<T>::self_type>
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &configuration,
-                                      StandardPath::Type type,
-                                      const std::string &path);
+                                      T type, const std::string &path) {
+    return safeSaveAsIni(configuration,
+                         typename StandardPathsTypeConverter<T>::convert(type),
+                         path);
+}
+
+template <typename T,
+          typename = typename StandardPathsTypeConverter<T>::self_type>
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &rawConfig,
-                                      StandardPath::Type type,
-                                      const std::string &path);
+                                      StandardPathsType type,
+                                      const std::string &path) {
+    return safeSaveAsIni(
+        rawConfig, typename StandardPathsTypeConverter<T>::convert(type), path);
+}
+
 } // namespace fcitx
 
 #endif // _FCITX_CONFIG_INIPARSER_H_

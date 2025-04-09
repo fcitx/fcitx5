@@ -45,7 +45,7 @@
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"

@@ -13,7 +13,7 @@
 #include "fcitx-utils/environ.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "testdir.h"
 
 using namespace fcitx;

@@ -34,7 +34,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx-utils/unixfd.h"

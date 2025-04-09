@@ -21,7 +21,7 @@
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/semver.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/unixfd.h"
 #include "addoninfo.h"
 #include "addoninstance.h"
