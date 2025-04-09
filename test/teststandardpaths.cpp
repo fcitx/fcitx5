@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include "fcitx-utils/environ.h"
-#include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpaths.h"
 #include "testdir.h"
@@ -28,17 +27,15 @@ void test_basic() {
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPaths standardPaths("fcitx", {}, true, false);
 
-    FCITX_ASSERT(standardPaths.userDirectory(StandardPaths::Type::Config) ==
+    FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Config) ==
                  "/TEST/PATH");
     // The order to the path should be kept for their first appearance.
     FCITX_ASSERT(
-        standardPaths.directories(StandardPaths::Type::Config) ==
+        standardPaths.directories(StandardPathsType::Config) ==
         std::vector<std::filesystem::path>({"/TEST/PATH1", "/TEST/PATH2"}));
 
     {
-        auto result = standardPaths.locate(
-            StandardPaths::Type::PkgData, "addon", O_RDONLY,
-            filter::Not(filter::User()), filter::Suffix(".conf"));
+        auto result = standardPaths.locate(StandardPathsType::PkgData, "addon");
         std::set<std::string> names;
         std::set<std::string> expect_names = {"testim.conf",
                                               "testfrontend.conf"};
@@ -51,8 +48,8 @@ void test_basic() {
     }
 
     {
-        auto result = standardPaths.locate(StandardPaths::Type::PkgData,
-                                           "addon", filter::Not(filter::User()),
+        auto result = standardPaths.locate(StandardPathsType::PkgData, "addon",
+                                           filter::Not(filter::User()),
                                            filter::Suffix(".conf"));
         std::set<std::string> names;
         std::set<std::string> expect_names = {"testim.conf",
@@ -66,7 +63,7 @@ void test_basic() {
 
     {
         auto result = standardPaths.multiOpen(
-            StandardPaths::Type::PkgData, "addon", O_RDONLY,
+            StandardPathsType::PkgData, "addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix("im.conf"));
         std::set<std::string> names;
         std::set<std::string> expect_names = {"testim.conf"};
@@ -80,13 +77,13 @@ void test_basic() {
 
     std::filesystem::path filePath;
     auto file =
-        standardPaths.open(StandardPaths::Type::PkgData, "addon/testim.conf",
+        standardPaths.open(StandardPathsType::PkgData, "addon/testim.conf",
                            O_RDONLY, StandardPaths::Mode::All, &filePath);
     FCITX_ASSERT(filePath == std::filesystem::path(TEST_ADDON_DIR
                                                    "/fcitx5/addon/testim.conf")
                                  .lexically_normal());
 
-    auto file2 = standardPaths.open(StandardPaths::Type::Data,
+    auto file2 = standardPaths.open(StandardPathsType::Data,
                                     "fcitx5/addon/testim2.conf", O_RDONLY);
     FCITX_ASSERT(!file2.isValid());
 }
@@ -98,13 +95,13 @@ void test_nouser() {
     StandardPaths standardPaths("fcitx", {}, true, true);
 
     FCITX_ASSERT(
-        standardPaths.userDirectory(StandardPaths::Type::Config).empty());
-    FCITX_ASSERT(standardPaths.directories(StandardPaths::Type::Config) ==
+        standardPaths.userDirectory(StandardPathsType::Config).empty());
+    FCITX_ASSERT(standardPaths.directories(StandardPathsType::Config) ==
                  std::vector<std::string>({"/TEST/PATH1", "/TEST/PATH2"}));
 
     {
         auto result = standardPaths.multiOpen(
-            StandardPaths::Type::PkgData, "addon", O_RDONLY,
+            StandardPathsType::PkgData, "addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix(".conf"));
         std::set<std::string> names;
         std::set<std::string> expect_names = {"testim.conf",
@@ -119,7 +116,7 @@ void test_nouser() {
 
     {
         auto result = standardPaths.multiOpen(
-            StandardPaths::Type::PkgData, "addon", O_RDONLY,
+            StandardPathsType::PkgData, "addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix("im.conf"));
         std::set<std::string> names;
         std::set<std::string> expect_names = {"testim.conf"};
@@ -131,12 +128,12 @@ void test_nouser() {
         FCITX_ASSERT(names == expect_names);
     }
 
-    auto file = standardPaths.open(StandardPaths::Type::PkgData,
+    auto file = standardPaths.open(StandardPathsType::PkgData,
                                    "addon/testim.conf", O_RDONLY);
     FCITX_ASSERT(file.path() ==
                  fs::cleanPath(TEST_ADDON_DIR "/fcitx5/addon/testim.conf"));
 
-    auto file2 = standardPaths.open(StandardPaths::Type::Data,
+    auto file2 = standardPaths.open(StandardPathsType::Data,
                                     "fcitx5/addon/testim2.conf", O_RDONLY);
     FCITX_ASSERT(file2.fd() == -1);
 }
@@ -146,12 +143,12 @@ void test_custom() {
     setEnvironment("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPaths path("mypackage", {{"datadir", "/TEST/PATH3"}}, false, false);
-    FCITX_ASSERT(path.directories(fcitx::StandardPaths::Type::PkgConfig) ==
+    FCITX_ASSERT(path.directories(fcitx::StandardPathsType::PkgConfig) ==
                  std::vector<std::string>{"/TEST/PATH1/mypackage",
                                           "/TEST/PATH2/mypackage"});
-    FCITX_ASSERT(path.directories(fcitx::StandardPaths::Type::Data) ==
+    FCITX_ASSERT(path.directories(fcitx::StandardPathsType::Data) ==
                  std::vector<std::string>{TEST_ADDON_DIR, "/TEST/PATH3"})
-        << path.directories(fcitx::StandardPaths::Type::Data);
+        << path.directories(fcitx::StandardPathsType::Data);
 }
 
 int main() {

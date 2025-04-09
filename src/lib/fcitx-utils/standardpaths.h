@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#ifndef _FCITX_UTILS_STANDARDPATHS_H_
+#define _FCITX_UTILS_STANDARDPATHS_H_
 
 #include <cstdint>
 #include <filesystem>
@@ -31,17 +33,26 @@ namespace fcitx {
 
 class StandardPathsPrivate;
 
+/** \brief Enum for location type. */
+enum class StandardPathsType {
+    Config,
+    PkgConfig,
+    Data,
+    Cache,
+    Runtime,
+    Addon,
+    PkgData
+};
+
 class FCITXUTILS_EXPORT StandardPaths {
 public:
-    /** \brief Enum for location type. */
-    enum class Type { Config, PkgConfig, Data, Cache, Runtime, Addon, PkgData };
+    using PathFilterCallback =
+        std::function<bool(const std::filesystem::path &)>;
 
     enum class Mode : uint8_t {
         User = (1 << 0),
         System = (1 << 1),
-        Files = (1 << 1),
-        Dirs = (1 << 2),
-        Default = User | System | Files,
+        Default = User | System,
     };
 
     using Modes = Flags<Mode>;
@@ -78,28 +89,31 @@ public:
     /**
      * \brief Get user writable directory for given type.
      */
-    const std::filesystem::path &userDirectory(Type type) const;
+    const std::filesystem::path &userDirectory(StandardPathsType type) const;
 
     /**
      * \brief Get all directories in the order of priority.
      */
-    const std::vector<std::filesystem::path> &directories(Type type) const;
+    const std::vector<std::filesystem::path> &
+    directories(StandardPathsType type) const;
 
     /** \brief Check if a file exists. */
-    std::filesystem::path locate(Type type, const std::filesystem::path &path,
+    std::filesystem::path locate(StandardPathsType type,
+                                 const std::filesystem::path &path,
                                  Modes modes = Mode::Default) const;
 
-    /** \brief list all matched files. */
-    std::vector<std::filesystem::path>
-    locateAll(Type type, const std::filesystem::path &path,
-              Modes modes = Mode::Default) const;
+    /** \brief Check if a file exists. */
+    std::filesystem::path locate(StandardPathsType type,
+                                 const std::filesystem::path &path,
+                                 const PathFilterCallback &callback,
+                                 Modes modes = Mode::Default) const;
 
     /** \brief Open the first matched and succeeded file for read.
      *
      *  This function is preferred over locate if you just want to open the
      *  file. Then you can avoid the race condition.
      */
-    UnixFD open(Type type, const std::filesystem::path &path,
+    UnixFD open(StandardPathsType type, const std::filesystem::path &path,
                 Modes modes = Mode::Default,
                 std::filesystem::path *outPath = nullptr) const;
 
@@ -113,18 +127,10 @@ public:
      * \param callback Callback function that accept a file descriptor and
      * return whether the save if success or not.
      */
-    bool safeSave(Type type, const std::filesystem::path &pathOrig,
+    bool safeSave(StandardPathsType type, const std::filesystem::path &pathOrig,
                   const std::function<bool(int)> &callback) const;
 
-    /**
-     * \brief Open all files match the first [directory]/[path].
-     */
-    void
-    openAll(Type type, const std::filesystem::path &path,
-            const std::function<void(UnixFD, const std::filesystem::path &)>
-                &callback) const;
-
-    int64_t timestamp(Type type, const std::filesystem::path &path,
+    int64_t timestamp(StandardPathsType type, const std::filesystem::path &path,
                       Modes modes = Mode::Default) const;
 
     /**
@@ -135,23 +141,14 @@ public:
      */
     void syncUmask() const;
 
-    /**
-     * Whether this StandardPaths is configured to Skip built-in path.
-     *
-     * Built-in path is usually configured at build time, hardcoded.
-     * In portable environment (Install prefix is not fixed), this should be
-     * set to false.
-     */
-    bool skipBuiltInPath() const;
-
-    /**
-     * Whether this StandardPaths is configured to Skip user path.
-     */
-    bool skipUserPath() const;
-
 private:
     std::unique_ptr<StandardPathsPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPaths);
 };
 
+template <typename T>
+class StandardPathsTypeConverter {};
+
 } // namespace fcitx
+
+#endif // _FCITX_UTILS_STANDARDPATHS_H_

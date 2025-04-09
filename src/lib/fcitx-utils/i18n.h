@@ -7,8 +7,9 @@
 #ifndef _FCITX_UTILS_I18N_H_
 #define _FCITX_UTILS_I18N_H_
 
+#include <filesystem>
 #include <string>
-#include <utility>
+#include <type_traits>
 #include <fcitx-utils/fcitxutils_export.h>
 #if __cplusplus >= 202002L
 #include <format>
@@ -31,7 +32,8 @@ translateDomainCtx(const char *domain, const char *ctx, const std::string &s);
 
 FCITXUTILS_EXPORT const char *
 translateDomainCtx(const char *domain, const char *ctx, const char *s);
-FCITXUTILS_EXPORT void registerDomain(const char *domain, const char *dir);
+FCITXUTILS_EXPORT void registerDomain(const char *domain,
+                                      const std::filesystem::path &dir);
 
 #if __cplusplus >= 202002L
 template <typename... Args>

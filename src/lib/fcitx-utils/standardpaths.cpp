@@ -122,17 +122,17 @@ public:
     }
 
     const std::vector<std::filesystem::path> &
-    directories(StandardPaths::Type type) const {
+    directories(StandardPathsType type) const {
         switch (type) {
-        case StandardPaths::Type::Config:
+        case StandardPathsType::Config:
             return configDirs_;
-        case StandardPaths::Type::PkgConfig:
+        case StandardPathsType::PkgConfig:
             return pkgconfigDirs_;
-        case StandardPaths::Type::Data:
+        case StandardPathsType::Data:
             return dataDirs_;
-        case StandardPaths::Type::PkgData:
+        case StandardPathsType::PkgData:
             return pkgdataDirs_;
-        case StandardPaths::Type::Addon:
+        case StandardPathsType::Addon:
             return addonDirs_;
         default:
             return emptyPaths_;
@@ -140,7 +140,7 @@ public:
     }
 
     template <typename Callback>
-    void scanDirectories(StandardPaths::Type type,
+    void scanDirectories(StandardPathsType type,
                          const std::filesystem::path &path,
                          StandardPaths::Modes modes,
                          const Callback &callback) const {
@@ -171,7 +171,7 @@ public:
     mode_t umask() const { return umask_.load(std::memory_order_relaxed); }
 
     std::tuple<UnixFD, std::filesystem::path>
-    openUserTemp(StandardPaths::Type type,
+    openUserTemp(StandardPathsType type,
                  const std::filesystem::path &pathOrig) const {
         if (!pathOrig.has_filename()) {
             return {};
@@ -332,18 +332,19 @@ StandardPaths::fcitxPath(const char *path,
     return {};
 }
 
-const std::filesystem::path &StandardPaths::userDirectory(Type type) const {
+const std::filesystem::path &
+StandardPaths::userDirectory(StandardPathsType type) const {
     FCITX_D();
     return d->directories(type)[0];
 }
 
 const std::vector<std::filesystem::path> &
-StandardPaths::directories(Type type) const {
+StandardPaths::directories(StandardPathsType type) const {
     FCITX_D();
     return d->directories(type);
 }
 
-std::filesystem::path StandardPaths::locate(Type type,
+std::filesystem::path StandardPaths::locate(StandardPathsType type,
                                             const std::filesystem::path &path,
                                             Modes modes) const {
     FCITX_D();
@@ -359,23 +360,25 @@ std::filesystem::path StandardPaths::locate(Type type,
     return retPath;
 }
 
-std::vector<std::filesystem::path>
-StandardPaths::locateAll(Type type, const std::filesystem::path &path,
-                         Modes modes) const {
+std::filesystem::path StandardPaths::locate(StandardPathsType type,
+                                            const std::filesystem::path &path,
+                                            const PathFilterCallback &callback,
+                                            Modes modes) const {
     FCITX_D();
-    std::vector<std::filesystem::path> retPaths;
-    d->scanDirectories(type, path, modes,
-                       [&retPaths](const std::filesystem::path &fullPath) {
-                           if (std::filesystem::is_regular_file(fullPath)) {
-                               retPaths.push_back(fullPath);
-                           }
-                           return true;
-                       });
-    return retPaths;
+    std::string retPath;
+    d->scanDirectories(
+        type, path, modes,
+        [&retPath, &callback](const std::filesystem::path &fullPath) {
+            std::filesystem::directory_iterator iter(fullPath);
+            std::filesystem::directory_options end;
+            return false;
+        });
+    return retPath;
 }
 
-UnixFD StandardPaths::open(Type type, const std::filesystem::path &path,
-                           Modes modes, std::filesystem::path *outPath) const {
+UnixFD StandardPaths::open(StandardPathsType type,
+                           const std::filesystem::path &path, Modes modes,
+                           std::filesystem::path *outPath) const {
     FCITX_D();
     UnixFD retFD;
     d->scanDirectories(type, path, modes,
@@ -392,7 +395,8 @@ UnixFD StandardPaths::open(Type type, const std::filesystem::path &path,
     return retFD;
 }
 
-bool StandardPaths::safeSave(Type type, const std::filesystem::path &pathOrig,
+bool StandardPaths::safeSave(StandardPathsType type,
+                             const std::filesystem::path &pathOrig,
                              const std::function<bool(int)> &callback) const {
     FCITX_D();
     auto [file, path] = d->openUserTemp(type, pathOrig);
@@ -421,7 +425,8 @@ bool StandardPaths::safeSave(Type type, const std::filesystem::path &pathOrig,
     return false;
 }
 
-int64_t StandardPaths::timestamp(Type type, const std::filesystem::path &path,
+int64_t StandardPaths::timestamp(StandardPathsType type,
+                                 const std::filesystem::path &path,
                                  Modes modes) const {
     FCITX_D();
 
@@ -445,15 +450,5 @@ int64_t StandardPaths::timestamp(Type type, const std::filesystem::path &path,
 }
 
 void StandardPaths::syncUmask() const { d_ptr->syncUmask(); }
-
-bool StandardPaths::skipBuiltInPath() const {
-    FCITX_D();
-    return d->skipBuiltIn();
-}
-
-bool StandardPaths::skipUserPath() const {
-    FCITX_D();
-    return d->skipUser();
-}
 
 } // namespace fcitx

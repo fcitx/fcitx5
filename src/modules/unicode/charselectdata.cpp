@@ -31,7 +31,7 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 
 using namespace fcitx;

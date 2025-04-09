@@ -7,16 +7,19 @@
 #include "iniparser.h"
 #include <fcntl.h>
 #include <cstdio>
+#include <filesystem>
 #include <functional>
 #include <istream>
 #include <ostream>
 #include <string>
 #include <string_view>
+#include "fcitx-config/fcitxconfig_export.h"
 #include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
 #include "configuration.h"
@@ -148,49 +151,84 @@ bool writeAsIni(const RawConfig &config, std::ostream &out) {
 }
 
 void readAsIni(RawConfig &rawConfig, const std::string &path) {
-    return readAsIni(rawConfig, StandardPath::Type::PkgConfig, path);
+    readAsIni(rawConfig, StandardPathsType::PkgConfig, path);
 }
 
 void readAsIni(Configuration &configuration, const std::string &path) {
-    return readAsIni(configuration, StandardPath::Type::PkgConfig, path);
+    readAsIni(configuration, StandardPathsType::PkgConfig, path);
 }
 
-void readAsIni(RawConfig &rawConfig, StandardPath::Type type,
-               const std::string &path) {
-    const auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(type, path, O_RDONLY);
+bool safeSaveAsIni(const RawConfig &config, const std::string &path) {
+    return safeSaveAsIni(config, StandardPathsType::PkgConfig, path);
+}
+
+bool safeSaveAsIni(const Configuration &configuration,
+                   const std::string &path) {
+    return safeSaveAsIni(configuration, StandardPathsType::PkgConfig, path);
+}
+
+void readAsIni(RawConfig &rawConfig, StandardPathsType type,
+               const std::filesystem::path &path) {
+    const auto &standardPath = StandardPaths::global();
+    auto file = standardPath.open(type, path);
     readFromIni(rawConfig, file.fd());
 }
 
-void readAsIni(Configuration &configuration, StandardPath::Type type,
-               const std::string &path) {
+void readAsIni(Configuration &configuration, StandardPathsType type,
+               const std::filesystem::path &path) {
     RawConfig config;
     readAsIni(config, type, path);
 
     configuration.load(config);
 }
 
-bool safeSaveAsIni(const RawConfig &config, const std::string &path) {
-    return safeSaveAsIni(config, StandardPath::Type::PkgConfig, path);
-}
-
-bool safeSaveAsIni(const Configuration &configuration,
-                   const std::string &path) {
-    return safeSaveAsIni(configuration, StandardPath::Type::PkgConfig, path);
-}
-
-bool safeSaveAsIni(const RawConfig &config, StandardPath::Type type,
-                   const std::string &path) {
-    const auto &standardPath = StandardPath::global();
+bool safeSaveAsIni(const RawConfig &config, StandardPathsType type,
+                   const std::filesystem::path &path) {
+    const auto &standardPath = StandardPaths::global();
     return standardPath.safeSave(
         type, path, [&config](int fd) { return writeAsIni(config, fd); });
 }
 
-bool safeSaveAsIni(const Configuration &configuration, StandardPath::Type type,
-                   const std::string &path) {
+bool safeSaveAsIni(const Configuration &configuration, StandardPathsType type,
+                   const std::filesystem::path &path) {
     RawConfig config;
 
     configuration.save(config);
     return safeSaveAsIni(config, type, path);
 }
+
+FCITXCONFIG_DEPRECATED_EXPORT void readAsIni(RawConfig &rawConfig,
+                                             StandardPath::Type type,
+                                             const std::string &path) {
+    const auto &standardPath = StandardPath::global();
+    auto file = standardPath.open(type, path, O_RDONLY);
+    readFromIni(rawConfig, file.fd());
+}
+
+FCITXCONFIG_DEPRECATED_EXPORT void readAsIni(Configuration &configuration,
+                                             StandardPath::Type type,
+                                             const std::string &path) {
+    RawConfig config;
+    readAsIni(config, type, path);
+
+    configuration.load(config);
+}
+
+FCITXCONFIG_DEPRECATED_EXPORT bool safeSaveAsIni(const RawConfig &config,
+                                                 StandardPath::Type type,
+                                                 const std::string &path) {
+    const auto &standardPath = StandardPath::global();
+    return standardPath.safeSave(
+        type, path, [&config](int fd) { return writeAsIni(config, fd); });
+}
+
+FCITXCONFIG_DEPRECATED_EXPORT bool
+safeSaveAsIni(const Configuration &configuration, StandardPath::Type type,
+              const std::string &path) {
+    RawConfig config;
+
+    configuration.save(config);
+    return safeSaveAsIni(config, type, path);
+}
+
 } // namespace fcitx

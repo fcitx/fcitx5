@@ -29,7 +29,7 @@
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18nstring.h"
 #include "fcitx-utils/macros.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "config.h" // IWYU pragma: keep
 #include "misc_p.h"

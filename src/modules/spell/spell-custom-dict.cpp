@@ -14,7 +14,7 @@
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 
 #define case_a_z                                                               \
     case 'a':                                                                  \
