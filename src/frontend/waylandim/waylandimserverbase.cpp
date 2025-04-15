@@ -175,7 +175,7 @@ std::optional<WlModifiersParams> WaylandIMServerBase::mayChangeModifiers(
     if (auto it = keycodeToNormalModMasks_.find(key);
              it != keycodeToNormalModMasks_.end()) {
         for (auto const &modMasks : it->second) {
-            if ((modsEffective & std::get<0>(modMasks)) == 0) {
+            if ((modsEffective & std::get<0>(modMasks)) != std::get<0>(modMasks)) {
                 continue;
             }
             const WlModifiersParams &params = std::get<1>(modMasks);
@@ -360,7 +360,7 @@ std::vector<xkb_mod_mask_t> getKeyModMasks(
     size_t masks_size = 4;
     xkb_mod_index_t* masks = NULL;
     while (true) {
-        if (*masks) {
+        if (masks) {
             delete[] masks;
         }
         masks = new xkb_mod_index_t[masks_size];
