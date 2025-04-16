@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-26 20:24+0000\n"
+"POT-Creation-Date: 2025-04-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -82,11 +82,11 @@ msgstr "/XIM"
 msgid "0 means never clear password."
 msgstr "0 の場合はパスワードをクリアしません。"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
@@ -94,15 +94,23 @@ msgstr "<Non Private Use High Surrogate>"
 msgid "<Password>"
 msgstr "<Password>"
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:230
+msgid "<Plane 15 Private Use>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:232
+msgid "<Plane 16 Private Use>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:224
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:247
+#: src/modules/unicode/charselectdata.cpp:262
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
@@ -327,6 +335,11 @@ msgstr "ブラウザー"
 msgctxt "Key name"
 msgid "CD"
 msgstr "CD"
+
+#: src/modules/unicode/charselectdata.cpp:199
+#, c++-format
+msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1090,6 +1103,11 @@ msgstr "Gtk IM モジュールキャッシュ:"
 #: data/fcitx5-diagnose.sh:1450
 msgid "Gtk IM module files:"
 msgstr "Gtk IM モジュールファイル:"
+
+#: src/modules/unicode/charselectdata.cpp:215
+#, c++-format
+msgid "HANGUL SYLLABLE {0}{1}{2}"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:753
 msgid "Hall of Shame for Linux IME Support"
@@ -2000,13 +2018,10 @@ msgstr "ノーマルテキスト色"
 
 #: src/ui/classic/classicui.h:188
 msgid ""
-"Normally Wayland uses 96 as font DPI in combinition with the screen scale "
+"Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
-"通常、Wayland は画面スケール係数との組み合わせで、フォント DPI を 96 にしま"
-"す。このオプションを使用すると、フォント DPI を上書きできます。値が 0 の場"
-"合、このオプションは無効になります。"
 
 #: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
@@ -2538,6 +2553,11 @@ msgstr "システム情報;"
 msgctxt "Key name"
 msgid "System Request"
 msgstr "システムリクエスト"
+
+#: src/modules/unicode/charselectdata.cpp:227
+#, c++-format
+msgid "TANGUT IDEOGRAPH-{0:X}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"

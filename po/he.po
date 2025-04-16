@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-25 20:24+0000\n"
+"POT-Creation-Date: 2025-04-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e "
 "<ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021\n"
@@ -81,11 +81,11 @@ msgstr ""
 msgid "0 means never clear password."
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Low Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Non Private Use High Surrogate>"
 msgstr ""
 
@@ -93,15 +93,23 @@ msgstr ""
 msgid "<Password>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:230
+msgid "<Plane 15 Private Use>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:232
+msgid "<Plane 16 Private Use>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:224
 msgid "<Private Use>"
 msgstr "<שימוש פרטי>"
 
-#: src/modules/unicode/charselectdata.cpp:247
+#: src/modules/unicode/charselectdata.cpp:262
 msgid "<not assigned>"
 msgstr ""
 
@@ -326,6 +334,11 @@ msgstr ""
 msgctxt "Key name"
 msgid "CD"
 msgstr "תקליטור"
+
+#: src/modules/unicode/charselectdata.cpp:199
+#, c++-format
+msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1050,6 +1063,11 @@ msgstr ""
 msgid "Gtk IM module files:"
 msgstr ""
 
+#: src/modules/unicode/charselectdata.cpp:215
+#, c++-format
+msgid "HANGUL SYLLABLE {0}{1}{2}"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:753
 msgid "Hall of Shame for Linux IME Support"
 msgstr ""
@@ -1253,7 +1271,7 @@ msgstr ""
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1937,7 +1955,7 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:188
 msgid ""
-"Normally Wayland uses 96 as font DPI in combinition with the screen scale "
+"Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
@@ -2435,11 +2453,11 @@ msgid "Suspend"
 msgstr "השהיה"
 
 #: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
-#: src/modules/xcb/xcbconnection.cpp:565
+#: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr ""
@@ -2456,6 +2474,11 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:243
 msgctxt "Key name"
 msgid "System Request"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:227
+#, c++-format
+msgid "TANGUT IDEOGRAPH-{0:X}"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:52

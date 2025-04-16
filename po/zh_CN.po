@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-12 20:24+0000\n"
+"POT-Creation-Date: 2025-04-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2025\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -83,11 +83,11 @@ msgstr "/XIM/zh-cn"
 msgid "0 means never clear password."
 msgstr "0 表示永不清除密码。"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Low Surrogate>"
 msgstr "<低半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非专用高半代理区>"
 
@@ -95,15 +95,23 @@ msgstr "<非专用高半代理区>"
 msgid "<Password>"
 msgstr "<密码>"
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:230
+msgid "<Plane 15 Private Use>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:232
+msgid "<Plane 16 Private Use>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Private Use High Surrogate>"
 msgstr "<专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:224
 msgid "<Private Use>"
 msgstr "<专用区>"
 
-#: src/modules/unicode/charselectdata.cpp:247
+#: src/modules/unicode/charselectdata.cpp:262
 msgid "<not assigned>"
 msgstr "<未指派>"
 
@@ -328,6 +336,11 @@ msgstr "浏览器"
 msgctxt "Key name"
 msgid "CD"
 msgstr "CD"
+
+#: src/modules/unicode/charselectdata.cpp:199
+#, c++-format
+msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1073,6 +1086,11 @@ msgstr "Gtk 输入法模块缓存："
 #: data/fcitx5-diagnose.sh:1450
 msgid "Gtk IM module files:"
 msgstr "Gtk 输入法模块文件："
+
+#: src/modules/unicode/charselectdata.cpp:215
+#, c++-format
+msgid "HANGUL SYLLABLE {0}{1}{2}"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:753
 msgid "Hall of Shame for Linux IME Support"
@@ -1976,12 +1994,10 @@ msgstr "一般文字颜色"
 
 #: src/ui/classic/classicui.h:188
 msgid ""
-"Normally Wayland uses 96 as font DPI in combinition with the screen scale "
+"Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
-"通常 Wayland 使用 96 作为字体 DPI，同时和屏幕的缩放倍数组合调整文字大小。这个"
-"选项允许你覆盖字体的 DPI。如果设置为 0，这个选项将被禁用。"
 
 #: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
@@ -2505,6 +2521,11 @@ msgstr "系统信息:"
 msgctxt "Key name"
 msgid "System Request"
 msgstr "系统请求"
+
+#: src/modules/unicode/charselectdata.cpp:227
+#, c++-format
+msgid "TANGUT IDEOGRAPH-{0:X}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
