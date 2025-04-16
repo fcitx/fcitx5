@@ -16,7 +16,7 @@
 /**
  * Define a enum with raw string value as name.
  *
- * This is basically a simple combinition for the enum class and
+ * This is basically a simple combination for the enum class and
  * FCITX_CONFIG_ENUM_NAME.
  * It is suitable for case that enum name is a single word.
  *
