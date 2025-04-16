@@ -183,9 +183,16 @@ std::string CharSelectData::name(uint32_t unicode) const {
 
     std::string result;
     do {
-        if ((unicode >= 0x3400 && unicode <= 0x4DB5) ||
-            (unicode >= 0x4e00 && unicode <= 0x9fa5) ||
-            (unicode >= 0x20000 && unicode <= 0x2A6D6)) {
+        if ((unicode >= 0x3400 && unicode <= 0x4DBF) ||
+            (unicode >= 0x4E00 && unicode <= 0x9FFF) ||
+            (unicode >= 0x20000 && unicode <= 0x2A6DF) ||
+            (unicode >= 0x2A700 && unicode <= 0x2B739) ||
+            (unicode >= 0x2B740 && unicode <= 0x2B81D) ||
+            (unicode >= 0x2B820 && unicode <= 0x2CEA1) ||
+            (unicode >= 0x2CEB0 && unicode <= 0x2EBE0) ||
+            (unicode >= 0x2EBF0 && unicode <= 0x2EE5D) ||
+            (unicode >= 0x30000 && unicode <= 0x3134A) ||
+            (unicode >= 0x31350 && unicode <= 0x323AF)) {
             std::stringstream ss;
             ss << "CJK UNIFIED IDEOGRAPH-" << std::uppercase << std::hex
                << unicode;
@@ -215,6 +222,15 @@ std::string CharSelectData::name(uint32_t unicode) const {
             result = _("<Low Surrogate>");
         } else if (unicode >= 0xE000 && unicode <= 0xF8FF) {
             result = _("<Private Use>");
+        } else if ((unicode >= 0x17000 && unicode <= 0x187F7) ||
+                   (unicode >= 0x18D00 && unicode <= 0x18D08)) {
+            std::stringstream ss;
+            ss << "TANGUT IDEOGRAPH-" << std::uppercase << std::hex << unicode;
+            result = ss.str();
+        } else if (unicode >= 0xF0000 && unicode <= 0xFFFFD) {
+            result = _("<Plane 15 Private Use>");
+        } else if (unicode >= 0x100000 && unicode <= 0x10FFFD) {
+            result = _("<Plane 16 Private Use>");
         } else {
 
             const char *data = data_.data();
