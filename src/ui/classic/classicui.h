@@ -185,7 +185,7 @@ FCITX_CONFIGURATION(
             0,
             IntConstrain(0),
             {},
-            {_("Normally Wayland uses 96 as font DPI in combinition with the "
+            {_("Normally Wayland uses 96 as font DPI in combination with the "
                "screen scale factor. This option allows you to override the "
                "font DPI. If the value is 0, it means this option is "
                "disabled.")}};

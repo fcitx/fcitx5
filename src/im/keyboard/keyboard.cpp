@@ -461,7 +461,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         return;
     }
 
-    // Do not feed key into compose or buffer if it is a combinition key.
+    // Do not feed key into compose or buffer if it is a combination key.
     // Shift/Alt are ignored because of normalize does not always remove shift.
     if (event.key().states().testAny(
             KeyStates{KeyState::Ctrl, KeyState::Super})) {
