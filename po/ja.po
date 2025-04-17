@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-16 20:24+0000\n"
+"POT-Creation-Date: 2025-04-17 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -96,11 +96,11 @@ msgstr "<Password>"
 
 #: src/modules/unicode/charselectdata.cpp:230
 msgid "<Plane 15 Private Use>"
-msgstr ""
+msgstr "<Plane 15 Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:232
 msgid "<Plane 16 Private Use>"
-msgstr ""
+msgstr "<Plane 16 Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:220
 msgid "<Private Use High Surrogate>"
@@ -339,7 +339,7 @@ msgstr "CD"
 #: src/modules/unicode/charselectdata.cpp:199
 #, c++-format
 msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
-msgstr ""
+msgstr "CJK UNIFIED IDEOGRAPH-{0:X}"
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1107,7 +1107,7 @@ msgstr "Gtk IM モジュールファイル:"
 #: src/modules/unicode/charselectdata.cpp:215
 #, c++-format
 msgid "HANGUL SYLLABLE {0}{1}{2}"
-msgstr ""
+msgstr "HANGUL SYLLABLE {0}{1}{2}"
 
 #: data/fcitx5-diagnose.sh:753
 msgid "Hall of Shame for Linux IME Support"
@@ -2022,6 +2022,9 @@ msgid ""
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
+"Wayland のフォント DPI は通常 96 で、これを画面のスケール係数と組み合わせて使"
+"用​​します。このオプションを使用すると、フォント DPI を上書きできます。値が 0 "
+"の場合はこのオプションが無効になります。"
 
 #: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
@@ -2557,7 +2560,7 @@ msgstr "システムリクエスト"
 #: src/modules/unicode/charselectdata.cpp:227
 #, c++-format
 msgid "TANGUT IDEOGRAPH-{0:X}"
-msgstr ""
+msgstr "TANGUT IDEOGRAPH-{0:X}"
 
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
