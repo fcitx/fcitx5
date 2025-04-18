@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-17 20:24+0000\n"
+"POT-Creation-Date: 2025-04-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -172,7 +172,7 @@ msgstr "すべてのアドオン用ライブラリが見つかりました。"
 msgid "All locales:"
 msgstr "すべてのロケール:"
 
-#: src/modules/xcb/xcbmodule.h:26
+#: src/modules/xcb/xcbmodule.h:59
 msgid "Allow Overriding System XKB Settings"
 msgstr "システム XKB 設定のオーバーライドを許可する"
 
@@ -193,7 +193,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:29
+#: src/modules/xcb/xcbmodule.h:63
 msgid "Always set layout to be only group layout"
 msgstr "常にレイアウトをグループレイアウトのみにする"
 
@@ -229,6 +229,10 @@ msgstr "オーディオリピート"
 #: src/ui/classic/theme.h:199
 msgid "Author"
 msgstr "作者"
+
+#: src/modules/xcb/xcbmodule.h:37
+msgid "Auto"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -1324,7 +1328,7 @@ msgstr "画像"
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -2000,7 +2004,7 @@ msgstr "次の候補"
 msgid "Next Page Button"
 msgstr "次ページボタン"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
 msgid "No"
 msgstr "いいえ"
 
@@ -2387,6 +2391,10 @@ msgstr ""
 msgid "Separator Background"
 msgstr "セパレーターの背景"
 
+#: src/modules/xcb/xcbmodule.h:69
+msgid "Set client disconnect mode to terminate (Need Restart)"
+msgstr ""
+
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
 msgstr "影のマージン"
@@ -2534,11 +2542,11 @@ msgid "Suspend"
 msgstr "サスペンド"
 
 #: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
-#: src/modules/xcb/xcbconnection.cpp:564
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
@@ -2607,6 +2615,12 @@ msgstr "${1} (${2})としてスクリプトを実行"
 #: src/ui/classic/classicui.h:161
 msgid "Theme"
 msgstr "テーマ"
+
+#: src/modules/xcb/xcbmodule.h:45
+msgid ""
+"This allows XWayland to automatically terminate on compositors that launch "
+"XWayland on demand."
+msgstr ""
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -2989,6 +3003,10 @@ msgstr "XIM サーバー名: \"${1}\" は環境変数で設定された \"${2} �
 msgctxt "Key name"
 msgid "Yellow"
 msgstr "黄"
+
+#: src/modules/xcb/xcbmodule.h:38
+msgid "Yes"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""

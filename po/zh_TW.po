@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-16 20:24+0000\n"
+"POT-Creation-Date: 2025-04-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -103,11 +103,11 @@ msgstr "<Password>"
 
 #: src/modules/unicode/charselectdata.cpp:230
 msgid "<Plane 15 Private Use>"
-msgstr ""
+msgstr "<Plane 15 Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:232
 msgid "<Plane 16 Private Use>"
-msgstr ""
+msgstr "<Plane 16 Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:220
 msgid "<Private Use High Surrogate>"
@@ -179,7 +179,7 @@ msgstr "找到了所有附加元件的函式庫。"
 msgid "All locales:"
 msgstr "全部可用 locale："
 
-#: src/modules/xcb/xcbmodule.h:26
+#: src/modules/xcb/xcbmodule.h:59
 msgid "Allow Overriding System XKB Settings"
 msgstr "允許覆寫系統 XKB 設定"
 
@@ -200,7 +200,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:29
+#: src/modules/xcb/xcbmodule.h:63
 msgid "Always set layout to be only group layout"
 msgstr "總是設定佈局為僅有分組佈局"
 
@@ -236,6 +236,10 @@ msgstr "音訊重複"
 #: src/ui/classic/theme.h:199
 msgid "Author"
 msgstr "作者"
+
+#: src/modules/xcb/xcbmodule.h:37
+msgid "Auto"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -346,7 +350,7 @@ msgstr "CD 光碟"
 #: src/modules/unicode/charselectdata.cpp:199
 #, c++-format
 msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
-msgstr ""
+msgstr "中日韓統一表意文字-{0:X}"
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1098,7 +1102,7 @@ msgstr "Gtk 輸入法模組檔案："
 #: src/modules/unicode/charselectdata.cpp:215
 #, c++-format
 msgid "HANGUL SYLLABLE {0}{1}{2}"
-msgstr ""
+msgstr "韓文音節 {0}{1}{2}"
 
 #: data/fcitx5-diagnose.sh:753
 msgid "Hall of Shame for Linux IME Support"
@@ -1311,7 +1315,7 @@ msgstr "圖片"
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1985,7 +1989,7 @@ msgstr "下一個候選字"
 msgid "Next Page Button"
 msgstr "下一頁按鈕"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
 msgid "No"
 msgstr "否"
 
@@ -2007,6 +2011,8 @@ msgid ""
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
+"通常 Wayland 的字型 DPI 為 96，並配合螢幕縮放比例調整。此選項可以覆蓋該字型 "
+"DPI。0 表示禁用此選項。"
 
 #: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
@@ -2362,6 +2368,10 @@ msgstr ""
 msgid "Separator Background"
 msgstr "分隔符背景"
 
+#: src/modules/xcb/xcbmodule.h:69
+msgid "Set client disconnect mode to terminate (Need Restart)"
+msgstr ""
+
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
 msgstr "陰影邊緣"
@@ -2507,11 +2517,11 @@ msgid "Suspend"
 msgstr "暫停"
 
 #: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
-#: src/modules/xcb/xcbconnection.cpp:564
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "切換分組"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切換分組到 {0}"
@@ -2533,7 +2543,7 @@ msgstr "系統請求"
 #: src/modules/unicode/charselectdata.cpp:227
 #, c++-format
 msgid "TANGUT IDEOGRAPH-{0:X}"
-msgstr ""
+msgstr "西夏文表意文字-{0:X}"
 
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
@@ -2579,6 +2589,12 @@ msgstr "此腳本以 ${1} (${2}) 執行。"
 #: src/ui/classic/classicui.h:161
 msgid "Theme"
 msgstr "主題"
+
+#: src/modules/xcb/xcbmodule.h:45
+msgid ""
+"This allows XWayland to automatically terminate on compositors that launch "
+"XWayland on demand."
+msgstr ""
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -2956,6 +2972,10 @@ msgstr "xim 伺服器名稱：\"${1}\" 與環境變量中設置的不同：\"${2
 msgctxt "Key name"
 msgid "Yellow"
 msgstr "黃色"
+
+#: src/modules/xcb/xcbmodule.h:38
+msgid "Yes"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-16 20:24+0000\n"
+"POT-Creation-Date: 2025-04-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
@@ -171,7 +171,7 @@ msgstr "Toutes les bibliothèques pour tous les extensions ont été trouvées."
 msgid "All locales:"
 msgstr "Tous les paramètres régionaux :"
 
-#: src/modules/xcb/xcbmodule.h:26
+#: src/modules/xcb/xcbmodule.h:59
 msgid "Allow Overriding System XKB Settings"
 msgstr "Autoriser le remplacement des paramètres système XKB"
 
@@ -192,7 +192,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:29
+#: src/modules/xcb/xcbmodule.h:63
 msgid "Always set layout to be only group layout"
 msgstr ""
 "Toujours définir la mise en page comme étant uniquement la mise en page de "
@@ -230,6 +230,10 @@ msgstr "Répétition audio"
 #: src/ui/classic/theme.h:199
 msgid "Author"
 msgstr "Auteur"
+
+#: src/modules/xcb/xcbmodule.h:37
+msgid "Auto"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -1303,7 +1307,7 @@ msgstr "Image"
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1972,7 +1976,7 @@ msgstr "Candidat suivant"
 msgid "Next Page Button"
 msgstr "Bouton de page suivante"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
 msgid "No"
 msgstr "Non"
 
@@ -2353,6 +2357,10 @@ msgstr ""
 msgid "Separator Background"
 msgstr "Arrière-plan du séparateur"
 
+#: src/modules/xcb/xcbmodule.h:69
+msgid "Set client disconnect mode to terminate (Need Restart)"
+msgstr ""
+
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
 msgstr "Marge d'ombre"
@@ -2504,11 +2512,11 @@ msgid "Suspend"
 msgstr "Suspendre"
 
 #: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
-#: src/modules/xcb/xcbconnection.cpp:564
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "Changer de groupe"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Basculer le groupe vers {0}"
@@ -2577,6 +2585,12 @@ msgstr "Le script est exécuté en tant que ${1} (${2})."
 #: src/ui/classic/classicui.h:161
 msgid "Theme"
 msgstr "Thème"
+
+#: src/modules/xcb/xcbmodule.h:45
+msgid ""
+"This allows XWayland to automatically terminate on compositors that launch "
+"XWayland on demand."
+msgstr ""
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -2964,6 +2978,10 @@ msgstr ""
 msgctxt "Key name"
 msgid "Yellow"
 msgstr "Jaune"
+
+#: src/modules/xcb/xcbmodule.h:38
+msgid "Yes"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""

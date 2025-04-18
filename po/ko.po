@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-16 20:24+0000\n"
+"POT-Creation-Date: 2025-04-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -173,7 +173,7 @@ msgstr "모든 애드온에 대한 모든 라이브러리가 있습니다."
 msgid "All locales:"
 msgstr "모든 로케일:"
 
-#: src/modules/xcb/xcbmodule.h:26
+#: src/modules/xcb/xcbmodule.h:59
 msgid "Allow Overriding System XKB Settings"
 msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
@@ -194,7 +194,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:29
+#: src/modules/xcb/xcbmodule.h:63
 msgid "Always set layout to be only group layout"
 msgstr "항상 자판을 그룹 자판으로만 지정"
 
@@ -230,6 +230,10 @@ msgstr "음원 반복 듣기"
 #: src/ui/classic/theme.h:199
 msgid "Author"
 msgstr "작성자"
+
+#: src/modules/xcb/xcbmodule.h:37
+msgid "Auto"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -1287,7 +1291,7 @@ msgstr "이미지"
 #: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
-#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1955,7 +1959,7 @@ msgstr "다음 후보"
 msgid "Next Page Button"
 msgstr "다음 페이지 버튼"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
 msgid "No"
 msgstr "아니오"
 
@@ -2333,6 +2337,10 @@ msgstr ""
 msgid "Separator Background"
 msgstr "구분자 배경"
 
+#: src/modules/xcb/xcbmodule.h:69
+msgid "Set client disconnect mode to terminate (Need Restart)"
+msgstr ""
+
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
 msgstr "그림자 여백"
@@ -2478,11 +2486,11 @@ msgid "Suspend"
 msgstr "중단"
 
 #: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
-#: src/modules/xcb/xcbconnection.cpp:564
+#: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
@@ -2547,6 +2555,12 @@ msgstr "스크립트는 ${1} (${2}) 계정으로 실행됩니다."
 #: src/ui/classic/classicui.h:161
 msgid "Theme"
 msgstr "테마"
+
+#: src/modules/xcb/xcbmodule.h:45
+msgid ""
+"This allows XWayland to automatically terminate on compositors that launch "
+"XWayland on demand."
+msgstr ""
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -2924,6 +2938,10 @@ msgstr "Xim 서버 이름: \"${1}\"은 환경 변수: \"${2}\"에 지정된 것�
 msgctxt "Key name"
 msgid "Yellow"
 msgstr "노랑"
+
+#: src/modules/xcb/xcbmodule.h:38
+msgid "Yes"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""
