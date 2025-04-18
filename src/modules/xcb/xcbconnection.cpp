@@ -174,7 +174,8 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
                 xfixesFirstEvent_ = reply->first_event;
 
 #ifdef XCB_XFIXES_SET_CLIENT_DISCONNECT_MODE
-                if (xfixes_query->major_version >= 6) {
+                if (xfixes_query->major_version >= 6 &&
+                    parent_->isClientDisconnectModeTerminate()) {
                     FCITX_XCB_INFO()
                         << "Set XFIXES client disconnect mode to TERMINATE";
                     xcb_xfixes_set_client_disconnect_mode(

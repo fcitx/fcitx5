@@ -209,7 +209,15 @@ void XCBModule::setXkbOption(const std::string &name,
 }
 
 bool XCBModule::exists(const std::string &name) {
-    return conns_.count(name) > 0;
+    return conns_.contains(name);
+}
+
+bool XCBModule::isClientDisconnectModeTerminate() const {
+    return *config_.clientDisconnectModeTerminate ==
+               ClientDisconnectModeTerminate::Yes ||
+           (*config_.clientDisconnectModeTerminate ==
+                ClientDisconnectModeTerminate::Auto &&
+            getDesktopType() == DesktopType::GNOME);
 }
 
 class XCBModuleFactory : public AddonFactory {
