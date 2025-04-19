@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-18 20:24+0000\n"
+"POT-Creation-Date: 2025-04-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -235,7 +235,7 @@ msgstr "Автор"
 
 #: src/modules/xcb/xcbmodule.h:37
 msgid "Auto"
-msgstr ""
+msgstr "Автоматически"
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -2405,6 +2405,7 @@ msgstr "Фон разделителя"
 #: src/modules/xcb/xcbmodule.h:69
 msgid "Set client disconnect mode to terminate (Need Restart)"
 msgstr ""
+"Установить режим отключения клиента для завершения (требуется перезапуск)"
 
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
@@ -2636,6 +2637,8 @@ msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
 msgstr ""
+"Это позволяет XWayland автоматически завершать работу с компоновщиками, "
+"запускающими XWayland по запросу."
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -3036,7 +3039,7 @@ msgstr "Жёлтое"
 
 #: src/modules/xcb/xcbmodule.h:38
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""

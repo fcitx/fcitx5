@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-18 20:24+0000\n"
+"POT-Creation-Date: 2025-04-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -232,7 +232,7 @@ msgstr "作者"
 
 #: src/modules/xcb/xcbmodule.h:37
 msgid "Auto"
-msgstr ""
+msgstr "自動"
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -2393,7 +2393,7 @@ msgstr "セパレーターの背景"
 
 #: src/modules/xcb/xcbmodule.h:69
 msgid "Set client disconnect mode to terminate (Need Restart)"
-msgstr ""
+msgstr "クライアント切断モードを terminate に設定する（再起動が必要）"
 
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
@@ -2621,6 +2621,8 @@ msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
 msgstr ""
+"これにより、XWayland は要求に応じて XWayland を起動するコンポジタ上で自動的に"
+"終了することができます。"
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -3006,7 +3008,7 @@ msgstr "黄"
 
 #: src/modules/xcb/xcbmodule.h:38
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""
