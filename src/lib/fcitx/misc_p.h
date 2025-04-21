@@ -177,7 +177,7 @@ static inline DesktopType getDesktopType() {
         if (desktop == "xfce") {
             return DesktopType::XFCE;
         }
-        if (desktop == "deepin") {
+        if (desktop == "deepin" || stringutils::startsWith(desktop, "dde")) {
             return DesktopType::DEEPIN;
         }
         if (desktop == "ukui") {
