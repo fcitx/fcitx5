@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-18 20:24+0000\n"
+"POT-Creation-Date: 2025-04-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -448,7 +448,7 @@ msgstr "Trung tâm bên phải"
 
 #: data/fcitx5-configtool.desktop.in.in:4
 msgid "Change Fcitx 5 Configuration"
-msgstr "Thay đổi cấu hình Fctix 5"
+msgstr "Thay Đổi Cấu Hình Fctix 5"
 
 #: src/ui/classic/theme.h:189
 msgid "Check box"
@@ -860,7 +860,7 @@ msgstr "Fcitx 5"
 
 #: data/fcitx5-configtool.desktop.in.in:2
 msgid "Fcitx 5 Configuration"
-msgstr "Cấu hình Fcitx 5"
+msgstr "Cấu Hình Fcitx 5"
 
 #: data/fcitx5-wayland-launcher.desktop.in.in:2
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
@@ -1259,12 +1259,18 @@ msgid ""
 "zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
 "bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
 msgstr ""
+"Nếu được bật, khi sử dụng zwp_input_method_v2, đừng tạo và hủy "
+"zwp_virtual_keyboard_v1 mỗi khi kích hoạt và hủy kích hoạt. Điều này giúp "
+"tránh một số lỗi trong một số trình quản lý hiển thị nhất định, bao gồm "
+"Sway<=1.9, RiverWM<=0.3.0."
 
 #: src/lib/fcitx/globalconfig.cpp:226
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr ""
+"Nếu giá trị là 0, dữ liệu người dùng chỉ có thể được lưu khi fcitx thoát (ví "
+"dụ: đăng xuất)."
 
 #: data/fcitx5-diagnose.sh:742
 msgid ""
@@ -1410,7 +1416,7 @@ msgstr "Giữ đối tượng bàn phím ảo cho Giao thức V2 (Cần khởi �
 
 #: src/im/keyboard/longpress.h:20
 msgid "Key"
-msgstr ""
+msgstr "Phím"
 
 #: src/im/keyboard/keyboard.cpp:340 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
@@ -1429,21 +1435,21 @@ msgstr "Bàn phím - {0} - {1}"
 #: src/lib/fcitx-utils/key.cpp:145
 msgctxt "Key name"
 msgid "Keyboard Brightness Down"
-msgstr ""
+msgstr "Bàn Phím Tối Xuống"
 
 #: src/lib/fcitx-utils/key.cpp:143
 msgctxt "Key name"
 msgid "Keyboard Brightness Up"
-msgstr ""
+msgstr "Bàn Phím Sáng Lên"
 
 #: data/fcitx5-diagnose.sh:836
 msgid "Keyboard Layout:"
-msgstr ""
+msgstr "Bố Cục Bàn Phím:"
 
 #: src/lib/fcitx-utils/key.cpp:142
 msgctxt "Key name"
 msgid "Keyboard Light On/Off"
-msgstr ""
+msgstr "Đèn Bàn Phím Bật/Tắt"
 
 #: src/lib/fcitx-utils/key.cpp:182
 msgctxt "Key name"
@@ -2015,12 +2021,12 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:235
 msgctxt "Key name"
 msgid "Open"
-msgstr ""
+msgstr "Mở"
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
 msgid "Open URL"
-msgstr ""
+msgstr "Mở URL"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -2110,6 +2116,8 @@ msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
 msgstr ""
+"Hãy kiểm tra liên kết Cấu Hình của phân phối của bạn trong ${1} để làm sao "
+"cài ${2} tự chạy."
 
 #: data/fcitx5-diagnose.sh:714
 msgid ""
@@ -2282,7 +2290,7 @@ msgstr "Lưu"
 #: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
 msgid "Screensaver"
-msgstr ""
+msgstr "Trình bảo vệ màn hình"
 
 #: src/lib/fcitx-utils/key.cpp:101
 msgctxt "Key name"
@@ -2301,7 +2309,7 @@ msgstr "Số giây trước khi xóa mật khẩu"
 #: src/lib/fcitx-utils/key.cpp:244
 msgctxt "Key name"
 msgid "Select"
-msgstr ""
+msgstr "Lựa chọn"
 
 #: src/modules/imselector/imselector.cpp:257
 msgid "Select input method:"
@@ -2677,7 +2685,7 @@ msgstr ""
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
-msgstr ""
+msgstr "Phím Kích Hoạt"
 
 #: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
@@ -2959,6 +2967,9 @@ msgid ""
 "found. The package name provides this binary is usually fcitx5-configtool. "
 "Now it will open the configuration directory."
 msgstr ""
+"Bạn hiện đang chạy FCITX với GUI, nhưng không thể tìm thấy fcitx5-config-qt. "
+"Tên gói cung cấp nhị phân này thường là fcitx5-configtool. Bây giờ nó sẽ mở "
+"thư mục cấu hình."
 
 #: data/fcitx5-configtool.sh:134
 msgid ""
@@ -2966,6 +2977,9 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or "
 "fcitx5-configtool. Now it will open the configuration directory."
 msgstr ""
+"Bạn hiện đang chạy KDE, nhưng không thể tìm thấy KCModule cho fcitx. Tên gói "
+"của KCModule này thường là kcm-fcitx5, kde-config-fcitx5 hoặc fcitx5-"
+"configtool. Bây giờ nó sẽ mở thư mục cấu hình."
 
 #: data/fcitx5-diagnose.sh:1085
 msgid ""
