@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-18 20:24+0000\n"
+"POT-Creation-Date: 2025-04-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -239,7 +239,7 @@ msgstr "作者"
 
 #: src/modules/xcb/xcbmodule.h:37
 msgid "Auto"
-msgstr ""
+msgstr "自動"
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
