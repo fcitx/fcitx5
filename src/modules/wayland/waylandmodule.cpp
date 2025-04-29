@@ -687,6 +687,14 @@ void WaylandModule::selfDiagnose() {
                   "see "
                   "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"));
         }
+    } else if(desktop == DesktopType::UKUI) {
+        // The prompt messages are not displayed in the UKUI desktop environment.
+        FCITX_INFO() << __func__ << ",desktop type is UKUI";
+        if (!isWaylandIM) {
+            FCITX_INFO() << "isWaylandIM:" << isWaylandIM;
+        } else if (!gtkIM.empty() || !qtIM.empty()) {
+            FCITX_INFO() << "gtkIM or qtIM not empty";
+        }
     } else {
         // It is not clear whether compositor is supported, only warn if wayland
         // im is being used..
