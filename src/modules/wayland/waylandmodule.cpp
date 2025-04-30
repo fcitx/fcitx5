@@ -625,15 +625,16 @@ void WaylandModule::selfDiagnose() {
             category, _("Fcitx"), "fcitx", _("Wayland Diagnose"), message,
             60000);
     };
-    
 
     auto gtkIM = getEnvironmentOrEmpty("GTK_IM_MODULE");
     auto qtIM = getEnvironmentOrEmpty("QT_IM_MODULE");
     auto qtsIM = getEnvironmentOrEmpty("QT_IM_MODULES");
 
     FCITX_WAYLAND_INFO() << "Wayland self diagnose information";
-    FCITX_WAYLAND_INFO() << "Using Wayland native input method protocol: " << isWaylandIM;
-    FCITX_WAYLAND_INFO() << "Toolkit specific environment variable detected by process:";
+    FCITX_WAYLAND_INFO() << "Using Wayland native input method protocol: "
+                         << isWaylandIM;
+    FCITX_WAYLAND_INFO()
+        << "Toolkit specific environment variable detected by process:";
     FCITX_WAYLAND_INFO() << "GTK_IM_MODULE=" << gtkIM;
     FCITX_WAYLAND_INFO() << "QT_IM_MODULE=" << qtIM;
     FCITX_WAYLAND_INFO() << "QT_IM_MODULES=" << qtsIM;
@@ -695,7 +696,7 @@ void WaylandModule::selfDiagnose() {
                   "see "
                   "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"));
         }
-    } else if(desktop == DesktopType::UKUI) {
+    } else if (desktop == DesktopType::UKUI) {
         // Per UkUI upstream request, do not show this message for them.
     } else {
         // It is not clear whether compositor is supported, only warn if wayland
