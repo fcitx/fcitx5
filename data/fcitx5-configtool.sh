@@ -156,20 +156,30 @@ run_xdg() {
 }
 
 run_ukui() {
-    version=$(ukui-control-center -v 2>/dev/null | awk '{print $2}')
+    version=$(ukui-control-center -v 2>/dev/null)
+    # Qt version will print "appname version", so remove everything before the space.
+    # We don't know if "app name" will contain space (it is an i18n string), but we'd
+    # assume version doesn't contain space.
+    version=${version/* /}
+    # Keep only major version.
+    version=${version/.*/}
     if [ -z "$version" ]; then
         return 1
     fi
 
-    version_num=$(echo "$version" | tr -d '.')
+    # Upstream command version jumped from 2.0 to 5.0, so we are targeting a version after 2.0.
+    target=2
 
-    target=5000
-
-    if [ "$version_num" -lt "$target" ]; then
-        return 1
+    # Check if major version is a number greater than 2.
+    if [[ "$version" =~ ^[0-9]+$ ]]; then
+        if [ "$version" -gt "$target" ]; then
+            exec ukui-control-center -m keyboard inputmethod
+        fi
     fi
 
-    exec ukui-control-center -m keyboard inputmethod
+    return 1
+
+    
 }
 
 _which_cmdline() {
