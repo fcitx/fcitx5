@@ -57,9 +57,9 @@ setupTestingEnvironment(const std::string &testBinaryDir,
                         const std::vector<std::string> &dataDirs);
 
 FCITXUTILS_EXPORT void
-setupTestingEnvironment(const std::filesystem::path &testBinaryDir,
-                        const std::vector<std::filesystem::path> &addonDirs,
-                        const std::vector<std::filesystem::path> &dataDirs);
+setupTestingEnvironmentPath(const std::filesystem::path &testBinaryDir,
+                            const std::vector<std::filesystem::path> &addonDirs,
+                            const std::vector<std::filesystem::path> &dataDirs);
 
 } // namespace fcitx
 

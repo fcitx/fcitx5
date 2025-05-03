@@ -10,6 +10,7 @@
 #include <charconv>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -108,8 +109,8 @@ public:
         auto localMachineId = getLocalMachineId(/*fallback=*/"machine-id");
         auto path = stringutils::joinPath(
             "fcitx", "dbus", stringutils::concat(localMachineId, "-", display));
-        bool res = StandardPath::global().safeSave(
-            StandardPath::Type::Config, path, [this](int fd) {
+        bool res = StandardPaths::global().safeSave(
+            StandardPathsType::Config, path, [this](int fd) {
                 auto address = bus_->address();
                 fs::safeWrite(fd, address.c_str(), address.size() + 1);
                 // Because fcitx5 don't launch dbus by itself, we write 0
@@ -122,16 +123,15 @@ public:
         if (res) {
             // Failed to write address file does not matter if we could use
             // regular dbus.
-            pathWrote_ =
-                stringutils::joinPath(StandardPath::global().userDirectory(
-                                          StandardPath::Type::Config),
-                                      path);
+            pathWrote_ = StandardPaths::global().userDirectory(
+                             StandardPathsType::Config) /
+                         path;
         }
     }
 
     ~Fcitx4InputMethod() override {
         if (!pathWrote_.empty()) {
-            unlink(pathWrote_.data());
+            unlink(pathWrote_.c_str());
         }
     }
 
@@ -149,7 +149,7 @@ private:
     Fcitx4FrontendModule *module_;
     Instance *instance_;
     std::unique_ptr<dbus::Bus> bus_;
-    std::string pathWrote_;
+    std::filesystem::path pathWrote_;
 };
 
 class Fcitx4InputContext : public InputContext,

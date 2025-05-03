@@ -332,6 +332,11 @@ StandardPaths::fcitxPath(const char *path,
     return {};
 }
 
+bool StandardPaths::hasExecutable(const std::filesystem::path &name) {
+    // FIXME
+    return true;
+}
+
 const std::filesystem::path &
 StandardPaths::userDirectory(StandardPathsType type) const {
     FCITX_D();
@@ -360,18 +365,26 @@ std::filesystem::path StandardPaths::locate(StandardPathsType type,
     return retPath;
 }
 
-std::filesystem::path StandardPaths::locate(StandardPathsType type,
-                                            const std::filesystem::path &path,
-                                            const PathFilterCallback &callback,
-                                            Modes modes) const {
+std::map<std::filesystem::path, std::filesystem::path>
+StandardPaths::locate(StandardPathsType type, const std::filesystem::path &path,
+                      const PathFilterCallback &callback, Modes modes) const {
     FCITX_D();
-    std::string retPath;
+    std::map<std::filesystem::path, std::filesystem::path> retPath;
     d->scanDirectories(
         type, path, modes,
         [&retPath, &callback](const std::filesystem::path &fullPath) {
-            std::filesystem::directory_iterator iter(fullPath);
-            std::filesystem::directory_options end;
-            return false;
+            for (const auto &entry :
+                 std::filesystem::directory_iterator(fullPath)) {
+                if (retPath.contains(entry.path().filename())) {
+                    continue;
+                }
+                if (entry.is_regular_file()) {
+                    if (callback(entry.path())) {
+                        retPath[entry.path().filename()] = entry.path();
+                    }
+                }
+            }
+            return true;
         });
     return retPath;
 }

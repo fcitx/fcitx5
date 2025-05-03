@@ -212,9 +212,9 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
                               return utf8::lengthValidated(str) > 2;
                           }}};
         const auto *filter = findValue(filterMap, lang);
-        const auto file = StandardPath::global().open(
-            StandardPath::Type::PkgData,
-            stringutils::concat("emoji/data/", lang, ".dict"), O_RDONLY);
+        const auto file = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            stringutils::concat("emoji/data/", lang, ".dict"));
         EmojiParser parser(filter ? *filter : nullptr);
         if (file.isValid() && parser.load(file.fd())) {
             emojiMap = &(langToEmojiMap_[lang] = std::move(parser.emojiMap_));

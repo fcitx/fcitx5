@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <functional>
+#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -43,6 +44,16 @@ enum class StandardPathsType {
     Addon,
     PkgData
 };
+
+namespace pathfilter {
+
+static inline auto extension(const std::string &ext) {
+    return [ext](const std::filesystem::path &path) {
+        return path.extension() == ext;
+    };
+}
+
+} // namespace pathfilter
 
 class FCITXUTILS_EXPORT StandardPaths {
 public:
@@ -86,6 +97,8 @@ public:
     static std::filesystem::path
     fcitxPath(const char *path, const std::filesystem::path &subPath = {});
 
+    static bool hasExecutable(const std::filesystem::path &name);
+
     /**
      * \brief Get user writable directory for given type.
      */
@@ -103,10 +116,10 @@ public:
                                  Modes modes = Mode::Default) const;
 
     /** \brief Check if a file exists. */
-    std::filesystem::path locate(StandardPathsType type,
-                                 const std::filesystem::path &path,
-                                 const PathFilterCallback &callback,
-                                 Modes modes = Mode::Default) const;
+    std::map<std::filesystem::path, std::filesystem::path>
+    locate(StandardPathsType type, const std::filesystem::path &path,
+           const PathFilterCallback &callback,
+           Modes modes = Mode::Default) const;
 
     /** \brief Open the first matched and succeeded file for read.
      *

@@ -19,6 +19,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
@@ -40,6 +41,7 @@ FCITX_IMPORT_ADDON_FACTORY(getStaticAddon, keyboard);
 int main(int argc, char *argv[]) {
     umask(077);
     StandardPath::global().syncUmask();
+    StandardPaths::global().syncUmask();
     if (safePipe(selfpipe) < 0) {
         fprintf(stderr, "Could not create self-pipe.\n");
         return 1;

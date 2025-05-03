@@ -22,11 +22,11 @@ void setupTestingEnvironment(const std::string &testBinaryDir,
     addonDirsPath.assign(addonDirs.begin(), addonDirs.end());
     std::vector<std::filesystem::path> dataDirsPath;
     dataDirsPath.assign(dataDirs.begin(), dataDirs.end());
-    setupTestingEnvironment(std::filesystem::path(testBinaryDir), addonDirsPath,
-                            dataDirsPath);
+    setupTestingEnvironmentPath(std::filesystem::path(testBinaryDir),
+                                addonDirsPath, dataDirsPath);
 }
 
-void setupTestingEnvironment(
+void setupTestingEnvironmentPath(
     const std::filesystem::path &testBinaryDir,
     const std::vector<std::filesystem::path> &addonDirs,
     const std::vector<std::filesystem::path> &dataDirs) {

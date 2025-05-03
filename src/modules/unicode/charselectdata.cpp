@@ -76,9 +76,9 @@ bool CharSelectData::load() {
         return loadResult_;
     }
     loaded_ = true;
-    auto file = StandardPath::global().open(StandardPath::Type::PkgData,
-                                            "unicode/charselectdata", O_RDONLY);
-    if (file.fd() < 0) {
+    auto file = StandardPaths::global().open(StandardPathsType::PkgData,
+                                             "unicode/charselectdata");
+    if (!file.isValid()) {
         return false;
     }
 

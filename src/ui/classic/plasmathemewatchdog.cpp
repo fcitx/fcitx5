@@ -36,7 +36,7 @@ namespace fcitx::classicui {
 
 bool PlasmaThemeWatchdog::isAvailable() {
     static const std::string binaryName = PLASMA_THEME_GENERATOR;
-    return StandardPath::hasExecutable(binaryName);
+    return StandardPaths::hasExecutable(binaryName);
 }
 
 PlasmaThemeWatchdog::PlasmaThemeWatchdog(EventLoop *event,

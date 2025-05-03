@@ -10,11 +10,14 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <cstdint>
+#include <cstring>
 #include <stdexcept>
+#include <format>
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpaths.h"
+#include "fcitx-utils/stringutils.h"
 
 #define case_a_z                                                               \
     case 'a':                                                                  \
@@ -224,32 +227,10 @@ load_le16(const void* p)
 }
 #endif
 
-/**
-// Open the dict file, return -1 if failed.
- **/
-std::string SpellCustomDict::locateDictFile(const std::string &lang) {
-    auto templatePath = "spell/" + lang + "_dict.fscd";
-    const auto &standardPath = StandardPath::global();
-    std::string path;
-    standardPath.scanDirectories(
-        StandardPath::Type::PkgData,
-        [&path, &templatePath](const std::string &dirPath, bool isUser) {
-            if (isUser) {
-                return true;
-            }
-            auto fullPath = stringutils::joinPath(dirPath, templatePath);
-            if (fs::isreg(fullPath)) {
-                path = std::move(fullPath);
-                return false;
-            }
-            return true;
-        });
-    return path;
-}
-
 void SpellCustomDict::loadDict(const std::string &lang) {
-    auto file = locateDictFile(lang);
-    auto fd = UnixFD::own(open(file.c_str(), O_RDONLY));
+    auto fd = StandardPaths::global().open(
+        StandardPathsType::PkgData, std::format("spell/{}_dict.fscd", lang),
+        StandardPaths::Mode::System);
 
     if (!fd.isValid()) {
         throw std::runtime_error("failed to open dict file");
@@ -310,7 +291,11 @@ SpellCustomDict *SpellCustomDict::requestDict(const std::string &lang) {
 }
 
 bool SpellCustomDict::checkDict(const std::string &lang) {
-    return !locateDictFile(lang).empty();
+    return !StandardPaths::global()
+                .locate(StandardPathsType::PkgData,
+                        std::format("spell/{}_dict.fscd", lang),
+                        StandardPaths::Mode::System)
+                .empty();
 }
 
 int SpellCustomDict::getDistance(const char *word, int utf8Len,

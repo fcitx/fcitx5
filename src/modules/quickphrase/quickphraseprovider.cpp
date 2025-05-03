@@ -44,20 +44,20 @@ bool BuiltInQuickPhraseProvider::populate(
 void BuiltInQuickPhraseProvider::reloadConfig() {
 
     map_.clear();
-    if (auto file = StandardPath::global().open(
-            StandardPath::Type::PkgData, "data/QuickPhrase.mb", O_RDONLY);
-        file.fd() >= 0) {
+    if (auto file = StandardPaths::global().open(StandardPathsType::PkgData,
+                                                 "data/QuickPhrase.mb");
+        file.isValid()) {
         load(file.fd());
     }
 
-    auto files = StandardPath::global().locate(StandardPath::Type::PkgData,
-                                               "data/quickphrase.d/",
-                                               filter::Suffix(".mb"));
-    auto disableFiles = StandardPath::global().locate(
-        StandardPath::Type::PkgData, "data/quickphrase.d/",
-        filter::Suffix(".mb.disable"));
+    auto files = StandardPaths::global().locate(StandardPathsType::PkgData,
+                                                "data/quickphrase.d/",
+                                                pathfilter::extension("mb"));
+    auto disableFiles = StandardPaths::global().locate(
+        StandardPathsType::PkgData, "data/quickphrase.d/",
+        pathfilter::extension("disable"));
     for (auto &p : files) {
-        if (disableFiles.count(stringutils::concat(p.first, ".disable"))) {
+        if (disableFiles.contains(p.first + ".disable")) {
             continue;
         }
         UnixFD fd = UnixFD::own(open(p.second.c_str(), O_RDONLY));
