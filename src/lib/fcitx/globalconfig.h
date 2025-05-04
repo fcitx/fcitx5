@@ -37,6 +37,9 @@ public:
     const KeyList &enumerateGroupForwardKeys() const;
     const KeyList &enumerateGroupBackwardKeys() const;
     const KeyList &togglePreeditKeys() const;
+    const KeyList &inputMethod0() const;
+    const KeyList &inputMethod1() const;
+    const KeyList &inputMethod2() const;
 
     bool activeByDefault() const;
 

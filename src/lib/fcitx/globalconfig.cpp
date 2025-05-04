@@ -143,6 +143,23 @@ FCITX_CONFIGURATION(
                                 _("Toggle embedded preedit"),
                                 {Key("Control+Alt+P")},
                                 KeyListConstrain()};
+    KeyListOption inputMethod0{this,
+                                "InputMethod0",
+                                _("Switch to input method 0 of input method group"),
+                                {Key("Alt+parenright")},
+                                KeyListConstrain()};
+    KeyListOption inputMethod1{this,
+                                "InputMethod1",
+                                _("Switch to input method 1 of input method group"),
+                                {Key("Alt+parenleft")},
+                                KeyListConstrain()};
+    KeyListOption inputMethod2{this,
+                                "InputMethod2",
+                                _("Switch to input method 1 of input method group"),
+                                {Key("Alt+asterisk")},
+                                KeyListConstrain()};
+    
+                                    
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         modifierOnlyKeyTimeout{
             this,
@@ -306,6 +323,21 @@ const KeyList &GlobalConfig::enumerateGroupBackwardKeys() const {
 const KeyList &GlobalConfig::togglePreeditKeys() const {
     FCITX_D();
     return *d->hotkey->togglePreedit;
+}
+
+const KeyList &GlobalConfig::inputMethod0() const {
+    FCITX_D();
+    return *d->hotkey->inputMethod0;
+}
+
+const KeyList &GlobalConfig::inputMethod1() const {
+    FCITX_D();
+    return *d->hotkey->inputMethod1;
+}
+
+const KeyList &GlobalConfig::inputMethod2() const {
+    FCITX_D();
+    return *d->hotkey->inputMethod2;
 }
 
 bool GlobalConfig::activeByDefault() const {

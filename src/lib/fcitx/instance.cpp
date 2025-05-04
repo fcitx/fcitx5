@@ -781,6 +781,21 @@ Instance::Instance(int argc, char **argv) {
                  [ic, d, origKey](bool) {
                      return d->navigateGroup(ic, origKey, false);
                  }},
+                {d->globalConfig_.inputMethod0(),
+                 [this]() { return true; },
+                 [this](bool) {
+                     return setCurrentInputMethod(0);
+                 }},
+                {d->globalConfig_.inputMethod1(),
+                 [this]() { return true; },
+                 [this](bool) {
+                     return setCurrentInputMethod(1);
+                 }},
+                {d->globalConfig_.inputMethod2(),
+                 [this]() { return true; },
+                 [this](bool) {
+                     return setCurrentInputMethod(2);
+                 }},
             };
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -2121,6 +2136,16 @@ void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
             setGlobalDefaultInputMethod(name);
         }
         return;
+    }
+}
+
+void Instance::setCurrentInputMethod(const int& index) {
+    auto &imList = inputMethodManager().currentGroup().inputMethodList();
+    if (index < 0 || index >= int(imList.size())) {
+        FCITX_DEBUG() << "Error: index " << index << " is out of range, "
+                      << "number of entries in input method group: " << imList.size();
+    } else {
+        setCurrentInputMethod(mostRecentInputContext(), imList[index].name(), false);
     }
 }
 

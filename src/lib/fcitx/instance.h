@@ -396,6 +396,15 @@ public:
     void setCurrentInputMethod(InputContext *ic, const std::string &imName,
                                bool local);
 
+
+    /**
+     * Set the input method of given input context to the one corresponding to
+     * the given index. This is within the current group.
+     *
+     * @param index index in list of input methods in current group
+     */
+    void setCurrentInputMethod(const int& index);
+
     /*
      * Enumerate input method group
      *
