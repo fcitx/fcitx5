@@ -49,7 +49,7 @@ public:
         } else {
             path = StandardPaths::fcitxPath("localedir");
         }
-        bindtextdomain(domain, dir->string().c_str());
+        bindtextdomain(domain, path.string().c_str());
         bind_textdomain_codeset(domain, "UTF-8");
         domains_.insert(domain);
         FCITX_DEBUG() << "Add gettext domain " << domain << " at " << dir;

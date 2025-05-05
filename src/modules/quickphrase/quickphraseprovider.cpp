@@ -56,8 +56,11 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
     auto disableFiles = StandardPaths::global().locate(
         StandardPathsType::PkgData, "data/quickphrase.d/",
         pathfilter::extension("disable"));
-    for (auto &p : files) {
-        if (disableFiles.contains(p.first + ".disable")) {
+    for (const auto &p : files) {
+        auto path = p.first;
+        // std::filesystem::path can only do +=.
+        path += ".disable";
+        if (disableFiles.contains(path)) {
             continue;
         }
         UnixFD fd = UnixFD::own(open(p.second.c_str(), O_RDONLY));

@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
@@ -507,8 +508,8 @@ void ClassicUI::setSubConfig(const std::string &path,
         getSubConfig(path);
     }
     theme.load(name, config);
-    safeSaveAsIni(theme, StandardPath::Type::PkgData,
-                  stringutils::joinPath("themes", name, "theme.conf"));
+    safeSaveAsIni(theme, StandardPathsType::PkgData,
+                  std::filesystem::path("themes") / name / "theme.conf");
 }
 
 std::vector<unsigned char> ClassicUI::labelIcon(const std::string &label,

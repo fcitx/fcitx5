@@ -436,7 +436,7 @@ void WaylandModule::reloadXkbOptionReal() {
         }
 
         fcitx::RawConfig config;
-        readAsIni(config, StandardPath::Type::Config, "kxkbrc");
+        readAsIni(config, StandardPathsType::Config, "kxkbrc");
         auto model = config.valueByPath("Layout/Model");
         auto options = config.valueByPath("Layout/Options");
         xkbOption = (options ? *options : "");
@@ -492,7 +492,7 @@ void WaylandModule::setLayoutToKDE() {
     }
 
     fcitx::RawConfig config;
-    readAsIni(config, StandardPath::Type::Config, "kxkbrc");
+    readAsIni(config, StandardPathsType::Config, "kxkbrc");
     config.setValueByPath("Layout/LayoutList", layoutAndVariant.first);
     config.setValueByPath("Layout/VariantList", layoutAndVariant.second);
     config.setValueByPath("Layout/DisplayNames", "");
@@ -503,15 +503,17 @@ void WaylandModule::setLayoutToKDE() {
     // if the intention is to get the file populated outside the
     // sandbox.
     if (isInFlatpak()) {
-        auto file = StandardPath::global().open(StandardPath::Type::Config,
-                                                "kxkbrc", O_WRONLY);
+        auto path =
+            StandardPaths::global().userDirectory(StandardPathsType::Config) /
+            "kxkbrc";
+        auto file = UnixFD::own(open(path.c_str(), O_WRONLY, 0644));
         if (file.isValid()) {
             writeAsIni(config, file.fd());
         } else {
             FCITX_WAYLAND_ERROR() << "Failed to write to kxkbrc.";
         }
     } else {
-        safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
+        safeSaveAsIni(config, StandardPathsType::Config, "kxkbrc");
     }
 
     auto bus = dbusAddon->call<IDBusModule::bus>();
