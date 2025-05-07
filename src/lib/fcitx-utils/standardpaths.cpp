@@ -23,6 +23,7 @@
 #include <functional>
 #include <initializer_list>
 #include <iterator>
+#include <map>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -100,10 +101,10 @@ public:
                     return dir / packagePath;
                 }),
             std::back_inserter(pkgdataDirFallback));
-        dataDirs_ = defaultPaths((isFcitx ? "FCITX_DATA_HOME" : nullptr),
-                                 dataDirs_[0] / packagePath,
-                                 (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
-                                 pkgdataDirFallback, nullptr, builtInPathMap);
+        pkgdataDirs_ = defaultPaths(
+            (isFcitx ? "FCITX_DATA_HOME" : nullptr), dataDirs_[0] / packagePath,
+            (isFcitx ? "FCITX_DATA_DIRS" : nullptr), pkgdataDirFallback,
+            nullptr, builtInPathMap);
         cacheDir_ = defaultPaths("XDG_CACHE_HOME", ".cache");
         assert(cacheDir_.size() == 1);
         std::error_code ec;
@@ -186,7 +187,11 @@ public:
             }
             fullPathOrig = dirPaths[0] / pathOrig;
             if (std::filesystem::exists(fullPathOrig)) {
-                fullPathOrig = std::filesystem::read_symlink(fullPathOrig);
+                std::error_code ec;
+                auto linked = std::filesystem::read_symlink(fullPathOrig, ec);
+                if (!ec) {
+                    fullPathOrig = linked;
+                }
             }
         }
         std::filesystem::path fullPath = fullPathOrig;
@@ -229,9 +234,9 @@ private:
         }
 
         std::vector<std::filesystem::path> dirs;
+        dirs.push_back(std::move(homeDir));
 
-        if (const auto dir =
-                systemEnv ? getEnvironment(systemEnv) : std::nullopt) {
+        if (const auto dir = getEnvironmentNull(systemEnv)) {
             const auto rawDirs = stringutils::split(*dir, ":");
             std::ranges::transform(
                 rawDirs, std::back_inserter(dirs), [](const auto &s) {
@@ -294,7 +299,7 @@ StandardPaths::~StandardPaths() = default;
 const StandardPaths &StandardPaths::global() {
     bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
     bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
-    static StandardPaths globalPath("fcitx", {}, skipFcitx, skipUser);
+    static StandardPaths globalPath("fcitx5", {}, skipFcitx, skipUser);
     return globalPath;
 }
 
@@ -373,14 +378,21 @@ StandardPaths::locate(StandardPathsType type, const std::filesystem::path &path,
     d->scanDirectories(
         type, path, modes,
         [&retPath, &callback](const std::filesystem::path &fullPath) {
-            for (const auto &entry :
-                 std::filesystem::directory_iterator(fullPath)) {
-                if (retPath.contains(entry.path().filename())) {
+            std::error_code ec;
+            for (auto directoryIterator =
+                     std::filesystem::directory_iterator(fullPath, ec);
+                 directoryIterator != std::filesystem::directory_iterator();
+                 directoryIterator.increment(ec)) {
+                if (ec) {
+                    return true;
+                }
+                if (retPath.contains(directoryIterator->path().filename())) {
                     continue;
                 }
-                if (entry.is_regular_file()) {
-                    if (callback(entry.path())) {
-                        retPath[entry.path().filename()] = entry.path();
+                if (directoryIterator->is_regular_file()) {
+                    if (callback(directoryIterator->path())) {
+                        retPath[directoryIterator->path().filename()] =
+                            directoryIterator->path();
                     }
                 }
             }

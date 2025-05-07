@@ -52,10 +52,10 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
 
     auto files = StandardPaths::global().locate(StandardPathsType::PkgData,
                                                 "data/quickphrase.d/",
-                                                pathfilter::extension("mb"));
+                                                pathfilter::extension(".mb"));
     auto disableFiles = StandardPaths::global().locate(
         StandardPathsType::PkgData, "data/quickphrase.d/",
-        pathfilter::extension("disable"));
+        pathfilter::extension(".disable"));
     for (const auto &p : files) {
         auto path = p.first;
         // std::filesystem::path can only do +=.

@@ -34,7 +34,7 @@ int main() {
 
     auto files =
         StandardPaths::global().locate(StandardPathsType::PkgData, "emoji/data",
-                                       pathfilter::extension("dict"));
+                                       pathfilter::extension(".dict"));
     // Check if all languages are loadable.
     for (const auto &[name, __] : files) {
         std::string lang = name.stem();

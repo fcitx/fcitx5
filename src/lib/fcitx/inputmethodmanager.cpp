@@ -168,7 +168,7 @@ void InputMethodManagerPrivate::loadStaticEntries(
     const auto &path = StandardPaths::global();
     timestamp_ = path.timestamp(StandardPathsType::PkgData, "inputmethod");
     auto filesMap = path.locate(StandardPathsType::PkgData, "inputmethod",
-                                pathfilter::extension("conf"));
+                                pathfilter::extension(".conf"));
     for (const auto &[fileName, fullName] : filesMap) {
         const auto u8name = fileName.stem().u8string();
         std::string name(u8name.begin(), u8name.end());
