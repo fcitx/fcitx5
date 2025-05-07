@@ -65,6 +65,10 @@ detectDE() {
             XFCE)
             DE=xfce
             break
+            ;;
+            UKUI)
+            DE=ukui
+            break
         esac
       done
     fi
@@ -131,10 +135,13 @@ run_qt() {
 run_xdg() {
     case "$DE" in
         kde)
-            message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found. The package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration directory.")"
+            message "$(_ "You're currently running KDE, but the configuration tool for fcitx5 couldn't be found. The package name of the configuration tool is usually kcm-fcitx5, kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration directory.")"
+            ;;
+        ukui)
+            message "$(_ "You're currently running UKUI desktop environment, but the configuration tool for fcitx5 couldn't be found. The package name of the configuration tool is usually ukui-control-center, or fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
         *)
-            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. The package name provides this binary is usually fcitx5-configtool. Now it will open the configuration directory.")"
+            message "$(_ "You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be found. The package name of the configuration tool is usually fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
     esac
 
@@ -146,6 +153,33 @@ run_xdg() {
     if command="$(command -v xdg-open 2>/dev/null)"; then
         exec "$command" "$HOME/.config/fcitx5"
     fi
+}
+
+run_ukui() {
+    version=$(ukui-control-center -v 2>/dev/null)
+    # Qt version will print "appname version", so remove everything before the space.
+    # We don't know if "app name" will contain space (it is an i18n string), but we'd
+    # assume version doesn't contain space.
+    version=${version##* }
+    # Keep only major version.
+    version=${version%%.*}
+    if [ -z "$version" ]; then
+        return 1
+    fi
+
+    # Upstream command version jumped from 2.0 to 5.0, so we are targeting a version after 2.0.
+    target=2
+
+    # Check if major version is a number greater than 2.
+    if expr "$version" : '^[0-9]\+$' > /dev/null 2>&1; then
+        if [ "$version" -gt "$target" ]; then
+            exec ukui-control-center -m keyboard inputmethod
+        fi
+    fi
+
+    return 1
+
+    
 }
 
 _which_cmdline() {
@@ -163,6 +197,9 @@ detectDE
 case "$DE" in
     kde)
         order="kde qt xdg"
+        ;;
+    ukui)
+        order="ukui qt xdg"
         ;;
     *)
         order="qt kde xdg"
