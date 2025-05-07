@@ -6,10 +6,11 @@
  */
 #include "testing.h"
 #include <cstdlib>
+#include <filesystem>
 #include <string>
 #include <vector>
 #include "environ.h"
-#include "standardpath.h"
+#include "standardpaths.h"
 #include "stringutils.h"
 
 namespace fcitx {
@@ -17,23 +18,34 @@ namespace fcitx {
 void setupTestingEnvironment(const std::string &testBinaryDir,
                              const std::vector<std::string> &addonDirs,
                              const std::vector<std::string> &dataDirs) {
+    std::vector<std::filesystem::path> addonDirsPath;
+    addonDirsPath.assign(addonDirs.begin(), addonDirs.end());
+    std::vector<std::filesystem::path> dataDirsPath;
+    dataDirsPath.assign(dataDirs.begin(), dataDirs.end());
+    setupTestingEnvironmentPath(std::filesystem::path(testBinaryDir),
+                                addonDirsPath, dataDirsPath);
+}
+
+void setupTestingEnvironmentPath(
+    const std::filesystem::path &testBinaryDir,
+    const std::vector<std::filesystem::path> &addonDirs,
+    const std::vector<std::filesystem::path> &dataDirs) {
     // Skip resolution with fcitxPath
     setEnvironment("SKIP_FCITX_PATH", "1");
     setEnvironment("SKIP_FCITX_USER_PATH", "1");
     // Path to addon library
-    std::vector<std::string> fullAddonDirs;
+    std::vector<std::filesystem::path> fullAddonDirs;
     for (const auto &addonDir : addonDirs) {
         if (addonDir.empty()) {
             continue;
         }
-        if (addonDir[0] == '/') {
+        if (addonDir.is_absolute()) {
             fullAddonDirs.push_back(addonDir);
         } else {
-            fullAddonDirs.push_back(
-                stringutils::joinPath(testBinaryDir, addonDir));
+            fullAddonDirs.push_back(testBinaryDir / addonDir);
         }
     }
-    fullAddonDirs.push_back(StandardPath::fcitxPath("addondir"));
+    fullAddonDirs.push_back(StandardPaths::fcitxPath("addondir"));
 
     setEnvironment("FCITX_ADDON_DIRS",
                    stringutils::join(fullAddonDirs, ":").data());
@@ -43,20 +55,19 @@ void setupTestingEnvironment(const std::string &testBinaryDir,
     setEnvironment("FCITX_CONFIG_HOME", "/Invalid/Path");
     // Make sure we can find addon files.
     // Path to addon library
-    std::vector<std::string> fullDataDirs;
+    std::vector<std::filesystem::path> fullDataDirs;
     for (const auto &dataDir : dataDirs) {
         if (dataDir.empty()) {
             continue;
         }
-        if (dataDir[0] == '/') {
+        if (dataDir.is_absolute()) {
             fullDataDirs.push_back(dataDir);
         } else {
-            fullDataDirs.push_back(
-                stringutils::joinPath(testBinaryDir, dataDir));
+            fullDataDirs.push_back(testBinaryDir / dataDir);
         }
     }
     // Include the three testing only addons.
-    fullDataDirs.push_back(StandardPath::fcitxPath("pkgdatadir", "testing"));
+    fullDataDirs.push_back(StandardPaths::fcitxPath("pkgdatadir", "testing"));
     setEnvironment("FCITX_DATA_DIRS",
                    stringutils::join(fullDataDirs, ":").data());
 }

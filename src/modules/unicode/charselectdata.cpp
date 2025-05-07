@@ -31,7 +31,7 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 
 using namespace fcitx;
@@ -76,9 +76,9 @@ bool CharSelectData::load() {
         return loadResult_;
     }
     loaded_ = true;
-    auto file = StandardPath::global().open(StandardPath::Type::PkgData,
-                                            "unicode/charselectdata", O_RDONLY);
-    if (file.fd() < 0) {
+    auto file = StandardPaths::global().open(StandardPathsType::PkgData,
+                                             "unicode/charselectdata");
+    if (!file.isValid()) {
         return false;
     }
 

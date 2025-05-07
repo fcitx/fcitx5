@@ -442,4 +442,9 @@ const Configuration &GlobalConfig::config() const {
     return *d;
 }
 
+Configuration &GlobalConfig::config() {
+    FCITX_D();
+    return *d;
+}
+
 } // namespace fcitx

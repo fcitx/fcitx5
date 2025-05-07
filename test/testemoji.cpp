@@ -6,7 +6,7 @@
  */
 #include <fcntl.h>
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
 #include "emoji_public.h"
@@ -32,12 +32,12 @@ int main() {
                  emojis.end())
         << emojis;
 
-    auto files = StandardPath::global().multiOpen(StandardPath::Type::PkgData,
-                                                  "emoji/data", O_RDONLY,
-                                                  filter::Suffix(".dict"));
+    auto files =
+        StandardPaths::global().locate(StandardPathsType::PkgData, "emoji/data",
+                                       pathfilter::extension(".dict"));
     // Check if all languages are loadable.
     for (const auto &[name, __] : files) {
-        std::string lang = name.substr(0, name.size() - 5);
+        std::string lang = name.stem();
         FCITX_ASSERT(emoji->call<IEmoji::check>(lang, false))
             << "Failed to load " << lang;
     }

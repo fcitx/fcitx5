@@ -147,6 +147,7 @@ public:
     void save(RawConfig &rawConfig) const;
     bool safeSave(const std::string &path = "config") const;
     const Configuration &config() const;
+    Configuration &config();
 
 private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;

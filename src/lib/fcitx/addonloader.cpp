@@ -15,7 +15,7 @@
 #include "fcitx-utils/flags.h"
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addoninfo.h"
 #include "fcitx/addoninstance.h"
