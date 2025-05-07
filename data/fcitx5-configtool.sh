@@ -160,9 +160,9 @@ run_ukui() {
     # Qt version will print "appname version", so remove everything before the space.
     # We don't know if "app name" will contain space (it is an i18n string), but we'd
     # assume version doesn't contain space.
-    version=${version/* /}
+    version=${version##* }
     # Keep only major version.
-    version=${version/.*/}
+    version=${version%%.*}
     if [ -z "$version" ]; then
         return 1
     fi
@@ -171,7 +171,7 @@ run_ukui() {
     target=2
 
     # Check if major version is a number greater than 2.
-    if [[ "$version" =~ ^[0-9]+$ ]]; then
+    if expr "$version" : '^[0-9]\+$' > /dev/null 2>&1; then
         if [ "$version" -gt "$target" ]; then
             exec ukui-control-center -m keyboard inputmethod
         fi
