@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-04-19 20:24+0000\n"
+"POT-Creation-Date: 2025-05-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -655,7 +655,7 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:654
+#: src/modules/wayland/waylandmodule.cpp:663
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -668,7 +668,7 @@ msgstr ""
 "более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:669
+#: src/modules/wayland/waylandmodule.cpp:678
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -680,7 +680,7 @@ msgstr ""
 "Wayland. Для получения более подробной информации см. https://fcitx-im.org/"
 "wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:698
+#: src/modules/wayland/waylandmodule.cpp:709
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -906,7 +906,7 @@ msgstr ""
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
 
-#: src/modules/wayland/waylandmodule.cpp:639
+#: src/modules/wayland/waylandmodule.cpp:648
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -982,7 +982,7 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/modules/wayland/waylandmodule.cpp:724
+#: src/modules/wayland/waylandmodule.cpp:735
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Для получения более подробной информации см. https://fcitx-im.org/wiki/"
@@ -1413,7 +1413,7 @@ msgstr ""
 "Можно использовать ${1} встроенный модуль Wayland im, если составитель "
 "полностью поддерживает протокол ввода текста, используемый ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:681
+#: src/modules/wayland/waylandmodule.cpp:690
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2387,7 +2387,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/modules/wayland/waylandmodule.cpp:713
+#: src/modules/wayland/waylandmodule.cpp:724
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -3069,25 +3069,28 @@ msgstr "Вы используете xim в ${1} программах."
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Возможны проблемы при использовании fcitx в ${1} программах."
 
-#: data/fcitx5-configtool.sh:137
+#: data/fcitx5-configtool.sh:144
 msgid ""
-"You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
-"found. The package name provides this binary is usually fcitx5-configtool. "
-"Now it will open the configuration directory."
+"You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be "
+"found. The package name of the configuration tool is usually fcitx5-"
+"configtool. Now it will open the configuration directory."
 msgstr ""
-"В настоящее время вы используете Fcitx с графическим интерфейсом, но fcitx5-"
-"config-qt не найден. Имя пакета, предоставляющего этот двоичный файл, обычно "
-"fcitx5-configtool. Сейчас откроется каталог конфигурации."
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:138
 msgid ""
-"You're currently running KDE, but KCModule for fcitx couldn't be found. The "
-"package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or "
-"fcitx5-configtool. Now it will open the configuration directory."
+"You're currently running KDE, but the configuration tool for fcitx5 couldn't "
+"be found. The package name of the configuration tool is usually kcm-fcitx5, "
+"kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration "
+"directory."
 msgstr ""
-"В настоящее время вы используете KDE, но KCModule для fcitx не найден. Имя "
-"пакета этого KCModule обычно — kcm-fcitx5, kde-config-fcitx5 или fcitx5-"
-"configtool. Сейчас откроется каталог конфигурации."
+
+#: data/fcitx5-configtool.sh:141
+msgid ""
+"You're currently running UKUI desktop environment, but the configuration "
+"tool for fcitx5 couldn't be found. The package name of the configuration "
+"tool is usually ukui-control-center, or fcitx5-configtool. Now it will open "
+"the configuration directory."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1085
 msgid ""
