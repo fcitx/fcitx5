@@ -630,6 +630,15 @@ void WaylandModule::selfDiagnose() {
     auto qtIM = getEnvironmentOrEmpty("QT_IM_MODULE");
     auto qtsIM = getEnvironmentOrEmpty("QT_IM_MODULES");
 
+    FCITX_WAYLAND_INFO() << "Wayland self diagnose information";
+    FCITX_WAYLAND_INFO() << "Using Wayland native input method protocol: "
+                         << isWaylandIM;
+    FCITX_WAYLAND_INFO()
+        << "Toolkit specific environment variable detected by process:";
+    FCITX_WAYLAND_INFO() << "GTK_IM_MODULE=" << gtkIM;
+    FCITX_WAYLAND_INFO() << "QT_IM_MODULE=" << qtIM;
+    FCITX_WAYLAND_INFO() << "QT_IM_MODULES=" << qtsIM;
+
     std::vector<std::string> messages;
     const auto desktop = getDesktopType();
     if (desktop == DesktopType::KDE5 || desktop == DesktopType::KDE6) {
@@ -687,6 +696,8 @@ void WaylandModule::selfDiagnose() {
                   "see "
                   "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"));
         }
+    } else if (desktop == DesktopType::UKUI) {
+        // Per UkUI upstream request, do not show this message for them.
     } else {
         // It is not clear whether compositor is supported, only warn if wayland
         // im is being used..

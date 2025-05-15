@@ -118,14 +118,14 @@ PortalSettingMonitor::queryValue(const PortalSettingKey &key) {
         // XDG portal seems didn't unwrap the variant.
         // Check this special case just in case.
         if (msg.isError()) {
-            CLASSICUI_ERROR() << "DBus call error: " << msg.errorName() << " "
+            CLASSICUI_DEBUG() << "DBus call error: " << msg.errorName() << " "
                               << msg.errorMessage();
             if (msg.errorName() == "org.freedesktop.DBus.Error.NoReply") {
                 if (data->retry < PORTAL_RETRY_LIMIT) {
                     data->retry += 1;
                     data->querySlot = queryValue(key);
                 } else {
-                    CLASSICUI_ERROR()
+                    CLASSICUI_DEBUG()
                         << "Query portal value reaches retry limit.";
                 }
             }
