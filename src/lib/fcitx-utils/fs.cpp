@@ -34,7 +34,7 @@ namespace fcitx::fs {
 
 namespace {
 
-int makeDir(const std::string &name) {
+int makeDir(const std::filesystem::path &name) {
 #ifdef _WIN32
     const auto path = utf8::UTF8ToUTF16(name);
     return ::_wmkdir(path.data());
@@ -43,12 +43,12 @@ int makeDir(const std::string &name) {
 #endif
 }
 
-bool makePathHelper(const std::string &name) {
+bool makePathHelper(const std::filesystem::path &name) {
     if (makeDir(name) == 0) {
         return true;
     }
     if (errno == EEXIST) {
-        return isdir(name);
+        return std::filesystem::is_directory(name);
     }
 
     // Check if error is parent not exists.
@@ -56,13 +56,11 @@ bool makePathHelper(const std::string &name) {
         return false;
     }
 
-    // Try to create because parent doesn't exist.
-    auto pos = name.rfind('/');
-    if (pos == std::string::npos || pos == 0 || name[pos - 1] == '/') {
+    if (!name.has_parent_path()) {
         return false;
     }
 
-    std::string parent = name.substr(0, pos);
+    const auto parent = name.parent_path();
     if (!makePathHelper(parent)) {
         return false;
     }
@@ -71,7 +69,7 @@ bool makePathHelper(const std::string &name) {
     if (makeDir(name) == 0) {
         return true;
     }
-    return errno == EEXIST && isdir(name);
+    return errno == EEXIST && std::filesystem::is_directory(name);
 }
 
 } // namespace
@@ -179,15 +177,15 @@ std::string cleanPath(const std::string &path) {
     return buf;
 }
 
-bool makePath(const std::string &path) {
-    if (isdir(path)) {
+FCITXUTILS_DEPRECATED_EXPORT bool makePath(const std::string &path) {
+    return makePath(std::filesystem::path(path));
+}
+
+bool makePath(const std::filesystem::path &path) {
+    if (std::filesystem::is_directory(path)) {
         return true;
     }
-    auto opath = cleanPath(path);
-    while (!opath.empty() && opath.back() == '/') {
-        opath.pop_back();
-    }
-
+    auto opath = path.lexically_normal();
     if (opath.empty()) {
         return true;
     }
@@ -278,7 +276,7 @@ std::optional<std::string> readlink(const std::string &path) {
     return std::nullopt;
 }
 
-int64_t modifiedTime(const std::string &path) {
+FCITXUTILS_DEPRECATED_EXPORT int64_t modifiedTime(const std::string &path) {
     return modifiedTime(std::filesystem::path(path));
 }
 

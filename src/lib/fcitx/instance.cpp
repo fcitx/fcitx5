@@ -30,7 +30,7 @@
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/event.h"
@@ -69,8 +69,8 @@ namespace fcitx {
 
 namespace {
 
-constexpr uint64_t AutoSaveMinInUsecs = 60ull * 1000000ull; // 30 minutes
-constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull;   // 1 minutes
+constexpr uint64_t AutoSaveMinInUsecs = 60ULL * 1000000ULL; // 30 minutes
+constexpr uint64_t AutoSaveIdleTime = 60ULL * 1000000ULL;   // 1 minutes
 
 FCITX_CONFIGURATION(DefaultInputMethod,
                     Option<std::vector<std::string>> defaultInputMethods{
@@ -336,14 +336,9 @@ void InstancePrivate::buildDefaultGroup() {
 
     // Load the default profile.
     auto lang = stripLanguage(getCurrentLanguage());
-    auto defaultProfile = StandardPath::global().open(
-        StandardPath::Type::PkgData, stringutils::joinPath("default", lang),
-        O_RDONLY);
-
-    RawConfig config;
     DefaultInputMethod defaultIMConfig;
-    readFromIni(config, defaultProfile.fd());
-    defaultIMConfig.load(config);
+    readAsIni(defaultIMConfig, StandardPathsType::PkgData,
+              stringutils::joinPath("default", lang));
 
     // Add extra layout from profile.
     for (const auto &extraLayout : defaultIMConfig.extraLayouts.value()) {
@@ -1943,7 +1938,7 @@ std::string Instance::addonForInputMethod(const std::string &imName) {
 }
 
 void Instance::configure() {
-    startProcess({StandardPath::fcitxPath("bindir", "fcitx5-configtool")});
+    startProcess({StandardPaths::fcitxPath("bindir", "fcitx5-configtool")});
 }
 
 void Instance::configureAddon(const std::string &) {}
@@ -1999,12 +1994,8 @@ void Instance::refresh() {
 
 void Instance::reloadConfig() {
     FCITX_D();
-    const auto &standardPath = StandardPath::global();
-    auto file =
-        standardPath.open(StandardPath::Type::PkgConfig, "config", O_RDONLY);
-    RawConfig config;
-    readFromIni(config, file.fd());
-    d->globalConfig_.load(config);
+    readAsIni(d->globalConfig_.config(), StandardPathsType::PkgConfig,
+              "config");
     FCITX_DEBUG() << "Trigger Key: "
                   << Key::keyListToString(d->globalConfig_.triggerKeys());
     d->icManager_.setPropertyPropagatePolicy(

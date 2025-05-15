@@ -28,7 +28,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/unixfd.h"
 #include "addoninfo.h"
 #include "addonmanager.h"
@@ -80,10 +80,10 @@ bool checkEntry(const InputMethodEntry &entry,
 void InputMethodManagerPrivate::loadConfig(
     const std::function<void(InputMethodManager &)>
         &buildDefaultGroupCallback) {
-    const auto &path = StandardPath::global();
-    auto file = path.open(StandardPath::Type::PkgConfig, "profile", O_RDONLY);
+    const auto &path = StandardPaths::global();
+    auto file = path.open(StandardPathsType::PkgConfig, "profile");
     RawConfig config;
-    if (file.fd() >= 0) {
+    if (file.isValid()) {
         readFromIni(config, file.fd());
     }
     InputMethodConfig imConfig;
@@ -165,12 +165,13 @@ void InputMethodManagerPrivate::buildDefaultGroup(
 
 void InputMethodManagerPrivate::loadStaticEntries(
     const std::unordered_set<std::string> &addonNames) {
-    const auto &path = StandardPath::global();
-    timestamp_ = path.timestamp(StandardPath::Type::PkgData, "inputmethod");
-    auto filesMap = path.locate(StandardPath::Type::PkgData, "inputmethod",
-                                filter::Suffix(".conf"));
+    const auto &path = StandardPaths::global();
+    timestamp_ = path.timestamp(StandardPathsType::PkgData, "inputmethod");
+    auto filesMap = path.locate(StandardPathsType::PkgData, "inputmethod",
+                                pathfilter::extension(".conf"));
     for (const auto &[fileName, fullName] : filesMap) {
-        std::string name = fileName.substr(0, fileName.size() - 5);
+        const auto u8name = fileName.stem().u8string();
+        std::string name(u8name.begin(), u8name.end());
         if (entries_.count(name) != 0) {
             continue;
         }
@@ -475,8 +476,8 @@ void InputMethodManager::setGroupOrder(const std::vector<std::string> &groups) {
 
 bool InputMethodManager::checkUpdate() const {
     FCITX_D();
-    auto timestamp = StandardPath::global().timestamp(
-        StandardPath::Type::PkgData, "inputmethod");
+    auto timestamp = StandardPaths::global().timestamp(
+        StandardPathsType::PkgData, "inputmethod");
     return timestamp > d->timestamp_;
 }
 

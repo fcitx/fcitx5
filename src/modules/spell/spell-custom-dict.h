@@ -20,7 +20,6 @@ public:
 
     static SpellCustomDict *requestDict(const std::string &language);
     static bool checkDict(const std::string &language);
-    static std::string locateDictFile(const std::string &lang);
 
     std::vector<std::pair<std::string, std::string>>
     hint(const std::string &str, size_t limit);

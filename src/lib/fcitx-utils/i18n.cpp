@@ -5,28 +5,51 @@
  *
  */
 #include "i18n.h"
+#include <cstddef>
+#include <filesystem>
+#include <functional>
 #include <mutex>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_set>
+#include <utility>
 #include <libintl.h>
+#include "fcitx-utils/fcitxutils_export.h"
 #include "log.h"
-#include "standardpath.h"
+#include "standardpaths.h"
 #include "stringutils.h"
 
 namespace fcitx {
 
+struct string_hash {
+    using is_transparent = void;
+    [[nodiscard]] size_t operator()(const char *txt) const {
+        return std::hash<std::string_view>{}(txt);
+    }
+    [[nodiscard]] size_t operator()(std::string_view txt) const {
+        return std::hash<std::string_view>{}(txt);
+    }
+    [[nodiscard]] size_t operator()(const std::string &txt) const {
+        return std::hash<std::string>{}(txt);
+    }
+};
+
 class GettextManager {
 public:
-    void addDomain(const char *domain, const char *dir = nullptr) {
+    void addDomain(const char *domain,
+                   std::optional<std::filesystem::path> dir = std::nullopt) {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (domains_.count(domain)) {
+        if (domains_.contains(domain)) {
             return;
         }
-        const auto *localedir = StandardPath::fcitxPath("localedir");
-        if (!dir) {
-            dir = localedir;
+        std::filesystem::path path;
+        if (dir) {
+            path = std::move(*dir);
+        } else {
+            path = StandardPaths::fcitxPath("localedir");
         }
-        bindtextdomain(domain, dir);
+        bindtextdomain(domain, path.string().c_str());
         bind_textdomain_codeset(domain, "UTF-8");
         domains_.insert(domain);
         FCITX_DEBUG() << "Add gettext domain " << domain << " at " << dir;
@@ -34,7 +57,7 @@ public:
 
 private:
     std::mutex mutex_;
-    std::unordered_set<std::string> domains_;
+    std::unordered_set<std::string, string_hash, std::equal_to<>> domains_;
 };
 
 static GettextManager gettextManager;
@@ -83,7 +106,15 @@ const char *translateDomainCtx(const char *domain, const char *ctx,
     return result;
 }
 
-void registerDomain(const char *domain, const char *dir) {
+FCITXUTILS_DEPRECATED_EXPORT void registerDomain(const char *domain,
+                                                 const char *dir) {
+    gettextManager.addDomain(
+        domain,
+        dir ? std::make_optional<std::filesystem::path>(dir) : std::nullopt);
+}
+
+void registerDomain(const char *domain, const std::filesystem::path &dir) {
     gettextManager.addDomain(domain, dir);
 }
+
 } // namespace fcitx

@@ -61,6 +61,7 @@ list(APPEND FCITX_UTILS_SOURCES
     eventloopinterface.cpp
     environ.cpp
     fdstreambuf.cpp
+    standardpaths.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -104,6 +105,7 @@ set(FCITX_UTILS_HEADERS
     semver.h
     environ.h
     fdstreambuf.h
+    standardpaths.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

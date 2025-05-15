@@ -10,7 +10,7 @@
 #include <zlib.h>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
@@ -212,9 +212,9 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
                               return utf8::lengthValidated(str) > 2;
                           }}};
         const auto *filter = findValue(filterMap, lang);
-        const auto file = StandardPath::global().open(
-            StandardPath::Type::PkgData,
-            stringutils::concat("emoji/data/", lang, ".dict"), O_RDONLY);
+        const auto file = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            stringutils::concat("emoji/data/", lang, ".dict"));
         EmojiParser parser(filter ? *filter : nullptr);
         if (file.isValid() && parser.load(file.fd())) {
             emojiMap = &(langToEmojiMap_[lang] = std::move(parser.emojiMap_));

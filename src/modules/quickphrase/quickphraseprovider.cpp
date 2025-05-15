@@ -15,7 +15,7 @@
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
@@ -44,20 +44,23 @@ bool BuiltInQuickPhraseProvider::populate(
 void BuiltInQuickPhraseProvider::reloadConfig() {
 
     map_.clear();
-    if (auto file = StandardPath::global().open(
-            StandardPath::Type::PkgData, "data/QuickPhrase.mb", O_RDONLY);
-        file.fd() >= 0) {
+    if (auto file = StandardPaths::global().open(StandardPathsType::PkgData,
+                                                 "data/QuickPhrase.mb");
+        file.isValid()) {
         load(file.fd());
     }
 
-    auto files = StandardPath::global().locate(StandardPath::Type::PkgData,
-                                               "data/quickphrase.d/",
-                                               filter::Suffix(".mb"));
-    auto disableFiles = StandardPath::global().locate(
-        StandardPath::Type::PkgData, "data/quickphrase.d/",
-        filter::Suffix(".mb.disable"));
-    for (auto &p : files) {
-        if (disableFiles.count(stringutils::concat(p.first, ".disable"))) {
+    auto files = StandardPaths::global().locate(StandardPathsType::PkgData,
+                                                "data/quickphrase.d/",
+                                                pathfilter::extension(".mb"));
+    auto disableFiles = StandardPaths::global().locate(
+        StandardPathsType::PkgData, "data/quickphrase.d/",
+        pathfilter::extension(".disable"));
+    for (const auto &p : files) {
+        auto path = p.first;
+        // std::filesystem::path can only do +=.
+        path += ".disable";
+        if (disableFiles.contains(path)) {
             continue;
         }
         UnixFD fd = UnixFD::own(open(p.second.c_str(), O_RDONLY));
