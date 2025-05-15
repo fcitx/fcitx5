@@ -145,6 +145,7 @@ public:
                          const std::filesystem::path &path,
                          StandardPaths::Modes modes,
                          const Callback &callback) const {
+        maybeUpdateModes(modes);
         std::span<const std::filesystem::path> dirs =
             path.is_absolute() ? emptyPaths_ : directories(type);
         size_t from = modes.test(StandardPaths::Mode::User) ? 0 : 1;
@@ -174,7 +175,7 @@ public:
     std::tuple<UnixFD, std::filesystem::path>
     openUserTemp(StandardPathsType type,
                  const std::filesystem::path &pathOrig) const {
-        if (!pathOrig.has_filename()) {
+        if (!pathOrig.has_filename() || skipUserPath_) {
             return {};
         }
         std::string fullPathOrig;
@@ -210,14 +211,13 @@ public:
 
 private:
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
-    static std::vector<std::filesystem::path>
+    std::vector<std::filesystem::path>
     defaultPaths(const char *homeEnv, const std::filesystem::path &homeFallback,
                  const char *systemEnv = nullptr,
                  const std::vector<std::filesystem::path> &systemFallback = {},
                  const char *builtInPathType = nullptr,
                  const std::unordered_map<std::string, std::filesystem::path>
                      &builtInPathMap = {}) {
-
         const auto homeVar = getEnvironmentNull(homeEnv);
         std::filesystem::path homeDir;
         if (homeVar && !homeVar->empty()) {
@@ -232,6 +232,7 @@ private:
         } else {
             homeDir = homeFallback;
         }
+        homeDir = homeDir.lexically_normal();
 
         std::vector<std::filesystem::path> dirs;
         dirs.push_back(std::move(homeDir));
@@ -246,7 +247,7 @@ private:
             std::ranges::copy(systemFallback, std::back_inserter(dirs));
         }
 
-        if (builtInPathType) {
+        if (builtInPathType && !skipBuiltInPath_) {
             std::filesystem::path builtInPath;
             if (const auto *value =
                     findValue(builtInPathMap, builtInPathType)) {
@@ -260,6 +261,13 @@ private:
             }
         }
 
+        for (auto &dir : dirs) {
+            // Remove trailing slash, if present.
+            if (!dir.has_filename()) {
+                dir = dir.parent_path();
+            }
+        }
+
         std::unordered_set<std::filesystem::path> seen;
         std::erase_if(dirs, [&seen](const auto &dir) {
             if (seen.contains(dir)) {
@@ -270,6 +278,12 @@ private:
         });
 
         return dirs;
+    }
+
+    void maybeUpdateModes(StandardPaths::Modes &modes) const {
+        if (skipUserPath_) {
+            modes = modes.unset(StandardPaths::Mode::User);
+        }
     }
 
     bool skipBuiltInPath_;
