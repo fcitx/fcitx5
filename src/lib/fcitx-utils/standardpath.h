@@ -29,6 +29,7 @@
 #include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/standardpaths.h>
 #include <fcitx-utils/stringutils.h>
 #include <fcitx-utils/unixfd.h>
 
@@ -431,6 +432,33 @@ static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
             << ")";
     return builder;
 }
+
+template <>
+class StandardPathsTypeConverter<StandardPath::Type> {
+public:
+    using self_type = StandardPath::Type;
+
+    static constexpr StandardPathsType convert(StandardPath::Type type) {
+        switch (type) {
+        case StandardPath::Type::Config:
+            return StandardPathsType::Config;
+        case StandardPath::Type::PkgConfig:
+            return StandardPathsType::PkgConfig;
+        case StandardPath::Type::Data:
+            return StandardPathsType::Data;
+        case StandardPath::Type::Cache:
+            return StandardPathsType::Cache;
+        case StandardPath::Type::Runtime:
+            return StandardPathsType::Runtime;
+        case StandardPath::Type::Addon:
+            return StandardPathsType::Addon;
+        case StandardPath::Type::PkgData:
+            return StandardPathsType::PkgData;
+        default:
+            return StandardPathsType::Config;
+        }
+    }
+};
 
 } // namespace fcitx
 
