@@ -276,7 +276,7 @@ std::optional<std::string> readlink(const std::string &path) {
     return std::nullopt;
 }
 
-FCITXUTILS_DEPRECATED int64_t modifiedTime(const std::string &path) {
+FCITXUTILS_DEPRECATED_EXPORT int64_t modifiedTime(const std::string &path) {
     return modifiedTime(std::filesystem::path(path));
 }
 

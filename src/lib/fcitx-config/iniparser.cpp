@@ -17,7 +17,6 @@
 #include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
-#include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
@@ -27,11 +26,11 @@
 
 namespace fcitx {
 
-void readFromIni(RawConfig &config, FILE *fp) {
-    if (!fp) {
+void readFromIni(RawConfig &config, FILE *fin) {
+    if (!fin) {
         return;
     }
-    readFromIni(config, fileno(fp));
+    readFromIni(config, fileno(fin));
 }
 
 bool writeAsIni(const RawConfig &config, FILE *fout) {
@@ -209,8 +208,9 @@ FCITXCONFIG_DEPRECATED_EXPORT void readAsIni(Configuration &configuration,
                                              StandardPath::Type type,
                                              const std::string &path) {
     RawConfig config;
-    readAsIni(config, type, path);
-
+    const auto &standardPath = StandardPath::global();
+    auto file = standardPath.open(type, path, O_RDONLY);
+    readFromIni(config, file.fd());
     configuration.load(config);
 }
 
@@ -228,7 +228,9 @@ safeSaveAsIni(const Configuration &configuration, StandardPath::Type type,
     RawConfig config;
 
     configuration.save(config);
-    return safeSaveAsIni(config, type, path);
+    const auto &standardPath = StandardPath::global();
+    return standardPath.safeSave(
+        type, path, [&config](int fd) { return writeAsIni(config, fd); });
 }
 
 } // namespace fcitx
