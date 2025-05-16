@@ -477,7 +477,7 @@ int64_t StandardPaths::timestamp(StandardPathsType type,
             if (ec) {
                 return true;
             }
-            auto timeInSeconds =
+            int64_t timeInSeconds =
                 std::chrono::time_point_cast<std::chrono::seconds>(time)
                     .time_since_epoch()
                     .count();
