@@ -56,7 +56,7 @@ void test_basic() {
     {
         auto result = standardPaths.locate(StandardPathsType::PkgData, "addon",
                                            pathfilter::extension(".conf"),
-                                           StandardPaths::Mode::System);
+                                           StandardPathsMode::System);
         std::set<std::string> names;
         std::set<std::string> expect_names = {"testim.conf",
                                               "testfrontend.conf"};
@@ -70,7 +70,7 @@ void test_basic() {
     std::filesystem::path filePath;
     auto file =
         standardPaths.open(StandardPathsType::PkgData, "addon/testim.conf",
-                           StandardPaths::Mode::Default, &filePath);
+                           StandardPathsMode::Default, &filePath);
     FCITX_ASSERT(filePath == std::filesystem::path(TEST_ADDON_DIR
                                                    "/fcitx5/addon/testim.conf")
                                  .lexically_normal());
@@ -90,7 +90,7 @@ void test_nouser() {
     std::filesystem::path path;
     auto file =
         standardPaths.open(StandardPathsType::PkgData, "addon/testim.conf",
-                           StandardPaths::Mode::Default, &path);
+                           StandardPathsMode::Default, &path);
     FCITX_ASSERT(path == std::filesystem::path(TEST_ADDON_DIR) /
                              "fcitx5/addon/testim.conf")
         << path;

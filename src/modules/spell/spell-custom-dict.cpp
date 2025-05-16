@@ -230,7 +230,7 @@ load_le16(const void* p)
 void SpellCustomDict::loadDict(const std::string &lang) {
     auto fd = StandardPaths::global().open(
         StandardPathsType::PkgData, std::format("spell/{}_dict.fscd", lang),
-        StandardPaths::Mode::System);
+        StandardPathsMode::System);
 
     if (!fd.isValid()) {
         throw std::runtime_error("failed to open dict file");
@@ -294,7 +294,7 @@ bool SpellCustomDict::checkDict(const std::string &lang) {
     return !StandardPaths::global()
                 .locate(StandardPathsType::PkgData,
                         std::format("spell/{}_dict.fscd", lang),
-                        StandardPaths::Mode::System)
+                        StandardPathsMode::System)
                 .empty();
 }
 

@@ -44,6 +44,15 @@ enum class StandardPathsType {
     Addon,
     PkgData
 };
+enum class StandardPathsMode : uint8_t {
+    User = (1 << 0),
+    System = (1 << 1),
+    Default = User | System,
+};
+
+using StandardPathsModes = Flags<StandardPathsMode>;
+using StandardPathsFilterCallback =
+    std::function<bool(const std::filesystem::path &)>;
 
 namespace pathfilter {
 
@@ -57,16 +66,6 @@ static inline auto extension(const std::string &ext) {
 
 class FCITXUTILS_EXPORT StandardPaths {
 public:
-    using PathFilterCallback =
-        std::function<bool(const std::filesystem::path &)>;
-
-    enum class Mode : uint8_t {
-        User = (1 << 0),
-        System = (1 << 1),
-        Default = User | System,
-    };
-
-    using Modes = Flags<Mode>;
 
     /**
      * Allow to construct a StandardPath with customized internal value.
@@ -113,13 +112,13 @@ public:
     /** \brief Check if a file exists. */
     std::filesystem::path locate(StandardPathsType type,
                                  const std::filesystem::path &path,
-                                 Modes modes = Mode::Default) const;
+                                 StandardPathsModes modes = StandardPathsMode::Default) const;
 
     /** \brief Check if a file exists. */
     std::map<std::filesystem::path, std::filesystem::path>
     locate(StandardPathsType type, const std::filesystem::path &path,
-           const PathFilterCallback &callback,
-           Modes modes = Mode::Default) const;
+           const StandardPathsFilterCallback &callback,
+           StandardPathsModes modes = StandardPathsMode::Default) const;
 
     /** \brief Open the first matched and succeeded file for read.
      *
@@ -127,7 +126,7 @@ public:
      *  file. Then you can avoid the race condition.
      */
     UnixFD open(StandardPathsType type, const std::filesystem::path &path,
-                Modes modes = Mode::Default,
+        StandardPathsModes modes = StandardPathsMode::Default,
                 std::filesystem::path *outPath = nullptr) const;
 
     /**
@@ -144,7 +143,7 @@ public:
                   const std::function<bool(int)> &callback) const;
 
     int64_t timestamp(StandardPathsType type, const std::filesystem::path &path,
-                      Modes modes = Mode::Default) const;
+        StandardPathsModes modes = StandardPathsMode::Default) const;
 
     /**
      * Sync system umask to internal state. This will affect the file
