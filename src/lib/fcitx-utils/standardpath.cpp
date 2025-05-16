@@ -333,8 +333,8 @@ StandardPath::StandardPath(bool skipFcitxPath)
 StandardPath::~StandardPath() = default;
 
 const StandardPath &StandardPath::global() {
-    bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
-    bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
+    static bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
+    static bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
     static StandardPath globalPath(skipFcitx, skipUser);
     return globalPath;
 }

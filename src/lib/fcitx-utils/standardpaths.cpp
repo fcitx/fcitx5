@@ -141,16 +141,17 @@ public:
     }
 
     template <typename Callback>
-    void scanDirectories(StandardPathsType type,
-                         const std::filesystem::path &path,
-                         StandardPathsModes modes,
-                         const Callback &callback) const {
+    void
+    scanDirectories(StandardPathsType type, const std::filesystem::path &path,
+                    StandardPathsModes modes, const Callback &callback) const {
         maybeUpdateModes(modes);
         std::span<const std::filesystem::path> dirs =
             path.is_absolute() ? emptyPaths_ : directories(type);
-        size_t from = modes.test(StandardPathsMode::User) ? 0 : 1;
-        size_t to = modes.test(StandardPathsMode::System) ? dirs.size() : 1;
-        dirs = dirs.subspan(from, to - from);
+        if (!path.is_absolute()) {
+            size_t from = modes.test(StandardPathsMode::User) ? 0 : 1;
+            size_t to = modes.test(StandardPathsMode::System) ? dirs.size() : 1;
+            dirs = dirs.subspan(from, to - from);
+        }
         for (const auto &dir : dirs) {
             if (!callback(dir / path)) {
                 return;
@@ -311,8 +312,8 @@ StandardPaths::StandardPaths(
 StandardPaths::~StandardPaths() = default;
 
 const StandardPaths &StandardPaths::global() {
-    bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
-    bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
+    static bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
+    static bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
     static StandardPaths globalPath("fcitx5", {}, skipFcitx, skipUser);
     return globalPath;
 }
@@ -386,7 +387,8 @@ std::filesystem::path StandardPaths::locate(StandardPathsType type,
 
 std::map<std::filesystem::path, std::filesystem::path>
 StandardPaths::locate(StandardPathsType type, const std::filesystem::path &path,
-                      const StandardPathsFilterCallback &callback, StandardPathsModes modes) const {
+                      const StandardPathsFilterCallback &callback,
+                      StandardPathsModes modes) const {
     FCITX_D();
     std::map<std::filesystem::path, std::filesystem::path> retPath;
     d->scanDirectories(
@@ -416,7 +418,8 @@ StandardPaths::locate(StandardPathsType type, const std::filesystem::path &path,
 }
 
 UnixFD StandardPaths::open(StandardPathsType type,
-                           const std::filesystem::path &path, StandardPathsModes modes,
+                           const std::filesystem::path &path,
+                           StandardPathsModes modes,
                            std::filesystem::path *outPath) const {
     FCITX_D();
     UnixFD retFD;
