@@ -79,8 +79,8 @@ void readAsIni(RawConfig &rawConfig, T type, const std::string &path) {
 
 template <typename T,
           typename = typename StandardPathsTypeConverter<T>::self_type>
-FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &configuration,
-                                      T type, const std::string &path) {
+bool safeSaveAsIni(const Configuration &configuration, T type,
+                   const std::string &path) {
     return safeSaveAsIni(configuration,
                          typename StandardPathsTypeConverter<T>::convert(type),
                          path);
@@ -88,9 +88,8 @@ FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &configuration,
 
 template <typename T,
           typename = typename StandardPathsTypeConverter<T>::self_type>
-FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &rawConfig,
-                                      StandardPathsType type,
-                                      const std::string &path) {
+bool safeSaveAsIni(const RawConfig &rawConfig, T type,
+                   const std::string &path) {
     return safeSaveAsIni(
         rawConfig, typename StandardPathsTypeConverter<T>::convert(type), path);
 }
