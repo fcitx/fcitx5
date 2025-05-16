@@ -66,15 +66,14 @@ FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &rawConfig,
 template <typename T,
           typename = typename StandardPathsTypeConverter<T>::self_type>
 void readAsIni(Configuration &configuration, T type, const std::string &path) {
-    readAsIni(configuration,
-              typename StandardPathsTypeConverter<T>::convert(type), path);
+    readAsIni(configuration, StandardPathsTypeConverter<T>::convert(type),
+              path);
 }
 
 template <typename T,
           typename = typename StandardPathsTypeConverter<T>::self_type>
 void readAsIni(RawConfig &rawConfig, T type, const std::string &path) {
-    readAsIni(rawConfig, typename StandardPathsTypeConverter<T>::convert(type),
-              path);
+    readAsIni(rawConfig, StandardPathsTypeConverter<T>::convert(type), path);
 }
 
 template <typename T,
@@ -82,16 +81,15 @@ template <typename T,
 bool safeSaveAsIni(const Configuration &configuration, T type,
                    const std::string &path) {
     return safeSaveAsIni(configuration,
-                         typename StandardPathsTypeConverter<T>::convert(type),
-                         path);
+                         StandardPathsTypeConverter<T>::convert(type), path);
 }
 
 template <typename T,
           typename = typename StandardPathsTypeConverter<T>::self_type>
 bool safeSaveAsIni(const RawConfig &rawConfig, T type,
                    const std::string &path) {
-    return safeSaveAsIni(
-        rawConfig, typename StandardPathsTypeConverter<T>::convert(type), path);
+    return safeSaveAsIni(rawConfig,
+                         StandardPathsTypeConverter<T>::convert(type), path);
 }
 
 } // namespace fcitx
