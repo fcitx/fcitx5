@@ -154,6 +154,21 @@ public:
      */
     void syncUmask() const;
 
+    /**
+     * Whether this StandardPath is configured to Skip built-in path.
+     *
+     * Built-in path is usually configured at build time, hardcoded.
+     * In portable environment (Install prefix is not fixed), this should be
+     * set to false.
+     */
+    bool skipBuiltInPath() const;
+
+    /**
+     * Whether this StandardPath is configured to Skip user path.
+     *
+     */
+    bool skipUserPath() const;
+
 private:
     std::unique_ptr<StandardPathsPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPaths);

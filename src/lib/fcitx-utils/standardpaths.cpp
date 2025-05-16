@@ -490,4 +490,14 @@ int64_t StandardPaths::timestamp(StandardPathsType type,
 
 void StandardPaths::syncUmask() const { d_ptr->syncUmask(); }
 
+bool StandardPaths::skipBuiltInPath() const {
+    FCITX_D();
+    return d->skipBuiltIn();
+}
+
+bool StandardPaths::skipUserPath() const {
+    FCITX_D();
+    return d->skipUser();
+}
+
 } // namespace fcitx
