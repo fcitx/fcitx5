@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-05-14 20:24+0000\n"
+"POT-Creation-Date: 2025-05-17 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:428
+#: src/lib/fcitx/instance.cpp:423
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -605,7 +605,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:375
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:370
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "デフォルト"
@@ -651,7 +651,7 @@ msgstr "デスクトップ環境:"
 msgid "Desktop environment is ${1}."
 msgstr "デスクトップ環境は ${1} です。"
 
-#: src/modules/wayland/waylandmodule.cpp:663
+#: src/modules/wayland/waylandmodule.cpp:665
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -664,7 +664,7 @@ msgstr ""
 "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma をご覧くださ"
 "い。"
 
-#: src/modules/wayland/waylandmodule.cpp:678
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -677,7 +677,7 @@ msgstr ""
 "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma をご覧くださ"
 "い。"
 
-#: src/modules/wayland/waylandmodule.cpp:709
+#: src/modules/wayland/waylandmodule.cpp:711
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -866,7 +866,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "お気に入り"
 
-#: src/modules/wayland/waylandmodule.cpp:625
+#: src/modules/wayland/waylandmodule.cpp:627
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -900,7 +900,7 @@ msgstr ""
 "Fcitx は入力メソッドフレームワークです。自分の言語を入力するのに役立ちます。"
 "また、タイピング体験を向上させるさまざまなアドオンの選択肢も備えています。"
 
-#: src/modules/wayland/waylandmodule.cpp:648
+#: src/modules/wayland/waylandmodule.cpp:650
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -977,7 +977,7 @@ msgstr ""
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
 
-#: src/modules/wayland/waylandmodule.cpp:735
+#: src/modules/wayland/waylandmodule.cpp:737
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "詳細については、https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland を参照して"
@@ -1086,12 +1086,12 @@ msgstr "Green"
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:432
+#: src/lib/fcitx/instance.cpp:427
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:377
+#: src/lib/fcitx/instance.cpp:372
 #, c++-format
 msgid "Group {}"
 msgstr "グループ {}"
@@ -1324,8 +1324,8 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:717 src/lib/fcitx/instance.cpp:466
-#: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
+#: src/im/keyboard/keyboard.cpp:717 src/lib/fcitx/instance.cpp:461
+#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
@@ -1403,7 +1403,7 @@ msgstr ""
 "コンポジターが ${1} で使用されるテキスト入力プロトコルを完全にサポートしてい"
 "る場合は、${1} に組み込まれた Wayland IM モジュールを使用してもかまいません。"
 
-#: src/modules/wayland/waylandmodule.cpp:690
+#: src/modules/wayland/waylandmodule.cpp:692
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1422,7 +1422,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 入力メソッドパネル"
 
-#: src/ui/classic/classicui.cpp:302
+#: src/ui/classic/classicui.cpp:303
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma（実験的）"
 
@@ -2179,15 +2179,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:864
+#: src/lib/fcitx/instance.cpp:859
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:866
+#: src/lib/fcitx/instance.cpp:861
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:865
+#: src/lib/fcitx/instance.cpp:860
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
@@ -2376,7 +2376,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/modules/wayland/waylandmodule.cpp:724
+#: src/modules/wayland/waylandmodule.cpp:726
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2541,17 +2541,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
+#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
 #: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:697
+#: src/lib/fcitx/instance.cpp:692
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
@@ -2899,7 +2899,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:625
+#: src/modules/wayland/waylandmodule.cpp:627
 msgid "Wayland Diagnose"
 msgstr "Wayland 診断"
 
@@ -3042,6 +3042,9 @@ msgid ""
 "found. The package name of the configuration tool is usually fcitx5-"
 "configtool. Now it will open the configuration directory."
 msgstr ""
+"現在 GUI で Fcitx5 を実行していますが、fcitx5-config-qt が見つかりません。設"
+"定ツールのパッケージ名は通常 fcitx5-configtool です。これが設定ディレクトリを"
+"開きます。"
 
 #: data/fcitx5-configtool.sh:138
 msgid ""
@@ -3050,6 +3053,9 @@ msgid ""
 "kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration "
 "directory."
 msgstr ""
+"現在 KDE を実行していますが、Fcitx5 の設定ツールが見つかりません。設定ツール"
+"のパッケージ名は通常 kcm-fcitx5、kde-config-fcitx5、fcitx5-configtool のどれ"
+"かです。これが設定ディレクトリを開きます。"
 
 #: data/fcitx5-configtool.sh:141
 msgid ""
@@ -3058,6 +3064,9 @@ msgid ""
 "tool is usually ukui-control-center, or fcitx5-configtool. Now it will open "
 "the configuration directory."
 msgstr ""
+"現在 UKUI デスクトップ環境を実行していますが、Fcitx5 の設定ツールが見つかりま"
+"せん。設定ツールのパッケージ名は通常 ukui-control-center か fcitx5-"
+"configtool です。これが設定ディレクトリを開きます。"
 
 #: data/fcitx5-diagnose.sh:1085
 msgid ""
@@ -3127,12 +3136,12 @@ msgstr "バージョン:"
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:426
+#: src/lib/fcitx/instance.cpp:421
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:423
+#: src/lib/fcitx/instance.cpp:418
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
