@@ -37,12 +37,13 @@
 #include <vector>
 #include <ranges>
 #include <span>
-#include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/stringutils.h"
 #include "config.h" // IWYU pragma: keep
 #include "environ.h"
 #include "fs.h"
+#include "log.h"
 #include "macros.h"
+#include "misc_p.h"
+#include "stringutils.h"
 
 #ifndef O_ACCMODE
 #define O_ACCMODE (O_RDONLY | O_WRONLY | O_RDWR)
@@ -58,6 +59,26 @@ std::optional<std::string> getEnvironmentNull(const char *env) {
         return std::nullopt;
     }
     return getEnvironment(env);
+}
+
+// Return the bottom symlink-ed path, otherwise, if error or not symlink file,
+// return the original path.
+std::filesystem::path symlinkTarget(const std::filesystem::path &path) {
+    int maxDepth = 128;
+    std::filesystem::path fullPath = path;
+    while (--maxDepth && std::filesystem::is_symlink(fullPath)) {
+        std::error_code ec;
+        auto linked = std::filesystem::read_symlink(fullPath, ec);
+        if (!ec) {
+            fullPath = linked;
+        } else {
+            return path;
+        }
+    }
+    if (maxDepth > 0) {
+        return fullPath;
+    }
+    return path;
 }
 
 } // namespace
@@ -173,7 +194,7 @@ public:
 
     mode_t umask() const { return umask_.load(std::memory_order_relaxed); }
 
-    std::tuple<UnixFD, std::filesystem::path>
+    std::tuple<UnixFD, std::filesystem::path, std::filesystem::path>
     openUserTemp(StandardPathsType type,
                  const std::filesystem::path &pathOrig) const {
         if (!pathOrig.has_filename() || skipUserPath_) {
@@ -188,23 +209,21 @@ public:
                 return {};
             }
             fullPathOrig = dirPaths[0] / pathOrig;
-            if (std::filesystem::exists(fullPathOrig)) {
-                std::error_code ec;
-                auto linked = std::filesystem::read_symlink(fullPathOrig, ec);
-                if (!ec) {
-                    fullPathOrig = linked;
-                }
-            }
         }
+
+        fullPathOrig = symlinkTarget(fullPathOrig);
+
         std::filesystem::path fullPath = fullPathOrig;
         fullPath += "_XXXXXX";
         if (fs::makePath(fullPath.parent_path())) {
-            std::vector<char> cPath(fullPath.c_str(),
-                                    fullPath.c_str() +
-                                        fullPath.native().size() + 1);
+            std::string fullPathStr = fullPath.string();
+            std::vector<char> cPath(fullPathStr.c_str(),
+                                    fullPathStr.c_str() + fullPathStr.size() +
+                                        1);
             int fd = mkstemp(cPath.data());
             if (fd >= 0) {
-                return {UnixFD::own(fd), std::string(cPath.data())};
+                return {UnixFD::own(fd), std::filesystem::path(cPath.data()),
+                        fullPathOrig};
             }
         }
         return {};
@@ -441,7 +460,7 @@ bool StandardPaths::safeSave(StandardPathsType type,
                              const std::filesystem::path &pathOrig,
                              const std::function<bool(int)> &callback) const {
     FCITX_D();
-    auto [file, path] = d->openUserTemp(type, pathOrig);
+    auto [file, path, fullPathOrig] = d->openUserTemp(type, pathOrig);
     if (!file.isValid()) {
         return false;
     }
@@ -458,10 +477,11 @@ bool StandardPaths::safeSave(StandardPathsType type,
             fsync(file.fd());
 #endif
             file.reset();
-            std::filesystem::rename(path, pathOrig);
+            std::filesystem::rename(path, fullPathOrig);
             return true;
         }
-    } catch (const std::exception &) {
+    } catch (const std::exception &e) {
+        FCITX_ERROR() << "Failed to write file: " << fullPathOrig << e.what();
     }
     unlink(path.c_str());
     return false;

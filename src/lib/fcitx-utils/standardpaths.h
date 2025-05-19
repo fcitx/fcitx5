@@ -66,7 +66,6 @@ static inline auto extension(const std::string &ext) {
 
 class FCITXUTILS_EXPORT StandardPaths {
 public:
-
     /**
      * Allow to construct a StandardPath with customized internal value.
      *
@@ -110,9 +109,9 @@ public:
     directories(StandardPathsType type) const;
 
     /** \brief Check if a file exists. */
-    std::filesystem::path locate(StandardPathsType type,
-                                 const std::filesystem::path &path,
-                                 StandardPathsModes modes = StandardPathsMode::Default) const;
+    std::filesystem::path
+    locate(StandardPathsType type, const std::filesystem::path &path,
+           StandardPathsModes modes = StandardPathsMode::Default) const;
 
     /** \brief Check if a file exists. */
     std::map<std::filesystem::path, std::filesystem::path>
@@ -126,7 +125,7 @@ public:
      *  file. Then you can avoid the race condition.
      */
     UnixFD open(StandardPathsType type, const std::filesystem::path &path,
-        StandardPathsModes modes = StandardPathsMode::Default,
+                StandardPathsModes modes = StandardPathsMode::Default,
                 std::filesystem::path *outPath = nullptr) const;
 
     /**
@@ -142,8 +141,9 @@ public:
     bool safeSave(StandardPathsType type, const std::filesystem::path &pathOrig,
                   const std::function<bool(int)> &callback) const;
 
-    int64_t timestamp(StandardPathsType type, const std::filesystem::path &path,
-        StandardPathsModes modes = StandardPathsMode::Default) const;
+    int64_t
+    timestamp(StandardPathsType type, const std::filesystem::path &path,
+              StandardPathsModes modes = StandardPathsMode::Default) const;
 
     /**
      * Sync system umask to internal state. This will affect the file
