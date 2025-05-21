@@ -46,12 +46,10 @@ struct DBusStruct {
 
     DBusStruct() = default;
 
-    template <
-        typename Element, typename... Elements,
-        typename = typename std::enable_if_t<
-            sizeof...(Elements) != 0 ||
-            !std::is_same<typename std::decay_t<Element>, DBusStruct>::value>>
+    template <typename Element, typename... Elements>
     DBusStruct(Element &&ele, Elements &&...elements)
+        requires(sizeof...(Elements) != 0 ||
+                 !std::is_same_v<typename std::decay_t<Element>, DBusStruct>)
         : data_(std::forward<Element>(ele),
                 std::forward<Elements>(elements)...) {}
 
@@ -239,7 +237,7 @@ public:
     MessageType type() const;
 
     /// Check if the message is error.
-    inline bool isError() const { return type() == MessageType::Error; }
+    bool isError() const { return type() == MessageType::Error; }
 
     /// Return the destination of the message.
     std::string destination() const;
