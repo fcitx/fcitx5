@@ -48,7 +48,8 @@ bool makePathHelper(const std::filesystem::path &name) {
         return true;
     }
     if (errno == EEXIST) {
-        return std::filesystem::is_directory(name);
+        std::error_code ec;
+        return std::filesystem::is_directory(name, ec);
     }
 
     // Check if error is parent not exists.
@@ -182,7 +183,8 @@ FCITXUTILS_DEPRECATED_EXPORT bool makePath(const std::string &path) {
 }
 
 bool makePath(const std::filesystem::path &path) {
-    if (std::filesystem::is_directory(path)) {
+    std::error_code ec;
+    if (std::filesystem::is_directory(path, ec)) {
         return true;
     }
     auto opath = path.lexically_normal();

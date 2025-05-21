@@ -66,8 +66,8 @@ std::optional<std::string> getEnvironmentNull(const char *env) {
 std::filesystem::path symlinkTarget(const std::filesystem::path &path) {
     int maxDepth = 128;
     std::filesystem::path fullPath = path;
-    while (--maxDepth && std::filesystem::is_symlink(fullPath)) {
-        std::error_code ec;
+    std::error_code ec;
+    while (--maxDepth && std::filesystem::is_symlink(fullPath, ec)) {
         auto linked = std::filesystem::read_symlink(fullPath, ec);
         if (!ec) {
             fullPath = linked;
@@ -392,16 +392,35 @@ std::filesystem::path StandardPaths::locate(StandardPathsType type,
                                             const std::filesystem::path &path,
                                             StandardPathsModes modes) const {
     FCITX_D();
-    std::string retPath;
+    std::filesystem::path retPath;
     d->scanDirectories(type, path, modes,
                        [&retPath](const std::filesystem::path &fullPath) {
-                           if (!std::filesystem::is_regular_file(fullPath)) {
+                           std::error_code ec;
+                           if (!std::filesystem::exists(fullPath, ec)) {
                                return true;
                            }
-                           retPath = std::move(fullPath);
+                           retPath = fullPath;
                            return false;
                        });
     return retPath;
+}
+
+std::vector<std::filesystem::path>
+StandardPaths::locateAll(StandardPathsType type,
+                         const std::filesystem::path &path,
+                         StandardPathsModes modes) const {
+    FCITX_D();
+    std::vector<std::filesystem::path> retPaths;
+    d->scanDirectories(type, path, modes,
+                       [&retPaths](std::filesystem::path fullPath) {
+                           std::error_code ec;
+                           if (!std::filesystem::exists(fullPath, ec)) {
+                               return true;
+                           }
+                           retPaths.push_back(std::move(fullPath));
+                           return true;
+                       });
+    return retPaths;
 }
 
 std::map<std::filesystem::path, std::filesystem::path>
@@ -424,11 +443,9 @@ StandardPaths::locate(StandardPathsType type, const std::filesystem::path &path,
                 if (retPath.contains(directoryIterator->path().filename())) {
                     continue;
                 }
-                if (directoryIterator->is_regular_file()) {
-                    if (callback(directoryIterator->path())) {
-                        retPath[directoryIterator->path().filename()] =
-                            directoryIterator->path();
-                    }
+                if (callback(directoryIterator->path())) {
+                    retPath[directoryIterator->path().filename()] =
+                        directoryIterator->path();
                 }
             }
             return true;
@@ -442,18 +459,44 @@ UnixFD StandardPaths::open(StandardPathsType type,
                            std::filesystem::path *outPath) const {
     FCITX_D();
     UnixFD retFD;
+    d->scanDirectories(
+        type, path, modes, [&retFD, outPath](std::filesystem::path fullPath) {
+            retFD.give(::open(fullPath.string().c_str(), O_RDONLY));
+            if (!retFD.isValid()) {
+                return true;
+            }
+            if (outPath) {
+                *outPath = std::move(fullPath);
+            }
+            return false;
+        });
+    return retFD;
+}
+
+std::vector<UnixFD>
+StandardPaths::openAll(StandardPathsType type,
+                       const std::filesystem::path &path,
+                       StandardPathsModes modes,
+                       std::vector<std::filesystem::path> *outPaths) const {
+    FCITX_D();
+    std::vector<UnixFD> retFDs;
+    if (outPaths) {
+        outPaths->clear();
+    }
     d->scanDirectories(type, path, modes,
-                       [&retFD, outPath](std::string fullPath) {
-                           retFD.give(::open(fullPath.c_str(), O_RDONLY));
-                           if (!retFD.isValid()) {
+                       [&retFDs, outPaths](std::filesystem::path fullPath) {
+                           UnixFD fd;
+                           fd.give(::open(fullPath.string().c_str(), O_RDONLY));
+                           if (!fd.isValid()) {
                                return true;
                            }
-                           if (outPath) {
-                               *outPath = std::move(fullPath);
+                           retFDs.push_back(std::move(fd));
+                           if (outPaths) {
+                               outPaths->push_back(std::move(fullPath));
                            }
-                           return false;
+                           return true;
                        });
-    return retFD;
+    return retFDs;
 }
 
 bool StandardPaths::safeSave(StandardPathsType type,

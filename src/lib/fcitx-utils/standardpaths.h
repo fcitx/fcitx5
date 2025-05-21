@@ -74,10 +74,11 @@ public:
      * @param skipBuiltInPath skip built-in path
      * @param skipUserPath skip user path, useful when doing readonly-test.
      */
-    StandardPaths(const std::string &packageName,
-                  const std::unordered_map<std::string, std::filesystem::path>
-                      &builtInPath,
-                  bool skipBuiltInPath, bool skipUserPath);
+    explicit StandardPaths(
+        const std::string &packageName,
+        const std::unordered_map<std::string, std::filesystem::path>
+            &builtInPath,
+        bool skipBuiltInPath, bool skipUserPath);
 
     virtual ~StandardPaths();
 
@@ -113,7 +114,17 @@ public:
     locate(StandardPathsType type, const std::filesystem::path &path,
            StandardPathsModes modes = StandardPathsMode::Default) const;
 
-    /** \brief Check if a file exists. */
+    /**
+     * \brief Check if path exists in all directories.
+     *
+     * It will enumerate all directories returned by directories() and check
+     * if the file exists. The order is same as directories().
+     */
+    std::vector<std::filesystem::path>
+    locateAll(StandardPathsType type, const std::filesystem::path &path,
+              StandardPathsModes modes = StandardPathsMode::Default) const;
+
+    /** \brief All subpath under path with filter. */
     std::map<std::filesystem::path, std::filesystem::path>
     locate(StandardPathsType type, const std::filesystem::path &path,
            const StandardPathsFilterCallback &callback,
@@ -127,6 +138,13 @@ public:
     UnixFD open(StandardPathsType type, const std::filesystem::path &path,
                 StandardPathsModes modes = StandardPathsMode::Default,
                 std::filesystem::path *outPath = nullptr) const;
+
+    /** \brief Open the all matched and file for read.
+     */
+    std::vector<UnixFD>
+    openAll(StandardPathsType type, const std::filesystem::path &path,
+            StandardPathsModes modes = StandardPathsMode::Default,
+            std::vector<std::filesystem::path> *outPath = nullptr) const;
 
     /**
      * \brief Save the file safely with write and rename to make sure the

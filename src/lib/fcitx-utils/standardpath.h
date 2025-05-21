@@ -207,13 +207,13 @@ public:
      * @param skipUserPath skip user path, useful when doing readonly-test.
      * @since 5.1.9
      */
-    StandardPath(
+    explicit StandardPath(
         const std::string &packageName,
         const std::unordered_map<std::string, std::string> &builtInPath,
         bool skipBuiltInPath, bool skipUserPath);
 
-    StandardPath(bool skipFcitxPath, bool skipUserPath);
-    StandardPath(bool skipFcitxPath = false);
+    explicit StandardPath(bool skipFcitxPath, bool skipUserPath);
+    explicit StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();
 
     /// \brief Return the global instance of StandardPath.
