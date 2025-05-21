@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <set>
@@ -113,14 +114,14 @@ std::string getSocketPath(bool isWayland) {
                             hostname, "-", displaynumber));
 }
 
-std::string getFullSocketPath(const StandardPath &standardPath,
-                              bool isWayland) {
-    return stringutils::joinPath(
-        standardPath.userDirectory(StandardPath::Type::Config),
-        getSocketPath(isWayland));
+std::filesystem::path getFullSocketPath(const StandardPaths &standardPath,
+                                        bool isWayland) {
+    return standardPath.userDirectory(StandardPathsType::Config) /
+           getSocketPath(isWayland);
 }
 
-std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
+std::pair<std::string, pid_t>
+getAddress(const std::filesystem::path &socketPath) {
     pid_t pid = -1;
 
     /* get address from env variable */
@@ -130,7 +131,7 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     }
 
     /* read address from ~/.config/ibus/bus/soketfile */
-    UniqueFilePtr file(fopen(socketPath.c_str(), "rb"));
+    UniqueFilePtr file(fopen(socketPath.string().c_str(), "rb"));
     if (!file) {
         return {};
     }
@@ -178,7 +179,7 @@ pid_t runIBusExit() {
 }
 
 std::optional<std::pair<std::string, pid_t>>
-readIBusInfo(const std::string &socketPath) {
+readIBusInfo(const std::filesystem::path &socketPath) {
     std::pair<std::string, pid_t> address = getAddress(socketPath);
 
     FCITX_IBUS_DEBUG() << "Found ibus address from file " << socketPath << ": "
@@ -203,7 +204,7 @@ readIBusInfo(const std::string &socketPath) {
 }
 
 std::optional<std::pair<std::string, pid_t>>
-readIBusInfo(const std::set<std::string> &socketPaths) {
+readIBusInfo(const std::set<std::filesystem::path> &socketPaths) {
     for (const auto &path : socketPaths) {
         auto address = readIBusInfo(path);
         if (address) {
@@ -213,19 +214,19 @@ readIBusInfo(const std::set<std::string> &socketPaths) {
     return std::nullopt;
 }
 
-std::set<std::string> allSocketPaths(const StandardPath &standardPath) {
-    std::set<std::string> paths;
+std::set<std::filesystem::path>
+allSocketPaths(const StandardPaths &standardPath) {
+    std::set<std::filesystem::path> paths;
     if (isInFlatpak()) {
         // Flatpak always use DISPLAY=:99, which means we will need to guess
         // what files are available.
-        auto map = standardPath.locateWithFilter(
-            StandardPath::Type::Config, "ibus/bus",
-            [](const std::string &path, const std::string &, bool user) {
-                if (!user) {
-                    return false;
-                }
-                return stringutils::startsWith(path, getLocalMachineId());
-            });
+        auto map = standardPath.locate(
+            StandardPathsType::Config, "ibus/bus",
+            [](const std::filesystem::path &path) {
+                return path.filename().string().starts_with(
+                    getLocalMachineId());
+            },
+            StandardPathsMode::User);
 
         for (const auto &item : map) {
             paths.insert(item.second);
@@ -234,12 +235,12 @@ std::set<std::string> allSocketPaths(const StandardPath &standardPath) {
         // Make the guess that display is 0, it is the most common value that
         // people would have.
         if (paths.empty()) {
-            auto configHome =
-                standardPath.userDirectory(StandardPath::Type::Config);
+            const auto &configHome =
+                standardPath.userDirectory(StandardPathsType::Config);
             if (!configHome.empty()) {
-                paths.insert(stringutils::joinPath(
-                    configHome, "ibus/bus",
-                    stringutils::concat(getLocalMachineId(), "-unix-", 0)));
+                paths.insert(
+                    configHome / "ibus/bus" /
+                    stringutils::concat(getLocalMachineId(), "-unix-", 0));
             }
         }
     } else {
@@ -792,7 +793,7 @@ IBusFrontendModule::~IBusFrontendModule() {
         auto address = getAddress(path);
         if (address.first == addressWrote_ && address.second == pidWrote_) {
             standardPath_.safeSave(
-                StandardPath::Type::Config, path,
+                StandardPathsType::Config, path,
                 [&config](int fd) { return writeAsIni(config, fd); });
         }
     }
@@ -907,16 +908,15 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     auto address = bus()->address();
     if (isInFlatpak()) {
         if (address.find("/run/flatpak/bus") != std::string::npos) {
-            auto userBus = stringutils::joinPath(
-                standardPath_.userDirectory(StandardPath::Type::Runtime),
-                "bus");
+            auto userBus =
+                standardPath_.userDirectory(StandardPathsType::Runtime) / "bus";
 
             struct stat statbuf;
 
-            if (::stat(userBus.data(), &statbuf) == 0 &&
+            if (::stat(userBus.string().c_str(), &statbuf) == 0 &&
                 (statbuf.st_mode & S_IFMT) == S_IFSOCK &&
                 statbuf.st_uid == getuid()) {
-                address = stringutils::concat("unix:path=", userBus);
+                address = std::format("unix:path={}", userBus.string());
             }
         }
     }
@@ -945,7 +945,7 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     FCITX_IBUS_DEBUG() << "Writing ibus daemon info.";
     for (const auto &path : socketPaths_) {
         if (!standardPath_.safeSave(
-                StandardPath::Type::Config, path,
+                StandardPathsType::Config, path,
                 [&config](int fd) { return writeAsIni(config, fd); })) {
             return;
         }

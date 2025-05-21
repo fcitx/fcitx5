@@ -8,12 +8,13 @@
 #define _FCITX_FRONTEND_IBUSFRONTEND_IBUSFRONTEND_H_
 
 #include <unistd.h>
+#include <filesystem>
 #include <memory>
 #include <set>
 #include <string>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/eventloopinterface.h"
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
@@ -39,14 +40,14 @@ private:
     // Check if org.freedesktop.IBus is owned by us and socket file is ours.
     void ensureIsIBus();
 
-    const StandardPath &standardPath_ = StandardPath::global();
+    const StandardPaths &standardPath_ = StandardPaths::global();
     Instance *instance_;
     std::unique_ptr<dbus::Bus> portalBus_;
     std::unique_ptr<IBusFrontend> inputMethod1_;
     std::unique_ptr<IBusFrontend> portalIBusFrontend_;
     std::unique_ptr<EventSourceTime> timeEvent_;
 
-    std::set<std::string> socketPaths_;
+    std::set<std::filesystem::path> socketPaths_;
     std::string addressWrote_;
     pid_t pidWrote_;
     int retry_ = 5;

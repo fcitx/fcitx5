@@ -18,6 +18,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <utility>
 #include <vector>
 #include <cairo.h>
@@ -264,20 +265,17 @@ void ClassicUI::suspend() {
 }
 
 const Configuration *ClassicUI::getConfig() const {
-    std::set<std::string> themeDirs;
-    StandardPath::global().scanFiles(
-        StandardPath::Type::PkgData, "themes",
-        [&themeDirs](const std::string &path, const std::string &dir, bool) {
-            if (fs::isdir(stringutils::joinPath(dir, path))) {
-                themeDirs.insert(path);
-            }
-            return true;
+    auto themeDirs = StandardPaths::global().locate(
+        StandardPathsType::PkgData, "themes",
+        [](const std::filesystem::path &path) {
+            std::error_code ec;
+            return std::filesystem::is_directory(path, ec);
         });
     std::map<std::string, std::string, std::less<>> themes;
-    for (const auto &themeName : themeDirs) {
-        auto file = StandardPath::global().open(
-            StandardPath::Type::PkgData,
-            stringutils::joinPath("themes", themeName, "theme.conf"), O_RDONLY);
+    for (const auto &[themeName, _] : themeDirs) {
+        auto file = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / themeName / "theme.conf");
         if (file.fd() < 0) {
             continue;
         }
