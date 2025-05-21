@@ -12,16 +12,20 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <ios>
 #include <limits>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <system_error>
 #include <tuple>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
+#include <ranges>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-config/rawconfig.h"
@@ -29,6 +33,7 @@
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18nstring.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "config.h" // IWYU pragma: keep
@@ -37,6 +42,15 @@
 #ifdef HAVE_SYS_MMAN_H
 #include <sys/mman.h>
 #endif
+
+namespace {
+
+// helper type for the visitor
+template <class... Ts>
+struct VariantOverload : Ts... {
+    using Ts::operator()...;
+};
+} // namespace
 
 namespace fcitx {
 
@@ -193,7 +207,7 @@ public:
 #ifdef _WIN32
         FCITX_UNUSED(filename);
 #else
-        auto fd = UnixFD::own(open(filename.c_str(), O_RDONLY));
+        auto fd = UnixFD::own(open(filename.string().c_str(), O_RDONLY));
         if (!fd.isValid()) {
             return;
         }
@@ -378,6 +392,12 @@ IconThemeCache::lookup(const std::string &name) const {
 class IconThemePrivate : QPtrHolder<IconTheme> {
 public:
     IconThemePrivate(IconTheme *q, const StandardPath &path)
+        : QPtrHolder(q), standardPath_(std::cref(path)) {
+        if (auto home = getEnvironment("HOME")) {
+            home_ = *home;
+        }
+    }
+    IconThemePrivate(IconTheme *q, const StandardPaths &path)
         : QPtrHolder(q), standardPath_(path) {
         if (auto home = getEnvironment("HOME")) {
             home_ = *home;
@@ -452,7 +472,17 @@ public:
     void addInherit(const std::string &inherit) {
         if (subThemeNames_.insert(inherit).second) {
             try {
-                inherits_.push_back(IconTheme(inherit, q_ptr, standardPath_));
+                std::visit(VariantOverload{
+                               [&](const StandardPath &path) {
+                                   inherits_.push_back(
+                                       IconTheme(inherit, q_ptr, path));
+                               },
+                               [&](const StandardPaths &path) {
+                                   inherits_.push_back(
+                                       IconTheme(inherit, q_ptr, path));
+                               },
+                           },
+                           standardPath_);
             } catch (...) {
             }
         }
@@ -599,18 +629,31 @@ public:
         return closestFilename;
     }
 
-    std::string
+    std::filesystem::path
     lookupFallbackIcon(const std::string &iconname,
                        const std::vector<std::string> &extensions) const {
-        auto defaultBasePath = stringutils::joinPath(home_, ".icons", iconname);
+        auto defaultBasePath = home_ / ".icons" / iconname;
         for (const auto &ext : extensions) {
-            auto path = defaultBasePath + ext;
-            if (fs::isreg(path)) {
+            auto path = defaultBasePath;
+            path += ext;
+            std::error_code ec;
+            if (std::filesystem::is_regular_file(path, ec)) {
                 return path;
             }
-            path = standardPath_.locate(
-                StandardPath::Type::Data,
-                stringutils::joinPath("icons", iconname + ext));
+            std::visit(
+                VariantOverload{
+                    [&](const StandardPath &sppath) {
+                        path = sppath.locate(
+                            StandardPath::Type::Data,
+                            stringutils::joinPath("icons", iconname + ext));
+                    },
+                    [&](const StandardPaths &sppath) {
+                        path = sppath.locate(
+                            StandardPathsType::Data,
+                            stringutils::joinPath("icons", iconname + ext));
+                    },
+                },
+                standardPath_);
             if (!path.empty()) {
                 return path;
             }
@@ -618,42 +661,63 @@ public:
         return {};
     }
 
-    void addBaseDir(const std::string &path) {
+    void addBaseDir(const std::filesystem::path &path) {
         if (!fs::isdir(path)) {
             return;
         }
-        baseDirs_.emplace_back(std::piecewise_construct,
-                               std::forward_as_tuple(path),
-                               std::forward_as_tuple(stringutils::joinPath(
-                                   path, "icon-theme.cache")));
+        baseDirs_.emplace_back(
+            std::piecewise_construct, std::forward_as_tuple(path),
+            std::forward_as_tuple(path / "icon-theme.cache"));
     }
 
     void prepare() {
         if (!home_.empty()) {
-            addBaseDir(stringutils::joinPath(home_, ".icons", internalName_));
+            addBaseDir(home_ / ".icons" / internalName_);
         }
-        if (auto userDir =
-                standardPath_.userDirectory(StandardPath::Type::Data);
+        if (auto userDir = std::visit(
+                VariantOverload{
+                    [&](const StandardPath &sppath) {
+                        return std::filesystem::path(
+                            sppath.userDirectory(StandardPath::Type::Data));
+                    },
+                    [&](const StandardPaths &sppath) {
+                        return sppath.userDirectory(StandardPathsType::Data);
+                    },
+                },
+                standardPath_);
             !userDir.empty()) {
-            addBaseDir(stringutils::joinPath(userDir, "icons", internalName_));
+            addBaseDir(userDir / "icons" / internalName_);
         }
 
-        for (auto &dataDir :
-             standardPath_.directories(StandardPath::Type::Data)) {
-            addBaseDir(stringutils::joinPath(dataDir, "icons", internalName_));
+        for (auto &dataDir : std::visit(
+                 VariantOverload{
+                     [&](const StandardPath &sppath) {
+                         auto paths =
+                             sppath.directories(StandardPath::Type::Data);
+                         return std::vector<std::filesystem::path>(
+                             paths.begin(), paths.end());
+                     },
+                     [&](const StandardPaths &sppath) {
+                         return sppath.directories(StandardPathsType::Data);
+                     },
+                 },
+                 standardPath_)) {
+            addBaseDir(dataDir / "icons" / internalName_);
         }
     }
 
-    std::string home_;
+    std::filesystem::path home_;
     std::string internalName_;
-    const StandardPath &standardPath_;
+    std::variant<std::reference_wrapper<const StandardPath>,
+                 std::reference_wrapper<const StandardPaths>>
+        standardPath_;
     I18NString name_;
     I18NString comment_;
     std::vector<IconTheme> inherits_;
     std::vector<IconThemeDirectory> directories_;
     std::vector<IconThemeDirectory> scaledDirectories_;
     std::unordered_set<std::string> subThemeNames_;
-    std::vector<std::pair<std::string, IconThemeCache>> baseDirs_;
+    std::vector<std::pair<std::filesystem::path, IconThemeCache>> baseDirs_;
     // Not really useful for our usecase.
     // bool hidden_;
     std::string example_;
@@ -671,10 +735,10 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
         stringutils::joinPath("icons", name, "index.theme"), O_RDONLY);
 
     RawConfig config;
-    for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
-        readFromIni(config, iter->fd());
+    for (auto &file : files | std::views::reverse) {
+        readFromIni(config, file.fd());
     }
-    auto path = stringutils::joinPath(d->home_, ".icons", name, "index.theme");
+    auto path = d->home_ / ".icons" / name / "index.theme";
     auto fd = UnixFD::own(open(path.c_str(), O_RDONLY));
     if (fd.fd() >= 0) {
         readFromIni(config, fd.fd());
@@ -686,6 +750,35 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
 }
 
 IconTheme::IconTheme(const StandardPath &standardPath)
+    : d_ptr(std::make_unique<IconThemePrivate>(this, standardPath)) {}
+
+IconTheme::IconTheme(const std::string &name, const StandardPaths &standardPath)
+    : IconTheme(name, nullptr, standardPath) {}
+
+IconTheme::IconTheme(const std::string &name, IconTheme *parent,
+                     const StandardPaths &standardPath)
+    : IconTheme(standardPath) {
+    FCITX_D();
+    auto files = standardPath.openAll(StandardPathsType::Data,
+                                      std::filesystem::path("icons") / name /
+                                          "index.theme");
+
+    RawConfig config;
+    for (auto &file : files | std::views::reverse) {
+        readFromIni(config, file.fd());
+    }
+    auto path = d->home_ / ".icons" / name / "index.theme";
+    auto fd = UnixFD::own(open(path.string().c_str(), O_RDONLY));
+    if (fd.fd() >= 0) {
+        readFromIni(config, fd.fd());
+    }
+
+    d->parse(config, parent);
+    d->internalName_ = name;
+    d->prepare();
+}
+
+IconTheme::IconTheme(const StandardPaths &standardPath)
     : d_ptr(std::make_unique<IconThemePrivate>(this, standardPath)) {}
 
 FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(IconTheme);
@@ -759,8 +852,8 @@ std::string IconTheme::defaultIconThemeName() {
     switch (desktopType) {
     case DesktopType::KDE6:
     case DesktopType::KDE5: {
-        auto files = StandardPath::global().openAll(StandardPath::Type::Config,
-                                                    "kdeglobals", O_RDONLY);
+        auto files = StandardPaths::global().openAll(StandardPathsType::Config,
+                                                     "kdeglobals");
         for (auto &file : files) {
             auto theme = getKdeTheme(file.fd());
             if (!theme.empty()) {

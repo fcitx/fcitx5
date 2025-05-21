@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 #include <fcitx-utils/library.h>
-#include <fcitx-utils/standardpath.h>
+#include <fcitx-utils/standardpaths.h>
 #include <fcitx-utils/stringutils.h>
 #include <fcitx/addonfactory.h>
 #include <fcitx/addoninfo.h>
@@ -68,7 +68,6 @@ public:
     std::string type() const override { return "SharedLibrary"; }
 
 private:
-    StandardPath standardPath_;
     std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>>
         registry_;
 };

@@ -71,6 +71,11 @@ set_target_properties(Fcitx5Core
   SOVERSION ${Fcitx5Core_SOVERSION}
   EXPORT_NAME Core
   )
+
+if(HAVE_NO_DEPRECATED_DECLARATIONS)
+  set_source_files_properties(icontheme.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
+endif()
+
 target_include_directories(Fcitx5Core PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>

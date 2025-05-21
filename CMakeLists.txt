@@ -17,6 +17,7 @@ include(ECMUninstallTarget)
 include(src/lib/fcitx-utils/Fcitx5Macros.cmake)
 include(CheckSymbolExists)
 include(CheckIncludeFile)
+include(CheckCXXCompilerFlag)
 
 #######################################################################
 # Options
@@ -199,6 +200,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 include(Fcitx5CompilerSettings)
+check_cxx_compiler_flag(-Wno-deprecated-declarations HAVE_NO_DEPRECATED_DECLARATIONS)
 
 set(FCITX_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 set(FCITX_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_FULL_INCLUDEDIR})

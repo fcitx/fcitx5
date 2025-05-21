@@ -259,16 +259,16 @@ void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
 void AddonManager::load(const std::unordered_set<std::string> &enabled,
                         const std::unordered_set<std::string> &disabled) {
     FCITX_D();
-    const auto &path = StandardPath::global();
+    const auto &path = StandardPaths::global();
     d->timestamp_ =
-        path.timestamp(StandardPath::Type::PkgData, d->addonConfigDir_);
-    auto fileNames = path.locate(StandardPath::Type::PkgData,
-                                 d->addonConfigDir_, filter::Suffix(".conf"));
+        path.timestamp(StandardPathsType::PkgData, d->addonConfigDir_);
+    auto fileNames = path.locate(StandardPathsType::PkgData, d->addonConfigDir_,
+                                 pathfilter::extension(".conf"));
     bool enableAll = enabled.contains("all");
     bool disableAll = disabled.contains("all");
     for (const auto &[fileName, fullName] : fileNames) {
         // remove .conf
-        std::string name = fileName.substr(0, fileName.size() - 5);
+        std::string name = fileName.stem();
         if (name == "core") {
             FCITX_ERROR() << "\"core\" is not a valid addon name.";
             continue;
@@ -402,8 +402,8 @@ const SemanticVersion &AddonManager::version() const {
 
 bool AddonManager::checkUpdate() const {
     FCITX_D();
-    auto timestamp = StandardPath::global().timestamp(
-        StandardPath::Type::PkgData, d->addonConfigDir_);
+    auto timestamp = StandardPaths::global().timestamp(
+        StandardPathsType::PkgData, d->addonConfigDir_);
     return timestamp > d->timestamp_;
 }
 
