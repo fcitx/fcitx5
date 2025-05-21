@@ -15,7 +15,7 @@
 using namespace fcitx;
 
 int main() {
-    setupTestingEnvironment(
+    setupTestingEnvironmentPath(
         FCITX5_BINARY_DIR, {"bin"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/src/modules"});
     AddonManager manager(FCITX5_BINARY_DIR "/src/modules/emoji");

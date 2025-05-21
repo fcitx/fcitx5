@@ -81,7 +81,7 @@ constexpr char testCompose[] = {
     "BELOW\n"};
 
 int main() {
-    setupTestingEnvironment(FCITX5_BINARY_DIR, {"bin"}, {"test"});
+    setupTestingEnvironmentPath(FCITX5_BINARY_DIR, {"bin"}, {"test"});
 
     char arg0[] = "testcompose";
     char arg1[] = "--disable=all";

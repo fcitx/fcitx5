@@ -67,17 +67,37 @@ void test_basic() {
         FCITX_ASSERT(names == expect_names);
     }
 
-    std::filesystem::path filePath;
-    auto file =
-        standardPaths.open(StandardPathsType::PkgData, "addon/testim.conf",
-                           StandardPathsMode::Default, &filePath);
-    FCITX_ASSERT(filePath == std::filesystem::path(TEST_ADDON_DIR
-                                                   "/fcitx5/addon/testim.conf")
-                                 .lexically_normal());
+    {
+        std::filesystem::path filePath;
+        auto file =
+            standardPaths.open(StandardPathsType::PkgData, "addon/testim.conf",
+                               StandardPathsMode::Default, &filePath);
+        FCITX_ASSERT(filePath == std::filesystem::path(
+                                     TEST_ADDON_DIR "/fcitx5/addon/testim.conf")
+                                     .lexically_normal());
+    }
 
-    auto file2 = standardPaths.open(StandardPathsType::Data,
-                                    "fcitx5/addon/testim2.conf");
-    FCITX_ASSERT(!file2.isValid());
+    {
+        auto file2 = standardPaths.open(StandardPathsType::Data,
+                                        "fcitx5/addon/testim2.conf");
+        FCITX_ASSERT(!file2.isValid());
+    }
+
+    {
+        std::vector<std::filesystem::path> filePaths;
+        auto files = standardPaths.openAll(
+            StandardPathsType::PkgData, "addon/testim.conf",
+            StandardPathsMode::Default, &filePaths);
+        FCITX_ASSERT(filePaths ==
+                     std::vector<std::filesystem::path>{
+                         std::filesystem::path(TEST_ADDON_DIR
+                                               "/fcitx5/addon/testim.conf")
+                             .lexically_normal()});
+        auto files2 = standardPaths.locateAll(StandardPathsType::PkgData,
+                                              "addon/testim.conf",
+                                              StandardPathsMode::Default);
+        FCITX_ASSERT(filePaths == files2);
+    }
 }
 
 void test_nouser() {

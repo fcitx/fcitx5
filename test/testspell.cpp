@@ -67,7 +67,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
 }
 
 int main() {
-    setupTestingEnvironment(
+    setupTestingEnvironmentPath(
         FCITX5_BINARY_DIR, {"bin"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/src/modules"});
 

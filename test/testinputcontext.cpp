@@ -334,9 +334,6 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
 }
 
 void test_custom_panel() {
-
-    setupTestingEnvironment(FCITX5_BINARY_DIR, {"bin"}, {"test"});
-
     char arg0[] = "testcompose";
     char arg1[] = "--disable=all";
     char arg2[] = "--enable=testfrontend,testim,testui";
@@ -388,6 +385,8 @@ void test_ic_v2() {
 }
 
 int main() {
+    setupTestingEnvironmentPath(FCITX5_BINARY_DIR, {"bin"}, {"test"});
+
     test_simple();
     test_property();
     test_preedit_override();

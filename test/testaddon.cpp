@@ -17,8 +17,8 @@ double f(int) { return 0; }
 
 int main() {
     fcitx::Log::setLogRule("default=5");
-    fcitx::setupTestingEnvironment(FCITX5_BINARY_DIR, {"bin"},
-                                   {FCITX5_SOURCE_DIR "/test/addon2/fcitx5"});
+    fcitx::setupTestingEnvironmentPath(
+        FCITX5_BINARY_DIR, {"bin"}, {FCITX5_SOURCE_DIR "/test/addon2/fcitx5"});
     fcitx::AddonManager manager;
     manager.registerDefaultLoader(nullptr);
     manager.load();
