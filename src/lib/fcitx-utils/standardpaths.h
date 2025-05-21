@@ -19,6 +19,7 @@
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/unixfd.h>
+#include <span>
 
 /**
  * \addtogroup FcitxUtils
@@ -100,14 +101,17 @@ public:
 
     /**
      * \brief Get user writable directory for given type.
+     *
+     * The path will be empty if there is no relevant user directory.
      */
     const std::filesystem::path &userDirectory(StandardPathsType type) const;
 
     /**
      * \brief Get all directories in the order of priority.
      */
-    const std::vector<std::filesystem::path> &
-    directories(StandardPathsType type) const;
+    std::span<const std::filesystem::path>
+    directories(StandardPathsType type,
+                StandardPathsModes modes = StandardPathsMode::Default) const;
 
     /** \brief Check if a file exists. */
     std::filesystem::path

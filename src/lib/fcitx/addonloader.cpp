@@ -7,6 +7,7 @@
 
 #include "fcitx/addonloader.h"
 #include <exception>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -58,14 +59,14 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
             bool loaded = false;
             for (const auto &libraryPath : libraryPaths) {
                 Library library(libraryPath);
-                if (!library.load(flag)) {
-                    FCITX_ERROR() << "Failed to load library for addon "
-                                  << info.uniqueName() << " on " << libraryPath
-                                  << ". Error: " << library.error();
+                if (library.load(flag)) {
+                    libraries.push_back(std::move(library));
+                    loaded = true;
+                    break;
                 }
-                libraries.push_back(std::move(library));
-                loaded = true;
-                break;
+                FCITX_ERROR()
+                    << "Failed to load library for addon " << info.uniqueName()
+                    << " on " << libraryPath << ". Error: " << library.error();
             }
             if (!loaded) {
                 break;

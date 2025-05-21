@@ -32,6 +32,7 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
+#include <span>
 
 namespace fcitx {
 
@@ -160,6 +161,14 @@ public:
     template <typename T>
     inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
         *this << "[";
+        printRange(vec.begin(), vec.end());
+        *this << "]";
+        return *this;
+    }
+
+    template <typename T>
+    inline LogMessageBuilder &operator<<(const std::span<T> &vec) {
+        *this << "span[";
         printRange(vec.begin(), vec.end());
         *this << "]";
         return *this;

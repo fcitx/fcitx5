@@ -698,7 +698,10 @@ public:
                              paths.begin(), paths.end());
                      },
                      [&](const StandardPaths &sppath) {
-                         return sppath.directories(StandardPathsType::Data);
+                         auto dirs =
+                             sppath.directories(StandardPathsType::Data);
+                         return std::vector<std::filesystem::path>{dirs.begin(),
+                                                                   dirs.end()};
                      },
                  },
                  standardPath_)) {

@@ -53,7 +53,11 @@ namespace fcitx {
 
 namespace {
 
-// A simple wrapper that return null if then variable name is nullptr.
+const std::filesystem::path constEmptyPath;
+const std::vector<std::filesystem::path> constEmptyPaths = {
+    std::filesystem::path()};
+
+// A simple wrapper that return null if the variable name is nullptr.
 std::optional<std::string> getEnvironmentNull(const char *env) {
     if (!env) {
         return std::nullopt;
@@ -143,36 +147,45 @@ public:
         syncUmask();
     }
 
-    const std::vector<std::filesystem::path> &
-    directories(StandardPathsType type) const {
-        switch (type) {
-        case StandardPathsType::Config:
-            return configDirs_;
-        case StandardPathsType::PkgConfig:
-            return pkgconfigDirs_;
-        case StandardPathsType::Data:
-            return dataDirs_;
-        case StandardPathsType::PkgData:
-            return pkgdataDirs_;
-        case StandardPathsType::Addon:
-            return addonDirs_;
-        default:
-            return emptyPaths_;
-        }
+    std::span<const std::filesystem::path>
+    directories(StandardPathsType type, StandardPathsModes modes) const {
+        maybeUpdateModes(modes);
+        const auto &directoriesByType =
+            [type, this]() -> const std::vector<std::filesystem::path> & {
+            switch (type) {
+            case StandardPathsType::Config:
+                return configDirs_;
+            case StandardPathsType::PkgConfig:
+                return pkgconfigDirs_;
+            case StandardPathsType::Data:
+                return dataDirs_;
+            case StandardPathsType::PkgData:
+                return pkgdataDirs_;
+            case StandardPathsType::Addon:
+                return addonDirs_;
+            default:
+                return constEmptyPaths;
+            }
+        }();
+        assert(directoriesByType.size() >= 1);
+        size_t from =
+            modes.test(StandardPathsMode::User) && !directoriesByType[0].empty()
+                ? 0
+                : 1;
+        size_t to = modes.test(StandardPathsMode::System)
+                        ? directoriesByType.size()
+                        : 1;
+        std::span<const std::filesystem::path> dirs(directoriesByType);
+        dirs = dirs.subspan(from, to - from);
+        return dirs;
     }
 
     template <typename Callback>
     void
     scanDirectories(StandardPathsType type, const std::filesystem::path &path,
                     StandardPathsModes modes, const Callback &callback) const {
-        maybeUpdateModes(modes);
         std::span<const std::filesystem::path> dirs =
-            path.is_absolute() ? emptyPaths_ : directories(type);
-        if (!path.is_absolute()) {
-            size_t from = modes.test(StandardPathsMode::User) ? 0 : 1;
-            size_t to = modes.test(StandardPathsMode::System) ? dirs.size() : 1;
-            dirs = dirs.subspan(from, to - from);
-        }
+            path.is_absolute() ? constEmptyPaths : directories(type, modes);
         for (const auto &dir : dirs) {
             if (!callback(dir / path)) {
                 return;
@@ -204,7 +217,7 @@ public:
         if (pathOrig.is_absolute()) {
             fullPathOrig = pathOrig;
         } else {
-            const auto &dirPaths = directories(type);
+            const auto &dirPaths = directories(type, StandardPathsMode::User);
             if (dirPaths.empty() || dirPaths[0].empty()) {
                 return {};
             }
@@ -316,9 +329,6 @@ private:
     std::vector<std::filesystem::path> runtimeDir_;
     std::vector<std::filesystem::path> addonDirs_;
     std::atomic<mode_t> umask_;
-    static const inline std::filesystem::path emptyPath_;
-    static const inline std::vector<std::filesystem::path> emptyPaths_ = {
-        std::filesystem::path()};
 };
 
 StandardPaths::StandardPaths(
@@ -379,13 +389,18 @@ bool StandardPaths::hasExecutable(const std::filesystem::path &name) {
 const std::filesystem::path &
 StandardPaths::userDirectory(StandardPathsType type) const {
     FCITX_D();
-    return d->directories(type)[0];
+    if (d->skipUser()) {
+        return constEmptyPath;
+    }
+    auto dirs = d->directories(type, StandardPathsMode::User);
+    return dirs.empty() ? constEmptyPath : dirs[0];
 }
 
-const std::vector<std::filesystem::path> &
-StandardPaths::directories(StandardPathsType type) const {
+std::span<const std::filesystem::path>
+StandardPaths::directories(StandardPathsType type,
+                           StandardPathsModes modes) const {
     FCITX_D();
-    return d->directories(type);
+    return d->directories(type, modes);
 }
 
 std::filesystem::path StandardPaths::locate(StandardPathsType type,

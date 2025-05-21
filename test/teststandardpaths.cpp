@@ -6,7 +6,7 @@
  */
 
 #include <fcntl.h>
-#include <cstdlib>
+#include <algorithm>
 #include <filesystem>
 #include <set>
 #include <string>
@@ -31,13 +31,15 @@ void test_basic() {
     FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Config) ==
                  "/TEST/PATH");
     // The order to the path should be kept for their first appearance.
-    FCITX_ASSERT(standardPaths.directories(StandardPathsType::Config) ==
-                 std::vector<std::filesystem::path>(
-                     {"/TEST/PATH", "/TEST/PATH1", "/TEST/PATH2"}));
-    FCITX_ASSERT(standardPaths.directories(StandardPathsType::PkgData) ==
-                 std::vector<std::filesystem::path>(
-                     {"/TEST/PATH/fcitx5",
-                      std::filesystem::path(TEST_ADDON_DIR) / "fcitx5"}))
+    FCITX_ASSERT(
+        std::ranges::equal(standardPaths.directories(StandardPathsType::Config),
+                           std::vector<std::filesystem::path>(
+                               {"/TEST/PATH", "/TEST/PATH1", "/TEST/PATH2"})));
+    FCITX_ASSERT(std::ranges::equal(
+        standardPaths.directories(StandardPathsType::PkgData),
+        std::vector<std::filesystem::path>(
+            {"/TEST/PATH/fcitx5",
+             std::filesystem::path(TEST_ADDON_DIR) / "fcitx5"})))
         << standardPaths.directories(StandardPathsType::PkgData);
 
     {
@@ -126,13 +128,15 @@ void test_custom() {
     setEnvironment("XDG_DATA_HOME", "/TEST//PATH");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPaths path("mypackage", {{"datadir", "/TEST/PATH3"}}, false, false);
-    FCITX_ASSERT(path.directories(fcitx::StandardPathsType::PkgConfig) ==
-                 std::vector<std::filesystem::path>{"/TEST/PATH/mypackage",
-                                                    "/TEST/PATH1/mypackage",
-                                                    "/TEST/PATH2/mypackage"});
-    FCITX_ASSERT(path.directories(fcitx::StandardPathsType::Data) ==
-                 std::vector<std::filesystem::path>{
-                     "/TEST/PATH", TEST_ADDON_DIR, "/TEST/PATH3"})
+    FCITX_ASSERT(std::ranges::equal(
+        path.directories(fcitx::StandardPathsType::PkgConfig),
+        std::vector<std::filesystem::path>{"/TEST/PATH/mypackage",
+                                           "/TEST/PATH1/mypackage",
+                                           "/TEST/PATH2/mypackage"}));
+    FCITX_ASSERT(
+        std::ranges::equal(path.directories(fcitx::StandardPathsType::Data),
+                           std::vector<std::filesystem::path>{
+                               "/TEST/PATH", TEST_ADDON_DIR, "/TEST/PATH3"}))
         << path.directories(fcitx::StandardPathsType::Data);
 }
 
