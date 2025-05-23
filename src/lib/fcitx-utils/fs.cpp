@@ -286,7 +286,7 @@ int64_t modifiedTime(const std::filesystem::path &path) {
     std::error_code ec;
     auto time = std::filesystem::last_write_time(path, ec);
     auto systime =
-        !ec ? std::chrono::clock_cast<std::chrono::system_clock>(time)
+        !ec ? std::filesystem::file_time_type::clock::to_sys(time)
             : std::chrono::time_point<std::chrono::system_clock>::min();
     auto timeInSeconds =
         std::chrono::time_point_cast<std::chrono::seconds>(systime);
