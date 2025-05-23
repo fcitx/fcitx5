@@ -551,20 +551,12 @@ int64_t StandardPaths::timestamp(StandardPathsType type,
     FCITX_D();
 
     int64_t timestamp = 0;
-    d->scanDirectories(
-        type, path, modes, [&timestamp](const std::filesystem::path &fullPath) {
-            std::error_code ec;
-            const auto time = std::filesystem::last_write_time(fullPath, ec);
-            if (ec) {
-                return true;
-            }
-            int64_t timeInSeconds =
-                std::chrono::time_point_cast<std::chrono::seconds>(time)
-                    .time_since_epoch()
-                    .count();
-            timestamp = std::max(timestamp, timeInSeconds);
-            return true;
-        });
+    d->scanDirectories(type, path, modes,
+                       [&timestamp](const std::filesystem::path &fullPath) {
+                           const auto time = fs::modifiedTime(fullPath);
+                           timestamp = std::max(timestamp, time);
+                           return true;
+                       });
 
     return timestamp;
 }

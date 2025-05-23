@@ -57,8 +57,12 @@ FCITXUTILS_EXPORT ssize_t safeWrite(int fd, const void *data, size_t maxlen);
 /// \brief read symlink.
 FCITXUTILS_EXPORT std::optional<std::string> readlink(const std::string &path);
 /**
- * \brief Return modified time in seconds of given path. 0 will be returned upon
- * error.
+ * \brief Return modified time in seconds of given path.
+ *
+ * When error, it will return the time equal to std::chrono::system_clock::
+ * time_point::min().
+ *
+ * \param path the path to check
  *
  * \since 5.1.13
  */

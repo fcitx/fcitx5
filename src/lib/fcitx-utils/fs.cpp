@@ -284,12 +284,12 @@ FCITXUTILS_DEPRECATED_EXPORT int64_t modifiedTime(const std::string &path) {
 
 int64_t modifiedTime(const std::filesystem::path &path) {
     std::error_code ec;
-    const auto time = std::filesystem::last_write_time(path, ec);
-    if (ec) {
-        return 0;
-    }
+    auto time = std::filesystem::last_write_time(path, ec);
+    auto systime =
+        !ec ? std::chrono::clock_cast<std::chrono::system_clock>(time)
+            : std::chrono::time_point<std::chrono::system_clock>::min();
     auto timeInSeconds =
-        std::chrono::time_point_cast<std::chrono::seconds>(time);
+        std::chrono::time_point_cast<std::chrono::seconds>(systime);
     return timeInSeconds.time_since_epoch().count();
 }
 
