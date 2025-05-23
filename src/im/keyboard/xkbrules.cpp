@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstring>
+#include <filesystem>
 #include <initializer_list>
 #include <iterator>
 #include <list>
@@ -154,14 +155,13 @@ struct XkbRulesParseState : public XMLParser {
     }
 };
 
-bool XkbRules::read(const std::vector<std::string> &directories,
+bool XkbRules::read(const std::vector<std::filesystem::path> &directories,
                     const std::string &name, const std::string &extraFile) {
     clear();
 
     bool success = false;
     for (const auto &directory : directories) {
-        std::string fileName = stringutils::joinPath(
-            directory, "rules", stringutils::concat(name, ".xml"));
+        const auto fileName = directory / "rules" / (name + ".xml");
 
         {
             XkbRulesParseState state;
@@ -172,8 +172,7 @@ bool XkbRules::read(const std::vector<std::string> &directories,
             }
         }
 
-        std::string extraFileName = stringutils::joinPath(
-            directory, "rules", stringutils::concat(name, ".extras.xml"));
+        const auto extraFileName = directory / "rules" / (name + ".extras.xml");
         {
             XkbRulesParseState state;
             state.rules_ = this;

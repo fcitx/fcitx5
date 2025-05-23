@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <filesystem>
+#include <string>
+#include <system_error>
+#include "fcitx-utils/environ.h"
 #include "config.h"
 
 // workaround xkb.h using explicit keyword problem
@@ -59,11 +63,12 @@ std::string xmodmapFile() {
     if (!home) {
         return {};
     }
-    auto path = stringutils::joinPath(*home, ".Xmodmap");
-    if (!fs::isreg(path)) {
-        path = stringutils::joinPath(*home, ".xmodmap");
+    auto path = std::filesystem::path(*home) / ".Xmodmap";
+    std::error_code ec;
+    if (!std::filesystem::is_regular_file(path, ec)) {
+        path = std::filesystem::path(*home) / ".xmodmap";
     }
-    if (!fs::isreg(path)) {
+    if (!std::filesystem::is_regular_file(path)) {
         return {};
     }
     return path;
@@ -363,13 +368,13 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
     // xcb_xkb_get_kbd_by_name() doesn't fill the buffer for us, need to it
     // ourselves.
     char locale[] = "C";
-    std::string ruleFile;
+    std::filesystem::path ruleFile;
     XkbRF_RulesPtr rules = nullptr;
     if (!rule.empty()) {
         if (rule[0] != '/') {
             ruleFile =
-                stringutils::joinPath(XKEYBOARDCONFIG_XKBBASE, "rules", rule);
-            rules = XkbRF_Load(ruleFile.data(), locale, true, true);
+                std::filesystem::path(XKEYBOARDCONFIG_XKBBASE) / "rules" / rule;
+            rules = XkbRF_Load(ruleFile.string().data(), locale, true, true);
         }
     }
     if (!rules) {

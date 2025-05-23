@@ -108,10 +108,9 @@ std::string getSocketPath(bool isWayland) {
         hostname = "unix";
     }
 
-    return stringutils::joinPath(
-        "ibus/bus",
-        stringutils::concat(getLocalMachineId(/*fallback=*/"machine-id"), "-",
-                            hostname, "-", displaynumber));
+    return std::filesystem::path("ibus/bus") /
+           stringutils::concat(getLocalMachineId(/*fallback=*/"machine-id"),
+                               "-", hostname, "-", displaynumber);
 }
 
 std::filesystem::path getFullSocketPath(const StandardPaths &standardPath,
@@ -881,8 +880,9 @@ void IBusFrontendModule::replaceIBus(bool recheck) {
                             replaceIBus(recheck);
                             return true;
                         }
-                        auto cmd = readFileContent(stringutils::joinPath(
-                            "/proc", address.second, "cmdline"));
+                        auto cmd = readFileContent(
+                            std::filesystem::path("/proc") /
+                            std::to_string(address.second) / "cmdline");
                         if (cmd.find("ibus-daemon") != std::string::npos) {
                             FCITX_IBUS_DEBUG() << "try to kill ibus-daemon.";
                             // Well we can't kill it so better not to

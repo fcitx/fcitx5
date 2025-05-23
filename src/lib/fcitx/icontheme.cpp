@@ -488,14 +488,15 @@ public:
         }
     }
 
-    std::string findIcon(const std::string &icon, int size, int scale,
-                         const std::vector<std::string> &extensions) const {
+    std::filesystem::path
+    findIcon(const std::string &icon, int size, int scale,
+             const std::vector<std::string> &extensions) const {
         // Respect absolute path.
         if (icon.empty() || icon[0] == '/') {
             return icon;
         }
 
-        std::string filename;
+        std::filesystem::path filename;
         // If we're a empty theme, only look at fallback icon.
         if (!internalName_.empty()) {
             auto filename = findIconHelper(icon, size, scale, extensions);
@@ -517,7 +518,7 @@ public:
         return filename;
     }
 
-    std::string
+    std::filesystem::path
     findIconHelper(const std::string &icon, int size, int scale,
                    const std::vector<std::string> &extensions) const {
         auto filename = lookupIcon(icon, size, scale, extensions);
@@ -535,21 +536,23 @@ public:
         return {};
     }
 
-    std::string lookupIcon(const std::string &iconname, int size, int scale,
-                           const std::vector<std::string> &extensions) const {
+    std::filesystem::path
+    lookupIcon(const std::string &iconname, int size, int scale,
+               const std::vector<std::string> &extensions) const {
 
-        auto checkDirectory = [&extensions,
-                               &iconname](const IconThemeDirectory &directory,
-                                          std::string baseDir) -> std::string {
-            baseDir = stringutils::joinPath(baseDir, directory.path());
+        auto checkDirectory =
+            [&extensions, &iconname](
+                const IconThemeDirectory &directory,
+                std::filesystem::path baseDir) -> std::filesystem::path {
+            baseDir = baseDir / directory.path();
             if (!fs::isdir(baseDir)) {
                 return {};
             }
 
             for (const auto &ext : extensions) {
-                auto defaultPath = stringutils::joinPath(baseDir, iconname);
-                defaultPath += ext;
-                if (fs::isreg(defaultPath)) {
+                auto defaultPath = baseDir / (iconname + ext);
+                std::error_code ec;
+                if (std::filesystem::is_regular_file(defaultPath, ec)) {
                     return defaultPath;
                 }
             }
@@ -643,14 +646,14 @@ public:
             std::visit(
                 VariantOverload{
                     [&](const StandardPath &sppath) {
-                        path = sppath.locate(
-                            StandardPath::Type::Data,
-                            stringutils::joinPath("icons", iconname + ext));
+                        path = sppath.locate(StandardPath::Type::Data,
+                                             std::filesystem::path("icons") /
+                                                 (iconname + ext));
                     },
                     [&](const StandardPaths &sppath) {
-                        path = sppath.locate(
-                            StandardPathsType::Data,
-                            stringutils::joinPath("icons", iconname + ext));
+                        path = sppath.locate(StandardPathsType::Data,
+                                             std::filesystem::path("icons") /
+                                                 (iconname + ext));
                     },
                 },
                 standardPath_);
@@ -735,7 +738,7 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
     FCITX_D();
     auto files = standardPath.openAll(
         StandardPath::Type::Data,
-        stringutils::joinPath("icons", name, "index.theme"), O_RDONLY);
+        std::filesystem::path("icons") / name / "index.theme", O_RDONLY);
 
     RawConfig config;
     for (auto &file : files | std::views::reverse) {
@@ -802,14 +805,21 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
 std::string IconTheme::findIcon(const std::string &iconName,
                                 unsigned int desiredSize, int scale,
                                 const std::vector<std::string> &extensions) {
-    return std::as_const(*this).findIcon(iconName, desiredSize, scale,
-                                         extensions);
+    return std::as_const(*this).findIconPath(iconName, desiredSize, scale,
+                                             extensions);
 }
 
 std::string
 IconTheme::findIcon(const std::string &iconName, unsigned int desiredSize,
                     int scale,
                     const std::vector<std::string> &extensions) const {
+    return findIconPath(iconName, desiredSize, scale, extensions);
+}
+
+std::filesystem::path
+IconTheme::findIconPath(const std::string &iconName, unsigned int desiredSize,
+                        int scale,
+                        const std::vector<std::string> &extensions) const {
     FCITX_D();
     return d->findIcon(iconName, desiredSize, scale, extensions);
 }
@@ -828,7 +838,7 @@ std::string getKdeTheme(int fd) {
     return "";
 }
 
-std::string getGtkTheme(const std::string &filename) {
+std::string getGtkTheme(const std::filesystem::path &filename) {
     // Evil Gtk2 use an non standard "ini-like" rc file.
     // Grep it and try to find the line we want ourselves.
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
@@ -869,9 +879,9 @@ std::string IconTheme::defaultIconThemeName() {
     case DesktopType::KDE4: {
         auto home = getEnvironment("HOME");
         if (home && !home->empty()) {
-            std::string files[] = {
-                stringutils::joinPath(*home, ".kde4/share/config/kdeglobals"),
-                stringutils::joinPath(*home, ".kde/share/config/kdeglobals"),
+            std::vector<std::filesystem::path> files = {
+                std::filesystem::path(*home) / ".kde4/share/config/kdeglobals",
+                std::filesystem::path(*home) / ".kde/share/config/kdeglobals",
                 "/etc/kde4/kdeglobals"};
             for (auto &file : files) {
                 auto fd = UnixFD::own(open(file.c_str(), O_RDONLY));
@@ -898,8 +908,9 @@ std::string IconTheme::defaultIconThemeName() {
         }
         auto home = getEnvironment("HOME");
         if (home && !home->empty()) {
-            std::string files[] = {stringutils::joinPath(*home, ".gtkrc-2.0"),
-                                   "/etc/gtk-2.0/gtkrc"};
+            std::vector<std::filesystem::path> files = {
+                std::filesystem::path(*home) / ".gtkrc-2.0",
+                "/etc/gtk-2.0/gtkrc"};
             for (auto &file : files) {
                 auto theme = getGtkTheme(file);
                 if (!theme.empty()) {

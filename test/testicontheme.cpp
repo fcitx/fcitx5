@@ -41,7 +41,7 @@ int main() {
     }
 #endif
 
-    FCITX_INFO() << theme.findIcon("fcitx-pinyin", 32, 1);
+    FCITX_INFO() << theme.findIconPath("fcitx-pinyin", 32, 1);
 
     return 0;
 }

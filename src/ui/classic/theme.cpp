@@ -11,6 +11,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -20,7 +21,6 @@
 #include <utility>
 #include <vector>
 #include <cairo.h>
-#include <format>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <gio/gunixinputstream.h>
@@ -142,7 +142,7 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
         guchar *q = cairo_pixels;
 
         if (n_channels == 3) {
-            guchar *end = p + static_cast<ptrdiff_t>(3) * width;
+            guchar *end = p + (static_cast<ptrdiff_t>(3) * width);
 
             while (p < end) {
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
@@ -160,7 +160,7 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
                 q += 4;
             }
         } else {
-            guchar *end = p + static_cast<ptrdiff_t>(4) * width;
+            guchar *end = p + (static_cast<ptrdiff_t>(4) * width);
             guint t1;
             guint t2;
             guint t3;
@@ -200,11 +200,11 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
     return surface;
 }
 
-cairo_surface_t *loadImage(StandardPathFile &file) {
+cairo_surface_t *loadImage(UnixFD &file, const std::filesystem::path &path) {
     if (file.fd() < 0) {
         return nullptr;
     }
-    if (stringutils::endsWith(file.path(), ".png")) {
+    if (path.extension() == ".png") {
         int fd = file.fd();
         auto *surface =
             cairo_image_surface_create_from_png_stream(readFromFd, &fd);
@@ -254,7 +254,7 @@ const std::vector<std::string> &gdkPixbufSupportedFormats() {
         // Only put the common types and we make a prefered order.
         for (std::string ext : {"svg", "svgz", "png", "bmp", "xpm"}) {
             // png is supported by cairo.
-            if (ext == "png" || exts.count(ext)) {
+            if (ext == "png" || exts.contains(ext)) {
                 result.push_back("." + ext);
             }
         }
@@ -275,11 +275,10 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
           hasTwoKeyboardInCurrentGroup(classicui->instance())) ||
          *classicui->config().preferTextIcon);
     if (!preferTextIcon && !icon.empty()) {
-        std::string iconPath =
-            iconTheme.findIcon(icon, size, 1, gdkPixbufSupportedFormats());
-        auto fd = open(iconPath.c_str(), O_RDONLY);
-        StandardPathFile file(fd, icon);
-        image_.reset(loadImage(file));
+        std::filesystem::path iconPath =
+            iconTheme.findIconPath(icon, size, 1, gdkPixbufSupportedFormats());
+        auto fd = UnixFD::own(open(iconPath.c_str(), O_RDONLY));
+        image_.reset(loadImage(fd, iconPath));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
             image_.reset();
@@ -296,10 +295,12 @@ ThemeImage::ThemeImage(const std::string &name,
                        const BackgroundImageConfig &cfg, const Color &color,
                        const Color &borderColor) {
     if (!cfg.image->empty()) {
-        auto imageFile = StandardPath::global().open(
-            StandardPath::Type::PkgData,
-            std::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
-        image_.reset(loadImage(imageFile));
+        std::filesystem::path imagePath;
+        auto imageFile = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / name / *cfg.image,
+            StandardPathsMode::Default, &imagePath);
+        image_.reset(loadImage(imageFile, imagePath));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
             image_.reset();
@@ -308,10 +309,12 @@ ThemeImage::ThemeImage(const std::string &name,
     }
 
     if (!cfg.overlay->empty()) {
-        auto imageFile = StandardPath::global().open(
-            StandardPath::Type::PkgData,
-            std::format("themes/{0}/{1}", name, *cfg.overlay), O_RDONLY);
-        overlay_.reset(loadImage(imageFile));
+        std::filesystem::path imagePath;
+        auto imageFile = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / name / *cfg.overlay,
+            StandardPathsMode::Default, &imagePath);
+        overlay_.reset(loadImage(imageFile, imagePath));
         if (overlay_ &&
             cairo_surface_status(overlay_.get()) != CAIRO_STATUS_SUCCESS) {
             overlay_.reset();
@@ -347,8 +350,8 @@ ThemeImage::ThemeImage(const std::string &name,
             cairo_paint(cr);
         }
 
-        cairo_rectangle(cr, borderWidth, borderWidth, width - borderWidth * 2,
-                        height - borderWidth * 2);
+        cairo_rectangle(cr, borderWidth, borderWidth, width - (borderWidth * 2),
+                        height - (borderWidth * 2));
         cairo_clip(cr);
         cairoSetSourceColor(cr, color);
         cairo_paint(cr);
@@ -359,10 +362,12 @@ ThemeImage::ThemeImage(const std::string &name,
 
 ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
     if (!cfg.image->empty()) {
-        auto imageFile = StandardPath::global().open(
-            StandardPath::Type::PkgData,
-            std::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
-        image_.reset(loadImage(imageFile));
+        std::filesystem::path imagePath;
+        auto imageFile = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / name / *cfg.image,
+            StandardPathsMode::Default, &imagePath);
+        image_.reset(loadImage(imageFile, imagePath));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
             image_.reset();
@@ -397,8 +402,8 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
     pango_layout_set_font_description(layout.get(), desc);
     pango_font_description_free(desc);
     pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
-    cairo_translate(cr, (size - rect.width) * 0.5 - rect.x,
-                    (size - rect.height) * 0.5 - rect.y);
+    cairo_translate(cr, ((size - rect.width) * 0.5) - rect.x,
+                    ((size - rect.height) * 0.5) - rect.y);
     if (config.trayBorderColor->alpha()) {
         cairo_save(cr);
         cairoSetSourceColor(cr, *config.trayBorderColor);
@@ -758,9 +763,10 @@ void Theme::load(std::string_view name) {
     copyHelper(config);
     // Reset the default value to state.
     syncDefaultValueToCurrent();
-    if (auto themeConfigFile = StandardPath::global().openSystem(
-            StandardPath::Type::PkgData,
-            stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
+    if (auto themeConfigFile = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / name / "theme.conf",
+            StandardPathsMode::System);
         themeConfigFile.isValid()) {
         RawConfig themeConfig;
         readFromIni(themeConfig, themeConfigFile.fd());
@@ -771,9 +777,10 @@ void Theme::load(std::string_view name) {
         copyHelper(config);
     }
     syncDefaultValueToCurrent();
-    if (auto themeConfigFile = StandardPath::global().openUser(
-            StandardPath::Type::PkgData,
-            stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
+    if (auto themeConfigFile = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / name / "theme.conf",
+            StandardPathsMode::User);
         themeConfigFile.isValid()) {
         // Has user file, load user file data.
         RawConfig themeConfig;

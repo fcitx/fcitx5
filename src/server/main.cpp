@@ -54,10 +54,10 @@ int main(int argc, char *argv[]) {
     }
 
     auto userDir =
-        StandardPath::global().userDirectory(StandardPath::Type::PkgConfig);
+        StandardPaths::global().userDirectory(StandardPathsType::PkgConfig);
     if (!userDir.empty()) {
         if (fs::makePath(userDir)) {
-            crashlog = stringutils::joinPath(userDir, "crash.log");
+            crashlog = userDir / "crash.log";
         }
     }
 
@@ -89,9 +89,9 @@ int main(int argc, char *argv[]) {
         std::vector<std::string> args;
         if (isInFlatpak()) {
             args = {"flatpak-spawn",
-                    StandardPath::fcitxPath("bindir", "fcitx5"), "-rd"};
+                    StandardPaths::fcitxPath("bindir", "fcitx5"), "-rd"};
         } else {
-            args = {StandardPath::fcitxPath("bindir", "fcitx5"), "-r"};
+            args = {StandardPaths::fcitxPath("bindir", "fcitx5"), "-r"};
         }
         startProcess(args);
     }

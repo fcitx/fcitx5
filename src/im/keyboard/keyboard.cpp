@@ -8,6 +8,7 @@
 #include "keyboard.h"
 #include <strings.h>
 #include <cstddef>
+#include <filesystem>
 #include <functional>
 #include <iterator>
 #include <memory>
@@ -210,7 +211,7 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
 
     UniqueCPtr<xkb_context, xkb_context_unref> xkbContext(
         xkb_context_new(XKB_CONTEXT_NO_FLAGS));
-    std::vector<std::string> directories;
+    std::vector<std::filesystem::path> directories;
     if (xkbContext) {
         for (unsigned int i = 0,
                           e = xkb_context_num_include_paths(xkbContext.get());

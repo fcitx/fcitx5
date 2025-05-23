@@ -7,6 +7,7 @@
 #ifndef _FCITX_IM_KEYBOARD_XKBRULES_H_
 #define _FCITX_IM_KEYBOARD_XKBRULES_H_
 
+#include <filesystem>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -50,7 +51,7 @@ struct XkbOptionGroupInfo {
 class XkbRules {
 public:
     friend struct XkbRulesParseState;
-    bool read(const std::vector<std::string> &directories,
+    bool read(const std::vector<std::filesystem::path> &directories,
               const std::string &name, const std::string &extraFile);
 #ifdef _TEST_XKBRULES
     void dump();

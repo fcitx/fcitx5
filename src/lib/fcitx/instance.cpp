@@ -7,8 +7,8 @@
 #include "config.h"
 
 #include <fcntl.h>
-#include <signal.h>
 #include <unistd.h>
+#include <csignal>
 #include <cstdint>
 #include <ctime>
 #include <functional>
@@ -80,8 +80,8 @@ FCITX_CONFIGURATION(DefaultInputMethod,
 
 void initAsDaemon() {
 #ifndef _WIN32
-    pid_t pid;
-    if ((pid = fork()) > 0) {
+    pid_t pid = fork();
+    if (pid > 0) {
         waitpid(pid, nullptr, 0);
         exit(0);
     }
@@ -338,7 +338,7 @@ void InstancePrivate::buildDefaultGroup() {
     auto lang = stripLanguage(getCurrentLanguage());
     DefaultInputMethod defaultIMConfig;
     readAsIni(defaultIMConfig, StandardPathsType::PkgData,
-              stringutils::joinPath("default", lang));
+              std::filesystem::path("default") / lang);
 
     // Add extra layout from profile.
     for (const auto &extraLayout : defaultIMConfig.extraLayouts.value()) {

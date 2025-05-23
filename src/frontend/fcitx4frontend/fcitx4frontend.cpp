@@ -107,8 +107,8 @@ public:
         bus_->requestName(dbusServiceName, requestFlag);
 
         auto localMachineId = getLocalMachineId(/*fallback=*/"machine-id");
-        auto path = stringutils::joinPath(
-            "fcitx", "dbus", stringutils::concat(localMachineId, "-", display));
+        auto path = std::filesystem::path("fcitx") / "dbus" /
+                    stringutils::concat(localMachineId, "-", display);
         bool res = StandardPaths::global().safeSave(
             StandardPathsType::Config, path, [this](int fd) {
                 auto address = bus_->address();

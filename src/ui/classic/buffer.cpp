@@ -11,6 +11,7 @@
 #include <cerrno>
 #include <cstdint>
 #include <cstdlib>
+#include <filesystem>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -100,9 +101,8 @@ UnixFD openShm() {
     } while (0);
 #endif
 
-    auto filename = stringutils::joinPath(*path, "fcitx-wayland-shm-XXXXXX");
-    std::vector<char> v(filename.begin(), filename.end());
-    v.push_back('\0');
+    auto filename = std::filesystem::path(*path) / "fcitx-wayland-shm-XXXXXX";
+    std::string v = filename.string();
     RETRY_ON_EINTR(ret = mkstemp(v.data()));
 
     if (ret >= 0) {
