@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2023
-# csslayer <wengxt@gmail.com>, 2025
 # Yiyu Liu, 2025
+# csslayer <wengxt@gmail.com>, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-05-14 20:24+0000\n"
+"POT-Creation-Date: 2025-05-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Yiyu Liu, 2025\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2025\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -51,7 +51,7 @@ msgstr "${1} 未找到."
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
-#: src/lib/fcitx/instance.cpp:428
+#: src/lib/fcitx/instance.cpp:423
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -499,19 +499,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社区"
 
-#: src/im/keyboard/keyboard.cpp:718
+#: src/im/keyboard/keyboard.cpp:719
 msgid "Completion"
 msgstr "补全"
 
-#: src/im/keyboard/keyboard.cpp:709
+#: src/im/keyboard/keyboard.cpp:710
 msgid "Completion is disabled."
 msgstr "补全已禁用。"
 
-#: src/im/keyboard/keyboard.cpp:712
+#: src/im/keyboard/keyboard.cpp:713
 msgid "Completion is enabled temporarily."
 msgstr "已暂时启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:714
+#: src/im/keyboard/keyboard.cpp:715
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
@@ -604,7 +604,7 @@ msgstr "取消激活输入法"
 msgid "Debug information from dbus:"
 msgstr "来自 dbus 的调试信息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:375
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:370
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "默认"
@@ -650,7 +650,7 @@ msgstr "桌面环境："
 msgid "Desktop environment is ${1}."
 msgstr "桌面环境为 ${1}。"
 
-#: src/modules/wayland/waylandmodule.cpp:663
+#: src/modules/wayland/waylandmodule.cpp:665
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -661,7 +661,7 @@ msgstr ""
 "作。推荐不设置 GTK_IM_MODULE 和 QT_IM_MODULE 从而使用 Wayland 输入法前端。更"
 "多信息请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:678
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -672,7 +672,7 @@ msgstr ""
 "作。推荐使用 Wayland 输入法前端。更多信息请参见 https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:709
+#: src/modules/wayland/waylandmodule.cpp:711
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -860,7 +860,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "收藏"
 
-#: src/modules/wayland/waylandmodule.cpp:625
+#: src/modules/wayland/waylandmodule.cpp:627
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -894,7 +894,7 @@ msgstr ""
 "Fcitx 是一个输入法框架。它可以帮助您输入您需要的语言。它也支持许多不同的附加"
 "组件来改善输入体验。"
 
-#: src/modules/wayland/waylandmodule.cpp:648
+#: src/modules/wayland/waylandmodule.cpp:650
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -964,7 +964,7 @@ msgstr ""
 "例如，用拼音时显示中文的异体字，用 Anthy 时显示日语的异体字。字体配置需要支持"
 "这个功能。"
 
-#: src/modules/wayland/waylandmodule.cpp:735
+#: src/modules/wayland/waylandmodule.cpp:737
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
@@ -1069,12 +1069,12 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:432
+#: src/lib/fcitx/instance.cpp:427
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:377
+#: src/lib/fcitx/instance.cpp:372
 #, c++-format
 msgid "Group {}"
 msgstr "分组 {}"
@@ -1303,8 +1303,8 @@ msgstr ""
 msgid "Image"
 msgstr "图片"
 
-#: src/im/keyboard/keyboard.cpp:717 src/lib/fcitx/instance.cpp:466
-#: src/lib/fcitx/instance.cpp:695 src/lib/fcitx/instance.cpp:864
+#: src/im/keyboard/keyboard.cpp:718 src/lib/fcitx/instance.cpp:461
+#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
@@ -1382,7 +1382,7 @@ msgstr ""
 "如果您的混成器完全支持 ${1} 使用的 text-input 协议，您也可以使用 ${1} 内置的 "
 "Wayland 模块。"
 
-#: src/modules/wayland/waylandmodule.cpp:690
+#: src/modules/wayland/waylandmodule.cpp:692
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1398,7 +1398,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 输入法面板"
 
-#: src/ui/classic/classicui.cpp:302
+#: src/ui/classic/classicui.cpp:301
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (实验性)"
 
@@ -1430,16 +1430,16 @@ msgstr "对 V2 协议保持虚拟键盘对象 (需要重启)"
 msgid "Key"
 msgstr "按键"
 
-#: src/im/keyboard/keyboard.cpp:340 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:341 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:258
+#: src/im/keyboard/keyboard.cpp:259
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:276
+#: src/im/keyboard/keyboard.cpp:277
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
@@ -2026,7 +2026,7 @@ msgstr "数字锁定"
 msgid "Number of entries"
 msgstr "项目个数"
 
-#: src/im/keyboard/keyboard.cpp:703
+#: src/im/keyboard/keyboard.cpp:704
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2150,15 +2150,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:864
+#: src/lib/fcitx/instance.cpp:859
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:866
+#: src/lib/fcitx/instance.cpp:861
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:865
+#: src/lib/fcitx/instance.cpp:860
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -2347,7 +2347,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/modules/wayland/waylandmodule.cpp:724
+#: src/modules/wayland/waylandmodule.cpp:726
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2362,7 +2362,7 @@ msgstr "分隔符背景"
 
 #: src/modules/xcb/xcbmodule.h:69
 msgid "Set client disconnect mode to terminate (Need Restart)"
-msgstr ""
+msgstr "设置客户端断开连接模式为终止 (需要重启生效)"
 
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
@@ -2508,17 +2508,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:467 src/lib/fcitx/instance.cpp:696
+#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
 #: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "切换分组"
 
-#: src/lib/fcitx/instance.cpp:468 src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:697
+#: src/lib/fcitx/instance.cpp:692
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
@@ -2586,7 +2586,7 @@ msgstr "主题"
 msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
-msgstr ""
+msgstr "允许按需启动 XWayland 的混成器的 XWayland 自动终止"
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -2862,7 +2862,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:625
+#: src/modules/wayland/waylandmodule.cpp:627
 msgid "Wayland Diagnose"
 msgstr "Wayland 诊断"
 
@@ -3000,6 +3000,8 @@ msgid ""
 "found. The package name of the configuration tool is usually fcitx5-"
 "configtool. Now it will open the configuration directory."
 msgstr ""
+"您正在图形界面下运行 Fcitx 5，但是 fcitx-config-qt 未被找到。该软件包名称通常"
+"为 fcitx5-configtool。现在将打开配置目录。"
 
 #: data/fcitx5-configtool.sh:138
 msgid ""
@@ -3008,6 +3010,8 @@ msgid ""
 "kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration "
 "directory."
 msgstr ""
+"您正在使用 KDE，但是 fcitx5 的配置工具未被找到。对应的软件包名称通常是 kcm-"
+"fcitx5、kde-config-fcitx5 或 fcitx5-configtool。现在将打开配置目录。"
 
 #: data/fcitx5-configtool.sh:141
 msgid ""
@@ -3016,6 +3020,8 @@ msgid ""
 "tool is usually ukui-control-center, or fcitx5-configtool. Now it will open "
 "the configuration directory."
 msgstr ""
+"您正在使用 UKUI 桌面环境，但是 fcitx5 的配置工具未被找到。对应的软件包名称通"
+"常是ukui-control-center 或者 fcitx5-configtool。现在将打开配置目录。"
 
 #: data/fcitx5-diagnose.sh:1085
 msgid ""
@@ -3079,17 +3085,17 @@ msgstr "sudo 的环境变量"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:317
+#: src/im/keyboard/keyboard.cpp:318
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:426
+#: src/lib/fcitx/instance.cpp:421
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:423
+#: src/lib/fcitx/instance.cpp:418
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
