@@ -92,8 +92,8 @@ FCITXUTILS_EXPORT UniqueFilePtr openFD(UnixFD &fd, const char *modes);
  * \see openUnixFD
  * \since 5.0.16
  */
-FCITXUTILS_EXPORT UniqueFilePtr openFD(StandardPathFile &file,
-                                       const char *modes);
+FCITXUTILS_DEPRECATED_EXPORT UniqueFilePtr openFD(StandardPathFile &file,
+                                                  const char *modes);
 } // namespace fs
 } // namespace fcitx
 

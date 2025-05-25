@@ -46,6 +46,7 @@ list(APPEND FCITX_UTILS_SOURCES
     eventdispatcher.cpp
     library.cpp
     fs.cpp
+    fs_deprecated.cpp
     standardpath.cpp
     unixfd.cpp
     utf8.cpp
@@ -63,6 +64,11 @@ list(APPEND FCITX_UTILS_SOURCES
     fdstreambuf.cpp
     standardpaths.cpp
     )
+
+if(HAVE_NO_DEPRECATED_DECLARATIONS)
+    set_source_files_properties(fs_deprecated.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
+    set_source_files_properties(standardpath.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
+endif()
 
 set(FCITX_UTILS_HEADERS
     macros.h

@@ -37,6 +37,10 @@ set(FCITX_UTILS_DBUS_TEST
     testdbus
     testservicewatcher)
 
+if(HAVE_NO_DEPRECATED_DECLARATIONS)
+    set_source_files_properties(teststandardpath.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
+endif()
+
 set(testdbus_LIBS Pthread::Pthread)
 set(testeventdispatcher_LIBS Pthread::Pthread)
 set(testevent_LIBS eventlooptests)

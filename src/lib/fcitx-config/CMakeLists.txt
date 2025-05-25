@@ -4,7 +4,12 @@ set(FCITX_CONFIG_SOURCES
     configuration.cpp
     marshallfunction.cpp
     iniparser.cpp
+    iniparser_deprecated.cpp
     )
+
+if(HAVE_NO_DEPRECATED_DECLARATIONS)
+    set_source_files_properties(iniparser_deprecated.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations")
+endif()
 
 set(FCITX_CONFIG_HEADERS
     rawconfig.h

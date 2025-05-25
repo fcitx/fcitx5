@@ -90,15 +90,14 @@ NotFilter<T> Not(T t) {
 }
 
 /// \brief Filter class that filters based on user file.
-struct FCITXUTILS_EXPORT User {
+struct FCITXUTILS_DEPRECATED_EXPORT User{
     bool operator()(const std::string & /*unused*/,
-                    const std::string & /*unused*/, bool isUser) {
-        return isUser;
-    }
-};
+                    const std::string & /*unused*/, bool isUser){return isUser;
+} // namespace filter
+}; // namespace fcitx
 
 /// \brief Filter class that filters file based on prefix
-struct FCITXUTILS_EXPORT Prefix {
+struct FCITXUTILS_DEPRECATED_EXPORT Prefix {
     Prefix(const std::string &prefix_) : prefix(prefix_) {}
 
     bool operator()(const std::string &path, const std::string & /*unused*/,
@@ -110,7 +109,7 @@ struct FCITXUTILS_EXPORT Prefix {
 };
 
 /// \brief Filter class that filters file based on suffix
-struct FCITXUTILS_EXPORT Suffix {
+struct FCITXUTILS_DEPRECATED_EXPORT Suffix {
     Suffix(const std::string &suffix_) : suffix(suffix_) {}
 
     bool operator()(const std::string &path, const std::string & /*unused*/,
@@ -124,7 +123,7 @@ struct FCITXUTILS_EXPORT Suffix {
 
 /// \brief File descriptor wrapper that handles file descriptor and rename
 /// automatically.
-class FCITXUTILS_EXPORT StandardPathTempFile {
+class FCITXUTILS_DEPRECATED_EXPORT StandardPathTempFile {
 public:
     StandardPathTempFile(int fd = -1, const std::string &realFile = {},
                          const std::string &tempPath = {})
@@ -150,7 +149,7 @@ private:
 
 /// \brief Utility class that wraps around UnixFD. It also contains the actual
 /// file name information.
-class FCITXUTILS_EXPORT StandardPathFile {
+class FCITXUTILS_DEPRECATED_EXPORT StandardPathFile {
 public:
     StandardPathFile(int fd = -1, const std::string &path = {})
         : fd_(UnixFD::own(fd)), path_(path) {}
@@ -178,7 +177,7 @@ using StandardPathFilesMap =
     std::map<std::string, std::vector<StandardPathFile>>;
 
 /// \brief Utility class to open, locate, list files based on XDG standard.
-class FCITXUTILS_EXPORT StandardPath {
+class FCITXUTILS_DEPRECATED_EXPORT StandardPath {
 public:
     /// \brief Enum for location type.
     enum class Type {

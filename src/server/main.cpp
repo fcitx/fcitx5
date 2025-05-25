@@ -5,8 +5,8 @@
  *
  */
 
-#include <locale.h>
 #include <sys/stat.h>
+#include <clocale>
 #include <cstdio>
 #include <cstdlib>
 #include <exception>

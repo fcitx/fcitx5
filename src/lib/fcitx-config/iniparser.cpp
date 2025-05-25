@@ -13,11 +13,9 @@
 #include <ostream>
 #include <string>
 #include <string_view>
-#include "fcitx-config/fcitxconfig_export.h"
 #include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
-#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
@@ -194,43 +192,6 @@ bool safeSaveAsIni(const Configuration &configuration, StandardPathsType type,
 
     configuration.save(config);
     return safeSaveAsIni(config, type, path);
-}
-
-FCITXCONFIG_DEPRECATED_EXPORT void readAsIni(RawConfig &rawConfig,
-                                             StandardPath::Type type,
-                                             const std::string &path) {
-    const auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(type, path, O_RDONLY);
-    readFromIni(rawConfig, file.fd());
-}
-
-FCITXCONFIG_DEPRECATED_EXPORT void readAsIni(Configuration &configuration,
-                                             StandardPath::Type type,
-                                             const std::string &path) {
-    RawConfig config;
-    const auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(type, path, O_RDONLY);
-    readFromIni(config, file.fd());
-    configuration.load(config);
-}
-
-FCITXCONFIG_DEPRECATED_EXPORT bool safeSaveAsIni(const RawConfig &config,
-                                                 StandardPath::Type type,
-                                                 const std::string &path) {
-    const auto &standardPath = StandardPath::global();
-    return standardPath.safeSave(
-        type, path, [&config](int fd) { return writeAsIni(config, fd); });
-}
-
-FCITXCONFIG_DEPRECATED_EXPORT bool
-safeSaveAsIni(const Configuration &configuration, StandardPath::Type type,
-              const std::string &path) {
-    RawConfig config;
-
-    configuration.save(config);
-    const auto &standardPath = StandardPath::global();
-    return standardPath.safeSave(
-        type, path, [&config](int fd) { return writeAsIni(config, fd); });
 }
 
 } // namespace fcitx

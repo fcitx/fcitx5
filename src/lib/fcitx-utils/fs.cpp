@@ -20,10 +20,9 @@
 #include <string>
 #include <string_view>
 #include <system_error>
-#include <fcitx-utils/fcitxutils_export.h>
 #include "misc.h"
-#include "standardpath.h"
 #include "stringutils.h"
+#include "unixfd.h"
 #include "utf8.h" // IWYU pragma: keep
 
 #ifdef _WIN32
@@ -178,10 +177,6 @@ std::string cleanPath(const std::string &path) {
     return buf;
 }
 
-FCITXUTILS_DEPRECATED_EXPORT bool makePath(const std::string &path) {
-    return makePath(std::filesystem::path(path));
-}
-
 bool makePath(const std::filesystem::path &path) {
     std::error_code ec;
     if (std::filesystem::is_directory(path, ec)) {
@@ -216,10 +211,6 @@ std::string dirName(const std::string &path) {
         result = ".";
     }
     return result;
-}
-
-FCITXUTILS_DEPRECATED_EXPORT std::string baseName(const std::string &path) {
-    return baseName(std::string_view(path));
 }
 
 std::string baseName(std::string_view path) {
@@ -278,10 +269,6 @@ std::optional<std::string> readlink(const std::string &path) {
     return std::nullopt;
 }
 
-FCITXUTILS_DEPRECATED_EXPORT int64_t modifiedTime(const std::string &path) {
-    return modifiedTime(std::filesystem::path(path));
-}
-
 int64_t modifiedTime(const std::filesystem::path &path) {
     std::error_code ec;
     auto time = std::filesystem::last_write_time(path, ec);
@@ -293,8 +280,7 @@ int64_t modifiedTime(const std::filesystem::path &path) {
     return timeInSeconds.time_since_epoch().count();
 }
 
-template <typename FDLike>
-UniqueFilePtr openFDImpl(FDLike &fd, const char *modes) {
+UniqueFilePtr openFD(UnixFD &fd, const char *modes) {
     if (!fd.isValid()) {
         return nullptr;
     }
@@ -303,14 +289,6 @@ UniqueFilePtr openFDImpl(FDLike &fd, const char *modes) {
         fd.release();
     }
     return file;
-}
-
-UniqueFilePtr openFD(UnixFD &fd, const char *modes) {
-    return openFDImpl(fd, modes);
-}
-
-UniqueFilePtr openFD(StandardPathFile &file, const char *modes) {
-    return openFDImpl(file, modes);
 }
 
 } // namespace fcitx::fs
