@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <ranges>
 #include "environ.h"
 #include "standardpaths.h"
 #include "stringutils.h"
@@ -45,10 +46,17 @@ void setupTestingEnvironmentPath(
             fullAddonDirs.push_back(testBinaryDir / addonDir);
         }
     }
+    // Add built-in path for testing addons.
     fullAddonDirs.push_back(StandardPaths::fcitxPath("addondir"));
 
-    setEnvironment("FCITX_ADDON_DIRS",
-                   stringutils::join(fullAddonDirs, ":").data());
+    setEnvironment(
+        "FCITX_ADDON_DIRS",
+        stringutils::join(fullAddonDirs |
+                              std::views::transform([](const auto &path) {
+                                  return path.string();
+                              }),
+                          ":")
+            .data());
     // Make sure we don't write to user data.
     setEnvironment("FCITX_DATA_HOME", "/Invalid/Path");
     // Make sure we don't write to user data.
@@ -68,8 +76,14 @@ void setupTestingEnvironmentPath(
     }
     // Include the three testing only addons.
     fullDataDirs.push_back(StandardPaths::fcitxPath("pkgdatadir", "testing"));
-    setEnvironment("FCITX_DATA_DIRS",
-                   stringutils::join(fullDataDirs, ":").data());
+    setEnvironment(
+        "FCITX_DATA_DIRS",
+        stringutils::join(fullDataDirs |
+                              std::views::transform([](const auto &path) {
+                                  return path.string();
+                              }),
+                          ":")
+            .data());
 }
 
 } // namespace fcitx
