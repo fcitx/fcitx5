@@ -6,13 +6,16 @@
 #include <system_error>
 #include <utility>
 #include <wayland-cursor.h>
-#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/environ.h"
 #include "fcitx-utils/misc_p.h"
-#include "dbus_public.h"
-#include "portalsettingmonitor.h"
 #include "waylandui.h"
 #include "wl_shm.h"
+
+#ifdef ENABLE_DBUS
+#include "fcitx-utils/dbus/variant.h"
+#include "dbus_public.h"
+#include "portalsettingmonitor.h"
+#endif
 
 namespace fcitx::classicui {
 

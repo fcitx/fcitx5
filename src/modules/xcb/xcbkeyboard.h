@@ -7,11 +7,17 @@
 #ifndef _FCITX_MODULES_XCB_XCBKEYBOARD_H_
 #define _FCITX_MODULES_XCB_XCBKEYBOARD_H_
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
 #include <xcb/xcb.h>
+#include <xcb/xproto.h>
 #include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx/instance.h"
 #include "xcb_public.h"
 
 namespace fcitx {
