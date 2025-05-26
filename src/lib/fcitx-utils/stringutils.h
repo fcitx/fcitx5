@@ -105,7 +105,7 @@ FCITXUTILS_EXPORT size_t backwardSearch(const std::string &haystack,
 
 /// \brief Join a range of string with delim.
 template <typename Iter, typename T>
-FCITXUTILS_EXPORT std::string join(Iter start, Iter end, T &&delim) {
+inline std::string join(Iter start, Iter end, T &&delim) {
     std::string result;
     if (start != end) {
         result += (*start);

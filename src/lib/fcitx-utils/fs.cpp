@@ -35,8 +35,7 @@ namespace {
 
 int makeDir(const std::filesystem::path &name) {
 #ifdef _WIN32
-    const auto path = utf8::UTF8ToUTF16(name);
-    return ::_wmkdir(path.data());
+    return ::_wmkdir(name.c_str());
 #else
     return ::mkdir(name.c_str(), 0777);
 #endif

@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  check-windows:
+    runs-on: windows-2025
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          C:/msys64/usr/bin/pacman -Syu --noconfirm
+          C:/msys64/usr/bin/pacman -S --noconfirm `
+            mingw-w64-clang-x86_64-extra-cmake-modules `
+            mingw-w64-clang-x86_64-dlfcn `
+            mingw-w64-clang-x86_64-libuv `
+            mingw-w64-clang-x86_64-clang `
+            mingw-w64-clang-x86_64-cmake `
+            mingw-w64-clang-x86_64-ninja `
+            mingw-w64-clang-x86_64-pkgconf `
+            mingw-w64-clang-x86_64-gettext-tools
+          Add-Content $env:GITHUB_PATH "C:/msys64/clang64/bin"
+
+      - name: Build
+        uses: fcitx/github-actions@cmake
+        with:
+          path: .
+          cmake-option: >-
+            -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_SERVER=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_LIBUUID=Off -DENABLE_KEYBOARD=Off
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3

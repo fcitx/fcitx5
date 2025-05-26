@@ -213,7 +213,7 @@ public:
         if (!pathOrig.has_filename() || skipUserPath_) {
             return {};
         }
-        std::string fullPathOrig;
+        std::filesystem::path fullPathOrig;
         if (pathOrig.is_absolute()) {
             fullPathOrig = pathOrig;
         } else {
@@ -526,9 +526,8 @@ bool StandardPaths::safeSave(StandardPathsType type,
         if (callback(file.fd())) {
             // sync first.
 #ifdef _WIN32
-            auto wfile = utf8::UTF8ToUTF16(file.tempPath());
-            ::_wchmod(wfile.data(), 0666 & ~(d->umask()));
-            _commit(fd_.fd());
+            ::_wchmod(path.c_str(), 0666 & ~(d->umask()));
+            _commit(file.fd());
 #else
             // close it
             fchmod(file.fd(), 0666 & ~(d->umask()));
@@ -541,7 +540,11 @@ bool StandardPaths::safeSave(StandardPathsType type,
     } catch (const std::exception &e) {
         FCITX_ERROR() << "Failed to write file: " << fullPathOrig << e.what();
     }
+#ifdef _WIN32
+    _wunlink(path.c_str());
+#else
     unlink(path.c_str());
+#endif
     return false;
 }
 
