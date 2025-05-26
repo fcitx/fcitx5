@@ -152,7 +152,7 @@ FCITXUTILS_EXPORT bool isInFlatpak();
  *
  * @since 5.1.2
  */
-FCITXUTILS_EXPORT constexpr inline bool isAndroid() {
+constexpr bool isAndroid() {
 #if defined(ANDROID) || defined(__ANDROID__)
     return true;
 #else
@@ -165,7 +165,7 @@ FCITXUTILS_EXPORT constexpr inline bool isAndroid() {
  *
  * @since 5.1.7
  */
-FCITXUTILS_EXPORT constexpr inline bool isApple() {
+constexpr bool isApple() {
 #if defined(__APPLE__)
     return true;
 #else
@@ -178,7 +178,7 @@ FCITXUTILS_EXPORT constexpr inline bool isApple() {
  *
  * @since 5.1.12
  */
-FCITXUTILS_EXPORT constexpr inline bool isEmscripten() {
+constexpr bool isEmscripten() {
 #if defined(__EMSCRIPTEN__)
     return true;
 #else
@@ -187,11 +187,11 @@ FCITXUTILS_EXPORT constexpr inline bool isEmscripten() {
 }
 
 /**
- * Util function that returns whether it is compile against emscripten.
+ * Util function that returns whether it is compile against Windows.
  *
  * @since 5.1.13
  */
-FCITXUTILS_EXPORT constexpr inline bool isWindows() {
+constexpr bool isWindows() {
 #if defined(_WIN32)
     return true;
 #else
