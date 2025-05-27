@@ -11,6 +11,7 @@ on:
 
 jobs:
   check-windows:
+    name: Build on Windows
     runs-on: windows-2025
     strategy:
       fail-fast: false

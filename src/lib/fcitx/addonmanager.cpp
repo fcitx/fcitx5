@@ -22,7 +22,6 @@
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/semver.h"
 #include "fcitx-utils/standardpaths.h"
-#include "fcitx-utils/unixfd.h"
 #include "addoninfo.h"
 #include "addoninstance.h"
 #include "addoninstance_p.h"
@@ -278,8 +277,7 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
         }
 
         RawConfig config;
-        UnixFD fd = UnixFD::own(open(fullName.c_str(), O_RDONLY));
-        readFromIni(config, fd.fd());
+        readAsIni(config, StandardPathsType::PkgData, fullName);
 
         // override configuration
         auto addon = std::make_unique<Addon>(name, config);

@@ -207,7 +207,7 @@ public:
 #ifdef _WIN32
         FCITX_UNUSED(filename);
 #else
-        auto fd = UnixFD::own(open(filename.string().c_str(), O_RDONLY));
+        auto fd = StandardPaths::openPath(filename);
         if (!fd.isValid()) {
             return;
         }
@@ -745,7 +745,7 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
         readFromIni(config, file.fd());
     }
     auto path = d->home_ / ".icons" / name / "index.theme";
-    auto fd = UnixFD::own(open(path.c_str(), O_RDONLY));
+    auto fd = StandardPaths::openPath(path);
     if (fd.fd() >= 0) {
         readFromIni(config, fd.fd());
     }
@@ -774,8 +774,8 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
         readFromIni(config, file.fd());
     }
     auto path = d->home_ / ".icons" / name / "index.theme";
-    auto fd = UnixFD::own(open(path.string().c_str(), O_RDONLY));
-    if (fd.fd() >= 0) {
+    auto fd = StandardPaths::openPath(path);
+    if (fd.isValid()) {
         readFromIni(config, fd.fd());
     }
 
@@ -884,7 +884,7 @@ std::string IconTheme::defaultIconThemeName() {
                 std::filesystem::path(*home) / ".kde/share/config/kdeglobals",
                 "/etc/kde4/kdeglobals"};
             for (auto &file : files) {
-                auto fd = UnixFD::own(open(file.c_str(), O_RDONLY));
+                auto fd = StandardPaths::openPath(file);
                 auto theme = getKdeTheme(fd.fd());
                 if (!theme.empty()) {
                     return theme;

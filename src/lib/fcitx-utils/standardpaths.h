@@ -143,6 +143,9 @@ public:
                 StandardPathsModes modes = StandardPathsMode::Default,
                 std::filesystem::path *outPath = nullptr) const;
 
+    /** \brief Open the path for read. */
+    static UnixFD openPath(const std::filesystem::path &path);
+
     /** \brief Open the all matched and file for read.
      */
     std::vector<UnixFD>

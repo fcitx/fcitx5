@@ -63,7 +63,7 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
         if (disableFiles.contains(path)) {
             continue;
         }
-        UnixFD fd = UnixFD::own(open(p.second.c_str(), O_RDONLY));
+        UnixFD fd = StandardPaths::openPath(p.second);
         if (fd.isValid()) {
             load(fd.fd());
         }

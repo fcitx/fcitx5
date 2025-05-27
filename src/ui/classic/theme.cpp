@@ -277,7 +277,7 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
     if (!preferTextIcon && !icon.empty()) {
         std::filesystem::path iconPath =
             iconTheme.findIconPath(icon, size, 1, gdkPixbufSupportedFormats());
-        auto fd = UnixFD::own(open(iconPath.c_str(), O_RDONLY));
+        auto fd = StandardPaths::openPath(iconPath);
         image_.reset(loadImage(fd, iconPath));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {

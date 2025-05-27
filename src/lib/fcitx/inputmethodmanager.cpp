@@ -176,7 +176,7 @@ void InputMethodManagerPrivate::loadStaticEntries(
             continue;
         }
         RawConfig config;
-        UnixFD fd = UnixFD::own(open(fullName.c_str(), O_RDONLY));
+        UnixFD fd = StandardPaths::openPath(fullName);
         readFromIni(config, fd.fd());
 
         InputMethodInfo imInfo;
