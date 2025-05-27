@@ -9,10 +9,13 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 * Wiki: [https://fcitx-im.org/](https://fcitx-im.org/)
   - Registration require explicit approval due to the spam, please send an email to the mail list if you do not get approved.
 * Discussion:
-  - [fcitx [at] googlegroups.com](https://groups.google.com/g/fcitx)
-  - [https://github.com/fcitx/fcitx5/discussions](https://github.com/fcitx/fcitx5/discussions)
+  - Email: [fcitx [at] googlegroups.com](https://groups.google.com/g/fcitx)
+  - Github Discussions: [https://github.com/fcitx/fcitx5/discussions](https://github.com/fcitx/fcitx5/discussions)
+* Chat Group:
+  - Following methods are all bridged together, you can pick any that works.
   - Telegram: https://fcitx-im.org/telegram/captcha.html
   - IRC: [#fcitx [at] libera.chat](https://web.libera.chat/?channels=#fcitx)
+  - Matrix: fcitx on matrix.org
 * Bug report: [https://github.com/fcitx/fcitx5/issues](https://github.com/fcitx/fcitx5/issues)
   - You can always report any fcitx 5 issue here, it might be transfer to other repos later.
 * Translation: [https://explore.transifex.com/fcitx/](https://explore.transifex.com/fcitx/)
