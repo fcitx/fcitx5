@@ -1938,7 +1938,8 @@ std::string Instance::addonForInputMethod(const std::string &imName) {
 }
 
 void Instance::configure() {
-    startProcess({StandardPaths::fcitxPath("bindir", "fcitx5-configtool")});
+    startProcess(
+        {StandardPaths::fcitxPath("bindir", "fcitx5-configtool").string()});
 }
 
 void Instance::configureAddon(const std::string &) {}
