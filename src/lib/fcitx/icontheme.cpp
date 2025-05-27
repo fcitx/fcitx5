@@ -545,7 +545,8 @@ public:
                 const IconThemeDirectory &directory,
                 std::filesystem::path baseDir) -> std::filesystem::path {
             baseDir = baseDir / directory.path();
-            if (!fs::isdir(baseDir)) {
+            std::error_code ec;
+            if (!std::filesystem::is_directory(baseDir, ec)) {
                 return {};
             }
 
@@ -592,7 +593,7 @@ public:
         }
 
         auto minSize = std::numeric_limits<int>::max();
-        std::string closestFilename;
+        std::filesystem::path closestFilename;
 
         for (const auto &baseDir : baseDirs_) {
             bool hasCache = false;
@@ -646,9 +647,10 @@ public:
             std::visit(
                 VariantOverload{
                     [&](const StandardPath &sppath) {
-                        path = sppath.locate(StandardPath::Type::Data,
-                                             std::filesystem::path("icons") /
-                                                 (iconname + ext));
+                        path = sppath.locate(
+                            StandardPath::Type::Data,
+                            (std::filesystem::path("icons") / (iconname + ext))
+                                .string());
                     },
                     [&](const StandardPaths &sppath) {
                         path = sppath.locate(StandardPathsType::Data,
@@ -665,7 +667,8 @@ public:
     }
 
     void addBaseDir(const std::filesystem::path &path) {
-        if (!fs::isdir(path)) {
+        std::error_code ec;
+        if (!std::filesystem::is_directory(path, ec)) {
             return;
         }
         baseDirs_.emplace_back(
@@ -738,7 +741,8 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
     FCITX_D();
     auto files = standardPath.openAll(
         StandardPath::Type::Data,
-        std::filesystem::path("icons") / name / "index.theme", O_RDONLY);
+        (std::filesystem::path("icons") / name / "index.theme").string(),
+        O_RDONLY);
 
     RawConfig config;
     for (auto &file : files | std::views::reverse) {
@@ -805,15 +809,16 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
 std::string IconTheme::findIcon(const std::string &iconName,
                                 unsigned int desiredSize, int scale,
                                 const std::vector<std::string> &extensions) {
-    return std::as_const(*this).findIconPath(iconName, desiredSize, scale,
-                                             extensions);
+    return std::as_const(*this)
+        .findIconPath(iconName, desiredSize, scale, extensions)
+        .string();
 }
 
 std::string
 IconTheme::findIcon(const std::string &iconName, unsigned int desiredSize,
                     int scale,
                     const std::vector<std::string> &extensions) const {
-    return findIconPath(iconName, desiredSize, scale, extensions);
+    return findIconPath(iconName, desiredSize, scale, extensions).string();
 }
 
 std::filesystem::path
