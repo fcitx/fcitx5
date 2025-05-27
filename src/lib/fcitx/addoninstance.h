@@ -163,6 +163,12 @@ private:
 };
 } // namespace fcitx
 
+#if defined(_WIN32)
+#define FCITX_ADDON_EXPORT __declspec(dllexport)
+#else
+#define FCITX_ADDON_EXPORT __attribute__((visibility("default")))
+#endif
+
 #define FCITX_ADDON_DECLARE_FUNCTION(NAME, FUNCTION, SIGNATURE...)             \
     namespace fcitx {                                                          \
     template <>                                                                \
@@ -194,7 +200,7 @@ private:
 
 #define FCITX_ADDON_FACTORY(ClassName)                                         \
     extern "C" {                                                               \
-    FCITXCORE_EXPORT ::fcitx::AddonFactory *fcitx_addon_factory_instance() {   \
+    FCITX_ADDON_EXPORT ::fcitx::AddonFactory *fcitx_addon_factory_instance() { \
         static ClassName factory;                                              \
         return &factory;                                                       \
     }                                                                          \
@@ -202,7 +208,7 @@ private:
 
 #define FCITX_ADDON_FACTORY_V2(AddonName, ClassName)                           \
     extern "C" {                                                               \
-    FCITXCORE_EXPORT ::fcitx::AddonFactory *                                   \
+    FCITX_ADDON_EXPORT ::fcitx::AddonFactory *                                 \
         fcitx_addon_factory_instance_##AddonName() {                           \
         static ClassName factory;                                              \
         return &factory;                                                       \

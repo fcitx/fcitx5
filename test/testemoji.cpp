@@ -37,7 +37,7 @@ int main() {
                                        pathfilter::extension(".dict"));
     // Check if all languages are loadable.
     for (const auto &[name, __] : files) {
-        std::string lang = name.stem();
+        std::string lang = name.stem().string();
         FCITX_ASSERT(emoji->call<IEmoji::check>(lang, false))
             << "Failed to load " << lang;
     }
