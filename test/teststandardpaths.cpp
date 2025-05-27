@@ -45,9 +45,9 @@ void test_basic() {
     {
         auto result = standardPaths.locate(StandardPathsType::PkgData, "addon",
                                            pathfilter::extension(".conf"));
-        std::set<std::string> names;
-        std::set<std::string> expect_names = {"testim.conf",
-                                              "testfrontend.conf"};
+        std::set<std::filesystem::path> names;
+        std::set<std::filesystem::path> expect_names = {"testim.conf",
+                                                        "testfrontend.conf"};
         for (auto &p : result) {
             names.insert(p.first);
         }
@@ -59,9 +59,9 @@ void test_basic() {
         auto result = standardPaths.locate(StandardPathsType::PkgData, "addon",
                                            pathfilter::extension(".conf"),
                                            StandardPathsMode::System);
-        std::set<std::string> names;
-        std::set<std::string> expect_names = {"testim.conf",
-                                              "testfrontend.conf"};
+        std::set<std::filesystem::path> names;
+        std::set<std::filesystem::path> expect_names = {"testim.conf",
+                                                        "testfrontend.conf"};
         for (auto &p : result) {
             names.insert(p.first);
         }

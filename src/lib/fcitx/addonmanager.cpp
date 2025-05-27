@@ -267,7 +267,7 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
     bool disableAll = disabled.contains("all");
     for (const auto &[fileName, fullName] : fileNames) {
         // remove .conf
-        std::string name = fileName.stem();
+        std::string name = fileName.stem().string();
         if (name == "core") {
             FCITX_ERROR() << "\"core\" is not a valid addon name.";
             continue;
