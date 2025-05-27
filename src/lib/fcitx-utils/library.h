@@ -37,6 +37,7 @@ class LibraryPrivate;
 class FCITXUTILS_EXPORT Library {
 public:
     explicit Library(const std::string &path);
+    explicit Library(const char *path);
     explicit Library(const std::filesystem::path &path = {});
     FCITX_DECLARE_VIRTUAL_DTOR_MOVE(Library);
 

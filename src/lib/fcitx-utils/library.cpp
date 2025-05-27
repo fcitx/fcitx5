@@ -76,6 +76,8 @@ public:
 Library::Library(const std::string &path)
     : Library(std::filesystem::path(path)) {}
 
+Library::Library(const char *path) : Library(std::filesystem::path(path)) {}
+
 Library::Library(const std::filesystem::path &path)
     : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
 
@@ -235,5 +237,4 @@ const std::filesystem::path &Library::fspath() const {
     FCITX_D();
     return d->path_;
 }
-
 } // namespace fcitx
