@@ -6,17 +6,22 @@
  */
 
 #include <string.h>
-#include "fcitx-utils/fcitxutils_export.h"
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/log.h"
 
 #define DATA "AAAAAAAAA"
 #define MAGIC "MAGIC_TEST_DATA"
 
-extern "C" {
-FCITXUTILS_EXPORT char magic_test[] = MAGIC DATA;
+#if defined(_WIN32)
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT __attribute__((visibility("default")))
+#endif
 
-FCITXUTILS_EXPORT int func() { return 0; }
+extern "C" {
+MY_EXPORT char magic_test[] = MAGIC DATA;
+
+MY_EXPORT int func() { return 0; }
 }
 
 void parser(const char *data) { FCITX_ASSERT(strcmp(data, DATA) == 0); }
