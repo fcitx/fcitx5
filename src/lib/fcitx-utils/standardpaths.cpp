@@ -36,14 +36,15 @@
 #include <vector>
 #include <ranges>
 #include <span>
-#include "fcitx-utils/unixfd.h"
 #include "config.h" // IWYU pragma: keep
 #include "environ.h"
 #include "fs.h"
 #include "log.h"
 #include "macros.h"
+#include "misc.h"
 #include "misc_p.h"
 #include "stringutils.h"
+#include "unixfd.h"
 
 #ifndef O_ACCMODE
 #define O_ACCMODE (O_RDONLY | O_WRONLY | O_RDWR)
@@ -83,6 +84,35 @@ std::filesystem::path symlinkTarget(const std::filesystem::path &path) {
         return fullPath;
     }
     return path;
+}
+
+constexpr std::string_view envListSeparator = isWindows() ? ";" : ":";
+
+std::vector<std::filesystem::path> pathFromEnvironment() {
+    std::string sEnv;
+    if (auto pEnv = getEnvironment("PATH")) {
+        sEnv = std::move(*pEnv);
+    } else {
+#if defined(_PATH_DEFPATH)
+        sEnv = _PATH_DEFPATH;
+#elif defined(_CS_PATH)
+        size_t n = confstr(_CS_PATH, nullptr, 0);
+        if (n) {
+            std::vector<char> data;
+            data.resize(n + 1);
+            confstr(_CS_PATH, data.data(), data.size());
+            data.push_back('\0');
+            sEnv = data.data();
+        }
+#endif
+    }
+    auto paths = stringutils::split(sEnv, envListSeparator);
+    std::vector<std::filesystem::path> result;
+    result.reserve(paths.size());
+    for (auto &path : paths) {
+        result.push_back(path);
+    }
+    return result;
 }
 
 } // namespace
@@ -381,9 +411,23 @@ StandardPaths::fcitxPath(const char *path,
     return {};
 }
 
+std::filesystem::path
+StandardPaths::findExecutable(const std::filesystem::path &name) {
+    if (name.is_absolute()) {
+        return fs::isexe(name.string()) ? name : std::filesystem::path();
+    }
+
+    for (const auto &path : pathFromEnvironment()) {
+        auto fullPath = path / name;
+        if (fs::isexe(fullPath.string())) {
+            return fullPath;
+        }
+    }
+    return {};
+}
+
 bool StandardPaths::hasExecutable(const std::filesystem::path &name) {
-    // FIXME
-    return true;
+    return !findExecutable(name).empty();
 }
 
 const std::filesystem::path &

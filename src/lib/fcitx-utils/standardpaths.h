@@ -97,6 +97,9 @@ public:
     static std::filesystem::path
     fcitxPath(const char *path, const std::filesystem::path &subPath = {});
 
+    static std::filesystem::path
+    findExecutable(const std::filesystem::path &name);
+
     static bool hasExecutable(const std::filesystem::path &name);
 
     /**
