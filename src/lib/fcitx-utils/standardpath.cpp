@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <atomic>
+#include <cassert>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -21,6 +22,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -670,7 +672,7 @@ std::map<std::string, std::string> StandardPath::locateWithFilter(
     scanFiles(type, path,
               [&result, &filter](const std::string &path,
                                  const std::string &dir, bool isUser) {
-                  if (!result.count(path) && filter(path, dir, isUser)) {
+                  if (!result.contains(path) && filter(path, dir, isUser)) {
                       auto fullPath = constructPath(dir, path);
                       if (fs::isreg(fullPath)) {
                           result.emplace(path, std::move(fullPath));
@@ -691,7 +693,7 @@ StandardPathFileMap StandardPath::multiOpenFilter(
     scanFiles(type, path,
               [&result, flags, &filter](const std::string &path,
                                         const std::string &dir, bool isUser) {
-                  if (!result.count(path) && filter(path, dir, isUser)) {
+                  if (!result.contains(path) && filter(path, dir, isUser)) {
                       auto fullPath = constructPath(dir, path);
                       int fd = ::open(fullPath.c_str(), flags);
                       if (fd >= 0) {

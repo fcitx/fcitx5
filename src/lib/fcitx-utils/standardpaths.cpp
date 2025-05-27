@@ -13,7 +13,6 @@
 #include <algorithm>
 #include <atomic>
 #include <cassert>
-#include <chrono>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -37,6 +36,7 @@
 #include <vector>
 #include <ranges>
 #include <span>
+#include "fcitx-utils/unixfd.h"
 #include "config.h" // IWYU pragma: keep
 #include "environ.h"
 #include "fs.h"
@@ -474,18 +474,26 @@ UnixFD StandardPaths::open(StandardPathsType type,
                            std::filesystem::path *outPath) const {
     FCITX_D();
     UnixFD retFD;
-    d->scanDirectories(
-        type, path, modes, [&retFD, outPath](std::filesystem::path fullPath) {
-            retFD.give(::open(fullPath.string().c_str(), O_RDONLY));
-            if (!retFD.isValid()) {
-                return true;
-            }
-            if (outPath) {
-                *outPath = std::move(fullPath);
-            }
-            return false;
-        });
+    d->scanDirectories(type, path, modes,
+                       [&retFD, outPath](std::filesystem::path fullPath) {
+                           retFD = openPath(fullPath);
+                           if (!retFD.isValid()) {
+                               return true;
+                           }
+                           if (outPath) {
+                               *outPath = std::move(fullPath);
+                           }
+                           return false;
+                       });
     return retFD;
+}
+
+UnixFD StandardPaths::openPath(const std::filesystem::path &path) {
+#ifdef _WIN32
+    return UnixFD::own(::_wopen(path.c_str(), O_RDONLY));
+#else
+    return UnixFD::own(::open(path.c_str(), O_RDONLY));
+#endif
 }
 
 std::vector<UnixFD>
@@ -500,8 +508,7 @@ StandardPaths::openAll(StandardPathsType type,
     }
     d->scanDirectories(type, path, modes,
                        [&retFDs, outPaths](std::filesystem::path fullPath) {
-                           UnixFD fd;
-                           fd.give(::open(fullPath.string().c_str(), O_RDONLY));
+                           UnixFD fd = StandardPaths::openPath(fullPath);
                            if (!fd.isValid()) {
                                return true;
                            }

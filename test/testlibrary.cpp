@@ -22,7 +22,7 @@ FCITXUTILS_EXPORT int func() { return 0; }
 void parser(const char *data) { FCITX_ASSERT(strcmp(data, DATA) == 0); }
 
 int main() {
-    fcitx::Library lib("");
+    fcitx::Library lib;
     FCITX_ASSERT(lib.load(fcitx::LibraryLoadHint::DefaultHint));
     FCITX_ASSERT(func == lib.resolve("func"));
     FCITX_ASSERT(lib.findData("magic_test", MAGIC, strlen(MAGIC), parser));

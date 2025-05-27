@@ -13,14 +13,18 @@
 #include <cerrno>
 #include <cstdlib>
 #include <cstring>
+#include <filesystem>
 #include <functional>
 #include <memory>
 #include <string>
 #include <utility>
 #include "config.h"
+#include "flags.h"
 #include "macros.h"
 #include "misc.h"
+#include "standardpaths.h"
 #include "stringutils.h"
+#include "unixfd.h"
 
 #ifdef HAVE_SYS_MMAN_H
 #include <sys/mman.h>
@@ -40,7 +44,8 @@ constexpr bool hasRTLDNoDelete = false;
 
 class LibraryPrivate {
 public:
-    LibraryPrivate(std::string path) : path_(std::move(path)) {}
+    LibraryPrivate(std::filesystem::path path)
+        : path_(std::move(path)), pathStr_(path_.string()) {}
     ~LibraryPrivate() { unload(); }
 
     bool unload() {
@@ -61,14 +66,17 @@ public:
         handle_ = nullptr;
         return true;
     }
-
-    std::string path_;
+    const std::filesystem::path path_;
+    const std::string pathStr_;
     void *handle_ = nullptr;
     std::string error_;
     Flags<fcitx::LibraryLoadHint> loadFlag_;
 };
 
 Library::Library(const std::string &path)
+    : Library(std::filesystem::path(path)) {}
+
+Library::Library(const std::filesystem::path &path)
     : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
 
 FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(Library)
@@ -99,12 +107,13 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
     if (hint & LibraryLoadHint::NewNameSpace) {
         // allow dlopen self
         d->handle_ = dlmopen(
-            LM_ID_NEWLM, !d->path_.empty() ? d->path_.c_str() : nullptr, flag);
+            LM_ID_NEWLM,
+            !d->path_.empty() ? d->path_.string().c_str() : nullptr, flag);
     } else
 #endif
     {
-        d->handle_ =
-            dlopen(!d->path_.empty() ? d->path_.c_str() : nullptr, flag);
+        d->handle_ = dlopen(
+            !d->path_.empty() ? d->path_.string().c_str() : nullptr, flag);
     }
     if (!d->handle_) {
         d->error_ = dlerror();
@@ -153,8 +162,8 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         return true;
     }
 
-    int fd = open(d->path_.c_str(), O_RDONLY);
-    if (fd < 0) {
+    UnixFD fd = StandardPaths::openPath(d->path_);
+    if (!fd.isValid()) {
         d->error_ = strerror(errno);
         return false;
     }
@@ -163,14 +172,15 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
     bool result = false;
     do {
         struct stat statbuf;
-        int statresult = fstat(fd, &statbuf);
+        int statresult = fstat(fd.fd(), &statbuf);
         if (statresult < 0) {
             d->error_ = strerror(errno);
             break;
         }
         void *data = nullptr;
 #ifdef HAVE_SYS_MMAN_H
-        data = mmap(nullptr, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+        data =
+            mmap(nullptr, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd.fd(), 0);
         void *needunmap = nullptr;
         needunmap = data;
 #endif
@@ -180,7 +190,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
             if (!data) {
                 break;
             }
-            if (read(fd, data, statbuf.st_size) != statbuf.st_size) {
+            if (read(fd.fd(), data, statbuf.st_size) != statbuf.st_size) {
                 break;
             }
         }
@@ -200,8 +210,6 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
 #endif
     } while (false);
 
-    close(fd);
-
     return result;
 }
 
@@ -219,6 +227,11 @@ bool Library::isNewNamespaceSupported() {
 }
 
 const std::string &Library::path() const {
+    FCITX_D();
+    return d->pathStr_;
+}
+
+const std::filesystem::path &Library::fspath() const {
     FCITX_D();
     return d->path_;
 }
