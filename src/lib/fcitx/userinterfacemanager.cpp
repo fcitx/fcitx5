@@ -7,8 +7,8 @@
 
 #include "userinterfacemanager.h"
 #include <set>
-#include "fcitx/event.h"
 #include "action.h"
+#include "event.h"
 #include "inputcontext.h"
 #include "instance.h"
 #include "userinterface.h"

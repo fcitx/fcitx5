@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <string>
 #include "fcitx-utils/macros.h"
-#include "fcitx/addoninfo.h"
+#include "addoninfo.h"
 #include "addoninstance_p.h"
 
 namespace fcitx {

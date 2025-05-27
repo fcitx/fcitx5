@@ -19,7 +19,7 @@
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
 #include "fcitx-utils/misc.h"
-#include "fcitx/text.h"
+#include "text.h"
 
 namespace fcitx {
 

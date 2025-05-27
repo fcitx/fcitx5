@@ -5,7 +5,7 @@
  *
  */
 
-#include "fcitx/addonloader.h"
+#include "addonloader.h"
 #include <exception>
 #include <filesystem>
 #include <memory>
@@ -18,8 +18,8 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
-#include "fcitx/addoninfo.h"
-#include "fcitx/addoninstance.h"
+#include "addoninfo.h"
+#include "addoninstance.h"
 #include "addonloader_p.h"
 #include "config.h"
 

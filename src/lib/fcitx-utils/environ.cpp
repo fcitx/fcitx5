@@ -10,7 +10,6 @@
 #include <string>
 #include <string_view>
 #include <utility>
-#include "fcitx-utils/utf8.h"
 #include "stringutils.h"
 #include "utf8.h"
 

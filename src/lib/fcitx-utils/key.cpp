@@ -15,7 +15,6 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
-#include "fcitx-utils/keysym.h"
 #include "charutils.h"
 #include "i18n.h"
 #include "keydata.h"

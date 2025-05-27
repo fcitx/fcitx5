@@ -11,11 +11,11 @@
 #include <unordered_map>
 #include "fcitx-utils/intrusivelist.h"
 #include "fcitx-utils/log.h"
-#include "fcitx/misc_p.h"
 #include "focusgroup.h"
 #include "focusgroup_p.h"
 #include "inputcontext_p.h"
 #include "inputcontextproperty_p.h"
+#include "misc_p.h"
 
 namespace fcitx {
 

@@ -10,7 +10,7 @@
 #include <memory>
 #include <string>
 #include "fcitx-utils/macros.h"
-#include "fcitx/event.h"
+#include "event.h"
 #include "focusgroup_p.h"
 #include "inputcontext.h"
 #include "inputcontextmanager.h"
