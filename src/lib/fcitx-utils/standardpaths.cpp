@@ -11,7 +11,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <algorithm>
-#include <atomic>
 #include <cassert>
 #include <cstdint>
 #include <cstdio>
@@ -21,20 +20,15 @@
 #include <filesystem>
 #include <functional>
 #include <initializer_list>
-#include <iterator>
 #include <map>
 #include <memory>
 #include <optional>
-#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <system_error>
-#include <tuple>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <ranges>
 #include <span>
 #include "config.h" // IWYU pragma: keep
 #include "environ.h"
@@ -43,6 +37,7 @@
 #include "macros.h"
 #include "misc.h"
 #include "misc_p.h"
+#include "standardpaths_p.h"
 #include "stringutils.h"
 #include "unixfd.h"
 
@@ -52,39 +47,11 @@
 
 namespace fcitx {
 
+const std::filesystem::path StandardPathsPrivate::constEmptyPath;
+const std::vector<std::filesystem::path> StandardPathsPrivate::constEmptyPaths =
+    {std::filesystem::path()};
+
 namespace {
-
-const std::filesystem::path constEmptyPath;
-const std::vector<std::filesystem::path> constEmptyPaths = {
-    std::filesystem::path()};
-
-// A simple wrapper that return null if the variable name is nullptr.
-std::optional<std::string> getEnvironmentNull(const char *env) {
-    if (!env) {
-        return std::nullopt;
-    }
-    return getEnvironment(env);
-}
-
-// Return the bottom symlink-ed path, otherwise, if error or not symlink file,
-// return the original path.
-std::filesystem::path symlinkTarget(const std::filesystem::path &path) {
-    int maxDepth = 128;
-    std::filesystem::path fullPath = path;
-    std::error_code ec;
-    while (--maxDepth && std::filesystem::is_symlink(fullPath, ec)) {
-        auto linked = std::filesystem::read_symlink(fullPath, ec);
-        if (!ec) {
-            fullPath = linked;
-        } else {
-            return path;
-        }
-    }
-    if (maxDepth > 0) {
-        return fullPath;
-    }
-    return path;
-}
 
 constexpr std::string_view envListSeparator = isWindows() ? ";" : ":";
 
@@ -116,250 +83,6 @@ std::vector<std::filesystem::path> pathFromEnvironment() {
 }
 
 } // namespace
-
-class StandardPathsPrivate {
-public:
-    StandardPathsPrivate(
-        const std::string &packageName,
-        const std::unordered_map<std::string, std::filesystem::path>
-            &builtInPathMap,
-        bool skipBuiltInPath, bool skipUserPath)
-        : skipBuiltInPath_(skipBuiltInPath), skipUserPath_(skipUserPath) {
-        bool isFcitx = (packageName == "fcitx5");
-        std::filesystem::path packagePath =
-            std::u8string(packageName.begin(), packageName.end());
-        // initialize user directory
-        configDirs_ =
-            defaultPaths("XDG_CONFIG_HOME", ".config", "XDG_CONFIG_DIRS",
-                         {"/etc/xdg"}, nullptr, builtInPathMap);
-        std::vector<std::filesystem::path> pkgconfigDirFallback;
-        std::ranges::copy(
-            configDirs_ | std::views::drop(1) |
-                std::views::transform([&packagePath](const auto &dir) {
-                    return dir / packagePath;
-                }),
-            std::back_inserter(pkgconfigDirFallback));
-        pkgconfigDirs_ =
-            defaultPaths((isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
-                         configDirs_[0] / packagePath,
-                         (isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
-                         pkgconfigDirFallback, nullptr, builtInPathMap);
-
-        dataDirs_ = defaultPaths(
-            "XDG_DATA_HOME", ".local/share", "XDG_DATA_DIRS",
-            {"/usr/local/share", "/usr/share"},
-            (skipBuiltInPath_ ? nullptr : "datadir"), builtInPathMap);
-        std::vector<std::filesystem::path> pkgdataDirFallback;
-        std::ranges::copy(
-            dataDirs_ | std::views::drop(1) |
-                std::views::transform([&packagePath](const auto &dir) {
-                    return dir / packagePath;
-                }),
-            std::back_inserter(pkgdataDirFallback));
-        pkgdataDirs_ = defaultPaths(
-            (isFcitx ? "FCITX_DATA_HOME" : nullptr), dataDirs_[0] / packagePath,
-            (isFcitx ? "FCITX_DATA_DIRS" : nullptr), pkgdataDirFallback,
-            nullptr, builtInPathMap);
-        cacheDir_ = defaultPaths("XDG_CACHE_HOME", ".cache");
-        assert(cacheDir_.size() == 1);
-        std::error_code ec;
-        auto tmpdir = std::filesystem::temp_directory_path(ec);
-        runtimeDir_ = defaultPaths(
-            "XDG_RUNTIME_DIR",
-            tmpdir.empty() ? std::filesystem::path("/tmp") : tmpdir);
-        assert(runtimeDir_.size() == 1);
-        // Though theoratically, this is also fcitxPath, we just simply don't
-        // use it here.
-        addonDirs_ =
-            defaultPaths(nullptr, {}, "FCITX_ADDON_DIRS",
-                         {FCITX_INSTALL_ADDONDIR}, nullptr, builtInPathMap);
-
-        syncUmask();
-    }
-
-    std::span<const std::filesystem::path>
-    directories(StandardPathsType type, StandardPathsModes modes) const {
-        maybeUpdateModes(modes);
-        const auto &directoriesByType =
-            [type, this]() -> const std::vector<std::filesystem::path> & {
-            switch (type) {
-            case StandardPathsType::Config:
-                return configDirs_;
-            case StandardPathsType::PkgConfig:
-                return pkgconfigDirs_;
-            case StandardPathsType::Data:
-                return dataDirs_;
-            case StandardPathsType::PkgData:
-                return pkgdataDirs_;
-            case StandardPathsType::Addon:
-                return addonDirs_;
-            default:
-                return constEmptyPaths;
-            }
-        }();
-        assert(directoriesByType.size() >= 1);
-        size_t from =
-            modes.test(StandardPathsMode::User) && !directoriesByType[0].empty()
-                ? 0
-                : 1;
-        size_t to = modes.test(StandardPathsMode::System)
-                        ? directoriesByType.size()
-                        : 1;
-        std::span<const std::filesystem::path> dirs(directoriesByType);
-        dirs = dirs.subspan(from, to - from);
-        return dirs;
-    }
-
-    template <typename Callback>
-    void
-    scanDirectories(StandardPathsType type, const std::filesystem::path &path,
-                    StandardPathsModes modes, const Callback &callback) const {
-        std::span<const std::filesystem::path> dirs =
-            path.is_absolute() ? constEmptyPaths : directories(type, modes);
-        for (const auto &dir : dirs) {
-            if (!callback(dir / path)) {
-                return;
-            }
-        }
-    }
-
-    bool skipUser() const { return skipUserPath_; }
-    bool skipBuiltIn() const { return skipBuiltInPath_; }
-
-    void syncUmask() {
-        // read umask, use 022 which is likely the default value, so less likely
-        // to mess things up.
-        mode_t old = ::umask(022);
-        // restore
-        ::umask(old);
-        umask_.store(old, std::memory_order_relaxed);
-    }
-
-    mode_t umask() const { return umask_.load(std::memory_order_relaxed); }
-
-    std::tuple<UnixFD, std::filesystem::path, std::filesystem::path>
-    openUserTemp(StandardPathsType type,
-                 const std::filesystem::path &pathOrig) const {
-        if (!pathOrig.has_filename() || skipUserPath_) {
-            return {};
-        }
-        std::filesystem::path fullPathOrig;
-        if (pathOrig.is_absolute()) {
-            fullPathOrig = pathOrig;
-        } else {
-            const auto &dirPaths = directories(type, StandardPathsMode::User);
-            if (dirPaths.empty() || dirPaths[0].empty()) {
-                return {};
-            }
-            fullPathOrig = dirPaths[0] / pathOrig;
-        }
-
-        fullPathOrig = symlinkTarget(fullPathOrig);
-
-        std::filesystem::path fullPath = fullPathOrig;
-        fullPath += "_XXXXXX";
-        if (fs::makePath(fullPath.parent_path())) {
-            std::string fullPathStr = fullPath.string();
-            std::vector<char> cPath(fullPathStr.c_str(),
-                                    fullPathStr.c_str() + fullPathStr.size() +
-                                        1);
-            int fd = mkstemp(cPath.data());
-            if (fd >= 0) {
-                return {UnixFD::own(fd), std::filesystem::path(cPath.data()),
-                        fullPathOrig};
-            }
-        }
-        return {};
-    }
-
-private:
-    // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
-    std::vector<std::filesystem::path>
-    defaultPaths(const char *homeEnv, const std::filesystem::path &homeFallback,
-                 const char *systemEnv = nullptr,
-                 const std::vector<std::filesystem::path> &systemFallback = {},
-                 const char *builtInPathType = nullptr,
-                 const std::unordered_map<std::string, std::filesystem::path>
-                     &builtInPathMap = {}) {
-        const auto homeVar = getEnvironmentNull(homeEnv);
-        std::filesystem::path homeDir;
-        if (homeVar && !homeVar->empty()) {
-            homeDir = *homeVar;
-        } else if (!homeFallback.is_absolute() && !homeFallback.empty()) {
-            // caller need to ensure HOME is not empty;
-            auto home = getEnvironment("HOME");
-            if (!home) {
-                throw std::runtime_error("Home is not set");
-            }
-            homeDir = *home / homeFallback;
-        } else {
-            homeDir = homeFallback;
-        }
-        homeDir = homeDir.lexically_normal();
-
-        std::vector<std::filesystem::path> dirs;
-        dirs.push_back(std::move(homeDir));
-
-        if (const auto dir = getEnvironmentNull(systemEnv)) {
-            const auto rawDirs = stringutils::split(*dir, ":");
-            std::ranges::transform(
-                rawDirs, std::back_inserter(dirs), [](const auto &s) {
-                    return std::filesystem::path(s).lexically_normal();
-                });
-        } else {
-            std::ranges::copy(systemFallback, std::back_inserter(dirs));
-        }
-
-        if (builtInPathType && !skipBuiltInPath_) {
-            std::filesystem::path builtInPath;
-            if (const auto *value =
-                    findValue(builtInPathMap, builtInPathType)) {
-                builtInPath = *value;
-            } else {
-                builtInPath = StandardPaths::fcitxPath(builtInPathType);
-            }
-            const auto path = builtInPath.lexically_normal();
-            if (!path.empty()) {
-                dirs.push_back(path);
-            }
-        }
-
-        for (auto &dir : dirs) {
-            // Remove trailing slash, if present.
-            if (!dir.has_filename()) {
-                dir = dir.parent_path();
-            }
-        }
-
-        std::unordered_set<std::filesystem::path> seen;
-        std::erase_if(dirs, [&seen](const auto &dir) {
-            if (seen.contains(dir)) {
-                return true;
-            }
-            seen.insert(dir);
-            return false;
-        });
-
-        return dirs;
-    }
-
-    void maybeUpdateModes(StandardPathsModes &modes) const {
-        if (skipUserPath_) {
-            modes = modes.unset(StandardPathsMode::User);
-        }
-    }
-
-    bool skipBuiltInPath_;
-    bool skipUserPath_;
-    std::vector<std::filesystem::path> configDirs_;
-    std::vector<std::filesystem::path> pkgconfigDirs_;
-    std::vector<std::filesystem::path> dataDirs_;
-    std::vector<std::filesystem::path> pkgdataDirs_;
-    std::vector<std::filesystem::path> cacheDir_;
-    std::vector<std::filesystem::path> runtimeDir_;
-    std::vector<std::filesystem::path> addonDirs_;
-    std::atomic<mode_t> umask_;
-};
 
 StandardPaths::StandardPaths(
     const std::string &packageName,
@@ -434,10 +157,10 @@ const std::filesystem::path &
 StandardPaths::userDirectory(StandardPathsType type) const {
     FCITX_D();
     if (d->skipUser()) {
-        return constEmptyPath;
+        return StandardPathsPrivate::constEmptyPath;
     }
     auto dirs = d->directories(type, StandardPathsMode::User);
-    return dirs.empty() ? constEmptyPath : dirs[0];
+    return dirs.empty() ? StandardPathsPrivate::constEmptyPath : dirs[0];
 }
 
 std::span<const std::filesystem::path>
