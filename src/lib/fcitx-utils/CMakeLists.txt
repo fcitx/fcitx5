@@ -26,6 +26,16 @@ if (ENABLE_DBUS)
     endif()
 endif()
 
+if (WIN32)
+    list(APPEND FCITX_UTILS_SOURCES
+        standardpaths_p_win.cpp
+    )
+else()
+    list(APPEND FCITX_UTILS_SOURCES
+        standardpaths_p_unix.cpp
+    )
+endif()
+
 if (FCITX_EVENT_LOOP_BACKEND STREQUAL "libuv")
     list(APPEND FCITX_UTILS_SOURCES event_libuv.cpp)
     list(APPEND FCITX_UTILS_DEPS "${LIBUV_TARGET}")
