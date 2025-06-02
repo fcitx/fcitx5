@@ -128,6 +128,9 @@ public:
         return {};
     }
 
+    static std::filesystem::path
+    fcitxPath(const char *path, const std::filesystem::path &subPath);
+
     static const std::filesystem::path constEmptyPath;
     static const std::vector<std::filesystem::path> constEmptyPaths;
 

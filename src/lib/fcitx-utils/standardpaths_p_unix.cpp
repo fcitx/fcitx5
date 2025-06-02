@@ -164,4 +164,39 @@ StandardPathsPrivate::StandardPathsPrivate(
     syncUmask();
 }
 
+std::filesystem::path
+StandardPathsPrivate::fcitxPath(const char *path,
+                         const std::filesystem::path &subPath) {
+    
+    if (!path) {
+        return {};
+    }
+
+    static const std::unordered_map<std::string, std::filesystem::path>
+        pathMap = {
+            std::make_pair<std::string, std::filesystem::path>(
+                "datadir", FCITX_INSTALL_DATADIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "pkgdatadir", FCITX_INSTALL_PKGDATADIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "libdir", FCITX_INSTALL_LIBDIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "bindir", FCITX_INSTALL_BINDIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "localedir", FCITX_INSTALL_LOCALEDIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "addondir", FCITX_INSTALL_ADDONDIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "libdatadir", FCITX_INSTALL_LIBDATADIR),
+            std::make_pair<std::string, std::filesystem::path>(
+                "libexecdir", FCITX_INSTALL_LIBEXECDIR),
+        };
+
+    if (const auto *p = findValue(pathMap, path)) {
+        return *p / subPath;
+    }
+
+    return {};
+}
+
 } // namespace fcitx

@@ -5,10 +5,15 @@
  *
  */
 #include <algorithm>
+#include <cassert>
 #include <filesystem>
 #include <string>
+#include <string_view>
+#include <vector>
+#include <fileapi.h>
 #include <initguid.h>
 #include <knownfolders.h>
+#include "fcitx-utils/fcitxutils_export.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
@@ -19,7 +24,42 @@
 
 namespace fcitx {
 
+FCITXUTILS_EXPORT HINSTANCE mainInstanceHandle = nullptr;
+
 namespace {
+
+// For windows, we install all files used by fcitx under a sub directory of
+// standard path. We will have a 3 layer directory structure:
+// AppData/Roaming/Fcitx5/{config,data}/[package]/
+// AppData/Local/Fcitx5/{config,data}/[package]/
+// appFilePath/../{config,data}/[package]/
+constexpr std::string_view windowsTopLevelAppName = "Fcitx5";
+
+void normalizeSlash(std::wstring &path) {
+    std::ranges::for_each(path, [](wchar_t &c) {
+        if (c == '\\') {
+            c = '/';
+        }
+    });
+}
+
+std::filesystem::path appFileName() // get application file name
+{
+    // Full path may be longer than MAX_PATH - expand until we have enough
+    // space:
+    std::vector<wchar_t> space;
+    DWORD v;
+    size_t size = 1;
+    do {
+        size += MAX_PATH;
+        space.resize(size);
+        auto hInstance = reinterpret_cast<HINSTANCE>(mainInstanceHandle);
+        v = GetModuleFileNameW(hInstance, space.data(), DWORD(space.size()));
+    } while (v >= size);
+
+    std::wstring_view nativePath(space.data(), v);
+    return std::filesystem::path(nativePath);
+}
 
 std::wstring removeUncOrLongPathPrefix(std::wstring path) {
     constexpr size_t minPrefixSize = 4;
@@ -78,30 +118,9 @@ static bool isProcessLowIntegrity() {
     return (level < SECURITY_MANDATORY_MEDIUM_RID);
 }
 
-std::filesystem::path userPath(StandardPathsType type) {
-    bool isPackage = false;
-    GUID id{};
-    switch (type) {
-    case StandardPathsType::PkgConfig:
-        isPackage = true;
-        [[fallthrough]];
-    case StandardPathsType::Config:
-        id = FOLDERID_LocalAppData;
-        break;
-    case StandardPathsType::PkgData:
-        isPackage = true;
-        [[fallthrough]];
-    case StandardPathsType::Data:
-        id = FOLDERID_LocalAppData;
-        break;
-    case StandardPathsType::Cache:
-        break;
-    case StandardPathsType::Runtime:
-        break;
-    case StandardPathsType::Addon:
-        break;
-    }
-
+std::filesystem::path localAppData() {
+    static const bool isLow = isProcessLowIntegrity();
+    GUID id = isLow ? FOLDERID_LocalAppDataLow : FOLDERID_LocalAppData;
     std::wstring path;
     LPWSTR wpath;
     if (SUCCEEDED(SHGetKnownFolderPath(id, KF_FLAG_DONT_VERIFY, 0, &wpath))) {
@@ -114,6 +133,27 @@ std::filesystem::path userPath(StandardPathsType type) {
     }
 
     path = removeUncOrLongPathPrefix(path);
+    normalizeSlash(path);
+
+    return path;
+}
+
+std::vector<std::filesystem::path> userPath(StandardPathsType type,
+                               std::string_view packageName = "") {
+    GUID id{};
+    switch (type) {
+    case StandardPathsType::PkgConfig:
+        assert(!packageName.empty());
+    case StandardPathsType::PkgData:
+        [[fallthrough]];
+    case StandardPathsType::Config:
+    case StandardPathsType::Data:
+        break;
+    case StandardPathsType::Cache:
+        break;
+    case StandardPathsType::Addon:
+        break;
+    }
 
     std::ranges::for_each(path, [](wchar_t &c) {
         if (c == '\\') {
@@ -122,6 +162,48 @@ std::filesystem::path userPath(StandardPathsType type) {
     });
 
     return path;
+}
+
+std::filesystem::path getTempPath() {
+    std::wstring ret;
+    using GetTempPathPrototype =
+        DWORD WINAPI (*)(DWORD nBufferLength, LPWSTR lpBuffer);
+    // We try to resolve GetTempPath2 and use that, otherwise fall back to
+    // GetTempPath:
+    static GetTempPathPrototype getTempPathW = []() {
+        const HMODULE kernel32 = GetModuleHandleW(L"kernel32.dll");
+        using FunctionPointer = void (*)();
+        if (auto *func =
+                FunctionPointer(GetProcAddress(kernel32, "GetTempPath2W")))
+            return GetTempPathPrototype(func);
+        return GetTempPathW;
+    }();
+
+    wchar_t tempPath[MAX_PATH];
+    const DWORD len = getTempPathW(MAX_PATH, tempPath);
+    if (len) { // GetTempPath() can return short names, expand.
+        wchar_t longTempPath[MAX_PATH];
+        const DWORD longLen =
+            GetLongPathNameW(tempPath, longTempPath, MAX_PATH);
+        ret = longLen && longLen < MAX_PATH
+                  ? std::wstring(longTempPath, longLen)
+                  : std::wstring(tempPath, len);
+    }
+    if (!ret.empty()) {
+        while (ret.ends_with(u'\\'))
+            ret.pop_back();
+        std::ranges::for_each(ret, [](wchar_t &c) {
+            if (c == u'\\') {
+                c = u'/';
+            }
+        });
+    }
+    if (ret.empty()) {
+        ret = L"C:/tmp"; // Fallback to a default temp path.
+    } else if (ret.length() >= 2 && ret[1] == u':') {
+        ret[0] = ret.at(0).toUpper(); // Force uppercase drive letters.
+    }
+    return ret;
 }
 
 } // namespace
@@ -136,125 +218,49 @@ StandardPathsPrivate::StandardPathsPrivate(
     configDirs_ = {userPath(StandardPathsType::Config)};
     pkgconfigDirs_ = {userPath(StandardPathsType::PkgConfig)};
 
-    dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
-    pkgdataHome_ = defaultPath((isFcitx ? "FCITX_DATA_HOME" : nullptr),
-                               constructPath(dataHome_, packageName).c_str());
-    dataDirs_ =
-        defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share",
-                     builtInPathMap, skipBuiltInPath_ ? nullptr : "datadir");
-    auto pkgdataDirFallback = dataDirs_;
-    for (auto &path : pkgdataDirFallback) {
-        path = constructPath(path, packageName);
-    }
-    pkgdataDirs_ =
-        defaultPaths((isFcitx ? "FCITX_DATA_DIRS" : nullptr),
-                     stringutils::join(pkgdataDirFallback, ":").c_str(),
-                     builtInPathMap, skipBuiltInPath_ ? nullptr : "pkgdatadir");
-    cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
-    auto tmpdir = getEnvironment("TMPDIR");
-    runtimeDir_ =
-        defaultPath("XDG_RUNTIME_DIR",
-                    (!tmpdir || tmpdir->empty()) ? "/tmp" : tmpdir->data());
-    addonDirs_ =
-        defaultPaths("FCITX_ADDON_DIRS", StandardPath::fcitxPath("addondir"),
-                     builtInPathMap, nullptr);
+    dataDirs_ = {userPath(StandardPathsType::Data)};
+    pkgdataDirs_ = {userPath(StandardPathsType::PkgData)};
+    runtimeDir_ = {getTempPath()};
+    addonDirs_ = {{}};
 
     syncUmask();
 }
 
-const char *StandardPath::fcitxPath(const char *path) {
+std::filesystem::path
+StandardPathsPrivate::fcitxPath(const char *path,
+                                const std::filesystem::path &subPath) {
     if (!path) {
-        return nullptr;
+        return {};
     }
 
-    const static std::string basePath = []() {
-        std::vector<wchar_t> space;
-        DWORD v;
-        size_t size = MAX_PATH + 1;
-        do {
-            space.resize(size);
-            size += MAX_PATH;
-            v = GetModuleFileNameW(nullptr, space.data(), DWORD(space.size()));
-        } while (v >= size);
-
-        auto exePath = utf8::UTF16ToUTF8(std::wstring_view(space.data(), v));
-        std::string basePath = fs::cleanPath(stringutils::join(exePath, ".."));
-        return basePath;
+    static const std::filesystem::path basePath = []() {
+        auto filename = appFileName();
+        auto parent = filename.parent_path();
+        if (parent.filename() != "bin") {
+            throw std::runtime_error(
+                "Application file is expected directory: " + filename.string());
+        }
+        return parent.parent_path();
     }();
 
-    static const std::unordered_map<std::string, std::string> pathMap = {
-        std::make_pair<std::string, std::string>(
-            "datadir", stringutils::joinPath(basePath, "share")),
-        std::make_pair<std::string, std::string>(
-            "pkgdatadir", stringutils::joinPath(basePath, "share/fcitx5")),
-        std::make_pair<std::string, std::string>(
-            "libdir", stringutils::joinPath(basePath, "lib")),
-        std::make_pair<std::string, std::string>(
-            "bindir", stringutils::joinPath(basePath, "bin")),
-        std::make_pair<std::string, std::string>(
-            "localedir", stringutils::joinPath(basePath, "share/locale")),
-        std::make_pair<std::string, std::string>(
-            "addondir", stringutils::joinPath(basePath, "lib/fcitx5")),
-        std::make_pair<std::string, std::string>(
-            "libdatadir", stringutils::joinPath(basePath, "lib")),
-        std::make_pair<std::string, std::string>(
-            "libexecdir", stringutils::joinPath(basePath, "lib")),
-    };
+    static const std::unordered_map<std::string, std::filesystem::path>
+        pathMap = {
+            {"datadir", basePath / "share"},
+            {"pkgdatadir", basePath / "share/fcitx5"},
+            {"libdir", basePath / "lib"},
+            {"bindir", basePath / "bin"},
+            {"localedir", basePath / "share/locale"},
+            {"addondir", basePath / "lib/fcitx5"},
+            {"libdatadir", basePath / "lib"},
+            {"libexecdir", basePath / "libexec"},
+        };
 
     auto iter = pathMap.find(path);
     if (iter != pathMap.end()) {
-        return iter->second.c_str();
+        return iter->second / subPath;
     }
 
-    return nullptr;
-}
-
-std::string StandardPathPrivate::defaultPath(const char *env,
-                                             const char *defaultPath) {
-    std::optional<std::string> cdir;
-    if (env) {
-        cdir = getEnvironment(env);
-    }
-    std::string dir;
-    if (cdir && !cdir->empty()) {
-        dir = *cdir;
-    } else {
-        // caller need to ensure HOME is not empty;
-        if (defaultPath[0] != '/') {
-            auto home = getEnvironment("HOME");
-            if (!home) {
-                throw std::runtime_error("Home is not set");
-            }
-            dir = stringutils::joinPath(*home, defaultPath);
-        } else {
-            if (env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
-                return {};
-#if 0
-                dir = stringutils::joinPath(
-                    defaultPath,
-                    stringutils::concat("fcitx-runtime-", geteuid()));
-                if (!fs::isdir(dir)) {
-                    if (mkdir(dir.c_str(), 0700) != 0) {
-                        return {};
-                    }
-                }
-#endif
-            } else {
-                dir = defaultPath;
-            }
-        }
-    }
-
-    if (!dir.empty() && env && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
-#ifndef _WIN32
-        struct stat buf;
-        if (stat(dir.c_str(), &buf) != 0 || buf.st_uid != geteuid() ||
-            (buf.st_mode & 0777) != S_IRWXU) {
-            return {};
-        }
-#endif
-    }
-    return dir;
+    return {};
 }
 
 } // namespace fcitx
