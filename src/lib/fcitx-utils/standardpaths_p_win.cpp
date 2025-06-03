@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 #include <fileapi.h>
 #include <initguid.h>
@@ -18,6 +19,7 @@
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "misc_p.h"
 #include "shlobj.h"
 #include "standardpaths.h"
 #include "standardpaths_p.h"
@@ -45,8 +47,6 @@ void normalizeSlash(std::wstring &path) {
 
 std::filesystem::path appFileName() // get application file name
 {
-    // Full path may be longer than MAX_PATH - expand until we have enough
-    // space:
     std::vector<wchar_t> space;
     DWORD v;
     size_t size = 1;
@@ -118,7 +118,7 @@ static bool isProcessLowIntegrity() {
     return (level < SECURITY_MANDATORY_MEDIUM_RID);
 }
 
-std::filesystem::path localAppData() {
+std::filesystem::path localAppData(bool isRoaming) {
     static const bool isLow = isProcessLowIntegrity();
     GUID id = isLow ? FOLDERID_LocalAppDataLow : FOLDERID_LocalAppData;
     std::wstring path;
@@ -138,15 +138,63 @@ std::filesystem::path localAppData() {
     return path;
 }
 
+std::filesystem::path builtinPath(const std::unordered_map<std::string, std::filesystem::path>
+                                  &builtInPathMap,
+                                  const char *builtInPathType) {
+                                    
+    if (auto *path = findValue(builtInPathMap, builtInPathType)) {
+        return *path;
+    }
+
+    static const std::filesystem::path defaultBasePath = []() {
+        auto filename = appFileName();
+        auto parent = filename.parent_path();
+        if (parent.filename() != "bin") {
+            throw std::runtime_error(
+                "Application file is expected directory: " + filename.string());
+        }
+        return parent.parent_path();
+    }();
+
+    std::filesystem::path basePath = defaultBasePath;
+    if (auto *path = findValue(builtInPathMap, "basedir")) {
+        basePath = *path;
+    }
+
+    const std::unordered_map<std::string, std::filesystem::path>
+        pathMap = {
+            {"basedir", basePath},
+            {"datadir", basePath / "share"},
+            {"pkgdatadir", basePath / "share/fcitx5"},
+            {"libdir", basePath / "lib"},
+            {"bindir", basePath / "bin"},
+            {"localedir", basePath / "share/locale"},
+            {"addondir", basePath / "lib/fcitx5"},
+            {"libdatadir", basePath / "lib"},
+            {"libexecdir", basePath / "libexec"},
+        };               
+    if (auto *path = findValue(pathMap, builtInPathType)) {
+        return *path;
+    }
+    return {};
+}
+
 std::vector<std::filesystem::path> userPath(StandardPathsType type,
                                std::string_view packageName = "") {
     GUID id{};
     switch (type) {
     case StandardPathsType::PkgConfig:
         assert(!packageName.empty());
+        return {localAppData(true) / packageName, 
+                localAppData(false) / packageName,
+                appFileName().parent_path() / windowsTopLevelAppName /
+                    "config" / packageName};
+        break;
     case StandardPathsType::PkgData:
-        [[fallthrough]];
+        assert(!packageName.empty());
+        break;
     case StandardPathsType::Config:
+        break;
     case StandardPathsType::Data:
         break;
     case StandardPathsType::Cache:
@@ -233,34 +281,11 @@ StandardPathsPrivate::fcitxPath(const char *path,
         return {};
     }
 
-    static const std::filesystem::path basePath = []() {
-        auto filename = appFileName();
-        auto parent = filename.parent_path();
-        if (parent.filename() != "bin") {
-            throw std::runtime_error(
-                "Application file is expected directory: " + filename.string());
-        }
-        return parent.parent_path();
-    }();
-
-    static const std::unordered_map<std::string, std::filesystem::path>
-        pathMap = {
-            {"datadir", basePath / "share"},
-            {"pkgdatadir", basePath / "share/fcitx5"},
-            {"libdir", basePath / "lib"},
-            {"bindir", basePath / "bin"},
-            {"localedir", basePath / "share/locale"},
-            {"addondir", basePath / "lib/fcitx5"},
-            {"libdatadir", basePath / "lib"},
-            {"libexecdir", basePath / "libexec"},
-        };
-
-    auto iter = pathMap.find(path);
-    if (iter != pathMap.end()) {
-        return iter->second / subPath;
+    auto fsPath = builtinPath({}, path);
+    if (fsPath.empty()) {
+        return {};
     }
-
-    return {};
+    return fsPath / subPath;
 }
 
 } // namespace fcitx
