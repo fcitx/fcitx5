@@ -6,10 +6,12 @@
  */
 #include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <filesystem>
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <fileapi.h>
 #include <initguid.h>
@@ -120,7 +122,12 @@ static bool isProcessLowIntegrity() {
 
 std::filesystem::path localAppData(bool isRoaming) {
     static const bool isLow = isProcessLowIntegrity();
-    GUID id = isLow ? FOLDERID_LocalAppDataLow : FOLDERID_LocalAppData;
+    GUID id{};
+    if (isRoaming) {
+        id = FOLDERID_RoamingAppData;
+    } else {
+        id = isLow ? FOLDERID_LocalAppDataLow : FOLDERID_LocalAppData;
+    }
     std::wstring path;
     LPWSTR wpath;
     if (SUCCEEDED(SHGetKnownFolderPath(id, KF_FLAG_DONT_VERIFY, 0, &wpath))) {
@@ -138,10 +145,11 @@ std::filesystem::path localAppData(bool isRoaming) {
     return path;
 }
 
-std::filesystem::path builtinPath(const std::unordered_map<std::string, std::filesystem::path>
-                                  &builtInPathMap,
-                                  const char *builtInPathType) {
-                                    
+std::filesystem::path
+builtinPath(const std::unordered_map<std::string, std::filesystem::path>
+                &builtInPathMap,
+            const char *builtInPathType) {
+
     if (auto *path = findValue(builtInPathMap, builtInPathType)) {
         return *path;
     }
@@ -161,55 +169,23 @@ std::filesystem::path builtinPath(const std::unordered_map<std::string, std::fil
         basePath = *path;
     }
 
-    const std::unordered_map<std::string, std::filesystem::path>
-        pathMap = {
-            {"basedir", basePath},
-            {"datadir", basePath / "share"},
-            {"pkgdatadir", basePath / "share/fcitx5"},
-            {"libdir", basePath / "lib"},
-            {"bindir", basePath / "bin"},
-            {"localedir", basePath / "share/locale"},
-            {"addondir", basePath / "lib/fcitx5"},
-            {"libdatadir", basePath / "lib"},
-            {"libexecdir", basePath / "libexec"},
-        };               
+    const std::unordered_map<std::string, std::filesystem::path> pathMap = {
+        {"basedir", basePath},
+        {"configdir", basePath / "config"},
+        {"pkgconfigdir", basePath / "config/fcitx5"},
+        {"datadir", basePath / "data"},
+        {"pkgdatadir", basePath / "data/fcitx5"},
+        {"libdir", basePath / "lib"},
+        {"bindir", basePath / "bin"},
+        {"localedir", basePath / "data/locale"},
+        {"addondir", basePath / "lib/fcitx5"},
+        {"libdatadir", basePath / "lib"},
+        {"libexecdir", basePath / "libexec"},
+    };
     if (auto *path = findValue(pathMap, builtInPathType)) {
         return *path;
     }
     return {};
-}
-
-std::vector<std::filesystem::path> userPath(StandardPathsType type,
-                               std::string_view packageName = "") {
-    GUID id{};
-    switch (type) {
-    case StandardPathsType::PkgConfig:
-        assert(!packageName.empty());
-        return {localAppData(true) / packageName, 
-                localAppData(false) / packageName,
-                appFileName().parent_path() / windowsTopLevelAppName /
-                    "config" / packageName};
-        break;
-    case StandardPathsType::PkgData:
-        assert(!packageName.empty());
-        break;
-    case StandardPathsType::Config:
-        break;
-    case StandardPathsType::Data:
-        break;
-    case StandardPathsType::Cache:
-        break;
-    case StandardPathsType::Addon:
-        break;
-    }
-
-    std::ranges::for_each(path, [](wchar_t &c) {
-        if (c == '\\') {
-            c = '/';
-        }
-    });
-
-    return path;
 }
 
 std::filesystem::path getTempPath() {
@@ -249,9 +225,73 @@ std::filesystem::path getTempPath() {
     if (ret.empty()) {
         ret = L"C:/tmp"; // Fallback to a default temp path.
     } else if (ret.length() >= 2 && ret[1] == u':') {
-        ret[0] = ret.at(0).toUpper(); // Force uppercase drive letters.
+        ret[0] = std::toupper(ret.at(0)); // Force uppercase drive letters.
     }
     return ret;
+}
+
+std::vector<std::filesystem::path>
+getPath(StandardPathsType type,
+        const std::unordered_map<std::string, std::filesystem::path>
+            &builtInPathMap,
+        std::string_view packageName = "") {
+    std::vector<std::filesystem::path> paths;
+
+    switch (type) {
+    case StandardPathsType::PkgConfig:
+        assert(!packageName.empty());
+        paths = {localAppData(true) / windowsTopLevelAppName / "config" /
+                     packageName,
+                 localAppData(false) / windowsTopLevelAppName / "config" /
+                     packageName,
+                 packageName == "fcitx5"
+                     ? builtinPath(builtInPathMap, "pkgconfigdir")
+                     : builtinPath(builtInPathMap, "configdir") / packageName};
+        break;
+    case StandardPathsType::PkgData:
+        assert(!packageName.empty());
+        paths = {localAppData(true) / packageName,
+                 localAppData(false) / packageName,
+                 packageName == "fcitx5"
+                     ? builtinPath(builtInPathMap, "pkgdatadir")
+                     : builtinPath(builtInPathMap, "datadir") / packageName};
+        break;
+    case StandardPathsType::Config:
+        paths = {localAppData(true) / windowsTopLevelAppName / "config",
+                 localAppData(false) / windowsTopLevelAppName / "config",
+                 builtinPath(builtInPathMap, "configdir")};
+        break;
+    case StandardPathsType::Data:
+        paths = {localAppData(true) / windowsTopLevelAppName / "data",
+                 localAppData(false) / windowsTopLevelAppName / "data",
+                 builtinPath(builtInPathMap, "datadir")};
+        break;
+    case StandardPathsType::Cache:
+        paths = {localAppData(false) / windowsTopLevelAppName / "cache"};
+        break;
+    case StandardPathsType::Addon:
+        paths = {localAppData(false) / windowsTopLevelAppName / "lib/fcitx5",
+                 builtinPath(builtInPathMap, "addondir")};
+        break;
+    case StandardPathsType::Runtime:
+        paths = {getTempPath()};
+        break;
+    }
+
+    std::ranges::for_each(paths, [](std::filesystem::path &path) {
+        path = path.lexically_normal().generic_wstring();
+    });
+
+    std::unordered_set<std::filesystem::path> seen;
+    std::erase_if(paths, [&seen](const std::filesystem::path &path) {
+        if (seen.contains(path)) {
+            return true;
+        }
+        seen.insert(path);
+        return false;
+    });
+
+    return paths;
 }
 
 } // namespace
@@ -263,13 +303,14 @@ StandardPathsPrivate::StandardPathsPrivate(
     bool skipBuiltInPath, bool skipUserPath)
     : skipBuiltInPath_(skipBuiltInPath), skipUserPath_(skipUserPath) {
     // initialize user directory
-    configDirs_ = {userPath(StandardPathsType::Config)};
-    pkgconfigDirs_ = {userPath(StandardPathsType::PkgConfig)};
-
-    dataDirs_ = {userPath(StandardPathsType::Data)};
-    pkgdataDirs_ = {userPath(StandardPathsType::PkgData)};
-    runtimeDir_ = {getTempPath()};
-    addonDirs_ = {{}};
+    configDirs_ = getPath(StandardPathsType::Config, builtInPathMap);
+    pkgconfigDirs_ =
+        getPath(StandardPathsType::PkgConfig, builtInPathMap, packageName);
+    dataDirs_ = getPath(StandardPathsType::Data, builtInPathMap, packageName);
+    pkgdataDirs_ =
+        getPath(StandardPathsType::PkgData, builtInPathMap, packageName);
+    runtimeDir_ = getPath(StandardPathsType::Runtime, builtInPathMap);
+    addonDirs_ = getPath(StandardPathsType::Addon, builtInPathMap);
 
     syncUmask();
 }
