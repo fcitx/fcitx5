@@ -166,8 +166,8 @@ StandardPathsPrivate::StandardPathsPrivate(
 
 std::filesystem::path
 StandardPathsPrivate::fcitxPath(const char *path,
-                         const std::filesystem::path &subPath) {
-    
+                                const std::filesystem::path &subPath) {
+
     if (!path) {
         return {};
     }
