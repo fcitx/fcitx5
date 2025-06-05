@@ -301,7 +301,7 @@ OFDStreamBuf::int_type OFDStreamBuf::overflow(int_type ch) {
 
 int OFDStreamBuf::sync() {
     const auto ret = overflow(traits_type::eof());
-    return traits_type::eq_int_type(ret, traits_type::eof()) ? 0 : -1;
+    return traits_type::eq_int_type(ret, traits_type::eof()) ? -1 : 0;
 }
 
 std::streamsize OFDStreamBuf::xsputn(const char *s, std::streamsize n) {

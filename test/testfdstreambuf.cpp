@@ -7,19 +7,14 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <cstdint>
-#include <cstdio>
-#include <fstream>
-#include <fstream> // IWYU pragam: keep
+#include <fstream> // IWYU pragma: keep
 #include <iostream>
 #include <istream>
-#include <streambuf>
 #include <string>
 #include <utility>
 #include <vector>
 #include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/misc.h"
 #include "fcitx-utils/unixfd.h"
 #include "testdir.h"
 
