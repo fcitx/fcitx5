@@ -17,7 +17,6 @@ set(FCITX_UTILS_TEST
     testlist
     testfs
     testlibrary
-    teststandardpath
     testunixfd
     testmetastring
     testhandlertable
@@ -34,6 +33,7 @@ set(FCITX_UTILS_TEST
 if (WIN32)
     list(APPEND FCITX_UTILS_TEST teststandardpaths_win)
 else()
+    list(APPEND FCITX_UTILS_TEST teststandardpath)
     list(APPEND FCITX_UTILS_TEST teststandardpaths_unix)
 endif()
 
