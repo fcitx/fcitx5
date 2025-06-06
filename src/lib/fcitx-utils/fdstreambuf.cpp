@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <cassert>
+#include <cerrno>
 #include <cstring>
 #include <ios>
 #include <limits>

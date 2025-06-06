@@ -5,18 +5,26 @@
  *
  */
 
+#include <array>
+#include <cstddef>
+#include <exception>
+#include <memory>
 #include <stdexcept>
+#include <string>
 #include <vector>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/event.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
+#include "fcitx/text.h"
 #include "fcitx/userinterface.h"
 #include "testdir.h"
 #include "testfrontend_public.h"
@@ -41,9 +49,10 @@ public:
 
     const char *frontend() const override { return "test"; }
 
-    void commitStringImpl(const std::string &) override {}
-    void deleteSurroundingTextImpl(int, unsigned int) override {}
-    void forwardKeyImpl(const ForwardKeyEvent &) override {}
+    void commitStringImpl(const std::string & /*text*/) override {}
+    void deleteSurroundingTextImpl(int /*offset*/,
+                                   unsigned int /*size*/) override {}
+    void forwardKeyImpl(const ForwardKeyEvent & /*key*/) override {}
     void updatePreeditImpl() override {}
 };
 
@@ -57,9 +66,10 @@ public:
 
     const char *frontend() const override { return "test2"; }
 
-    void commitStringImpl(const std::string &) override {}
-    void deleteSurroundingTextImpl(int, unsigned int) override {}
-    void forwardKeyImpl(const ForwardKeyEvent &) override {}
+    void commitStringImpl(const std::string & /*text*/) override {}
+    void deleteSurroundingTextImpl(int /*offset*/,
+                                   unsigned int /*size*/) override {}
+    void forwardKeyImpl(const ForwardKeyEvent & /*key*/) override {}
     void updatePreeditImpl() override {}
     void commitStringWithCursorImpl(const std::string &text,
                                     size_t cursor) override {
@@ -102,7 +112,8 @@ void test_simple() {
         ic.pop_back();
         ic.emplace_back(new TestInputContext(manager));
 
-        FocusGroup group("", manager), group2("", manager);
+        FocusGroup group("", manager);
+        FocusGroup group2("", manager);
         ic[2]->setFocusGroup(&group);
         ic[3]->setFocusGroup(&group);
         ic[4]->setFocusGroup(&group2);

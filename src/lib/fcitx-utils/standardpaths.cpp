@@ -22,6 +22,7 @@
 #include <initializer_list>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -51,6 +52,9 @@ namespace fcitx {
 const std::filesystem::path StandardPathsPrivate::constEmptyPath;
 const std::vector<std::filesystem::path> StandardPathsPrivate::constEmptyPaths =
     {std::filesystem::path()};
+
+std::mutex StandardPathsPrivate::globalMutex_;
+std::unique_ptr<StandardPaths> StandardPathsPrivate::global_;
 
 namespace {
 
@@ -87,18 +91,38 @@ std::vector<std::filesystem::path> pathFromEnvironment() {
 
 StandardPaths::StandardPaths(
     const std::string &packageName,
-    const std::unordered_map<std::string, std::filesystem::path> &builtInPath,
-    bool skipBuiltInPath, bool skipUserPath)
-    : d_ptr(std::make_unique<StandardPathsPrivate>(
-          packageName, builtInPath, skipBuiltInPath, skipUserPath)) {}
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>>
+        &builtInPath,
+    StandardPathsOptions options)
+    : d_ptr(std::make_unique<StandardPathsPrivate>(packageName, builtInPath,
+                                                   options)) {}
 
 StandardPaths::~StandardPaths() = default;
 
 const StandardPaths &StandardPaths::global() {
-    static bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
-    static bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
-    static StandardPaths globalPath("fcitx5", {}, skipFcitx, skipUser);
-    return globalPath;
+    std::lock_guard<std::mutex> lock(StandardPathsPrivate::globalMutex_);
+    if (!StandardPathsPrivate::global_) {
+        bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
+        bool skipFcitxSystem = checkBoolEnvVar("SKIP_FCITX_SYSTEM_PATH");
+        bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
+        StandardPathsOptions options;
+        if (skipUser) {
+            options |= StandardPathsOption::SkipUserPath;
+        }
+        if (skipFcitxSystem) {
+            options |= StandardPathsOption::SkipSystemPath;
+        }
+        if (skipFcitx) {
+            options |= StandardPathsOption::SkipBuiltInPath;
+        }
+        StandardPathsPrivate::global_ = std::make_unique<StandardPaths>(
+            "fcitx5",
+            std::unordered_map<std::string,
+                               std::vector<std::filesystem::path>>{},
+            options);
+    }
+
+    return *StandardPathsPrivate::global_;
 }
 
 std::filesystem::path
@@ -129,7 +153,7 @@ bool StandardPaths::hasExecutable(const std::filesystem::path &name) {
 const std::filesystem::path &
 StandardPaths::userDirectory(StandardPathsType type) const {
     FCITX_D();
-    if (d->skipUser()) {
+    if (skipUserPath()) {
         return StandardPathsPrivate::constEmptyPath;
     }
     auto dirs = d->directories(type, StandardPathsMode::User);
@@ -230,7 +254,7 @@ UnixFD StandardPaths::open(StandardPathsType type,
 
 UnixFD StandardPaths::openPath(const std::filesystem::path &path) {
 #ifdef _WIN32
-    return UnixFD::own(::_wopen(path.c_str(), O_RDONLY));
+    return UnixFD::own(::_wopen(path.c_str(), O_RDONLY | _O_BINARY));
 #else
     return UnixFD::own(::open(path.c_str(), O_RDONLY));
 #endif
@@ -315,12 +339,17 @@ void StandardPaths::syncUmask() const { d_ptr->syncUmask(); }
 
 bool StandardPaths::skipBuiltInPath() const {
     FCITX_D();
-    return d->skipBuiltIn();
+    return d->options() & StandardPathsOption::SkipBuiltInPath;
 }
 
 bool StandardPaths::skipUserPath() const {
     FCITX_D();
-    return d->skipUser();
+    return d->options() & StandardPathsOption::SkipUserPath;
+}
+
+bool StandardPaths::skipSystemPath() const {
+    FCITX_D();
+    return d->options() & StandardPathsOption::SkipSystemPath;
 }
 
 } // namespace fcitx

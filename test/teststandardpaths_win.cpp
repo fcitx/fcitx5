@@ -21,7 +21,8 @@ using namespace fcitx;
 #define TEST_ADDON_DIR FCITX5_SOURCE_DIR "/test/addon"
 
 void test_basic() {
-    StandardPaths standardPaths("fcitx5", {}, true, false);
+    StandardPaths standardPaths("fcitx5", {},
+                                StandardPathsOption::SkipSystemPath);
 
     FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Config)
                      .string()
@@ -36,8 +37,9 @@ void test_basic() {
 }
 
 void test_override() {
-    StandardPaths standardPaths(
-        "fcitx5", {{"pkgdatadir", TEST_ADDON_DIR "/fcitx5"}}, true, false);
+    StandardPaths standardPaths("fcitx5",
+                                {{"pkgdatadir", {TEST_ADDON_DIR "/fcitx5"}}},
+                                StandardPathsOption::SkipSystemPath);
     {
         auto result = standardPaths.locate(StandardPathsType::PkgData, "addon",
                                            pathfilter::extension(".conf"));

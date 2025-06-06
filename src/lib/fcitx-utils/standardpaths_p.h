@@ -14,9 +14,12 @@
 #include <cstddef>
 #include <cstdlib>
 #include <filesystem>
+#include <memory>
+#include <mutex>
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 #include <span>
 #include "fs.h"
@@ -29,9 +32,9 @@ class StandardPathsPrivate {
 public:
     StandardPathsPrivate(
         const std::string &packageName,
-        const std::unordered_map<std::string, std::filesystem::path>
-            &builtInPathMap,
-        bool skipBuiltInPath, bool skipUserPath);
+        const std::unordered_map<
+            std::string, std::vector<std::filesystem::path>> &builtInPathMap,
+        StandardPathsOptions options);
 
     std::span<const std::filesystem::path>
     directories(StandardPathsType type, StandardPathsModes modes) const {
@@ -79,8 +82,7 @@ public:
         }
     }
 
-    bool skipUser() const { return skipUserPath_; }
-    bool skipBuiltIn() const { return skipBuiltInPath_; }
+    StandardPathsOptions options() const { return options_; }
 
     void syncUmask() {
         // read umask, use 022 which is likely the default value, so less likely
@@ -96,7 +98,8 @@ public:
     std::tuple<UnixFD, std::filesystem::path, std::filesystem::path>
     openUserTemp(StandardPathsType type,
                  const std::filesystem::path &pathOrig) const {
-        if (!pathOrig.has_filename() || skipUserPath_) {
+        if (!pathOrig.has_filename() ||
+            options_.test(StandardPathsOption::SkipUserPath)) {
             return {};
         }
         std::filesystem::path fullPathOrig;
@@ -134,9 +137,17 @@ public:
     static const std::filesystem::path constEmptyPath;
     static const std::vector<std::filesystem::path> constEmptyPaths;
 
+    static std::mutex globalMutex_;
+    static std::unique_ptr<StandardPaths> global_;
+
+    static void setGlobal(std::unique_ptr<StandardPaths> global) {
+        std::lock_guard<std::mutex> lock(globalMutex_);
+        global_ = std::move(global);
+    }
+
 private:
     void maybeUpdateModes(StandardPathsModes &modes) const {
-        if (skipUserPath_) {
+        if (options_.test(StandardPathsOption::SkipUserPath)) {
             modes = modes.unset(StandardPathsMode::User);
         }
     }
@@ -162,8 +173,7 @@ private:
         return path;
     }
 
-    bool skipBuiltInPath_;
-    bool skipUserPath_;
+    StandardPathsOptions options_;
     std::vector<std::filesystem::path> configDirs_;
     std::vector<std::filesystem::path> pkgconfigDirs_;
     std::vector<std::filesystem::path> dataDirs_;

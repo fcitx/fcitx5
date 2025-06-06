@@ -8,6 +8,7 @@
 #include <cassert>
 #include <cctype>
 #include <filesystem>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -16,6 +17,7 @@
 #include <fileapi.h>
 #include <initguid.h>
 #include <knownfolders.h>
+#include <ranges>
 #include "fcitx-utils/fcitxutils_export.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpaths.h"
@@ -145,10 +147,10 @@ std::filesystem::path localAppData(bool isRoaming) {
     return path;
 }
 
-std::filesystem::path
-builtinPath(const std::unordered_map<std::string, std::filesystem::path>
-                &builtInPathMap,
-            const char *builtInPathType) {
+std::vector<std::filesystem::path> builtinPath(
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>>
+        &builtInPathMap,
+    const char *builtInPathType) {
 
     if (auto *path = findValue(builtInPathMap, builtInPathType)) {
         return *path;
@@ -165,8 +167,9 @@ builtinPath(const std::unordered_map<std::string, std::filesystem::path>
     }();
 
     std::filesystem::path basePath = defaultBasePath;
-    if (auto *path = findValue(builtInPathMap, "basedir")) {
-        basePath = *path;
+    if (auto *path = findValue(builtInPathMap, "basedir");
+        path && !path->empty()) {
+        basePath = path->front();
     }
 
     const std::unordered_map<std::string, std::filesystem::path> pathMap = {
@@ -183,7 +186,7 @@ builtinPath(const std::unordered_map<std::string, std::filesystem::path>
         {"libexecdir", basePath / "libexec"},
     };
     if (auto *path = findValue(pathMap, builtInPathType)) {
-        return *path;
+        return {*path};
     }
     return {};
 }
@@ -230,51 +233,96 @@ std::filesystem::path getTempPath() {
     return ret;
 }
 
-std::vector<std::filesystem::path>
-getPath(StandardPathsType type,
-        const std::unordered_map<std::string, std::filesystem::path>
-            &builtInPathMap,
-        std::string_view packageName = "") {
+std::vector<std::filesystem::path> getPath(
+    StandardPathsOptions options, StandardPathsType type,
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>>
+        &builtInPathMap,
+    std::string_view packageName = "") {
     std::vector<std::filesystem::path> paths;
 
     switch (type) {
     case StandardPathsType::PkgConfig:
         assert(!packageName.empty());
-        paths = {localAppData(true) / windowsTopLevelAppName / "config" /
-                     packageName,
-                 localAppData(false) / windowsTopLevelAppName / "config" /
-                     packageName,
-                 packageName == "fcitx5"
-                     ? builtinPath(builtInPathMap, "pkgconfigdir")
-                     : builtinPath(builtInPathMap, "configdir") / packageName};
+        paths.push_back(localAppData(true) / windowsTopLevelAppName / "config" /
+                        packageName);
+        if (!options.test(StandardPathsOption::SkipSystemPath)) {
+            paths.push_back(localAppData(false) / windowsTopLevelAppName /
+                            "config" / packageName);
+        }
+        if (!options.test(StandardPathsOption::SkipBuiltInPath)) {
+            if (packageName == "fcitx5") {
+                std::ranges::copy(builtinPath(builtInPathMap, "pkgconfigdir"),
+                                  std::back_inserter(paths));
+            } else if (packageName == "fcitx5-config") {
+                std::ranges::copy(
+                    builtinPath(builtInPathMap, "configdir") |
+                        std::views::transform(
+                            [packageName](const std::filesystem::path &path) {
+                                return path / packageName;
+                            }),
+                    std::back_inserter(paths));
+            }
+        }
         break;
     case StandardPathsType::PkgData:
         assert(!packageName.empty());
-        paths = {localAppData(true) / packageName,
-                 localAppData(false) / packageName,
-                 packageName == "fcitx5"
-                     ? builtinPath(builtInPathMap, "pkgdatadir")
-                     : builtinPath(builtInPathMap, "datadir") / packageName};
+        paths.push_back(localAppData(true) / packageName);
+        if (!options.test(StandardPathsOption::SkipSystemPath)) {
+            paths.push_back(localAppData(false) / packageName);
+        }
+        if (!options.test(StandardPathsOption::SkipBuiltInPath)) {
+            if (packageName == "fcitx5") {
+                std::ranges::copy(builtinPath(builtInPathMap, "pkgdatadir"),
+                                  std::back_inserter(paths));
+            } else {
+                std::ranges::copy(
+                    builtinPath(builtInPathMap, "datadir") |
+                        std::views::transform(
+                            [packageName](const std::filesystem::path &path) {
+                                return path / packageName;
+                            }),
+                    std::back_inserter(paths));
+            }
+        }
         break;
     case StandardPathsType::Config:
-        paths = {localAppData(true) / windowsTopLevelAppName / "config",
-                 localAppData(false) / windowsTopLevelAppName / "config",
-                 builtinPath(builtInPathMap, "configdir")};
+        paths.push_back(localAppData(true) / windowsTopLevelAppName / "config");
+        if (!options.test(StandardPathsOption::SkipSystemPath)) {
+            paths.push_back(localAppData(false) / windowsTopLevelAppName /
+                            "config");
+        }
+        if (!options.test(StandardPathsOption::SkipBuiltInPath)) {
+            std::ranges::copy(builtinPath(builtInPathMap, "configdir"),
+                              std::back_inserter(paths));
+        }
         break;
     case StandardPathsType::Data:
-        paths = {localAppData(true) / windowsTopLevelAppName / "data",
-                 localAppData(false) / windowsTopLevelAppName / "data",
-                 builtinPath(builtInPathMap, "datadir")};
+        paths.push_back(localAppData(true) / windowsTopLevelAppName / "data");
+        if (!options.test(StandardPathsOption::SkipSystemPath)) {
+            paths.push_back(localAppData(false) / windowsTopLevelAppName /
+                            "data");
+        }
+        if (!options.test(StandardPathsOption::SkipBuiltInPath)) {
+            std::ranges::copy(builtinPath(builtInPathMap, "datadir"),
+                              std::back_inserter(paths));
+        }
         break;
     case StandardPathsType::Cache:
-        paths = {localAppData(false) / windowsTopLevelAppName / "cache"};
+        paths.push_back(localAppData(false) / windowsTopLevelAppName / "cache");
         break;
     case StandardPathsType::Addon:
-        paths = {localAppData(false) / windowsTopLevelAppName / "lib/fcitx5",
-                 builtinPath(builtInPathMap, "addondir")};
+        paths.push_back({});
+        if (!options.test(StandardPathsOption::SkipSystemPath)) {
+            paths.push_back(localAppData(false) / windowsTopLevelAppName /
+                            "lib");
+        }
+        if (!options.test(StandardPathsOption::SkipBuiltInPath)) {
+            std::ranges::copy(builtinPath(builtInPathMap, "addondir"),
+                              std::back_inserter(paths));
+        }
         break;
     case StandardPathsType::Runtime:
-        paths = {getTempPath()};
+        paths.push_back(getTempPath());
         break;
     }
 
@@ -298,19 +346,20 @@ getPath(StandardPathsType type,
 
 StandardPathsPrivate::StandardPathsPrivate(
     const std::string &packageName,
-    const std::unordered_map<std::string, std::filesystem::path>
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>>
         &builtInPathMap,
-    bool skipBuiltInPath, bool skipUserPath)
-    : skipBuiltInPath_(skipBuiltInPath), skipUserPath_(skipUserPath) {
+    StandardPathsOptions options)
+    : options_(options) {
     // initialize user directory
-    configDirs_ = getPath(StandardPathsType::Config, builtInPathMap);
-    pkgconfigDirs_ =
-        getPath(StandardPathsType::PkgConfig, builtInPathMap, packageName);
-    dataDirs_ = getPath(StandardPathsType::Data, builtInPathMap, packageName);
-    pkgdataDirs_ =
-        getPath(StandardPathsType::PkgData, builtInPathMap, packageName);
-    runtimeDir_ = getPath(StandardPathsType::Runtime, builtInPathMap);
-    addonDirs_ = getPath(StandardPathsType::Addon, builtInPathMap);
+    configDirs_ = getPath(options_, StandardPathsType::Config, builtInPathMap);
+    pkgconfigDirs_ = getPath(options_, StandardPathsType::PkgConfig,
+                             builtInPathMap, packageName);
+    dataDirs_ =
+        getPath(options_, StandardPathsType::Data, builtInPathMap, packageName);
+    pkgdataDirs_ = getPath(options_, StandardPathsType::PkgData, builtInPathMap,
+                           packageName);
+    runtimeDir_ = getPath(options_, StandardPathsType::Runtime, builtInPathMap);
+    addonDirs_ = getPath(options_, StandardPathsType::Addon, builtInPathMap);
 
     syncUmask();
 }
@@ -323,10 +372,10 @@ StandardPathsPrivate::fcitxPath(const char *path,
     }
 
     auto fsPath = builtinPath({}, path);
-    if (fsPath.empty()) {
+    if (fsPath.empty() || fsPath.front().empty()) {
         return {};
     }
-    return fsPath / subPath;
+    return fsPath.front() / subPath;
 }
 
 } // namespace fcitx
