@@ -58,7 +58,7 @@ public:
 
 protected:
     int_type underflow() override;
-    std::streamsize xsgetn(char *s, std::streamsize n) override;
+    std::streamsize xsgetn(char *s, std::streamsize bytesToRead) override;
     pos_type seekoff(off_type off, std::ios_base::seekdir dir,
                      std::ios_base::openmode = std::ios_base::in |
                                                std::ios_base::out) override;

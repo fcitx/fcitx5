@@ -69,7 +69,7 @@ jobs:
           path: fcitx5
       - name: Test
         run: |
-          ctest --test-dir fcitx5/build
+          ctest --output-on-failure --test-dir fcitx5/build
       - name: CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
@@ -103,3 +103,7 @@ jobs:
           path: .
           cmake-option: >-
             -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_SERVER=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_LIBUUID=Off -DENABLE_KEYBOARD=Off -DBUILD_SPELL_DICT=Off
+
+      - name: Test
+        run: |
+          ctest --output-on-failure --test-dir build

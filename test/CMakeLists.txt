@@ -17,8 +17,6 @@ set(FCITX_UTILS_TEST
     testlist
     testfs
     testlibrary
-    teststandardpath
-    teststandardpaths
     testunixfd
     testmetastring
     testhandlertable
@@ -31,6 +29,13 @@ set(FCITX_UTILS_TEST
     testsemver
     testenviron
     testfdstreambuf)
+
+if (WIN32)
+    list(APPEND FCITX_UTILS_TEST teststandardpaths_win)
+else()
+    list(APPEND FCITX_UTILS_TEST teststandardpath)
+    list(APPEND FCITX_UTILS_TEST teststandardpaths_unix)
+endif()
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage

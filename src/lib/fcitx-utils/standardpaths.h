@@ -51,7 +51,22 @@ enum class StandardPathsMode : uint8_t {
     Default = User | System,
 };
 
+/**
+ * Options for standard paths.
+ *
+ * This flag controls the behavior of StandardPaths.
+ * If you want to skip some paths, you can use these flags.
+ * User Path and System Path are derived from platform specific variables.
+ * Built-in Path is based on installation path.
+ */
+enum class StandardPathsOption : uint8_t {
+    SkipUserPath = (1 << 0),    // Skip user path
+    SkipSystemPath = (1 << 1),  // Skip system path
+    SkipBuiltInPath = (1 << 2), // Skip built-in path
+};
+
 using StandardPathsModes = Flags<StandardPathsMode>;
+using StandardPathsOptions = Flags<StandardPathsOption>;
 using StandardPathsFilterCallback =
     std::function<bool(const std::filesystem::path &)>;
 
@@ -72,14 +87,13 @@ public:
      *
      * @param packageName the sub directory under other paths.
      * @param builtInPath this will override the value from fcitxPath.
-     * @param skipBuiltInPath skip built-in path
-     * @param skipUserPath skip user path, useful when doing readonly-test.
+     * @param options options to customize the behavior.
      */
     explicit StandardPaths(
         const std::string &packageName,
-        const std::unordered_map<std::string, std::filesystem::path>
-            &builtInPath,
-        bool skipBuiltInPath, bool skipUserPath);
+        const std::unordered_map<
+            std::string, std::vector<std::filesystem::path>> &builtInPath,
+        StandardPathsOptions options);
 
     virtual ~StandardPaths();
 
@@ -195,6 +209,20 @@ public:
      *
      */
     bool skipUserPath() const;
+
+    /**
+     * Whether this StandardPath is configured to Skip system path.
+     */
+    bool skipSystemPath() const;
+
+    /**
+     * \brief Get the options for the StandardPaths.
+     *
+     * This function returns the current configuration options for the
+     * StandardPaths instance.
+     */
+
+    StandardPathsOptions options() const;
 
 private:
     std::unique_ptr<StandardPathsPrivate> d_ptr;

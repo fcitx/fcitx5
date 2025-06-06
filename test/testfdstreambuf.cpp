@@ -7,6 +7,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <filesystem>
 #include <fstream> // IWYU pragma: keep
 #include <iostream>
 #include <istream>
@@ -27,9 +28,15 @@ constexpr char filename[] = FCITX5_BINARY_DIR "/test/testfile";
 
 int main() {
     {
+        std::filesystem::path path(filename);
 #ifndef TEST_USE_STD
+#ifdef _WIN32
+        UnixFD outfd = UnixFD::own(_wopen(
+            path.c_str(), O_WRONLY | O_TRUNC | O_CREAT | _O_BINARY, 0600));
+#else
         UnixFD outfd =
-            UnixFD::own(open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0600));
+            UnixFD::own(open(path.c_str(), O_WRONLY | O_TRUNC | O_CREAT, 0600));
+#endif
 
         OFDStreamBuf ostreamBuf(std::move(outfd));
         std::ostream out(&ostreamBuf);

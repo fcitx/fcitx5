@@ -108,7 +108,9 @@ int main() {
     FCITX_ASSERT(!isdir("a/b"));
     FCITX_ASSERT(!isdir("a/b/c"));
     FCITX_ASSERT(makePath("a/b/c"));
+#ifndef _WIN32
     FCITX_ASSERT(makePath("///"));
+#endif
     FCITX_ASSERT(makePath("a/b/c"));
     FCITX_ASSERT(makePath("a/b/d"));
     FCITX_ASSERT(makePath("a/b"));

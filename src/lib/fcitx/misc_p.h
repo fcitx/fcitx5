@@ -19,16 +19,17 @@
 #include <vector>
 #include <fcitx-utils/charutils.h>
 #include <fcitx-utils/environ.h>
+#include <fcitx-utils/key.h>
 #include <fcitx-utils/log.h>
+#include <fcitx-utils/misc.h>
 #include <fcitx-utils/misc_p.h>
 #include <fcitx-utils/stringutils.h>
 #include <fcitx/candidatelist.h>
 #include <fcitx/inputmethodentry.h>
 #include <fcitx/inputmethodmanager.h>
 #include <fcitx/instance.h>
-#include "fcitx-utils/key.h"
 
-// This ia a file for random private util functions that we'd like to share
+// This is a file for random private util functions that we'd like to share
 // among different modules.
 namespace fcitx {
 
@@ -130,6 +131,9 @@ enum class DesktopType {
 };
 
 static inline DesktopType getDesktopType() {
+    if constexpr (isWindows() || isApple() || isAndroid() || isEmscripten()) {
+        return DesktopType::Unknown;
+    }
     std::string desktop;
     // new standard
     if (auto desktopEnv = getEnvironment("XDG_CURRENT_DESKTOP")) {
