@@ -899,8 +899,8 @@ std::string IconTheme::defaultIconThemeName() {
         return "oxygen";
     }
     default: {
-        auto files = StandardPath::global().locateAll(
-            StandardPath::Type::Config, "gtk-3.0/settings.ini");
+        auto files = StandardPaths::global().locateAll(
+            StandardPathsType::Config, "gtk-3.0/settings.ini");
         for (auto &file : files) {
             auto theme = getGtkTheme(file);
             if (!theme.empty()) {
