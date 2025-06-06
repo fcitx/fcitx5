@@ -11,6 +11,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <unordered_map>
 #include <unordered_set>
@@ -38,7 +39,7 @@ std::optional<std::string> getEnvironmentNull(const char *env) {
 
 // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 std::vector<std::filesystem::path> defaultPaths(
-    StandardPathsOptions options, const char *homeEnv,
+    StandardPathsOptions options, bool isFcitx, const char *homeEnv,
     const std::filesystem::path &homeFallback, const char *systemEnv = nullptr,
     const std::vector<std::filesystem::path> &systemFallback = {},
     const char *builtInPathType = nullptr,
@@ -82,7 +83,10 @@ std::vector<std::filesystem::path> defaultPaths(
         if (const auto *value = findValue(builtInPathMap, builtInPathType)) {
             builtInPaths = *value;
         } else {
-            builtInPaths = {StandardPaths::fcitxPath(builtInPathType)};
+            if (std::string_view(builtInPathType).starts_with("pkg") &&
+                isFcitx) {
+                builtInPaths = {StandardPaths::fcitxPath(builtInPathType)};
+            }
         }
         for (const auto &builtInPath : builtInPaths) {
             const auto path = builtInPath.lexically_normal();
@@ -123,9 +127,9 @@ StandardPathsPrivate::StandardPathsPrivate(
     std::filesystem::path packagePath =
         std::u8string(packageName.begin(), packageName.end());
     // initialize user directory
-    configDirs_ =
-        defaultPaths(options_, "XDG_CONFIG_HOME", ".config", "XDG_CONFIG_DIRS",
-                     {"/etc/xdg"}, "configdir", builtInPathMap);
+    configDirs_ = defaultPaths(options_, isFcitx, "XDG_CONFIG_HOME", ".config",
+                               "XDG_CONFIG_DIRS", {"/etc/xdg"}, "configdir",
+                               builtInPathMap);
     std::vector<std::filesystem::path> pkgconfigDirFallback;
     std::ranges::copy(
         configDirs_ | std::views::drop(1) |
@@ -133,13 +137,12 @@ StandardPathsPrivate::StandardPathsPrivate(
                 [&packagePath](const auto &dir) { return dir / packagePath; }),
         std::back_inserter(pkgconfigDirFallback));
     pkgconfigDirs_ = defaultPaths(
-        options_, (isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
+        options_, isFcitx, (isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
         configDirs_[0] / packagePath, (isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
-        pkgconfigDirFallback, (isFcitx ? "pkgconfigdir" : nullptr),
-        builtInPathMap);
+        pkgconfigDirFallback, "pkgconfigdir", builtInPathMap);
 
     dataDirs_ = defaultPaths(
-        options_, "XDG_DATA_HOME", ".local/share", "XDG_DATA_DIRS",
+        options_, isFcitx, "XDG_DATA_HOME", ".local/share", "XDG_DATA_DIRS",
         {"/usr/local/share", "/usr/share"}, "datadir", builtInPathMap);
     std::vector<std::filesystem::path> pkgdataDirFallback;
     std::ranges::copy(
@@ -148,21 +151,21 @@ StandardPathsPrivate::StandardPathsPrivate(
                 [&packagePath](const auto &dir) { return dir / packagePath; }),
         std::back_inserter(pkgdataDirFallback));
     pkgdataDirs_ = defaultPaths(
-        options_, (isFcitx ? "FCITX_DATA_HOME" : nullptr),
+        options_, isFcitx, (isFcitx ? "FCITX_DATA_HOME" : nullptr),
         dataDirs_[0] / packagePath, (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
-        pkgdataDirFallback, (isFcitx ? "pkgdatadir" : nullptr), builtInPathMap);
-    cacheDir_ = defaultPaths(options_, "XDG_CACHE_HOME", ".cache");
+        pkgdataDirFallback, "pkgdatadir", builtInPathMap);
+    cacheDir_ = defaultPaths(options_, isFcitx, "XDG_CACHE_HOME", ".cache");
     assert(cacheDir_.size() == 1);
     std::error_code ec;
     auto tmpdir = std::filesystem::temp_directory_path(ec);
     runtimeDir_ =
-        defaultPaths(options_, "XDG_RUNTIME_DIR",
+        defaultPaths(options_, isFcitx, "XDG_RUNTIME_DIR",
                      tmpdir.empty() ? std::filesystem::path("/tmp") : tmpdir);
     assert(runtimeDir_.size() == 1);
-    // Though theoratically, this is also fcitxPath, we just simply don't
+    // Though theoretically, this is also fcitxPath, we just simply don't
     // use it here.
     addonDirs_ =
-        defaultPaths(options_, nullptr, {}, "FCITX_ADDON_DIRS",
+        defaultPaths(options_, isFcitx, nullptr, {}, "FCITX_ADDON_DIRS",
                      {FCITX_INSTALL_ADDONDIR}, "addondir", builtInPathMap);
 
     syncUmask();
