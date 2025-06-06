@@ -69,7 +69,7 @@ jobs:
           path: fcitx5
       - name: Test
         run: |
-          ctest --test-dir fcitx5/build
+          ctest --output-on-failure --test-dir fcitx5/build
       - name: CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
@@ -106,4 +106,4 @@ jobs:
 
       - name: Test
         run: |
-          ctest --test-dir build
+          ctest --output-on-failure --test-dir build

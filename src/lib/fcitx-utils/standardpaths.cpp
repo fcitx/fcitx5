@@ -352,4 +352,9 @@ bool StandardPaths::skipSystemPath() const {
     return d->options() & StandardPathsOption::SkipSystemPath;
 }
 
+StandardPathsOptions StandardPaths::options() const {
+    FCITX_D();
+    return d->options();
+}
+
 } // namespace fcitx

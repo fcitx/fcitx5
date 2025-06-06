@@ -27,7 +27,7 @@ void test_basic() {
     setEnvironment("XDG_DATA_HOME", "/TEST//PATH");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPaths standardPaths("fcitx5", {},
-                                StandardPathsOption::SkipUserPath);
+                                StandardPathsOption::SkipBuiltInPath);
 
     FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Config) ==
                  "/TEST/PATH");
@@ -132,16 +132,16 @@ void test_custom() {
     setEnvironment("XDG_DATA_HOME", "/TEST//PATH");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
     StandardPaths path("mypackage", {{"datadir", {"/TEST/PATH3"}}},
-                       StandardPathsOptions{});
+                       StandardPathsOption::SkipBuiltInPath);
     FCITX_ASSERT(std::ranges::equal(
         path.directories(fcitx::StandardPathsType::PkgConfig),
         std::vector<std::filesystem::path>{"/TEST/PATH/mypackage",
                                            "/TEST/PATH1/mypackage",
-                                           "/TEST/PATH2/mypackage"}));
-    FCITX_ASSERT(
-        std::ranges::equal(path.directories(fcitx::StandardPathsType::Data),
-                           std::vector<std::filesystem::path>{
-                               "/TEST/PATH", TEST_ADDON_DIR, "/TEST/PATH3"}))
+                                           "/TEST/PATH2/mypackage"}))
+        << path.directories(fcitx::StandardPathsType::PkgConfig);
+    FCITX_ASSERT(std::ranges::equal(
+        path.directories(fcitx::StandardPathsType::Data),
+        std::vector<std::filesystem::path>{"/TEST/PATH", TEST_ADDON_DIR}))
         << path.directories(fcitx::StandardPathsType::Data);
 }
 

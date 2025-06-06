@@ -215,6 +215,15 @@ public:
      */
     bool skipSystemPath() const;
 
+    /**
+     * \brief Get the options for the StandardPaths.
+     *
+     * This function returns the current configuration options for the
+     * StandardPaths instance.
+     */
+
+    StandardPathsOptions options() const;
+
 private:
     std::unique_ptr<StandardPathsPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPaths);

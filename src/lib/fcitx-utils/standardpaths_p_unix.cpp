@@ -135,7 +135,8 @@ StandardPathsPrivate::StandardPathsPrivate(
     pkgconfigDirs_ = defaultPaths(
         options_, (isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
         configDirs_[0] / packagePath, (isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
-        pkgconfigDirFallback, "pkgconfigdir", builtInPathMap);
+        pkgconfigDirFallback, (isFcitx ? "pkgconfigdir" : nullptr),
+        builtInPathMap);
 
     dataDirs_ = defaultPaths(
         options_, "XDG_DATA_HOME", ".local/share", "XDG_DATA_DIRS",
@@ -149,7 +150,7 @@ StandardPathsPrivate::StandardPathsPrivate(
     pkgdataDirs_ = defaultPaths(
         options_, (isFcitx ? "FCITX_DATA_HOME" : nullptr),
         dataDirs_[0] / packagePath, (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
-        pkgdataDirFallback, "pkgdatadir", builtInPathMap);
+        pkgdataDirFallback, (isFcitx ? "pkgdatadir" : nullptr), builtInPathMap);
     cacheDir_ = defaultPaths(options_, "XDG_CACHE_HOME", ".cache");
     assert(cacheDir_.size() == 1);
     std::error_code ec;
