@@ -108,6 +108,3 @@ jobs:
         run: |
           ctest --output-on-failure --test-dir build
 
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3

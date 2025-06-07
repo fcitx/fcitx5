@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
         UnixFD ifd = StandardPaths::openPath(argv[2]);
-        UnixFD ofd =
-            StandardPaths::openPath(argv[3], O_WRONLY | O_TRUNC | O_CREAT);
+        UnixFD ofd = StandardPaths::openPath(
+            argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644);
         if (!ifd.isValid() || !ofd.isValid()) {
             return 1;
         }
