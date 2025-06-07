@@ -784,7 +784,9 @@ Instance::Instance(int argc, char **argv) {
             // Keep this value, and reset them in the state
             inputState->keyReleased_ = -1;
             const bool isModifier = origKey.isModifier();
-            if (keyEvent.isRelease()) {
+            // Don't trigger actions when using shift+click to select text
+            if (keyEvent.isRelease() &&
+                !keyEvent.origKey().states().test(KeyState::MousePressed)) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
                     if (keyReleased == idx &&
