@@ -506,7 +506,7 @@ void WaylandModule::setLayoutToKDE() {
         auto path =
             StandardPaths::global().userDirectory(StandardPathsType::Config) /
             "kxkbrc";
-        auto file = UnixFD::own(open(path.c_str(), O_WRONLY, 0644));
+        auto file = StandardPaths::openPath(path, O_WRONLY | O_TRUNC | O_CREAT);
         if (file.isValid()) {
             writeAsIni(config, file.fd());
         } else {

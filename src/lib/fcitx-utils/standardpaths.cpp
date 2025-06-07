@@ -43,10 +43,6 @@
 #include "stringutils.h"
 #include "unixfd.h"
 
-#ifndef O_ACCMODE
-#define O_ACCMODE (O_RDONLY | O_WRONLY | O_RDWR)
-#endif
-
 namespace fcitx {
 
 const std::filesystem::path StandardPathsPrivate::constEmptyPath;
@@ -252,12 +248,20 @@ UnixFD StandardPaths::open(StandardPathsType type,
     return retFD;
 }
 
-UnixFD StandardPaths::openPath(const std::filesystem::path &path) {
+UnixFD StandardPaths::openPath(const std::filesystem::path &path,
+                               std::optional<int> flags,
+                               std::optional<mode_t> mode) {
+    int f = flags.value_or(O_RDONLY);
 #ifdef _WIN32
-    return UnixFD::own(::_wopen(path.c_str(), O_RDONLY | _O_BINARY));
+    f |= _O_BINARY;
+    auto openFunc = ::_wopen;
 #else
-    return UnixFD::own(::open(path.c_str(), O_RDONLY));
+    auto openFunc = ::open;
 #endif
+    if (mode.has_value()) {
+        return UnixFD::own(openFunc(path.c_str(), f, mode.value()));
+    }
+    return UnixFD::own(openFunc(path.c_str(), f));
 }
 
 std::vector<UnixFD>

@@ -7,7 +7,6 @@
  */
 
 #include <fcntl.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <cstdint>
@@ -15,9 +14,17 @@
 #include <cstdlib>
 #include <cstring>
 #include <functional>
+#include <memory>
+#include <vector> // IWYU pragma: keep
 #include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/unixfd.h"
+#include "config.h"
+
+#ifdef HAVE_SYS_MMAN_H
+#include <sys/mman.h>
+#endif
 
 using namespace fcitx;
 
@@ -33,6 +40,7 @@ static int compile_dict(int ifd, int ofd) {
         return 1;
     }
 
+#ifdef HAVE_SYS_MMAN_H
     auto unmap = [&istat_buf](void *p) {
         if (p && p != MAP_FAILED) {
             munmap(p, istat_buf.st_size + 1);
@@ -46,6 +54,16 @@ static int compile_dict(int ifd, int ofd) {
         return 1;
     }
     p = static_cast<char *>(mmapped.get());
+#else
+    std::vector<char> buffer;
+    buffer.resize(istat_buf.st_size + 1);
+    ssize_t read_bytes = fs::safeRead(ifd, buffer.data(), istat_buf.st_size);
+    if (read_bytes != istat_buf.st_size) {
+        return 1;
+    }
+    buffer[istat_buf.st_size] = '\0';
+    p = buffer.data();
+#endif
     ifend = istat_buf.st_size + p;
     fs::safeWrite(ofd, DICT_BIN_MAGIC, strlen(DICT_BIN_MAGIC));
     if (lseek(ofd, sizeof(uint32_t), SEEK_CUR) == static_cast<off_t>(-1)) {
@@ -84,9 +102,9 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Wrong number of arguments.\n");
             exit(1);
         }
-        UnixFD ifd = UnixFD::own(open(argv[2], O_RDONLY));
+        UnixFD ifd = StandardPaths::openPath(argv[2]);
         UnixFD ofd =
-            UnixFD::own(open(argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644));
+            StandardPaths::openPath(argv[3], O_WRONLY | O_TRUNC | O_CREAT);
         if (!ifd.isValid() || !ofd.isValid()) {
             return 1;
         }

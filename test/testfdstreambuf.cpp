@@ -16,6 +16,7 @@
 #include <vector>
 #include "fcitx-utils/fdstreambuf.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/unixfd.h"
 #include "testdir.h"
 
@@ -27,21 +28,16 @@ constexpr char filename[] = FCITX5_BINARY_DIR "/test/testfile";
 // #define TEST_USE_STD
 
 int main() {
+    std::filesystem::path path(filename);
     {
-        std::filesystem::path path(filename);
 #ifndef TEST_USE_STD
-#ifdef _WIN32
-        UnixFD outfd = UnixFD::own(_wopen(
-            path.c_str(), O_WRONLY | O_TRUNC | O_CREAT | _O_BINARY, 0600));
-#else
         UnixFD outfd =
-            UnixFD::own(open(path.c_str(), O_WRONLY | O_TRUNC | O_CREAT, 0600));
-#endif
+            StandardPaths::openPath(path, O_WRONLY | O_TRUNC | O_CREAT, 0600);
 
         OFDStreamBuf ostreamBuf(std::move(outfd));
         std::ostream out(&ostreamBuf);
 #else
-        std::ofstream out(filename);
+        std::ofstream out(path);
 #endif
 
         for (int i = 0; i < 10000; i++) {
@@ -57,11 +53,11 @@ int main() {
 
     {
 #ifndef TEST_USE_STD
-        UnixFD fd = UnixFD::own(open(filename, O_RDONLY));
+        UnixFD fd = StandardPaths::openPath(path);
         IFDStreamBuf streamBuf(std::move(fd));
         std::istream stream(&streamBuf);
 #else
-        std::ifstream stream(filename);
+        std::ifstream stream(path);
 #endif
 
         std::string line;
