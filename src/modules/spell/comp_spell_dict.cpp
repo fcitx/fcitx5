@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
         if (!ifd.isValid() || !ofd.isValid()) {
             return 1;
         }
-    FCITX_INFO() << "fcitx5-spell-compile-dict open file...";
+        FCITX_INFO() << "fcitx5-spell-compile-dict open file...";
         return compile_dict(ifd.fd(), ofd.fd());
     }
     return 1;
