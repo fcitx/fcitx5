@@ -6,19 +6,19 @@
  *
  */
 
-#include "config.h"
-
-#include <fcntl.h>
-#include <signal.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <unistd.h>
-#include <cstdint>
-#include <string>
-
-#include "fcitx-utils/fs.h"
 #include "errorhandler.h"
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <csignal>
+#include <cstdint>
+#include <cstring>
+#include <ctime>
+#include <string>
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/standardpaths.h"
+#include "fcitx-utils/unixfd.h"
+#include "config.h"
 
 #if defined(EXECINFO_FOUND)
 #include <execinfo.h>
@@ -121,34 +121,36 @@ void OnException(int signo) {
     }
 
     MinimalBuffer buffer;
-    int fd = -1;
+    fcitx::UnixFD fd;
 
     if (!crashlog.empty() && (signo == SIGSEGV || signo == SIGABRT)) {
-        fd = open(crashlog.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
+        fd = fcitx::StandardPaths::openPath(crashlog,
+                                            O_WRONLY | O_CREAT | O_TRUNC, 0600);
     }
 
     /* print signal info */
     BufferReset(&buffer);
     BufferAppendUInt64(&buffer, signo, 10);
-    _write_string(fd, "=========================\n");
-    _write_string(fd, "Fcitx " FCITX_VERSION_STRING " -- Get Signal No.: ");
-    _write_buffer(fd, &buffer);
-    _write_string(fd, "\n");
+    _write_string(fd.fd(), "=========================\n");
+    _write_string(fd.fd(),
+                  "Fcitx " FCITX_VERSION_STRING " -- Get Signal No.: ");
+    _write_buffer(fd.fd(), &buffer);
+    _write_string(fd.fd(), "\n");
 
     /* print time info */
     time_t t = time(nullptr);
     BufferReset(&buffer);
     BufferAppendUInt64(&buffer, t, 10);
-    _write_string(fd, "Date: try \"date -d @");
-    _write_buffer(fd, &buffer);
-    _write_string(fd, "\" if you are using GNU date ***\n");
+    _write_string(fd.fd(), "Date: try \"date -d @");
+    _write_buffer(fd.fd(), &buffer);
+    _write_string(fd.fd(), "\" if you are using GNU date ***\n");
 
     /* print process info */
     BufferReset(&buffer);
     BufferAppendUInt64(&buffer, getpid(), 10);
-    _write_string(fd, "ProcessID: ");
-    _write_buffer(fd, &buffer);
-    _write_string(fd, "\n");
+    _write_string(fd.fd(), "ProcessID: ");
+    _write_buffer(fd.fd(), &buffer);
+    _write_string(fd.fd(), "\n");
 
 #if defined(EXECINFO_FOUND)
     void *array[BACKTRACE_SIZE] = {
@@ -157,14 +159,12 @@ void OnException(int signo) {
 
     int size = backtrace(array, BACKTRACE_SIZE);
     backtrace_symbols_fd(array, size, STDERR_FILENO);
-    if (fd >= 0) {
-        backtrace_symbols_fd(array, size, fd);
+    if (fd.isValid()) {
+        backtrace_symbols_fd(array, size, fd.fd());
     }
 #endif
 
-    if (fd >= 0) {
-        close(fd);
-    }
+    fd.reset();
 
     switch (signo) {
     case SIGABRT:

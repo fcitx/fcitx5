@@ -49,6 +49,7 @@
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/textformatflags.h"
+#include "fcitx-utils/unixfd.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx-utils/uuid_p.h"
 #include "fcitx/addonfactory.h"
@@ -130,12 +131,12 @@ getAddress(const std::filesystem::path &socketPath) {
     }
 
     /* read address from ~/.config/ibus/bus/soketfile */
-    UniqueFilePtr file(fopen(socketPath.string().c_str(), "rb"));
-    if (!file) {
+    UnixFD file = StandardPaths::openPath(socketPath);
+    if (!file.isValid()) {
         return {};
     }
     RawConfig config;
-    readFromIni(config, file.get());
+    readFromIni(config, file.fd());
     const auto *value = config.valueByPath("IBUS_ADDRESS");
     const auto *pidValue = config.valueByPath("IBUS_DAEMON_PID");
 

@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -31,7 +32,7 @@
 
 using namespace fcitx;
 int selfpipe[2];
-std::string crashlog;
+std::filesystem::path crashlog;
 
 FCITX_DEFINE_STATIC_ADDON_REGISTRY(getStaticAddon)
 #ifdef ENABLE_KEYBOARD
