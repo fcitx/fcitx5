@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <vector> // IWYU pragma: keep
 #include "fcitx-utils/endian_p.h"
@@ -36,7 +37,6 @@ static int compile_dict(int ifd, int ofd) {
     uint32_t wcount = 0;
     char *p;
     char *ifend;
-    FCITX_INFO() << "fcitx5-spell-compile-dict open fstst...";
     if (fstat(ifd, &istat_buf) == -1) {
         return 1;
     }
@@ -70,7 +70,6 @@ static int compile_dict(int ifd, int ofd) {
     if (lseek(ofd, sizeof(uint32_t), SEEK_CUR) == static_cast<off_t>(-1)) {
         return 1;
     }
-    FCITX_INFO() << "fcitx5-spell-compile-dict open write...";
     while (p < ifend) {
         char *start;
         long int ceff;
@@ -94,26 +93,20 @@ static int compile_dict(int ifd, int ofd) {
     }
     wcount = htole32(wcount);
     fs::safeWrite(ofd, &wcount, sizeof(uint32_t));
-    FCITX_INFO() << "fcitx5-spell-compile-dict open write end...";
     return 0;
 }
 
 int main(int argc, char *argv[]) {
-    FCITX_INFO() << "fcitx5-spell-compile-dict starting...";
-    const char *action = argv[1];
-    if (strcmp(action, "--comp-dict") == 0) {
-        if (argc != 4) {
-            fprintf(stderr, "Wrong number of arguments.\n");
-            exit(1);
-        }
+    if (argc == 4 && strcmp(argv[1], "--comp-dict") == 0) {
         UnixFD ifd = StandardPaths::openPath(argv[2]);
         UnixFD ofd = StandardPaths::openPath(
             argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644);
         if (!ifd.isValid() || !ofd.isValid()) {
             return 1;
         }
-        FCITX_INFO() << "fcitx5-spell-compile-dict open file...";
         return compile_dict(ifd.fd(), ofd.fd());
     }
+    std::cerr << "Usage: " << argv[0]
+              << " --comp-dict <input file> <output file>\n";
     return 1;
 }

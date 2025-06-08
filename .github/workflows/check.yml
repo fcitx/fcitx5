@@ -97,6 +97,12 @@ jobs:
             mingw-w64-clang-x86_64-gettext-tools
           Add-Content $env:GITHUB_PATH "C:/msys64/clang64/bin"
 
+      - name: Cache fcitx5 data files
+        uses: actions/cache@v4
+        with:
+          path: 'fcitx5/**/*.tar.*'
+          key: ${{ runner.os }}-${{ hashFiles('fcitx5/src/modules/spell/CMakeLists.txt') }}
+
       - name: Build
         uses: fcitx/github-actions@cmake
         with:
