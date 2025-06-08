@@ -102,8 +102,13 @@ jobs:
         with:
           path: .
           cmake-option: >-
-            -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_SERVER=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_LIBUUID=Off -DENABLE_KEYBOARD=Off -DBUILD_SPELL_DICT=Off
+            -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_SERVER=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_LIBUUID=Off -DENABLE_KEYBOARD=Off
+          shell: pwsh
 
       - name: Test
         run: |
           ctest --output-on-failure --test-dir build
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3

@@ -7,11 +7,13 @@
 #ifndef _FCITX_UTILS_STANDARDPATHS_H_
 #define _FCITX_UTILS_STANDARDPATHS_H_
 
+#include <sys/types.h>
 #include <cstdint>
 #include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -160,8 +162,16 @@ public:
                 StandardPathsModes modes = StandardPathsMode::Default,
                 std::filesystem::path *outPath = nullptr) const;
 
-    /** \brief Open the path for read. */
-    static UnixFD openPath(const std::filesystem::path &path);
+    /**
+     * \brief Open the path.
+     *
+     * This function will use _wopen on Windows and open on Unix.
+     * By default, it will open the file with O_RDONLY.
+     * _O_BINARY will be set on Windows.
+     */
+    static UnixFD openPath(const std::filesystem::path &path,
+                           std::optional<int> flags = std::nullopt,
+                           std::optional<mode_t> mode = std::nullopt);
 
     /** \brief Open the all matched and file for read.
      */

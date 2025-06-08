@@ -9,7 +9,10 @@
 #include <cstdio>
 #include <string>
 #include <expat.h>
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/standardpaths.h"
+#include "fcitx-utils/unixfd.h"
 #define XML_BUFFER_SIZE 4096
 
 namespace fcitx {
@@ -17,8 +20,8 @@ namespace fcitx {
 bool XMLParser::parse(const std::string &name) {
     UniqueCPtr<XML_ParserStruct, XML_ParserFree> parser(
         XML_ParserCreate(nullptr));
-    UniqueFilePtr input(std::fopen(name.c_str(), "r"));
-    if (!input) {
+    UnixFD input = StandardPaths::openPath(name);
+    if (!input.isValid()) {
         return false;
     }
 
@@ -43,7 +46,7 @@ bool XMLParser::parse(const std::string &name) {
     void *buf;
     do {
         buf = XML_GetBuffer(parser.get(), XML_BUFFER_SIZE);
-        len = fread(buf, 1, XML_BUFFER_SIZE, input.get());
+        len = fs::safeRead(input.fd(), buf, XML_BUFFER_SIZE);
         if (len < 0) {
             return false;
         }
