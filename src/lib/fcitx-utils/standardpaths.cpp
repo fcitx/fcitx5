@@ -252,12 +252,15 @@ UnixFD StandardPaths::openPath(const std::filesystem::path &path,
                                std::optional<int> flags,
                                std::optional<mode_t> mode) {
     int f = flags.value_or(O_RDONLY);
+
+    auto openFunc = [](auto path, int flag, auto... extra) {
 #ifdef _WIN32
-    f |= _O_BINARY;
-    auto openFunc = ::_wopen;
+        flag |= _O_BINARY;
+        return ::_wopen(path, flag, extra...);
 #else
-    auto openFunc = ::open;
+        return ::open(path, flag, extra...);
 #endif
+    };
     if (mode.has_value()) {
         return UnixFD::own(openFunc(path.c_str(), f, mode.value()));
     }
