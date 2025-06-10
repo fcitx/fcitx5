@@ -90,11 +90,12 @@ NotFilter<T> Not(T t) {
 }
 
 /// \brief Filter class that filters based on user file.
-struct FCITXUTILS_DEPRECATED_EXPORT User{
+struct FCITXUTILS_DEPRECATED_EXPORT User {
     bool operator()(const std::string & /*unused*/,
-                    const std::string & /*unused*/, bool isUser){return isUser;
-} // namespace filter
-}; // namespace fcitx
+                    const std::string & /*unused*/, bool isUser) {
+        return isUser;
+    }
+};
 
 /// \brief Filter class that filters file based on prefix
 struct FCITXUTILS_DEPRECATED_EXPORT Prefix {
