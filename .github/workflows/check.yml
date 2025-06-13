@@ -82,6 +82,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: fcitx5
 
       - name: Install dependencies
         run: |
@@ -106,15 +108,11 @@ jobs:
       - name: Build
         uses: fcitx/github-actions@cmake
         with:
-          path: .
+          path: fcitx5
           cmake-option: >-
             -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_SERVER=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_LIBUUID=Off -DENABLE_KEYBOARD=Off
           shell: pwsh
 
       - name: Test
         run: |
-          ctest --output-on-failure --test-dir build
-
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+          ctest --output-on-failure --test-dir fcitx5/build
