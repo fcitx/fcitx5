@@ -429,10 +429,17 @@ std::string keyToLabel(const Key &key) {
     if (key.states() & KeyState::VALUE) {                                      \
         result += (STR);                                                       \
     }
-    _APPEND_MODIFIER_STRING("C-", Ctrl)
-    _APPEND_MODIFIER_STRING("A-", Alt)
-    _APPEND_MODIFIER_STRING("S-", Shift)
-    _APPEND_MODIFIER_STRING("M-", Super)
+    if (isApple()) {
+        _APPEND_MODIFIER_STRING("⌃", Ctrl)
+        _APPEND_MODIFIER_STRING("⌥", Alt)
+        _APPEND_MODIFIER_STRING("⇧", Shift)
+        _APPEND_MODIFIER_STRING("⌘", Super)
+    } else {
+        _APPEND_MODIFIER_STRING("C-", Ctrl)
+        _APPEND_MODIFIER_STRING("A-", Alt)
+        _APPEND_MODIFIER_STRING("S-", Shift)
+        _APPEND_MODIFIER_STRING("M-", Super)
+    }
 
 #undef _APPEND_MODIFIER_STRING
 
