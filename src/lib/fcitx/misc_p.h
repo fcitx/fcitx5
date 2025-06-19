@@ -196,7 +196,8 @@ static inline DesktopType getDesktopType() {
 
 static inline bool isKDE() {
     static const DesktopType desktop = getDesktopType();
-    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
+    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5 ||
+           desktop == DesktopType::KDE6;
 }
 
 static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
