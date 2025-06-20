@@ -26,11 +26,17 @@ void test_basic() {
                    "/TEST/PATH1/:/TEST/PATH2:/TEST/PATH2/:/TEST/PATH1");
     setEnvironment("XDG_DATA_HOME", "/TEST//PATH");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
+    setEnvironment("XDG_CACHE_HOME", "/CACHE/PATH");
+    setEnvironment("XDG_RUNTIME_DIR", "/RUNTIME/PATH");
     StandardPaths standardPaths("fcitx5", {},
                                 StandardPathsOption::SkipBuiltInPath);
 
     FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Config) ==
                  "/TEST/PATH");
+    FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Runtime) ==
+                 "/RUNTIME/PATH");
+    FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Cache) ==
+                 "/CACHE/PATH");
     // The order to the path should be kept for their first appearance.
     FCITX_ASSERT(
         std::ranges::equal(standardPaths.directories(StandardPathsType::Config),
@@ -108,10 +114,15 @@ void test_nouser() {
     setEnvironment("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2");
     setEnvironment("XDG_DATA_HOME", "/TEST//PATH");
     setEnvironment("XDG_DATA_DIRS", TEST_ADDON_DIR);
+    setEnvironment("XDG_CACHE_HOME", "/CACHE/PATH");
+    setEnvironment("XDG_RUNTIME_DIR", "/RUNTIME/PATH");
     StandardPaths standardPaths(
         "fcitx5", {},
         StandardPathsOptions{StandardPathsOption::SkipUserPath,
                              StandardPathsOption::SkipBuiltInPath});
+    FCITX_ASSERT(
+        standardPaths.userDirectory(StandardPathsType::Runtime).empty());
+    FCITX_ASSERT(standardPaths.userDirectory(StandardPathsType::Cache).empty());
 
     std::filesystem::path path;
     auto file =

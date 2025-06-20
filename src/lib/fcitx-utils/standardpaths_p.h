@@ -52,6 +52,10 @@ public:
                 return pkgdataDirs_;
             case StandardPathsType::Addon:
                 return addonDirs_;
+            case StandardPathsType::Cache:
+                return cacheDir_;
+            case StandardPathsType::Runtime:
+                return runtimeDir_;
             default:
                 return constEmptyPaths;
             }
