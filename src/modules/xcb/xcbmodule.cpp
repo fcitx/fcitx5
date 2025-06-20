@@ -19,6 +19,7 @@
 #include "fcitx-utils/environ.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
@@ -217,7 +218,7 @@ bool XCBModule::isClientDisconnectModeTerminate() const {
                ClientDisconnectModeTerminate::Yes ||
            (*config_.clientDisconnectModeTerminate ==
                 ClientDisconnectModeTerminate::Auto &&
-            getDesktopType() == DesktopType::GNOME);
+            getDesktopType() == DesktopType::GNOME && !isInFlatpak());
 }
 
 class XCBModuleFactory : public AddonFactory {
