@@ -88,7 +88,8 @@ std::string getSocketPath(bool isWayland) {
     if (isWayland) {
         displaynumber = "wayland-0";
         if (auto display = getEnvironment("WAYLAND_DISPLAY")) {
-            displaynumber = *display;
+            std::filesystem::path displayPath(*display);
+            displaynumber = displayPath.filename().c_str();
         }
     } else if (auto displayEnv = getEnvironment("DISPLAY")) {
         std::string_view display = *displayEnv;
@@ -908,9 +909,13 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     RawConfig config;
     auto address = bus()->address();
     if (isInFlatpak()) {
+        FCITX_IBUS_DEBUG() << "Running in flatpak, DBus Address is " << address;
         if (address.find("/run/flatpak/bus") != std::string::npos) {
             auto userBus =
                 standardPath_.userDirectory(StandardPathsType::Runtime) / "bus";
+            FCITX_IBUS_DEBUG() << "Detect flatpak masked address, try to guess "
+                                  "host address as "
+                               << userBus;
 
             struct stat statbuf;
 
@@ -921,6 +926,7 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
             }
         }
     }
+    FCITX_IBUS_DEBUG() << "Write IBus bus address as: " << address;
     // This is a small hack to make ibus think that address is changed.
     // Otherwise it won't retry connection since we always use session bus
     // instead of start our own one.
