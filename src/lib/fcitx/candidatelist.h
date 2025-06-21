@@ -187,6 +187,10 @@ public:
 class FCITXCORE_EXPORT DisplayOnlyCandidateWord : public CandidateWord {
 public:
     DisplayOnlyCandidateWord(Text text) : CandidateWord(std::move(text)) {}
+    DisplayOnlyCandidateWord(Text text, Text comment)
+        : CandidateWord(std::move(text)) {
+        setComment(std::move(comment));
+    }
 
     void select(InputContext * /*inputContext*/) const override {}
 };

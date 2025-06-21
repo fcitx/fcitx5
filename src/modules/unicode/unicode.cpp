@@ -80,10 +80,11 @@ public:
 class UnicodeCandidateWord : public CandidateWord {
 public:
     UnicodeCandidateWord(Unicode *q, uint32_t chr) : q_(q) {
-        Text text;
+        Text text, comment;
         text.append(utf8::UCS4ToUTF8(chr));
-        text.append(stringutils::concat(" ", q->data().name(chr)));
+        comment.append(q->data().name(chr));
         setText(std::move(text));
+        setComment(std::move(comment));
     }
 
     void select(InputContext *inputContext) const override {
@@ -456,16 +457,14 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
                         continue;
                     }
                     auto name = data_.name(chr);
-                    std::string display;
+                    std::string comment;
                     if (!name.empty()) {
-                        display = std::format("{0} U+{1:04X} {2}",
-                                              utf8::UCS4ToUTF8(chr), chr, name);
+                        comment = std::format("U+{0:04X} {1}", chr, name);
                     } else {
-                        display = std::format("{0} U+{1:04X}",
-                                              utf8::UCS4ToUTF8(chr), chr);
+                        comment = std::format("U+{0:04X}", chr);
                     }
                     candidateList->append<DisplayOnlyCandidateWord>(
-                        Text(std::move(display)));
+                        Text(utf8::UCS4ToUTF8(chr)), Text(std::move(comment)));
                     if (counter >= limit) {
                         break;
                     }
