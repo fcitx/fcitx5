@@ -8,30 +8,48 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <algorithm>
+#include <array>
+#include <cassert>
 #include <csignal>
 #include <cstdint>
-#include <ctime>
+#include <cstdlib>
+#include <filesystem>
 #include <functional>
+#include <iostream>
+#include <iterator>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 #include <getopt.h>
+#include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
 #include "../../modules/notifications/notifications_public.h"
 #include "addonmanager.h"
@@ -47,6 +65,9 @@
 #include "instance.h"
 #include "instance_p.h"
 #include "misc_p.h"
+#include "statusarea.h"
+#include "text.h"
+#include "userinterface.h"
 #include "userinterfacemanager.h"
 
 #ifdef HAVE_SYS_WAIT_H
@@ -264,7 +285,8 @@ void InstancePrivate::buildDefaultGroup() {
     /// Figure out XKB layout information from system.
     auto *defaultGroup = q_func()->defaultFocusGroup();
     bool infoFound = false;
-    std::string layouts, variants;
+    std::string layouts;
+    std::string variants;
     auto guessLayout = [this, &layouts, &variants,
                         &infoFound](FocusGroup *focusGroup) {
         // For now we can only do this on X11.
@@ -746,36 +768,37 @@ Instance::Instance(int argc, char **argv) {
                 std::function<bool()> check;
                 std::function<void(bool)> trigger;
             } keyHandlers[] = {
-                {d->globalConfig_.triggerKeys(),
-                 [this]() { return canTrigger(); },
-                 [this, ic](bool totallyReleased) {
-                     return trigger(ic, totallyReleased);
-                 }},
-                {d->globalConfig_.altTriggerKeys(),
-                 [this, ic]() { return canAltTrigger(ic); },
-                 [this, ic](bool) { return altTrigger(ic); }},
-                {d->globalConfig_.activateKeys(),
-                 [ic, d]() { return d->canActivate(ic); },
-                 [this, ic](bool) { return activate(ic); }},
-                {d->globalConfig_.deactivateKeys(),
-                 [ic, d]() { return d->canDeactivate(ic); },
-                 [this, ic](bool) { return deactivate(ic); }},
-                {d->globalConfig_.enumerateForwardKeys(),
-                 [this, ic]() { return canEnumerate(ic); },
-                 [this, ic](bool) { return enumerate(ic, true); }},
-                {d->globalConfig_.enumerateBackwardKeys(),
-                 [this, ic]() { return canEnumerate(ic); },
-                 [this, ic](bool) { return enumerate(ic, false); }},
-                {d->globalConfig_.enumerateGroupForwardKeys(),
-                 [this]() { return canChangeGroup(); },
-                 [ic, d, origKey](bool) {
-                     return d->navigateGroup(ic, origKey, true);
-                 }},
-                {d->globalConfig_.enumerateGroupBackwardKeys(),
-                 [this]() { return canChangeGroup(); },
-                 [ic, d, origKey](bool) {
-                     return d->navigateGroup(ic, origKey, false);
-                 }},
+                {.list = d->globalConfig_.triggerKeys(),
+                 .check = [this]() { return canTrigger(); },
+                 .trigger =
+                     [this, ic](bool totallyReleased) {
+                         return trigger(ic, totallyReleased);
+                     }},
+                {.list = d->globalConfig_.altTriggerKeys(),
+                 .check = [this, ic]() { return canAltTrigger(ic); },
+                 .trigger = [this, ic](bool) { return altTrigger(ic); }},
+                {.list = d->globalConfig_.activateKeys(),
+                 .check = [ic, d]() { return d->canActivate(ic); },
+                 .trigger = [this, ic](bool) { return activate(ic); }},
+                {.list = d->globalConfig_.deactivateKeys(),
+                 .check = [ic, d]() { return d->canDeactivate(ic); },
+                 .trigger = [this, ic](bool) { return deactivate(ic); }},
+                {.list = d->globalConfig_.enumerateForwardKeys(),
+                 .check = [this, ic]() { return canEnumerate(ic); },
+                 .trigger = [this, ic](bool) { return enumerate(ic, true); }},
+                {.list = d->globalConfig_.enumerateBackwardKeys(),
+                 .check = [this, ic]() { return canEnumerate(ic); },
+                 .trigger = [this, ic](bool) { return enumerate(ic, false); }},
+                {.list = d->globalConfig_.enumerateGroupForwardKeys(),
+                 .check = [this]() { return canChangeGroup(); },
+                 .trigger = [ic, d, origKey](
+                                bool) { d->navigateGroup(ic, origKey, true); }},
+                {.list = d->globalConfig_.enumerateGroupBackwardKeys(),
+                 .check = [this]() { return canChangeGroup(); },
+                 .trigger =
+                     [ic, d, origKey](bool) {
+                         d->navigateGroup(ic, origKey, false);
+                     }},
             };
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -833,13 +856,15 @@ Instance::Instance(int argc, char **argv) {
                                 now(CLOCK_MONOTONIC);
                             // don't forward to input method, but make it pass
                             // through to client.
-                            return keyEvent.filter();
+                            keyEvent.filter();
+                            return;
                         }
                         keyHandler.trigger(inputState->totallyReleased_);
                         if (origKey.hasModifier()) {
                             inputState->totallyReleased_ = false;
                         }
-                        return keyEvent.filterAndAccept();
+                        keyEvent.filterAndAccept();
+                        return;
                     }
                     idx++;
                 }
@@ -906,7 +931,7 @@ Instance::Instance(int argc, char **argv) {
                 auto newSym = xkb_state_key_get_one_sym(
                     xkbState, keyEvent.rawKey().code());
                 auto newModifier = KeyStates(effective);
-                auto keymap = xkb_state_get_keymap(xkbState);
+                auto *keymap = xkb_state_get_keymap(xkbState);
                 if (keyEvent.rawKey().states().test(KeyState::Repeat) &&
                     xkb_keymap_key_repeats(keymap, keyEvent.rawKey().code())) {
                     newModifier |= KeyState::Repeat;
@@ -1417,7 +1442,7 @@ void Instance::initialize() {
             }
             // Preload first input method.
             if (!d->imManager_.currentGroup().inputMethodList().empty()) {
-                if (auto entry =
+                if (const auto *entry =
                         d->imManager_.entry(d->imManager_.currentGroup()
                                                 .inputMethodList()[0]
                                                 .name())) {
@@ -1426,7 +1451,7 @@ void Instance::initialize() {
             }
             // Preload default input method.
             if (!d->imManager_.currentGroup().defaultInputMethod().empty()) {
-                if (auto entry = d->imManager_.entry(
+                if (const auto *entry = d->imManager_.entry(
                         d->imManager_.currentGroup().defaultInputMethod())) {
                     d->addonManager_.addon(entry->addon(), true);
                 }
@@ -1542,7 +1567,7 @@ bool Instance::canRestart() const {
     return d->binaryMode_ &&
            std::all_of(addonNames.begin(), addonNames.end(),
                        [d](const std::string &name) {
-                           auto addon = d->addonManager_.lookupAddon(name);
+                           auto *addon = d->addonManager_.lookupAddon(name);
                            if (!addon) {
                                return true;
                            }
@@ -1606,7 +1631,7 @@ bool Instance::postEvent(Event &event) const {
     }
     auto iter = d->eventHandlers_.find(event.type());
     if (iter != d->eventHandlers_.end()) {
-        auto &handlers = iter->second;
+        const auto &handlers = iter->second;
         EventWatcherPhase phaseOrder[] = {
             EventWatcherPhase::ReservedFirst, EventWatcherPhase::PreInputMethod,
             EventWatcherPhase::InputMethod, EventWatcherPhase::PostInputMethod,
@@ -1692,7 +1717,7 @@ std::string Instance::inputMethod(InputContext *ic) {
         return inputState->overrideDeactivateIM_;
     }
 
-    auto &group = d->imManager_.currentGroup();
+    const auto &group = d->imManager_.currentGroup();
     if (ic->capabilityFlags().test(CapabilityFlag::Disable) ||
         (ic->capabilityFlags().test(CapabilityFlag::Password) &&
          !d->globalConfig_.allowInputMethodForPassword())) {
@@ -1813,9 +1838,8 @@ uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
             return FCITX_INVALID_COMPOSE_RESULT;
         }
 
-        uint32_t c = 0;
-        fcitx_utf8_get_char(buffer, &c);
-        return c;
+        uint32_t c = utf8::getChar(buffer);
+        return utf8::isValidChar(c) ? c : 0;
     }
     if (status == XKB_COMPOSE_CANCELLED) {
         xkb_compose_state_reset(xkbComposeState);
@@ -1863,8 +1887,8 @@ std::optional<std::string> Instance::processComposeString(InputContext *ic,
             return std::nullopt;
         }
 
-        const auto bufferBegin = buffer.begin();
-        const auto bufferEnd = std::next(bufferBegin, length);
+        auto bufferBegin = buffer.begin();
+        auto bufferEnd = std::next(bufferBegin, length);
         if (utf8::validate(bufferBegin, bufferEnd)) {
             return std::string(bufferBegin, bufferEnd);
         }
@@ -1942,9 +1966,9 @@ void Instance::configure() {
         {StandardPaths::fcitxPath("bindir", "fcitx5-configtool").string()});
 }
 
-void Instance::configureAddon(const std::string &) {}
+void Instance::configureAddon(const std::string & /*unused*/) {}
 
-void Instance::configureInputMethod(const std::string &) {}
+void Instance::configureInputMethod(const std::string & /*unused*/) {}
 
 std::string Instance::currentInputMethod() {
     if (auto *ic = mostRecentInputContext()) {
@@ -2275,10 +2299,10 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
 
     auto currentIM = inputMethod(ic);
 
-    auto iter = std::find_if(imList.begin(), imList.end(),
-                             [&currentIM](const InputMethodGroupItem &item) {
-                                 return item.name() == currentIM;
-                             });
+    auto iter = std::ranges::find_if(
+        imList, [&currentIM](const InputMethodGroupItem &item) {
+            return item.name() == currentIM;
+        });
     if (iter == imList.end()) {
         return false;
     }
@@ -2515,7 +2539,8 @@ void Instance::showCustomInputMethodInformation(InputContext *ic,
 
 bool Instance::checkUpdate() const {
     FCITX_D();
-    return (isInFlatpak() && fs::isreg("/app/.updated")) ||
+    return (isInFlatpak() &&
+            std::filesystem::is_regular_file("/app/.updated")) ||
            d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
            postEvent(CheckUpdateEvent());
 }
@@ -2543,7 +2568,7 @@ void Instance::setXkbParameters(const std::string &display,
         d->keymapCache_[display].clear();
         d->icManager_.foreach([d, &display](InputContext *ic) {
             if (ic->display() == display ||
-                d->xkbParams_.count(ic->display()) == 0) {
+                !d->xkbParams_.contains(ic->display())) {
                 auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 inputState->resetXkbState();
             }
