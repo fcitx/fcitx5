@@ -9,12 +9,12 @@
 #include <charconv>
 #include <chrono>
 #include <cstdlib>
-#include <exception>
 #include <iostream>
 #include <memory>
 #include <mutex>
 #include <ostream>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <type_traits>
 #include <unordered_set>
@@ -51,7 +51,7 @@ public:
 
     void registerCategory(LogCategory &category) {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (!categories_.count(&category)) {
+        if (!categories_.contains(&category)) {
             categories_.insert(&category);
             applyRule(&category);
         }
@@ -218,7 +218,7 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
             auto now = std::chrono::time_point_cast<std::chrono::microseconds>(
                 std::chrono::system_clock::now());
 #if __cpp_lib_chrono >= 201907L
-            auto current_zone = std::chrono::current_zone();
+            const auto *current_zone = std::chrono::current_zone();
             std::chrono::zoned_time zoned_time{current_zone, now};
 
             auto timeString = std::format("{:%F %T}", zoned_time);
@@ -233,5 +233,6 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
     out_ << filename << ":" << lineNumber << "] ";
 }
 
-LogMessageBuilder::~LogMessageBuilder() { out_ << std::endl; }
+LogMessageBuilder::~LogMessageBuilder() { out_ << '\n'; }
+
 } // namespace fcitx
