@@ -209,7 +209,7 @@ private:
 #define FCITX_ADDON_FACTORY_V2(AddonName, ClassName)                           \
     extern "C" {                                                               \
     FCITX_ADDON_EXPORT ::fcitx::AddonFactory *                                 \
-        fcitx_addon_factory_instance_##AddonName() {                           \
+    fcitx_addon_factory_instance_##AddonName() {                               \
         static ClassName factory;                                              \
         return &factory;                                                       \
     }                                                                          \
