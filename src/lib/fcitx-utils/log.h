@@ -32,7 +32,9 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
+#include <source_location> // IWYU pragma: keep
 #include <span>
+#include <syncstream>
 
 namespace fcitx {
 
@@ -110,12 +112,12 @@ public:
 
     LogMessageBuilder &self() { return *this; }
 
-    inline LogMessageBuilder &operator<<(const std::string &s) {
+    LogMessageBuilder &operator<<(const std::string &s) {
         *this << s.c_str();
         return *this;
     }
 
-    inline LogMessageBuilder &operator<<(const Key &key) {
+    LogMessageBuilder &operator<<(const Key &key) {
         out_ << "Key(" << key.toString()
              << " states=" << key.states().toInteger() << ")";
         return *this;
@@ -143,7 +145,7 @@ public:
     FCITX_SIMPLE_LOG(T)
 
     template <typename T>
-    inline LogMessageBuilder &operator<<(const std::optional<T> &opt) {
+    LogMessageBuilder &operator<<(const std::optional<T> &opt) {
         *this << "optional(has_value=" << opt.has_value() << " ";
         if (opt.has_value()) {
             *this << *opt;
@@ -153,13 +155,13 @@ public:
     }
 
     template <typename T>
-    inline LogMessageBuilder &operator<<(const std::unique_ptr<T> &ptr) {
+    LogMessageBuilder &operator<<(const std::unique_ptr<T> &ptr) {
         *this << "unique_ptr(" << ptr.get() << ")";
         return *this;
     }
 
     template <typename T>
-    inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
+    LogMessageBuilder &operator<<(const std::vector<T> &vec) {
         *this << "[";
         printRange(vec.begin(), vec.end());
         *this << "]";
@@ -167,7 +169,7 @@ public:
     }
 
     template <typename T>
-    inline LogMessageBuilder &operator<<(const std::span<T> &vec) {
+    LogMessageBuilder &operator<<(const std::span<T> &vec) {
         *this << "span[";
         printRange(vec.begin(), vec.end());
         *this << "]";
@@ -175,7 +177,7 @@ public:
     }
 
     template <typename T>
-    inline LogMessageBuilder &operator<<(const std::list<T> &lst) {
+    LogMessageBuilder &operator<<(const std::list<T> &lst) {
         *this << "list[";
         printRange(lst.begin(), lst.end());
         *this << "]";
@@ -183,13 +185,13 @@ public:
     }
 
     template <typename K, typename V>
-    inline LogMessageBuilder &operator<<(const std::pair<K, V> &pair) {
+    LogMessageBuilder &operator<<(const std::pair<K, V> &pair) {
         *this << "(" << pair.first << ", " << pair.second << ")";
         return *this;
     }
 
     template <typename... Args>
-    inline LogMessageBuilder &operator<<(const std::tuple<Args...> &tuple) {
+    LogMessageBuilder &operator<<(const std::tuple<Args...> &tuple) {
         typename MakeSequence<sizeof...(Args)>::type a;
         *this << "(";
         printWithIndices(a, tuple);
@@ -198,7 +200,7 @@ public:
     }
 
     template <typename K, typename V>
-    inline LogMessageBuilder &operator<<(const std::unordered_map<K, V> &vec) {
+    LogMessageBuilder &operator<<(const std::unordered_map<K, V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -206,7 +208,7 @@ public:
     }
 
     template <typename V>
-    inline LogMessageBuilder &operator<<(const std::unordered_set<V> &vec) {
+    LogMessageBuilder &operator<<(const std::unordered_set<V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -214,7 +216,7 @@ public:
     }
 
     template <typename K, typename V>
-    inline LogMessageBuilder &operator<<(const std::map<K, V> &vec) {
+    LogMessageBuilder &operator<<(const std::map<K, V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -222,7 +224,7 @@ public:
     }
 
     template <typename V>
-    inline LogMessageBuilder &operator<<(const std::set<V> &vec) {
+    LogMessageBuilder &operator<<(const std::set<V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -230,7 +232,7 @@ public:
     }
 
     template <typename K, typename V>
-    inline LogMessageBuilder &operator<<(const std::multimap<K, V> &vec) {
+    LogMessageBuilder &operator<<(const std::multimap<K, V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -238,7 +240,7 @@ public:
     }
 
     template <typename V>
-    inline LogMessageBuilder &operator<<(const std::multiset<V> &vec) {
+    LogMessageBuilder &operator<<(const std::multiset<V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -246,8 +248,7 @@ public:
     }
 
     template <typename K, typename V>
-    inline LogMessageBuilder &
-    operator<<(const std::unordered_multimap<K, V> &vec) {
+    LogMessageBuilder &operator<<(const std::unordered_multimap<K, V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -255,8 +256,7 @@ public:
     }
 
     template <typename V>
-    inline LogMessageBuilder &
-    operator<<(const std::unordered_multiset<V> &vec) {
+    LogMessageBuilder &operator<<(const std::unordered_multiset<V> &vec) {
         *this << "{";
         printRange(vec.begin(), vec.end());
         *this << "}";
@@ -288,23 +288,33 @@ private:
 
     std::ostream &out_;
 };
+
+template <typename MetaStringFileName, int N>
+class LogMessageBuilderWrapper {
+public:
+    LogMessageBuilderWrapper(LogLevel l)
+        : out_(Log::logStream()),
+          builder_(out_, l, MetaStringFileName::data(), N) {}
+
+    LogMessageBuilder &self() { return builder_; }
+
+private:
+    std::osyncstream out_;
+    LogMessageBuilder builder_;
+};
+
 } // namespace fcitx
 
-#ifdef FCITX_USE_NO_METASTRING_FILENAME
-#define FCITX_LOG_FILENAME_WRAP ::fcitx::fs::baseName(__FILE__).data()
-#else
-#define FCITX_LOG_FILENAME_WRAP                                                \
-    fcitx::MetaStringBasenameType<fcitxMakeMetaString(__FILE__)>::data()
-#endif
-
+// Use meta string for file name to avoid having full path in binary.
 #define FCITX_LOGC_IF(CATEGORY, LEVEL, CONDITION)                              \
     for (bool fcitxLogEnabled =                                                \
              (CONDITION) && CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL); \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(::fcitx::Log::logStream(),                      \
-                               ::fcitx::LogLevel::LEVEL,                       \
-                               FCITX_LOG_FILENAME_WRAP, __LINE__)              \
+    ::fcitx::LogMessageBuilderWrapper<                                         \
+        fcitx::MetaStringBasenameType<fcitxMakeMetaString(                     \
+            std::source_location::current().file_name())>,                     \
+        std::source_location::current().line()>(::fcitx::LogLevel::LEVEL)      \
         .self()
 
 #define FCITX_LOGC(CATEGORY, LEVEL)                                            \
@@ -312,9 +322,10 @@ private:
              CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL);                \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(::fcitx::Log::logStream(),                      \
-                               ::fcitx::LogLevel::LEVEL,                       \
-                               FCITX_LOG_FILENAME_WRAP, __LINE__)              \
+    ::fcitx::LogMessageBuilderWrapper<                                         \
+        fcitx::MetaStringBasenameType<fcitxMakeMetaString(                     \
+            std::source_location::current().file_name())>,                     \
+        std::source_location::current().line()>(::fcitx::LogLevel::LEVEL)      \
         .self()
 
 #define FCITX_LOG(LEVEL) FCITX_LOGC(::fcitx::Log::defaultCategory, LEVEL)

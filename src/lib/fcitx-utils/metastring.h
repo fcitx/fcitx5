@@ -13,6 +13,7 @@
 /// \brief Static string based on template argument.
 
 #include <cstddef>
+#include <string_view>
 
 namespace fcitx {
 
@@ -35,6 +36,14 @@ private:
 template <int N, int M>
 constexpr char __getChar(char const (&str)[M]) noexcept {
     if constexpr (N < M) {
+        return str[N];
+    }
+    return '\0';
+}
+
+template <int N>
+constexpr char __getChar(std::string_view str) noexcept {
+    if (N < str.size()) {
         return str[N];
     }
     return '\0';
