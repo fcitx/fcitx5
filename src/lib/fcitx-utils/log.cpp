@@ -21,6 +21,7 @@
 #include <utility>
 #include <vector>
 #include <format>
+#include <syncstream>
 #include "macros.h"
 #include "stringutils.h"
 
@@ -33,9 +34,14 @@ FCITX_DEFINE_LOG_CATEGORY(defaultCategory, "default");
 using LogRule = std::pair<std::string, LogLevel>;
 
 struct LogConfig {
-    std::ostream *defaultLogStream = &std::cerr;
-    bool showTimeDate = true;
-} globalLogConfig;
+    static std::ostream *defaultLogStream;
+    static thread_local std::osyncstream localLogStream;
+    static bool showTimeDate;
+};
+
+std::ostream *LogConfig::defaultLogStream = &std::cerr;
+thread_local std::osyncstream LogConfig::localLogStream{*defaultLogStream};
+bool LogConfig::showTimeDate = true;
 
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
     return (l >= 0 &&
@@ -163,7 +169,7 @@ void Log::setLogRule(const std::string &ruleString) {
     auto rules = stringutils::split(ruleString, ",");
     for (const auto &rule : rules) {
         if (rule == "notimedate") {
-            globalLogConfig.showTimeDate = false;
+            LogConfig::showTimeDate = false;
             continue;
         }
 
@@ -185,14 +191,21 @@ void Log::setLogRule(const std::string &ruleString) {
 }
 
 void Log::setLogStream(std::ostream &stream) {
-    globalLogConfig.defaultLogStream = &stream;
+    LogConfig::defaultLogStream = &stream;
 }
 
-std::ostream &Log::logStream() { return *globalLogConfig.defaultLogStream; }
+std::ostream &Log::logStream() {
+    auto *buf = LogConfig::defaultLogStream->rdbuf();
+    if (LogConfig::localLogStream.get_wrapped() != buf) {
+        LogConfig::localLogStream = std::osyncstream(buf);
+    }
+    return LogConfig::localLogStream;
+}
 
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
                                      const char *filename, int lineNumber)
     : out_(out) {
+    out << std::noemit_on_flush;
     switch (l) {
     case LogLevel::Fatal:
         out_ << "F";
@@ -213,7 +226,7 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
         break;
     }
 
-    if (globalLogConfig.showTimeDate) {
+    if (LogConfig::showTimeDate) {
         try {
             auto now = std::chrono::time_point_cast<std::chrono::microseconds>(
                 std::chrono::system_clock::now());
@@ -233,6 +246,9 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
     out_ << filename << ":" << lineNumber << "] ";
 }
 
-LogMessageBuilder::~LogMessageBuilder() { out_ << '\n'; }
+LogMessageBuilder::~LogMessageBuilder() {
+    out_ << '\n' << std::emit_on_flush;
+    out_.flush();
+}
 
 } // namespace fcitx

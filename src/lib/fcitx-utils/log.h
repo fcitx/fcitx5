@@ -34,7 +34,6 @@
 #include <fcitx-utils/tuplehelpers.h>
 #include <source_location> // IWYU pragma: keep
 #include <span>
-#include <syncstream>
 
 namespace fcitx {
 
@@ -293,13 +292,11 @@ template <typename MetaStringFileName, int N>
 class LogMessageBuilderWrapper {
 public:
     LogMessageBuilderWrapper(LogLevel l)
-        : out_(Log::logStream()),
-          builder_(out_, l, MetaStringFileName::data(), N) {}
+        : builder_(Log::logStream(), l, MetaStringFileName::data(), N) {}
 
     LogMessageBuilder &self() { return builder_; }
 
 private:
-    std::osyncstream out_;
     LogMessageBuilder builder_;
 };
 
