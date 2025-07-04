@@ -40,7 +40,11 @@ struct LogConfig {
 };
 
 std::ostream *LogConfig::defaultLogStream = &std::cerr;
-thread_local std::osyncstream LogConfig::localLogStream{*defaultLogStream};
+thread_local std::osyncstream LogConfig::localLogStream = []() {
+    std::osyncstream out(*LogConfig::defaultLogStream);
+    out.rdbuf()->set_emit_on_sync(true);
+    return out;
+}();
 bool LogConfig::showTimeDate = true;
 
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
@@ -198,6 +202,7 @@ std::ostream &Log::logStream() {
     auto *buf = LogConfig::defaultLogStream->rdbuf();
     if (LogConfig::localLogStream.get_wrapped() != buf) {
         LogConfig::localLogStream = std::osyncstream(buf);
+        LogConfig::localLogStream.rdbuf()->set_emit_on_sync(true);
     }
     return LogConfig::localLogStream;
 }
@@ -205,7 +210,6 @@ std::ostream &Log::logStream() {
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
                                      const char *filename, int lineNumber)
     : out_(out) {
-    out << std::noemit_on_flush;
     switch (l) {
     case LogLevel::Fatal:
         out_ << "F";
@@ -247,7 +251,7 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
 }
 
 LogMessageBuilder::~LogMessageBuilder() {
-    out_ << '\n' << std::emit_on_flush;
+    out_ << '\n';
     out_.flush();
 }
 
