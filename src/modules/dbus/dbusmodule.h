@@ -7,9 +7,13 @@
 #ifndef _FCITX_MODULES_DBUS_DBUSMODULE_H_
 #define _FCITX_MODULES_DBUS_DBUSMODULE_H_
 
+#include <memory>
+#include <string>
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx/addonfactory.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "dbus_public.h"
 
