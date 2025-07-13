@@ -5,8 +5,7 @@
  *
  */
 
-#include "config.h"
-
+#include "dbusmodule.h"
 #include <pwd.h>
 #include <unistd.h>
 #include <cstdint>
@@ -33,6 +32,7 @@
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
+#include "fcitx/addonfactory.h"
 #include "fcitx/addoninfo.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -42,8 +42,9 @@
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
-#include "dbusmodule.h"
+#include "config.h"
 #include "keyboard_public.h"
+
 #ifdef ENABLE_X11
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
