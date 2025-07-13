@@ -630,8 +630,16 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
             index += preedit.stringAt(i).size();
         }
     }
-    ic_->preeditString(serial_, preedit.toString().c_str(),
-                       preedit.toStringForCommit().c_str());
+    const std::string preeditString = preedit.toString();
+    const std::string preeditCommitString = preedit.toStringForCommit();
+    // Avoid hitting wayland message limit.
+    if (preeditString.size() + preeditCommitString.size() >=
+        WaylandIMServerBase::safeStringLimit) {
+        return;
+    }
+
+    ic_->preeditString(serial_, preeditString.c_str(),
+                       preeditCommitString.c_str());
 }
 
 void WaylandIMInputContextV1::deleteSurroundingTextDelegate(

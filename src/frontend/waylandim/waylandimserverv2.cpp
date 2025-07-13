@@ -664,7 +664,9 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
         }
     }
 
-    if (preedit.textLength()) {
+    // Validate not empty and within wayland limit.
+    if (preedit.textLength() > 0 &&
+        preedit.textLength() < WaylandIMServerBase::safeStringLimit) {
         if (cursorStart < 0) {
             cursorStart = cursorEnd = preedit.textLength();
         }

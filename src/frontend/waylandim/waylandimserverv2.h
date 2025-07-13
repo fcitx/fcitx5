@@ -103,8 +103,11 @@ protected:
         if (!ic_) {
             return;
         }
-        ic_->commitString(text.c_str());
-        ic_->commit(serial_);
+
+        WaylandIMServerBase::commitStringWrapper(text, [this](const char *str) {
+            ic_->commitString(str);
+            ic_->commit(serial_);
+        });
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;
