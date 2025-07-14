@@ -5,10 +5,25 @@
  *
  */
 #include "waylandclipboard.h"
+#include <unistd.h>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <string_view>
 #include <unordered_set>
+#include <utility>
+#include <vector>
+#include <wayland-client-core.h>
+#include <wayland-client-protocol.h>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx-utils/unixfd.h"
 #include "clipboard.h"
+#include "display.h"
 #include "wl_seat.h"
 #include "zwlr_data_control_manager_v1.h"
 #include "zwlr_data_control_offer_v1.h"
@@ -127,12 +142,13 @@ void DataOffer::receiveData(DataReaderThread &thread,
 
     auto callbackWrapper =
         [this, callback = std::move(callback)](const std::vector<char> &data) {
-            return callback(data, isPassword_);
+            callback(data, isPassword_);
+            return;
         };
 
     thread_ = &thread;
     static const std::string passwordHint = PASSWORD_MIME_TYPE;
-    if (mimeTypes_.count(passwordHint)) {
+    if (mimeTypes_.contains(passwordHint)) {
         receiveDataForMime(passwordHint, [this, callbackWrapper](
                                              const std::vector<char> &data) {
             if (std::string_view(data.data(), data.size()) == "secret" &&
@@ -157,9 +173,9 @@ void DataOffer::receiveRealData(DataOfferDataCallback callback) {
     static const std::string utf8Mime = "text/plain;charset=utf-8";
     static const std::string textMime = "text/plain";
 
-    if (mimeTypes_.count(utf8Mime)) {
+    if (mimeTypes_.contains(utf8Mime)) {
         mime = utf8Mime;
-    } else if (mimeTypes_.count(textMime)) {
+    } else if (mimeTypes_.contains(textMime)) {
         mime = textMime;
     } else {
         return;
@@ -242,7 +258,7 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::ZwlrDataControlManagerV1>();
     globalConn_ = display_->globalCreated().connect(
-        [this](const std::string &interface, std::shared_ptr<void> ptr) {
+        [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
             if (interface == wayland::ZwlrDataControlManagerV1::interface) {
                 if (ptr != manager_) {
                     deviceMap_.clear();
@@ -256,7 +272,7 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
             }
         });
     globalRemoveConn_ = display_->globalRemoved().connect(
-        [this](const std::string &interface, std::shared_ptr<void> ptr) {
+        [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
             if (interface == wayland::ZwlrDataControlManagerV1::interface) {
                 deviceMap_.clear();
                 if (manager_ == ptr) {
@@ -281,7 +297,7 @@ void WaylandClipboard::refreshSeat() {
 
     auto seats = display_->getGlobals<wayland::WlSeat>();
     for (const auto &seat : seats) {
-        if (deviceMap_.count(seat.get())) {
+        if (deviceMap_.contains(seat.get())) {
             continue;
         }
 

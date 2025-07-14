@@ -5,20 +5,48 @@
  *
  */
 #include "clipboard.h"
+#include <algorithm>
+#include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <limits>
+#include <memory>
+#include <string>
 #include <unordered_set>
+#include <utility>
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
+#include "fcitx/instance.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "clipboardentry.h"
+
+#ifdef ENABLE_X11
+#include <xcb/xcb.h>
+#include "xcb_public.h"
+#include "xcbclipboard.h"
+#endif
+#ifdef WAYLAND_FOUND
+#include <wayland-client-core.h>
+#include "wayland_public.h"
+#include "waylandclipboard.h"
+#endif
 
 namespace fcitx {
 
@@ -155,8 +183,8 @@ Clipboard::Clipboard(Instance *instance)
             wayland->call<IWaylandModule::addConnectionCreatedCallback>(
                 [this](const std::string &name, wl_display *display,
                        FocusGroup *) {
-                    waylandClipboards_[name].reset(
-                        new WaylandClipboard(this, name, display));
+                    waylandClipboards_[name] =
+                        std::make_unique<WaylandClipboard>(this, name, display);
                 });
         waylandClosedCallback_ =
             wayland->call<IWaylandModule::addConnectionClosedCallback>(
@@ -482,8 +510,8 @@ void Clipboard::refreshPasswordTimer() {
     }
 
     if (minTimestamp != std::numeric_limits<uint64_t>::max()) {
-        clearPasswordTimer_->setTime(minTimestamp +
-                                     oneSecond * (*config_.clearPasswordAfter));
+        clearPasswordTimer_->setTime(
+            minTimestamp + (oneSecond * (*config_.clearPasswordAfter)));
         FCITX_CLIPBOARD_DEBUG()
             << "Password Clearing Timer will be triggered after: "
             << clearPasswordTimer_->time() - now(CLOCK_MONOTONIC);

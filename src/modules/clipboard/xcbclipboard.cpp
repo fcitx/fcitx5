@@ -6,9 +6,14 @@
  */
 #include "xcbclipboard.h"
 #include <ctime>
+#include <memory>
+#include <string>
 #include <string_view>
+#include <utility>
 #include <xcb/xproto.h>
+#include "fcitx-utils/handlertable.h"
 #include "clipboard.h"
+#include "xcb_public.h"
 
 namespace fcitx {
 

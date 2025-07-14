@@ -7,11 +7,19 @@
 #ifndef _FCITX5_MODULES_CLIPBOARD_WAYLANDCLIPBOARD_H_
 #define _FCITX5_MODULES_CLIPBOARD_WAYLANDCLIPBOARD_H_
 
+#include <cstdint>
 #include <functional>
+#include <list>
+#include <memory>
+#include <string>
 #include <thread>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+#include <wayland-client-core.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
-#include "fcitx-utils/macros.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/signals.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx-utils/unixfd.h"
