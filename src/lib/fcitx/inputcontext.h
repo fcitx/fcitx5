@@ -10,8 +10,10 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/rect.h>
@@ -35,7 +37,7 @@ class InputContextPrivate;
 class InputContextProperty;
 class InputPanel;
 class StatusArea;
-typedef std::function<bool(InputContext *ic)> InputContextVisitor;
+using InputContextVisitor = std::function<bool(InputContext *ic)>;
 
 /**
  * An input context represents a client of Fcitx. It can be a Window, or a text
