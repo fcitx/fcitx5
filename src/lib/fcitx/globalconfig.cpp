@@ -41,21 +41,54 @@ FCITX_CONFIGURATION(
     KeyListOption triggerKeys{
         this,
         "TriggerKeys",
-        _("Trigger Input Method"),
+        _("Toggle Input Method"),
         {isApple() ? Key("Control+Shift_L") : Key("Control+space"),
          Key("Zenkaku_Hankaku"), Key("Hangul")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
-    Option<bool> enumerateWithTriggerKeys{
-        this, "EnumerateWithTriggerKeys",
-        _("Enumerate when press trigger key repeatedly"), true};
-    KeyListOption altTriggerKeys{
+    OptionWithAnnotation<bool, ToolTipAnnotation> enumerateWithTriggerKeys{{
+        .parent = this,
+        .path{"EnumerateWithTriggerKeys"},
+        .description{_("Enumerate when holding modifier of Toggle key")},
+        .defaultValue = true,
+        .annotation{
+            _("For example, if Control+Space is the toggle key, after pressing "
+              "Control+Space for the first time, if Control is held, following "
+              "key press of Space will enumerate the input method.")},
+    }};
+    KeyListOption activateKeys{
         this,
-        "AltTriggerKeys",
-        _("Temporally switch between first and current Input Method"),
-        {Key("Shift_L")},
+        "ActivateKeys",
+        _("Activate Input Method"),
+        {
+            Key("Hangul_Hanja"),
+        },
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption deactivateKeys{
+        this,
+        "DeactivateKeys",
+        _("Deactivate Input Method"),
+        {Key("Hangul_Romaja")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOptionWithAnnotation<ToolTipAnnotation> altTriggerKeys{
+        {.parent = this,
+         .path{"AltTriggerKeys"},
+         .description{_("Temporarily Toggle Input Method")},
+         .defaultValue{{Key("Shift_L")}},
+         .constrain{KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                                      KeyConstrainFlag::AllowModifierOnly})},
+         .annotation{_(
+             "This key can only be used if current state is active, or is "
+             "deactivated with this key. For example, you have two input "
+             "methods: English as the inactive state, Pinyin as the active "
+             "state. It can be used to switch from Pinyin back to English, and "
+             "switch back to Pinyin again afterwards. If the initial state is "
+             "English will do nothing. This key can be configured to be some "
+             "simple single modifier key like Shift, so it can be used with "
+             "just a single key press, but won't be triggered by accident if "
+             "you never activate input method.")}}};
     KeyListOption enumerateForwardKeys{
         this,
         "EnumerateForwardKeys",
@@ -87,39 +120,24 @@ FCITX_CONFIGURATION(
         {Key("Super+Shift+space")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
-    KeyListOption activateKeys{
-        this,
-        "ActivateKeys",
-        _("Activate Input Method"),
-        {
-            Key("Hangul_Hanja"),
-        },
-        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
-                          KeyConstrainFlag::AllowModifierOnly})};
-    KeyListOption deactivateKeys{
-        this,
-        "DeactivateKeys",
-        _("Deactivate Input Method"),
-        {Key("Hangul_Romaja")},
-        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
-                          KeyConstrainFlag::AllowModifierOnly})};
     Option<KeyList, ListConstrain<KeyConstrain>, DefaultMarshaller<KeyList>,
            ToolTipAnnotation>
-        defaultPrevPage{this,
-                        "PrevPage",
-                        _("Default Previous page"),
-                        {Key("Up")},
-                        KeyListConstrain({KeyConstrainFlag::AllowModifierLess}),
-                        {},
-                        {_("Input methods may have different setup in their "
-                           "own configuration. This is commonly used by "
-                           "modules like clipboard or quickphrase.")}};
+        defaultPrevPage{{
+            .parent = this,
+            .path{"PrevPage"},
+            .description{_("Fallback Previous page")},
+            .defaultValue{{Key("Up")}},
+            .constrain{{KeyConstrainFlag::AllowModifierLess}},
+            .annotation{_("Input methods may have different setup in their "
+                          "own configuration. This is commonly used by "
+                          "modules like clipboard or quickphrase.")},
+        }};
 
     Option<KeyList, ListConstrain<KeyConstrain>, DefaultMarshaller<KeyList>,
            ToolTipAnnotation>
         defaultNextPage{this,
                         "NextPage",
-                        _("Default Next page"),
+                        _("Fallback Next page"),
                         {Key("Down")},
                         KeyListConstrain({KeyConstrainFlag::AllowModifierLess}),
                         {},
@@ -129,13 +147,13 @@ FCITX_CONFIGURATION(
     KeyListOption defaultPrevCandidate{
         this,
         "PrevCandidate",
-        _("Default Previous Candidate"),
+        _("Fallback Previous Candidate"),
         {Key("Shift+Tab")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
     KeyListOption defaultNextCandidate{
         this,
         "NextCandidate",
-        _("Default Next Candidate"),
+        _("Fallback Next Candidate"),
         {Key("Tab")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
     KeyListOption togglePreedit{this,
@@ -193,16 +211,17 @@ FCITX_CONFIGURATION(
         overrideXkbOption{
             this,
             "OverrideXkbOption",
-            _("Override Xkb Option"),
+            _("Override XKB Option"),
             false,
             {},
             {},
-            {_("Whether to override the xkb option from display server. It "
-               "will "
-               "not affect the xkb option send to display, but just the xkb "
-               "options for custom xkb layout.")}};
+            {_("Whether to override the XKB option from display server. It "
+               "will not affect the XKB option send to display, but just the "
+               "XKB options for custom XKB layout. This is a workaround when "
+               "there is no way to get the current XKB option from Wayland "
+               "Compositor.")}};
     ConditionalHidden<!hasKeyboard, Option<std::string>> customXkbOption{
-        this, "CustomXkbOption", _("Custom Xkb Option"), ""};
+        this, "CustomXkbOption", _("Custom XKB Option"), ""};
     HiddenOption<std::vector<std::string>> enabledAddons{
         this, "EnabledAddons", "Force Enabled Addons"};
     HiddenOption<std::vector<std::string>> disabledAddons{
