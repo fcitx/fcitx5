@@ -744,20 +744,26 @@ void WaylandModule::selfDiagnose() {
             }
         }
 
-        std::unordered_set<std::string> groupLayouts;
-        for (const auto &groupName : instance_->inputMethodManager().groups()) {
-            if (const auto *group =
-                    instance_->inputMethodManager().group(groupName)) {
-                groupLayouts.insert(group->defaultLayout());
-            }
-            if (groupLayouts.size() >= 2) {
-                messages.push_back(
-                    _("Sending keyboard layout configuration to wayland "
-                      "compositor from Fcitx is "
-                      "not yet supported on current desktop. You may still use "
-                      "Fcitx's internal layout conversion by adding layout as "
-                      "input method to the input method group."));
-                break;
+        // layout diagnosis only when overriding is enabled
+        if (*config_.allowOverrideXKB) {
+            std::unordered_set<std::string> groupLayouts;
+            for (const auto &groupName :
+                 instance_->inputMethodManager().groups()) {
+                if (const auto *group =
+                        instance_->inputMethodManager().group(groupName)) {
+                    groupLayouts.insert(group->defaultLayout());
+                }
+                if (groupLayouts.size() >= 2) {
+                    messages.push_back(
+                        _("Sending keyboard layout configuration to wayland "
+                          "compositor from Fcitx is "
+                          "not yet supported on current desktop. You may still "
+                          "use "
+                          "Fcitx's internal layout conversion by adding layout "
+                          "as "
+                          "input method to the input method group."));
+                    break;
+                }
             }
         }
 
