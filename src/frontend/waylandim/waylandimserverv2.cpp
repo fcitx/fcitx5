@@ -170,7 +170,6 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         ++serial_;
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
-            keyboardGrab_.reset();
             repeatInfo_.reset();
             // This is the only place we update wayland xkb mask, so it is ok to
             // reset it to 0. This breaks the caps lock or num lock. But we have
@@ -196,6 +195,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 vk_.reset();
                 vkReady_ = false;
             }
+            keyboardGrab_.reset();
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
