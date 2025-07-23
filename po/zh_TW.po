@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-07-16 20:24+0000\n"
+"POT-Creation-Date: 2025-07-23 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -566,7 +566,7 @@ msgstr "自訂"
 
 #: src/lib/fcitx/globalconfig.cpp:224
 msgid "Custom XKB Option"
-msgstr ""
+msgstr "自訂 XKB 選項"
 
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
@@ -790,7 +790,7 @@ msgstr "枚舉輸入法群組向前"
 
 #: src/lib/fcitx/globalconfig.cpp:52
 msgid "Enumerate when holding modifier of Toggle key"
-msgstr ""
+msgstr "按住切換鍵的修飾鍵時進行輪換切換"
 
 #: data/fcitx5-diagnose.sh:1027
 msgid ""
@@ -845,19 +845,19 @@ msgstr "無法在 ${2} 的輸出中找到 ${1}。"
 
 #: src/lib/fcitx/globalconfig.cpp:156
 msgid "Fallback Next Candidate"
-msgstr ""
+msgstr "使用下一個候選詞"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Fallback Next page"
-msgstr ""
+msgstr "使用下一頁"
 
 #: src/lib/fcitx/globalconfig.cpp:150
 msgid "Fallback Previous Candidate"
-msgstr ""
+msgstr "使用上一個候選詞"
 
 #: src/lib/fcitx/globalconfig.cpp:128
 msgid "Fallback Previous page"
-msgstr ""
+msgstr "使用上一頁"
 
 #: src/modules/quickphrase/quickphrase.h:47
 msgid "Fallback Spell check language"
@@ -978,6 +978,8 @@ msgid ""
 "Control+Space for the first time, if Control is held, following key press of "
 "Space will enumerate the input method."
 msgstr ""
+"例如，若 Control+Space 為切換鍵，在第一次按下 Control+Space 後，如果保持按住 "
+"Control，接下來按下 Space 將輪換切換輸入法"
 
 #: src/modules/wayland/waylandmodule.cpp:738
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
@@ -2085,7 +2087,7 @@ msgstr "覆蓋圖片位置"
 
 #: src/lib/fcitx/globalconfig.cpp:214
 msgid "Override XKB Option"
-msgstr ""
+msgstr "覆蓋 XKB 選項"
 
 #: data/fcitx5-diagnose.sh:991
 msgid "Owner of DBus name ${1} is ${2}."
@@ -2564,7 +2566,7 @@ msgstr "工作列"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Temporarily Toggle Input Method"
-msgstr ""
+msgstr "臨時切換輸入法"
 
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
@@ -2617,6 +2619,11 @@ msgid ""
 "single modifier key like Shift, so it can be used with just a single key "
 "press, but won't be triggered by accident if you never activate input method."
 msgstr ""
+"僅當前狀態為激活時，或者當前非激活狀態由這個鍵取消時，才可以使用此快捷鍵。例"
+"如，您設定了英語和拼音兩個輸入法，英語為非激活狀態，拼音為激活狀態。它可以用"
+"於從拼音切換回英語，並在此之後切換回拼音。如果初始狀態為英語，將不會觸發任何"
+"動作。這個快捷鍵可以被設定為一些簡單的單修飾鍵，如 Shift，這樣一個按鍵即可觸"
+"發，但並不會在未激活輸入法時誤觸發"
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
 msgid "This option is only effective if image is not set."
@@ -2664,7 +2671,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:44
 msgid "Toggle Input Method"
-msgstr ""
+msgstr "切換輸入法"
 
 #: src/lib/fcitx/globalconfig.cpp:161
 msgid "Toggle embedded preedit"
@@ -2923,6 +2930,8 @@ msgid ""
 "layout. This is a workaround when there is no way to get the current XKB "
 "option from Wayland Compositor."
 msgstr ""
+"是否覆蓋來自顯示伺服器的 Xkb 選項。它不會影響發送給顯示服務的 Xkb 選項，僅會"
+"影響自定義的 Xkb 佈局。這是在無法從 Wayland 混成器獲取 XKB 選項時的解決方案"
 
 #: data/fcitx5-diagnose.sh:926
 msgid "Why is it bad to run as root"
