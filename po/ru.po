@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-07-16 20:24+0000\n"
+"POT-Creation-Date: 2025-08-03 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -565,7 +565,7 @@ msgstr "Пользовательский"
 
 #: src/lib/fcitx/globalconfig.cpp:224
 msgid "Custom XKB Option"
-msgstr ""
+msgstr "Пользовательский вариант XKB"
 
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
@@ -792,6 +792,7 @@ msgstr "Перечислить группы методов ввода в пря�
 #: src/lib/fcitx/globalconfig.cpp:52
 msgid "Enumerate when holding modifier of Toggle key"
 msgstr ""
+"Осуществлять переключение путем удержания клавиши-модификатора переключения"
 
 #: data/fcitx5-diagnose.sh:1027
 msgid ""
@@ -848,19 +849,19 @@ msgstr "Не удалось найти ${1} в выводе ${2}"
 
 #: src/lib/fcitx/globalconfig.cpp:156
 msgid "Fallback Next Candidate"
-msgstr ""
+msgstr "Следующее слово-кандидат по-умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Fallback Next page"
-msgstr ""
+msgstr "Следующая страница по-умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:150
 msgid "Fallback Previous Candidate"
-msgstr ""
+msgstr "Предыдущее слово-кандидат по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:128
 msgid "Fallback Previous page"
-msgstr ""
+msgstr "Предыдущая страница по умолчанию"
 
 #: src/modules/quickphrase/quickphrase.h:47
 msgid "Fallback Spell check language"
@@ -988,6 +989,9 @@ msgid ""
 "Control+Space for the first time, if Control is held, following key press of "
 "Space will enumerate the input method."
 msgstr ""
+"Например, если Control+Space является клавишей-переключателем, то после "
+"первого нажатия Control+Space, если Control удерживается, последующее "
+"нажатие клавиши Space перечислит метод ввода."
 
 #: src/modules/wayland/waylandmodule.cpp:738
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
@@ -2114,7 +2118,7 @@ msgstr "Позиция наложения"
 
 #: src/lib/fcitx/globalconfig.cpp:214
 msgid "Override XKB Option"
-msgstr ""
+msgstr "Переопределить параметр XKB"
 
 #: data/fcitx5-diagnose.sh:991
 msgid "Owner of DBus name ${1} is ${2}."
@@ -2602,7 +2606,7 @@ msgstr "Панель задач"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Temporarily Toggle Input Method"
-msgstr ""
+msgstr "Временно переключить метод ввода"
 
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
@@ -2661,6 +2665,14 @@ msgid ""
 "single modifier key like Shift, so it can be used with just a single key "
 "press, but won't be triggered by accident if you never activate input method."
 msgstr ""
+"Эту клавишу можно использовать только в том случае, если текущее состояние "
+"активно или деактивировано этой клавишей. Например, у вас есть два способа "
+"ввода: английский в неактивном состоянии и пиньинь в активном состоянии. Её "
+"можно использовать для переключения с пиньинь обратно на английский, а затем "
+"снова на пиньинь. Если исходное состояние — английский, ничего не "
+"произойдёт. Эту клавишу можно настроить как простую клавишу-модификатор, "
+"например, Shift, чтобы её можно было использовать одним нажатием, но она не "
+"будет срабатывать случайно, если вы не активируете способ ввода."
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
 msgid "This option is only effective if image is not set."
@@ -2714,7 +2726,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:44
 msgid "Toggle Input Method"
-msgstr ""
+msgstr "Переключить метод ввода"
 
 #: src/lib/fcitx/globalconfig.cpp:161
 msgid "Toggle embedded preedit"
@@ -2983,6 +2995,10 @@ msgid ""
 "layout. This is a workaround when there is no way to get the current XKB "
 "option from Wayland Compositor."
 msgstr ""
+"Переопределять ли параметры XKB, отправляемые на сервер отображения. Этот "
+"параметр не влияет на параметры XKB, отправляемые на сервер отображения, а "
+"только на пользовательские раскладки XKB. Это обходной путь, когда нет "
+"возможности получить текущий параметр XKB из Wayland Compositor."
 
 #: data/fcitx5-diagnose.sh:926
 msgid "Why is it bad to run as root"
