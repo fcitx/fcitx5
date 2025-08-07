@@ -322,7 +322,9 @@ private:
 
     void initAddonDirectories(
         const std::unordered_map<std::string, std::string> &builtInPathMap) {
-        addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR,
+        std::string addonsPath = "/usr/local/lib/fcitx5:/usr/lib/fcitx5:";
+        addonsPath.append(FCITX_INSTALL_ADDONDIR);
+        addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", addonsPath.c_str(),
                                   builtInPathMap, nullptr);
     }
 
