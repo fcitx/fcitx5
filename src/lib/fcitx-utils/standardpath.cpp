@@ -107,47 +107,13 @@ public:
         const std::unordered_map<std::string, std::string> &builtInPathMap,
         bool skipBuiltInPath, bool skipUserPath)
         : skipBuiltInPath_(skipBuiltInPath), skipUserPath_(skipUserPath) {
-        bool isFcitx = (packageName == "fcitx5");
-        // initialize user directory
-        configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
-        pkgconfigHome_ =
-            defaultPath((isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
-                        constructPath(configHome_, packageName).c_str());
-        configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg",
-                                   builtInPathMap, nullptr);
-        auto pkgconfigDirFallback = configDirs_;
-        for (auto &path : pkgconfigDirFallback) {
-            path = constructPath(path, packageName);
-        }
-        pkgconfigDirs_ =
-            defaultPaths((isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
-                         stringutils::join(pkgconfigDirFallback, ":").c_str(),
-                         builtInPathMap, nullptr);
+        const bool isFcitx = (packageName == "fcitx5");
 
-        dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
-        pkgdataHome_ =
-            defaultPath((isFcitx ? "FCITX_DATA_HOME" : nullptr),
-                        constructPath(dataHome_, packageName).c_str());
-        dataDirs_ = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share",
-                                 builtInPathMap,
-                                 skipBuiltInPath_ ? nullptr : "datadir");
-        auto pkgdataDirFallback = dataDirs_;
-        for (auto &path : pkgdataDirFallback) {
-            path = constructPath(path, packageName);
-        }
-        pkgdataDirs_ = defaultPaths(
-            (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
-            stringutils::join(pkgdataDirFallback, ":").c_str(), builtInPathMap,
-            skipBuiltInPath_ ? nullptr : "pkgdatadir");
-        cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
-        auto tmpdir = getEnvironment("TMPDIR");
-        runtimeDir_ =
-            defaultPath("XDG_RUNTIME_DIR",
-                        (!tmpdir || tmpdir->empty()) ? "/tmp" : tmpdir->data());
-        // Though theoratically, this is also fcitxPath, we just simply don't
-        // use it here.
-        addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR,
-                                  builtInPathMap, nullptr);
+        initBaseDirectories();
+        initConfigDirectories(isFcitx, packageName, builtInPathMap);
+        initDataDirectories(isFcitx, packageName, builtInPathMap);
+        initRuntimeDirectory();
+        initAddonDirectories(builtInPathMap);
 
         syncUmask();
     }
@@ -301,6 +267,63 @@ private:
         }
 
         return dirs;
+    }
+
+    void initBaseDirectories() {
+        configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
+        dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
+        cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
+    }
+
+    void initConfigDirectories(
+        bool isFcitx, const std::string &packageName,
+        const std::unordered_map<std::string, std::string> &builtInPathMap) {
+        pkgconfigHome_ =
+            defaultPath((isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
+                        constructPath(configHome_, packageName).c_str());
+        configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg",
+                                   builtInPathMap, nullptr);
+
+        std::vector<std::string> pkgconfigDirFallback = configDirs_;
+        for (auto &path : pkgconfigDirFallback) {
+            path = constructPath(path, packageName);
+        }
+
+        pkgconfigDirs_ =
+            defaultPaths((isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
+                         stringutils::join(pkgconfigDirFallback, ":").c_str(),
+                         builtInPathMap, nullptr);
+    }
+
+    void initDataDirectories(
+        bool isFcitx, const std::string &packageName,
+        const std::unordered_map<std::string, std::string> &builtInPathMap) {
+        pkgdataHome_ =
+            defaultPath((isFcitx ? "FCITX_DATA_HOME" : nullptr),
+                        constructPath(dataHome_, packageName).c_str());
+        dataDirs_ = defaultPaths("XDG_DATA_DIRS",
+                                 "/usr/local/share:/usr/share:", builtInPathMap,
+                                 skipBuiltInPath_ ? nullptr : "datadir");
+        std::vector<std::string> pkgdataDirFallback = dataDirs_;
+        for (auto &path : pkgdataDirFallback) {
+            path = constructPath(path, packageName);
+        }
+        pkgdataDirs_ = defaultPaths(
+            (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
+            stringutils::join(pkgdataDirFallback, ":").c_str(), builtInPathMap,
+            skipBuiltInPath_ ? nullptr : "pkgdatadir");
+    }
+
+    void initRuntimeDirectory() {
+        const char *tmpdir = getenv("TMPDIR");
+        runtimeDir_ = defaultPath("XDG_RUNTIME_DIR",
+                                  !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
+    }
+
+    void initAddonDirectories(
+        const std::unordered_map<std::string, std::string> &builtInPathMap) {
+        addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR,
+                                  builtInPathMap, nullptr);
     }
 
     bool skipBuiltInPath_;
