@@ -301,9 +301,10 @@ private:
         pkgdataHome_ =
             defaultPath((isFcitx ? "FCITX_DATA_HOME" : nullptr),
                         constructPath(dataHome_, packageName).c_str());
-        dataDirs_ = defaultPaths("XDG_DATA_DIRS",
-                                 "/usr/local/share:/usr/share:", builtInPathMap,
-                                 skipBuiltInPath_ ? nullptr : "datadir");
+        dataDirs_ = defaultPaths(
+            "XDG_DATA_DIRS",
+            "/usr/local/share:/usr/share:/opt/system/resource:", builtInPathMap,
+            skipBuiltInPath_ ? nullptr : "datadir");
         std::vector<std::string> pkgdataDirFallback = dataDirs_;
         for (auto &path : pkgdataDirFallback) {
             path = constructPath(path, packageName);
@@ -322,7 +323,8 @@ private:
 
     void initAddonDirectories(
         const std::unordered_map<std::string, std::string> &builtInPathMap) {
-        std::string addonsPath = "/usr/local/lib/fcitx5:/usr/lib/fcitx5:";
+        std::string addonsPath =
+            "/usr/local/lib/fcitx5:/usr/lib/fcitx5:/opt/system/lib/fcitx5:";
         addonsPath.append(FCITX_INSTALL_ADDONDIR);
         addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", addonsPath.c_str(),
                                   builtInPathMap, nullptr);
