@@ -81,11 +81,13 @@ public:
         if (!conn_) {
             return;
         }
-        dbus_connection_ref(conn_.get());
-        while (dbus_connection_dispatch(conn_.get()) ==
-               DBUS_DISPATCH_DATA_REMAINS) {
+        auto *conn = conn_.get();
+        dbus_connection_ref(conn);
+        auto ref = this->watch();
+        while (ref.isValid() &&
+               dbus_connection_dispatch(conn) == DBUS_DISPATCH_DATA_REMAINS) {
         }
-        dbus_connection_unref(conn_.get());
+        dbus_connection_unref(conn);
     }
 
     static bool needWatchService(const MatchRule &rule) {

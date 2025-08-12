@@ -5,10 +5,19 @@
  *
  */
 
+#include <cstdint>
+#include <memory>
+#include <string>
 #include <thread>
+#include <tuple>
+#include <vector>
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/matchrule.h"
+#include "fcitx-utils/dbus/message.h"
+#include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/log.h"
 
 using namespace fcitx::dbus;
@@ -214,18 +223,15 @@ void client() {
     loop.exec();
 }
 
-int main() {
+void test_client() {
     Bus bus(BusType::Session);
-    if (!bus.isOpen()) {
-        return 1;
-    }
+    FCITX_ASSERT(bus.isOpen());
     EventLoop loop;
     bus.attachEventLoop(&loop);
     FCITX_ASSERT(&loop == bus.eventLoop());
-    if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
-                                        RequestNameFlag::ReplaceExisting})) {
-        return 1;
-    }
+    FCITX_ASSERT(
+        bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
+                                       RequestNameFlag::ReplaceExisting}));
     TestObject obj;
     FCITX_ASSERT(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
     std::unique_ptr<EventSourceTime> s(loop.addTimeEvent(
@@ -240,6 +246,15 @@ int main() {
             loop.exit();
             return false;
         }));
+
+    std::thread thread(client);
+
+    loop.exec();
+
+    thread.join();
+}
+
+void test_rule() {
 
     {
         MatchRule rule(TEST_SERVICE, "", TEST_INTERFACE, "testSignal");
@@ -267,11 +282,29 @@ int main() {
                      "testSignal',member='Test',arg0='abc',eavesdrop='true'")
             << rule.rule();
     }
+}
 
-    std::thread thread(client);
-
+void test_delete() {
+    std::unique_ptr<Bus> bus = std::make_unique<Bus>(BusType::Session);
+    FCITX_ASSERT(bus->isOpen());
+    EventLoop loop;
+    bus->attachEventLoop(&loop);
+    FCITX_ASSERT(&loop == bus->eventLoop());
+    auto call = bus->createMethodCall("org.freedesktop.DBus", "/non/existing",
+                                      "org.freedesktop.DBus", "BadMethod");
+    auto reply = call.callAsync(0, [&](dbus::Message &msg) {
+        FCITX_ASSERT(msg.type() == MessageType::Error);
+        FCITX_ASSERT(msg.isError());
+        bus.reset();
+        loop.exit();
+        return true;
+    });
     loop.exec();
+}
 
-    thread.join();
+int main() {
+    test_client();
+    test_rule();
+    test_delete();
     return 0;
 }
