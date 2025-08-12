@@ -604,7 +604,7 @@ dbus_bool_t DBusAddTimeout(DBusTimeout *timeout, void *data) {
         bus->timeWatchers_.emplace(
             timeout,
             bus->loop_->addTimeEvent(
-                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + interval * 1000ULL, 0,
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + (interval * 1000ULL), 0,
                 [timeout, ref](EventSourceTime *event, uint64_t) {
                     // Copy is required since the lambda may be deleted.
                     // NOLINTBEGIN(performance-unnecessary-copy-initialization)
