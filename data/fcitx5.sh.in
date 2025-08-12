@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export FCITX_ADDON_DIRS=${FCITX_ADDON_DIRS}
+export XDG_DATA_DIRS=${XDG_DATA_DIRS}
+export PATH=${PATH}
+
+exec @FCITX_INSTALL_BINDIR@/fcitx5

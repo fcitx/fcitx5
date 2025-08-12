@@ -90,11 +90,9 @@ int main(int argc, char *argv[]) {
         std::vector<std::string> args;
         if (isInFlatpak()) {
             args = {"flatpak-spawn",
-                    StandardPaths::fcitxPath("bindir", "fcitx5").string(),
-                    "-rd"};
+                    StandardPath::fcitxPath("bindir", FCITX_START_EXEC), "-rd"};
         } else {
-            args = {StandardPaths::fcitxPath("bindir", "fcitx5").string(),
-                    "-r"};
+            args = {StandardPath::fcitxPath("bindir", FCITX_START_EXEC), "-r"};
         }
         startProcess(args);
     }
