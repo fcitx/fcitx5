@@ -247,7 +247,7 @@ KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     IsoCodes isoCodes;
-    isoCodes.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
+    isoCodes.read(ISOCODES_ISO639_JSON);
 
     std::vector<InputMethodEntry> result;
     bool usExists = false;

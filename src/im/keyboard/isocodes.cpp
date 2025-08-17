@@ -99,40 +99,8 @@ private:
     IsoCodes *that_;
 };
 
-class IsoCodes3166Parser
-    : public IsoCodesJsonParser<fcitxMakeMetaString("3166-1")> {
-public:
-    IsoCodes3166Parser(IsoCodes *that) : that_(that) {}
-
-    void handle(json_object *entry) override {
-        json_object *alpha2 = json_object_object_get(entry, "alpha_2");
-        json_object *nameObj = json_object_object_get(entry, "name");
-        if (!nameObj || json_object_get_type(nameObj) != json_type_string) {
-            return;
-        }
-        // there must be alpha3
-        if (!alpha2 || json_object_get_type(alpha2) != json_type_string) {
-            return;
-        }
-        std::string alpha_2_code;
-        std::string name;
-        name.assign(json_object_get_string(nameObj),
-                    json_object_get_string_len(nameObj));
-        alpha_2_code.assign(json_object_get_string(alpha2),
-                            json_object_get_string_len(alpha2));
-        if (!name.empty() && !alpha_2_code.empty()) {
-            that_->iso3166.emplace(alpha_2_code, name);
-        }
-    }
-
-private:
-    IsoCodes *that_;
-};
-
-void IsoCodes::read(const std::string &iso639, const std::string &iso3166) {
+void IsoCodes::read(const std::string &iso639) {
     IsoCodes639Parser parser639(this);
     parser639.parse(iso639);
-    IsoCodes3166Parser parser3166(this);
-    parser3166.parse(iso3166);
 }
 } // namespace fcitx
