@@ -24,13 +24,7 @@ if(NOT DEFINED ISOCODES_ISO639_JSON)
             )
 endif()
 
-if(NOT DEFINED ISOCODES_ISO3166_JSON)
-    find_file(ISOCODES_ISO3166_JSON iso_3166-1.json
-              HINTS "${PC_ISOCODES_PREFIX}/share/iso-codes/json/"
-            )
-endif()
-
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(IsoCodes  DEFAULT_MSG  ISOCODES_ISO639_JSON ISOCODES_ISO3166_JSON)
+find_package_handle_standard_args(IsoCodes  DEFAULT_MSG  ISOCODES_ISO639_JSON)
 
-mark_as_advanced(ISOCODES_ISO639_JSON ISOCODES_ISO3166_JSON)
+mark_as_advanced(ISOCODES_ISO639_JSON)
