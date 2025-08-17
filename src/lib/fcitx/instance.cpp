@@ -270,11 +270,11 @@ InstancePrivate::overrideAddons() {
         enabled.erase(addon);
         disabled.insert(addon);
     }
-    for (auto &addon : arg_.enableList) {
+    for (const auto &addon : arg_.enableList) {
         disabled.erase(addon);
         enabled.insert(addon);
     }
-    for (auto &addon : arg_.disableList) {
+    for (const auto &addon : arg_.disableList) {
         enabled.erase(addon);
         disabled.insert(addon);
     }
