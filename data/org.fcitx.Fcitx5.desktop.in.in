@@ -2,7 +2,7 @@
 Name=Fcitx 5
 GenericName=Input Method
 Comment=Start Input Method
-Exec=@FCITX_INSTALL_BINDIR@/fcitx5
+Exec=@FCITX_START_EXEC@
 Icon=@FCITX_ICON_NAME@
 Terminal=false
 Type=Application
