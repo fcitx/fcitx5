@@ -185,22 +185,13 @@ void InstanceArgument::printUsage() const {
 
 InstancePrivate::InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {
 #ifdef ENABLE_KEYBOARD
-    auto locale = getEnvironment("LC_ALL");
-    if (!locale) {
-        locale = getEnvironment("LC_CTYPE");
-    }
-    if (!locale) {
-        locale = getEnvironment("LANG");
-    }
-    if (!locale) {
-        locale = "C";
-    }
-    assert(locale.has_value());
+    const auto &locale = getCurrentLocale();
+    assert(!locale.empty());
     xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
     if (xkbContext_) {
         xkb_context_set_log_level(xkbContext_.get(), XKB_LOG_LEVEL_CRITICAL);
         xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
-            xkbContext_.get(), locale->data(), XKB_COMPOSE_COMPILE_NO_FLAGS));
+            xkbContext_.get(), locale.data(), XKB_COMPOSE_COMPILE_NO_FLAGS));
         if (!xkbComposeTable_) {
             FCITX_INFO()
                 << "Trying to fallback to compose table for en_US.UTF-8";
