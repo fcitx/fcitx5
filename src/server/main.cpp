@@ -31,8 +31,6 @@
 #include "errorhandler.h"
 
 using namespace fcitx;
-int selfpipe[2];
-std::filesystem::path crashlog;
 
 FCITX_DEFINE_STATIC_ADDON_REGISTRY(getStaticAddon)
 #ifdef ENABLE_KEYBOARD

@@ -7,6 +7,10 @@
  */
 
 #include "errorhandler.h"
+
+int selfpipe[2];
+std::filesystem::path crashlog;
+
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -14,7 +18,7 @@
 #include <cstdint>
 #include <cstring>
 #include <ctime>
-#include <string>
+#include <filesystem>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/unixfd.h"
@@ -30,9 +34,6 @@
 
 #define MINIMAL_BUFFER_SIZE 256
 #define BACKTRACE_SIZE 32
-
-extern int selfpipe[2];
-extern std::string crashlog;
 
 struct MinimalBuffer {
     char buffer[MINIMAL_BUFFER_SIZE];

@@ -10,12 +10,19 @@
 #ifndef _ERRORHANDLER_H
 #define _ERRORHANDLER_H
 
+#include <filesystem>
+
 /* ***********************************************************
 // Consts
 // *********************************************************** */
 #ifndef SIGUNUSED
 #define SIGUNUSED 29
 #endif
+
+/* variables */
+extern int selfpipe[2];
+extern std::filesystem::path crashlog;
+
 /* ***********************************************************
 // Data structures
 // *********************************************************** */
