@@ -7,6 +7,7 @@
 
 #include "keyboard.h"
 #include <strings.h>
+#include <algorithm>
 #include <cstddef>
 #include <filesystem>
 #include <functional>
@@ -20,6 +21,7 @@
 #include <utility>
 #include <vector>
 #include <format>
+#include <span>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
@@ -79,7 +81,8 @@ std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
      */
     const IsoCodes639Entry *bestEntry = nullptr;
     int bestScore = 0;
-    for (const auto &language : languages) {
+    for (const auto &language : std::span(languages).subspan(
+             0, std::min(static_cast<size_t>(1), languages.size()))) {
         const auto *entry = isocodes.entry(language);
         if (!entry) {
             continue;
@@ -127,7 +130,7 @@ std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
         }
         return bestEntry->iso_639_2B_code;
     }
-    return {};
+    return languages.empty() ? "" : languages[0];
 }
 
 class KeyboardCandidateWord : public CandidateWord {
