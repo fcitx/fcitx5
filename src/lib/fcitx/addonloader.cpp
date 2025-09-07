@@ -53,8 +53,9 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
             const auto libraryPaths = StandardPaths::global().locateAll(
                 StandardPathsType::Addon, file);
             if (libraryPaths.empty()) {
-                FCITX_ERROR() << "Could not locate library " << file
-                              << " for addon " << info.uniqueName() << ".";
+                libraryPaths.push_back("/usr/lib/fcitx5")
+                // FCITX_ERROR() << "Could not locate library " << file
+                //               << " for addon " << info.uniqueName() << ".";
             }
             bool loaded = false;
             for (const auto &libraryPath : libraryPaths) {
