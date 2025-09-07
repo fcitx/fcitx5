@@ -50,10 +50,10 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
             }
             const auto file =
                 stringutils::concat(libname, FCITX_LIBRARY_SUFFIX);
-            const auto libraryPaths = StandardPaths::global().locateAll(
+            auto libraryPaths = StandardPaths::global().locateAll(
                 StandardPathsType::Addon, file);
             if (libraryPaths.empty()) {
-                libraryPaths.push_back("/usr/lib/fcitx5")
+                libraryPaths.push_back(std::filesystem::path("/usr/lib/fcitx5") / file);
                 // FCITX_ERROR() << "Could not locate library " << file
                 //               << " for addon " << info.uniqueName() << ".";
             }
