@@ -4,15 +4,15 @@
 #
 # Translators:
 # roxfr <roxfr@outlook.fr>, 2022
-# Xuetian Weng <wengxt@gmail.com>, 2022
+# Popolon_Github, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-07-16 20:24+0000\n"
+"POT-Creation-Date: 2025-09-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>, 2022\n"
+"Last-Translator: Popolon_Github, 2025\n"
 "Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "/XIM"
 
 #: src/modules/clipboard/clipboard.h:81
 msgid "0 means never clear password."
-msgstr ""
+msgstr "0 signifie ne jamais nettoyer le mot de passe"
 
 #: src/modules/unicode/charselectdata.cpp:222
 msgid "<Low Surrogate>"
@@ -91,15 +91,15 @@ msgstr "<Usage non privé haut substitut>"
 
 #: src/modules/clipboard/clipboard.cpp:144
 msgid "<Password>"
-msgstr ""
+msgstr "<Password>"
 
 #: src/modules/unicode/charselectdata.cpp:230
 msgid "<Plane 15 Private Use>"
-msgstr ""
+msgstr "<Plane 15 Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:232
 msgid "<Plane 16 Private Use>"
-msgstr ""
+msgstr "<Plane 16 Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:220
 msgid "<Private Use High Surrogate>"
@@ -115,11 +115,11 @@ msgstr "<non attribué>"
 
 #: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
 msgid "A virtual keyboard backend based on DBus"
-msgstr ""
+msgstr "Un backend de clavier virtuel basé sur DBus"
 
 #: src/ui/classic/theme.h:210
 msgid "Accent Colors"
-msgstr ""
+msgstr "Couleurs des accents"
 
 #: src/lib/fcitx/globalconfig.cpp:62
 msgid "Activate Input Method"
@@ -178,10 +178,12 @@ msgstr "Autoriser le remplacement des paramètres système XKB"
 #: src/modules/wayland/waylandmodule.h:45
 msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr ""
+"Permettre la surcharge des réglages XKB système (ne supporte que KDE5+ et "
+"GNOME)"
 
 #: src/lib/fcitx/globalconfig.cpp:234
 msgid "Allow input method in the password field"
-msgstr ""
+msgstr "Permettre la méthode de saisie dans un champs de mot de passe"
 
 #: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
@@ -233,7 +235,7 @@ msgstr "Auteur"
 
 #: src/modules/xcb/xcbmodule.h:37
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: src/lib/fcitx-utils/key.cpp:208
 msgctxt "Key name"
@@ -300,7 +302,7 @@ msgstr "Marge floue"
 
 #: src/ui/classic/theme.h:153
 msgid "Blur mask"
-msgstr ""
+msgstr "Masque flou"
 
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
@@ -317,7 +319,7 @@ msgstr "Largeur de la bordure"
 
 #: src/ui/classic/theme.h:56
 msgid "Bottom"
-msgstr ""
+msgstr "Bas"
 
 #: src/ui/classic/theme.h:44
 msgid "Bottom Center"
@@ -344,7 +346,7 @@ msgstr "CD"
 #: src/modules/unicode/charselectdata.cpp:199
 #, c++-format
 msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
-msgstr ""
+msgstr "Idéogrammes CJKV unifiés-{0:X}"
 
 #: src/lib/fcitx-utils/key.cpp:165
 msgctxt "Key name"
@@ -505,19 +507,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Communauté"
 
-#: src/im/keyboard/keyboard.cpp:719
+#: src/im/keyboard/keyboard.cpp:722
 msgid "Completion"
 msgstr "Achèvement"
 
-#: src/im/keyboard/keyboard.cpp:710
+#: src/im/keyboard/keyboard.cpp:713
 msgid "Completion is disabled."
 msgstr "La complétion est désactivée."
 
-#: src/im/keyboard/keyboard.cpp:713
+#: src/im/keyboard/keyboard.cpp:716
 msgid "Completion is enabled temporarily."
 msgstr "La complétion est activée temporairement."
 
-#: src/im/keyboard/keyboard.cpp:715
+#: src/im/keyboard/keyboard.cpp:718
 msgid "Completion is enabled."
 msgstr "La complétion est activée."
 
@@ -566,7 +568,7 @@ msgstr "Personnalisé"
 
 #: src/lib/fcitx/globalconfig.cpp:224
 msgid "Custom XKB Option"
-msgstr ""
+msgstr "Options XKB personnalisées"
 
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
@@ -583,7 +585,7 @@ msgstr "Interface DBus"
 
 #: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:2
 msgid "DBus Virtual Keyboard"
-msgstr ""
+msgstr "Clavier virtuel DBus"
 
 #: src/modules/notificationitem/notificationitem.conf.in.in:3
 msgid "DBus based new Freedesktop.org tray icon"
@@ -601,7 +603,7 @@ msgstr "DOS"
 
 #: src/ui/classic/classicui.h:164
 msgid "Dark Theme"
-msgstr ""
+msgstr "Thème sombre"
 
 #: src/lib/fcitx/globalconfig.cpp:71
 msgid "Deactivate Input Method"
@@ -618,7 +620,7 @@ msgstr "Par défaut"
 
 #: src/ui/classic/themes/default-dark/theme-dark.conf.in:2
 msgid "Default Dark"
-msgstr ""
+msgstr "Sombre par défaut"
 
 #: src/lib/fcitx/globalconfig.cpp:207
 msgid "Default page size"
@@ -648,6 +650,11 @@ msgid ""
 "QT_IM_MODULE and use Wayland input method frontend instead. For more details "
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Il a été détecté que GTK_IM_MODULE et QT_IM_MODULE ont été définis et que le "
+"frontal d'une méthode de saisie Wayland fonctionne actuellement. Il est "
+"recommandé de ne pas définir GTK_IM_MODULE et QT_IM_MODULE et d'utiliser le "
+"frontal de la méthode de saisie Wayland à la place. Pour d'avantage de "
+"détails, voir https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: src/modules/wayland/waylandmodule.cpp:681
 msgid ""
@@ -667,6 +674,7 @@ msgstr ""
 #: src/frontend/waylandim/waylandim.h:36
 msgid "Detect current running application (Need restart)"
 msgstr ""
+"Détecter l'application en cours de fonctionnement (nécessite un redémarrage)"
 
 #: data/fcitx5-diagnose.sh:868
 msgid "Directories:"
@@ -679,7 +687,7 @@ msgstr "Afficher"
 
 #: src/modules/clipboard/clipboard.h:71
 msgid "Display passwords as plain text"
-msgstr ""
+msgstr "Afficher les mots de passe en texte"
 
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
@@ -687,7 +695,7 @@ msgstr "Ne plus afficher"
 
 #: src/modules/clipboard/clipboard.h:63
 msgid "Do not show password from password managers"
-msgstr ""
+msgstr "N'affiche pas de mot de passe des gestionnaires de mots de passe"
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
@@ -744,7 +752,7 @@ msgstr "Activer les emoji dans la phrase rapide"
 
 #: src/ui/classic/classicui.h:196
 msgid "Enable fractional scale under Wayland"
-msgstr ""
+msgstr "Active la mise à l'échelle fractionnelle sous Wayland"
 
 #: src/im/keyboard/keyboard.h:72
 msgid "Enable hint by default"
@@ -765,19 +773,19 @@ msgstr "Entrées"
 
 #: src/lib/fcitx/globalconfig.cpp:102
 msgid "Enumerate Input Method Backward"
-msgstr "Énumérer la méthode d'entrée vers l'arrière"
+msgstr "Énumérer les méthodes de saisie vers l'arrière"
 
 #: src/lib/fcitx/globalconfig.cpp:95
 msgid "Enumerate Input Method Forward"
-msgstr "Énumérer la méthode d'entrée vers l'avant"
+msgstr "Énumérer les méthodes de saisie vers l'avant"
 
 #: src/lib/fcitx/globalconfig.cpp:119
 msgid "Enumerate Input Method Group Backward"
-msgstr "Énumérer le groupe de méthodes d'entrée vers l'arrière"
+msgstr "Énumérer le groupe de méthodes de saisie vers l'arrière"
 
 #: src/lib/fcitx/globalconfig.cpp:112
 msgid "Enumerate Input Method Group Forward"
-msgstr "Énumérer le groupe de méthodes d'entrée vers l'avant"
+msgstr "Énumérer le groupe de méthodes de saisies vers l'avant"
 
 #: src/lib/fcitx/globalconfig.cpp:52
 msgid "Enumerate when holding modifier of Toggle key"
@@ -865,7 +873,7 @@ msgstr "Favoris"
 
 #: src/modules/wayland/waylandmodule.cpp:628
 msgid "Fcitx"
-msgstr ""
+msgstr "Fcitx"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:2
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
@@ -878,7 +886,7 @@ msgstr "Configuration Fcitx 5"
 
 #: data/fcitx5-wayland-launcher.desktop.in.in:2
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
-msgstr ""
+msgstr "Lanceur Fcitx 5 Wayland (expérimental)"
 
 #: data/fcitx5-diagnose.sh:1464
 msgid "Fcitx Addons:"
@@ -894,9 +902,9 @@ msgid ""
 "language. It also features variant choice of addons that improve your typing "
 "experience."
 msgstr ""
-"Fcitx est un cadre de méthode d'entrée. Il peut vous aider à taper votre "
-"propre langue. Il propose également un choix de variantes des extensions qui "
-"améliorent votre expérience de frappe."
+"Fcitx est un cadriciel de méthodes de saisie. Il peut vous aider à taper "
+"dans votre propre langue. Il propose également un choix d'extensions variées "
+"qui améliorent votre expérience de frappe."
 
 #: src/modules/wayland/waylandmodule.cpp:651
 msgid ""
@@ -929,7 +937,7 @@ msgstr "Rechercher"
 
 #: src/ui/classic/theme.h:55
 msgid "First Candidate"
-msgstr ""
+msgstr "Première proposition"
 
 #: src/ui/classic/classicui.h:170
 msgid "Follow system accent color if it is supported by theme and desktop"
@@ -937,7 +945,7 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:166
 msgid "Follow system light/dark color scheme"
-msgstr ""
+msgstr "S'ajuster au schéma de couleur clair/sombre du système"
 
 #: data/fcitx5-diagnose.sh:1184
 msgid ""
@@ -972,10 +980,12 @@ msgstr ""
 #: src/modules/wayland/waylandmodule.cpp:738
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
+"Pour d'avantage de détails, voir https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland"
 
 #: src/ui/classic/classicui.h:184
 msgid "Force font DPI on Wayland"
-msgstr ""
+msgstr "Forcer les PPP de la fonte sous Wayland"
 
 #: src/lib/fcitx-utils/key.cpp:104
 msgctxt "Key name"
@@ -1099,7 +1109,7 @@ msgstr "Fichiers du module Gtk IM :"
 #: src/modules/unicode/charselectdata.cpp:215
 #, c++-format
 msgid "HANGUL SYLLABLE {0}{1}{2}"
-msgstr ""
+msgstr "SYLLABE HANGUL {0}{1}{2}"
 
 #: data/fcitx5-diagnose.sh:753
 msgid "Hall of Shame for Linux IME Support"
@@ -1277,12 +1287,18 @@ msgid ""
 "zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
 "bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
 msgstr ""
+"Si activé, lorsque zwp_input_method_v2 est utilisé, ne créé et détruit pas "
+"zwp_virtual_keyboard_v1 lords d'une activation et désactivation. Cela "
+"pourrait contourner certains bugs avec certains compositeurs, dont "
+"Sway<=1.9, RiverWM<=0.3.0."
 
 #: src/lib/fcitx/globalconfig.cpp:245
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr ""
+"Si la valeur est 0, les données de l'utilisateur ne pourraient être "
+"sauvegardées que lorsque fcitx quitte (c.à.d. lors de la déconnexion). "
 
 #: data/fcitx5-diagnose.sh:742
 msgid ""
@@ -1290,9 +1306,9 @@ msgid ""
 "order to use any input method other than ${2}. See ${link} for more detail "
 "as well as alternative solutions."
 msgstr ""
-"Si vous utilisez ${1}, vous pouvez désinstaller ${2} ou supprimer ${3} afin "
-"d'utiliser une méthode de saisie autre que ${2}. Voir ${link} pour plus de "
-"détails ainsi que des solutions alternatives."
+"Si vous utilisez ${1}, vous pourriez vouloir désinstaller ${2} ou supprimer "
+"${3} afin d'utiliser une méthode de saisie autre que ${2}. Voir ${link} pour "
+"plus de détails ainsi que des solutions alternatives."
 
 #: data/fcitx5-diagnose.sh:740
 msgid ""
@@ -1309,7 +1325,7 @@ msgstr ""
 msgid "Image"
 msgstr "Image"
 
-#: src/im/keyboard/keyboard.cpp:718 src/lib/fcitx/instance.cpp:483
+#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:483
 #: src/lib/fcitx/instance.cpp:712 src/lib/fcitx/instance.cpp:884
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
@@ -1321,11 +1337,11 @@ msgstr "Méthode de saisie"
 
 #: data/fcitx5-configtool.desktop.in.in:3
 msgid "Input Method Configuration"
-msgstr "Configuration de la méthode d'entrée"
+msgstr "Configuration de la méthode de saisie"
 
 #: data/fcitx5-diagnose.sh:717
 msgid "Input Method Related Environment Variables: "
-msgstr "Variables d'environnement liées à la méthode d'entrée  :  "
+msgstr "Variables d'environnement liées à la méthode de saisie :  "
 
 #: data/fcitx5-diagnose.sh:1604
 msgid "Input Methods:"
@@ -1337,34 +1353,34 @@ msgstr "Panneau de saisie"
 
 #: src/ui/classic/theme.h:71
 msgid "Input Panel Background"
-msgstr ""
+msgstr "Fond du panneau de saisie"
 
 #: src/ui/classic/theme.h:71
 msgid "Input Panel Border"
-msgstr ""
+msgstr "Bord du panneau de saisie"
 
 #: src/ui/classic/theme.h:73
 msgid "Input Panel Highlight"
-msgstr ""
+msgstr "Surlignage du panneau de saisie"
 
 #: src/ui/classic/theme.h:72
 msgid "Input Panel Highlight Candidate Background"
-msgstr ""
+msgstr "Fond du surlignement de la proposition du panneau de saisie"
 
 #: src/ui/classic/theme.h:73
 msgid "Input Panel Highlight Candidate Border"
-msgstr ""
+msgstr "Bordure du surlignement de la proposition du panneau de saisie"
 
 #: src/modules/imselector/imselector.conf.in.in:2
 msgid "Input method selector"
-msgstr "Sélecteur de méthode d'entrée"
+msgstr "Sélecteur de méthode de saisie"
 
 #: src/lib/fcitx/globalconfig.cpp:131 src/lib/fcitx/globalconfig.cpp:144
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
 msgstr ""
-"Les méthodes d'entrée peuvent avoir une configuration différente dans leur "
+"Les méthodes de saisie peuvent avoir une configuration différente dans leur "
 "propre configuration. Ceci est couramment utilisé par des modules comme "
 "presse-papiers ou quickphrase."
 
@@ -1375,7 +1391,7 @@ msgstr "Insérer"
 
 #: src/lib/fcitx/globalconfig.cpp:241
 msgid "Interval of saving user data in minutes"
-msgstr ""
+msgstr "Intervalle de sauvegarde des données utilisateur en minute"
 
 #: data/fcitx5-diagnose.sh:1499
 msgid "Invalid addon config file ${1}."
@@ -1402,7 +1418,7 @@ msgstr "Panneau de méthode de saisie KDE"
 
 #: src/ui/classic/classicui.cpp:301
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE Plasma (expérimental)"
 
 #: src/lib/fcitx-utils/key.cpp:256
 msgctxt "Key name"
@@ -1427,21 +1443,23 @@ msgstr "Katakana"
 #: src/frontend/waylandim/waylandim.h:44
 msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
 msgstr ""
+"Conserver l'objet clavier virtuel pour le protocole V2 (nécessite un "
+"redémarrage)"
 
 #: src/im/keyboard/longpress.h:20
 msgid "Key"
 msgstr "Clé"
 
-#: src/im/keyboard/keyboard.cpp:341 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:344 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "Clavier"
 
-#: src/im/keyboard/keyboard.cpp:259
+#: src/im/keyboard/keyboard.cpp:262
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "Clavier - {0}"
 
-#: src/im/keyboard/keyboard.cpp:277
+#: src/im/keyboard/keyboard.cpp:280
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "Clavier - {0} - {1}"
@@ -1473,177 +1491,177 @@ msgstr "Menu clavier"
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Keypad *"
-msgstr ""
+msgstr "* du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Keypad +"
-msgstr ""
+msgstr "+ du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Keypad ,"
-msgstr ""
+msgstr ", du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Keypad -"
-msgstr ""
+msgstr "- du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Keypad ."
-msgstr ""
+msgstr ". du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Keypad /"
-msgstr ""
+msgstr "/ du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:90
 msgctxt "Key name"
 msgid "Keypad 0"
-msgstr ""
+msgstr "0 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:91
 msgctxt "Key name"
 msgid "Keypad 1"
-msgstr ""
+msgstr "1 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:92
 msgctxt "Key name"
 msgid "Keypad 2"
-msgstr ""
+msgstr "2 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:93
 msgctxt "Key name"
 msgid "Keypad 3"
-msgstr ""
+msgstr "3 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:94
 msgctxt "Key name"
 msgid "Keypad 4"
-msgstr ""
+msgstr "4 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:95
 msgctxt "Key name"
 msgid "Keypad 5"
-msgstr ""
+msgstr "5 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:96
 msgctxt "Key name"
 msgid "Keypad 6"
-msgstr ""
+msgstr "6 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
 msgid "Keypad 7"
-msgstr ""
+msgstr "7 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:98
 msgctxt "Key name"
 msgid "Keypad 8"
-msgstr ""
+msgstr "8 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:99
 msgctxt "Key name"
 msgid "Keypad 9"
-msgstr ""
+msgstr "9 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Keypad ="
-msgstr ""
+msgstr "= du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Keypad Begin"
-msgstr ""
+msgstr "Début du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Keypad Delete"
-msgstr ""
+msgstr "Suppr du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
 msgid "Keypad Down"
-msgstr ""
+msgstr "Bas du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Keypad End"
-msgstr ""
+msgstr "Fin du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Keypad Enter"
-msgstr ""
+msgstr "Entrée du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Keypad F1"
-msgstr ""
+msgstr "F1 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Keypad F2"
-msgstr ""
+msgstr "F2 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Keypad F3"
-msgstr ""
+msgstr "F3 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:71
 msgctxt "Key name"
 msgid "Keypad F4"
-msgstr ""
+msgstr "F4 du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Keypad Home"
-msgstr ""
+msgstr "Maison du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Keypad Insert"
-msgstr ""
+msgstr "Insert du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Keypad Left"
-msgstr ""
+msgstr "Gauche du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Keypad Page Down"
-msgstr ""
+msgstr "Page bas du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Keypad Page Up"
-msgstr ""
+msgstr "Page haut du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:75
 msgctxt "Key name"
 msgid "Keypad Right"
-msgstr ""
+msgstr "Droite du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Keypad Space"
-msgstr ""
+msgstr "Espace du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Keypad Tab"
-msgstr ""
+msgstr "Tab du pavé numérique"
 
 #: src/lib/fcitx-utils/key.cpp:74
 msgctxt "Key name"
 msgid "Keypad Up"
-msgstr ""
+msgstr "Haut du pavé numérique"
 
 #: data/fcitx5-diagnose.sh:1590
 msgid "Kimpanel process:"
@@ -1651,7 +1669,7 @@ msgstr "Processus Kimpanel :"
 
 #: src/ui/classic/theme.h:56
 msgid "Last Candidate"
-msgstr ""
+msgstr "Dernière proposition"
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
@@ -1805,7 +1823,7 @@ msgstr "Marge inférieure"
 
 #: src/ui/classic/theme.h:80
 msgid "Margin Left"
-msgstr "Marge à gauche"
+msgstr "Marge gauche"
 
 #: src/ui/classic/theme.h:82
 msgid "Margin Right"
@@ -1836,7 +1854,7 @@ msgstr "Massyo"
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
 msgid "Media Fast Forward"
-msgstr "Avance rapide des médias"
+msgstr "Avance rapide du média"
 
 #: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
@@ -1846,12 +1864,12 @@ msgstr "Média suivant"
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Media Pause"
-msgstr "Pause média"
+msgstr "Pause du média"
 
 #: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
 msgid "Media Play"
-msgstr "Lecture multimédia"
+msgstr "Lecture du média"
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
@@ -1861,7 +1879,7 @@ msgstr "Média précédent"
 #: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
 msgid "Media Record"
-msgstr "Enregistrement multimédia"
+msgstr "Enregistrement du média"
 
 #: src/lib/fcitx-utils/key.cpp:159
 msgctxt "Key name"
@@ -1871,7 +1889,7 @@ msgstr "Rembobiner le média"
 #: src/lib/fcitx-utils/key.cpp:111
 msgctxt "Key name"
 msgid "Media Stop"
-msgstr "Arrêt média"
+msgstr "Arrêt du média"
 
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
@@ -1889,11 +1907,11 @@ msgstr "Menu"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Background"
-msgstr ""
+msgstr "Fond du menu"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Border"
-msgstr ""
+msgstr "Bordure du menu"
 
 #: src/ui/classic/classicui.h:128
 msgid "Menu Font"
@@ -1906,15 +1924,15 @@ msgstr "Menu PB"
 
 #: src/ui/classic/theme.h:75
 msgid "Menu Selected Item Background"
-msgstr ""
+msgstr "Fond de l'entrée du menu sélectionnée"
 
 #: src/ui/classic/theme.h:75
 msgid "Menu Selected Item Border"
-msgstr ""
+msgstr "Bordure de l'entrée du menu sélectionnée"
 
 #: src/ui/classic/theme.h:76
 msgid "Menu Separator"
-msgstr ""
+msgstr "Séparateur du menu"
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
@@ -1948,7 +1966,7 @@ msgstr "Muhenkan"
 #: src/lib/fcitx-utils/key.cpp:261
 msgctxt "Key name"
 msgid "Multiple Candidate"
-msgstr "Candidat multiple"
+msgstr "Propositions multiples"
 
 #: src/lib/fcitx-utils/key.cpp:213
 msgctxt "Key name"
@@ -1976,7 +1994,7 @@ msgstr "Actualités"
 
 #: src/im/keyboard/keyboard.h:61
 msgid "Next Candidate"
-msgstr "Candidat suivant"
+msgstr "Proposition suivante"
 
 #: src/ui/classic/theme.h:172
 msgid "Next Page Button"
@@ -1996,7 +2014,7 @@ msgstr "Aucun"
 
 #: src/ui/classic/theme.h:141 src/ui/classic/theme.h:177
 msgid "Normal text color"
-msgstr "Couleur normale du texte"
+msgstr "Couleur du texte normal"
 
 #: src/ui/classic/classicui.h:188
 msgid ""
@@ -2004,6 +2022,9 @@ msgid ""
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
+"Normalment, Wayland utilise une fonte 96 PPP en combinaison avec le facteur "
+"d'échelle de l'écran. Cette option vous permet de surrchager les PPP de la "
+"fonte. Si la value est 0, cette options est désactivée"
 
 #: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
@@ -2020,20 +2041,20 @@ msgstr "Notification"
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "NumLock"
-msgstr "NumLock"
+msgstr "VerrNum"
 
 #: src/modules/clipboard/clipboard.h:56
 msgid "Number of entries"
 msgstr "Nombre d'entrées"
 
-#: src/im/keyboard/keyboard.cpp:704
+#: src/im/keyboard/keyboard.cpp:707
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
 "Seul le support emoji est trouvé. Pour activer la vérification "
 "orthographique, vous devrez peut-être installer les données de vérification "
-"orthographique pour la langue."
+"orthographique de la langue."
 
 #: src/lib/fcitx-utils/key.cpp:234
 msgctxt "Key name"
@@ -2052,27 +2073,27 @@ msgstr "Option"
 
 #: src/ui/classic/theme.h:126
 msgid "Overlay Clip Margin"
-msgstr "Superposer la marge du clip"
+msgstr "Marge de découpe de la surcouche"
 
 #: src/ui/classic/theme.h:116
 msgid "Overlay Image"
-msgstr "Image de superposition"
+msgstr "Image de surcouche"
 
 #: src/ui/classic/theme.h:119
 msgid "Overlay X offset"
-msgstr "Superposer le décalage X"
+msgstr "Décalage X de la surcouche"
 
 #: src/ui/classic/theme.h:120
 msgid "Overlay Y offset"
-msgstr "Superposer le décalage Y"
+msgstr "Décalage Y de la surcouche"
 
 #: src/ui/classic/theme.h:118
 msgid "Overlay position"
-msgstr "Position de superposition"
+msgstr "Position de la surcouche"
 
 #: src/lib/fcitx/globalconfig.cpp:214
 msgid "Override XKB Option"
-msgstr ""
+msgstr "Surcharger l'option XKB"
 
 #: data/fcitx5-diagnose.sh:991
 msgid "Owner of DBus name ${1} is ${2}."
@@ -2085,16 +2106,16 @@ msgstr "Le PID du propriétaire du nom DBus ${1} est ${2}."
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "Page Down"
-msgstr ""
+msgstr "Page haut"
 
 #: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "Page Up"
-msgstr ""
+msgstr "Page bas"
 
 #: src/ui/classic/theme.h:161
 msgid "Page button vertical alignment"
-msgstr ""
+msgstr "Alignement vertical du bouton de page"
 
 #: src/im/keyboard/keyboard.h:50
 msgid "Page size"
@@ -2177,7 +2198,7 @@ msgstr "Présage"
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
-msgstr "Candidat précédent"
+msgstr "Proposition précédente"
 
 #: src/ui/classic/theme.h:171
 msgid "Prev Page Button"
@@ -2186,7 +2207,7 @@ msgstr "Bouton de page précédente"
 #: src/lib/fcitx-utils/key.cpp:262
 msgctxt "Key name"
 msgid "Previous Candidate"
-msgstr "Candidat précédent"
+msgstr "Proposition précédente"
 
 #: src/lib/fcitx-utils/key.cpp:238
 msgctxt "Key name"
@@ -2236,7 +2257,7 @@ msgstr "Répondre"
 
 #: src/lib/fcitx/globalconfig.cpp:184
 msgid "Reset state on Focus In"
-msgstr ""
+msgstr "Remise à zéro de l'état lors de la prise de focus"
 
 #: src/ui/classic/xcbtraywindow.cpp:56
 #: src/modules/notificationitem/dbusmenu.cpp:262
@@ -2251,7 +2272,7 @@ msgstr "Retour"
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Right"
-msgstr "Bien"
+msgstr "Droit"
 
 #: src/lib/fcitx-utils/key.cpp:41
 msgctxt "Key name"
@@ -2300,7 +2321,7 @@ msgstr "Rotation PB"
 
 #: data/fcitx5-diagnose.sh:916
 msgid "Running as root:"
-msgstr "Exécuté en tant que root :"
+msgstr "Exécuter en tant que root :"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -2315,7 +2336,7 @@ msgstr "Écran de veille"
 #: src/lib/fcitx-utils/key.cpp:100
 msgctxt "Key name"
 msgid "ScrollLock"
-msgstr "ScrollLock"
+msgstr "ArrêtDefil"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -2324,7 +2345,7 @@ msgstr "Rechercher"
 
 #: src/modules/clipboard/clipboard.h:77
 msgid "Seconds before clearing password"
-msgstr ""
+msgstr "Secondes avant nettoyage du mot de passe"
 
 #: src/lib/fcitx-utils/key.cpp:243
 msgctxt "Key name"
@@ -2345,7 +2366,7 @@ msgstr "Sélectionner une méthode de saisie spécifique via le clavier"
 
 #: src/ui/classic/theme.h:180
 msgid "Selected Item text color"
-msgstr ""
+msgstr "Couleur de texte de l'entrée sélectionnée"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -2358,6 +2379,10 @@ msgid ""
 "not yet supported on current desktop. You may still use Fcitx's internal "
 "layout conversion by adding layout as input method to the input method group."
 msgstr ""
+"Envoyer la configuration de disposition clavier au compositeur Wayland "
+"depuis Fcitx n'est pas encore supporté avec le bureau actuel. Vous devriez "
+"toujours utiliser la conversion de disposition interne de Fcitx en ajoutant "
+"la disposition comme méthode d'entrée au groupe de méthodes d'entrée"
 
 #: src/ui/classic/theme.h:188
 msgid "Separator Background"
@@ -2366,14 +2391,15 @@ msgstr "Arrière-plan du séparateur"
 #: src/modules/xcb/xcbmodule.h:69
 msgid "Set client disconnect mode to terminate (Need Restart)"
 msgstr ""
+"Régler le mode de déconnexion du client à terminer (nécessite un redémarrage)"
 
 #: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
-msgstr "Marge d'ombre"
+msgstr "Marge de l'ombre"
 
 #: src/lib/fcitx/globalconfig.cpp:188
 msgid "Share Input State"
-msgstr "Partager l'état de l'entrée"
+msgstr "Partager l'état de la saisie"
 
 #: src/lib/fcitx-utils/key.cpp:588
 msgctxt "Key name"
@@ -2388,34 +2414,35 @@ msgstr "Boutique"
 #: src/lib/fcitx/globalconfig.cpp:199
 msgid "Show Input Method Information when changing focus"
 msgstr ""
-"Afficher les informations sur la méthode d'entrée lors du changement de focus"
+"Afficher les informations sur la méthode de saisie lors du changement de "
+"focus"
 
 #: src/lib/fcitx/globalconfig.cpp:196
 msgid "Show Input Method Information when switch input method"
 msgstr ""
-"Afficher les informations sur la méthode d'entrée lors du changement de "
-"méthode d'entrée"
+"Afficher les informations sur la méthode de saisie lors du changement de "
+"méthode de saisie"
 
 #: src/ui/classic/classicui.h:141
 msgid "Show Layout Name In Icon"
-msgstr "Afficher le nom de la mise en page dans l'icône"
+msgstr "Afficher le nom de la disposition dans l'icône"
 
 #: src/lib/fcitx/globalconfig.cpp:202
 msgid "Show compact input method information"
-msgstr "Afficher les informations sur la méthode d'entrée compacte"
+msgstr "Afficher des informations compactes sur la méthode de saisie"
 
 #: src/lib/fcitx/globalconfig.cpp:205
 msgid "Show first input method information"
-msgstr "Afficher les informations de la première méthode d'entrée"
+msgstr "Afficher les informations de la première méthode de saisie"
 
 #: src/ui/classic/classicui.h:145
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
 msgstr ""
-"Afficher le nom de la mise en page dans l'icône s'il y a plus d'une mise en "
-"page active. Si l'icône de texte préféré est définie sur true, cette option "
-"sera ignorée."
+"Afficher le nom de la disposition dans l'icône s'il y a plus d'une "
+"disposition active. Si préfère l'icône de texte est définie à vrai, cette "
+"option sera ignorée."
 
 #: src/lib/fcitx/globalconfig.cpp:192
 msgid "Show preedit in application"
@@ -2423,7 +2450,7 @@ msgstr "Afficher la pré-édition dans l'application"
 
 #: src/lib/fcitx/globalconfig.cpp:237
 msgid "Show preedit text when typing password"
-msgstr ""
+msgstr "Afficher le texte de pré-édition lors de la frappe d'un mot de passe"
 
 #: src/im/keyboard/keyboard.h:90
 msgid ""
@@ -2435,7 +2462,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:108
 msgid "Skip first input method while enumerating"
-msgstr "Ignorer la première méthode de saisie lors de l'énumération"
+msgstr "Passer la première méthode de saisie lors de l'énumération"
 
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
@@ -2463,7 +2490,7 @@ msgstr "Vérificateur orthographique"
 #: src/lib/fcitx-utils/key.cpp:197
 msgctxt "Key name"
 msgid "Split Screen"
-msgstr "Écran partagé"
+msgstr "Écran divisé"
 
 #: src/lib/fcitx-utils/key.cpp:173
 msgctxt "Key name"
@@ -2473,16 +2500,16 @@ msgstr "Feuille de calcul"
 #: src/lib/fcitx-utils/key.cpp:119
 msgctxt "Key name"
 msgid "Standby"
-msgstr "Veille"
+msgstr "Repos"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/fcitx5-wayland-launcher.desktop.in.in:4
 msgid "Start Input Method"
-msgstr "Démarrer la méthode de saisie"
+msgstr "Lancer la méthode de saisie"
 
 #: src/modules/notificationitem/notificationitem.conf.in.in:2
 msgid "Status Notifier"
-msgstr "Notification d'état"
+msgstr "Notificateur d'état"
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
@@ -2544,7 +2571,7 @@ msgstr "Requête système"
 #: src/modules/unicode/charselectdata.cpp:227
 #, c++-format
 msgid "TANGUT IDEOGRAPH-{0:X}"
-msgstr ""
+msgstr "IDÉOGRAMME TANGOUTE-{0:X}"
 
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
@@ -2558,7 +2585,7 @@ msgstr "Panneau de tâches"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Temporarily Toggle Input Method"
-msgstr ""
+msgstr "Commute temporairement la méthode de saisie"
 
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
@@ -2574,6 +2601,12 @@ msgid ""
 "environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
 "environ` for a certain process that you find not working."
 msgstr ""
+"La variable d'environnement vérifiée par le script, montre seulement "
+"l'environnement du shell actuel. Il est toujours possible que vous n'ayez "
+"pas réglé l'environnement dans l'ensemble de la session du bureau graphique. "
+"Vous pourriez inspecter la variable d'environnement réelle d'un certains "
+"processus en utilisant `xargs -0 -L1 /proc/$PID/environ` pour un processus "
+"donnée dont vous remarquez qu'il ne fonctionne pas."
 
 #: src/modules/imselector/imselector.h:42
 #: src/modules/imselector/imselector.h:52
@@ -2595,6 +2628,8 @@ msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
 msgstr ""
+"Ceci permet à XWayland de terminer automatiquement avec les compositeurs qui "
+"lancent XWayland à la demande."
 
 #: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
@@ -2610,6 +2645,15 @@ msgid ""
 "single modifier key like Shift, so it can be used with just a single key "
 "press, but won't be triggered by accident if you never activate input method."
 msgstr ""
+"Cette touche ne peut être utilisée que si l'état courant est actif, ou si il "
+"est désactivé avec cette touche. Par exemple, vous avez deux méthodes de "
+"saisie : Anglais à l'état inactif, Pinyin à l'état actif. Elle peut alors "
+"être utilisée pour passer passer de Pinyin à Anglais et pour repasser de "
+"Pinyin vers Anglais ensuite. Si l'état initial est anglais, cela ne fera "
+"rien. Cette touche peut être configurée pour être un touche modificatrice "
+"simple comme Maj, afin qu'elle puisse être utilisée avec une seule pression, "
+"mais qu'elle ne soit pas déclenchée par accident si vous n'avez jamais "
+"activé la méthode de saisie."
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
 msgid "This option is only effective if image is not set."
@@ -2617,11 +2661,11 @@ msgstr "Cette option n'est efficace que si l'image n'est pas définie."
 
 #: src/ui/classic/classicui.h:200
 msgid "This option require support from wayland compositor."
-msgstr ""
+msgstr "Cette option nécessite le support du compositeur Wayland"
 
 #: src/ui/classic/classicui.h:179
 msgid "This option will be always disabled on XWayland."
-msgstr ""
+msgstr "Cette option sera toujours désactivée sous XWayland"
 
 #: src/ui/classic/theme.h:115
 msgid "This value should be less than any of margin value."
@@ -2640,11 +2684,13 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:222
 msgctxt "Key name"
 msgid "Time"
-msgstr "Heure"
+msgstr "Temps"
 
 #: src/lib/fcitx/globalconfig.cpp:168
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
 msgstr ""
+"Limite de temps en millisecondes pour déclencher une touche de modification "
+"de raccourci clavier"
 
 #: data/fcitx5-diagnose.sh:750
 #, sh-format
@@ -2653,18 +2699,18 @@ msgid ""
 "${link1}. For other more general problems of using XIM including application "
 "freezing, see ${link2}."
 msgstr ""
-"Pour voir certains problèmes spécifiques à une application que vous pouvez "
+"Pour voir certains problèmes spécifiques à une application que vous pourriez "
 "rencontrer lors de l'utilisation de xim, consultez ${link1}. Pour d'autres "
-"problèmes plus généraux liés à l'utilisation de XIM, notamment le gel des "
+"problèmes plus généraux liés à l'utilisation de XIM, dont le gel des "
 "applications, consultez ${link2}."
 
 #: src/lib/fcitx/globalconfig.cpp:44
 msgid "Toggle Input Method"
-msgstr ""
+msgstr "Commute la méthode de saisie"
 
 #: src/lib/fcitx/globalconfig.cpp:161
 msgid "Toggle embedded preedit"
-msgstr "Basculer la pré-édition intégrée"
+msgstr "Commuter la pré-édition intégrée"
 
 #: src/lib/fcitx-utils/key.cpp:201
 msgctxt "Key name"
@@ -2673,20 +2719,20 @@ msgstr "Outils"
 
 #: src/ui/classic/theme.h:54
 msgid "Top"
-msgstr ""
+msgstr "Haut"
 
 #: src/ui/classic/theme.h:41
 msgid "Top Center"
-msgstr "En haut au centre"
+msgstr "Centre haut"
 
 #: src/ui/classic/theme.h:41
 msgid "Top Left"
-msgstr "En haut à gauche"
+msgstr "Haut gauche"
 
 #: src/lib/fcitx-utils/key.cpp:225
 msgctxt "Key name"
 msgid "Top Menu"
-msgstr "Menu principal"
+msgstr "Menu du haut"
 
 #: src/ui/classic/theme.h:42
 msgid "Top Right"
@@ -2705,7 +2751,7 @@ msgstr "Pavé tactile activé"
 #: src/lib/fcitx-utils/key.cpp:276
 msgctxt "Key name"
 msgid "Touchpad Toggle"
-msgstr "Basculement du pavé tactile"
+msgstr "Commutation du pavé tactile"
 
 #: src/lib/fcitx-utils/key.cpp:254
 msgctxt "Key name"
@@ -2723,29 +2769,29 @@ msgstr "Police du bac"
 
 #: src/ui/classic/classicui.h:132
 msgid "Tray Label Outline Color"
-msgstr "Couleur du contour de l'étiquette du plateau"
+msgstr "Couleur du contour de l'étiquette du bac"
 
 #: src/ui/classic/classicui.h:135
 msgid "Tray Label Text Color"
-msgstr "Couleur du texte de l'étiquette du plateau"
+msgstr "Couleur du texte de l'étiquette du bac"
 
 #: src/modules/imselector/imselector.h:25
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:50
 msgid "Trigger Key"
-msgstr "Clé de déclenchement"
+msgstr "Touche de déclenchement"
 
 #: src/modules/imselector/imselector.h:31
 msgid "Trigger Key for only current input context"
-msgstr "Clé de déclenchement pour le contexte d'entrée actuel uniquement"
+msgstr "Touche de déclenchement pour le contexte d'entrée actuel uniquement"
 
 #: src/im/keyboard/keyboard.h:75
 msgid "Trigger hint mode"
-msgstr "Déclencher le mode indice"
+msgstr "Déclencher le mode indication"
 
 #: src/im/keyboard/keyboard.h:80
 msgid "Trigger hint mode for one time"
-msgstr "Déclencher le mode indice pour une fois"
+msgstr "Déclencher le mode indication une seule fois"
 
 #: src/im/keyboard/keyboard.h:95
 msgid "Type special characters with long press"
@@ -2753,7 +2799,7 @@ msgstr "Saisir des caractères spéciaux en appuyant longuement"
 
 #: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
-msgstr ""
+msgstr "Saisir de l'Unicode en nombre hexadécimaux"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:26
 msgid "Typing with Fcitx and Kimpanel"
@@ -2783,11 +2829,11 @@ msgstr "Haut"
 
 #: src/frontend/xim/xim.h:32
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr "Utiliser le style On The Spot (nécessite un redémarrage)"
+msgstr "Utiliser le style Sur le curseur (nécessite un redémarrage)"
 
 #: src/ui/classic/classicui.h:175
 msgid "Use Per Screen DPI on X11"
-msgstr ""
+msgstr "Utilise un PPP par écran sous X11"
 
 #: src/ui/classic/theme.h:157
 msgid "Use all horizontal space for highlight when it is vertical list"
@@ -2821,6 +2867,8 @@ msgid ""
 "Using ${1} to check the actual im module to be used under current "
 "environment:"
 msgstr ""
+"Utiliser ${1} pour vérifier la méthode de saisie qui sera réellement "
+"utilisée avec l'environnement actuel :"
 
 #: src/ui/classic/theme.h:198
 msgid "Version"
@@ -2832,7 +2880,7 @@ msgstr "Ligne de version :"
 
 #: src/ui/classic/classicui.h:120
 msgid "Vertical Candidate List"
-msgstr "Liste verticale des candidats"
+msgstr "Liste verticale des propositions"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
@@ -2847,7 +2895,7 @@ msgstr "Afficher"
 #: src/lib/fcitx-utils/key.cpp:279
 msgctxt "Key name"
 msgid "Void Symbol"
-msgstr ""
+msgstr "Symbole joker"
 
 #: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
@@ -2890,11 +2938,11 @@ msgstr "Wayland"
 
 #: src/modules/wayland/waylandmodule.cpp:628
 msgid "Wayland Diagnose"
-msgstr ""
+msgstr "Diagnostique Wayland"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:2
 msgid "Wayland Input method frontend"
-msgstr "Interface de la méthode Wayland Input"
+msgstr "Interface de la méthode de saisie Wayland"
 
 #: src/lib/fcitx-utils/key.cpp:210
 msgctxt "Key name"
@@ -2907,12 +2955,19 @@ msgid ""
 "supports marking the clipboard content as password, this clipboard update "
 "will be ignored."
 msgstr ""
+"Lorsqu'un mot de passe est copié depuis le gestionnaire de mot de passe, si "
+"ce dernier supporte que le contenu du presse-papier soit marqué en tant que "
+"mot de passe, la mise à jour du presse-papier sera ignorée"
 
 #: src/lib/fcitx/globalconfig.cpp:174
 msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
 msgstr ""
+"Lors de l'utilisation d'un raccourci clavier ne comportant qu'une touche "
+"modificatrice, l'action pourrait n'être déclenchée que si la touche "
+"modificatrice est relâchée pendant le timeout. -1 signifie qu'il n'y a pas "
+"de limite."
 
 #: src/lib/fcitx/globalconfig.cpp:218
 msgid ""
@@ -2921,6 +2976,11 @@ msgid ""
 "layout. This is a workaround when there is no way to get the current XKB "
 "option from Wayland Compositor."
 msgstr ""
+"Est-ce qu'l faut surcharger l'option XKB du serveur d'affichage ? Cela "
+"n'affectera pas l'option XKB envoyé à l'affichage, mais seulement l'option "
+"XKB pour les disposition personnalisée. Il s'agît d'un contournement "
+"lorsqu'il n'y a pas d'autre moyen de récupérer l'option XKB actuelle depuis "
+"le compositeur Wayland."
 
 #: data/fcitx5-diagnose.sh:926
 msgid "Why is it bad to run as root"
@@ -2938,7 +2998,7 @@ msgstr "Traitement de texte"
 
 #: src/frontend/xim/xim.conf.in.in:2
 msgid "X Input Method Frontend"
-msgstr "X Input Method Frontend"
+msgstr "Frontal de méthode de saisie X"
 
 #: src/modules/xcb/xcb.conf.in.in:2
 msgid "XCB"
@@ -2994,7 +3054,7 @@ msgstr "Jaune"
 
 #: src/modules/xcb/xcbmodule.h:38
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: data/fcitx5-diagnose.sh:924
 msgid ""
@@ -3031,6 +3091,10 @@ msgid ""
 "found. The package name of the configuration tool is usually fcitx5-"
 "configtool. Now it will open the configuration directory."
 msgstr ""
+"vous faites actuellement fonctionner Fcitx5 avec une GUI, amis fcitx5-config-"
+"qt n'a pas été trouvé. Le nom de paquet de l'outil de configuration est "
+"actuellement fcitx5-configtool. Le dossier de configuration va être ouvert à "
+"présent."
 
 #: data/fcitx5-configtool.sh:138
 msgid ""
@@ -3054,9 +3118,10 @@ msgid ""
 "able to use input method in emacs because of an really old emacs bug that "
 "upstream refuse to fix for years."
 msgstr ""
-"Votre LC_CTYPE est défini sur ${1} au lieu de l'un des zh, ja, ko. Vous ne "
-"pourrez peut-être pas utiliser la méthode d'entrée dans emacs à cause d'un "
-"bogue très ancien d'emacs que l'amont refuse de corriger pendant des années."
+"Votre LC_CTYPE est défini à ${1} au lieu de l'un des zh, ja, ko. Vous "
+"pourriez ne pas povuoir utiliser la méthode de saisie dans emacs en raison "
+"d'un très ancien bogue d'emacs que les développeurs en amont refusent de "
+"corriger depuis des années."
 
 #: data/fcitx5-diagnose.sh:1090
 msgid ""
@@ -3111,7 +3176,7 @@ msgstr "variables d'environnement sudo"
 msgid "version:"
 msgstr "version :"
 
-#: src/im/keyboard/keyboard.cpp:318
+#: src/im/keyboard/keyboard.cpp:321
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (Non disponible)"
