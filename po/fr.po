@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-09-12 20:24+0000\n"
+"POT-Creation-Date: 2025-09-17 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Popolon_Github, 2025\n"
 "Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
@@ -799,6 +799,7 @@ msgstr "Énumérer le groupe de méthodes de saisies vers l'avant"
 #: src/lib/fcitx/globalconfig.cpp:52
 msgid "Enumerate when holding modifier of Toggle key"
 msgstr ""
+"Énumérer lorsque une touche modificatrice ou de commutation est pressée"
 
 #: data/fcitx5-diagnose.sh:1027
 msgid ""
@@ -857,19 +858,19 @@ msgstr "Impossible de trouver ${1} dans la sortie de ${2}"
 
 #: src/lib/fcitx/globalconfig.cpp:156
 msgid "Fallback Next Candidate"
-msgstr ""
+msgstr "Repli vers la proposition suivante"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Fallback Next page"
-msgstr ""
+msgstr "Repli vers la page suivante"
 
 #: src/lib/fcitx/globalconfig.cpp:150
 msgid "Fallback Previous Candidate"
-msgstr ""
+msgstr "Repli vers la proposition précédente"
 
 #: src/lib/fcitx/globalconfig.cpp:128
 msgid "Fallback Previous page"
-msgstr ""
+msgstr "Repli vers la page précédente"
 
 #: src/modules/quickphrase/quickphrase.h:47
 msgid "Fallback Spell check language"
@@ -973,6 +974,11 @@ msgid ""
 "you do not use any Qt application with certain version of Qt or you are "
 "using text-input support by Qt under Wayland."
 msgstr ""
+"L'erreur qui suit pourrait ne pas être fiable, parce-qu'il a été détecté que "
+"la version de Qt disponible dans le chemin dépend de la façon dont votre "
+"distribution à empaqueté Qt. Ceci n'est pas une erreur critique si vous "
+"n'utilisez pas d'application Qt avec une version particulière de Qt, ou si "
+"vous utiliser le support de saisie de texte par Qt sous Wayland."
 
 #: src/ui/classic/classicui.h:126
 msgid "Font"
@@ -1016,7 +1022,7 @@ msgstr "Transférer"
 
 #: src/frontend/waylandim/waylandim.h:39
 msgid "Forward key event instead of commiting text if it is not handled"
-msgstr ""
+msgstr "Touche d'avancée plutôt que valider le texte si il n'est pas géré"
 
 #: data/fcitx5-diagnose.sh:1176
 msgid "Found ${1} ${2} module: ${3}."
@@ -2601,7 +2607,7 @@ msgstr "IDÉOGRAMME TANGOUTE-{0:X}"
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "Tab"
-msgstr "Onglet"
+msgstr "Tab"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
@@ -3140,6 +3146,10 @@ msgid ""
 "tool is usually ukui-control-center, or fcitx5-configtool. Now it will open "
 "the configuration directory."
 msgstr ""
+"Vous utilisez actuellement l'environnement de bureau UKUI, mais l'outil de "
+"configuration pour fcitx5 ne peut pas être trouvé. Le nom du paquet de "
+"l'outil de configuration est généralement ukui-control-center, ou fcitx5-"
+"configtool. Le dossier de configuration va à présent être ouvert."
 
 #: data/fcitx5-diagnose.sh:1085
 msgid ""
