@@ -263,6 +263,7 @@ using AttachmentsType = FCITX_STRING_TO_DBUS_TYPE("a{sv}");
 using IBusText = FCITX_STRING_TO_DBUS_TYPE("(sa{sv}sv)");
 using IBusAttrList = FCITX_STRING_TO_DBUS_TYPE("(sa{sv}av)");
 using IBusAttribute = FCITX_STRING_TO_DBUS_TYPE("(sa{sv}uuuu)");
+using IBusLookupTable = FCITX_STRING_TO_DBUS_TYPE("(sa{sv}uubbiavav)");
 
 IBusAttribute makeIBusAttr(uint32_t type, uint32_t value, uint32_t start,
                            uint32_t end) {
@@ -287,6 +288,47 @@ IBusText makeSimpleIBusText(const std::string &str) {
     std::get<2>(text) = str;
     std::get<3>(text).setData(makeIBusAttrList());
     return text;
+}
+
+IBusLookupTable makeIBusLookupTable(uint32_t pageSize, uint32_t cursorPos,
+                                    bool cursorVisible, bool round,
+                                    CandidateLayoutHint layoutHint,
+                                    const std::vector<std::string> &candidates,
+                                    const std::vector<std::string> &labels) {
+    IBusLookupTable table;
+    std::get<0>(table) = "IBusLookupTable";
+    std::get<2>(table) = pageSize;
+    std::get<3>(table) = cursorPos;
+    std::get<4>(table) = cursorVisible;
+    std::get<5>(table) = round;
+
+    enum IBusOrientation {
+        IBUS_ORIENTATION_HORIZONTAL = 0,
+        IBUS_ORIENTATION_VERTICAL = 1,
+        IBUS_ORIENTATION_SYSTEM = 2,
+    };
+    switch (layoutHint) {
+    case CandidateLayoutHint::Horizontal:
+        std::get<6>(table) = IBUS_ORIENTATION_HORIZONTAL;
+        break;
+    case CandidateLayoutHint::NotSet:
+        std::get<6>(table) = IBUS_ORIENTATION_SYSTEM;
+        break;
+    case CandidateLayoutHint::Vertical:
+        std::get<6>(table) = IBUS_ORIENTATION_VERTICAL;
+        break;
+    }
+
+    std::vector<dbus::Variant> ibus_candidates(candidates.size());
+    for (const auto &candidate : candidates) {
+        std::get<7>(table).emplace_back(
+            dbus::Variant(makeSimpleIBusText(candidate)));
+    }
+    for (const auto &label : labels) {
+        std::get<8>(table).emplace_back(
+            dbus::Variant(makeSimpleIBusText(label)));
+    }
+    return table;
 }
 
 } // namespace
@@ -406,6 +448,9 @@ public:
         } else {
             updatePreeditTextTo(name_, v, cursor, offset != 0);
         }
+        if (preeditString.empty() && capabilityFlags() & CapabilityFlag::ClientSideInputPanel) {
+            hideLookupTableTo(name_);
+        }
     }
 
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
@@ -426,6 +471,67 @@ public:
         forwardKeyEventTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
                           static_cast<uint32_t>(code), state);
         bus()->flush();
+    }
+
+    void updateClientSideUIImpl() override {
+        auto *instance = im_->instance();
+        auto candidateList = inputPanel().candidateList();
+
+        std::vector<std::string> candidates, labels;
+        int cursorIndex = 0;
+        int pageSize = 0;
+        CandidateLayoutHint layoutHint;
+        if (!candidateList) {
+            return;
+        }
+
+        auto processCandidate = [&](const CandidateWord& candidate, bool appendLabel, Text fallbackLabel) {
+            if (candidate.isPlaceHolder()) {
+                return;
+            }
+            Text candidateText =
+            instance->outputFilter(this, candidate.textWithComment());
+            candidates.emplace_back(candidateText.toString());
+            if (appendLabel) {
+                Text labelText = candidate.hasCustomLabel()
+                                     ? candidate.customLabel()
+                                     : fallbackLabel;
+                labelText = instance->outputFilter(this, labelText);
+                labels.emplace_back(labelText.toString());
+            }
+        };
+
+        auto commonList = std::dynamic_pointer_cast<CommonCandidateList>(candidateList);
+        if (commonList) {
+            cursorIndex = commonList->globalCursorIndex();
+            pageSize = commonList->pageSize();
+            int e = std::min((commonList->currentPage() + 1) *
+                                     commonList->pageSize(),
+                                 commonList->totalSize());
+            for (int i = 0; i < e; i++) {
+                int localIndex =
+                    i - commonList->currentPage() * commonList->pageSize();
+                if (localIndex >= 0 && localIndex < commonList->size()) {
+                    processCandidate(commonList->candidateFromAll(i), true,
+                                     commonList->label(localIndex));
+                } else {
+                    processCandidate(commonList->candidateFromAll(i), false,
+                                     Text());
+                }
+            }
+        } else {
+            cursorIndex = candidateList->cursorIndex();
+            pageSize = candidateList->size();
+            for (int i = 0, e = candidateList->size(); i < e; i++) {
+                processCandidate(candidateList->candidate(i), true,
+                                 candidateList->label(i));
+            }
+        }
+        layoutHint = candidateList->layoutHint();
+
+        IBusLookupTable table = makeIBusLookupTable(
+            pageSize, cursorIndex, true, false, layoutHint, candidates, labels);
+        updateLookupTableTo(name_, table, true);
     }
 #define CHECK_SENDER_OR_RETURN                                                 \
     if (currentMessage()->sender() != name_)                                   \
@@ -484,6 +590,9 @@ public:
             if (!capabilityFlags().test(CapabilityFlag::SurroundingText)) {
                 requireSurroundingTextTo(name_);
             }
+        }
+        if (cap & IBUS_CAP_LOOKUP_TABLE) {
+            flags |= CapabilityFlag::ClientSideInputPanel;
         }
 
         setCapabilityFlags(flags);
@@ -560,6 +669,8 @@ private:
                                "DeleteSurroundingText", "iu");
     FCITX_OBJECT_VTABLE_SIGNAL(requireSurroundingText, "RequireSurroundingText",
                                "");
+    FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTable, "UpdateLookupTable", "vb");
+    FCITX_OBJECT_VTABLE_SIGNAL(hideLookupTable, "HideLookupTable", "");
 
     // We don't use following
     FCITX_OBJECT_VTABLE_SIGNAL(showPreeditText, "ShowPreeditText", "");
@@ -568,9 +679,7 @@ private:
                                "vb");
     FCITX_OBJECT_VTABLE_SIGNAL(showAuxiliaryText, "ShowAuxiliaryText", "");
     FCITX_OBJECT_VTABLE_SIGNAL(hideAuxiliaryText, "hideAuxiliaryText", "");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTable, "UpdateLookupTable", "vb");
     FCITX_OBJECT_VTABLE_SIGNAL(showLookupTable, "ShowLookupTable", "");
-    FCITX_OBJECT_VTABLE_SIGNAL(hideLookupTable, "HideLookupTable", "");
     FCITX_OBJECT_VTABLE_SIGNAL(pageUpLookupTable, "PageUpLookupTable", "");
     FCITX_OBJECT_VTABLE_SIGNAL(pageDownLookupTable, "PageDownLookupTable", "");
     FCITX_OBJECT_VTABLE_SIGNAL(cursorUpLookupTable, "CursorUpLookupTable", "");
@@ -737,6 +846,7 @@ IBusFrontendModule::IBusFrontendModule(Instance *instance)
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
+    dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusLookupTable>();
 
     // Do the resource initialization first.
     inputMethod1_ = std::make_unique<IBusFrontend>(
