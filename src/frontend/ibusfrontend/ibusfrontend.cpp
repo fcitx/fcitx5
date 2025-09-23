@@ -579,8 +579,17 @@ public:
             IBUS_CAP_SURROUNDING_TEXT = 1 << 5
         };
         auto flags = capabilityFlags()
+                         .unset(CapabilityFlag::Preedit)
                          .unset(CapabilityFlag::FormattedPreedit)
-                         .unset(CapabilityFlag::SurroundingText);
+                         .unset(CapabilityFlag::SurroundingText)
+                         .unset(CapabilityFlag::ClientSideInputPanel);
+        // No IBUS_CAP_FOCUS means to handle all and always focus in
+        if ((cap & IBUS_CAP_FOCUS) == 0) {
+            cap |= (IBUS_CAP_PREEDIT_TEXT | IBUS_CAP_AUXILIARY_TEXT |
+                    IBUS_CAP_LOOKUP_TABLE | IBUS_CAP_PROPERTY);
+            this->focusIn();
+            this->setFocusGroup(nullptr);
+        }
         if (cap & IBUS_CAP_PREEDIT_TEXT) {
             flags |= CapabilityFlag::Preedit;
             flags |= CapabilityFlag::FormattedPreedit;
