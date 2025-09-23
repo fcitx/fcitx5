@@ -227,14 +227,24 @@ static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
     return false;
 }
 
-static inline std::string getCurrentLanguage() {
-    for (const char *vars : {"LC_ALL", "LC_MESSAGES", "LANG"}) {
-        auto lang = getEnvironment(vars);
+static inline std::string
+getEnvVariableValue(const std::vector<std::string> &variableList,
+                    const char *defaultValue) {
+    for (const auto &vars : variableList) {
+        auto lang = getEnvironment(vars.c_str());
         if (lang && !lang->empty()) {
             return std::move(*lang);
         }
     }
-    return "";
+    return defaultValue;
+}
+
+static inline std::string getCurrentLanguage() {
+    return getEnvVariableValue({"LC_ALL", "LC_MESSAGES", "LANG"}, "");
+}
+
+static inline std::string getCurrentLocale() {
+    return getEnvVariableValue({"LC_ALL", "LC_CTYPE", "LANG"}, "C");
 }
 
 static inline std::string stripLanguage(const std::string &lc) {
