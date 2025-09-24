@@ -14,6 +14,7 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <unordered_map>
 #include <wayland-client-core.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/key.h"
@@ -26,6 +27,12 @@
 
 namespace fcitx {
 
+typedef std::tuple<xkb_mod_mask_t,
+                   xkb_mod_mask_t,
+                   xkb_mod_mask_t,
+                   xkb_layout_index_t>
+WlModifiersParams;
+
 class WaylandIMServerBase {
 public:
     WaylandIMServerBase(wl_display *display, FocusGroup *group,
@@ -37,6 +44,10 @@ public:
 
     std::optional<std::string> mayCommitAsText(const Key &key,
                                                uint32_t state) const;
+
+    std::optional<WlModifiersParams> mayChangeModifiers(
+        const xkb_keycode_t key,
+        const uint32_t state) const;
 
     int32_t repeatRate(
         const std::shared_ptr<wayland::WlSeat> &seat,
@@ -60,6 +71,8 @@ public:
     static constexpr size_t safeStringLimit = 4000;
 
 protected:
+    void updateModMasksMappings();
+
     FocusGroup *group_;
     std::string name_;
     WaylandIMModule *parent_;
@@ -70,6 +83,17 @@ protected:
     UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
     KeyStates modifiers_;
+
+    std::unordered_map<xkb_keycode_t, std::vector<std::tuple<
+        xkb_mod_mask_t,
+        WlModifiersParams>>>
+    keycodeToNormalModMasks_;
+
+    std::unordered_map<xkb_keycode_t, std::vector<std::tuple<
+        xkb_mod_mask_t,
+        WlModifiersParams,
+        WlModifiersParams>>>
+    keycodeToLockModMasks_;
 
 private:
     template <typename Callback>
