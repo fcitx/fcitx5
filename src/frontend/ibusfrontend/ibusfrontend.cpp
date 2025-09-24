@@ -485,6 +485,10 @@ public:
             return;
         }
 
+        pageSize = candidateList->size();
+        cursorIndex = candidateList->cursorIndex();
+        layoutHint = candidateList->layoutHint();
+
         auto processCandidate = [&](const CandidateWord& candidate, bool appendLabel, Text fallbackLabel) {
             if (candidate.isPlaceHolder()) {
                 return;
@@ -501,34 +505,23 @@ public:
             }
         };
 
-        auto commonList = std::dynamic_pointer_cast<CommonCandidateList>(candidateList);
-        if (commonList) {
-            cursorIndex = commonList->globalCursorIndex();
-            pageSize = commonList->pageSize();
-            int e = std::min((commonList->currentPage() + 1) *
-                                     commonList->pageSize(),
-                                 commonList->totalSize());
-            for (int i = 0; i < e; i++) {
-                int localIndex =
-                    i - commonList->currentPage() * commonList->pageSize();
-                if (localIndex >= 0 && localIndex < commonList->size()) {
-                    processCandidate(commonList->candidateFromAll(i), true,
-                                     commonList->label(localIndex));
-                } else {
-                    processCandidate(commonList->candidateFromAll(i), false,
-                                     Text());
-                }
-            }
-        } else {
-            cursorIndex = candidateList->cursorIndex();
-            pageSize = candidateList->size();
-            for (int i = 0, e = candidateList->size(); i < e; i++) {
-                processCandidate(candidateList->candidate(i), true,
-                                 candidateList->label(i));
+        // All previous candidates should be sent to ibus.
+        auto cursorList = candidateList->toBulkCursor();
+        auto bulkList = candidateList->toBulk();
+        auto pageList = candidateList->toPageable();
+        if (cursorList && bulkList && pageList) {
+            cursorIndex = cursorList->globalCursorIndex();
+            int firstCandidateGlobalIndex =
+                cursorIndex - candidateList->cursorIndex();
+            for (int i = 0; i < firstCandidateGlobalIndex; i++) {
+                processCandidate(bulkList->candidateFromAll(i), false, Text());
             }
         }
-        layoutHint = candidateList->layoutHint();
-
+        for (int i = 0, e = candidateList->size(); i < e; i++) {
+            processCandidate(candidateList->candidate(i), true,
+            candidateList->label(i));
+        }
+        
         IBusLookupTable table = makeIBusLookupTable(
             pageSize, cursorIndex, true, false, layoutHint, candidates, labels);
         updateLookupTableTo(name_, table, true);
