@@ -448,9 +448,6 @@ public:
         } else {
             updatePreeditTextTo(name_, v, cursor, offset != 0);
         }
-        if (preeditString.empty() && capabilityFlags() & CapabilityFlag::ClientSideInputPanel) {
-            hideLookupTableTo(name_);
-        }
     }
 
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
@@ -482,6 +479,7 @@ public:
         int pageSize = 0;
         CandidateLayoutHint layoutHint;
         if (!candidateList) {
+            hideLookupTableTo(name_);
             return;
         }
 
