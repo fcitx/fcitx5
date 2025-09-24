@@ -479,7 +479,10 @@ public:
         int pageSize = 0;
         CandidateLayoutHint layoutHint;
         if (!candidateList) {
+            if (showingLookupTable_) {
             hideLookupTableTo(name_);
+                showingLookupTable_ = false;
+            }
             return;
         }
 
@@ -522,6 +525,10 @@ public:
         
         IBusLookupTable table = makeIBusLookupTable(
             pageSize, cursorIndex, true, false, layoutHint, candidates, labels);
+        if (!showingLookupTable_) {
+            showLookupTableTo(name_);
+            showingLookupTable_ = true;
+        }
         updateLookupTableTo(name_, table, true);
     }
 #define CHECK_SENDER_OR_RETURN                                                 \
@@ -821,6 +828,7 @@ private:
     std::string name_;
     bool clientCommitPreedit_ = false;
     bool effectivePostProcessKeyEvent_ = false;
+    bool showingLookupTable_ = false;
 
     IBusService service_{this};
 };
