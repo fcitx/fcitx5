@@ -1286,7 +1286,7 @@ void InstanceArgument::parseOption(int argc, char **argv) {
     int optionIndex = 0;
     int c;
     std::string addonOptionString;
-    while ((c = getopt_long(argc, argv, "ru:dDs:hvo:", longOptions,
+    while ((c = getopt_long(argc, argv, "ru:dDs:hvo:k", longOptions,
                             &optionIndex)) != EOF) {
         switch (c) {
         case 0: {
