@@ -213,16 +213,24 @@ public:
 
     void updateClientSideUIImpl() override {
         auto *instance = im_->instance();
-        auto preedit = instance->outputFilter(this, inputPanel().preedit());
-        auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
-        auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
-        auto candidateList = inputPanel().candidateList();
-        int cursorIndex = 0;
 
         std::vector<dbus::DBusStruct<std::string, int>> preeditStrings;
         std::vector<dbus::DBusStruct<std::string, int>> auxUpStrings;
         std::vector<dbus::DBusStruct<std::string, int>> auxDownStrings;
         std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
+
+        if (instance->inputMethodMode() == InputMethodMode::OnScreenKeyboard) {
+            updateClientSideUITo(name_, preeditStrings, -1, auxUpStrings,
+                                 auxDownStrings, candidates, -1, 0, false,
+                                 false);
+            return;
+        }
+
+        auto preedit = instance->outputFilter(this, inputPanel().preedit());
+        auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
+        auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
+        auto candidateList = inputPanel().candidateList();
+        int cursorIndex = 0;
 
         preeditStrings = buildFormattedTextVector(preedit);
         auxUpStrings = buildFormattedTextVector(auxUp);
@@ -596,6 +604,11 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
             instance_->inputContextManager().foreach([](InputContext *ic) {
                 if (ic->frontendName() == "dbus") {
                     static_cast<DBusInputContext1 *>(ic)->updateCapability();
+                    if (ic->capabilityFlags().test(
+                            CapabilityFlag::ClientSideInputPanel)) {
+                        static_cast<DBusInputContext1 *>(ic)
+                            ->updateClientSideUIImpl();
+                    }
                 }
                 return true;
             });
