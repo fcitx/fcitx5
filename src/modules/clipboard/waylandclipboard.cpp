@@ -24,13 +24,18 @@
 #include "fcitx-utils/unixfd.h"
 #include "clipboard.h"
 #include "display.h"
+#include "ext_data_control_manager_v1.h"
 #include "wl_seat.h"
 #include "zwlr_data_control_manager_v1.h"
-#include "zwlr_data_control_offer_v1.h"
 
 namespace fcitx {
 
-uint64_t DataReaderThread::addTask(DataOffer *offer, std::shared_ptr<UnixFD> fd,
+DataOfferInterface::~DataOfferInterface() = default;
+
+DataDeviceInterface::~DataDeviceInterface() = default;
+
+uint64_t DataReaderThread::addTask(DataOfferInterface *offer,
+                                   std::shared_ptr<UnixFD> fd,
                                    DataOfferDataCallback callback) {
     auto id = nextId_++;
     if (id == 0) {
@@ -62,7 +67,7 @@ void DataReaderThread::realRun() {
 }
 
 void DataReaderThread::addTaskOnWorker(
-    uint64_t id, TrackableObjectReference<DataOffer> offer,
+    uint64_t id, TrackableObjectReference<DataOfferInterface> offer,
     std::shared_ptr<UnixFD> fd, DataOfferDataCallback callback) {
     // std::unordered_map's ref/pointer to element is stable.
     auto &task = tasks_[id];
@@ -120,22 +125,25 @@ void DataReaderThread::handleTaskTimeout(DataOfferTask *task) {
     tasks_.erase(task->id_);
 }
 
-DataOffer::DataOffer(wayland::ZwlrDataControlOfferV1 *offer,
-                     bool ignorePassword)
+template <typename DataControlOffer>
+DataOffer<DataControlOffer>::DataOffer(DataControlOffer *offer,
+                                       bool ignorePassword)
     : offer_(offer), ignorePassword_(ignorePassword) {
     offer_->setUserData(this);
     conns_.emplace_back(offer_->offer().connect(
         [this](const char *offer) { mimeTypes_.insert(offer); }));
 }
 
-DataOffer::~DataOffer() {
+template <typename DataControlOffer>
+DataOffer<DataControlOffer>::~DataOffer() {
     if (thread_) {
         thread_->removeTask(taskId_);
     }
 }
 
-void DataOffer::receiveData(DataReaderThread &thread,
-                            DataOfferCallback callback) {
+template <typename DataControlOffer>
+void DataOffer<DataControlOffer>::receiveData(DataReaderThread &thread,
+                                              DataOfferCallback callback) {
     if (thread_) {
         return;
     }
@@ -165,7 +173,9 @@ void DataOffer::receiveData(DataReaderThread &thread,
     }
 }
 
-void DataOffer::receiveRealData(DataOfferDataCallback callback) {
+template <typename DataControlOffer>
+void DataOffer<DataControlOffer>::receiveRealData(
+    DataOfferDataCallback callback) {
     if (!thread_) {
         return;
     }
@@ -184,8 +194,9 @@ void DataOffer::receiveRealData(DataOfferDataCallback callback) {
     receiveDataForMime(mime, std::move(callback));
 }
 
-void DataOffer::receiveDataForMime(const std::string &mime,
-                                   DataOfferDataCallback callback) {
+template <typename DataControlOffer>
+void DataOffer<DataControlOffer>::receiveDataForMime(
+    const std::string &mime, DataOfferDataCallback callback) {
     if (!thread_) {
         return;
     }
@@ -203,20 +214,22 @@ void DataOffer::receiveDataForMime(const std::string &mime,
         std::move(callback));
 }
 
-DataDevice::DataDevice(WaylandClipboard *clipboard,
-                       wayland::ZwlrDataControlDeviceV1 *device)
+template <typename DataControlDevice>
+DataDevice<DataControlDevice>::DataDevice(WaylandClipboard *clipboard,
+                                          DataControlDevice *device)
     : clipboard_(clipboard), device_(device),
       thread_(clipboard_->parent()->instance()->eventDispatcher()) {
-    conns_.emplace_back(device_->dataOffer().connect(
-        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+    conns_.emplace_back(
+        device_->dataOffer().connect([this](DataControlOfferType *offer) {
             new DataOffer(offer, *clipboard_->parent()
                                       ->config()
                                       .ignorePasswordFromPasswordManager);
         }));
-    conns_.emplace_back(device_->selection().connect(
-        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+    conns_.emplace_back(
+        device_->selection().connect([this](DataControlOfferType *offer) {
             clipboardOffer_.reset(
-                offer ? static_cast<DataOffer *>(offer->userData()) : nullptr);
+                offer ? static_cast<DataOfferType *>(offer->userData())
+                      : nullptr);
             if (!clipboardOffer_) {
                 return;
             }
@@ -228,9 +241,10 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
                 });
         }));
     conns_.emplace_back(device_->primarySelection().connect(
-        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+        [this](DataControlOfferType *offer) {
             primaryOffer_.reset(
-                offer ? static_cast<DataOffer *>(offer->userData()) : nullptr);
+                offer ? static_cast<DataOfferType *>(offer->userData())
+                      : nullptr);
             if (!primaryOffer_) {
                 clipboard_->setPrimary("", false);
                 return;
@@ -256,13 +270,22 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
     : parent_(clipboard), name_(std::move(name)),
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
+    display_->requestGlobals<wayland::ExtDataControlManagerV1>();
     display_->requestGlobals<wayland::ZwlrDataControlManagerV1>();
     globalConn_ = display_->globalCreated().connect(
         [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
-            if (interface == wayland::ZwlrDataControlManagerV1::interface) {
-                if (ptr != manager_) {
+            if (interface == wayland::ExtDataControlManagerV1::interface) {
+                if (ptr != ext_manager_) {
                     deviceMap_.clear();
-                    manager_ =
+                    ext_manager_ =
+                        display_->getGlobal<wayland::ExtDataControlManagerV1>();
+                }
+                refreshSeat();
+            } else if (interface ==
+                       wayland::ZwlrDataControlManagerV1::interface) {
+                if (ptr != wlr_manager_) {
+                    deviceMap_.clear();
+                    wlr_manager_ =
                         display_
                             ->getGlobal<wayland::ZwlrDataControlManagerV1>();
                 }
@@ -275,8 +298,8 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
         [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
             if (interface == wayland::ZwlrDataControlManagerV1::interface) {
                 deviceMap_.clear();
-                if (manager_ == ptr) {
-                    manager_.reset();
+                if (wlr_manager_ == ptr) {
+                    wlr_manager_.reset();
                 }
             } else if (interface == wayland::WlSeat::interface) {
                 deviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
@@ -285,13 +308,13 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
 
     if (auto manager =
             display_->getGlobal<wayland::ZwlrDataControlManagerV1>()) {
-        manager_ = std::move(manager);
+        wlr_manager_ = std::move(manager);
     }
     refreshSeat();
 }
 
 void WaylandClipboard::refreshSeat() {
-    if (!manager_) {
+    if (!wlr_manager_ && !ext_manager_) {
         return;
     }
 
@@ -301,9 +324,20 @@ void WaylandClipboard::refreshSeat() {
             continue;
         }
 
-        auto *device = manager_->getDataDevice(seat.get());
-        deviceMap_.emplace(seat.get(),
-                           std::make_unique<DataDevice>(this, device));
+        if (ext_manager_) {
+            auto *device = ext_manager_->getDataDevice(seat.get());
+            deviceMap_.emplace(
+                seat.get(),
+                std::make_unique<DataDevice<wayland::ExtDataControlDeviceV1>>(
+                    this, device));
+            continue;
+        } else if (wlr_manager_) {
+            auto *device = wlr_manager_->getDataDevice(seat.get());
+            deviceMap_.emplace(
+                seat.get(),
+                std::make_unique<DataDevice<wayland::ZwlrDataControlDeviceV1>>(
+                    this, device));
+        }
     }
 }
 

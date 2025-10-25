@@ -24,8 +24,12 @@
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx-utils/unixfd.h"
 #include "display.h"
+#include "ext_data_control_device_v1.h"
+#include "ext_data_control_manager_v1.h"
+#include "ext_data_control_offer_v1.h"
 #include "zwlr_data_control_device_v1.h"
 #include "zwlr_data_control_manager_v1.h"
+#include "zwlr_data_control_offer_v1.h"
 
 namespace fcitx {
 
@@ -39,6 +43,12 @@ using DataOfferDataCallback =
 using DataOfferCallback =
     std::function<void(const std::vector<char> &data, bool password)>;
 
+class DataOfferInterface : public TrackableObject<DataOfferInterface> {
+public:
+    virtual ~DataOfferInterface();
+};
+
+template <typename DataControlOffer>
 class DataOffer;
 
 struct DataOfferTask {
@@ -50,7 +60,7 @@ struct DataOfferTask {
     DataOfferTask &operator=(DataOfferTask &&) = delete;
 
     uint64_t id_ = 0;
-    TrackableObjectReference<DataOffer> offer_;
+    TrackableObjectReference<DataOfferInterface> offer_;
     DataOfferDataCallback callback_;
     std::shared_ptr<UnixFD> fd_;
     std::vector<char> data_;
@@ -80,14 +90,15 @@ public:
 
     static void run(DataReaderThread *self) { self->realRun(); }
 
-    uint64_t addTask(DataOffer *offer, std::shared_ptr<UnixFD> fd,
+    uint64_t addTask(DataOfferInterface *offer, std::shared_ptr<UnixFD> fd,
                      DataOfferDataCallback callback);
     void removeTask(uint64_t token);
 
 private:
     // Function that run on reader thread
     void realRun();
-    void addTaskOnWorker(uint64_t id, TrackableObjectReference<DataOffer> offer,
+    void addTaskOnWorker(uint64_t id,
+                         TrackableObjectReference<DataOfferInterface> offer,
                          std::shared_ptr<UnixFD> fd,
                          DataOfferDataCallback callback);
     void handleTaskIO(DataOfferTask *task, IOEventFlags flags);
@@ -103,10 +114,11 @@ private:
     std::unordered_map<uint64_t, DataOfferTask> tasks_;
 };
 
-class DataOffer : public TrackableObject<DataOffer> {
+template <typename DataControlOffer>
+class DataOffer : public DataOfferInterface {
 public:
-    DataOffer(wayland::ZwlrDataControlOfferV1 *offer, bool ignorePassword);
-    ~DataOffer();
+    DataOffer(DataControlOffer *offer, bool ignorePassword);
+    ~DataOffer() override;
 
     void receiveData(DataReaderThread &thread, DataOfferCallback callback);
 
@@ -117,7 +129,7 @@ private:
 
     std::list<ScopedConnection> conns_;
     std::unordered_set<std::string> mimeTypes_;
-    std::unique_ptr<wayland::ZwlrDataControlOfferV1> offer_;
+    std::unique_ptr<DataControlOffer> offer_;
     bool ignorePassword_ = true;
     bool isPassword_ = false;
     UnixFD fd_;
@@ -128,17 +140,39 @@ private:
 class WaylandClipboard;
 class Clipboard;
 
-class DataDevice {
+class DataDeviceInterface {
 public:
-    DataDevice(WaylandClipboard *clipboard,
-               wayland::ZwlrDataControlDeviceV1 *device);
+    virtual ~DataDeviceInterface();
+};
+
+template <typename DataControlDevice>
+struct DataControlDeviceTraits;
+
+template <>
+struct DataControlDeviceTraits<wayland::ExtDataControlDeviceV1> {
+    using DataControlOfferType = wayland::ExtDataControlOfferV1;
+};
+
+template <>
+struct DataControlDeviceTraits<wayland::ZwlrDataControlDeviceV1> {
+    using DataControlOfferType = wayland::ZwlrDataControlOfferV1;
+};
+
+template <typename DataControlDevice>
+class DataDevice : public DataDeviceInterface {
+    using DataControlOfferType = typename DataControlDeviceTraits<
+        DataControlDevice>::DataControlOfferType;
+    using DataOfferType = DataOffer<DataControlOfferType>;
+
+public:
+    DataDevice(WaylandClipboard *clipboard, DataControlDevice *device);
 
 private:
     WaylandClipboard *clipboard_;
-    std::unique_ptr<wayland::ZwlrDataControlDeviceV1> device_;
+    std::unique_ptr<DataControlDevice> device_;
     DataReaderThread thread_;
-    std::unique_ptr<DataOffer> primaryOffer_;
-    std::unique_ptr<DataOffer> clipboardOffer_;
+    std::unique_ptr<DataOfferType> primaryOffer_;
+    std::unique_ptr<DataOfferType> clipboardOffer_;
     std::list<ScopedConnection> conns_;
 };
 
@@ -160,8 +194,9 @@ private:
     wayland::Display *display_;
     ScopedConnection globalConn_;
     ScopedConnection globalRemoveConn_;
-    std::shared_ptr<wayland::ZwlrDataControlManagerV1> manager_;
-    std::unordered_map<wayland::WlSeat *, std::unique_ptr<DataDevice>>
+    std::shared_ptr<wayland::ExtDataControlManagerV1> ext_manager_;
+    std::shared_ptr<wayland::ZwlrDataControlManagerV1> wlr_manager_;
+    std::unordered_map<wayland::WlSeat *, std::unique_ptr<DataDeviceInterface>>
         deviceMap_;
 };
 
