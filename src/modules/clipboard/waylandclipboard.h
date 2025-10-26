@@ -11,6 +11,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -75,6 +76,13 @@ public:
 
     ~DataReaderThread() {
         if (thread_ && thread_->joinable()) {
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                terminate_ = true;
+            }
+            // If dispatcher is not attched, the schedule will do nothing.
+            // But after attach, reader thread will check terminate_
+            // So it won't stuck forever.
             dispatcherToWorker_.schedule([this]() {
                 if (auto *loop = dispatcherToWorker_.eventLoop()) {
                     loop->exit();
@@ -108,6 +116,11 @@ private:
     EventDispatcher &dispatcherToMain_;
     std::unique_ptr<std::thread> thread_;
     uint64_t nextId_ = 1;
+
+    // Accessed by both thread
+    std::mutex mutex_;
+    bool terminate_ = false;
+    // End Accessed by both thread
 
     // Value only read/write by the reader thread.
     EventDispatcher dispatcherToWorker_;

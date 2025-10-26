@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <string_view>
 #include <unordered_set>
@@ -60,7 +61,14 @@ void DataReaderThread::removeTask(uint64_t token) {
 void DataReaderThread::realRun() {
     EventLoop loop;
     dispatcherToWorker_.attach(&loop);
-    loop.exec();
+    bool terminate = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        terminate = terminate_;
+    }
+    if (!terminate) {
+        loop.exec();
+    }
     dispatcherToWorker_.detach();
     FCITX_DEBUG() << "Ending DataReaderThread";
     tasks_.clear();
