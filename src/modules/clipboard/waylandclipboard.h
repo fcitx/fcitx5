@@ -176,7 +176,7 @@ private:
     std::list<ScopedConnection> conns_;
 };
 
-class WaylandClipboard {
+class WaylandClipboard : public TrackableObject<WaylandClipboard> {
 
 public:
     WaylandClipboard(Clipboard *clipboard, std::string name,
@@ -188,16 +188,19 @@ public:
     auto parent() const { return parent_; }
 
 private:
+    void deferRefreshSeat();
     void refreshSeat();
     Clipboard *parent_;
     std::string name_;
     wayland::Display *display_;
     ScopedConnection globalConn_;
     ScopedConnection globalRemoveConn_;
-    std::shared_ptr<wayland::ExtDataControlManagerV1> ext_manager_;
-    std::shared_ptr<wayland::ZwlrDataControlManagerV1> wlr_manager_;
-    std::unordered_map<wayland::WlSeat *, std::unique_ptr<DataDeviceInterface>>
-        deviceMap_;
+    std::shared_ptr<wayland::ExtDataControlManagerV1> extManager_;
+    std::shared_ptr<wayland::ZwlrDataControlManagerV1> wlrManager_;
+    std::unordered_map<wayland::WlSeat *, std::unique_ptr<DataDevice<wayland::ExtDataControlDeviceV1>>>
+        extDeviceMap_;
+    std::unordered_map<wayland::WlSeat *, std::unique_ptr<DataDevice<wayland::ZwlrDataControlDeviceV1>>>
+        wlrDeviceMap_;
 };
 
 } // namespace fcitx

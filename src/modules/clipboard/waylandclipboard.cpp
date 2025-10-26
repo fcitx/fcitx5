@@ -275,69 +275,92 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
     globalConn_ = display_->globalCreated().connect(
         [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
             if (interface == wayland::ExtDataControlManagerV1::interface) {
-                if (ptr != ext_manager_) {
-                    deviceMap_.clear();
-                    ext_manager_ =
+                if (ptr != extManager_) {
+                    extDeviceMap_.clear();
+                    extManager_ =
                         display_->getGlobal<wayland::ExtDataControlManagerV1>();
                 }
-                refreshSeat();
+                parent_->instance()->eventDispatcher().schedule(
+                    [this]() { refreshSeat(); });
+                deferRefreshSeat();
             } else if (interface ==
                        wayland::ZwlrDataControlManagerV1::interface) {
-                if (ptr != wlr_manager_) {
-                    deviceMap_.clear();
-                    wlr_manager_ =
+                if (ptr != wlrManager_) {
+                    wlrDeviceMap_.clear();
+                    wlrManager_ =
                         display_
                             ->getGlobal<wayland::ZwlrDataControlManagerV1>();
                 }
-                refreshSeat();
+                deferRefreshSeat();
             } else if (interface == wayland::WlSeat::interface) {
-                refreshSeat();
+                deferRefreshSeat();
             }
         });
     globalRemoveConn_ = display_->globalRemoved().connect(
         [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
-            if (interface == wayland::ZwlrDataControlManagerV1::interface) {
-                deviceMap_.clear();
-                if (wlr_manager_ == ptr) {
-                    wlr_manager_.reset();
+            if (interface == wayland::ExtDataControlManagerV1::interface) {
+                extDeviceMap_.clear();
+                if (extManager_ == ptr) {
+                    extManager_.reset();
+                }
+            } else if (interface ==
+                       wayland::ZwlrDataControlManagerV1::interface) {
+                wlrDeviceMap_.clear();
+                if (wlrManager_ == ptr) {
+                    wlrManager_.reset();
                 }
             } else if (interface == wayland::WlSeat::interface) {
-                deviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
+                wlrDeviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
+                extDeviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
             }
         });
 
     if (auto manager =
             display_->getGlobal<wayland::ZwlrDataControlManagerV1>()) {
-        wlr_manager_ = std::move(manager);
+        wlrManager_ = std::move(manager);
     }
     refreshSeat();
 }
 
+void WaylandClipboard::deferRefreshSeat() {
+    // The initial global registration update is more likely happen in one
+    // message loop, so we defer so we can decide to only initialize ext or wlr.
+    parent_->instance()->eventDispatcher().scheduleWithContext(
+        watch(), [this]() { refreshSeat(); });
+}
+
 void WaylandClipboard::refreshSeat() {
-    if (!wlr_manager_ && !ext_manager_) {
+    if (!wlrManager_ && !extManager_) {
         return;
     }
 
     auto seats = display_->getGlobals<wayland::WlSeat>();
     for (const auto &seat : seats) {
-        if (deviceMap_.contains(seat.get())) {
-            continue;
-        }
-
-        if (ext_manager_) {
-            auto *device = ext_manager_->getDataDevice(seat.get());
-            deviceMap_.emplace(
+        if (extManager_) {
+            if (extDeviceMap_.contains(seat.get())) {
+                continue;
+            }
+            auto *device = extManager_->getDataDevice(seat.get());
+            extDeviceMap_.emplace(
                 seat.get(),
                 std::make_unique<DataDevice<wayland::ExtDataControlDeviceV1>>(
                     this, device));
             continue;
-        } else if (wlr_manager_) {
-            auto *device = wlr_manager_->getDataDevice(seat.get());
-            deviceMap_.emplace(
+        } else if (wlrManager_) {
+            if (wlrDeviceMap_.contains(seat.get())) {
+                continue;
+            }
+            auto *device = wlrManager_->getDataDevice(seat.get());
+            wlrDeviceMap_.emplace(
                 seat.get(),
                 std::make_unique<DataDevice<wayland::ZwlrDataControlDeviceV1>>(
                     this, device));
         }
+    }
+
+    // If both are available, prefer ext.
+    if (extManager_ && wlrManager_) {
+        wlrDeviceMap_.clear();
     }
 }
 
