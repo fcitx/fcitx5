@@ -754,43 +754,7 @@ Instance::Instance(int argc, char **argv) {
             CheckInputMethodChanged imChangedRAII(ic, d);
             auto origKey = keyEvent.origKey().normalize();
 
-            struct {
-                const KeyList &list;
-                std::function<bool()> check;
-                std::function<void(bool)> trigger;
-            } keyHandlers[] = {
-                {.list = d->globalConfig_.triggerKeys(),
-                 .check = [this]() { return canTrigger(); },
-                 .trigger =
-                     [this, ic](bool totallyReleased) {
-                         return trigger(ic, totallyReleased);
-                     }},
-                {.list = d->globalConfig_.altTriggerKeys(),
-                 .check = [this, ic]() { return canAltTrigger(ic); },
-                 .trigger = [this, ic](bool) { return altTrigger(ic); }},
-                {.list = d->globalConfig_.activateKeys(),
-                 .check = [ic, d]() { return d->canActivate(ic); },
-                 .trigger = [this, ic](bool) { return activate(ic); }},
-                {.list = d->globalConfig_.deactivateKeys(),
-                 .check = [ic, d]() { return d->canDeactivate(ic); },
-                 .trigger = [this, ic](bool) { return deactivate(ic); }},
-                {.list = d->globalConfig_.enumerateForwardKeys(),
-                 .check = [this, ic]() { return canEnumerate(ic); },
-                 .trigger = [this, ic](bool) { return enumerate(ic, true); }},
-                {.list = d->globalConfig_.enumerateBackwardKeys(),
-                 .check = [this, ic]() { return canEnumerate(ic); },
-                 .trigger = [this, ic](bool) { return enumerate(ic, false); }},
-                {.list = d->globalConfig_.enumerateGroupForwardKeys(),
-                 .check = [this]() { return canChangeGroup(); },
-                 .trigger = [ic, d, origKey](
-                                bool) { d->navigateGroup(ic, origKey, true); }},
-                {.list = d->globalConfig_.enumerateGroupBackwardKeys(),
-                 .check = [this]() { return canChangeGroup(); },
-                 .trigger =
-                     [ic, d, origKey](bool) {
-                         d->navigateGroup(ic, origKey, false);
-                     }},
-            };
+            auto keyHandlers = createKeyEventHandlers(keyEvent);
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
             int keyReleased = inputState->keyReleased_;
@@ -2146,6 +2110,49 @@ void Instance::toggle() {
         CheckInputMethodChanged imChangedRAII(ic, d);
         trigger(ic, true);
     }
+}
+
+std::vector<Instance::KeyEventHandler>
+Instance::createKeyEventHandlers(const KeyEvent &keyEvent) {
+    FCITX_D();
+
+    auto *ic = keyEvent.inputContext();
+    const auto origKey = keyEvent.origKey().normalize();
+
+    const KeyEventHandler keyEventHandlers[] = {
+        {.list = d->globalConfig_.triggerKeys(),
+         .check = [this]() { return canTrigger(); },
+         .trigger =
+             [this, ic](bool totallyReleased) {
+                 return trigger(ic, totallyReleased);
+             }},
+        {.list = d->globalConfig_.altTriggerKeys(),
+         .check = [this, ic]() { return canAltTrigger(ic); },
+         .trigger = [this, ic](bool) { return altTrigger(ic); }},
+        {.list = d->globalConfig_.activateKeys(),
+         .check = [ic, d]() { return d->canActivate(ic); },
+         .trigger = [this, ic](bool) { return activate(ic); }},
+        {.list = d->globalConfig_.deactivateKeys(),
+         .check = [ic, d]() { return d->canDeactivate(ic); },
+         .trigger = [this, ic](bool) { return deactivate(ic); }},
+        {.list = d->globalConfig_.enumerateForwardKeys(),
+         .check = [this, ic]() { return canEnumerate(ic); },
+         .trigger = [this, ic](bool) { return enumerate(ic, true); }},
+        {.list = d->globalConfig_.enumerateBackwardKeys(),
+         .check = [this, ic]() { return canEnumerate(ic); },
+         .trigger = [this, ic](bool) { return enumerate(ic, false); }},
+        {.list = d->globalConfig_.enumerateGroupForwardKeys(),
+         .check = [this]() { return canChangeGroup(); },
+         .trigger = [ic, d,
+                     origKey](bool) { d->navigateGroup(ic, origKey, true); }},
+        {.list = d->globalConfig_.enumerateGroupBackwardKeys(),
+         .check = [this]() { return canChangeGroup(); },
+         .trigger = [ic, d,
+                     origKey](bool) { d->navigateGroup(ic, origKey, false); }},
+    };
+
+    return std::vector<KeyEventHandler>(std::cbegin(keyEventHandlers),
+                                        std::cend(keyEventHandlers));
 }
 
 void Instance::enumerate(bool forward) {
