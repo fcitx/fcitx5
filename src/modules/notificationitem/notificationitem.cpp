@@ -144,8 +144,14 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(category, "Category", "s",
                                  []() { return "SystemServices"; });
     FCITX_OBJECT_VTABLE_PROPERTY(id, "Id", "s", []() { return "Fcitx"; });
-    FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s",
-                                 []() { return _("Input Method"); });
+    FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s", [this]() {
+        const InputMethodEntry *imEntry;
+        if (auto *ic = parent_->menu()->lastRelevantIc()) {
+            imEntry = parent_->instance()->inputMethodEntry(ic);
+        }
+
+        return imEntry == nullptr ? _("Input Method") : imEntry->name();
+    });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
     FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "i", []() { return 0; });
