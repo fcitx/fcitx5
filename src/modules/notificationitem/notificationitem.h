@@ -36,7 +36,6 @@ public:
     bool registered() const { return registered_; }
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
     watch(NotificationItemCallback callback);
-    void newIcon();
     FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
     DBusMenu *menu() { return menu_.get(); }
 
@@ -49,6 +48,7 @@ private:
 
     void maybeScheduleRegister();
     void cleanUp();
+    void newIcon();
     void newTitle();
 
     Instance *instance_;
