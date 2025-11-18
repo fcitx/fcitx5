@@ -6,33 +6,37 @@
  */
 
 #include "isocodes.h"
-#include <cstring>
+#include <fstream>
 #include <string>
-#include <json-c/json.h>
+#include <nlohmann/json.hpp>
 #include "fcitx-utils/metastring.h"
-#include "fcitx-utils/misc.h"
 
 namespace fcitx {
+
+using json = nlohmann::json;
 
 template <typename RootString>
 class IsoCodesJsonParser {
 public:
-    virtual void handle(json_object *entry) = 0;
+    virtual void handle(const json &entry) = 0;
 
     void parse(const std::string &filename) {
-        UniqueCPtr<json_object, json_object_put> obj;
-        obj.reset(json_object_from_file(filename.data()));
-        if (!obj) {
+        std::ifstream fin(filename);
+        if (!fin.is_open()) {
             return;
         }
-        json_object *root =
-            json_object_object_get(obj.get(), RootString::data());
-        if (!root || json_object_get_type(root) != json_type_array) {
+        json obj;
+        try {
+            fin >> obj;
+        } catch (const json::parse_error &) {
+            return;
+        }
+        auto it = obj.find(RootString::data());
+        if (it == obj.end() || !it->is_array()) {
             return;
         }
 
-        for (size_t i = 0, e = json_object_array_length(root); i < e; i++) {
-            json_object *entry = json_object_array_get_idx(root, i);
+        for (const auto &entry : *it) {
             handle(entry);
         }
     }
@@ -43,44 +47,37 @@ class IsoCodes639Parser
 public:
     IsoCodes639Parser(IsoCodes *that) : that_(that) {}
 
-    void handle(json_object *entry) override {
-        json_object *alpha2 = json_object_object_get(entry, "alpha_2");
-        json_object *alpha3 = json_object_object_get(entry, "alpha_3");
-        json_object *bibliographic =
-            json_object_object_get(entry, "bibliographic");
-        json_object *name = json_object_object_get(entry, "name");
-        if (!name || json_object_get_type(name) != json_type_string) {
+    void handle(const json &entry) override {
+        const auto it_alpha2 = entry.find("alpha_2");
+        const auto it_alpha3 = entry.find("alpha_3");
+        auto it_bibliographic = entry.find("bibliographic");
+        const auto it_name = entry.find("name");
+        if (it_name == entry.end() || !it_name->is_string()) {
             return;
         }
         // there must be alpha3
-        if (!alpha3 || json_object_get_type(alpha3) != json_type_string) {
+        if (it_alpha3 == entry.end() || !it_alpha3->is_string()) {
             return;
         }
 
         // alpha2 is optional
-        if (alpha2 && json_object_get_type(alpha2) != json_type_string) {
+        if (it_alpha2 != entry.end() && !it_alpha2->is_string()) {
             return;
         }
 
         // bibliographic is optional
-        if (bibliographic &&
-            json_object_get_type(bibliographic) != json_type_string) {
+        if (it_bibliographic == entry.end()) {
+            it_bibliographic = it_alpha3;
+        } else if (!it_bibliographic->is_string()) {
             return;
         }
-        if (!bibliographic) {
-            bibliographic = alpha3;
-        }
         IsoCodes639Entry e;
-        e.name.assign(json_object_get_string(name),
-                      json_object_get_string_len(name));
-        if (alpha2) {
-            e.iso_639_1_code.assign(json_object_get_string(alpha2),
-                                    json_object_get_string_len(alpha2));
+        e.name = it_name->get<std::string>();
+        if (it_alpha2 != entry.end()) {
+            e.iso_639_1_code = it_alpha2->get<std::string>();
         }
-        e.iso_639_2B_code.assign(json_object_get_string(bibliographic),
-                                 json_object_get_string_len(bibliographic));
-        e.iso_639_2T_code.assign(json_object_get_string(alpha3),
-                                 json_object_get_string_len(alpha3));
+        e.iso_639_2B_code = it_bibliographic->get<std::string>();
+        e.iso_639_2T_code = it_alpha3->get<std::string>();
         if ((!e.iso_639_2B_code.empty() || !e.iso_639_2T_code.empty()) &&
             !e.name.empty()) {
             that_->iso639entires.emplace_back(e);
