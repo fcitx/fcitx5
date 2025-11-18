@@ -78,6 +78,14 @@ public:
 
     std::string label() { return ""; }
 
+    std::string title() {
+        const InputMethodEntry *imEntry = nullptr;
+        if (auto *ic = parent_->menu()->lastRelevantIc()) {
+            imEntry = parent_->instance()->inputMethodEntry(ic);
+        }
+        return imEntry == nullptr ? _("Input Method") : imEntry->name();
+    }
+
     static dbus::DBusStruct<
         std::string,
         std::vector<dbus::DBusStruct<int32_t, int32_t, std::vector<uint8_t>>>,
@@ -108,6 +116,15 @@ public:
         }
         lastIconName_ = std::move(icon);
         lastLabel_ = std::move(label);
+    }
+
+    void notifyNewTitle() {
+        std::string currentTitle = title();
+        if (currentTitle.empty() || lastTitle_ == currentTitle) {
+            return;
+        }
+        newTitle();
+        lastTitle_ = std::move(currentTitle);
     }
 
     void reset() {
@@ -144,8 +161,7 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(category, "Category", "s",
                                  []() { return "SystemServices"; });
     FCITX_OBJECT_VTABLE_PROPERTY(id, "Id", "s", []() { return "Fcitx"; });
-    FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s",
-                                 []() { return _("Input Method"); });
+    FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s", [this]() { return title(); });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
     FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "i", []() { return 0; });
@@ -244,6 +260,7 @@ private:
     std::string cachedLabel_;
     std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
         cachedLabelIcon_;
+    std::string lastTitle_;
 };
 
 NotificationItem::NotificationItem(Instance *instance)
@@ -418,6 +435,13 @@ void NotificationItem::newIcon() {
     sni_->notifyNewIcon();
     // Our label now is pixmap based, so no need to notify XAyatanaNewLabel.
     // sni_->xayatanaNewLabel(sni_->label(), sni_->label());
+}
+
+void NotificationItem::newTitle() {
+    if (!sni_->isRegistered()) {
+        return;
+    }
+    sni_->notifyNewTitle();
 }
 
 class NotificationItemFactory : public AddonFactory {
