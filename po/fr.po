@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# roxfr <roxfr@outlook.fr>, 2022
+# roxfr, 2022
 # Popolon_Github, 2025
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-09-18 20:24+0000\n"
+"POT-Creation-Date: 2025-11-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Popolon_Github, 2025\n"
 "Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
@@ -49,7 +49,7 @@ msgstr "${1} introuvable."
 msgid "${1} works properly."
 msgstr "${1} fonctionne correctement."
 
-#: src/lib/fcitx/instance.cpp:445
+#: src/lib/fcitx/instance.cpp:436
 msgid "(Not available)"
 msgstr "(Non disponible)"
 
@@ -527,11 +527,6 @@ msgstr "La complétion est activée."
 msgid "Configuration:"
 msgstr "Configuration :"
 
-#: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:254
-msgid "Configure"
-msgstr "Configurer"
-
 #: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
 msgstr "Contrôle"
@@ -613,7 +608,7 @@ msgstr "Désactiver la méthode de saisie"
 msgid "Debug information from dbus:"
 msgstr "Informations de débogage de dbus :"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "Par défaut"
@@ -1112,12 +1107,12 @@ msgstr "Vert"
 msgid "Group"
 msgstr "Groupe"
 
-#: src/lib/fcitx/instance.cpp:449
+#: src/lib/fcitx/instance.cpp:440
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Groupe {0} : {1}"
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:385
 #, c++-format
 msgid "Group {}"
 msgstr "Groupe {}"
@@ -1353,8 +1348,8 @@ msgstr ""
 msgid "Image"
 msgstr "Image"
 
-#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:483
-#: src/lib/fcitx/instance.cpp:712 src/lib/fcitx/instance.cpp:884
+#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
+#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:875
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
@@ -1370,6 +1365,11 @@ msgstr "Configuration de la méthode de saisie"
 #: data/fcitx5-diagnose.sh:717
 msgid "Input Method Related Environment Variables: "
 msgstr "Variables d'environnement liées à la méthode de saisie :  "
+
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:254
+msgid "Input Method Settings"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1604
 msgid "Input Methods:"
@@ -2207,15 +2207,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Éteindre"
 
-#: src/lib/fcitx/instance.cpp:884
+#: src/lib/fcitx/instance.cpp:875
 msgid "Preedit"
 msgstr "Pré-éditer"
 
-#: src/lib/fcitx/instance.cpp:886
+#: src/lib/fcitx/instance.cpp:877
 msgid "Preedit disabled"
 msgstr "Pré-édition désactivée"
 
-#: src/lib/fcitx/instance.cpp:885
+#: src/lib/fcitx/instance.cpp:876
 msgid "Preedit enabled"
 msgstr "Pré-édition activée"
 
@@ -2575,17 +2575,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspendre"
 
-#: src/lib/fcitx/instance.cpp:484 src/lib/fcitx/instance.cpp:713
+#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
 #: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "Changer de groupe"
 
-#: src/lib/fcitx/instance.cpp:485 src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Basculer le groupe vers {0}"
 
-#: src/lib/fcitx/instance.cpp:714
+#: src/lib/fcitx/instance.cpp:705
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Groupe basculé vers {0}"
@@ -3220,12 +3220,12 @@ msgstr "version :"
 msgid "{0} (Not Available)"
 msgstr "{0} (Non disponible)"
 
-#: src/lib/fcitx/instance.cpp:443
+#: src/lib/fcitx/instance.cpp:434
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (Non disponible)"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:431
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

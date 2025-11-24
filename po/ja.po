@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-07-18 20:24+0000\n"
+"POT-Creation-Date: 2025-11-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:445
+#: src/lib/fcitx/instance.cpp:436
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -500,30 +500,25 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:719
+#: src/im/keyboard/keyboard.cpp:722
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:710
+#: src/im/keyboard/keyboard.cpp:713
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:713
+#: src/im/keyboard/keyboard.cpp:716
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:715
+#: src/im/keyboard/keyboard.cpp:718
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
 #: data/fcitx5-diagnose.sh:1692
 msgid "Configuration:"
 msgstr "設定:"
-
-#: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:254
-msgid "Configure"
-msgstr "設定"
 
 #: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
@@ -605,7 +600,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "デフォルト"
@@ -1096,12 +1091,12 @@ msgstr "Green"
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:449
+#: src/lib/fcitx/instance.cpp:440
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:385
 #, c++-format
 msgid "Group {}"
 msgstr "グループ {}"
@@ -1334,8 +1329,8 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:718 src/lib/fcitx/instance.cpp:483
-#: src/lib/fcitx/instance.cpp:712 src/lib/fcitx/instance.cpp:884
+#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
+#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:875
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
@@ -1351,6 +1346,11 @@ msgstr "入力メソッドの設定"
 #: data/fcitx5-diagnose.sh:717
 msgid "Input Method Related Environment Variables: "
 msgstr "入力メソッド関連の環境変数:"
+
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:254
+msgid "Input Method Settings"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1604
 msgid "Input Methods:"
@@ -1464,16 +1464,16 @@ msgstr "V2 プロトコルの仮想キーボードオブジェクトを維持す
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:341 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:344 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:259
+#: src/im/keyboard/keyboard.cpp:262
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:277
+#: src/im/keyboard/keyboard.cpp:280
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
@@ -2061,7 +2061,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:704
+#: src/im/keyboard/keyboard.cpp:707
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2189,15 +2189,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:884
+#: src/lib/fcitx/instance.cpp:875
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:886
+#: src/lib/fcitx/instance.cpp:877
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:885
+#: src/lib/fcitx/instance.cpp:876
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
@@ -2551,17 +2551,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:484 src/lib/fcitx/instance.cpp:713
+#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
 #: src/modules/xcb/xcbconnection.cpp:565
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:485 src/modules/xcb/xcbconnection.cpp:566
+#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:566
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:714
+#: src/lib/fcitx/instance.cpp:705
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
@@ -3161,17 +3161,17 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:318
+#: src/im/keyboard/keyboard.cpp:321
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:443
+#: src/lib/fcitx/instance.cpp:434
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:431
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

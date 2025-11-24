@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-11-18 20:24+0000\n"
+"POT-Creation-Date: 2025-11-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Huy Võ <hoanghuy309@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -517,11 +517,6 @@ msgstr "Hoàn thành được kích hoạt."
 #: data/fcitx5-diagnose.sh:1692
 msgid "Configuration:"
 msgstr "Cấu hình:"
-
-#: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:254
-msgid "Configure"
-msgstr "Cấu hình"
 
 #: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
@@ -1334,6 +1329,11 @@ msgstr "Cấu Hình Kiểu Gõ"
 #: data/fcitx5-diagnose.sh:717
 msgid "Input Method Related Environment Variables: "
 msgstr "Biến môi trường liên quan kiểu gõ:"
+
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:254
+msgid "Input Method Settings"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1604
 msgid "Input Methods:"
