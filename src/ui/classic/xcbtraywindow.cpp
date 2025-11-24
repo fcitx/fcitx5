@@ -52,7 +52,7 @@ XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 48, 48) {
     }
     groupAction_.setShortText(_("Group"));
     groupAction_.setMenu(&groupMenu_);
-    configureAction_.setShortText(_("Configure"));
+    configureAction_.setShortText(_("Input Method Settings"));
     restartAction_.setShortText(_("Restart"));
     exitAction_.setShortText(_("Exit"));
     menu_.addAction(&groupAction_);
