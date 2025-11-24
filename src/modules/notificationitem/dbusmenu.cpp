@@ -189,10 +189,10 @@ void DBusMenu::fillLayoutItem(
         if (hasAction) {
             appendSubItem(subLayoutItems, BII_Separator2, depth, propertyNames);
         }
-        appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
         if (parent_->instance()->canRestart()) {
             appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
         }
+        appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
         if (parent_->instance()->canRestart() &&
             getDesktopType() != DesktopType::DEEPIN &&
             getDesktopType() != DesktopType::UKUI) {
