@@ -250,7 +250,7 @@ void DBusMenu::fillLayoutProperties(
         case BII_Configure:
             /* this icon sucks on KDE, why configure doesn't have "configure" */
             appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Configure")));
+                           dbus::Variant(_("Input Method Settings")));
             if (isKDE()) {
                 properties.emplace_back("icon-name",
                                         dbus::Variant("configure"));
