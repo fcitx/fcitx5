@@ -343,7 +343,9 @@ public:
                        [this](const std::string &, const std::string &,
                               const std::string &newName) {
                            if (newName.empty()) {
-                               delete this;
+                               im_->instance()->eventDispatcher().schedule([this]() {
+                                   delete this;
+                               });
                            }
                        })),
           name_(sender) {
