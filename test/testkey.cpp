@@ -11,7 +11,9 @@
 #include "fcitx-utils/keydata.h"
 #include "fcitx-utils/keynametable-compat.h"
 #include "fcitx-utils/keynametable.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 
 #define CHECK_ARRAY_ORDER(ARRAY, COMPARE_FUNC)                                 \
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(ARRAY) - 1; i++) {                 \

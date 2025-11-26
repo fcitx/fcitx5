@@ -11,15 +11,16 @@ function download_file()
     wget $2
 }
 
-XKEYSYM=http://cgit.freedesktop.org/xorg/proto/xproto/plain/keysymdef.h
-XF86KEYSYM=http://cgit.freedesktop.org/xorg/proto/x11proto/plain/XF86keysym.h
+XKEYSYM=https://raw.githubusercontent.com/xkbcommon/libxkbcommon/refs/heads/master/include/xkbcommon/xkbcommon-keysyms.h
 KEYSYMGEN_HEADER=keysymgen.h
-KEYNAMETABLE_HEADER=keynametable.h
 
-download_file keysymdef.h $XKEYSYM
-download_file XF86keysym.h $XF86KEYSYM
+download_file xkbcommon-keysyms.h $XKEYSYM
 
-grep '^#define' keysymdef.h | sed 's|^#define XK_\([a-zA-Z_0-9]\+\) \+0x\([0-9A-Fa-f]\+\)\(.*\)$|\1\t0x\2\t\3|g' > keylist
-grep '^#define' XF86keysym.h | grep -v 'XF86XK_Calculater\|XF86XK_Q' | sed 's|XF86XK_Clear|XF86XK_WindowClear|g' | sed 's|XF86XK_Select|XF86XK_SelectButton|g' | sed 's|^#define XF86XK_\([a-zA-Z_0-9]\+\)[ \t]\+0x\([0-9A-Fa-f]\+\)\(.*\)$|\1\t0x\2\t\3|g' >> keylist
+grep '^#define.*XKB_KEY_' xkbcommon-keysyms.h | sed 's|^#define XKB_KEY_\([a-zA-Z_0-9]\+\) \+0x\([0-9A-Fa-f]\+\)\(.*\)$|\1\t0x\2\t\3|g' | grep -v '^NoSymbol' > keylist
+sed -i 's|^XF86Q\t|Compaq_Q\t|g' keylist
+sed -i 's|^XF86Break\t|MediaBreak\t|g' keylist
+sed -i 's|^XF86Clear\t|WindowClear\t|g' keylist
+sed -i 's|^XF86Select\t|SelectButton\t|g' keylist
+sed -i 's|^XF86||g' keylist
 
 python3 update-keydata.py
