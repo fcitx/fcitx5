@@ -155,7 +155,8 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(category, "Category", "s",
                                  []() { return "SystemServices"; });
     FCITX_OBJECT_VTABLE_PROPERTY(id, "Id", "s", []() { return "Fcitx"; });
-    FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s", [this]() { return title(); });
+    FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s",
+                                 [this]() { return title(); });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
     FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "i", []() { return 0; });
