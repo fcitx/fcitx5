@@ -589,6 +589,13 @@ private:
     bool enumerate(InputContext *ic, bool forward);
     bool toggle(InputContext *ic, InputMethodSwitchedReason reason =
                                       InputMethodSwitchedReason::Trigger);
+    struct KeyEventHandler {
+        const KeyList &list;
+        std::function<bool()> check;
+        std::function<void(bool)> trigger;
+    };
+    std::vector<KeyEventHandler>
+    createKeyEventHandlers(const KeyEvent &keyEvent);
 
     void activateInputMethod(InputContextEvent &event);
     void deactivateInputMethod(InputContextEvent &event);
