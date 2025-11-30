@@ -869,6 +869,8 @@ Instance::Instance(int argc, char **argv) {
             if (!keyEvent.isRelease() &&
                 keyEvent.key().checkKeyList(
                     d->globalConfig_.togglePreeditKeys())) {
+                // Clear client preedit on disable.
+                ic->reset();
                 ic->setEnablePreedit(!ic->isPreeditEnabled());
                 if (d->notifications_) {
                     d->notifications_->call<INotifications::showTip>(
