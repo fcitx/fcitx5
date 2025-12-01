@@ -402,9 +402,9 @@ void InstancePrivate::showInputMethodInformation(InputContext *ic) {
         auto subMode = engine->subMode(*entry, *ic);
         auto subModeLabel = engine->subModeLabel(*entry, *ic);
         auto name = globalConfig_.compactInputMethodInformation() &&
-                            !entry->label().empty()
-                        ? entry->label()
-                        : entry->name();
+                            !entry->name().empty()
+                        ? entry->name()
+                        : entry->label();
         if (globalConfig_.compactInputMethodInformation() &&
             !subModeLabel.empty()) {
             display = std::move(subModeLabel);
