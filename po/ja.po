@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-11-24 20:24+0000\n"
+"POT-Creation-Date: 2025-12-01 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2025\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -1330,7 +1330,7 @@ msgid "Image"
 msgstr "画像"
 
 #: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:875
+#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
 #: src/modules/notificationitem/notificationitem.cpp:148
 #: src/modules/notificationitem/notificationitem.cpp:236
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
@@ -1350,7 +1350,7 @@ msgstr "入力メソッド関連の環境変数:"
 #: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:254
 msgid "Input Method Settings"
-msgstr ""
+msgstr "入力メソッドの設定"
 
 #: data/fcitx5-diagnose.sh:1604
 msgid "Input Methods:"
@@ -2189,15 +2189,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:875
+#: src/lib/fcitx/instance.cpp:877
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:877
+#: src/lib/fcitx/instance.cpp:879
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:876
+#: src/lib/fcitx/instance.cpp:878
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
