@@ -149,7 +149,7 @@ if (ENABLE_KEYBOARD)
     find_package(XKBCommon REQUIRED COMPONENTS ${REQUIRED_XKBCOMMON_COMPONENTS})
     find_package(IsoCodes REQUIRED)
     find_package(XKeyboardConfig REQUIRED)
-    pkg_check_modules(JsonC REQUIRED IMPORTED_TARGET "json-c")
+    find_package(nlohmann_json)
 
     set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
     if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}" AND NOT APPLE)
