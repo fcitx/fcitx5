@@ -15,6 +15,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <unordered_set>
 #include <utility>
@@ -27,6 +28,7 @@
 #include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventloopinterface.h"
@@ -517,33 +519,35 @@ void WaylandModule::setLayoutToKDE() {
         safeSaveAsIni(config, StandardPathsType::Config, "kxkbrc");
     }
 
-    auto bus = dbusAddon->call<IDBusModule::bus>();
-    // Kubuntu 25.10 and earlier
+    auto *bus = dbusAddon->call<IDBusModule::bus>();
+    // Prior KWin 6.5
     auto message =
         bus->createSignal("/Layouts", "org.kde.keyboard", "reloadConfig");
     message.send();
-    // Kubuntu 25.10 with ppa:kubuntu-ppa/backports
+    // After KWin 6.5
+    // https://github.com/KDE/kwin/commit/c75d26ff98fc40004923e4e0f9bb441c3b970ec3
     message =
         bus->createSignal("/kxkbrc", "org.kde.kconfig.notify", "ConfigChanged");
-    message << dbus::Container(dbus::Container::Type::Array,
-                               dbus::Signature("{saay}"));
-    message << dbus::Container(dbus::Container::Type::DictEntry,
-                               dbus::Signature("saay"));
-    message << "Layout";
-    message << dbus::Container(dbus::Container::Type::Array,
-                               dbus::Signature("ay"));
-    for (const char *key :
+    // Example update from KCM a{saay}
+    // array [
+    //   dict entry(
+    //      string "Layout"
+    //      array [
+    //         array of bytes "DisplayNames"
+    //         array of bytes "LayoutList"
+    //         array of bytes "VariantList"
+    //      ]
+    //   )
+    // ]
+    std::vector<dbus::DictEntry<std::string, std::vector<std::vector<uint8_t>>>>
+        entries;
+    entries.emplace_back("Layout", std::vector<std::vector<uint8_t>>());
+    for (std::string_view key :
          {"LayoutList", "DisplayNames", "VariantList", "Use"}) {
-        message << dbus::Container(dbus::Container::Type::Array,
-                                   dbus::Signature("y"));
-        while (*key) {
-            message << static_cast<unsigned char>(*key++);
-        }
-        message << dbus::ContainerEnd();
+        std::vector<uint8_t> bytes(key.begin(), key.end());
+        entries.back().value().push_back(std::move(bytes));
     }
-    message << dbus::ContainerEnd();
-    message << dbus::ContainerEnd();
-    message << dbus::ContainerEnd();
+    message << entries;
     message.send();
 #endif
 }
