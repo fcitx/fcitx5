@@ -518,8 +518,32 @@ void WaylandModule::setLayoutToKDE() {
     }
 
     auto bus = dbusAddon->call<IDBusModule::bus>();
+    // Kubuntu 25.10 and earlier
     auto message =
         bus->createSignal("/Layouts", "org.kde.keyboard", "reloadConfig");
+    message.send();
+    // Kubuntu 25.10 with ppa:kubuntu-ppa/backports
+    message =
+        bus->createSignal("/kxkbrc", "org.kde.kconfig.notify", "ConfigChanged");
+    message << dbus::Container(dbus::Container::Type::Array,
+                               dbus::Signature("{saay}"));
+    message << dbus::Container(dbus::Container::Type::DictEntry,
+                               dbus::Signature("saay"));
+    message << "Layout";
+    message << dbus::Container(dbus::Container::Type::Array,
+                               dbus::Signature("ay"));
+    for (const char *key :
+         {"LayoutList", "DisplayNames", "VariantList", "Use"}) {
+        message << dbus::Container(dbus::Container::Type::Array,
+                                   dbus::Signature("y"));
+        while (*key) {
+            message << static_cast<unsigned char>(*key++);
+        }
+        message << dbus::ContainerEnd();
+    }
+    message << dbus::ContainerEnd();
+    message << dbus::ContainerEnd();
+    message << dbus::ContainerEnd();
     message.send();
 #endif
 }
