@@ -293,7 +293,7 @@ void DBusMenu::fillLayoutProperties(
         if (!ic) {
             ic = parent_->instance()->mostRecentInputContext();
         }
-        // We can use pointer comparision here.
+        // We can use pointer comparison here.
         appendProperty(
             properties, propertyNames, "toggle-state",
             dbus::Variant(

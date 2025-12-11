@@ -103,7 +103,7 @@ public:
      */
     void setDefaultInputMethod(const std::string &name);
 
-    /// Return the input methdo group of given name.
+    /// Return the input method group of given name.
     const InputMethodGroup *group(const std::string &name) const;
 
     /**

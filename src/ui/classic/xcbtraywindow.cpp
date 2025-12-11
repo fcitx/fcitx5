@@ -129,7 +129,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     case XCB_EXPOSE: {
         auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
-            CLASSICUI_DEBUG() << "Tray recevied expose event";
+            CLASSICUI_DEBUG() << "Tray received expose event";
             update();
             return true;
         }
@@ -139,7 +139,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         auto *configure =
             reinterpret_cast<xcb_configure_notify_event_t *>(event);
         if (wid_ == configure->event) {
-            CLASSICUI_DEBUG() << "Tray recevied configure event";
+            CLASSICUI_DEBUG() << "Tray received configure event";
             hintHeight_ = configure->height;
             hintWidth_ = configure->width;
             resizeTrayWindow();

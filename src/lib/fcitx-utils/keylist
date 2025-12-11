@@ -2218,7 +2218,7 @@ RotationPB	0x1008ff75	  /* don't use                   */
 RotationKB	0x1008ff76	  /* don't use                   */
 Save	0x1008ff77	  /* Save (file, document, state */
 ScrollUp	0x1008ff78	  /* Scroll window/contents up   */
-ScrollDown	0x1008ff79	  /* Scrool window/contentd down */
+ScrollDown	0x1008ff79	  /* Scroll window/contentd down */
 ScrollClick	0x1008ff7a	  /* Use XKB mousekeys instead   */
 Send	0x1008ff7b	  /* Send mail, file, object     */
 Spell	0x1008ff7c	  /* Spell checker               */

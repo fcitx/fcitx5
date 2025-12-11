@@ -36,7 +36,7 @@ FCITX_CONFIGURATION(
         _("Detect current running application (Need restart)"), true};
     Option<bool> preferKeyEvent{
         this, "PreferKeyEvent",
-        _("Forward key event instead of commiting text if it is not handled"),
+        _("Forward key event instead of committing text if it is not handled"),
         true};
     OptionWithAnnotation<bool, ToolTipAnnotation> persistentVirtualKeyboard{
         this,

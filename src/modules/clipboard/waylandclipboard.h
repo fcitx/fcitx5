@@ -37,7 +37,7 @@ namespace fcitx {
 // DataDevice receives primary/selection by DataOffer. It also starts
 // DataReaderThread that will read data from file descriptor.
 // Upon receive DataOffer, DataReaderThread::addTask will be used to
-// initiate a reading task and call the callback if it suceeds.
+// initiate a reading task and call the callback if it succeeds.
 
 using DataOfferDataCallback =
     std::function<void(const std::vector<char> &data)>;
@@ -80,7 +80,7 @@ public:
                 std::lock_guard<std::mutex> lock(mutex_);
                 terminate_ = true;
             }
-            // If dispatcher is not attched, the schedule will do nothing.
+            // If dispatcher is not attached, the schedule will do nothing.
             // But after attach, reader thread will check terminate_
             // So it won't stuck forever.
             dispatcherToWorker_.schedule([this]() {

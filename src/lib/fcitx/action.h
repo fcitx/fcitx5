@@ -108,7 +108,7 @@ public:
     /**
      * Set the sub menu of this action.
      *
-     * Some status area implemenation only supports one level of menu, so it is
+     * Some status area implementation only supports one level of menu, so it is
      * preferred that only one level of menu is used.
      */
     void setMenu(Menu *menu);
