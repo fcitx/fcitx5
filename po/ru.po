@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-11-27 20:24+0000\n"
+"POT-Creation-Date: 2025-12-12 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -60,6 +60,7 @@ msgid "(Type to search unicode by code or description)"
 msgstr "(Введите для поиска юникода по коду или описанию)"
 
 #: data/fcitx5-diagnose.sh:707
+#, sh-printf-format
 msgid "/Beginner%27s_Guide"
 msgstr "/Руководство по%27s для начинающих"
 
@@ -634,7 +635,7 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:666
+#: src/modules/wayland/waylandmodule.cpp:694
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -647,7 +648,7 @@ msgstr ""
 "более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:681
+#: src/modules/wayland/waylandmodule.cpp:709
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -659,7 +660,7 @@ msgstr ""
 "Wayland. Для получения более подробной информации см. https://fcitx-im.org/"
 "wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:712
+#: src/modules/wayland/waylandmodule.cpp:740
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -867,7 +868,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Избранное"
 
-#: src/modules/wayland/waylandmodule.cpp:628
+#: src/modules/wayland/waylandmodule.cpp:656
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -902,7 +903,7 @@ msgstr ""
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
 
-#: src/modules/wayland/waylandmodule.cpp:651
+#: src/modules/wayland/waylandmodule.cpp:679
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -988,7 +989,7 @@ msgstr ""
 "первого нажатия Control+Space, если Control удерживается, последующее "
 "нажатие клавиши Space перечислит метод ввода."
 
-#: src/modules/wayland/waylandmodule.cpp:738
+#: src/modules/wayland/waylandmodule.cpp:766
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Для получения более подробной информации см. https://fcitx-im.org/wiki/"
@@ -1004,10 +1005,8 @@ msgid "Forward"
 msgstr "Пересылать"
 
 #: src/frontend/waylandim/waylandim.h:39
-msgid "Forward key event instead of commiting text if it is not handled"
+msgid "Forward key event instead of committing text if it is not handled"
 msgstr ""
-"Пересылать ключевое событие вместо фиксации текста, если оно не "
-"обрабатывается"
 
 #: data/fcitx5-diagnose.sh:1176
 msgid "Found ${1} ${2} module: ${3}."
@@ -1340,9 +1339,9 @@ msgid "Image"
 msgstr "Изображение"
 
 #: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:875
-#: src/modules/notificationitem/notificationitem.cpp:148
-#: src/modules/notificationitem/notificationitem.cpp:236
+#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
+#: src/modules/notificationitem/notificationitem.cpp:86
+#: src/modules/notificationitem/notificationitem.cpp:253
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1424,7 +1423,7 @@ msgstr ""
 "Можно использовать ${1} встроенный модуль Wayland im, если составитель "
 "полностью поддерживает протокол ввода текста, используемый ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:693
+#: src/modules/wayland/waylandmodule.cpp:721
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2201,15 +2200,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Выключение"
 
-#: src/lib/fcitx/instance.cpp:875
+#: src/lib/fcitx/instance.cpp:877
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:877
+#: src/lib/fcitx/instance.cpp:879
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:876
+#: src/lib/fcitx/instance.cpp:878
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
@@ -2398,7 +2397,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/modules/wayland/waylandmodule.cpp:727
+#: src/modules/wayland/waylandmodule.cpp:755
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2955,7 +2954,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:628
+#: src/modules/wayland/waylandmodule.cpp:656
 msgid "Wayland Diagnose"
 msgstr "Wayland Диагностика"
 

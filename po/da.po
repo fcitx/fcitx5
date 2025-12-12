@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-11-24 20:24+0000\n"
+"POT-Creation-Date: 2025-12-12 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -57,6 +57,7 @@ msgid "(Type to search unicode by code or description)"
 msgstr "(skriv for at søge i unicode efter kode eller beskrivelse)"
 
 #: data/fcitx5-diagnose.sh:707
+#, sh-printf-format
 msgid "/Beginner%27s_Guide"
 msgstr "/Begyndervejledning"
 
@@ -629,7 +630,7 @@ msgstr "Skrivebordsmiljø:"
 msgid "Desktop environment is ${1}."
 msgstr "Skrivebordsmiljø er ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:666
+#: src/modules/wayland/waylandmodule.cpp:694
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -637,7 +638,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:681
+#: src/modules/wayland/waylandmodule.cpp:709
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -645,7 +646,7 @@ msgid ""
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:712
+#: src/modules/wayland/waylandmodule.cpp:740
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -849,7 +850,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: src/modules/wayland/waylandmodule.cpp:628
+#: src/modules/wayland/waylandmodule.cpp:656
 msgid "Fcitx"
 msgstr ""
 
@@ -884,7 +885,7 @@ msgstr ""
 "sprog du kender. Det har også en vifte af tilføjelser som forbedre din "
 "skriveoplevelse."
 
-#: src/modules/wayland/waylandmodule.cpp:651
+#: src/modules/wayland/waylandmodule.cpp:679
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -951,7 +952,7 @@ msgid ""
 "Space will enumerate the input method."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:738
+#: src/modules/wayland/waylandmodule.cpp:766
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -965,7 +966,7 @@ msgid "Forward"
 msgstr "Fremad"
 
 #: src/frontend/waylandim/waylandim.h:39
-msgid "Forward key event instead of commiting text if it is not handled"
+msgid "Forward key event instead of committing text if it is not handled"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1176
@@ -1291,9 +1292,9 @@ msgid "Image"
 msgstr "Billede"
 
 #: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:875
-#: src/modules/notificationitem/notificationitem.cpp:148
-#: src/modules/notificationitem/notificationitem.cpp:236
+#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
+#: src/modules/notificationitem/notificationitem.cpp:86
+#: src/modules/notificationitem/notificationitem.cpp:253
 #: src/modules/xcb/xcbconnection.cpp:564 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1370,7 +1371,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:693
+#: src/modules/wayland/waylandmodule.cpp:721
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2137,15 +2138,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:875
+#: src/lib/fcitx/instance.cpp:877
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:877
+#: src/lib/fcitx/instance.cpp:879
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:876
+#: src/lib/fcitx/instance.cpp:878
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -2334,7 +2335,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/modules/wayland/waylandmodule.cpp:727
+#: src/modules/wayland/waylandmodule.cpp:755
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2850,7 +2851,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:628
+#: src/modules/wayland/waylandmodule.cpp:656
 msgid "Wayland Diagnose"
 msgstr ""
 
