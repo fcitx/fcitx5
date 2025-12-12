@@ -104,14 +104,14 @@ public:
                              const char *interface, const char *member);
 
     /**
-     * Return the name of the compiled implentation of fcitx dbus
+     * Return the name of the compiled implementation of fcitx dbus
      *
      * @return "sdbus" or "libdbus"
      */
     static const char *impl();
 
     /**
-     * Return the internal pointer of the implemenation.
+     * Return the internal pointer of the implementation.
      *
      * @return internal pointer
      */

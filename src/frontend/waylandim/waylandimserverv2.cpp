@@ -682,7 +682,7 @@ void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
         return;
     }
 
-    // Cant convert to before/after.
+    // Can't convert to before/after.
     if (offset > 0 || offset + static_cast<ssize_t>(size) < 0) {
         return;
     }

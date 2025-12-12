@@ -432,7 +432,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
 
 #ifdef WAYLAND_FOUND
                 // When wayland im is used, don't grab keyboard again, otherwise
-                // we may get same event twice. Whne wayland keyboard grab is
+                // we may get same event twice. When wayland keyboard grab is
                 // active, we will rely on wayland im to handle group switching
                 // key.
                 // This allows KDE Plasma's X11 legacy support to work

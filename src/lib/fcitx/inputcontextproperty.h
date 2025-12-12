@@ -40,7 +40,7 @@ public:
     /**
      * copy state to another property.
      *
-     * Default implemenation is empty.
+     * Default implementation is empty.
      * This is triggered by InputContext::updateProperty.
      *
      * @see InputContext::updateProperty
@@ -105,7 +105,7 @@ private:
 };
 
 /**
- * Convinient short type alias for creating a LambdaInputContextPropertyFactory.
+ * Convenient short type alias for creating a LambdaInputContextPropertyFactory.
  *
  * Example usage:
  * Define it as a field of AddonInstance.

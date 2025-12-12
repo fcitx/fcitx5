@@ -312,7 +312,7 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len,
      *
      * each error need to follow a correct match.
      *
-     * number of "remove error" shoud be no more than "maxremove"
+     * number of "remove error" should be no more than "maxremove"
      * while maxremove equals to (length - 2) / 3
      *
      * and the total error number should be no more than "maxdiff"

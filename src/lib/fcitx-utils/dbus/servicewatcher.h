@@ -38,7 +38,7 @@ public:
 
     // unlike regular NameOwnerChanged signal, this will also initiate a
     // GetNameOwner call to avoid race condition
-    // if GetNameOwner returns, it will intiate a call (name, "", owner) if
+    // if GetNameOwner returns, it will initiate a call (name, "", owner) if
     // service exists, otherwise (name, "", "")
     FCITX_NODISCARD std::unique_ptr<ServiceWatcherEntry>
     watchService(const std::string &name, ServiceWatcherCallback callback);

@@ -150,7 +150,7 @@ void Configuration::syncDefaultValueToCurrent() {
         assert(iter != d->options_.end());
         // Unfortunately on certain system OptionBaseV2 doesn't have key
         // function emit type info, so we have to add OptionBaseV3 with a
-        // non-abstract virtual funciton.
+        // non-abstract virtual function.
         if (auto *optionV3 = dynamic_cast<OptionBaseV3 *>(iter->second)) {
             optionV3->syncDefaultValueToCurrent();
         } else if (auto *optionV2 =

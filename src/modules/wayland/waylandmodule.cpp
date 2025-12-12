@@ -153,7 +153,7 @@ void WaylandConnection::init(wl_display *display) {
             if (name == wayland::WlSeat::interface) {
                 setupKeyboard(static_cast<wayland::WlSeat *>(seat.get()));
             } else if (name == "zwp_input_method_v1") {
-                // Do a defered layou sync, since this is callback is called
+                // Do a deferred layout sync, since this is callback is called
                 // before waylandim setup.
                 parent_->instance()->eventDispatcher().scheduleWithContext(
                     watch(), [this]() { parent_->setLayoutToCompositor(); });

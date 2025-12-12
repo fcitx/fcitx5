@@ -352,7 +352,7 @@ public:
     void setCursorPositionAfterPaging(CursorPositionAfterPaging afterPaging);
 
     /**
-     * Set an optional implemenation of actionable candidate list
+     * Set an optional implementation of actionable candidate list
      *
      * @since 5.1.10
      */

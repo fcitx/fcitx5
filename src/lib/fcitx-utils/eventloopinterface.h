@@ -71,7 +71,7 @@ struct FCITXUTILS_EXPORT EventSourceAsync : public EventSource {
     /**
      * Trigger the event from other thread.
      *
-     * The callback is guranteed to be called send() if it is enabled.
+     * The callback is guaranteed to be called send() if it is enabled.
      * Multiple call to send() may only trigger the callback once.
      */
     virtual void send() = 0;

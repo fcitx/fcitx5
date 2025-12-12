@@ -60,7 +60,7 @@ inline uint32_t charWidth(uint32_t c) {
     return g_unichar_iswide(c) ? 2 : 1;
 }
 
-// This is heuristic, but we guranteed that we don't do crazy things with label.
+// This is heuristic, but we guarantee that we don't do crazy things with label.
 std::pair<std::string, size_t> extractTextForLabel(const std::string &label) {
     std::string extracted;
 
@@ -251,7 +251,7 @@ const std::vector<std::string> &gdkPixbufSupportedFormats() {
             g_strfreev(extension);
         }
 
-        // Only put the common types and we make a prefered order.
+        // Only put the common types and we make a preferred order.
         for (std::string ext : {"svg", "svgz", "png", "bmp", "xpm"}) {
             // png is supported by cairo.
             if (ext == "png" || exts.contains(ext)) {

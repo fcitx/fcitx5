@@ -389,7 +389,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     bus_->flush();
 }
 
-// This is heuristic, but we guranteed that we don't do crazy things with label.
+// This is heuristic, but we guarantee that we don't do crazy things with label.
 std::string extractTextForLabel(const std::string &label) {
     if (label.empty()) {
         return "";

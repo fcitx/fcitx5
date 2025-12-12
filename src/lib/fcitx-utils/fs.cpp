@@ -107,7 +107,7 @@ std::string cleanPath(const std::string &path) {
         return {};
     }
 
-    // skip first group of continous slash, for possible furture windows support
+    // skip first group of continuous slash, for possible future windows support
     size_t i = 0;
     while (path[i] == '/') {
         buf.push_back(path[i]);

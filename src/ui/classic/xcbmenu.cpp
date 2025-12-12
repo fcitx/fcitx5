@@ -61,7 +61,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
     case XCB_EXPOSE: {
         auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
-            CLASSICUI_DEBUG() << "Menu recevied expose event";
+            CLASSICUI_DEBUG() << "Menu received expose event";
             update();
             return true;
         }
