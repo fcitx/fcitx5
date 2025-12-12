@@ -60,7 +60,7 @@ inline uint32_t charWidth(uint32_t c) {
     return g_unichar_iswide(c) ? 2 : 1;
 }
 
-// This is heuristic, but we guaranteed that we don't do crazy things with label.
+// This is heuristic, but we guarantee that we don't do crazy things with label.
 std::pair<std::string, size_t> extractTextForLabel(const std::string &label) {
     std::string extracted;
 
