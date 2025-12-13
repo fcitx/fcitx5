@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-12-12 20:24+0000\n"
+"POT-Creation-Date: 2025-12-13 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2025\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1007,6 +1007,7 @@ msgstr "Пересылать"
 #: src/frontend/waylandim/waylandim.h:39
 msgid "Forward key event instead of committing text if it is not handled"
 msgstr ""
+"Пересылать ключевое событие вместо фиксации текста, если он не обрабатывается"
 
 #: data/fcitx5-diagnose.sh:1176
 msgid "Found ${1} ${2} module: ${3}."
