@@ -49,4 +49,4 @@ To write a input method (or addon) from scratch, check [Develop a simple input m
 
 # Packaging status
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/fcitx5.svg)](https://repology.org/project/fcitx5/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/fcitx5.svg?columns=3)](https://repology.org/project/fcitx5/versions)
