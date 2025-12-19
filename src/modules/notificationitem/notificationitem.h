@@ -55,7 +55,7 @@ private:
     void maybeScheduleRegister();
     void cleanUp();
     void newIcon();
-    void newTitle();
+    void newToolTip();
 
     Instance *instance_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
