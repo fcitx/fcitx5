@@ -7,13 +7,18 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_H_
 #define _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_H_
 
+#include <cstdint>
 #include <memory>
+#include <string>
+#include <vector>
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
-#include "dbus_public.h"
 #include "notificationitem_public.h"
 
 namespace fcitx {

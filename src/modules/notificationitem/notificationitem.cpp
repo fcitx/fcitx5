@@ -7,17 +7,35 @@
 
 #include "notificationitem.h"
 #include <unistd.h>
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/endian_p.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/event.h"
+#include "fcitx/icontheme.h"
+#include "fcitx/inputmethodentry.h"
+#include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/userinterface.h"
 #include "classicui_public.h"
+#include "dbus_public.h"
 #include "dbusmenu.h"
+#include "notificationitem_public.h"
 
 #define NOTIFICATION_ITEM_DBUS_IFACE "org.kde.StatusNotifierItem"
 #define NOTIFICATION_ITEM_DEFAULT_OBJ "/StatusNotifierItem"
@@ -26,9 +44,14 @@
 #define NOTIFICATION_WATCHER_DBUS_IFACE "org.kde.StatusNotifierWatcher"
 #define DBUS_MENU_IFACE "com.canonical.dbusmenu"
 
-FCITX_DEFINE_LOG_CATEGORY(notificationitem, "notificationitem");
 #define SNI_DEBUG() FCITX_LOGC(::notificationitem, Debug)
 #define SNI_ERROR() FCITX_LOGC(::notificationitem, Error)
+
+namespace {
+
+FCITX_DEFINE_LOG_CATEGORY(notificationitem, "notificationitem");
+
+}
 
 namespace fcitx {
 
@@ -38,8 +61,8 @@ public:
 
     void scroll(int delta, const std::string &_orientation) {
         std::string orientation = _orientation;
-        std::transform(orientation.begin(), orientation.end(),
-                       orientation.begin(), charutils::tolower);
+        std::ranges::transform(orientation, orientation.begin(),
+                               charutils::tolower);
         if (orientation != "vertical") {
             return;
         }
@@ -53,14 +76,15 @@ public:
             deltaAcc_ += 120;
         }
     }
-    void activate(int, int) { parent_->instance()->toggle(); }
-    void secondaryActivate(int, int) {}
+    void activate(int /*unused*/, int /*unused*/) {
+        parent_->instance()->toggle();
+    }
+    void secondaryActivate(int /*unused*/, int /*unused*/) {}
     std::string keyboardIconName() const {
         if (isKDE()) {
             return "input-keyboard";
-        } else {
-            return "input-keyboard-symbolic";
         }
+        return "input-keyboard-symbolic";
     }
     std::string iconName() {
         std::string icon;
@@ -96,7 +120,7 @@ public:
 
     bool preferTextIcon(const std::string &label,
                         const std::string &icon) const {
-        auto classicui = parent_->classicui();
+        auto *classicui = parent_->classicui();
         return classicui && !label.empty() &&
                ((icon == "input-keyboard" &&
                  classicui->call<IClassicUI::showLayoutNameInIcon>() &&
@@ -134,7 +158,8 @@ public:
     }
 
     std::string labelText() const {
-        std::string label, icon;
+        std::string label;
+        std::string icon;
         if (auto *ic = parent_->menu()->lastRelevantIc()) {
             label = parent_->instance()->inputMethodLabel(ic);
             icon = parent_->instance()->inputMethodIcon(ic);
@@ -168,7 +193,8 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "i", []() { return 0; });
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconName, "IconName", "s", ([this]() {
-            std::string label, icon;
+            std::string label;
+            std::string icon;
             if (auto *ic = parent_->menu()->lastRelevantIc()) {
                 label = parent_->instance()->inputMethodLabel(ic);
                 icon = parent_->instance()->inputMethodIcon(ic);
