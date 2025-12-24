@@ -323,8 +323,7 @@ Key::Key(const char *keyString) : Key() {
 
     // Special code for keycode baesd parsing.
     std::string_view keyValue = lastModifier;
-    if (stringutils::startsWith(keyValue, "<") &&
-        stringutils::endsWith(keyValue, ">")) {
+    if (stringutils::startsWith(keyValue, "<") && keyValue.ends_with(">")) {
         keyValue.remove_prefix(1);
         keyValue.remove_suffix(1);
         std::from_chars(keyValue.data(), keyValue.data() + keyValue.size(),

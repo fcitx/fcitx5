@@ -933,7 +933,7 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     // https://dbus.freedesktop.org/doc/dbus-specification.html#addresses
     // We just try to append a custom argument. And dbus will simply ignore
     // unrecognized such field.
-    while (stringutils::endsWith(address, ";")) {
+    while (address.ends_with(";")) {
         address.pop_back();
     }
     address.append(",fcitx_random_string=");

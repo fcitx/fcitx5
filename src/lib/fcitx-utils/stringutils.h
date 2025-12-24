@@ -35,7 +35,8 @@ inline bool startsWith(std::string_view str, char prefix) {
 }
 
 /// \brief Check if a string ends with a suffix.
-FCITXUTILS_EXPORT bool endsWith(std::string_view str, std::string_view suffix);
+FCITXUTILS_DEPRECATED_EXPORT bool endsWith(std::string_view str,
+                                           std::string_view suffix);
 
 /// \brief Check if a string ends with a suffix char.
 inline bool endsWith(std::string_view str, char suffix) {
@@ -46,7 +47,7 @@ inline bool endsWith(std::string_view str, char suffix) {
 inline bool isConcatOf(std::string_view str, std::string_view sub1,
                        std::string_view sub2) {
     return str.size() == sub1.size() + sub2.size() && startsWith(str, sub1) &&
-           endsWith(str, sub2);
+           str.ends_with(sub2);
 }
 
 /// \brief Trim the whitespace by returning start end end of first and list non

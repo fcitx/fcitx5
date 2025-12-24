@@ -58,8 +58,7 @@ void Configuration::dumpDescriptionImpl(
             const auto *oldTypeName = descConfigPtr->valueByPath("Type");
             // Replace the "Type" with the full name we want.
             // Path$To$Value$TypeName
-            if (oldTypeName &&
-                stringutils::endsWith(*oldTypeName, subTypeName)) {
+            if (oldTypeName && oldTypeName->ends_with(subTypeName)) {
                 auto newTypeName = oldTypeName->substr(
                     0, oldTypeName->size() - subTypeName.size());
                 newTypeName.append(stringutils::join(subConfigPath, '$'));
