@@ -109,6 +109,15 @@ public:
      */
     int autoSavePeriod() const;
 
+    /**
+     * Only show input method for the current language.
+     *
+     * @return whether only show input method for the current
+     * language.
+     * @since 5.1.13
+     */
+    bool onlyShowCurrentLanguage() const;
+
     const std::vector<std::string> &enabledAddons() const;
     const std::vector<std::string> &disabledAddons() const;
 
