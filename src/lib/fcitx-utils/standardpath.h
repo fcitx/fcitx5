@@ -30,7 +30,6 @@
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/standardpaths.h>
-#include <fcitx-utils/stringutils.h>
 #include <fcitx-utils/unixfd.h>
 
 namespace fcitx {
@@ -103,7 +102,7 @@ struct FCITXUTILS_DEPRECATED_EXPORT Prefix {
 
     bool operator()(const std::string &path, const std::string & /*unused*/,
                     bool /*unused*/) const {
-        return stringutils::startsWith(path, prefix);
+        return path.starts_with(prefix);
     }
 
     std::string prefix;

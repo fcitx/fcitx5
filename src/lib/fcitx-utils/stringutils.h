@@ -26,8 +26,8 @@
 namespace fcitx::stringutils {
 
 /// \brief Check if a string starts with a prefix.
-FCITXUTILS_EXPORT bool startsWith(std::string_view str,
-                                  std::string_view prefix);
+FCITXUTILS_DEPRECATED_EXPORT bool startsWith(std::string_view str,
+                                             std::string_view prefix);
 
 /// \brief Check if a string starts with a prefix char.
 inline bool startsWith(std::string_view str, char prefix) {
@@ -46,7 +46,7 @@ inline bool endsWith(std::string_view str, char suffix) {
 /// \brief Check if a string is a concatenation of two other strings
 inline bool isConcatOf(std::string_view str, std::string_view sub1,
                        std::string_view sub2) {
-    return str.size() == sub1.size() + sub2.size() && startsWith(str, sub1) &&
+    return str.size() == sub1.size() + sub2.size() && str.starts_with(sub1) &&
            str.ends_with(sub2);
 }
 
@@ -188,7 +188,6 @@ FCITXUTILS_EXPORT std::string escapeForValue(std::string_view str);
  *
  * \param str input string
  * \param prefix to check
- * \see startsWith
  * \since 5.1.12
  */
 FCITXUTILS_EXPORT bool consumePrefix(std::string_view &str,

@@ -606,7 +606,7 @@ bool WaylandModule::hasWaylandInputMethod() const {
         // connection.
         for (const auto &[_, conn] : conns_) {
             conn->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
-                if (stringutils::startsWith(ic->frontendName(), "wayland")) {
+                if (ic->frontendName().starts_with("wayland")) {
                     isWaylandIM = true;
                     return false;
                 }
@@ -622,8 +622,7 @@ bool WaylandModule::hasWaylandInputMethod() const {
             (*connection)
                 ->focusGroup()
                 ->foreach([&isWaylandIM](InputContext *ic) {
-                    if (stringutils::startsWith(ic->frontendName(),
-                                                "wayland")) {
+                    if (ic->frontendName().starts_with("wayland")) {
                         isWaylandIM = true;
                         return false;
                     }

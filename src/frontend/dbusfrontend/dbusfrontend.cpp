@@ -27,7 +27,6 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
-#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/event.h"
@@ -404,11 +403,11 @@ public:
 
     void updateCapability() {
         CapabilityFlags flags = rawCapabilityFlags_;
-        if (stringutils::startsWith(display(), "x11:")) {
+        if (display().starts_with("x11:")) {
             if (!x11UseClientSideUI()) {
                 flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
             }
-        } else if (stringutils::startsWith(display(), "wayland:")) {
+        } else if (display().starts_with("wayland:")) {
             if (!useClientSideUI(im_->instance())) {
                 flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
             }

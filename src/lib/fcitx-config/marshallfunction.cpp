@@ -103,8 +103,7 @@ bool unmarshallOption(I18NString &value, const RawConfig &config,
     }
     config.parent()->visitSubItems([&value, &config](const RawConfig &config_,
                                                      const std::string &path) {
-        if (stringutils::startsWith(path, config.name() + "[") &&
-            path.ends_with("]")) {
+        if (path.starts_with(config.name() + "[") && path.ends_with("]")) {
             auto locale = path.substr(config.name().size() + 1,
                                       path.size() - config.name().size() - 2);
             value.set(config_.value(), locale);

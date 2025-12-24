@@ -938,7 +938,7 @@ std::string IconTheme::defaultIconThemeName() {
 /// Rename fcitx-* icon to org.fcitx.Fcitx5.fcitx-* if in flatpak
 std::string IconTheme::iconName(const std::string &icon, bool inFlatpak) {
     constexpr std::string_view fcitxIconPrefix = "fcitx";
-    if (inFlatpak && stringutils::startsWith(icon, fcitxIconPrefix)) {
+    if (inFlatpak && icon.starts_with(fcitxIconPrefix)) {
         // Map "fcitx" to org.fcitx.Fcitx5
         // And map fcitx* to org.fcitx.Fcitx5.fcitx*
         if (icon.size() == fcitxIconPrefix.size()) {

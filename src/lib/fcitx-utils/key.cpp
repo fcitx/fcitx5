@@ -24,7 +24,6 @@
 #include "macros.h"
 #include "misc.h"
 #include "misc_p.h"
-#include "stringutils.h"
 #include "utf8.h"
 
 namespace fcitx {
@@ -323,7 +322,7 @@ Key::Key(const char *keyString) : Key() {
 
     // Special code for keycode baesd parsing.
     std::string_view keyValue = lastModifier;
-    if (stringutils::startsWith(keyValue, "<") && keyValue.ends_with(">")) {
+    if (keyValue.starts_with("<") && keyValue.ends_with(">")) {
         keyValue.remove_prefix(1);
         keyValue.remove_suffix(1);
         std::from_chars(keyValue.data(), keyValue.data() + keyValue.size(),

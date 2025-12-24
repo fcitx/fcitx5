@@ -149,7 +149,7 @@ void Emoji::prefix(
     auto start = emojiMap->lower_bound(key);
     auto end = emojiMap->end();
     for (; start != end; start++) {
-        if (!stringutils::startsWith(start->first, key)) {
+        if (!start->first.starts_with(key)) {
             break;
         }
         if (!collector(start->first, start->second)) {
