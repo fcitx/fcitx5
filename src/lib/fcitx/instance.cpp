@@ -281,7 +281,7 @@ void InstancePrivate::buildDefaultGroup() {
     auto guessLayout = [this, &layouts, &variants,
                         &infoFound](FocusGroup *focusGroup) {
         // For now we can only do this on X11.
-        if (!stringutils::startsWith(focusGroup->display(), "x11:")) {
+        if (!focusGroup->display().starts_with("x11:")) {
             return true;
         }
 #ifdef ENABLE_X11
@@ -527,7 +527,7 @@ xkb_state *InputState::customXkbState(bool refresh) {
     const InputMethodGroup &group = d_ptr->imManager_.currentGroup();
     const auto im = instance->inputMethod(ic_);
     auto layout = group.layoutFor(im);
-    if (layout.empty() && stringutils::startsWith(im, "keyboard-")) {
+    if (layout.empty() && im.starts_with("keyboard-")) {
         layout = im.substr(9);
     }
     if (layout.empty() || layout == group.defaultLayout()) {
@@ -2382,20 +2382,20 @@ int scoreForGroup(FocusGroup *group, const std::string &displayHint) {
         if (group->display() == "x11:") {
             return 2;
         }
-        if (stringutils::startsWith(group->display(), "x11:")) {
+        if (group->display().starts_with("x11:")) {
             return 1;
         }
         if (group->display() == "wayland:") {
             return 4;
         }
-        if (stringutils::startsWith(group->display(), "wayland:")) {
+        if (group->display().starts_with("wayland:")) {
             return 3;
         }
     } else {
         if (group->display() == displayHint) {
             return 2;
         }
-        if (stringutils::startsWith(group->display(), displayHint)) {
+        if (group->display().starts_with(displayHint)) {
             return 1;
         }
     }

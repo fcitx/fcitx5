@@ -33,7 +33,7 @@ bool BuiltInQuickPhraseProvider::populate(
     auto end = map_.end();
 
     for (; start != end; start++) {
-        if (!stringutils::startsWith(start->first, userInput)) {
+        if (!start->first.starts_with(userInput)) {
             break;
         }
         addCandidate(start->second, start->second, start->first,

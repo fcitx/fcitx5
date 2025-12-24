@@ -345,7 +345,7 @@ public:
                 dumpDBusConfigDescription(instance_->globalConfig().config());
             return result;
         }
-        if (stringutils::startsWith(uri, addonConfigPrefix)) {
+        if (uri.starts_with(addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
             auto pos = addon.find('/');
             std::string subPath;
@@ -384,7 +384,7 @@ public:
             throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                         "Failed to get addon config.");
         }
-        if (stringutils::startsWith(uri, imConfigPrefix)) {
+        if (uri.starts_with(imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
             const auto *entry = instance_->inputMethodManager().entry(im);
             if (entry) {
@@ -427,7 +427,7 @@ public:
             if (instance_->globalConfig().safeSave()) {
                 instance_->reloadConfig();
             }
-        } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
+        } else if (uri.starts_with(addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
             auto pos = addon.find('/');
             std::string subPath;
@@ -447,7 +447,7 @@ public:
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                             "Failed to get addon.");
             }
-        } else if (stringutils::startsWith(uri, imConfigPrefix)) {
+        } else if (uri.starts_with(imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
             const auto *entry = instance_->inputMethodManager().entry(im);
             auto *engine = instance_->inputMethodEngine(im);

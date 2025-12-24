@@ -80,15 +80,11 @@ std::string concatPathPieces(
 
 FCITXUTILS_DEPRECATED_EXPORT bool startsWith(const std::string &str,
                                              const std::string &prefix) {
-    return startsWith(std::string_view(str), std::string_view(prefix));
+    return str.starts_with(prefix);
 }
 
 bool startsWith(std::string_view str, std::string_view prefix) {
-    if (str.size() < prefix.size()) {
-        return false;
-    }
-
-    return (str.compare(0, prefix.size(), prefix) == 0);
+    return str.starts_with(prefix);
 }
 
 FCITXUTILS_DEPRECATED_EXPORT bool endsWith(const std::string &str,
@@ -411,7 +407,7 @@ std::string escapeForValue(std::string_view str) {
 }
 
 bool consumePrefix(std::string_view &str, std::string_view prefix) {
-    if (stringutils::startsWith(str, prefix)) {
+    if (str.starts_with(prefix)) {
         str = str.substr(prefix.size());
         return true;
     }

@@ -21,7 +21,6 @@
 #include <string_view>
 #include <system_error>
 #include "misc.h"
-#include "stringutils.h"
 #include "unixfd.h"
 #include "utf8.h" // IWYU pragma: keep
 
@@ -170,7 +169,7 @@ std::string cleanPath(const std::string &path) {
             break;
         }
     }
-    if (stringutils::startsWith(buf, "./")) {
+    if (buf.starts_with("./")) {
         return buf.substr(2);
     }
     return buf;

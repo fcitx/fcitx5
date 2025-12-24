@@ -14,7 +14,6 @@
 #include <xcb/xproto.h>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
-#include "fcitx-utils/stringutils.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputmethodmanager.h"
@@ -90,7 +89,7 @@ bool xrandrCheckXWayland(xcb_connection_t *conn, xcb_screen_t *screen) {
             reinterpret_cast<char *>(
                 xcb_randr_get_output_info_name(output.get())),
             xcb_randr_get_output_info_name_length(output.get()));
-        if (stringutils::startsWith(outputName, "XWAYLAND")) {
+        if (outputName.starts_with("XWAYLAND")) {
             return true;
         }
     }
@@ -445,8 +444,8 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
                              .foreachFocused([](InputContext *ic) {
                                  // Main wayland display, but not wayland im.
                                  if (ic->display() == "wayland:" &&
-                                     !stringutils::startsWith(
-                                         ic->frontendName(), "wayland")) {
+                                     !ic->frontendName().starts_with(
+                                         "wayland")) {
                                      return false;
                                  }
                                  return true;

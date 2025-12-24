@@ -469,11 +469,11 @@ std::string addressByType(BusType type) {
         }
     case BusType::Default:
         if (auto starter = getEnvironment("DBUS_STARTER_BUS_TYPE")) {
-            if (stringutils::startsWith(*starter, "system")) {
+            if (starter->starts_with("system")) {
                 return addressByType(BusType::System);
             }
-            if (stringutils::startsWith(*starter, "user") ||
-                stringutils::startsWith(*starter, "session")) {
+            if (starter->starts_with("user") ||
+                starter->starts_with("session")) {
                 return addressByType(BusType::Session);
             }
         }

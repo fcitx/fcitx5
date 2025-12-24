@@ -271,9 +271,8 @@ void Kimpanel::update(UserInterfaceComponent component,
     }
     if (component == UserInterfaceComponent::InputPanel) {
         if (classicui() && isKDE() &&
-            (stringutils::startsWith(inputContext->frontendName(), "wayland") ||
-             (xcb() &&
-              stringutils::startsWith(inputContext->display(), "x11:") &&
+            (inputContext->frontendName().starts_with("wayland") ||
+             (xcb() && inputContext->display().starts_with("x11:") &&
               xcb()->call<IXCBModule::isXWayland>(
                   inputContext->display().substr(4))))) {
             proxy_->showAux(false);
@@ -468,7 +467,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                     IconTheme::iconName(entry->icon()), "::"));
             }
             proxy_->execMenu(menuitems);
-        } else if (stringutils::startsWith(property, "/Fcitx/im/")) {
+        } else if (property.starts_with("/Fcitx/im/")) {
             timeEvent_ = instance_->eventLoop().addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                 [this, imName = property.substr(10)](EventSourceTime *,
@@ -477,7 +476,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                     timeEvent_.reset();
                     return true;
                 });
-        } else if (stringutils::startsWith(property, "/Fcitx/")) {
+        } else if (property.starts_with("/Fcitx/")) {
             auto actionName = property.substr(7);
             auto *action =
                 instance_->userInterfaceManager().lookupAction(actionName);
