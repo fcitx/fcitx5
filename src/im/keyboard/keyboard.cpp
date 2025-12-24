@@ -202,7 +202,7 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
         if (!rules[0].empty()) {
             if (rules[0][0] == '/') {
                 extraRuleFile = rules[0];
-                if (!stringutils::endsWith(extraRuleFile, ".xml")) {
+                if (!extraRuleFile.ends_with(".xml")) {
                     extraRuleFile = extraRuleFile + ".xml";
                 }
             } else {

@@ -115,7 +115,7 @@ struct FCITXUTILS_DEPRECATED_EXPORT Suffix {
 
     bool operator()(const std::string &path, const std::string & /*unused*/,
                     bool /*unused*/) const {
-        return stringutils::endsWith(path, suffix);
+        return path.ends_with(suffix);
     }
 
     std::string suffix;

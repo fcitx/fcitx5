@@ -93,16 +93,11 @@ bool startsWith(std::string_view str, std::string_view prefix) {
 
 FCITXUTILS_DEPRECATED_EXPORT bool endsWith(const std::string &str,
                                            const std::string &suffix) {
-    return endsWith(std::string_view(str), std::string_view(suffix));
+    return str.ends_with(suffix);
 }
 
 bool endsWith(std::string_view str, std::string_view suffix) {
-    if (str.size() < suffix.size()) {
-        return false;
-    }
-
-    return (str.compare(str.size() - suffix.size(), suffix.size(), suffix) ==
-            0);
+    return str.ends_with(suffix);
 }
 
 inline std::pair<std::string::size_type, std::string::size_type>
