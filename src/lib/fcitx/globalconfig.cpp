@@ -235,6 +235,9 @@ FCITX_CONFIGURATION(
     Option<bool> showPreeditForPassword{
         this, "ShowPreeditForPassword",
         _("Show preedit text when typing password"), false};
+    Option<bool> onlyShowCurrentLanguage{
+        this, "OnlyShowCurrentLanguage",
+        _("Only show input method for the current language"), true};
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         autoSavePeriod{this,
                        "AutoSavePeriod",
@@ -435,6 +438,11 @@ bool GlobalConfig::allowInputMethodForPassword() const {
 bool GlobalConfig::showPreeditForPassword() const {
     FCITX_D();
     return *d->behavior->showPreeditForPassword;
+}
+
+bool GlobalConfig::onlyShowCurrentLanguage() const {
+    FCITX_D();
+    return *d->behavior->onlyShowCurrentLanguage;
 }
 
 int GlobalConfig::autoSavePeriod() const {
