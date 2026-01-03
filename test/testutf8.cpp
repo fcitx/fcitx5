@@ -93,6 +93,8 @@ int main() {
 
     FCITX_ASSERT(counter == 7);
 
+    FCITX_ASSERT(fcitx::utf8::sanitize("\x8e\x30\xe4\xb8\x87") == "?0???");
+
     FCITX_ASSERT(fcitx::utf8::UCS4IsValid(0xfdd7));
     FCITX_ASSERT(fcitx::utf8::UCS4IsValid(0xffff));
     FCITX_ASSERT(!fcitx::utf8::UCS4IsValid(0x200000));

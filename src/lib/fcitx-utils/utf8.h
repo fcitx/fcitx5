@@ -81,6 +81,16 @@ inline bool validate(const T &s) {
     return validate(std::begin(s), std::end(s));
 }
 
+/// \brief Sanitize an invalid UTF-8 string by replacing non-ASCII chars with ?.
+inline std::string sanitize(std::string s) {
+    for (auto &c : s) {
+        if (c & 0x80) {
+            c = '?';
+        }
+    }
+    return s;
+}
+
 /// \brief Convert UCS4 to UTF8 string.
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
