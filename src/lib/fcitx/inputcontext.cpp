@@ -6,18 +6,35 @@
  */
 
 #include "inputcontext.h"
+#include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <cstddef>
+#include <memory>
 #include <regex>
 #include <stdexcept>
 #include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/environ.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "config.h"
+#include "event.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
+#include "inputcontextproperty.h"
 #include "instance.h"
 #include "misc_p.h"
+#include "surroundingtext.h"
+#include "userinterface.h"
 #include "userinterfacemanager.h"
 
 namespace fcitx {
@@ -38,16 +55,25 @@ bool shouldDisablePreeditByDefault(const std::string &program) {
                                                          std::regex::extended |
                                                          std::regex::nosubs);
             } catch (...) {
+                FCITX_ERROR() << "Invalid regex pattern: " << matcherString;
             }
         }
         return matchers;
     }();
 
-    return std::any_of(matchers.begin(), matchers.end(),
-                       [&program](const std::regex &regex) {
-                           return std::regex_match(program, regex);
-                       });
+    return std::ranges::any_of(matchers, [&program](const std::regex &regex) {
+        return std::regex_match(program, regex);
+    });
 }
+
+CapabilityFlags calculateFlags(CapabilityFlags flag, bool isPreeditEnabled) {
+    if (!isPreeditEnabled) {
+        flag = flag.unset(CapabilityFlag::Preedit)
+                   .unset(CapabilityFlag::FormattedPreedit);
+    }
+    return flag;
+}
+
 } // namespace
 
 InputContextPrivate::InputContextPrivate(InputContext *q,
@@ -160,14 +186,16 @@ bool InputContext::isVirtualKeyboardVisible() const {
 void InputContext::showVirtualKeyboard() const {
     FCITX_D();
     if (auto *instance = d->manager_.instance()) {
-        return instance->userInterfaceManager().showVirtualKeyboard();
+        instance->userInterfaceManager().showVirtualKeyboard();
+        return;
     }
 }
 
 void InputContext::hideVirtualKeyboard() const {
     FCITX_D();
     if (auto *instance = d->manager_.instance()) {
-        return instance->userInterfaceManager().hideVirtualKeyboard();
+        instance->userInterfaceManager().hideVirtualKeyboard();
+        return;
     }
 }
 
@@ -189,14 +217,6 @@ bool InputContext::clientControlVirtualkeyboardHide() const {
 void InputContext::setClientControlVirtualkeyboardHide(bool hide) {
     FCITX_D();
     d->clientControlVirtualkeyboardHide_ = hide;
-}
-
-CapabilityFlags calculateFlags(CapabilityFlags flag, bool isPreeditEnabled) {
-    if (!isPreeditEnabled) {
-        flag = flag.unset(CapabilityFlag::Preedit)
-                   .unset(CapabilityFlag::FormattedPreedit);
-    }
-    return flag;
 }
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
@@ -398,11 +418,9 @@ bool InputContext::hasPendingEventsStrictOrder() const {
     }
 
     // Check we only have update preedit.
-    if (std::any_of(d->blockedEvents_.begin(), d->blockedEvents_.end(),
-                    [](const auto &event) {
-                        return event->type() !=
-                               EventType::InputContextUpdatePreedit;
-                    })) {
+    if (std::ranges::any_of(d->blockedEvents_, [](const auto &event) {
+            return event->type() != EventType::InputContextUpdatePreedit;
+        })) {
         return true;
     }
 
@@ -414,27 +432,32 @@ bool InputContext::hasPendingEventsStrictOrder() const {
 
 void InputContext::commitString(const std::string &text) {
     FCITX_D();
+    auto sanitizedText = utf8::replaceInvalid(text, '?');
     if (auto *instance = d->manager_.instance()) {
-        auto newString = instance->commitFilter(this, text);
+        auto newString = instance->commitFilter(this, sanitizedText);
+        utf8::replaceInvalidInplace(newString, '?');
         d->pushEvent<CommitStringEvent>(std::move(newString), this);
     } else {
-        d->pushEvent<CommitStringEvent>(text, this);
+        d->pushEvent<CommitStringEvent>(std::move(sanitizedText), this);
     }
 }
 
 void InputContext::commitStringWithCursor(const std::string &text,
                                           size_t cursor) {
     FCITX_D();
-    if (cursor > utf8::length(text)) {
-        throw std::invalid_argument(text);
+    auto sanitizedText = utf8::replaceInvalid(text, '?');
+    if (cursor > utf8::length(sanitizedText)) {
+        throw std::invalid_argument(sanitizedText);
     }
 
     if (auto *instance = d->manager_.instance()) {
-        auto newString = instance->commitFilter(this, text);
+        auto newString = instance->commitFilter(this, sanitizedText);
+        utf8::replaceInvalidInplace(newString, '?');
         d->pushEvent<CommitStringWithCursorEvent>(std::move(newString), cursor,
                                                   this);
     } else {
-        d->pushEvent<CommitStringWithCursorEvent>(text, cursor, this);
+        d->pushEvent<CommitStringWithCursorEvent>(std::move(sanitizedText),
+                                                  cursor, this);
     }
 }
 

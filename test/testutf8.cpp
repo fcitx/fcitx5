@@ -11,6 +11,7 @@
 #include <string>
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/utf8.h"
 
 #define BUF_SIZE 9

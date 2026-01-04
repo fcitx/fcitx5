@@ -6,6 +6,11 @@
  */
 
 #include "inputpanel.h"
+#include <memory>
+#include <utility>
+#include "fcitx-utils/macros.h"
+#include "candidatelist.h"
+#include "text.h"
 
 namespace fcitx {
 

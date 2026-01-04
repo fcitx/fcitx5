@@ -9,12 +9,14 @@
 #define _FCITX_INPUTCONTEXT_H_
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <fcitx-utils/capabilityflags.h>
+#include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/rect.h>
 #include <fcitx-utils/trackableobject.h>
@@ -22,6 +24,7 @@
 #include <fcitx/fcitxcore_export.h>
 #include <fcitx/inputcontextproperty.h>
 #include <fcitx/surroundingtext.h>
+#include <fcitx/userinterface.h>
 
 /// \addtogroup FcitxCore
 /// \{
@@ -316,7 +319,7 @@ public:
 
     bool clientControlVirtualkeyboardHide() const;
 
-    void setClientControlVirtualkeyboardHide(bool show);
+    void setClientControlVirtualkeyboardHide(bool hide);
 
 protected:
     /**
