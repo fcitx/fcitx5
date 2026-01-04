@@ -6,11 +6,18 @@
  */
 
 #include "text.h"
+#include <algorithm>
+#include <cstddef>
 #include <iterator>
-#include <stdexcept>
+#include <memory>
+#include <ostream>
+#include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
 
 namespace fcitx {
@@ -50,9 +57,7 @@ void Text::setCursor(int pos) {
 
 void Text::append(std::string str, TextFormatFlags flag) {
     FCITX_D();
-    if (!utf8::validate(str)) {
-        throw std::invalid_argument("Invalid utf8 string");
-    }
+    utf8::replaceInvalidInplace(str, '?');
     d->texts_.emplace_back(std::move(str), flag);
 }
 

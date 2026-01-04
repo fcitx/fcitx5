@@ -65,6 +65,9 @@ void test_normalize() {
 
     auto normalizedEmpty = empty.normalize();
     FCITX_ASSERT(normalizedEmpty.empty()) << normalizedEmpty;
+
+    Text invalid("\x8e\x30\xe4\xb8\x87");
+    FCITX_ASSERT(invalid.toString(), "?0万");
 }
 
 int main() {
