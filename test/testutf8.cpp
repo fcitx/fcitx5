@@ -100,13 +100,11 @@ int main() {
     FCITX_ASSERT(!fcitx::utf8::UCS4IsValid(0x200000));
 
     std::string invalid = "\x8e\x30\xe4\xb8\x87";
-    FCITX_ASSERT(fcitx::utf8::replaceInvalid(invalid, '?') ==
-                 "?0万");
+    FCITX_ASSERT(fcitx::utf8::replaceInvalid(invalid, '?') == "?0万");
 
     FCITX_ASSERT(fcitx::utf8::replaceInvalidInplace(invalid, '?'));
     FCITX_ASSERT(invalid == "?0万");
-    FCITX_ASSERT(fcitx::utf8::replaceInvalid(str, '?') ==
-                 str);
+    FCITX_ASSERT(fcitx::utf8::replaceInvalid(str, '?') == str);
     FCITX_ASSERT(!fcitx::utf8::replaceInvalidInplace(str, '?'));
 
     return 0;
