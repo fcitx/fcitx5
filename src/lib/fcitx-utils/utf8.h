@@ -308,10 +308,11 @@ auto MakeUTF8StringViewRange(const T &str) {
  *
  * @param str input string
  * @param replacement The byte value used to replace.
+ * @return Whether any replacement happened.
  *
  * @since 5.1.18
  */
-FCITXUTILS_EXPORT void replaceInvalidInplace(std::string &str,
+FCITXUTILS_EXPORT bool replaceInvalidInplace(std::string &str,
                                              char replacement);
 /**
  * Replace invalid UTF-8 sequences with given byte.

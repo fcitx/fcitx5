@@ -27,9 +27,10 @@ std::string UCS4ToUTF8(uint32_t code) {
     return {buf, buf + length};
 }
 
-void replaceInvalidInplace(std::string &str, char replacement) {
+bool replaceInvalidInplace(std::string &str, char replacement) {
     auto iter = str.begin();
     auto end = str.end();
+    bool replaced = false;
     while (iter != end) {
         uint32_t chr;
         auto next = getNextChar(iter, end, &chr);
@@ -39,6 +40,7 @@ void replaceInvalidInplace(std::string &str, char replacement) {
         } else if (chr == INVALID_CHAR) {
             *iter = replacement;
             ++iter;
+            replaced = true;
         } else if (chr == NOT_ENOUGH_SPACE) {
             *iter = replacement;
             ++iter;
@@ -46,8 +48,10 @@ void replaceInvalidInplace(std::string &str, char replacement) {
                 *iter = replacement;
                 ++iter;
             }
+            replaced = true;
         }
     }
+    return replaced;
 }
 
 std::string replaceInvalid(std::string_view str, char replacement) {
