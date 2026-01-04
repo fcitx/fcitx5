@@ -97,5 +97,8 @@ int main() {
     FCITX_ASSERT(fcitx::utf8::UCS4IsValid(0xffff));
     FCITX_ASSERT(!fcitx::utf8::UCS4IsValid(0x200000));
 
+    FCITX_ASSERT(fcitx::utf8::replaceInvalid("\x8e\x30\xe4\xb8\x87", '?') ==
+                 "?0万");
+
     return 0;
 }

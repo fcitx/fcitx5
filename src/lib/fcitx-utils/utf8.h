@@ -298,6 +298,16 @@ auto MakeUTF8StringViewRange(const T &str) {
         MakeUTF8StringViewIterator(std::end(str), std::end(str)));
 }
 
+FCITXUTILS_EXPORT void replaceInvalidInplace(std::string &str,
+                                             char replacement);
+
+FCITXUTILS_EXPORT std::string replaceInvalid(std::string_view str,
+                                             char replacement);
+
+inline bool isContinuationByte(char c) {
+    return (static_cast<uint8_t>(c) & 0xC0) == 0x80;
+}
+
 #ifdef _WIN32
 
 std::string UTF16ToUTF8(std::wstring_view data);

@@ -6,8 +6,10 @@
  */
 
 #include "utf8.h"
+#include <cassert>
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include "cutf8.h"
 
 namespace fcitx::utf8 {
@@ -23,6 +25,35 @@ std::string UCS4ToUTF8(uint32_t code) {
     char buf[FCITX_UTF8_MAX_LENGTH + 1];
     auto length = fcitx_ucs4_to_utf8(code, buf);
     return {buf, buf + length};
+}
+
+void replaceInvalidInplace(std::string &str, char replacement) {
+    auto iter = str.begin();
+    auto end = str.end();
+    while (iter != end) {
+        uint32_t chr;
+        auto next = getNextChar(iter, end, &chr);
+        if (isValidChar(chr)) {
+            assert(next != iter);
+            iter = next;
+        } else if (chr == INVALID_CHAR) {
+            *iter = replacement;
+            ++iter;
+        } else if (chr == NOT_ENOUGH_SPACE) {
+            *iter = replacement;
+            ++iter;
+            while (iter != end && isContinuationByte(*iter)) {
+                *iter = replacement;
+                ++iter;
+            }
+        }
+    }
+}
+
+std::string replaceInvalid(std::string_view str, char replacement) {
+    std::string result(str);
+    replaceInvalidInplace(result, replacement);
+    return result;
 }
 
 #ifdef _WIN32

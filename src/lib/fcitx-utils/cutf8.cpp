@@ -11,9 +11,8 @@
 #include "utf8.h"
 
 /** check utf8 character */
-#define FCITX_ISUTF8_CB(c) (((c) & 0xc0) == 0x80)
 
-#define CONT(i) FCITX_ISUTF8_CB(in[i])
+#define CONT(i) fcitx::utf8::isContinuationByte(in[i])
 #define VAL(i, s) ((in[i] & 0x3f) << s)
 
 #define UTF8_LENGTH(Char)                                                      \
