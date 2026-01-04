@@ -7,9 +7,9 @@
 
 #include "text.h"
 #include <iterator>
-#include <stdexcept>
 #include <tuple>
 #include <vector>
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 
@@ -51,7 +51,9 @@ void Text::setCursor(int pos) {
 void Text::append(std::string str, TextFormatFlags flag) {
     FCITX_D();
     if (!utf8::validate(str)) {
-        throw std::invalid_argument("Invalid utf8 string");
+        FCITX_ERROR() << "Invalid utf8 string: " << str;
+        d->texts_.emplace_back(utf8::sanitize(std::move(str)), flag);
+        return;
     }
     d->texts_.emplace_back(std::move(str), flag);
 }
