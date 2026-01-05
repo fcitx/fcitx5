@@ -214,11 +214,15 @@ bool XCBModule::exists(const std::string &name) {
 }
 
 bool XCBModule::isClientDisconnectModeTerminate() const {
+#ifdef XCB_XFIXES_SET_CLIENT_DISCONNECT_MODE
     return *config_.clientDisconnectModeTerminate ==
                ClientDisconnectModeTerminate::Yes ||
            (*config_.clientDisconnectModeTerminate ==
                 ClientDisconnectModeTerminate::Auto &&
             getDesktopType() == DesktopType::GNOME && !isInFlatpak());
+#else
+    return false;
+#endif
 }
 
 class XCBModuleFactory : public AddonFactory {
