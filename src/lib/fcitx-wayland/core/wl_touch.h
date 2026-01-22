@@ -14,7 +14,7 @@ public:
     static constexpr const char *interface = "wl_touch";
     static constexpr const wl_interface *const wlInterface =
         &wl_touch_interface;
-    static constexpr const uint32_t version = 9;
+    static constexpr const uint32_t version = 10;
     using wlType = wl_touch;
     operator wl_touch *() { return data_.get(); }
     WlTouch(wlType *data);

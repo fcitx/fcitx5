@@ -32,10 +32,12 @@ WlSeat::WlSeat(wl_seat *data)
 
 void WlSeat::destructor(wl_seat *data) {
     const auto version = wl_seat_get_version(data);
+#if defined(WL_SEAT_RELEASE_SINCE_VERSION)
     if (version >= 5) {
         wl_seat_release(data);
         return;
     }
+#endif
     wl_seat_destroy(data);
 }
 WlPointer *WlSeat::getPointer() {

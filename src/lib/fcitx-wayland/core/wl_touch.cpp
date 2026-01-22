@@ -79,10 +79,12 @@ WlTouch::WlTouch(wl_touch *data)
 
 void WlTouch::destructor(wl_touch *data) {
     const auto version = wl_touch_get_version(data);
+#if defined(WL_TOUCH_RELEASE_SINCE_VERSION)
     if (version >= 3) {
         wl_touch_release(data);
         return;
     }
+#endif
     wl_touch_destroy(data);
 }
 

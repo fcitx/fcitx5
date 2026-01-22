@@ -10,10 +10,12 @@ WlShmPool::WlShmPool(wl_shm_pool *data)
 
 void WlShmPool::destructor(wl_shm_pool *data) {
     const auto version = wl_shm_pool_get_version(data);
+#if defined(WL_SHM_POOL_DESTROY_SINCE_VERSION)
     if (version >= 1) {
         wl_shm_pool_destroy(data);
         return;
     }
+#endif
 }
 WlBuffer *WlShmPool::createBuffer(int32_t offset, int32_t width, int32_t height,
                                   int32_t stride, uint32_t format) {

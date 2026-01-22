@@ -14,7 +14,7 @@ public:
     static constexpr const char *interface = "wl_keyboard";
     static constexpr const wl_interface *const wlInterface =
         &wl_keyboard_interface;
-    static constexpr const uint32_t version = 9;
+    static constexpr const uint32_t version = 10;
     using wlType = wl_keyboard;
     operator wl_keyboard *() { return data_.get(); }
     WlKeyboard(wlType *data);

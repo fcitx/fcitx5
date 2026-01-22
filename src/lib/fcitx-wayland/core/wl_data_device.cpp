@@ -78,10 +78,12 @@ WlDataDevice::WlDataDevice(wl_data_device *data)
 
 void WlDataDevice::destructor(wl_data_device *data) {
     const auto version = wl_data_device_get_version(data);
+#if defined(WL_DATA_DEVICE_RELEASE_SINCE_VERSION)
     if (version >= 2) {
         wl_data_device_release(data);
         return;
     }
+#endif
     wl_data_device_destroy(data);
 }
 void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin,
