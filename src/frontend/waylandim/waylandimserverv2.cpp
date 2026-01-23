@@ -272,6 +272,11 @@ void WaylandIMInputContextV2::repeat() {
     if (!realFocus()) {
         return;
     }
+    auto rate = repeatRate();
+    // validate to avoid divide by zero.
+    if (rate <= 0) {
+        return;
+    }
     auto *ic = delegatedInputContext();
     KeyEvent event(
         ic,
@@ -281,7 +286,7 @@ void WaylandIMInputContextV2::repeat() {
     if (!ic->keyEvent(event)) {
         sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_PRESSED);
     }
-    uint64_t interval = 1000000 / repeatRate();
+    uint64_t interval = 1000000 / rate;
     timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
 }
@@ -481,10 +486,22 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
     uint32_t code = key + 8;
 
     auto *ic = delegatedInputContext();
+
+    bool isRepeat = false;
+#ifdef WL_KEYBOARD_KEY_STATE_REPEATED_SINCE_VERSION
+    isRepeat = state == WL_KEYBOARD_KEY_STATE_REPEATED;
+#endif
+    KeyStates modifiers = server_->modifiers_;
+    if (isRepeat) {
+        modifiers |= KeyState::Repeat;
+        // If server side repetition is ever detected, disable our own
+        // repetition.
+        repeatInfo_ = std::make_tuple(0, 0);
+    }
     KeyEvent event(ic,
                    Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                            server_->state_.get(), code)),
-                       server_->modifiers_, code),
+                       modifiers, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
