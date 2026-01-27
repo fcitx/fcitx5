@@ -1025,7 +1025,8 @@ Instance::Instance(int argc, char **argv) {
                             utf32 == '\x7f') {
                             return;
                         }
-                        if (keyEvent.key().states().test(KeyState::Ctrl) ||
+                        if (keyEvent.key().states().testAny(
+                                KeyStates{KeyState::Ctrl, KeyState::Alt}) ||
                             keyEvent.rawKey().sym() ==
                                 keyEvent.origKey().sym()) {
                             return;
@@ -1033,7 +1034,8 @@ Instance::Instance(int argc, char **argv) {
                         FCITX_KEYTRACE() << "Will commit char: " << utf32;
                         ic->commitString(utf8::UCS4ToUTF8(utf32));
                         keyEvent.filterAndAccept();
-                    } else if (!keyEvent.key().states().test(KeyState::Ctrl) &&
+                    } else if (!keyEvent.key().states().testAny(
+                                   KeyStates{KeyState::Ctrl, KeyState::Alt}) &&
                                keyEvent.rawKey().sym() !=
                                    keyEvent.origKey().sym() &&
                                Key::keySymToUnicode(keyEvent.origKey().sym()) !=
