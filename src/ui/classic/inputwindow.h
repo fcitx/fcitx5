@@ -18,6 +18,9 @@
 #include <pango/pango-layout.h>
 #include <pango/pango-types.h>
 #include <pango/pango.h>
+#include <yoga/YGConfig.h>
+#include <yoga/YGNode.h>
+#include <yoga/Yoga.h>
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
@@ -65,6 +68,7 @@ public:
 class InputWindow {
 public:
     InputWindow(ClassicUI *parent);
+    ~InputWindow() = default;
     std::pair<int, int> update(InputContext *inputContext);
     void paint(cairo_t *cr, unsigned int width, unsigned int height,
                double scale);
@@ -91,6 +95,8 @@ protected:
     void setTextToMultilineLayout(InputContext *inputContext,
                                   MultilineLayout &layout, const Text &text);
     int highlight() const;
+    void updateYogaLayout();
+    void renderYogaNode(cairo_t *cr, YGNodeRef node);
 
     ClassicUI *parent_;
     GObjectUniquePtr<PangoFontMap> fontMap_;
@@ -113,11 +119,33 @@ protected:
     bool nextHovered_ = false;
     int candidateIndex_ = -1;
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
-    size_t candidatesHeight_ = 0;
     int hoverIndex_ = -1;
 
 private:
     std::pair<unsigned int, unsigned int> sizeHint();
+
+    using YGNodePtr = fcitx::UniqueCPtr<YGNode, YGNodeFree>;
+    YGNodePtr rootNode_;
+    YGNodePtr mainNode_;
+    YGNodePtr upperNode_;
+    YGNodePtr upperTextNode_;
+    YGNodePtr lowerNode_;
+    YGNodePtr auxDownNode_;
+    YGNodePtr auxDownTextNode_;
+    YGNodePtr candidatesNode_;
+    std::vector<std::pair<YGNodePtr, YGNodePtr>> candidateNodes_;
+    YGNodePtr buttonNode_;
+
+    template <auto Getter>
+    float absolute(const YGNodePtr &node) const {
+        float offset = 0.0F;
+        YGNodeRef current = node.get();
+        while (current != nullptr) {
+            offset += Getter(current);
+            current = YGNodeGetParent(current);
+        }
+        return offset;
+    }
 };
 
 } // namespace fcitx::classicui
