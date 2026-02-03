@@ -330,8 +330,7 @@ Clipboard::Clipboard(Instance *instance)
                 state->reset(inputContext);
                 return;
             }
-            if (keyEvent.key().check(FcitxKey_Delete) ||
-                keyEvent.key().check(FcitxKey_BackSpace)) {
+            if (keyEvent.key().check(FcitxKey_Delete)) {
                 keyEvent.accept();
                 history_.clear();
                 primary_.clear();
@@ -394,7 +393,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
 
-    Text auxUp(_("Clipboard (Press BackSpace/Delete to clear history):"));
+    Text auxUp(_("Clipboard (Press Delete to clear history):"));
     if (!candidateList->totalSize()) {
         Text auxDown(_("No clipboard history."));
         inputContext->inputPanel().setAuxDown(auxDown);
