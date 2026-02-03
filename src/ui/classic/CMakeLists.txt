@@ -44,6 +44,7 @@ target_link_libraries(classicui
     PkgConfig::Cairo PkgConfig::Pango
     PkgConfig::GdkPixbuf PkgConfig::GioUnix
     Fcitx5::Module::NotificationItem
+    ${YOGA_TARGET}
     ${CLASSICUI_LIBS}
    )
 

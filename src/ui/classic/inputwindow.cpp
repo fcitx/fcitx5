@@ -25,7 +25,12 @@
 #include <pango/pango-matrix.h>
 #include <pango/pango-types.h>
 #include <pango/pangocairo.h>
+#include <yoga/YGEnums.h>
+#include <yoga/YGNode.h>
+#include <yoga/YGNodeLayout.h>
+#include <yoga/YGNodeStyle.h>
 #include "fcitx-utils/color.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/textformatflags.h"
 #include "fcitx/candidatelist.h"
@@ -41,13 +46,15 @@
 
 namespace fcitx::classicui {
 
+namespace {
+
 auto newPangoLayout(PangoContext *context) {
     GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context));
     pango_layout_set_single_paragraph_mode(ptr.get(), false);
     return ptr;
 }
 
-static void prepareLayout(cairo_t *cr, PangoLayout *layout) {
+void prepareLayout(cairo_t *cr, PangoLayout *layout) {
     const PangoMatrix *matrix;
 
     matrix = pango_context_get_matrix(pango_layout_get_context(layout));
@@ -62,7 +69,7 @@ static void prepareLayout(cairo_t *cr, PangoLayout *layout) {
     }
 }
 
-static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
+void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
     auto *context = pango_layout_get_context(layout);
     auto *metrics = pango_context_get_metrics(
         context, pango_context_get_font_description(context),
@@ -96,6 +103,8 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
 
     cairo_restore(cr);
 }
+
+} // namespace
 
 int MultilineLayout::width() const {
     int width = 0;
@@ -131,6 +140,34 @@ InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
     context_.reset(pango_font_map_create_context(fontMap_.get()));
     upperLayout_ = newPangoLayout(context_.get());
     lowerLayout_ = newPangoLayout(context_.get());
+
+    rootNode_.reset(YGNodeNew());
+    mainNode_.reset(YGNodeNew());
+
+    upperNode_.reset(YGNodeNew());
+    upperTextNode_.reset(YGNodeNew());
+
+    lowerNode_.reset(YGNodeNew());
+    auxDownNode_.reset(YGNodeNew());
+    auxDownTextNode_.reset(YGNodeNew());
+    candidatesNode_.reset(YGNodeNew());
+
+    buttonNode_.reset(YGNodeNew());
+
+    YGNodeInsertChild(rootNode_.get(), mainNode_.get(), 0);
+    YGNodeInsertChild(rootNode_.get(), buttonNode_.get(), 1);
+    YGNodeStyleSetFlexDirection(rootNode_.get(), YGFlexDirectionRow);
+
+    YGNodeInsertChild(mainNode_.get(), upperNode_.get(), 0);
+    YGNodeInsertChild(mainNode_.get(), lowerNode_.get(), 1);
+    YGNodeStyleSetFlexDirection(mainNode_.get(), YGFlexDirectionColumn);
+
+    YGNodeInsertChild(upperNode_.get(), upperTextNode_.get(), 0);
+
+    YGNodeInsertChild(lowerNode_.get(), auxDownNode_.get(), 0);
+    YGNodeInsertChild(auxDownNode_.get(), auxDownTextNode_.get(), 0);
+
+    YGNodeInsertChild(lowerNode_.get(), candidatesNode_.get(), 1);
 }
 
 void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
@@ -398,7 +435,6 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
 }
 
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
-    auto &theme = parent_->theme();
     auto *fontDesc =
         pango_font_description_from_string(parent_->config().font->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
@@ -409,87 +445,16 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
         labelLayouts_[i].contextChanged();
         candidateLayouts_[i].contextChanged();
     }
-    auto *metrics = pango_context_get_metrics(
-        context_.get(), pango_context_get_font_description(context_.get()),
-        pango_context_get_language(context_.get()));
-    auto fontHeight = pango_font_metrics_get_ascent(metrics) +
-                      pango_font_metrics_get_descent(metrics);
-    pango_font_metrics_unref(metrics);
-    fontHeight = PANGO_PIXELS(fontHeight);
 
-    size_t width = 0;
-    size_t height = 0;
-    auto updateIfLarger = [](size_t &m, size_t n) {
-        if (n > m) {
-            m = n;
-        }
-    };
-    int w;
-    int h;
+    // Update yoga layout to calculate dimensions
+    updateYogaLayout();
 
-    const auto &textMargin = *theme.inputPanel->textMargin;
-    auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
-    auto extraH = *textMargin.marginTop + *textMargin.marginBottom;
-    if (pango_layout_get_character_count(upperLayout_.get())) {
-        pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
-        height += fontHeight + extraH;
-        updateIfLarger(width, w + extraW);
-    }
-    if (pango_layout_get_character_count(lowerLayout_.get())) {
-        pango_layout_get_pixel_size(lowerLayout_.get(), &w, &h);
-        height += fontHeight + extraH;
-        updateIfLarger(width, w + extraW);
-    }
+    // Get dimensions from yoga layout
+    float yogaWidth = YGNodeLayoutGetWidth(rootNode_.get());
+    float yogaHeight = YGNodeLayoutGetHeight(rootNode_.get());
 
-    bool vertical = parent_->config().verticalCandidateList.value();
-    if (layoutHint_ == CandidateLayoutHint::Vertical) {
-        vertical = true;
-    } else if (layoutHint_ == CandidateLayoutHint::Horizontal) {
-        vertical = false;
-    }
-
-    size_t wholeH = 0;
-    size_t wholeW = 0;
-    for (size_t i = 0; i < nCandidates_; i++) {
-        size_t candidateW = 0;
-        size_t candidateH = 0;
-        if (labelLayouts_[i].characterCount()) {
-            candidateW += labelLayouts_[i].width();
-            updateIfLarger(candidateH,
-                           std::max(1, labelLayouts_[i].size()) * fontHeight +
-                               extraH);
-        }
-        if (candidateLayouts_[i].characterCount()) {
-            candidateW += candidateLayouts_[i].width();
-            updateIfLarger(
-                candidateH,
-                std::max(1, candidateLayouts_[i].size()) * fontHeight + extraH);
-        }
-        candidateW += extraW;
-
-        if (vertical) {
-            wholeH += candidateH;
-            updateIfLarger(wholeW, candidateW);
-        } else {
-            wholeW += candidateW;
-            updateIfLarger(wholeH, candidateH);
-        }
-    }
-    updateIfLarger(width, wholeW);
-    candidatesHeight_ = wholeH;
-    height += wholeH;
-    const auto &margin = *theme.inputPanel->contentMargin;
-    width += *margin.marginLeft + *margin.marginRight;
-    height += *margin.marginTop + *margin.marginBottom;
-
-    if (nCandidates_ && (hasPrev_ || hasNext_)) {
-        const auto &prev = theme.loadAction(*theme.inputPanel->prev);
-        const auto &next = theme.loadAction(*theme.inputPanel->next);
-        if (prev.valid() && next.valid()) {
-            width += prev.width() + next.width();
-        }
-    }
-
+    auto width = static_cast<unsigned int>(yogaWidth);
+    auto height = static_cast<unsigned int>(yogaHeight);
     return {width, height};
 }
 
@@ -505,8 +470,6 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
     cairo_save(cr);
 
-    // Move position to the right place.
-    cairo_translate(cr, *margin.marginLeft, *margin.marginTop);
     cairoSetSourceColor(cr, theme.inputPanelText());
     // CLASSICUI_DEBUG() << theme.inputPanel->normalColor->toString();
     auto *metrics = pango_context_get_metrics(
@@ -517,15 +480,13 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
     pango_font_metrics_unref(metrics);
     fontHeight = PANGO_PIXELS(fontHeight);
 
-    size_t currentHeight = 0;
-    int w;
-    int h;
-    auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
-    auto extraH = *textMargin.marginTop + *textMargin.marginBottom;
+    // Use yoga-based positioning for upper layout
     if (pango_layout_get_character_count(upperLayout_.get())) {
-        renderLayout(cr, upperLayout_.get(), *textMargin.marginLeft,
-                     *textMargin.marginTop);
-        pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
+        float upperLeft = absolute<YGNodeLayoutGetLeft>(upperTextNode_);
+        float upperTop = absolute<YGNodeLayoutGetTop>(upperTextNode_);
+
+        renderLayout(cr, upperLayout_.get(), upperLeft, upperTop);
+
         PangoRectangle pos;
         if (cursor_ >= 0) {
             pango_layout_get_cursor_pos(upperLayout_.get(), cursor_, &pos,
@@ -534,112 +495,91 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
             cairo_save(cr);
             cairo_set_line_width(cr, 2);
             auto offsetX = pango_units_to_double(pos.x);
-            cairo_move_to(cr, *textMargin.marginLeft + offsetX + 1,
-                          *textMargin.marginTop);
-            cairo_line_to(cr, *textMargin.marginLeft + offsetX + 1,
-                          *textMargin.marginTop + fontHeight);
+            cairo_move_to(cr, upperLeft + offsetX + 1, upperTop);
+            cairo_line_to(cr, upperLeft + offsetX + 1, upperTop + fontHeight);
             cairo_stroke(cr);
             cairo_restore(cr);
         }
-        currentHeight += fontHeight + extraH;
-    }
-    if (pango_layout_get_character_count(lowerLayout_.get())) {
-        renderLayout(cr, lowerLayout_.get(), *textMargin.marginLeft,
-                     *textMargin.marginTop + currentHeight);
-        pango_layout_get_pixel_size(lowerLayout_.get(), &w, nullptr);
-        currentHeight += fontHeight + extraH;
     }
 
-    bool vertical = parent_->config().verticalCandidateList.value();
-    if (layoutHint_ == CandidateLayoutHint::Vertical) {
-        vertical = true;
-    } else if (layoutHint_ == CandidateLayoutHint::Horizontal) {
-        vertical = false;
+    // Use yoga-based positioning for lower layout
+    if (pango_layout_get_character_count(lowerLayout_.get())) {
+        float lowerLeft = absolute<YGNodeLayoutGetLeft>(auxDownNode_);
+        float lowerTop = absolute<YGNodeLayoutGetTop>(auxDownNode_);
+
+        renderLayout(cr, lowerLayout_.get(), lowerLeft, lowerTop);
     }
 
     candidateRegions_.clear();
     candidateRegions_.reserve(nCandidates_);
-    size_t wholeW = 0;
-    size_t wholeH = 0;
 
-    // size of text = textMargin + actual text size.
-    // HighLight = HighLight margin + TEXT.
-    // Click region = HighLight - click
-
+    // Use yoga-based positioning for candidates
     for (size_t i = 0; i < nCandidates_; i++) {
-        int x;
-        int y;
-        if (vertical) {
-            x = 0;
-            y = currentHeight + wholeH;
-        } else {
-            x = wholeW;
-            y = currentHeight;
-        }
-        x += *textMargin.marginLeft;
-        y += *textMargin.marginTop;
+        auto &[candidateNode, candidateTextNode] = candidateNodes_[i];
+        float candidateLeft = absolute<YGNodeLayoutGetLeft>(candidateTextNode);
+        float candidateTop = absolute<YGNodeLayoutGetTop>(candidateTextNode);
+        float candidateWidth = YGNodeLayoutGetWidth(candidateTextNode.get());
+        float candidateHeight = YGNodeLayoutGetHeight(candidateTextNode.get());
+
         int labelW = 0;
-        int labelH = 0;
-        int candidateW = 0;
-        int candidateH = 0;
         if (labelLayouts_[i].characterCount()) {
             labelW = labelLayouts_[i].width();
-            labelH = fontHeight * labelLayouts_[i].size();
         }
-        if (candidateLayouts_[i].characterCount()) {
-            candidateW = candidateLayouts_[i].width();
-            candidateH = fontHeight * candidateLayouts_[i].size();
-        }
-        int vheight;
-        if (vertical) {
-            vheight = std::max({fontHeight, labelH, candidateH});
-            wholeH += vheight + extraH;
-        } else {
-            vheight = candidatesHeight_ - extraH;
-            wholeW += candidateW + labelW + extraW;
-        }
+
         const auto &highlightMargin = *theme.inputPanel->highlight->margin;
         const auto &clickMargin = *theme.inputPanel->highlight->clickMargin;
-        auto highlightWidth = labelW + candidateW;
+        auto highlightWidth = candidateWidth;
+
+        bool vertical = parent_->config().verticalCandidateList.value();
+        if (layoutHint_ == CandidateLayoutHint::Vertical) {
+            vertical = true;
+        } else if (layoutHint_ == CandidateLayoutHint::Horizontal) {
+            vertical = false;
+        }
+
         if (*theme.inputPanel->fullWidthHighlight && vertical) {
             // Last candidate, fill.
             highlightWidth = width - *margin.marginLeft - *margin.marginRight -
                              *textMargin.marginRight - *textMargin.marginLeft;
         }
+
         const int highlightIndex = highlight();
         bool highlight = false;
         if (highlightIndex >= 0 && i == static_cast<size_t>(highlightIndex)) {
             cairo_save(cr);
-            cairo_translate(cr, x - *highlightMargin.marginLeft,
-                            y - *highlightMargin.marginTop);
+            cairo_translate(cr, candidateLeft - *highlightMargin.marginLeft,
+                            candidateTop - *highlightMargin.marginTop);
             theme.paint(cr, *theme.inputPanel->highlight,
                         highlightWidth + *highlightMargin.marginLeft +
                             *highlightMargin.marginRight,
-                        vheight + *highlightMargin.marginTop +
+                        candidateHeight + *highlightMargin.marginTop +
                             *highlightMargin.marginBottom,
                         /*alpha=*/1.0, scale);
             cairo_restore(cr);
             highlight = true;
         }
+
         Rect candidateRegion;
         candidateRegion
-            .setPosition(*margin.marginLeft + x - *highlightMargin.marginLeft +
+            .setPosition(candidateLeft - *highlightMargin.marginLeft +
                              *clickMargin.marginLeft,
-                         *margin.marginTop + y - *highlightMargin.marginTop +
+                         candidateTop - *highlightMargin.marginTop +
                              *clickMargin.marginTop)
             .setSize(highlightWidth + *highlightMargin.marginLeft +
                          *highlightMargin.marginRight -
                          *clickMargin.marginLeft - *clickMargin.marginRight,
-                     vheight + *highlightMargin.marginTop +
+                     candidateHeight + *highlightMargin.marginTop +
                          *highlightMargin.marginBottom -
                          *clickMargin.marginTop - *clickMargin.marginBottom);
         candidateRegions_.push_back(candidateRegion);
+
         if (labelLayouts_[i].characterCount()) {
-            labelLayouts_[i].render(cr, x, y, fontHeight, highlight);
+            labelLayouts_[i].render(cr, candidateLeft, candidateTop, fontHeight,
+                                    highlight);
         }
         if (candidateLayouts_[i].characterCount()) {
-            candidateLayouts_[i].render(cr, x + labelW, y, fontHeight,
-                                        highlight);
+            candidateLayouts_[i].render(cr, candidateLeft + labelW,
+                                        candidateTop, fontHeight, highlight);
         }
     }
     cairo_restore(cr);
@@ -655,47 +595,50 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
             int nextY = 0;
             switch (*theme.inputPanel->buttonAlignment) {
             case PageButtonAlignment::Top:
-                prevY = *margin.marginTop;
-                nextY = *margin.marginTop;
+                prevY = nextY = absolute<YGNodeLayoutGetTop>(buttonNode_);
                 break;
             case PageButtonAlignment::FirstCandidate:
-                prevY =
-                    candidateRegions_.front().top() +
-                    (candidateRegions_.front().height() - prev.height()) / 2.0;
-                ;
-                nextY =
-                    candidateRegions_.front().top() +
-                    (candidateRegions_.front().height() - prev.height()) / 2.0;
-                ;
+                prevY = candidateRegions_.front().top() +
+                        ((candidateRegions_.front().height() - prev.height()) /
+                         2.0);
+                nextY = candidateRegions_.front().top() +
+                        ((candidateRegions_.front().height() - next.height()) /
+                         2.0);
                 break;
             case PageButtonAlignment::Center:
-                prevY =
-                    *margin.marginTop + (height - *margin.marginTop -
-                                         *margin.marginBottom - prev.height()) /
-                                            2.0;
-                nextY =
-                    *margin.marginTop + (height - *margin.marginTop -
-                                         *margin.marginBottom - next.height()) /
-                                            2.0;
+                prevY = absolute<YGNodeLayoutGetTop>(buttonNode_) +
+                        ((YGNodeLayoutGetHeight(buttonNode_.get()) -
+                          prev.height()) /
+                         2.0);
+                nextY = absolute<YGNodeLayoutGetTop>(buttonNode_) +
+                        ((YGNodeLayoutGetHeight(buttonNode_.get()) -
+                          next.height()) /
+                         2.0);
                 break;
             case PageButtonAlignment::LastCandidate:
                 prevY =
                     candidateRegions_.back().top() +
-                    (candidateRegions_.back().height() - prev.height()) / 2.0;
+                    ((candidateRegions_.back().height() - prev.height()) / 2.0);
                 nextY =
                     candidateRegions_.back().top() +
-                    (candidateRegions_.back().height() - next.height()) / 2.0;
+                    ((candidateRegions_.back().height() - next.height()) / 2.0);
                 break;
             case PageButtonAlignment::Bottom:
             default:
-                prevY = height - *margin.marginBottom - prev.height();
-                nextY = height - *margin.marginBottom - next.height();
+                prevY = absolute<YGNodeLayoutGetTop>(buttonNode_) +
+                        YGNodeLayoutGetHeight(buttonNode_.get()) -
+                        prev.height();
+                nextY = absolute<YGNodeLayoutGetTop>(buttonNode_) +
+                        YGNodeLayoutGetHeight(buttonNode_.get()) -
+                        next.height();
                 break;
             }
-            nextRegion_.setPosition(width - *margin.marginRight - next.width(),
+            nextRegion_.setPosition(absolute<YGNodeLayoutGetLeft>(buttonNode_) +
+                                        prev.width(),
                                     nextY);
             nextRegion_.setSize(next.width(), next.height());
             cairo_translate(cr, nextRegion_.left(), nextRegion_.top());
+
             shrink(nextRegion_, *theme.inputPanel->next->clickMargin);
             double alpha = 1.0;
             if (!hasNext_) {
@@ -706,8 +649,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
             theme.paint(cr, *theme.inputPanel->next, alpha);
             cairo_restore(cr);
             cairo_save(cr);
-            prevRegion_.setPosition(width - *margin.marginRight - next.width() -
-                                        prev.width(),
+            prevRegion_.setPosition(absolute<YGNodeLayoutGetLeft>(buttonNode_),
                                     prevY);
             prevRegion_.setSize(prev.width(), prev.height());
             cairo_translate(cr, prevRegion_.left(), prevRegion_.top());
@@ -721,6 +663,10 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
             theme.paint(cr, *theme.inputPanel->prev, alpha);
             cairo_restore(cr);
         }
+    }
+
+    if (classicui_logcategory().checkLogLevel(Debug)) {
+        renderYogaNode(cr, rootNode_.get());
     }
 }
 
@@ -835,6 +781,204 @@ bool InputWindow::hover(int x, int y) {
 
     needRepaint = needRepaint || oldHighlight != highlight();
     return needRepaint;
+}
+
+void InputWindow::updateYogaLayout() {
+    auto &theme = parent_->theme();
+    const auto &margin = *theme.inputPanel->contentMargin;
+    const auto &textMargin = *theme.inputPanel->textMargin;
+
+    // Get font metrics for calculations
+    auto *metrics = pango_context_get_metrics(
+        context_.get(), pango_context_get_font_description(context_.get()),
+        pango_context_get_language(context_.get()));
+    auto fontHeight = pango_font_metrics_get_ascent(metrics) +
+                      pango_font_metrics_get_descent(metrics);
+    pango_font_metrics_unref(metrics);
+    fontHeight = PANGO_PIXELS(fontHeight);
+
+    // Clean up candidate nodes
+    YGNodeRemoveAllChildren(candidatesNode_.get());
+    for (auto &node : candidateNodes_) {
+        YGNodeRemoveAllChildren(node.first.get());
+    }
+    // Ensure candidate nodes vector has enough elements
+    while (candidateNodes_.size() < nCandidates_) {
+        candidateNodes_.emplace_back(YGNodeNew(), YGNodeNew());
+    }
+    while (candidateNodes_.size() > nCandidates_) {
+        candidateNodes_.pop_back();
+    }
+
+    // Configure root node
+    YGNodeStyleSetPadding(rootNode_.get(), YGEdgeLeft, *margin.marginLeft);
+    YGNodeStyleSetPadding(rootNode_.get(), YGEdgeRight, *margin.marginRight);
+    YGNodeStyleSetPadding(rootNode_.get(), YGEdgeTop, *margin.marginTop);
+    YGNodeStyleSetPadding(rootNode_.get(), YGEdgeBottom, *margin.marginBottom);
+
+    // Configure and add upper node if it has content
+    bool hasUpperContent =
+        pango_layout_get_character_count(upperLayout_.get()) > 0;
+    YGNodeStyleSetDisplay(upperNode_.get(),
+                          hasUpperContent ? YGDisplayFlex : YGDisplayNone);
+    if (hasUpperContent) {
+        YGNodeStyleSetFlexDirection(upperNode_.get(), YGFlexDirectionColumn);
+        YGNodeStyleSetPadding(upperNode_.get(), YGEdgeLeft,
+                              *textMargin.marginLeft);
+        YGNodeStyleSetPadding(upperNode_.get(), YGEdgeRight,
+                              *textMargin.marginRight);
+        YGNodeStyleSetPadding(upperNode_.get(), YGEdgeTop,
+                              *textMargin.marginTop);
+        YGNodeStyleSetPadding(upperNode_.get(), YGEdgeBottom,
+                              *textMargin.marginBottom);
+
+        int w, h;
+        pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
+        YGNodeStyleSetWidth(upperTextNode_.get(), w);
+        YGNodeStyleSetHeight(upperTextNode_.get(), fontHeight);
+    }
+
+    // Configure and add lower node if it has content
+    bool hasAuxDown = pango_layout_get_character_count(lowerLayout_.get()) > 0;
+    bool hasLowerContent = hasAuxDown || nCandidates_ > 0;
+    YGNodeStyleSetDisplay(lowerNode_.get(),
+                          hasLowerContent ? YGDisplayFlex : YGDisplayNone);
+    YGNodeStyleSetDisplay(auxDownNode_.get(),
+                          hasAuxDown ? YGDisplayFlex : YGDisplayNone);
+    if (hasAuxDown) {
+        YGNodeStyleSetPadding(auxDownNode_.get(), YGEdgeLeft,
+                              *textMargin.marginLeft);
+        YGNodeStyleSetPadding(auxDownNode_.get(), YGEdgeRight,
+                              *textMargin.marginRight);
+        YGNodeStyleSetPadding(auxDownNode_.get(), YGEdgeTop,
+                              *textMargin.marginTop);
+        YGNodeStyleSetPadding(auxDownNode_.get(), YGEdgeBottom,
+                              *textMargin.marginBottom);
+
+        int w, h;
+        pango_layout_get_pixel_size(lowerLayout_.get(), &w, &h);
+        YGNodeStyleSetWidth(auxDownTextNode_.get(), w);
+        YGNodeStyleSetHeight(auxDownTextNode_.get(), fontHeight);
+    }
+
+    // Add candidates node if there are candidates
+    if (nCandidates_ > 0) {
+        // Configure candidates node based on layout hint
+        bool vertical = parent_->config().verticalCandidateList.value();
+        if (layoutHint_ == CandidateLayoutHint::Vertical) {
+            vertical = true;
+        } else if (layoutHint_ == CandidateLayoutHint::Horizontal) {
+            vertical = false;
+        }
+
+        YGNodeStyleSetFlexDirection(lowerNode_.get(),
+                                    vertical ? YGFlexDirectionColumn
+                                             : YGFlexDirectionRow);
+        YGNodeStyleSetFlexDirection(candidatesNode_.get(),
+                                    vertical ? YGFlexDirectionColumn
+                                             : YGFlexDirectionRow);
+
+        // Configure individual candidate nodes
+        for (size_t i = 0; i < nCandidates_; i++) {
+            int labelW = 0;
+            int candidateW = 0;
+            if (labelLayouts_[i].characterCount()) {
+                labelW = labelLayouts_[i].width();
+            }
+            if (candidateLayouts_[i].characterCount()) {
+                candidateW = candidateLayouts_[i].width();
+            }
+            int totalWidth = labelW + candidateW;
+            int itemHeight =
+                std::max({fontHeight, fontHeight * labelLayouts_[i].size(),
+                          fontHeight * candidateLayouts_[i].size()});
+
+            auto &[candidateNode, candidateTextNode] = candidateNodes_[i];
+
+            YGNodeStyleSetFlexDirection(candidateNode.get(),
+                                        YGFlexDirectionRow);
+            YGNodeStyleSetWidth(candidateTextNode.get(), totalWidth);
+            YGNodeStyleSetHeight(candidateTextNode.get(), itemHeight);
+            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeLeft,
+                                  *textMargin.marginLeft);
+            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeRight,
+                                  *textMargin.marginRight);
+            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeTop,
+                                  *textMargin.marginTop);
+            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeBottom,
+                                  *textMargin.marginBottom);
+
+            YGNodeInsertChild(candidatesNode_.get(), candidateNode.get(), i);
+            YGNodeInsertChild(candidateNode.get(), candidateTextNode.get(), 0);
+        }
+    }
+    YGNodeStyleSetDisplay(buttonNode_.get(), YGDisplayNone);
+    // Add prev/next button widths if needed
+    if (nCandidates_ && (hasPrev_ || hasNext_)) {
+        const auto &prev = theme.loadAction(*theme.inputPanel->prev);
+        const auto &next = theme.loadAction(*theme.inputPanel->next);
+        if (prev.valid() && next.valid()) {
+
+            YGNodeStyleSetDisplay(buttonNode_.get(), YGDisplayFlex);
+            YGNodeStyleSetWidth(buttonNode_.get(), prev.width() + next.width());
+        }
+    }
+
+    // Calculate layout
+    YGNodeCalculateLayout(rootNode_.get(), YGUndefined, YGUndefined,
+                          YGDirectionLTR);
+}
+
+void InputWindow::renderYogaNode(cairo_t *cr, YGNodeRef node) {
+    if (!node) {
+        return;
+    }
+
+    // Save current cairo state
+    cairo_save(cr);
+
+    // Get node layout info
+    float left = YGNodeLayoutGetLeft(node);
+    float top = YGNodeLayoutGetTop(node);
+    float width = YGNodeLayoutGetWidth(node);
+    float height = YGNodeLayoutGetHeight(node);
+
+    // Convert to integer pixels for better rendering
+    int nodeX = static_cast<int>(left);
+    int nodeY = static_cast<int>(top);
+    int nodeWidth = static_cast<int>(width);
+    int nodeHeight = static_cast<int>(height);
+
+    // Move to node position
+    cairo_translate(cr, nodeX, nodeY);
+
+    // Draw border for debugging with different colors for different node types
+    Color color;
+    if (node == rootNode_.get()) {
+        color = Color(0, 0, 255, 128); // Blue for root
+    } else if (node == upperNode_.get() || node == upperTextNode_.get()) {
+        color = Color(0, 255, 0, 128); // Green for upper
+    } else if (node == lowerNode_.get() || node == auxDownNode_.get()) {
+        color = Color(255, 255, 0, 128); // Yellow for lower
+    } else if (node == candidatesNode_.get()) {
+        color = Color(255, 0, 255, 128); // Magenta for candidates
+    } else {
+        color = Color(255, 0, 0, 76); // Red for individual candidates
+    }
+    cairoSetSourceColor(cr, color);
+
+    cairo_rectangle(cr, 0, 0, nodeWidth, nodeHeight);
+    cairo_stroke(cr);
+
+    // Recursively render children
+    uint32_t childCount = YGNodeGetChildCount(node);
+    for (uint32_t i = 0; i < childCount; i++) {
+        YGNodeRef child = YGNodeGetChild(node, i);
+        renderYogaNode(cr, child);
+    }
+
+    // Restore cairo state
+    cairo_restore(cr);
 }
 
 } // namespace fcitx::classicui
