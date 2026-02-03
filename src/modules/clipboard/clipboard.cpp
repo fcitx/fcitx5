@@ -494,20 +494,20 @@ void Clipboard::refreshPasswordTimer() {
         minTimestamp = std::min(minTimestamp, primary_.passwordTimestamp);
     }
 
-    // Not efficient, but we don't have lots of entries anyway.
-    std::unordered_set<ClipboardEntry> needRemove;
-    for (const auto &entry : history_) {
-        if (shouldClearPassword(entry, *config_.clearPasswordAfter)) {
-            needRemove.insert(entry);
-        } else if (entry.passwordTimestamp) {
-            minTimestamp = std::min(minTimestamp, entry.passwordTimestamp);
+    size_t erasedPasswords = 0;
+    for (auto iter = history_.begin(); iter != history_.end();) {
+        if (shouldClearPassword(*iter, *config_.clearPasswordAfter)) {
+            iter = history_.erase(iter);
+            ++erasedPasswords;
+            continue;
         }
+        if (iter->passwordTimestamp) {
+            minTimestamp = std::min(minTimestamp, iter->passwordTimestamp);
+        }
+        ++iter;
     }
-    FCITX_CLIPBOARD_DEBUG() << "Clear " << needRemove.size()
-                            << " password(s) in clipboard history.";
-    for (const auto &entry : needRemove) {
-        history_.remove(entry);
-    }
+    FCITX_CLIPBOARD_DEBUG()
+        << "Erased " << erasedPasswords << " password(s) in clipboard history.";
 
     if (minTimestamp != std::numeric_limits<uint64_t>::max()) {
         clearPasswordTimer_->setTime(
