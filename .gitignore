@@ -1,6 +1,7 @@
 build*/
 .*
 !.git*
+!.editorconfig
 .git/
 *.tar.*
 *.kdev4
