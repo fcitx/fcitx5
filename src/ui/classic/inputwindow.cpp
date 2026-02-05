@@ -504,8 +504,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
 
     // Use yoga-based positioning for lower layout
     if (pango_layout_get_character_count(lowerLayout_.get())) {
-        float lowerLeft = absolute<YGNodeLayoutGetLeft>(auxDownNode_);
-        float lowerTop = absolute<YGNodeLayoutGetTop>(auxDownNode_);
+        float lowerLeft = absolute<YGNodeLayoutGetLeft>(auxDownTextNode_);
+        float lowerTop = absolute<YGNodeLayoutGetTop>(auxDownTextNode_);
 
         renderLayout(cr, lowerLayout_.get(), lowerLeft, lowerTop);
     }
