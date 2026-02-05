@@ -18,6 +18,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/inputbuffer.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
 #include "fcitx-utils/log.h"
@@ -70,13 +71,16 @@ FCITX_DEFINE_LOG_CATEGORY(clipboard_log, "clipboard");
 
 class ClipboardState : public InputContextProperty {
 public:
-    ClipboardState(Clipboard *q) : q_(q) {}
+    ClipboardState(Clipboard *q) : q_(q) { buffer_.setMaxSize(30); }
 
     bool enabled_ = false;
     Clipboard *q_;
+    InputBuffer buffer_;
 
     void reset(InputContext *ic) {
         enabled_ = false;
+        buffer_.clear();
+        buffer_.shrinkToFit();
         ic->inputPanel().reset();
         ic->updatePreedit();
         ic->updateUserInterface(UserInterfaceComponent::InputPanel);
@@ -256,7 +260,7 @@ Clipboard::Clipboard(Instance *instance)
 
             auto candidateList = inputContext->inputPanel().candidateList();
             if (candidateList) {
-                int idx = keyEvent.key().digitSelection();
+                int idx = keyEvent.key().digitSelection(KeyState::Alt);
                 if (idx >= 0) {
                     keyEvent.accept();
                     if (idx < candidateList->size()) {
@@ -264,8 +268,7 @@ Clipboard::Clipboard(Instance *instance)
                     }
                     return;
                 }
-                if (keyEvent.key().check(FcitxKey_space) ||
-                    keyEvent.key().check(FcitxKey_Return) ||
+                if (keyEvent.key().check(FcitxKey_Return) ||
                     keyEvent.key().check(FcitxKey_KP_Enter)) {
                     keyEvent.accept();
                     if (!candidateList->empty() &&
@@ -330,13 +333,43 @@ Clipboard::Clipboard(Instance *instance)
                 state->reset(inputContext);
                 return;
             }
-            if (keyEvent.key().check(FcitxKey_Delete) ||
-                keyEvent.key().check(FcitxKey_BackSpace)) {
+            if (keyEvent.key().check(FcitxKey_Delete)) {
                 keyEvent.accept();
                 history_.clear();
                 primary_.clear();
                 state->reset(inputContext);
                 return;
+            }
+
+            if (keyEvent.key().check(FcitxKey_BackSpace)) {
+                event.accept();
+                if (state->buffer_.empty()) {
+                    state->reset(inputContext);
+                } else {
+                    if (state->buffer_.backspace()) {
+                        if (state->buffer_.empty()) {
+                            state->reset(inputContext);
+                        } else {
+                            updateUI(inputContext);
+                        }
+                    }
+                }
+                return;
+            }
+
+            // check compose first.
+            auto compose = instance_->processComposeString(
+                inputContext, keyEvent.key().sym());
+
+            // compose is invalid, ignore it.
+            if (!compose) {
+                return;
+            }
+
+            if (!compose->empty()) {
+                state->buffer_.type(*compose);
+            } else {
+                state->buffer_.type(Key::keySymToUnicode(keyEvent.key().sym()));
             }
             event.accept();
 
@@ -364,20 +397,31 @@ void Clipboard::trigger(InputContext *inputContext) {
     updateUI(inputContext);
 }
 void Clipboard::updateUI(InputContext *inputContext) {
+    auto *state = inputContext->propertyFor(&factory_);
     inputContext->inputPanel().reset();
+
+    const auto &search = state->buffer_.userInput();
+
+    Text preedit;
+    preedit.append(search);
+    if (!state->buffer_.empty()) {
+        preedit.setCursor(state->buffer_.cursorByChar());
+    }
+    inputContext->inputPanel().setPreedit(preedit);
 
     auto candidateList = std::make_unique<CommonCandidateList>();
     candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
 
     // Append first item from history_.
     auto iter = history_.begin();
-    if (iter != history_.end()) {
+    if (iter != history_.end() &&
+        iter->text.find(search) != std::string::npos) {
         candidateList->append<ClipboardCandidateWord>(this, iter->text,
                                                       iter->passwordTimestamp);
         iter++;
     }
     // Append primary_, but check duplication first.
-    if (!primary_.empty()) {
+    if (!primary_.empty() && primary_.text.find(search) != std::string::npos) {
         if (!history_.contains(primary_)) {
             candidateList->append<ClipboardCandidateWord>(
                 this, primary_.text, primary_.passwordTimestamp);
@@ -388,13 +432,15 @@ void Clipboard::updateUI(InputContext *inputContext) {
         if (candidateList->totalSize() >= config_.numOfEntries.value()) {
             break;
         }
-        candidateList->append<ClipboardCandidateWord>(this, iter->text,
-                                                      iter->passwordTimestamp);
+        if (iter->text.find(search) != std::string::npos) {
+            candidateList->append<ClipboardCandidateWord>(
+                this, iter->text, iter->passwordTimestamp);
+        }
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
 
-    Text auxUp(_("Clipboard (Press BackSpace/Delete to clear history):"));
+    Text auxUp(_("Clipboard (Press Delete to clear history):"));
     if (!candidateList->totalSize()) {
         Text auxDown(_("No clipboard history."));
         inputContext->inputPanel().setAuxDown(auxDown);
@@ -494,20 +540,20 @@ void Clipboard::refreshPasswordTimer() {
         minTimestamp = std::min(minTimestamp, primary_.passwordTimestamp);
     }
 
-    // Not efficient, but we don't have lots of entries anyway.
-    std::unordered_set<ClipboardEntry> needRemove;
-    for (const auto &entry : history_) {
-        if (shouldClearPassword(entry, *config_.clearPasswordAfter)) {
-            needRemove.insert(entry);
-        } else if (entry.passwordTimestamp) {
-            minTimestamp = std::min(minTimestamp, entry.passwordTimestamp);
+    size_t erasedPasswords = 0;
+    for (auto iter = history_.begin(); iter != history_.end();) {
+        if (shouldClearPassword(*iter, *config_.clearPasswordAfter)) {
+            iter = history_.erase(iter);
+            ++erasedPasswords;
+            continue;
         }
+        if (iter->passwordTimestamp) {
+            minTimestamp = std::min(minTimestamp, iter->passwordTimestamp);
+        }
+        ++iter;
     }
-    FCITX_CLIPBOARD_DEBUG() << "Clear " << needRemove.size()
-                            << " password(s) in clipboard history.";
-    for (const auto &entry : needRemove) {
-        history_.remove(entry);
-    }
+    FCITX_CLIPBOARD_DEBUG()
+        << "Erased " << erasedPasswords << " password(s) in clipboard history.";
 
     if (minTimestamp != std::numeric_limits<uint64_t>::max()) {
         clearPasswordTimer_->setTime(

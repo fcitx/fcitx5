@@ -52,9 +52,8 @@ FCITX_CONFIGURATION(
                                               KeyListConstrain()};
     KeyListOption pastePrimaryKey{
         this, "PastePrimaryKey", _("Paste Primary"), {}, KeyListConstrain()};
-    Option<int, IntConstrain> numOfEntries{this, "Number of entries",
-                                           _("Number of entries"), 5,
-                                           IntConstrain(3, 30)};
+    Option<int, IntConstrain> numOfEntries{
+        this, "Number of entries", _("Number of entries"), 5, IntConstrain(3)};
     ConditionalHidden<isAndroid(),
                       OptionWithAnnotation<bool, ToolTipAnnotation>>
         ignorePasswordFromPasswordManager{
