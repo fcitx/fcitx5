@@ -478,9 +478,7 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
         return;
     }
 
-    if (!realFocus()) {
-        focusInWrapper();
-    }
+    focusInWrapper();
 
     // EVDEV OFFSET
     uint32_t code = key + 8;

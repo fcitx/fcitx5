@@ -497,6 +497,8 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
         repeatInfo_ = std::make_tuple(0, 0);
     }
 
+    focusInWrapper();
+
     auto *ic = delegatedInputContext();
     KeyEvent event(ic,
                    Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
