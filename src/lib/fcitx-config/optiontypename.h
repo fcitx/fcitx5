@@ -7,6 +7,7 @@
 #ifndef _FCITX_CONFIG_TYPENAME_H_
 #define _FCITX_CONFIG_TYPENAME_H_
 
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -48,6 +49,12 @@ template <typename T>
 struct OptionTypeName<T, std::enable_if_t<std::is_enum_v<T>>> {
     static std::string get() { return "Enum"; }
 };
+
+template <typename T>
+struct OptionTypeName<std::optional<T>> {
+    static std::string get() { return "Optional|" + OptionTypeName<T>::get(); }
+};
+
 } // namespace fcitx
 
 #endif // _FCITX_CONFIG_TYPENAME_H_
