@@ -6,6 +6,7 @@
  */
 
 #include "testconfig.h"
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -210,6 +211,30 @@ void testCopyConfiguration() {
     FCITX_ASSERT(*copy.intValue == 7);
 }
 
+void testOptional() {
+    TestConfig config;
+    FCITX_ASSERT(!*config.optionalIntValue);
+
+    FCITX_ASSERT(!config.optionalIntValue.setValue(-1));
+    FCITX_ASSERT(!config.optionalIntValue.setValue(11));
+
+    FCITX_ASSERT(config.optionalIntValue.setValue(5));
+    FCITX_ASSERT(*config.optionalIntValue == 5);
+
+    FCITX_ASSERT(*config.optionalIntVectorValue == std::vector<int>{1, 2, 3});
+    config.optionalIntVectorValue.setValue(std::nullopt);
+    FCITX_ASSERT(!*config.optionalIntVectorValue);
+
+    RawConfig raw;
+    config.save(raw);
+
+    TestConfig config2;
+    config2.load(raw);
+    FCITX_INFO() << raw;
+    FCITX_ASSERT(*config2.optionalIntValue == 5);
+    FCITX_ASSERT(!*config2.optionalIntVectorValue);
+}
+
 int main() {
     testBasics();
     testMove();
@@ -218,5 +243,6 @@ int main() {
     testSyncDefaultToCurrent();
     testExtend();
     testCopyConfiguration();
+    testOptional();
     return 0;
 }

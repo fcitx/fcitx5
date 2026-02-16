@@ -9,6 +9,7 @@
 
 #include <limits>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -163,6 +164,31 @@ struct ListConstrain {
 
     void dumpDescription(RawConfig &config) const {
         sub_.dumpDescription(*config.get("ListConstrain", true));
+    }
+
+private:
+    SubConstrain sub_;
+};
+
+/**
+ * Optional Constrain that applies the constrain only when the value is not
+ * std::nullopt.
+ */
+template <typename SubConstrain>
+struct OptionalConstrain {
+    OptionalConstrain(SubConstrain sub = SubConstrain())
+        : sub_(std::move(sub)) {}
+
+    using ElementType = typename SubConstrain::Type;
+    using Type = std::optional<ElementType>;
+    bool check(const Type &value) {
+        if (!value) {
+            return true;
+        }
+        return sub_.check(*value);
+    }
+    void dumpDescription(RawConfig &config) const {
+        sub_.dumpDescription(*config.get("OptionalConstrain", true));
     }
 
 private:
