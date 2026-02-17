@@ -23,6 +23,7 @@
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
+#include <fcitx-utils/log.h>
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/unixfd.h"
@@ -467,6 +468,8 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         }
     }
 
+    server_->updateModMasksMappings();
+
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
@@ -613,6 +616,18 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
     vk_->key(time, code, state);
 }
 
+void WaylandIMInputContextV2::sendModifiers(
+    const WlModifiersParams &params) const {
+    if (!vkReady_ || !server_->state_) {
+        return;
+    }
+    const auto modsDepressed = std::get<0>(params);
+    const auto modsLatched = std::get<1>(params);
+    const auto modsLocked = std::get<2>(params);
+    const auto group = std::get<3>(params);
+    vk_->modifiers(modsDepressed, modsLatched, modsLocked, group);
+}
+
 void WaylandIMInputContextV2::forwardKeyDelegate(
     InputContext * /*ic*/, const ForwardKeyEvent &key) const {
     uint32_t code = 0;
@@ -631,11 +646,20 @@ void WaylandIMInputContextV2::forwardKeyDelegate(
         }
     }
 
+    auto state = key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                 : WL_KEYBOARD_KEY_STATE_PRESSED;
+
+    if (code) {
+        auto params = server_->mayChangeModifiers(code, state);
+        if (params) {
+            sendModifiers(params.value());
+            return;
+        }
+    }
+
     Key keyWithCode(key.rawKey().sym(), key.rawKey().states(), code);
 
-    sendKeyToVK(time_, keyWithCode,
-                key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                : WL_KEYBOARD_KEY_STATE_PRESSED);
+    sendKeyToVK(time_, keyWithCode, state);
     if (!key.isRelease()) {
         sendKeyToVK(time_, keyWithCode, WL_KEYBOARD_KEY_STATE_RELEASED);
     }

@@ -468,6 +468,8 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
     server_->stateMask_.meta_mask =
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
 
+    server_->updateModMasksMappings();
+
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
@@ -623,6 +625,18 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, const Key &key,
     } else {
         ic_->key(serial_, time, key.code() - 8, state);
     }
+}
+
+void WaylandIMInputContextV1::sendModifiers(
+    const WlModifiersParams &params) const {
+    if (!ic_ || !server_->state_) {
+        return;
+    }
+    const auto modsDepressed = std::get<0>(params);
+    const auto modsLatched = std::get<1>(params);
+    const auto modsLocked = std::get<2>(params);
+    const auto group = std::get<3>(params);
+    ic_->modifiers(serial_, modsDepressed, modsLatched, modsLocked, group);
 }
 
 void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
