@@ -28,6 +28,7 @@
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/stringutils.h"
@@ -730,6 +731,130 @@ public:
                 {}};
     }
 
+    std::vector<dbus::DBusStruct<std::string, std::string, std::string,
+                                 std::string, std::vector<std::string>>>
+    getAllHotkeys() {
+        std::vector<dbus::DBusStruct<std::string, std::string, std::string,
+                                     std::string, std::vector<std::string>>>
+            result;
+
+        auto addHotkeyList =
+            [&result](const std::string &category, const std::string &name,
+                      const std::string &uniqueName,
+                      const std::string &description, const KeyList &keys) {
+                std::vector<std::string> keyStrings;
+                for (const auto &key : keys) {
+                    keyStrings.push_back(key.toString());
+                }
+                result.emplace_back(category, name, uniqueName, description,
+                                    keyStrings);
+            };
+
+        auto processKeyOption =
+            [&addHotkeyList](
+                const std::string &optionType, const std::string &category,
+                const std::string &name, const std::string &uniqueName,
+                const std::string &optionDesc,
+                const std::shared_ptr<RawConfig> &valueConfig) {
+                if (optionType.find("List|Key") == std::string::npos &&
+                    optionType.find("Key") == std::string::npos) {
+                    return;
+                }
+
+                if (valueConfig == nullptr) {
+                    return;
+                }
+
+                std::string keyString;
+                if (optionType.find("List|Key") != std::string::npos) {
+                    valueConfig->visitSubItems(
+                        [&keyString](const RawConfig &item,
+                                     const std::string & /*path*/) {
+                            if (!keyString.empty()) {
+                                keyString += " ";
+                            }
+                            keyString += item.value();
+                            return true;
+                        });
+                } else {
+                    keyString = valueConfig->value();
+                }
+
+                try {
+                    KeyList keys = Key::keyListFromString(keyString);
+                    addHotkeyList(category, name, uniqueName, optionDesc, keys);
+                } catch (...) {
+                    FCITX_WARN()
+                        << "Failed to parse KeyList from: " << keyString;
+                }
+            };
+
+        // get global config
+        RawConfig globalRawConfig;
+        instance_->globalConfig().save(globalRawConfig);
+        auto globalConfigDesc =
+            dumpDBusConfigDescription(instance_->globalConfig().config());
+
+        // process the global config shortcuts
+        for (const auto &typeInfo : globalConfigDesc) {
+            const auto &options = std::get<1>(typeInfo);
+            for (const auto &optionInfo : options) {
+                const auto &optionName = std::get<0>(optionInfo);
+                const auto &optionType = std::get<1>(optionInfo);
+                const auto &optionDesc = std::get<2>(optionInfo);
+
+                // the global config shortcuts stored at 'Hotkey/optionName'
+                std::string configPath = "Hotkey/" + optionName;
+                auto valueConfig = globalRawConfig.get(configPath);
+                std::string category = "Global";
+                processKeyOption(optionType, category, "", optionName,
+                                 optionDesc, valueConfig);
+            }
+        }
+
+        // get current group inputmethods config
+        const auto &inputMethodManager = instance_->inputMethodManager();
+        const auto &groupName = inputMethodManager.currentGroup().name();
+        const auto *group = inputMethodManager.group(groupName);
+        if (group == nullptr) {
+            return result;
+        }
+
+        for (const auto &item : group->inputMethodList()) {
+            const auto *entry = inputMethodManager.entry(item.name());
+            if (entry == nullptr || !entry->isConfigurable()) {
+                continue;
+            }
+
+            const auto *engine = instance_->inputMethodEngine(item.name());
+            const auto *config =
+                engine ? engine->getConfigForInputMethod(*entry) : nullptr;
+            if (config == nullptr) {
+                continue;
+            }
+
+            auto imConfigDesc = dumpDBusConfigDescription(*config);
+            RawConfig rawConfig;
+            config->save(rawConfig);
+
+            // process the inputmethod config shortcuts
+            for (const auto &typeInfo : imConfigDesc) {
+                const auto &options = std::get<1>(typeInfo);
+                for (const auto &optionInfo : options) {
+                    const auto &optionName = std::get<0>(optionInfo);
+                    const auto &optionType = std::get<1>(optionInfo);
+                    const auto &optionDesc = std::get<2>(optionInfo);
+                    auto valueConfig = rawConfig.get(optionName);
+                    std::string category = "InputMethod";
+                    processKeyOption(optionType, category, entry->uniqueName(),
+                                     optionName, optionDesc, valueConfig);
+                }
+            }
+        }
+
+        return result;
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -801,6 +926,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(canRestart, "CanRestart", "", "b");
     FCITX_OBJECT_VTABLE_METHOD(currentInputMethodInfo, "CurrentInputMethodInfo",
                                "", "sssssssbsa{sv}");
+    FCITX_OBJECT_VTABLE_METHOD(getAllHotkeys, "GetAllHotkeys", "", "a(ssssas)");
 };
 
 DBusModule::DBusModule(Instance *instance)
