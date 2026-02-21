@@ -907,6 +907,13 @@ void Theme::populateColor(std::optional<Color> accent) {
     inputPanelHighlightText_ = *inputPanel->highlightColor;
     inputPanelHighlightCandidateText_ = *inputPanel->highlightCandidateColor;
 
+    auto inputPanelCandidateLabelText = *inputPanel->candidateLabelColor;
+    auto inputPanelHighlightCandidateLabelText =
+        *inputPanel->highlightCandidateLabelColor;
+    auto inputPanelCandidateCommentText = *inputPanel->candidateCommentColor;
+    auto inputPanelHighlightCandidateCommentText =
+        *inputPanel->highlightCandidateCommentColor;
+
     menuBackground_ = *menu->background->color;
     menuBorder_ = *menu->background->borderColor;
     menuSelectedItemBackground_ = *menu->highlight->color;
@@ -916,12 +923,18 @@ void Theme::populateColor(std::optional<Color> accent) {
     menuSelectedItemText_ = *menu->highlightTextColor;
 
     if (accent) {
-        auto foreground = accentForeground(*accent);
+        auto [foreground, foregroundDim] = accentForeground(*accent);
         for (auto field : accentColorFields_) {
             switch (field) {
             case ColorField::InputPanel_Background:
                 inputPanelBackground_ = *accent;
                 inputPanelText_ = foreground;
+                if (inputPanelCandidateLabelText) {
+                    inputPanelCandidateLabelText = foreground;
+                }
+                if (inputPanelCandidateCommentText) {
+                    inputPanelCandidateCommentText = foregroundDim;
+                }
                 break;
             case ColorField::InputPanel_Border:
                 inputPanelBorder_ = *accent;
@@ -929,6 +942,12 @@ void Theme::populateColor(std::optional<Color> accent) {
             case ColorField::InputPanel_HighlightCandidateBackground:
                 inputPanelHighlightCandidateBackground_ = *accent;
                 inputPanelHighlightCandidateText_ = foreground;
+                if (inputPanelHighlightCandidateLabelText) {
+                    inputPanelHighlightCandidateLabelText = foreground;
+                }
+                if (inputPanelHighlightCandidateCommentText) {
+                    inputPanelHighlightCandidateCommentText = foregroundDim;
+                }
                 break;
             case ColorField::InputPanel_HighlightCandidateBorder:
                 inputPanelHighlightCandidateBorder_ = *accent;
@@ -956,6 +975,34 @@ void Theme::populateColor(std::optional<Color> accent) {
                 break;
             }
         }
+    }
+    if (inputPanelCandidateLabelText) {
+        inputPanelCandidateLabelText_ = *inputPanelCandidateLabelText;
+    } else {
+        inputPanelCandidateLabelText_ = inputPanelText_;
+    }
+    if (inputPanelHighlightCandidateLabelText) {
+        inputPanelHighlightCandidateLabelText_ =
+            *inputPanelHighlightCandidateLabelText;
+    } else {
+        inputPanelHighlightCandidateLabelText_ =
+            inputPanelHighlightCandidateText_;
+    }
+    if (inputPanelCandidateCommentText) {
+        inputPanelCandidateCommentText_ = *inputPanelCandidateCommentText;
+    } else {
+        inputPanelCandidateCommentText_ = inputPanelText_;
+        inputPanelCandidateCommentText_.setAlphaF(
+            inputPanelCandidateCommentText_.alphaF() * 0.5);
+    }
+    if (inputPanelHighlightCandidateCommentText) {
+        inputPanelHighlightCandidateCommentText_ =
+            *inputPanelHighlightCandidateCommentText;
+    } else {
+        inputPanelHighlightCandidateCommentText_ =
+            inputPanelHighlightCandidateText_;
+        inputPanelHighlightCandidateCommentText_.setAlphaF(
+            inputPanelHighlightCandidateCommentText_.alphaF() * 0.5);
     }
 }
 
