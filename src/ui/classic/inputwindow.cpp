@@ -71,9 +71,12 @@ void prepareLayout(cairo_t *cr, PangoLayout *layout) {
 
 void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
     auto *context = pango_layout_get_context(layout);
+    const auto *fontDescription = pango_layout_get_font_description(layout);
+    if (!fontDescription) {
+        fontDescription = pango_context_get_font_description(context);
+    }
     auto *metrics = pango_context_get_metrics(
-        context, pango_context_get_font_description(context),
-        pango_context_get_language(context));
+        context, fontDescription, pango_context_get_language(context));
     auto ascent = pango_font_metrics_get_ascent(metrics);
     pango_font_metrics_unref(metrics);
     auto baseline = pango_layout_get_baseline(layout);
@@ -117,8 +120,8 @@ int MultilineLayout::width() const {
     return width;
 }
 
-void MultilineLayout::render(cairo_t *cr, int x, int y, int lineHeight,
-                             bool highlight) {
+void MultilineLayout::render(cairo_t *cr, int x, int y, bool highlight) {
+    int lineHeight = fontHeight();
     for (size_t i = 0; i < lines_.size(); i++) {
         if (highlight) {
             pango_layout_set_attributes(lines_[i].get(),
@@ -171,7 +174,8 @@ InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
 }
 
 void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
-                             int start, int end, bool highlight) const {
+                             int start, int end, bool highlight,
+                             TextType type) const {
     if (format & TextFormatFlag::Underline) {
         auto *attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
         attr->start_index = start;
@@ -196,11 +200,19 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
         attr->end_index = end;
         pango_attr_list_insert(attrList, attr);
     }
-    Color color =
-        (format & TextFormatFlag::HighLight)
-            ? parent_->theme().inputPanelHighlightText()
-            : (highlight ? parent_->theme().inputPanelHighlightCandidateText()
-                         : parent_->theme().inputPanelText());
+    Color color;
+    if (format & TextFormatFlag::HighLight) {
+        color = parent_->theme().inputPanelHighlightText();
+    } else {
+        Color table[2][3] = {
+            {parent_->theme().inputPanelCandidateLabelText(),
+             parent_->theme().inputPanelText(),
+             parent_->theme().inputPanelCandidateCommentText()},
+            {parent_->theme().inputPanelHighlightCandidateLabelText(),
+             parent_->theme().inputPanelHighlightCandidateText(),
+             parent_->theme().inputPanelHighlightCandidateCommentText()}};
+        color = table[highlight][static_cast<int>(type)];
+    }
     const auto scale = std::numeric_limits<uint16_t>::max();
     auto *attr = pango_attr_foreground_new(
         color.redF() * scale, color.greenF() * scale, color.blueF() * scale);
@@ -236,8 +248,8 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
 }
 
 void InputWindow::appendText(std::string &s, PangoAttrList *attrList,
-                             PangoAttrList *highlightAttrList,
-                             const Text &text) {
+                             PangoAttrList *highlightAttrList, const Text &text,
+                             TextType type) {
     for (size_t i = 0, e = text.size(); i < e; i++) {
         auto start = s.size();
         s.append(text.stringAt(i));
@@ -246,17 +258,14 @@ void InputWindow::appendText(std::string &s, PangoAttrList *attrList,
             continue;
         }
         const auto format = text.formatAt(i);
-        insertAttr(attrList, format, start, end, false);
+        insertAttr(attrList, format, start, end, false, type);
         if (highlightAttrList) {
-            insertAttr(highlightAttrList, format, start, end, true);
+            insertAttr(highlightAttrList, format, start, end, true, type);
         }
     }
 }
 
 void InputWindow::resizeCandidates(size_t n) {
-    while (labelLayouts_.size() < n) {
-        labelLayouts_.emplace_back();
-    }
     while (candidateLayouts_.size() < n) {
         candidateLayouts_.emplace_back();
     }
@@ -266,7 +275,7 @@ void InputWindow::resizeCandidates(size_t n) {
 
 void InputWindow::setTextToMultilineLayout(InputContext *inputContext,
                                            MultilineLayout &layout,
-                                           const Text &text) {
+                                           const Text &text, TextType type) {
     auto lines = text.splitByLine();
     layout.lines_.clear();
     layout.attrLists_.clear();
@@ -278,14 +287,15 @@ void InputWindow::setTextToMultilineLayout(InputContext *inputContext,
         layout.highlightAttrLists_.emplace_back();
         setTextToLayout(inputContext, layout.lines_.back().get(),
                         &layout.attrLists_.back(),
-                        &layout.highlightAttrLists_.back(), {line});
+                        &layout.highlightAttrLists_.back(), {line}, type);
     }
 }
 
 void InputWindow::setTextToLayout(
     InputContext *inputContext, PangoLayout *layout,
     PangoAttrListUniquePtr *attrList, PangoAttrListUniquePtr *highlightAttrList,
-    std::initializer_list<std::reference_wrapper<const Text>> texts) {
+    std::initializer_list<std::reference_wrapper<const Text>> texts,
+    TextType type) {
     auto *newAttrList = pango_attr_list_new();
     if (attrList) {
         // PangoAttrList does not have "clear()". So when we set new text,
@@ -300,7 +310,7 @@ void InputWindow::setTextToLayout(
     }
     std::string line;
     for (const auto &text : texts) {
-        appendText(line, newAttrList, newHighlightAttrList, text);
+        appendText(line, newAttrList, newHighlightAttrList, text, type);
     }
 
     const auto *entry = parent_->instance()->inputMethodEntry(inputContext);
@@ -395,12 +405,26 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
                                  : candidateList->label(i);
 
             labelText = instance->outputFilter(inputContext, labelText);
-            setTextToMultilineLayout(inputContext, labelLayouts_[localIndex],
-                                     labelText);
-            auto candidateText = instance->outputFilter(
-                inputContext, candidate.textWithComment());
-            setTextToMultilineLayout(
-                inputContext, candidateLayouts_[localIndex], candidateText);
+            setTextToMultilineLayout(inputContext,
+                                     candidateLayouts_[localIndex].label,
+                                     labelText, TextType::Label);
+            auto candidateText =
+                instance->outputFilter(inputContext, candidate.text());
+            setTextToMultilineLayout(inputContext,
+                                     candidateLayouts_[localIndex].text,
+                                     candidateText, TextType::Regular);
+            auto realCommentText =
+                instance->outputFilter(inputContext, candidate.comment());
+            Text commentText;
+            if (!realCommentText.empty()) {
+                // Still need some extra space before comment, let's just add a
+                // space and see.
+                commentText = Text(" ");
+                commentText.append(realCommentText);
+            }
+            setTextToMultilineLayout(inputContext,
+                                     candidateLayouts_[localIndex].comment,
+                                     commentText, TextType::Comment);
             localIndex++;
         }
 
@@ -435,16 +459,36 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
 }
 
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
+    auto &theme = parent_->theme();
     auto *fontDesc =
         pango_font_description_from_string(parent_->config().font->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
-    pango_font_description_free(fontDesc);
     pango_layout_context_changed(upperLayout_.get());
     pango_layout_context_changed(lowerLayout_.get());
+    auto originalSize = pango_font_description_get_size(fontDesc);
+    auto labelSize =
+        originalSize * (*theme.inputPanel->labelTextSizeFactor / 100.0);
+    auto commentSize =
+        originalSize * (*theme.inputPanel->commentTextSizeFactor / 100.0);
     for (size_t i = 0; i < nCandidates_; i++) {
-        labelLayouts_[i].contextChanged();
-        candidateLayouts_[i].contextChanged();
+
+        candidateLayouts_[i].label.contextChanged();
+        candidateLayouts_[i].text.contextChanged();
+        candidateLayouts_[i].comment.contextChanged();
+        if (originalSize > 0) {
+            // For candidate, we use a smaller font size.
+            pango_font_description_set_size(fontDesc, labelSize);
+            candidateLayouts_[i].label.setFontDescription(fontDesc);
+
+            // For candidate, we use a smaller font size.
+            pango_font_description_set_size(fontDesc, commentSize);
+            candidateLayouts_[i].comment.setFontDescription(fontDesc);
+        } else {
+            candidateLayouts_[i].label.setFontDescription(nullptr);
+            candidateLayouts_[i].comment.setFontDescription(nullptr);
+        }
     }
+    pango_font_description_free(fontDesc);
 
     // Update yoga layout to calculate dimensions
     updateYogaLayout();
@@ -515,21 +559,30 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
 
     // Use yoga-based positioning for candidates
     for (size_t i = 0; i < nCandidates_; i++) {
-        auto &[candidateNode, candidateTextNode] = candidateNodes_[i];
-        float candidateLeft = absolute<YGNodeLayoutGetLeft>(candidateTextNode);
-        float candidateTop = absolute<YGNodeLayoutGetTop>(candidateTextNode);
-        float candidateWidth = YGNodeLayoutGetWidth(candidateTextNode.get());
-        float candidateHeight = YGNodeLayoutGetHeight(candidateTextNode.get());
+        float labelLeft =
+            absolute<YGNodeLayoutGetLeft>(candidateNodes_[i].label);
+        float labelTop = absolute<YGNodeLayoutGetTop>(candidateNodes_[i].label);
 
-        int labelW = 0;
-        if (labelLayouts_[i].characterCount()) {
-            labelW = labelLayouts_[i].width();
-        }
+        float textLeft = absolute<YGNodeLayoutGetLeft>(candidateNodes_[i].text);
+        float textTop = absolute<YGNodeLayoutGetTop>(candidateNodes_[i].text);
+
+        float commentLeft =
+            absolute<YGNodeLayoutGetLeft>(candidateNodes_[i].comment);
+        float commentTop =
+            absolute<YGNodeLayoutGetTop>(candidateNodes_[i].comment);
+
+        float candidateLeft =
+            absolute<YGNodeLayoutGetLeft>(candidateNodes_[i].inner);
+        float candidateTop =
+            absolute<YGNodeLayoutGetTop>(candidateNodes_[i].inner);
+        float candidateWidth =
+            YGNodeLayoutGetWidth(candidateNodes_[i].inner.get());
+        float candidateHeight =
+            YGNodeLayoutGetHeight(candidateNodes_[i].inner.get());
 
         const auto &highlightMargin = *theme.inputPanel->highlight->margin;
         const auto &clickMargin = *theme.inputPanel->highlight->clickMargin;
         auto highlightWidth = candidateWidth;
-
         bool vertical = parent_->config().verticalCandidateList.value();
         if (layoutHint_ == CandidateLayoutHint::Vertical) {
             vertical = true;
@@ -573,13 +626,16 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
                          *clickMargin.marginTop - *clickMargin.marginBottom);
         candidateRegions_.push_back(candidateRegion);
 
-        if (labelLayouts_[i].characterCount()) {
-            labelLayouts_[i].render(cr, candidateLeft, candidateTop, fontHeight,
-                                    highlight);
+        if (candidateLayouts_[i].label.characterCount()) {
+            candidateLayouts_[i].label.render(cr, labelLeft, labelTop,
+                                              highlight);
         }
-        if (candidateLayouts_[i].characterCount()) {
-            candidateLayouts_[i].render(cr, candidateLeft + labelW,
-                                        candidateTop, fontHeight, highlight);
+        if (candidateLayouts_[i].text.characterCount()) {
+            candidateLayouts_[i].text.render(cr, textLeft, textTop, highlight);
+        }
+        if (candidateLayouts_[i].comment.characterCount()) {
+            candidateLayouts_[i].comment.render(cr, commentLeft, commentTop,
+                                                highlight);
         }
     }
     cairo_restore(cr);
@@ -800,11 +856,12 @@ void InputWindow::updateYogaLayout() {
     // Clean up candidate nodes
     YGNodeRemoveAllChildren(candidatesNode_.get());
     for (auto &node : candidateNodes_) {
-        YGNodeRemoveAllChildren(node.first.get());
+        YGNodeRemoveAllChildren(node.self.get());
+        YGNodeRemoveAllChildren(node.inner.get());
     }
     // Ensure candidate nodes vector has enough elements
     while (candidateNodes_.size() < nCandidates_) {
-        candidateNodes_.emplace_back(YGNodeNew(), YGNodeNew());
+        candidateNodes_.emplace_back();
     }
     while (candidateNodes_.size() > nCandidates_) {
         candidateNodes_.pop_back();
@@ -832,7 +889,8 @@ void InputWindow::updateYogaLayout() {
         YGNodeStyleSetPadding(upperNode_.get(), YGEdgeBottom,
                               *textMargin.marginBottom);
 
-        int w, h;
+        int w;
+        int h;
         pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
         YGNodeStyleSetWidth(upperTextNode_.get(), w);
         YGNodeStyleSetHeight(upperTextNode_.get(), fontHeight);
@@ -855,7 +913,8 @@ void InputWindow::updateYogaLayout() {
         YGNodeStyleSetPadding(auxDownNode_.get(), YGEdgeBottom,
                               *textMargin.marginBottom);
 
-        int w, h;
+        int w;
+        int h;
         pango_layout_get_pixel_size(lowerLayout_.get(), &w, &h);
         YGNodeStyleSetWidth(auxDownTextNode_.get(), w);
         YGNodeStyleSetHeight(auxDownTextNode_.get(), fontHeight);
@@ -881,35 +940,65 @@ void InputWindow::updateYogaLayout() {
         // Configure individual candidate nodes
         for (size_t i = 0; i < nCandidates_; i++) {
             int labelW = 0;
+            int labelH = 0;
             int candidateW = 0;
-            if (labelLayouts_[i].characterCount()) {
-                labelW = labelLayouts_[i].width();
-            }
-            if (candidateLayouts_[i].characterCount()) {
-                candidateW = candidateLayouts_[i].width();
-            }
-            int totalWidth = labelW + candidateW;
-            int itemHeight =
-                std::max({fontHeight, fontHeight * labelLayouts_[i].size(),
-                          fontHeight * candidateLayouts_[i].size()});
+            int candidateH = 0;
+            int commentW = 0;
+            int commentH = 0;
 
-            auto &[candidateNode, candidateTextNode] = candidateNodes_[i];
+            int labelFontHeight = fontHeight;
+            if (auto height = candidateLayouts_[i].label.fontHeight()) {
+                labelFontHeight = height;
+            }
 
-            YGNodeStyleSetFlexDirection(candidateNode.get(),
+            int commentFontHeight = fontHeight;
+            if (auto height = candidateLayouts_[i].comment.fontHeight()) {
+                commentFontHeight = height;
+            }
+            if (candidateLayouts_[i].label.characterCount()) {
+                labelW = candidateLayouts_[i].label.width();
+            }
+            labelH = labelFontHeight *
+                     std::max(1, candidateLayouts_[i].label.size());
+            if (candidateLayouts_[i].text.characterCount()) {
+                candidateW = candidateLayouts_[i].text.width();
+            }
+            candidateH =
+                fontHeight * std::max(1, candidateLayouts_[i].text.size());
+            if (candidateLayouts_[i].comment.characterCount()) {
+                commentW = candidateLayouts_[i].comment.width();
+            }
+            commentH = commentFontHeight *
+                       std::max(1, candidateLayouts_[i].comment.size());
+            auto &candidate = candidateNodes_[i];
+
+            YGNodeStyleSetFlexDirection(candidate.inner.get(),
                                         YGFlexDirectionRow);
-            YGNodeStyleSetWidth(candidateTextNode.get(), totalWidth);
-            YGNodeStyleSetHeight(candidateTextNode.get(), itemHeight);
-            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeLeft,
-                                  *textMargin.marginLeft);
-            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeRight,
-                                  *textMargin.marginRight);
-            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeTop,
-                                  *textMargin.marginTop);
-            YGNodeStyleSetPadding(candidateNode.get(), YGEdgeBottom,
-                                  *textMargin.marginBottom);
+            YGNodeStyleSetAlignSelf(candidate.text.get(), YGAlignCenter);
+            YGNodeStyleSetAlignSelf(candidate.label.get(), YGAlignCenter);
+            YGNodeStyleSetAlignSelf(candidate.comment.get(), YGAlignCenter);
+            YGNodeStyleSetWidth(candidate.label.get(), labelW);
+            YGNodeStyleSetHeight(candidate.label.get(), labelH);
+            YGNodeStyleSetWidth(candidate.text.get(), candidateW);
+            YGNodeStyleSetHeight(candidate.text.get(), candidateH);
+            YGNodeStyleSetWidth(candidate.comment.get(), commentW);
+            YGNodeStyleSetHeight(candidate.comment.get(), commentH);
 
-            YGNodeInsertChild(candidatesNode_.get(), candidateNode.get(), i);
-            YGNodeInsertChild(candidateNode.get(), candidateTextNode.get(), 0);
+            YGNodeStyleSetMargin(candidate.inner.get(), YGEdgeLeft,
+                                 *textMargin.marginLeft);
+            YGNodeStyleSetMargin(candidate.inner.get(), YGEdgeRight,
+                                 *textMargin.marginRight);
+            YGNodeStyleSetMargin(candidate.inner.get(), YGEdgeTop,
+                                 *textMargin.marginTop);
+            YGNodeStyleSetMargin(candidate.inner.get(), YGEdgeBottom,
+                                 *textMargin.marginBottom);
+
+            YGNodeInsertChild(candidatesNode_.get(), candidate.self.get(), i);
+            YGNodeInsertChild(candidate.self.get(), candidate.inner.get(), 0);
+            YGNodeInsertChild(candidate.inner.get(), candidate.label.get(), 0);
+            YGNodeInsertChild(candidate.inner.get(), candidate.text.get(), 1);
+            YGNodeInsertChild(candidate.inner.get(), candidate.comment.get(),
+                              2);
         }
     }
     YGNodeStyleSetDisplay(buttonNode_.get(), YGDisplayNone);

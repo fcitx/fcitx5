@@ -146,8 +146,24 @@ FCITX_CONFIGURATION(
                                            _("Highlight Background color"),
                                            Color("#a5a5a5ff")};
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
-                                          _("Highlight Candidate Color"),
+                                          _("Highlight Candidate Text Color"),
                                           Color("#ffffffff")};
+    Option<int, IntConstrain> labelTextSizeFactor{
+        this, "LabelTextSizeFactor", _("Candidate Label Text Size Factor"), 100,
+        IntConstrain(0, 400)};
+    Option<std::optional<Color>> candidateLabelColor{
+        this, "CandidateLabelColor", _("Candidate Label Text Color")};
+    Option<std::optional<Color>> highlightCandidateLabelColor{
+        this, "HighlightCandidateLabelColor",
+        _("Highlight Candidate Label Text Color")};
+    Option<int, IntConstrain> commentTextSizeFactor{
+        this, "CommentTextSizeFactor", _("Candidate Comment Text Size Factor"),
+        60, IntConstrain(0, 400)};
+    Option<std::optional<Color>> candidateCommentColor{
+        this, "CandidateCommentColor", _("Candidate Comment Text Color")};
+    Option<std::optional<Color>> highlightCandidateCommentColor{
+        this, "HighlightCandidateCommentColor",
+        _("Highlight Candidate Comment Text Color")};
     Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin"),
                             false};
     Option<std::string> blurMask{this, "BlurMask", _("Blur mask"), ""};
@@ -314,6 +330,18 @@ public:
     const auto &inputPanelHighlightCandidateText() const {
         return inputPanelHighlightCandidateText_;
     }
+    const auto &inputPanelCandidateLabelText() const {
+        return inputPanelCandidateLabelText_;
+    }
+    const auto &inputPanelHighlightCandidateLabelText() const {
+        return inputPanelHighlightCandidateLabelText_;
+    }
+    const auto &inputPanelCandidateCommentText() const {
+        return inputPanelCandidateCommentText_;
+    }
+    const auto &inputPanelHighlightCandidateCommentText() const {
+        return inputPanelHighlightCandidateCommentText_;
+    }
 
     const auto &menuBackground() const { return menuBackground_; }
     const auto &menuBorder() const { return menuBorder_; }
@@ -347,6 +375,11 @@ private:
     Color inputPanelText_;
     Color inputPanelHighlightText_;
     Color inputPanelHighlightCandidateText_;
+
+    Color inputPanelCandidateLabelText_;
+    Color inputPanelHighlightCandidateLabelText_;
+    Color inputPanelCandidateCommentText_;
+    Color inputPanelHighlightCandidateCommentText_;
 
     Color menuBackground_;
     Color menuBorder_;
