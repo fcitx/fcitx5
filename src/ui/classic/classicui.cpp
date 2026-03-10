@@ -274,7 +274,10 @@ const Configuration *ClassicUI::getConfig() const {
     for (const auto &[themeName, _] : themeDirs) {
         auto file = StandardPaths::global().open(
             StandardPathsType::PkgData,
-            std::filesystem::path("themes") / themeName / "theme.conf");
+            std::filesystem::path("themes") / themeName / "theme.conf",
+            Theme::isSystemThemeName(themeName.string())
+                ? StandardPathsMode::System
+                : StandardPathsMode::Default);
         if (file.fd() < 0) {
             continue;
         }
@@ -496,6 +499,10 @@ void ClassicUI::setSubConfig(const std::string &path,
     }
     auto name = path.substr(6);
     if (name.empty()) {
+        return;
+    }
+
+    if (Theme::isSystemThemeName(name)) {
         return;
     }
 
