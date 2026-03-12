@@ -309,16 +309,15 @@ class DeferTestObject : public ObjectVTable<DeferTestObject> {
         auto *bus = this->bus();
 
         throw MethodCallDefer([input, slotHolder, bus](Message originalMsg) {
-            auto callMsg =
-                bus->createMethodCall("org.freedesktop.DBus", "/non/existing",
-                                      "org.freedesktop.DBus.Introspectable",
-                                      "Introspect");
+            auto callMsg = bus->createMethodCall(
+                "org.freedesktop.DBus", "/non/existing",
+                "org.freedesktop.DBus.Introspectable", "Introspect");
 
-            *slotHolder =
-                callMsg.callAsync(0, [input, slotHolder,
-                                      originalMsg = std::make_shared<Message>(
-                                          std::move(originalMsg))](
-                                         Message & /*unused*/) mutable -> bool {
+            *slotHolder = callMsg.callAsync(
+                0,
+                [input, slotHolder,
+                 originalMsg = std::make_shared<Message>(std::move(
+                     originalMsg))](Message & /*unused*/) mutable -> bool {
                     auto slot = std::move(*slotHolder);
                     auto reply = originalMsg->createReply();
                     reply << ("deferred:" + input);
@@ -361,9 +360,9 @@ void test_defer() {
     FCITX_ASSERT(bus.isOpen());
     EventLoop loop;
     bus.attachEventLoop(&loop);
-    FCITX_ASSERT(bus.requestName(DEFER_TEST_SERVICE,
-                                 {RequestNameFlag::AllowReplacement,
-                                  RequestNameFlag::ReplaceExisting}));
+    FCITX_ASSERT(bus.requestName(
+        DEFER_TEST_SERVICE,
+        {RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting}));
     DeferTestObject obj;
     FCITX_ASSERT(bus.addObjectVTable("/defertest", DEFER_TEST_INTERFACE, obj));
 

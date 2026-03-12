@@ -723,16 +723,16 @@ void IBusService::destroyDBus() {
     delete ic_;
 }
 
-dbus::ObjectPath IBusFrontend::createInputContext(const std::string & /*args*/) {
+dbus::ObjectPath
+IBusFrontend::createInputContext(const std::string & /*args*/) {
     auto sender = currentMessage()->sender();
 
-    auto getPidMsg =
-        bus_->createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus",
-                               "org.freedesktop.DBus",
-                               "GetConnectionUnixProcessID");
+    auto getPidMsg = bus_->createMethodCall(
+        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
+        "GetConnectionUnixProcessID");
     if (!getPidMsg) {
-        auto *ic = new IBusInputContext(icIdx++, instance_->inputContextManager(),
-                                        this, sender, "");
+        auto *ic = new IBusInputContext(
+            icIdx++, instance_->inputContextManager(), this, sender, "");
         ic->setFocusGroup(instance_->defaultFocusGroup());
         return ic->path();
     }
@@ -766,8 +766,7 @@ dbus::ObjectPath IBusFrontend::createInputContext(const std::string & /*args*/) 
                 if (!state->imWatcher.isValid()) {
                     return false;
                 }
-                auto *im =
-                    static_cast<IBusFrontend *>(state->imWatcher.get());
+                auto *im = static_cast<IBusFrontend *>(state->imWatcher.get());
 
                 pid_t pid = 0;
                 if (!reply.isError()) {
@@ -794,8 +793,7 @@ dbus::ObjectPath IBusFrontend::createInputContext(const std::string & /*args*/) 
             if (!state->imWatcher.isValid()) {
                 return;
             }
-            auto *im =
-                static_cast<IBusFrontend *>(state->imWatcher.get());
+            auto *im = static_cast<IBusFrontend *>(state->imWatcher.get());
             auto *ic = new IBusInputContext(
                 state->icIdx, im->instance()->inputContextManager(), im,
                 state->sender, "");

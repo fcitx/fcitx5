@@ -544,13 +544,12 @@ InputMethod1::createInputContext(
     // fixed string.  getProcessName() handles platforms without /proc via
     // libkvm.  In Flatpak environments the PID belongs to xdg-dbus-proxy, but
     // each sandboxed app has its own proxy so grouping still works correctly.
-    auto getPidMsg = bus_->createMethodCall("org.freedesktop.DBus",
-                                            "/org/freedesktop/DBus",
-                                            "org.freedesktop.DBus",
-                                            "GetConnectionUnixProcessID");
+    auto getPidMsg = bus_->createMethodCall(
+        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
+        "GetConnectionUnixProcessID");
     if (!getPidMsg) {
-        auto *ic = new DBusInputContext1(icIdx, instance_->inputContextManager(),
-                                         this, sender, strMap);
+        auto *ic = new DBusInputContext1(
+            icIdx, instance_->inputContextManager(), this, sender, strMap);
         bus_->addObjectVTable(ic->path().path(),
                               FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
         return std::make_tuple(
@@ -574,10 +573,13 @@ InputMethod1::createInputContext(
     state->icIdx = icIdx;
     state->slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
 
-    auto getPidMsgHolder = std::make_shared<dbus::Message>(std::move(getPidMsg));
+    auto getPidMsgHolder =
+        std::make_shared<dbus::Message>(std::move(getPidMsg));
 
-    throw dbus::MethodCallDefer([state, getPidMsgHolder](dbus::Message originalMsg) {
-        state->originalMsg = std::make_shared<dbus::Message>(std::move(originalMsg));
+    throw dbus::MethodCallDefer([state,
+                                 getPidMsgHolder](dbus::Message originalMsg) {
+        state->originalMsg =
+            std::make_shared<dbus::Message>(std::move(originalMsg));
 
         *state->slotHolder = getPidMsgHolder->callAsync(
             0, [state](dbus::Message &reply) -> bool {
@@ -586,8 +588,7 @@ InputMethod1::createInputContext(
                 if (!state->imWatcher.isValid()) {
                     return false;
                 }
-                auto *im =
-                    static_cast<InputMethod1 *>(state->imWatcher.get());
+                auto *im = static_cast<InputMethod1 *>(state->imWatcher.get());
 
                 pid_t pid = 0;
                 if (!reply.isError()) {
@@ -602,9 +603,8 @@ InputMethod1::createInputContext(
                 auto *ic = new DBusInputContext1(
                     state->icIdx, im->instance_->inputContextManager(), im,
                     state->sender, state->strMap, std::move(programName));
-                im->bus_->addObjectVTable(ic->path().path(),
-                                          FCITX_INPUTCONTEXT_DBUS_INTERFACE,
-                                          *ic);
+                im->bus_->addObjectVTable(
+                    ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
 
                 auto response = state->originalMsg->createReply();
                 response << ic->path()
@@ -619,9 +619,9 @@ InputMethod1::createInputContext(
                 return;
             }
             auto *im = static_cast<InputMethod1 *>(state->imWatcher.get());
-            auto *ic = new DBusInputContext1(state->icIdx,
-                                             im->instance_->inputContextManager(),
-                                             im, state->sender, state->strMap);
+            auto *ic = new DBusInputContext1(
+                state->icIdx, im->instance_->inputContextManager(), im,
+                state->sender, state->strMap);
             im->bus_->addObjectVTable(ic->path().path(),
                                       FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
             auto response = state->originalMsg->createReply();
