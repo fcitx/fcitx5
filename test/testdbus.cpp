@@ -302,9 +302,88 @@ void test_delete() {
     loop.exec();
 }
 
+// Test MethodCallDefer: method defers its reply until an async call completes.
+class DeferTestObject : public ObjectVTable<DeferTestObject> {
+    std::string testDefer(const std::string &input) {
+        auto slotHolder = std::make_shared<std::unique_ptr<Slot>>();
+        auto *bus = this->bus();
+
+        throw MethodCallDefer([input, slotHolder, bus](Message originalMsg) {
+            auto callMsg =
+                bus->createMethodCall("org.freedesktop.DBus", "/non/existing",
+                                      "org.freedesktop.DBus.Introspectable",
+                                      "Introspect");
+
+            *slotHolder =
+                callMsg.callAsync(0, [input, slotHolder,
+                                      originalMsg = std::make_shared<Message>(
+                                          std::move(originalMsg))](
+                                         Message & /*unused*/) mutable -> bool {
+                    auto slot = std::move(*slotHolder);
+                    auto reply = originalMsg->createReply();
+                    reply << ("deferred:" + input);
+                    reply.send();
+                    return true;
+                });
+        });
+    }
+
+private:
+    FCITX_OBJECT_VTABLE_METHOD(testDefer, "testDefer", "s", "s");
+};
+
+#define DEFER_TEST_SERVICE "org.fcitx.Fcitx.TestDBusDefer"
+#define DEFER_TEST_INTERFACE "org.fcitx.Fcitx.TestDBusDefer.Interface"
+
+void test_defer_client() {
+    Bus clientBus(BusType::Session);
+    EventLoop loop;
+    clientBus.attachEventLoop(&loop);
+
+    auto msg = clientBus.createMethodCall(DEFER_TEST_SERVICE, "/defertest",
+                                          DEFER_TEST_INTERFACE, "testDefer");
+    msg << std::string("hello");
+    // Use a generous timeout: the server must do an async call first.
+    auto slot = msg.callAsync(5000000, [&loop](Message &reply) {
+        FCITX_ASSERT(reply.type() == MessageType::Reply) << reply.errorName();
+        std::string ret;
+        reply >> ret;
+        FCITX_INFO() << "testDefer reply: " << ret;
+        FCITX_ASSERT(ret == "deferred:hello") << ret;
+        loop.exit();
+        return true;
+    });
+    loop.exec();
+}
+
+void test_defer() {
+    Bus bus(BusType::Session);
+    FCITX_ASSERT(bus.isOpen());
+    EventLoop loop;
+    bus.attachEventLoop(&loop);
+    FCITX_ASSERT(bus.requestName(DEFER_TEST_SERVICE,
+                                 {RequestNameFlag::AllowReplacement,
+                                  RequestNameFlag::ReplaceExisting}));
+    DeferTestObject obj;
+    FCITX_ASSERT(bus.addObjectVTable("/defertest", DEFER_TEST_INTERFACE, obj));
+
+    std::unique_ptr<EventSourceTime> s(
+        loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 2000000, 0,
+                          [&loop](EventSource *, uint64_t) {
+                              loop.exit();
+                              return false;
+                          }));
+
+    std::thread thread(test_defer_client);
+
+    loop.exec();
+    thread.join();
+}
+
 int main() {
     test_client();
     test_rule();
     test_delete();
+    test_defer();
     return 0;
 }
