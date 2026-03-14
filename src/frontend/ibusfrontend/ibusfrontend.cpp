@@ -724,12 +724,86 @@ void IBusService::destroyDBus() {
 }
 
 dbus::ObjectPath
-IBusFrontend::createInputContext(const std::string & /* unused */) {
+IBusFrontend::createInputContext(const std::string & /*args*/) {
     auto sender = currentMessage()->sender();
-    auto *ic = new IBusInputContext(icIdx++, instance_->inputContextManager(),
-                                    this, sender, "");
-    ic->setFocusGroup(instance_->defaultFocusGroup());
-    return ic->path();
+
+    auto getPidMsg = bus_->createMethodCall(
+        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
+        "GetConnectionUnixProcessID");
+    if (!getPidMsg) {
+        auto *ic = new IBusInputContext(
+            icIdx++, instance_->inputContextManager(), this, sender, "");
+        ic->setFocusGroup(instance_->defaultFocusGroup());
+        return ic->path();
+    }
+    getPidMsg << sender;
+
+    struct AsyncState {
+        TrackableObjectReference<dbus::ObjectVTableBase> imWatcher;
+        std::string sender;
+        int icIdx;
+        std::shared_ptr<std::unique_ptr<dbus::Slot>> slotHolder;
+        std::shared_ptr<dbus::Message> originalMsg;
+    };
+    auto state = std::make_shared<AsyncState>();
+    state->imWatcher = this->watch();
+    state->sender = std::move(sender);
+    state->icIdx = icIdx++;
+    state->slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
+
+    auto getPidMsgHolder =
+        std::make_shared<dbus::Message>(std::move(getPidMsg));
+
+    throw dbus::MethodCallDefer([state,
+                                 getPidMsgHolder](dbus::Message originalMsg) {
+        state->originalMsg =
+            std::make_shared<dbus::Message>(std::move(originalMsg));
+
+        *state->slotHolder = getPidMsgHolder->callAsync(
+            0, [state](dbus::Message &reply) -> bool {
+                auto slot = std::move(*state->slotHolder);
+
+                if (!state->imWatcher.isValid()) {
+                    return false;
+                }
+                auto *im = static_cast<IBusFrontend *>(state->imWatcher.get());
+
+                pid_t pid = 0;
+                if (!reply.isError()) {
+                    reply >> pid;
+                }
+
+                std::string programName;
+                if (pid > 0) {
+                    programName = getProcessName(pid);
+                }
+
+                auto *ic = new IBusInputContext(
+                    state->icIdx, im->instance()->inputContextManager(), im,
+                    state->sender, std::move(programName));
+                ic->setFocusGroup(im->instance()->defaultFocusGroup());
+
+                auto response = state->originalMsg->createReply();
+                response << ic->path();
+                response.send();
+                return true;
+            });
+
+        if (!*state->slotHolder) {
+            if (!state->imWatcher.isValid()) {
+                return;
+            }
+            auto *im = static_cast<IBusFrontend *>(state->imWatcher.get());
+            auto *ic = new IBusInputContext(
+                state->icIdx, im->instance()->inputContextManager(), im,
+                state->sender, "");
+            ic->setFocusGroup(im->instance()->defaultFocusGroup());
+
+            auto response = state->originalMsg->createReply();
+            response << ic->path();
+            response.send();
+        }
+    });
 }
 
 IBusFrontendModule::IBusFrontendModule(Instance *instance)
