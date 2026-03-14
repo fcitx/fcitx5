@@ -503,6 +503,8 @@ void ClassicUI::setSubConfig(const std::string &path,
     if (&theme == &subconfigTheme_) {
         // Fill the system value.
         getSubConfig(path);
+    } else {
+        deferedReloadTheme_->setOneShot();
     }
     theme.load(name, config);
     safeSaveAsIni(theme, StandardPathsType::PkgData,
