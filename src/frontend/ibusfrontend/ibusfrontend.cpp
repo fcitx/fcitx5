@@ -303,7 +303,7 @@ public:
         }
     }
 
-    dbus::ObjectPath createInputContext(const std::string &args);
+    dbus::ObjectPath createInputContext(const std::string &name);
 
     dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
     dbus::Bus *bus() { return bus_; }
@@ -312,6 +312,9 @@ public:
 private:
     FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext", "s",
                                "o");
+
+    dbus::ObjectPath createInputContextImpl(std::string sender,
+                                            std::string program);
 
     IBusFrontendModule *module_;
     Instance *instance_;
@@ -336,7 +339,7 @@ class IBusInputContext : public InputContext,
                          public dbus::ObjectVTable<IBusInputContext> {
 public:
     IBusInputContext(int id, InputContextManager &icManager, IBusFrontend *im,
-                     const std::string &sender, const std::string &program)
+                     std::string sender, const std::string &program)
         : InputContext(icManager, program),
           path_("/org/freedesktop/IBus/InputContext_" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
@@ -347,7 +350,7 @@ public:
                                delete this;
                            }
                        })),
-          name_(sender) {
+          name_(std::move(sender)) {
         im->bus()->addObjectVTable(path().path(),
                                    IBUS_INPUTCONTEXT_DBUS_INTERFACE, *this);
         im->bus()->addObjectVTable(path().path(), IBUS_SERVICE_DBUS_INTERFACE,
@@ -724,12 +727,36 @@ void IBusService::destroyDBus() {
     delete ic_;
 }
 
-dbus::ObjectPath
-IBusFrontend::createInputContext(const std::string & /* unused */) {
-    auto slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
+dbus::ObjectPath IBusFrontend::createInputContextImpl(std::string sender,
+                                                      std::string program) {
+    auto *ic =
+        new IBusInputContext(icIdx_++, instance_->inputContextManager(), this,
+                             std::move(sender), std::move(program));
+    ic->setFocusGroup(instance_->defaultFocusGroup());
+    return ic->path();
+}
+
+dbus::ObjectPath IBusFrontend::createInputContext(const std::string &name) {
     auto sender = currentMessage()->sender();
+
+    std::optional<std::string> maybeProgram;
+    if (!name.empty() && name != "QIBusInputContext" && name != "gtk-im") {
+        maybeProgram = name;
+    }
+    if (!maybeProgram && isInFlatpak()) {
+        maybeProgram = sender;
+    }
+
+    // If we have a good program name, use it directly, otherwise we will need
+    // to query the pid.
+    if (maybeProgram) {
+        return createInputContextImpl(std::move(sender),
+                                      std::move(*maybeProgram));
+    }
+
     auto pendingReply =
         std::make_shared<dbus::Message>(currentMessage()->createReply());
+    auto slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
 
     auto msg = bus()->createMethodCall(
         "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
@@ -752,11 +779,12 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
             }
             FCITX_IBUS_DEBUG() << "Pid of sender " << sender << " is " << pid;
 
-            auto *ic = new IBusInputContext(
-                icIdx_++, instance_->inputContextManager(), this, sender,
-                (pid ? getProcessName(pid) : ""));
-            ic->setFocusGroup(instance_->defaultFocusGroup());
-            *pendingReply << ic->path();
+            auto program = pid ? getProcessName(pid) : "";
+            if (program == "xdg-dbus-proxy") {
+                program = sender;
+            }
+
+            *pendingReply << createInputContextImpl(sender, std::move(program));
             pendingReply->send();
         }
         // Make sure the slot is free'd after return.
