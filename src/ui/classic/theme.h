@@ -227,12 +227,13 @@ FCITX_CONFIGURATION(ThemeConfig,
 
 class ClassicUI;
 class ClassicUIConfig;
+class Theme;
 
 class ThemeImage {
 public:
-    ThemeImage(const std::string &name, const BackgroundImageConfig &cfg,
+    ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                const Color &color, const Color &borderColor);
-    ThemeImage(const std::string &name, const ActionImageConfig &cfg);
+    ThemeImage(const Theme &theme, const ActionImageConfig &cfg);
     ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                const std::string &label, uint32_t size,
                const ClassicUI *classicui);
@@ -290,7 +291,7 @@ public:
     Theme();
     ~Theme();
 
-    const std::string &name() { return name_; }
+    const std::string &name() const { return name_; }
     void load(std::string_view name);
     void load(std::string_view name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
@@ -355,6 +356,10 @@ public:
     const auto &menuText() const { return menuText_; }
     const auto &menuSelectedItemText() const { return menuSelectedItemText_; }
 
+    bool isSystemTheme() const { return isSystemTheme_; }
+
+    static bool isSystemThemeName(std::string_view themeName);
+
 private:
     void reset();
 
@@ -388,6 +393,8 @@ private:
     Color menuSeparator_;
     Color menuText_;
     Color menuSelectedItemText_;
+
+    bool isSystemTheme_ = false;
 };
 
 inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {
