@@ -64,33 +64,16 @@ private:
 };
 
 /**
- * An exception to defer the D-Bus method call reply.
+ * An exception to not reply a the D-Bus method call.
  *
- * Throw this exception from a registered method handler to defer the reply.
- * The provided callback will be called with the original D-Bus message and is
- * responsible for eventually sending the reply (e.g. after an async operation
- * completes).
- *
- * E.g.
- * @code
- * throw dbus::MethodCallDefer([](Message msg) {
- *     // ... set up async operation, send reply from its callback ...
- * });
- * @endcode
+ * This can be useful if there is a cascade of method calls and you want to
+ * reply later.
  */
-class FCITXUTILS_EXPORT MethodCallDefer : public std::exception {
+class FCITXUTILS_EXPORT MethodCallNoReply : public std::exception {
 public:
-    using DeferCallback = std::function<void(Message)>;
+    explicit MethodCallNoReply();
 
-    explicit MethodCallDefer(DeferCallback callback)
-        : callback_(std::move(callback)) {}
-
-    const char *what() const noexcept override { return "MethodCallDefer"; }
-
-    DeferCallback &callback() { return callback_; }
-
-private:
-    DeferCallback callback_;
+    const char *what() const noexcept override { return "MethodCallNoReply"; }
 };
 
 class ObjectVTableMethodPrivate;
@@ -449,19 +432,11 @@ public:
             auto reply = msg.createReply();
             reply << helper.ret;
             reply.send();
-        } catch (const ::fcitx::dbus::MethodCallError &error) {
+        } catch (const MethodCallError &error) {
             auto reply = msg.createError(error.name(), error.what());
             reply.send();
-        } catch (::fcitx::dbus::MethodCallDefer &defer) {
-            // Clear current message before passing it to the deferred callback.
-            if (watcher.isValid()) {
-                watcher.get()->setCurrentMessage(nullptr);
-            }
-            auto &cb = defer.callback();
-            if (cb) {
-                cb(std::move(msg));
-            }
-            return true;
+        } catch (
+            const MethodCallNoReply &noReply) { // NOLINT(bugprone-empty-catch)
         }
         if (watcher.isValid()) {
             watcher.get()->setCurrentMessage(nullptr);

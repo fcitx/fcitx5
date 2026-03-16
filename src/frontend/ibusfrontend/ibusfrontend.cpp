@@ -49,6 +49,7 @@
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/textformatflags.h"
+#include "fcitx-utils/trackableobject.h"
 #include "fcitx-utils/unixfd.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx-utils/uuid_p.h"
@@ -314,7 +315,7 @@ private:
 
     IBusFrontendModule *module_;
     Instance *instance_;
-    int icIdx = 0;
+    int icIdx_ = 0;
     dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
@@ -724,86 +725,46 @@ void IBusService::destroyDBus() {
 }
 
 dbus::ObjectPath
-IBusFrontend::createInputContext(const std::string & /*args*/) {
+IBusFrontend::createInputContext(const std::string & /* unused */) {
+    auto slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
     auto sender = currentMessage()->sender();
+    auto pendingReply =
+        std::make_shared<dbus::Message>(currentMessage()->createReply());
 
-    auto getPidMsg = bus_->createMethodCall(
+    auto msg = bus()->createMethodCall(
         "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
         "GetConnectionUnixProcessID");
-    if (!getPidMsg) {
-        auto *ic = new IBusInputContext(
-            icIdx++, instance_->inputContextManager(), this, sender, "");
-        ic->setFocusGroup(instance_->defaultFocusGroup());
-        return ic->path();
-    }
-    getPidMsg << sender;
 
-    struct AsyncState {
-        TrackableObjectReference<dbus::ObjectVTableBase> imWatcher;
-        std::string sender;
-        int icIdx;
-        std::shared_ptr<std::unique_ptr<dbus::Slot>> slotHolder;
-        std::shared_ptr<dbus::Message> originalMsg;
-    };
-    auto state = std::make_shared<AsyncState>();
-    state->imWatcher = this->watch();
-    state->sender = std::move(sender);
-    state->icIdx = icIdx++;
-    state->slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
-
-    auto getPidMsgHolder =
-        std::make_shared<dbus::Message>(std::move(getPidMsg));
-
-    throw dbus::MethodCallDefer([state,
-                                 getPidMsgHolder](dbus::Message originalMsg) {
-        state->originalMsg =
-            std::make_shared<dbus::Message>(std::move(originalMsg));
-
-        *state->slotHolder = getPidMsgHolder->callAsync(
-            0, [state](dbus::Message &reply) -> bool {
-                auto slot = std::move(*state->slotHolder);
-
-                if (!state->imWatcher.isValid()) {
-                    return false;
-                }
-                auto *im = static_cast<IBusFrontend *>(state->imWatcher.get());
-
-                pid_t pid = 0;
-                if (!reply.isError()) {
-                    reply >> pid;
-                }
-
-                std::string programName;
-                if (pid > 0) {
-                    programName = getProcessName(pid);
-                }
-
-                auto *ic = new IBusInputContext(
-                    state->icIdx, im->instance()->inputContextManager(), im,
-                    state->sender, std::move(programName));
-                ic->setFocusGroup(im->instance()->defaultFocusGroup());
-
-                auto response = state->originalMsg->createReply();
-                response << ic->path();
-                response.send();
-                return true;
-            });
-
-        if (!*state->slotHolder) {
-            if (!state->imWatcher.isValid()) {
-                return;
-            }
-            auto *im = static_cast<IBusFrontend *>(state->imWatcher.get());
-            auto *ic = new IBusInputContext(
-                state->icIdx, im->instance()->inputContextManager(), im,
-                state->sender, "");
-            ic->setFocusGroup(im->instance()->defaultFocusGroup());
-
-            auto response = state->originalMsg->createReply();
-            response << ic->path();
-            response.send();
+    msg << sender;
+    *slotHolder = msg.callAsync(1000000, [this, watcher = this->watch(), sender,
+                                          pendingReply,
+                                          slotHolder](dbus::Message &pidReply) {
+        if (!*slotHolder) {
+            return true;
         }
+
+        // Check if ibus frontend is still alive.
+        if (watcher.isValid()) {
+            uint32_t pid = 0;
+            if (pidReply.type() == dbus::MessageType::Reply &&
+                pidReply.signature() == "u") {
+                pidReply >> pid;
+            }
+            FCITX_IBUS_DEBUG() << "Pid of sender " << sender << " is " << pid;
+
+            auto *ic = new IBusInputContext(
+                icIdx_++, instance_->inputContextManager(), this, sender,
+                (pid ? getProcessName(pid) : ""));
+            ic->setFocusGroup(instance_->defaultFocusGroup());
+            *pendingReply << ic->path();
+            pendingReply->send();
+        }
+        // Make sure the slot is free'd after return.
+        slotHolder->reset();
+        return true;
     });
+
+    throw dbus::MethodCallNoReply{};
 }
 
 IBusFrontendModule::IBusFrontendModule(Instance *instance)

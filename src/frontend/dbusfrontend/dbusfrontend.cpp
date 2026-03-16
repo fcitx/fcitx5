@@ -25,7 +25,6 @@
 #include "fcitx-utils/flags.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/addonfactory.h"
@@ -124,9 +123,8 @@ class DBusInputContext1 : public InputContext,
 public:
     DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
                       const std::string &sender,
-                      const std::unordered_map<std::string, std::string> &args,
-                      std::string programName = {})
-        : InputContext(icManager, std::move(programName)),
+                      const std::unordered_map<std::string, std::string> &args)
+        : InputContext(icManager, getArgument(args, "program")),
           path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
                        sender,
@@ -536,101 +534,14 @@ InputMethod1::createInputContext(
     }
 
     auto sender = currentMessage()->sender();
-    auto icIdx = module_->nextIcIdx();
+    auto *ic = new DBusInputContext1(module_->nextIcIdx(),
+                                     instance_->inputContextManager(), this,
+                                     sender, strMap);
 
-    // Look up the sender's PID asynchronously so we can use getProcessName()
-    // to populate the program name.  The client-provided "program" argument
-    // is intentionally ignored: some toolkits (e.g. Qt) hard-code it to a
-    // fixed string.  getProcessName() handles platforms without /proc via
-    // libkvm.  In Flatpak environments the PID belongs to xdg-dbus-proxy, but
-    // each sandboxed app has its own proxy so grouping still works correctly.
-    auto getPidMsg = bus_->createMethodCall(
-        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
-        "GetConnectionUnixProcessID");
-    if (!getPidMsg) {
-        auto *ic = new DBusInputContext1(
-            icIdx, instance_->inputContextManager(), this, sender, strMap);
-        bus_->addObjectVTable(ic->path().path(),
-                              FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
-        return std::make_tuple(
-            ic->path(),
-            std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
-    }
-    getPidMsg << sender;
-
-    struct AsyncState {
-        TrackableObjectReference<dbus::ObjectVTableBase> imWatcher;
-        std::string sender;
-        std::unordered_map<std::string, std::string> strMap;
-        int icIdx;
-        std::shared_ptr<std::unique_ptr<dbus::Slot>> slotHolder;
-        std::shared_ptr<dbus::Message> originalMsg;
-    };
-    auto state = std::make_shared<AsyncState>();
-    state->imWatcher = this->watch();
-    state->sender = std::move(sender);
-    state->strMap = std::move(strMap);
-    state->icIdx = icIdx;
-    state->slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
-
-    auto getPidMsgHolder =
-        std::make_shared<dbus::Message>(std::move(getPidMsg));
-
-    throw dbus::MethodCallDefer([state,
-                                 getPidMsgHolder](dbus::Message originalMsg) {
-        state->originalMsg =
-            std::make_shared<dbus::Message>(std::move(originalMsg));
-
-        *state->slotHolder = getPidMsgHolder->callAsync(
-            0, [state](dbus::Message &reply) -> bool {
-                auto slot = std::move(*state->slotHolder);
-
-                if (!state->imWatcher.isValid()) {
-                    return false;
-                }
-                auto *im = static_cast<InputMethod1 *>(state->imWatcher.get());
-
-                pid_t pid = 0;
-                if (!reply.isError()) {
-                    reply >> pid;
-                }
-
-                std::string programName;
-                if (pid > 0) {
-                    programName = getProcessName(pid);
-                }
-
-                auto *ic = new DBusInputContext1(
-                    state->icIdx, im->instance_->inputContextManager(), im,
-                    state->sender, state->strMap, std::move(programName));
-                im->bus_->addObjectVTable(
-                    ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
-
-                auto response = state->originalMsg->createReply();
-                response << ic->path()
-                         << std::vector<uint8_t>(ic->uuid().begin(),
-                                                 ic->uuid().end());
-                response.send();
-                return true;
-            });
-
-        if (!*state->slotHolder) {
-            if (!state->imWatcher.isValid()) {
-                return;
-            }
-            auto *im = static_cast<InputMethod1 *>(state->imWatcher.get());
-            auto *ic = new DBusInputContext1(
-                state->icIdx, im->instance_->inputContextManager(), im,
-                state->sender, state->strMap);
-            im->bus_->addObjectVTable(ic->path().path(),
-                                      FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
-            auto response = state->originalMsg->createReply();
-            response << ic->path()
-                     << std::vector<uint8_t>(ic->uuid().begin(),
-                                             ic->uuid().end());
-            response.send();
-        }
-    });
+    bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
+                          *ic);
+    return std::make_tuple(
+        ic->path(), std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
 }
 
 std::tuple<std::vector<DBusBlockedEvent>, bool>
