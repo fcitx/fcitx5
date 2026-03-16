@@ -234,6 +234,53 @@ cairo_surface_t *loadImage(UnixFD &file, const std::filesystem::path &path) {
     return surface;
 }
 
+std::filesystem::path hiDPIPath(const std::filesystem::path &base, int scale) {
+    return base.parent_path() /
+           (base.stem().string() + "@" + std::to_string(scale) + "x" +
+            base.extension().string());
+}
+
+// Try to load the highest available HiDPI variant (@3x, @2x, then original).
+// Returns the loaded surface and its scale factor (3, 2, or 1).
+std::pair<cairo_surface_t *, int>
+resolveHiDPIImage(const std::string &baseName, const std::string &themeName,
+                  bool isSystemTheme) {
+    std::filesystem::path basePath(baseName);
+    for (int scale : {3, 2}) {
+        auto variantName = hiDPIPath(basePath, scale);
+        std::filesystem::path imagePath;
+        auto imageFile = StandardPaths::global().open(
+            StandardPathsType::PkgData,
+            std::filesystem::path("themes") / themeName /
+                variantName.string(),
+            isSystemTheme ? StandardPathsMode::Default
+                          : StandardPathsMode::User,
+            &imagePath);
+        auto *surface = loadImage(imageFile, imagePath);
+        if (surface &&
+            cairo_surface_status(surface) == CAIRO_STATUS_SUCCESS) {
+            cairo_surface_set_device_scale(surface, scale, scale);
+            return {surface, scale};
+        }
+        if (surface) {
+            cairo_surface_destroy(surface);
+        }
+    }
+    // Fallback to original 1x image.
+    std::filesystem::path imagePath;
+    auto imageFile = StandardPaths::global().open(
+        StandardPathsType::PkgData,
+        std::filesystem::path("themes") / themeName / baseName,
+        isSystemTheme ? StandardPathsMode::Default : StandardPathsMode::User,
+        &imagePath);
+    auto *surface = loadImage(imageFile, imagePath);
+    if (surface && cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) {
+        cairo_surface_destroy(surface);
+        return {nullptr, 1};
+    }
+    return {surface, 1};
+}
+
 const std::vector<std::string> &gdkPixbufSupportedFormats() {
     const static std::vector<std::string> formats = []() {
         std::unordered_set<std::string> exts;
@@ -294,18 +341,9 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
 ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                        const Color &color, const Color &borderColor) {
     if (!cfg.image->empty()) {
-        std::filesystem::path imagePath;
-        auto imageFile = StandardPaths::global().open(
-            StandardPathsType::PkgData,
-            std::filesystem::path("themes") / theme.name() / *cfg.image,
-            theme.isSystemTheme() ? StandardPathsMode::Default
-                                  : StandardPathsMode::User,
-            &imagePath);
-        image_.reset(loadImage(imageFile, imagePath));
-        if (image_ &&
-            cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
-            image_.reset();
-        }
+        auto [surface, scale] = resolveHiDPIImage(
+            *cfg.image, theme.name(), theme.isSystemTheme());
+        image_.reset(surface);
         valid_ = image_ != nullptr;
     }
 
@@ -503,10 +541,18 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
                cairo_surface_t *image, int marginLeft, int marginTop,
                int marginRight, int marginBottom) {
 
+    double deviceScaleX = 1.0;
+    double deviceScaleY = 1.0;
+    cairo_surface_get_device_scale(image, &deviceScaleX, &deviceScaleY);
+
     int resizeHeight =
-        cairo_image_surface_get_height(image) - marginTop - marginBottom;
+        static_cast<int>(cairo_image_surface_get_height(image) /
+                         deviceScaleY) -
+        marginTop - marginBottom;
     int resizeWidth =
-        cairo_image_surface_get_width(image) - marginLeft - marginRight;
+        static_cast<int>(cairo_image_surface_get_width(image) /
+                         deviceScaleX) -
+        marginLeft - marginRight;
 
     if (resizeHeight <= 0) {
         resizeHeight = 1;
@@ -644,33 +690,15 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
 }
 
 void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-                  int height, double alpha, double scale) {
+                  int height, double alpha, double /*scale*/) {
     const ThemeImage &image = loadBackground(cfg);
     auto marginTop = *cfg.margin->marginTop;
     auto marginBottom = *cfg.margin->marginBottom;
     auto marginLeft = *cfg.margin->marginLeft;
     auto marginRight = *cfg.margin->marginRight;
 
-    if (scale != 1.0) {
-        UniqueCPtr<cairo_surface_t, cairo_surface_destroy> background(
-            cairo_surface_create_similar_image(
-                cairo_get_target(c), CAIRO_FORMAT_ARGB32, width, height));
-        {
-            UniqueCPtr<cairo_t, cairo_destroy> backgroundC(
-                cairo_create(background.get()));
-            paintTile(backgroundC.get(), width, height, 1.0, image, marginLeft,
-                      marginTop, marginRight, marginBottom);
-        }
-        cairo_save(c);
-        cairo_rectangle(c, 0, 0, width, height);
-        cairo_set_source_surface(c, background.get(), 0, 0);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
-    } else {
-        paintTile(c, width, height, alpha, image, marginLeft, marginTop,
-                  marginRight, marginBottom);
-    }
+    paintTile(c, width, height, alpha, image, marginLeft, marginTop,
+              marginRight, marginBottom);
 
     if (!image.overlay()) {
         return;
