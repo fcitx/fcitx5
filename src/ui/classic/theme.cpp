@@ -298,8 +298,8 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
         auto imageFile = StandardPaths::global().open(
             StandardPathsType::PkgData,
             std::filesystem::path("themes") / theme.name() / *cfg.image,
-            theme.isSystemTheme() ? StandardPathsMode::Default
-                                  : StandardPathsMode::User,
+            theme.isSystemTheme() ? StandardPathsMode::System
+                                  : StandardPathsMode::Default,
             &imagePath);
         image_.reset(loadImage(imageFile, imagePath));
         if (image_ &&
