@@ -82,4 +82,17 @@ EventLoop *EventDispatcher::eventLoop() const {
     return d->loop_;
 }
 
+void EventDispatcher::dispatchPending() {
+    FCITX_D();
+    for (int n = 0; n < 64; ++n) {
+        {
+            std::lock_guard<std::mutex> lock(d->mutex_);
+            if (d->eventList_.empty()) {
+                return;
+            }
+        }
+        d->dispatchEvent();
+    }
+}
+
 } // namespace fcitx
