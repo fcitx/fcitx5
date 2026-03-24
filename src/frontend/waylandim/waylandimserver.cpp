@@ -211,11 +211,8 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     memcpy(array.data, data, sizeof(data));
     ic_->modifiersMap(&array);
     wl_array_release(&array);
-    if (virtualICManager_) {
-        virtualICManager_->setRealFocus(true);
-    } else {
-        focusIn();
-    }
+    focusInWrapper();
+    updateSurroundingTextWrapper();
 }
 
 void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
@@ -230,6 +227,8 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
 
         timeEvent_->setEnabled(false);
         focusOutWrapper();
+        surroundingText().invalidate();
+        updateSurroundingTextWrapper();
     } else {
         // This should not happen, but just in case.
         delete ic;

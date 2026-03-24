@@ -196,6 +196,8 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 vk_.reset();
                 vkReady_ = false;
             }
+            surroundingText().invalidate();
+            updateSurroundingTextWrapper();
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
@@ -236,6 +238,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                         repeatInfoCallback(rate, delay);
                     });
                 focusInWrapper();
+                updateSurroundingTextWrapper();
             }
         }
     });
