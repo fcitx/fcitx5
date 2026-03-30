@@ -184,6 +184,7 @@ public:
     Text customLabel_;
     bool hasCustomLabel_ = false;
     Text comment_;
+    bool spaceBetweenComment_ = true;
 };
 
 CandidateWord::CandidateWord(Text text)
@@ -251,6 +252,16 @@ void CandidateWord::setCustomLabel(Text text) {
     FCITX_D();
     d->customLabel_ = std::move(text);
     d->hasCustomLabel_ = true;
+}
+
+bool CandidateWord::spaceBetweenComment() const {
+    FCITX_D();
+    return d->spaceBetweenComment_;
+}
+
+void CandidateWord::setSpaceBetweenComment(bool space) {
+    FCITX_D();
+    d->spaceBetweenComment_ = space;
 }
 
 class DisplayOnlyCandidateListPrivate {
