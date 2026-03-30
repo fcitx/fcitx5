@@ -416,10 +416,12 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
             auto realCommentText =
                 instance->outputFilter(inputContext, candidate.comment());
             Text commentText;
-            if (!realCommentText.empty() && candidate.spaceBetweenComment()) {
-                // Still need some extra space before comment, let's just add a
-                // space and see.
-                commentText = Text(" ");
+            if (!realCommentText.empty()) {
+                if (candidate.spaceBetweenComment()) {
+                    // Still need some extra space before comment, let's just add a
+                    // space and see.
+                    commentText = Text(" ");
+                }
                 commentText.append(realCommentText);
             }
             setTextToMultilineLayout(inputContext,
