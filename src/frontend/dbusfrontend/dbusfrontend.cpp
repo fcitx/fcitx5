@@ -247,8 +247,9 @@ public:
                                      ? candidate.customLabel()
                                      : candidateList->label(i);
                 labelText = instance->outputFilter(this, labelText);
-                Text candidateText =
-                    instance->outputFilter(this, candidate.textWithComment());
+                Text candidateText = instance->outputFilter(
+                    this, candidate.textWithComment(
+                              candidate.spaceBetweenComment() ? " " : ""));
                 candidates.emplace_back(std::make_tuple(
                     labelText.toString(), candidateText.toString()));
             }

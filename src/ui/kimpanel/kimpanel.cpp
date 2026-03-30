@@ -6,14 +6,33 @@
  */
 
 #include "kimpanel.h"
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/matchrule.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/flags.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/action.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
+#include "fcitx/icontheme.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
@@ -21,6 +40,9 @@
 #include "fcitx/instance.h"
 #include "fcitx/menu.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/statusarea.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
 
@@ -359,7 +381,9 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
                 labelText = instance->outputFilter(inputContext, labelText);
                 labels.push_back(labelText.toString());
                 auto candidateText = instance->outputFilter(
-                    inputContext, candidate.textWithComment());
+                    inputContext,
+                    candidate.textWithComment(
+                        candidate.spaceBetweenComment() ? " " : ""));
                 texts.push_back(candidateText.toString());
                 attrs.emplace_back("");
             }

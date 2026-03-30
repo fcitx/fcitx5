@@ -6,18 +6,30 @@
  */
 
 #include "virtualkeyboard.h"
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <vector>
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/flags.h"
 #include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
 #include "notificationitem_public.h"
@@ -433,8 +445,9 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
             continue;
         }
 
-        auto candidateText =
-            instance_->outputFilter(inputContext, candidate.textWithComment());
+        auto candidateText = instance_->outputFilter(
+            inputContext, candidate.textWithComment(
+                              candidate.spaceBetweenComment() ? " " : ""));
         candidateTextList.push_back(candidateText.toString());
     }
 
