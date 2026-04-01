@@ -63,6 +63,19 @@ private:
     std::string error_;
 };
 
+/**
+ * An exception to not reply a the D-Bus method call.
+ *
+ * This can be useful if there is a cascade of method calls and you want to
+ * reply later.
+ */
+class FCITXUTILS_EXPORT MethodCallNoReply : public std::exception {
+public:
+    explicit MethodCallNoReply();
+
+    const char *what() const noexcept override { return "MethodCallNoReply"; }
+};
+
 class ObjectVTableMethodPrivate;
 
 /**
@@ -419,9 +432,11 @@ public:
             auto reply = msg.createReply();
             reply << helper.ret;
             reply.send();
-        } catch (const ::fcitx::dbus::MethodCallError &error) {
+        } catch (const MethodCallError &error) {
             auto reply = msg.createError(error.name(), error.what());
             reply.send();
+        } catch (
+            const MethodCallNoReply &noReply) { // NOLINT(bugprone-empty-catch)
         }
         if (watcher.isValid()) {
             watcher.get()->setCurrentMessage(nullptr);

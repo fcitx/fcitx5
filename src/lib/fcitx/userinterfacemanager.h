@@ -87,7 +87,7 @@ public:
     void expire(InputContext *inputContext);
     void flush();
     /**
-     * Invoke by user interface addon to notify if there is any avaiability
+     * Invoke by user interface addon to notify if there is any availability
      * change.
      */
     void updateAvailability();

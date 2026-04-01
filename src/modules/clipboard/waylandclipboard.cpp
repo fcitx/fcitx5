@@ -5,17 +5,38 @@
  *
  */
 #include "waylandclipboard.h"
+#include <unistd.h>
+#include <cstdint>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <string_view>
 #include <unordered_set>
+#include <utility>
+#include <vector>
+#include <wayland-client-core.h>
+#include <wayland-client-protocol.h>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx-utils/unixfd.h"
 #include "clipboard.h"
+#include "display.h"
+#include "ext_data_control_manager_v1.h"
 #include "wl_seat.h"
 #include "zwlr_data_control_manager_v1.h"
-#include "zwlr_data_control_offer_v1.h"
 
 namespace fcitx {
 
-uint64_t DataReaderThread::addTask(DataOffer *offer, std::shared_ptr<UnixFD> fd,
+DataOfferInterface::~DataOfferInterface() = default;
+
+DataDeviceInterface::~DataDeviceInterface() = default;
+
+uint64_t DataReaderThread::addTask(DataOfferInterface *offer,
+                                   std::shared_ptr<UnixFD> fd,
                                    DataOfferDataCallback callback) {
     auto id = nextId_++;
     if (id == 0) {
@@ -40,14 +61,21 @@ void DataReaderThread::removeTask(uint64_t token) {
 void DataReaderThread::realRun() {
     EventLoop loop;
     dispatcherToWorker_.attach(&loop);
-    loop.exec();
+    bool terminate = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        terminate = terminate_;
+    }
+    if (!terminate) {
+        loop.exec();
+    }
     dispatcherToWorker_.detach();
     FCITX_DEBUG() << "Ending DataReaderThread";
     tasks_.clear();
 }
 
 void DataReaderThread::addTaskOnWorker(
-    uint64_t id, TrackableObjectReference<DataOffer> offer,
+    uint64_t id, TrackableObjectReference<DataOfferInterface> offer,
     std::shared_ptr<UnixFD> fd, DataOfferDataCallback callback) {
     // std::unordered_map's ref/pointer to element is stable.
     auto &task = tasks_[id];
@@ -105,34 +133,38 @@ void DataReaderThread::handleTaskTimeout(DataOfferTask *task) {
     tasks_.erase(task->id_);
 }
 
-DataOffer::DataOffer(wayland::ZwlrDataControlOfferV1 *offer,
-                     bool ignorePassword)
+template <typename DataControlOffer>
+DataOffer<DataControlOffer>::DataOffer(DataControlOffer *offer,
+                                       bool ignorePassword)
     : offer_(offer), ignorePassword_(ignorePassword) {
     offer_->setUserData(this);
     conns_.emplace_back(offer_->offer().connect(
         [this](const char *offer) { mimeTypes_.insert(offer); }));
 }
 
-DataOffer::~DataOffer() {
+template <typename DataControlOffer>
+DataOffer<DataControlOffer>::~DataOffer() {
     if (thread_) {
         thread_->removeTask(taskId_);
     }
 }
 
-void DataOffer::receiveData(DataReaderThread &thread,
-                            DataOfferCallback callback) {
+template <typename DataControlOffer>
+void DataOffer<DataControlOffer>::receiveData(DataReaderThread &thread,
+                                              DataOfferCallback callback) {
     if (thread_) {
         return;
     }
 
     auto callbackWrapper =
         [this, callback = std::move(callback)](const std::vector<char> &data) {
-            return callback(data, isPassword_);
+            callback(data, isPassword_);
+            return;
         };
 
     thread_ = &thread;
     static const std::string passwordHint = PASSWORD_MIME_TYPE;
-    if (mimeTypes_.count(passwordHint)) {
+    if (mimeTypes_.contains(passwordHint)) {
         receiveDataForMime(passwordHint, [this, callbackWrapper](
                                              const std::vector<char> &data) {
             if (std::string_view(data.data(), data.size()) == "secret" &&
@@ -149,7 +181,9 @@ void DataOffer::receiveData(DataReaderThread &thread,
     }
 }
 
-void DataOffer::receiveRealData(DataOfferDataCallback callback) {
+template <typename DataControlOffer>
+void DataOffer<DataControlOffer>::receiveRealData(
+    DataOfferDataCallback callback) {
     if (!thread_) {
         return;
     }
@@ -157,9 +191,9 @@ void DataOffer::receiveRealData(DataOfferDataCallback callback) {
     static const std::string utf8Mime = "text/plain;charset=utf-8";
     static const std::string textMime = "text/plain";
 
-    if (mimeTypes_.count(utf8Mime)) {
+    if (mimeTypes_.contains(utf8Mime)) {
         mime = utf8Mime;
-    } else if (mimeTypes_.count(textMime)) {
+    } else if (mimeTypes_.contains(textMime)) {
         mime = textMime;
     } else {
         return;
@@ -168,8 +202,9 @@ void DataOffer::receiveRealData(DataOfferDataCallback callback) {
     receiveDataForMime(mime, std::move(callback));
 }
 
-void DataOffer::receiveDataForMime(const std::string &mime,
-                                   DataOfferDataCallback callback) {
+template <typename DataControlOffer>
+void DataOffer<DataControlOffer>::receiveDataForMime(
+    const std::string &mime, DataOfferDataCallback callback) {
     if (!thread_) {
         return;
     }
@@ -187,20 +222,22 @@ void DataOffer::receiveDataForMime(const std::string &mime,
         std::move(callback));
 }
 
-DataDevice::DataDevice(WaylandClipboard *clipboard,
-                       wayland::ZwlrDataControlDeviceV1 *device)
+template <typename DataControlDevice>
+DataDevice<DataControlDevice>::DataDevice(WaylandClipboard *clipboard,
+                                          DataControlDevice *device)
     : clipboard_(clipboard), device_(device),
       thread_(clipboard_->parent()->instance()->eventDispatcher()) {
-    conns_.emplace_back(device_->dataOffer().connect(
-        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+    conns_.emplace_back(
+        device_->dataOffer().connect([this](DataControlOfferType *offer) {
             new DataOffer(offer, *clipboard_->parent()
                                       ->config()
                                       .ignorePasswordFromPasswordManager);
         }));
-    conns_.emplace_back(device_->selection().connect(
-        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+    conns_.emplace_back(
+        device_->selection().connect([this](DataControlOfferType *offer) {
             clipboardOffer_.reset(
-                offer ? static_cast<DataOffer *>(offer->userData()) : nullptr);
+                offer ? static_cast<DataOfferType *>(offer->userData())
+                      : nullptr);
             if (!clipboardOffer_) {
                 return;
             }
@@ -212,9 +249,10 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
                 });
         }));
     conns_.emplace_back(device_->primarySelection().connect(
-        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+        [this](DataControlOfferType *offer) {
             primaryOffer_.reset(
-                offer ? static_cast<DataOffer *>(offer->userData()) : nullptr);
+                offer ? static_cast<DataOfferType *>(offer->userData())
+                      : nullptr);
             if (!primaryOffer_) {
                 clipboard_->setPrimary("", false);
                 return;
@@ -240,54 +278,97 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
     : parent_(clipboard), name_(std::move(name)),
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
+    display_->requestGlobals<wayland::ExtDataControlManagerV1>();
     display_->requestGlobals<wayland::ZwlrDataControlManagerV1>();
     globalConn_ = display_->globalCreated().connect(
-        [this](const std::string &interface, std::shared_ptr<void> ptr) {
-            if (interface == wayland::ZwlrDataControlManagerV1::interface) {
-                if (ptr != manager_) {
-                    deviceMap_.clear();
-                    manager_ =
+        [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
+            if (interface == wayland::ExtDataControlManagerV1::interface) {
+                if (ptr != extManager_) {
+                    extDeviceMap_.clear();
+                    extManager_ =
+                        display_->getGlobal<wayland::ExtDataControlManagerV1>();
+                }
+                parent_->instance()->eventDispatcher().schedule(
+                    [this]() { refreshSeat(); });
+                deferRefreshSeat();
+            } else if (interface ==
+                       wayland::ZwlrDataControlManagerV1::interface) {
+                if (ptr != wlrManager_) {
+                    wlrDeviceMap_.clear();
+                    wlrManager_ =
                         display_
                             ->getGlobal<wayland::ZwlrDataControlManagerV1>();
                 }
-                refreshSeat();
+                deferRefreshSeat();
             } else if (interface == wayland::WlSeat::interface) {
-                refreshSeat();
+                deferRefreshSeat();
             }
         });
     globalRemoveConn_ = display_->globalRemoved().connect(
-        [this](const std::string &interface, std::shared_ptr<void> ptr) {
-            if (interface == wayland::ZwlrDataControlManagerV1::interface) {
-                deviceMap_.clear();
-                if (manager_ == ptr) {
-                    manager_.reset();
+        [this](const std::string &interface, const std::shared_ptr<void> &ptr) {
+            if (interface == wayland::ExtDataControlManagerV1::interface) {
+                extDeviceMap_.clear();
+                if (extManager_ == ptr) {
+                    extManager_.reset();
+                }
+            } else if (interface ==
+                       wayland::ZwlrDataControlManagerV1::interface) {
+                wlrDeviceMap_.clear();
+                if (wlrManager_ == ptr) {
+                    wlrManager_.reset();
                 }
             } else if (interface == wayland::WlSeat::interface) {
-                deviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
+                wlrDeviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
+                extDeviceMap_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
             }
         });
 
     if (auto manager =
             display_->getGlobal<wayland::ZwlrDataControlManagerV1>()) {
-        manager_ = std::move(manager);
+        wlrManager_ = std::move(manager);
     }
     refreshSeat();
 }
 
+void WaylandClipboard::deferRefreshSeat() {
+    // The initial global registration update is more likely happen in one
+    // message loop, so we defer so we can decide to only initialize ext or wlr.
+    parent_->instance()->eventDispatcher().scheduleWithContext(
+        watch(), [this]() { refreshSeat(); });
+}
+
 void WaylandClipboard::refreshSeat() {
-    if (!manager_) {
+    if (!wlrManager_ && !extManager_) {
         return;
     }
 
     auto seats = display_->getGlobals<wayland::WlSeat>();
     for (const auto &seat : seats) {
-        if (deviceMap_.count(seat.get())) {
+        if (extManager_) {
+            if (extDeviceMap_.contains(seat.get())) {
+                continue;
+            }
+            auto *device = extManager_->getDataDevice(seat.get());
+            extDeviceMap_.emplace(
+                seat.get(),
+                std::make_unique<DataDevice<wayland::ExtDataControlDeviceV1>>(
+                    this, device));
             continue;
+        } else if (wlrManager_) {
+            if (wlrDeviceMap_.contains(seat.get())) {
+                continue;
+            }
+            auto *device = wlrManager_->getDataDevice(seat.get());
+            wlrDeviceMap_.emplace(
+                seat.get(),
+                std::make_unique<DataDevice<wayland::ZwlrDataControlDeviceV1>>(
+                    this, device));
         }
+    }
 
-        auto *device = manager_->getDataDevice(seat.get());
-        deviceMap_.emplace(seat.get(),
-                           std::make_unique<DataDevice>(this, device));
+    // If both are available, prefer ext.
+    if (extManager_ && wlrManager_) {
+        wlrDeviceMap_.clear();
     }
 }
 

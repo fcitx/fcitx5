@@ -196,6 +196,8 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 vk_.reset();
                 vkReady_ = false;
             }
+            surroundingText().invalidate();
+            updateSurroundingTextWrapper();
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
@@ -236,6 +238,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                         repeatInfoCallback(rate, delay);
                     });
                 focusInWrapper();
+                updateSurroundingTextWrapper();
             }
         }
     });
@@ -272,6 +275,11 @@ void WaylandIMInputContextV2::repeat() {
     if (!realFocus()) {
         return;
     }
+    auto rate = repeatRate();
+    // validate to avoid divide by zero.
+    if (rate <= 0) {
+        return;
+    }
     auto *ic = delegatedInputContext();
     KeyEvent event(
         ic,
@@ -281,7 +289,7 @@ void WaylandIMInputContextV2::repeat() {
     if (!ic->keyEvent(event)) {
         sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_PRESSED);
     }
-    uint64_t interval = 1000000 / repeatRate();
+    uint64_t interval = 1000000 / rate;
     timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
 }
@@ -473,18 +481,28 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
         return;
     }
 
-    if (!realFocus()) {
-        focusInWrapper();
-    }
+    focusInWrapper();
 
     // EVDEV OFFSET
     uint32_t code = key + 8;
 
     auto *ic = delegatedInputContext();
+
+    bool isRepeat = false;
+#ifdef WL_KEYBOARD_KEY_STATE_REPEATED_SINCE_VERSION
+    isRepeat = state == WL_KEYBOARD_KEY_STATE_REPEATED;
+#endif
+    KeyStates modifiers = server_->modifiers_;
+    if (isRepeat) {
+        modifiers |= KeyState::Repeat;
+        // If server side repetition is ever detected, disable our own
+        // repetition.
+        repeatInfo_ = std::make_tuple(0, 0);
+    }
     KeyEvent event(ic,
                    Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                            server_->state_.get(), code)),
-                       server_->modifiers_, code),
+                       modifiers, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
@@ -664,7 +682,9 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
         }
     }
 
-    if (preedit.textLength()) {
+    // Validate not empty and within wayland limit.
+    if (preedit.textLength() > 0 &&
+        preedit.textLength() < WaylandIMServerBase::safeStringLimit) {
         if (cursorStart < 0) {
             cursorStart = cursorEnd = preedit.textLength();
         }
@@ -680,7 +700,7 @@ void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
         return;
     }
 
-    // Cant convert to before/after.
+    // Can't convert to before/after.
     if (offset > 0 || offset + static_cast<ssize_t>(size) < 0) {
         return;
     }

@@ -33,7 +33,6 @@
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpaths.h"
-#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/event.h"
@@ -275,7 +274,10 @@ const Configuration *ClassicUI::getConfig() const {
     for (const auto &[themeName, _] : themeDirs) {
         auto file = StandardPaths::global().open(
             StandardPathsType::PkgData,
-            std::filesystem::path("themes") / themeName / "theme.conf");
+            std::filesystem::path("themes") / themeName / "theme.conf",
+            Theme::isSystemThemeName(themeName.string())
+                ? StandardPathsMode::System
+                : StandardPathsMode::Default);
         if (file.fd() < 0) {
             continue;
         }
@@ -433,8 +435,8 @@ void ClassicUI::resume() {
 void ClassicUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {
     UIInterface *ui = nullptr;
-    if (stringutils::startsWith(inputContext->display(), "wayland:") &&
-        !stringutils::startsWith(inputContext->frontendName(), "wayland")) {
+    if (inputContext->display().starts_with("wayland:") &&
+        !inputContext->frontendName().starts_with("wayland")) {
         // If display is wayland, but frontend is not, then we can only do X11
         // for now, though position is wrong. We don't know which is xwayland
         // unfortunately, hopefully main display is X wayland.
@@ -477,7 +479,7 @@ public:
 
 const fcitx::Configuration *
 ClassicUI::getSubConfig(const std::string &path) const {
-    if (!stringutils::startsWith(path, "theme/")) {
+    if (!path.starts_with("theme/")) {
         return nullptr;
     }
 
@@ -492,7 +494,7 @@ ClassicUI::getSubConfig(const std::string &path) const {
 
 void ClassicUI::setSubConfig(const std::string &path,
                              const fcitx::RawConfig &config) {
-    if (!stringutils::startsWith(path, "theme/")) {
+    if (!path.starts_with("theme/")) {
         return;
     }
     auto name = path.substr(6);
@@ -500,10 +502,16 @@ void ClassicUI::setSubConfig(const std::string &path,
         return;
     }
 
+    if (Theme::isSystemThemeName(name)) {
+        return;
+    }
+
     auto &theme = name == theme_.name() ? theme_ : subconfigTheme_;
     if (&theme == &subconfigTheme_) {
         // Fill the system value.
         getSubConfig(path);
+    } else {
+        deferedReloadTheme_->setOneShot();
     }
     theme.load(name, config);
     safeSaveAsIni(theme, StandardPathsType::PkgData,

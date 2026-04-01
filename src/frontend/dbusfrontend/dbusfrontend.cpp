@@ -27,7 +27,6 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
-#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/event.h"
@@ -213,16 +212,24 @@ public:
 
     void updateClientSideUIImpl() override {
         auto *instance = im_->instance();
-        auto preedit = instance->outputFilter(this, inputPanel().preedit());
-        auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
-        auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
-        auto candidateList = inputPanel().candidateList();
-        int cursorIndex = 0;
 
         std::vector<dbus::DBusStruct<std::string, int>> preeditStrings;
         std::vector<dbus::DBusStruct<std::string, int>> auxUpStrings;
         std::vector<dbus::DBusStruct<std::string, int>> auxDownStrings;
         std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
+
+        if (instance->inputMethodMode() == InputMethodMode::OnScreenKeyboard) {
+            updateClientSideUITo(name_, preeditStrings, -1, auxUpStrings,
+                                 auxDownStrings, candidates, -1, 0, false,
+                                 false);
+            return;
+        }
+
+        auto preedit = instance->outputFilter(this, inputPanel().preedit());
+        auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
+        auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
+        auto candidateList = inputPanel().candidateList();
+        int cursorIndex = 0;
 
         preeditStrings = buildFormattedTextVector(preedit);
         auxUpStrings = buildFormattedTextVector(auxUp);
@@ -240,8 +247,9 @@ public:
                                      ? candidate.customLabel()
                                      : candidateList->label(i);
                 labelText = instance->outputFilter(this, labelText);
-                Text candidateText =
-                    instance->outputFilter(this, candidate.textWithComment());
+                Text candidateText = instance->outputFilter(
+                    this, candidate.textWithComment(
+                              candidate.spaceBetweenComment() ? " " : ""));
                 candidates.emplace_back(std::make_tuple(
                     labelText.toString(), candidateText.toString()));
             }
@@ -396,11 +404,11 @@ public:
 
     void updateCapability() {
         CapabilityFlags flags = rawCapabilityFlags_;
-        if (stringutils::startsWith(display(), "x11:")) {
+        if (display().starts_with("x11:")) {
             if (!x11UseClientSideUI()) {
                 flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
             }
-        } else if (stringutils::startsWith(display(), "wayland:")) {
+        } else if (display().starts_with("wayland:")) {
             if (!useClientSideUI(im_->instance())) {
                 flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
             }
@@ -596,6 +604,11 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
             instance_->inputContextManager().foreach([](InputContext *ic) {
                 if (ic->frontendName() == "dbus") {
                     static_cast<DBusInputContext1 *>(ic)->updateCapability();
+                    if (ic->capabilityFlags().test(
+                            CapabilityFlag::ClientSideInputPanel)) {
+                        static_cast<DBusInputContext1 *>(ic)
+                            ->updateClientSideUIImpl();
+                    }
                 }
                 return true;
             });

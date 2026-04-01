@@ -59,10 +59,12 @@ WlSurface::WlSurface(wl_surface *data)
 
 void WlSurface::destructor(wl_surface *data) {
     const auto version = wl_surface_get_version(data);
+#if defined(WL_SURFACE_DESTROY_SINCE_VERSION)
     if (version >= 1) {
         wl_surface_destroy(data);
         return;
     }
+#endif
 }
 void WlSurface::attach(WlBuffer *buffer, int32_t x, int32_t y) {
     wl_surface_attach(*this, rawPointer(buffer), x, y);
@@ -91,4 +93,5 @@ void WlSurface::damageBuffer(int32_t x, int32_t y, int32_t width,
     wl_surface_damage_buffer(*this, x, y, width, height);
 }
 void WlSurface::offset(int32_t x, int32_t y) { wl_surface_offset(*this, x, y); }
+
 } // namespace fcitx::wayland

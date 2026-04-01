@@ -7,12 +7,12 @@
 #ifndef _FCITX_UI_CLASSIC_COLORHELPER_H_
 #define _FCITX_UI_CLASSIC_COLORHELPER_H_
 
+#include <utility>
 #include "fcitx-utils/color.h"
 
 namespace fcitx::classicui {
 
-Color accentForeground(const Color &accent);
-
+std::pair<Color, Color> accentForeground(const Color &accent);
 }
 
 #endif

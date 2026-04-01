@@ -197,7 +197,7 @@ bool UserInterfaceManager::registerAction(const std::string &name,
     if (!action->name().empty() || name.empty()) {
         return false;
     }
-    if (stringutils::startsWith(name, "$")) {
+    if (name.starts_with("$")) {
         FCITX_ERROR() << "Action name starts with $ is reserved.";
         return false;
     }

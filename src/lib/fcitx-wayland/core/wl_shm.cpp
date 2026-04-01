@@ -19,7 +19,16 @@ WlShm::WlShm(wl_shm *data) : version_(wl_shm_get_version(data)), data_(data) {
     wl_shm_add_listener(*this, &WlShm::listener, this);
 }
 
-void WlShm::destructor(wl_shm *data) { wl_shm_destroy(data); }
+void WlShm::destructor(wl_shm *data) {
+    const auto version = wl_shm_get_version(data);
+#if defined(WL_SHM_RELEASE_SINCE_VERSION)
+    if (version >= 2) {
+        wl_shm_release(data);
+        return;
+    }
+#endif
+    wl_shm_destroy(data);
+}
 WlShmPool *WlShm::createPool(int32_t fd, int32_t size) {
     return new WlShmPool(wl_shm_create_pool(*this, fd, size));
 }

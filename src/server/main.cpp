@@ -8,21 +8,17 @@
 #include <sys/stat.h>
 #include <clocale>
 #include <cstdio>
-#include <cstdlib>
 #include <exception>
 #include <filesystem>
 #include <iostream>
 #include <string>
-#include <utility>
 #include <vector>
 #include "fcitx-utils/environ.h"
-#include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpaths.h"
-#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonloader.h"
@@ -31,8 +27,6 @@
 #include "errorhandler.h"
 
 using namespace fcitx;
-int selfpipe[2];
-std::filesystem::path crashlog;
 
 FCITX_DEFINE_STATIC_ADDON_REGISTRY(getStaticAddon)
 #ifdef ENABLE_KEYBOARD
@@ -43,7 +37,8 @@ int main(int argc, char *argv[]) {
     umask(077);
     StandardPath::global().syncUmask();
     StandardPaths::global().syncUmask();
-    if (safePipe(selfpipe) < 0) {
+    int selfPipe[2];
+    if (safePipe(selfPipe) < 0) {
         fprintf(stderr, "Could not create self-pipe.\n");
         return 1;
     }
@@ -54,15 +49,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    auto userDir =
-        StandardPaths::global().userDirectory(StandardPathsType::PkgConfig);
-    if (!userDir.empty()) {
-        if (fs::makePath(userDir)) {
-            crashlog = userDir / "crash.log";
-        }
-    }
-
-    SetMyExceptionHandler();
+    SetMyExceptionHandler(selfPipe[1]);
 
     setlocale(LC_ALL, "");
 
@@ -74,7 +61,7 @@ int main(int argc, char *argv[]) {
         FCITX_LOG_IF(Info, isInFlatpak()) << "Running inside flatpak.";
         Instance instance(argc, argv);
         instance.setBinaryMode();
-        instance.setSignalPipe(selfpipe[0]);
+        instance.setSignalPipe(selfPipe[0]);
         instance.addonManager().registerDefaultLoader(&getStaticAddon());
 
         ret = instance.exec();

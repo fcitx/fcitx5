@@ -14,6 +14,8 @@
 
 namespace fcitx::dbus {
 
+MethodCallNoReply::MethodCallNoReply() = default;
+
 ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
                                        const std::string &name,
                                        const std::string &signature,

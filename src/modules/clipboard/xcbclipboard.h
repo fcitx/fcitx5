@@ -7,7 +7,10 @@
 #ifndef _FCITX5_MODULES_CLIPBOARD_XCBCLIPBOARD_H_
 #define _FCITX5_MODULES_CLIPBOARD_XCBCLIPBOARD_H_
 
+#include <cstddef>
+#include <memory>
 #include <string>
+#include <vector>
 #include <xcb/xproto.h>
 #include "fcitx-utils/handlertable.h"
 #include "fcitx/addoninstance.h"

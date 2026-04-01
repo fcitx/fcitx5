@@ -7,8 +7,16 @@
 #ifndef _TEST_TESTCONFIG_H_
 #define _TEST_TESTCONFIG_H_
 
+#include <optional>
+#include <string>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/option.h"
+#include "fcitx-utils/color.h"
+#include "fcitx-utils/i18nstring.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
 
 FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB)
 
@@ -65,7 +73,17 @@ FCITX_CONFIGURATION(
     fcitx::Option<TestSubConfig> subConfigValue{this, "SubConfigOption",
                                                 "SubConfig Option"};
     fcitx::ExternalOption ext{this, "ExternalOption", "ExternalOption",
-                              "fcitx://config/addon/test/ext"};)
+                              "fcitx://config/addon/test/ext"};
+    fcitx::Option<std::optional<int>,
+                  fcitx::OptionalConstrain<fcitx::IntConstrain>>
+        optionalIntValue{this, "OptionalIntOption", "Optional Int Option",
+                         std::nullopt,
+                         fcitx::OptionalConstrain<fcitx::IntConstrain>(
+                             fcitx::IntConstrain(0, 10))};
+
+    fcitx::Option<std::optional<std::vector<int>>> optionalIntVectorValue{
+        this, "OptionalIntVectorOption", "Optional Int Option",
+        std::vector<int>{1, 2, 3}};)
 
 FCITX_CONFIGURATION_EXTEND(TestConfigExt, TestConfig,
                            fcitx::Option<std::vector<std::string>> newOption{

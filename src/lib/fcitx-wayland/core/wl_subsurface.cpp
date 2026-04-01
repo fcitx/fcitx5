@@ -10,10 +10,12 @@ WlSubsurface::WlSubsurface(wl_subsurface *data)
 
 void WlSubsurface::destructor(wl_subsurface *data) {
     const auto version = wl_subsurface_get_version(data);
+#if defined(WL_SUBSURFACE_DESTROY_SINCE_VERSION)
     if (version >= 1) {
         wl_subsurface_destroy(data);
         return;
     }
+#endif
 }
 void WlSubsurface::setPosition(int32_t x, int32_t y) {
     wl_subsurface_set_position(*this, x, y);

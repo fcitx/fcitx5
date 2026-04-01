@@ -23,10 +23,9 @@ struct IsoCodes639Entry {
 
 class IsoCodes {
     friend class IsoCodes639Parser;
-    friend class IsoCodes3166Parser;
 
 public:
-    void read(const std::string &iso639, const std::string &iso3166);
+    void read(const std::string &iso639);
 
     const IsoCodes639Entry *entry(const std::string &name) const {
         const auto *entry = findValue(iso6392B, name);
@@ -43,8 +42,6 @@ private:
     std::vector<IsoCodes639Entry> iso639entires;
     std::unordered_map<std::string, int> iso6392B;
     std::unordered_map<std::string, int> iso6392T;
-
-    std::unordered_map<std::string, std::string> iso3166;
 };
 } // namespace fcitx
 

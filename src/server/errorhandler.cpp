@@ -14,7 +14,7 @@
 #include <cstdint>
 #include <cstring>
 #include <ctime>
-#include <string>
+#include <filesystem>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/unixfd.h"
@@ -31,15 +31,30 @@
 #define MINIMAL_BUFFER_SIZE 256
 #define BACKTRACE_SIZE 32
 
-extern int selfpipe[2];
-extern std::string crashlog;
+namespace fcitx {
+
+static int signalPipe;
+static std::filesystem::path crashlog;
 
 struct MinimalBuffer {
     char buffer[MINIMAL_BUFFER_SIZE];
     int offset;
 };
 
-void SetMyExceptionHandler() {
+static void OnException(int signo);
+
+void SetMyExceptionHandler(int pipeFd) {
+
+    auto userDir =
+        StandardPaths::global().userDirectory(StandardPathsType::PkgConfig);
+    if (!userDir.empty()) {
+        if (fs::makePath(userDir)) {
+            crashlog = userDir / "crash.log";
+        }
+    }
+
+    signalPipe = pipeFd;
+
     int signo;
 
     for (signo = SIGHUP; signo < SIGUNUSED; signo++) {
@@ -115,7 +130,7 @@ static inline void _write_buffer(int fd, const MinimalBuffer *buffer) {
 void OnException(int signo) {
     if (signo == SIGCHLD) {
         uint8_t sig = (signo & 0xff);
-        fcitx::fs::safeWrite(selfpipe[1], &sig, 1);
+        fcitx::fs::safeWrite(signalPipe, &sig, 1);
         signal(signo, OnException);
         return;
     }
@@ -180,10 +195,12 @@ void OnException(int signo) {
         if (signo < 0xff) {
             sig = (uint8_t)(signo & 0xff);
         }
-        fcitx::fs::safeWrite(selfpipe[1], &sig, 1);
+        fcitx::fs::safeWrite(signalPipe, &sig, 1);
         signal(signo, OnException);
     } break;
     }
 }
+
+} // namespace fcitx
 
 // kate: indent-mode cstyle; space-indent on; indent-width 0;

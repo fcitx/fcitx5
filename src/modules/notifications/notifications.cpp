@@ -7,12 +7,24 @@
  */
 
 #include "notifications.h"
+#include <chrono>
+#include <cstdint>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/dbus/matchrule.h"
+#include "fcitx-utils/dbus/message.h"
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/icontheme.h"
 #include "dbus_public.h"
+#include "notifications_public.h"
 
 #define NOTIFICATIONS_SERVICE_NAME "org.freedesktop.Notifications"
 #define NOTIFICATIONS_INTERFACE_NAME "org.freedesktop.Notifications"
@@ -23,6 +35,7 @@ namespace fcitx::notifications {
 Notifications::Notifications(Instance *instance)
     : instance_(instance), dbus_(instance_->addonManager().addon("dbus")),
       bus_(dbus_->call<IDBusModule::bus>()), watcher_(*bus_) {
+    dbus::VariantTypeRegistry::defaultRegistry();
     reloadConfig();
     actionMatch_ = bus_->addMatch(
         dbus::MatchRule(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
@@ -66,7 +79,7 @@ Notifications::Notifications(Instance *instance)
                 call_.reset();
                 items_.clear();
                 globalToInternalId_.clear();
-                internalId_ = epoch_ << 32u;
+                internalId_ = epoch_ << 32U;
                 epoch_++;
             }
             if (!newOwner.empty()) {
@@ -110,6 +123,7 @@ void Notifications::reloadConfig() {
 
 void Notifications::save() {
     std::vector<std::string> values_;
+    values_.reserve(hiddenNotifications_.size());
     for (const auto &id : hiddenNotifications_) {
         values_.push_back(id);
     }
@@ -138,6 +152,17 @@ uint32_t Notifications::sendNotification(
     const std::vector<std::string> &actions, int32_t timeout,
     NotificationActionCallback actionCallback,
     NotificationClosedCallback closedCallback) {
+    return sendNotificationInternal(appName, replaceId, appIcon, summary, body,
+                                    actions, timeout, std::move(actionCallback),
+                                    std::move(closedCallback), false);
+}
+
+uint32_t Notifications::sendNotificationInternal(
+    const std::string &appName, uint32_t replaceId, const std::string &appIcon,
+    const std::string &summary, const std::string &body,
+    const std::vector<std::string> &actions, int32_t timeout,
+    NotificationActionCallback actionCallback,
+    NotificationClosedCallback closedCallback, bool transient) {
     auto message =
         bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
                                NOTIFICATIONS_INTERFACE_NAME, "Notify");
@@ -154,6 +179,10 @@ uint32_t Notifications::sendNotification(
     message << actions;
     message << dbus::Container(dbus::Container::Type::Array,
                                dbus::Signature("{sv}"));
+    if (transient) {
+        message << dbus::DictEntry<std::string, dbus::Variant>(
+            "transient", dbus::Variant(true));
+    }
     message << dbus::ContainerEnd();
     message << timeout;
 
@@ -195,14 +224,18 @@ void Notifications::showTip(const std::string &tipId,
                             const std::string &appIcon,
                             const std::string &summary, const std::string &body,
                             int32_t timeout) {
-    if (hiddenNotifications_.count(tipId)) {
+    if (hiddenNotifications_.contains(tipId)) {
         return;
     }
     std::vector<std::string> actions = {"dont-show", _("Do not show again")};
     if (!capabilities_.test(NotificationsCapability::Actions)) {
         actions.clear();
     }
-    lastTipId_ = sendNotification(
+    if (lastTipTimestamp_ + std::chrono::seconds(5) <
+        std::chrono::steady_clock::now()) {
+        lastTipId_ = 0;
+    }
+    lastTipId_ = sendNotificationInternal(
         appName, lastTipId_, appIcon, summary, body, actions, timeout,
         [this, tipId](const std::string &action) {
             if (action == "dont-show") {
@@ -212,7 +245,8 @@ void Notifications::showTip(const std::string &tipId,
                 }
             }
         },
-        {});
+        {}, /*transient=*/true);
+    lastTipTimestamp_ = std::chrono::steady_clock::now();
 }
 
 class NotificationsModuleFactory : public AddonFactory {

@@ -7,7 +7,9 @@
 #ifndef _FCITX5_MODULES_CLIPBOARD_CLIPBOARDENTRY_H_
 #define _FCITX5_MODULES_CLIPBOARD_CLIPBOARDENTRY_H_
 
+#include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include "fcitx-utils/log.h"
 

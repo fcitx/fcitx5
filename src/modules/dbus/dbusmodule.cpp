@@ -5,18 +5,36 @@
  *
  */
 
-#include "config.h"
-
+#include "dbusmodule.h"
 #include <pwd.h>
-#include <fstream>
+#include <unistd.h>
+#include <cstdint>
+#include <memory>
 #include <set>
 #include <sstream>
+#include <stdexcept>
+#include <string>
+#include <tuple>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 #include <format>
+#include "fcitx-config/configuration.h"
 #include "fcitx-config/dbushelper.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/message.h"
+#include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/variant.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/unixfd.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninfo.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontextmanager.h"
@@ -24,9 +42,12 @@
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
-#include "dbusmodule.h"
+#include "config.h"
 #include "keyboard_public.h"
+
 #ifdef ENABLE_X11
+#include <xcb/xcb.h>
+#include <xcb/xproto.h>
 #include "xcb_public.h"
 #endif
 #ifdef WAYLAND_FOUND
@@ -143,24 +164,28 @@ public:
             });
     }
     void configure() { instance_->configure(); }
-    void configureAddon(const std::string &) { instance_->configure(); }
-    void configureInputMethod(const std::string &) { instance_->configure(); }
+    void configureAddon(const std::string & /*unused*/) {
+        instance_->configure();
+    }
+    void configureInputMethod(const std::string & /*unused*/) {
+        instance_->configure();
+    }
     std::string currentUI() { return instance_->currentUI(); }
     std::string addonForInputMethod(const std::string &imName) {
         return instance_->addonForInputMethod(imName);
     }
-    void activate() { return instance_->activate(); }
-    void deactivate() { return instance_->deactivate(); }
-    void toggle() { return instance_->toggle(); }
-    void resetInputMethodList() { return instance_->resetInputMethodList(); }
+    void activate() { instance_->activate(); }
+    void deactivate() { instance_->deactivate(); }
+    void toggle() { instance_->toggle(); }
+    void resetInputMethodList() { instance_->resetInputMethodList(); }
     int state() { return instance_->state(); }
-    void reloadConfig() { return instance_->reloadConfig(); }
+    void reloadConfig() { instance_->reloadConfig(); }
     void reloadAddonConfig(const std::string &addonName) {
-        return instance_->reloadAddonConfig(addonName);
+        instance_->reloadAddonConfig(addonName);
     }
     std::string currentInputMethod() { return instance_->currentInputMethod(); }
     void setCurrentInputMethod(const std::string &imName) {
-        return instance_->setCurrentInputMethod(imName);
+        instance_->setCurrentInputMethod(imName);
     }
 
     std::vector<std::string> inputMethodGroups() {
@@ -320,7 +345,7 @@ public:
                 dumpDBusConfigDescription(instance_->globalConfig().config());
             return result;
         }
-        if (stringutils::startsWith(uri, addonConfigPrefix)) {
+        if (uri.starts_with(addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
             auto pos = addon.find('/');
             std::string subPath;
@@ -359,7 +384,7 @@ public:
             throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                         "Failed to get addon config.");
         }
-        if (stringutils::startsWith(uri, imConfigPrefix)) {
+        if (uri.starts_with(imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
             const auto *entry = instance_->inputMethodManager().entry(im);
             if (entry) {
@@ -402,7 +427,7 @@ public:
             if (instance_->globalConfig().safeSave()) {
                 instance_->reloadConfig();
             }
-        } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
+        } else if (uri.starts_with(addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
             auto pos = addon.find('/');
             std::string subPath;
@@ -422,7 +447,7 @@ public:
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                             "Failed to get addon.");
             }
-        } else if (stringutils::startsWith(uri, imConfigPrefix)) {
+        } else if (uri.starts_with(imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
             const auto *entry = instance_->inputMethodManager().entry(im);
             auto *engine = instance_->inputMethodEngine(im);
@@ -463,9 +488,9 @@ public:
                     continue;
                 }
                 bool enabled = info->isDefaultEnabled();
-                if (disabledSet.count(info->uniqueName())) {
+                if (disabledSet.contains(info->uniqueName())) {
                     enabled = false;
-                } else if (enabledSet.count(info->uniqueName())) {
+                } else if (enabledSet.contains(info->uniqueName())) {
                     enabled = true;
                 }
                 result.emplace_back(info->uniqueName(), info->name().match(),
@@ -502,9 +527,9 @@ public:
                     continue;
                 }
                 bool enabled = info->isDefaultEnabled();
-                if (disabledSet.count(info->uniqueName())) {
+                if (disabledSet.contains(info->uniqueName())) {
                     enabled = false;
-                } else if (enabledSet.count(info->uniqueName())) {
+                } else if (enabledSet.contains(info->uniqueName())) {
                     enabled = true;
                 }
                 result.emplace_back(info->uniqueName(), info->name().match(),
@@ -629,7 +654,7 @@ public:
         std::stringstream ss;
         instance_->inputContextManager().foreachGroup([&ss](FocusGroup *group) {
             ss << "Group [" << group->display() << "] has " << group->size()
-               << " InputContext(s)" << std::endl;
+               << " InputContext(s)" << '\n';
             group->foreach([&ss](InputContext *ic) {
                 ss << "  IC [";
                 for (auto v : ic->uuid()) {
@@ -639,12 +664,12 @@ public:
                    << " frontend:" << ic->frontendName() << " cap:"
                    << std::format("{:x}",
                                   static_cast<uint64_t>(ic->capabilityFlags()))
-                   << " focus:" << ic->hasFocus() << std::endl;
+                   << " focus:" << ic->hasFocus() << '\n';
                 return true;
             });
             return true;
         });
-        ss << "Input Context without group" << std::endl;
+        ss << "Input Context without group" << '\n';
         instance_->inputContextManager().foreach([&ss](InputContext *ic) {
             if (ic->focusGroup()) {
                 return true;
@@ -658,7 +683,7 @@ public:
             }
             ss << "] program:" << ic->program()
                << " frontend:" << ic->frontendName()
-               << " focus:" << ic->hasFocus() << std::endl;
+               << " focus:" << ic->hasFocus() << '\n';
             return true;
         });
         return ss.str();
@@ -677,7 +702,7 @@ public:
 
     bool canRestart() { return instance_->canRestart(); }
 
-    void save() { return instance_->save(); }
+    void save() { instance_->save(); }
 
     void setLogRule(const std::string &rule) { Log::setLogRule(rule); }
 

@@ -346,7 +346,7 @@
         the time of its creation.
 
         The compositor must issue this request when the object is no longer
-        useable, e.g. due to seat removal.
+        usable, e.g. due to seat removal.
 
         The input method context becomes inert and should be destroyed after
         deactivation is handled. Any further requests and events except for the

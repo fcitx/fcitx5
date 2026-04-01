@@ -154,7 +154,7 @@ void WaylandCursor::update() {
     }
 
     surface->commit();
-    // Ensure callback_ is the last variable being destoryed.
+    // Ensure callback_ is the last variable being destroyed.
     callback_ = std::move(newCallback);
 }
 

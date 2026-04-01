@@ -10,7 +10,11 @@ endif()
 
 if (WAYLAND_FOUND)
     target_sources(clipboard PRIVATE waylandclipboard.cpp)
-    target_link_libraries(clipboard Fcitx5::Module::Wayland Fcitx5::Wayland::WLRDataControl Pthread::Pthread)
+    target_link_libraries(clipboard
+        Fcitx5::Module::Wayland
+        Fcitx5::Wayland::WLRDataControl
+        Fcitx5::Wayland::ExtDataControl
+        Pthread::Pthread)
 endif()
 
 install(TARGETS clipboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")

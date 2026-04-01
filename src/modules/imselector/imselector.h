@@ -16,9 +16,6 @@
 #include "fcitx/instance.h"
 
 namespace fcitx {
-using KeyListOptionWithToolTip =
-    Option<KeyList, ListConstrain<KeyConstrain>, DefaultMarshaller<KeyList>,
-           ToolTipAnnotation>;
 
 FCITX_CONFIGURATION(
     IMSelectorConfig,
@@ -34,7 +31,7 @@ FCITX_CONFIGURATION(
         _("Trigger Key for only current input context"),
         {},
         KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
-    KeyListOptionWithToolTip switchKey{
+    KeyListOptionWithAnnotation<ToolTipAnnotation> switchKey{
         this,
         "SwitchKey",
         _("Hotkey for switching to the N-th input method"),
@@ -43,7 +40,7 @@ FCITX_CONFIGURATION(
         {},
         ToolTipAnnotation(
             _("The n-th hotkey in the list selects the n-th input method."))};
-    KeyListOptionWithToolTip switchKeyLocal{
+    KeyListOptionWithAnnotation<ToolTipAnnotation> switchKeyLocal{
         this,
         "SwitchKeyLocal",
         _("Hotkey for switching to the N-th input "

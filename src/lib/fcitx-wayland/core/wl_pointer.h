@@ -14,7 +14,7 @@ public:
     static constexpr const char *interface = "wl_pointer";
     static constexpr const wl_interface *const wlInterface =
         &wl_pointer_interface;
-    static constexpr const uint32_t version = 9;
+    static constexpr const uint32_t version = 10;
     using wlType = wl_pointer;
     operator wl_pointer *() { return data_.get(); }
     WlPointer(wlType *data);

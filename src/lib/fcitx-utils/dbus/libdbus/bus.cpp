@@ -469,11 +469,11 @@ std::string addressByType(BusType type) {
         }
     case BusType::Default:
         if (auto starter = getEnvironment("DBUS_STARTER_BUS_TYPE")) {
-            if (stringutils::startsWith(*starter, "system")) {
+            if (starter->starts_with("system")) {
                 return addressByType(BusType::System);
             }
-            if (stringutils::startsWith(*starter, "user") ||
-                stringutils::startsWith(*starter, "session")) {
+            if (starter->starts_with("user") ||
+                starter->starts_with("session")) {
                 return addressByType(BusType::Session);
             }
         }
@@ -604,7 +604,7 @@ dbus_bool_t DBusAddTimeout(DBusTimeout *timeout, void *data) {
         bus->timeWatchers_.emplace(
             timeout,
             bus->loop_->addTimeEvent(
-                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + interval * 1000ULL, 0,
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + (interval * 1000ULL), 0,
                 [timeout, ref](EventSourceTime *event, uint64_t) {
                     // Copy is required since the lambda may be deleted.
                     // NOLINTBEGIN(performance-unnecessary-copy-initialization)

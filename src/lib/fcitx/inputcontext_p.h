@@ -7,8 +7,16 @@
 #ifndef _FCITX_INPUTCONTEXT_P_H_
 #define _FCITX_INPUTCONTEXT_P_H_
 
-#include <unordered_map>
+#include <cstddef>
+#include <list>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/intrusivelist.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/rect.h>
 #include <fcitx-utils/uuid_p.h>
 #include <fcitx/event.h>
 #include <fcitx/inputcontext.h>
@@ -17,6 +25,7 @@
 #include <fcitx/inputpanel.h>
 #include <fcitx/instance.h>
 #include <fcitx/statusarea.h>
+#include <fcitx/surroundingtext.h>
 
 namespace fcitx {
 
@@ -117,7 +126,7 @@ public:
         case EventType::InputContextCommitStringWithCursor: {
             auto &event = static_cast<CommitStringWithCursorEvent &>(icEvent);
             if (!postEvent(event)) {
-                if (auto v2 = dynamic_cast<InputContextV2 *>(q)) {
+                if (auto *v2 = dynamic_cast<InputContextV2 *>(q)) {
                     v2->commitStringWithCursorImpl(event.text(),
                                                    event.cursor());
                 } else {

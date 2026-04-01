@@ -6,14 +6,33 @@
  */
 
 #include "kimpanel.h"
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/matchrule.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/flags.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/action.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
+#include "fcitx/icontheme.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
@@ -21,6 +40,9 @@
 #include "fcitx/instance.h"
 #include "fcitx/menu.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/statusarea.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
 
@@ -271,9 +293,8 @@ void Kimpanel::update(UserInterfaceComponent component,
     }
     if (component == UserInterfaceComponent::InputPanel) {
         if (classicui() && isKDE() &&
-            (stringutils::startsWith(inputContext->frontendName(), "wayland") ||
-             (xcb() &&
-              stringutils::startsWith(inputContext->display(), "x11:") &&
+            (inputContext->frontendName().starts_with("wayland") ||
+             (xcb() && inputContext->display().starts_with("x11:") &&
               xcb()->call<IXCBModule::isXWayland>(
                   inputContext->display().substr(4))))) {
             proxy_->showAux(false);
@@ -360,7 +381,9 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
                 labelText = instance->outputFilter(inputContext, labelText);
                 labels.push_back(labelText.toString());
                 auto candidateText = instance->outputFilter(
-                    inputContext, candidate.textWithComment());
+                    inputContext,
+                    candidate.textWithComment(
+                        candidate.spaceBetweenComment() ? " " : ""));
                 texts.push_back(candidateText.toString());
                 attrs.emplace_back("");
             }
@@ -389,7 +412,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     bus_->flush();
 }
 
-// This is heuristic, but we guranteed that we don't do crazy things with label.
+// This is heuristic, but we guarantee that we don't do crazy things with label.
 std::string extractTextForLabel(const std::string &label) {
     if (label.empty()) {
         return "";
@@ -468,7 +491,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                     IconTheme::iconName(entry->icon()), "::"));
             }
             proxy_->execMenu(menuitems);
-        } else if (stringutils::startsWith(property, "/Fcitx/im/")) {
+        } else if (property.starts_with("/Fcitx/im/")) {
             timeEvent_ = instance_->eventLoop().addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                 [this, imName = property.substr(10)](EventSourceTime *,
@@ -477,7 +500,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                     timeEvent_.reset();
                     return true;
                 });
-        } else if (stringutils::startsWith(property, "/Fcitx/")) {
+        } else if (property.starts_with("/Fcitx/")) {
             auto actionName = property.substr(7);
             auto *action =
                 instance_->userInterfaceManager().lookupAction(actionName);

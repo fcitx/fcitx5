@@ -10,7 +10,7 @@
 /// \addtogroup FcitxUtils
 /// \{
 /// \file
-/// \brief A signal-slot implemention.
+/// \brief A signal-slot implementation.
 
 #include <functional>
 #include <memory>

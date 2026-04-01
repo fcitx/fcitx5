@@ -13,7 +13,7 @@ public:
     static constexpr const char *interface = "wl_shm_pool";
     static constexpr const wl_interface *const wlInterface =
         &wl_shm_pool_interface;
-    static constexpr const uint32_t version = 1;
+    static constexpr const uint32_t version = 2;
     using wlType = wl_shm_pool;
     operator wl_shm_pool *() { return data_.get(); }
     WlShmPool(wlType *data);

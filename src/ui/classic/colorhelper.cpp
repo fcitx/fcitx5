@@ -6,6 +6,7 @@
 
 #include "colorhelper.h"
 #include <cmath>
+#include <utility>
 #include "fcitx-utils/color.h"
 
 namespace fcitx::classicui {
@@ -24,13 +25,12 @@ float luma(const Color &c) {
     return lumag(gamma(c.redF()), gamma(c.greenF()), gamma(c.blueF()));
 }
 
-Color accentForeground(const Color &accent) {
-    auto c = Color(255, 255, 255);
+std::pair<Color, Color> accentForeground(const Color &accent) {
     // light bg
     if (luma(accent) > 0.5) {
-        c = Color(0, 0, 0);
+        return {Color(0, 0, 0), Color(51, 51, 51)};
     }
-    return c;
+    return {Color(255, 255, 255), Color(204, 204, 204)};
 }
 
 } // namespace fcitx::classicui

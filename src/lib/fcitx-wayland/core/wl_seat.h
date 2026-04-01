@@ -15,7 +15,7 @@ class WlSeat final {
 public:
     static constexpr const char *interface = "wl_seat";
     static constexpr const wl_interface *const wlInterface = &wl_seat_interface;
-    static constexpr const uint32_t version = 9;
+    static constexpr const uint32_t version = 10;
     using wlType = wl_seat;
     operator wl_seat *() { return data_.get(); }
     WlSeat(wlType *data);

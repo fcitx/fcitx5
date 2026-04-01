@@ -211,11 +211,8 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     memcpy(array.data, data, sizeof(data));
     ic_->modifiersMap(&array);
     wl_array_release(&array);
-    if (virtualICManager_) {
-        virtualICManager_->setRealFocus(true);
-    } else {
-        focusIn();
-    }
+    focusInWrapper();
+    updateSurroundingTextWrapper();
 }
 
 void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
@@ -230,6 +227,8 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
 
         timeEvent_->setEnabled(false);
         focusOutWrapper();
+        surroundingText().invalidate();
+        updateSurroundingTextWrapper();
     } else {
         // This should not happen, but just in case.
         delete ic;
@@ -238,6 +237,12 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
 
 void WaylandIMInputContextV1::repeat() {
     if (!ic_ || !realFocus()) {
+        return;
+    }
+
+    auto rate = repeatRate();
+    // validate to avoid divide by zero.
+    if (rate <= 0) {
         return;
     }
 
@@ -252,7 +257,7 @@ void WaylandIMInputContextV1::repeat() {
         sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_PRESSED);
     }
 
-    uint64_t interval = 1000000 / repeatRate();
+    uint64_t interval = 1000000 / rate;
     timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
 }
@@ -479,11 +484,25 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     // EVDEV OFFSET
     uint32_t code = key + 8;
 
+    bool isRepeat = false;
+#ifdef WL_KEYBOARD_KEY_STATE_REPEATED_SINCE_VERSION
+    isRepeat = state == WL_KEYBOARD_KEY_STATE_REPEATED;
+#endif
+    KeyStates modifiers = server_->modifiers_;
+    if (isRepeat) {
+        modifiers |= KeyState::Repeat;
+        // If server side repetition is ever detected, disable our own
+        // repetition.
+        repeatInfo_ = std::make_tuple(0, 0);
+    }
+
+    focusInWrapper();
+
     auto *ic = delegatedInputContext();
     KeyEvent event(ic,
                    Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                            server_->state_.get(), code)),
-                       server_->modifiers_, code),
+                       modifiers, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
@@ -630,8 +649,16 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
             index += preedit.stringAt(i).size();
         }
     }
-    ic_->preeditString(serial_, preedit.toString().c_str(),
-                       preedit.toStringForCommit().c_str());
+    const std::string preeditString = preedit.toString();
+    const std::string preeditCommitString = preedit.toStringForCommit();
+    // Avoid hitting wayland message limit.
+    if (preeditString.size() + preeditCommitString.size() >=
+        WaylandIMServerBase::safeStringLimit) {
+        return;
+    }
+
+    ic_->preeditString(serial_, preeditString.c_str(),
+                       preeditCommitString.c_str());
 }
 
 void WaylandIMInputContextV1::deleteSurroundingTextDelegate(

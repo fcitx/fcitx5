@@ -72,12 +72,28 @@ public:
      */
     Text textWithComment(std::string separator = " ") const;
 
+    /**
+     * Whether there should be no space between text and comment.
+     *
+     * This is optional and may not be used if UI doesn't support it.
+     * By default the value is true.
+     *
+     * This doesn't change the behavior of textWithComment. The caller of
+     * textWithComment should check this function and decide whether to add
+     * space or not.
+     *
+     * @return true if there should be space, false otherwise.
+     * @since 5.1.20
+     */
+    bool spaceBetweenComment() const;
+
 protected:
     void setText(Text text);
     void setPlaceHolder(bool placeHolder);
     void resetCustomLabel();
     void setCustomLabel(Text text);
     void setComment(Text comment);
+    void setSpaceBetweenComment(bool space);
 
 private:
     std::unique_ptr<CandidateWordPrivate> d_ptr;
@@ -352,7 +368,7 @@ public:
     void setCursorPositionAfterPaging(CursorPositionAfterPaging afterPaging);
 
     /**
-     * Set an optional implemenation of actionable candidate list
+     * Set an optional implementation of actionable candidate list
      *
      * @since 5.1.10
      */

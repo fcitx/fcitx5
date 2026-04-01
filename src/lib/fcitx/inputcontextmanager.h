@@ -47,7 +47,7 @@ public:
     InputContext *findByUUID(ICUUID uuid);
 
     /**
-     * Set the property propgate policy.
+     * Set the property propagate policy.
      *
      * The policy can be either All, Program or No, to define whether a certain
      * state need to be copied  to another input context.

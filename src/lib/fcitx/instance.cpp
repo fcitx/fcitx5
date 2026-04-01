@@ -185,22 +185,13 @@ void InstanceArgument::printUsage() const {
 
 InstancePrivate::InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {
 #ifdef ENABLE_KEYBOARD
-    auto locale = getEnvironment("LC_ALL");
-    if (!locale) {
-        locale = getEnvironment("LC_CTYPE");
-    }
-    if (!locale) {
-        locale = getEnvironment("LANG");
-    }
-    if (!locale) {
-        locale = "C";
-    }
-    assert(locale.has_value());
+    const auto &locale = getCurrentLocale();
+    assert(!locale.empty());
     xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
     if (xkbContext_) {
         xkb_context_set_log_level(xkbContext_.get(), XKB_LOG_LEVEL_CRITICAL);
         xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
-            xkbContext_.get(), locale->data(), XKB_COMPOSE_COMPILE_NO_FLAGS));
+            xkbContext_.get(), locale.data(), XKB_COMPOSE_COMPILE_NO_FLAGS));
         if (!xkbComposeTable_) {
             FCITX_INFO()
                 << "Trying to fallback to compose table for en_US.UTF-8";
@@ -270,11 +261,11 @@ InstancePrivate::overrideAddons() {
         enabled.erase(addon);
         disabled.insert(addon);
     }
-    for (auto &addon : arg_.enableList) {
+    for (const auto &addon : arg_.enableList) {
         disabled.erase(addon);
         enabled.insert(addon);
     }
-    for (auto &addon : arg_.disableList) {
+    for (const auto &addon : arg_.disableList) {
         enabled.erase(addon);
         disabled.insert(addon);
     }
@@ -290,7 +281,7 @@ void InstancePrivate::buildDefaultGroup() {
     auto guessLayout = [this, &layouts, &variants,
                         &infoFound](FocusGroup *focusGroup) {
         // For now we can only do this on X11.
-        if (!stringutils::startsWith(focusGroup->display(), "x11:")) {
+        if (!focusGroup->display().starts_with("x11:")) {
             return true;
         }
 #ifdef ENABLE_X11
@@ -536,7 +527,7 @@ xkb_state *InputState::customXkbState(bool refresh) {
     const InputMethodGroup &group = d_ptr->imManager_.currentGroup();
     const auto im = instance->inputMethod(ic_);
     auto layout = group.layoutFor(im);
-    if (layout.empty() && stringutils::startsWith(im, "keyboard-")) {
+    if (layout.empty() && im.starts_with("keyboard-")) {
         layout = im.substr(9);
     }
     if (layout.empty() || layout == group.defaultLayout()) {
@@ -878,6 +869,8 @@ Instance::Instance(int argc, char **argv) {
             if (!keyEvent.isRelease() &&
                 keyEvent.key().checkKeyList(
                     d->globalConfig_.togglePreeditKeys())) {
+                // Clear client preedit on disable.
+                ic->reset();
                 ic->setEnablePreedit(!ic->isPreeditEnabled());
                 if (d->notifications_) {
                     d->notifications_->call<INotifications::showTip>(
@@ -1032,7 +1025,8 @@ Instance::Instance(int argc, char **argv) {
                             utf32 == '\x7f') {
                             return;
                         }
-                        if (keyEvent.key().states().test(KeyState::Ctrl) ||
+                        if (keyEvent.key().states().testAny(
+                                KeyStates{KeyState::Ctrl, KeyState::Alt}) ||
                             keyEvent.rawKey().sym() ==
                                 keyEvent.origKey().sym()) {
                             return;
@@ -1040,7 +1034,8 @@ Instance::Instance(int argc, char **argv) {
                         FCITX_KEYTRACE() << "Will commit char: " << utf32;
                         ic->commitString(utf8::UCS4ToUTF8(utf32));
                         keyEvent.filterAndAccept();
-                    } else if (!keyEvent.key().states().test(KeyState::Ctrl) &&
+                    } else if (!keyEvent.key().states().testAny(
+                                   KeyStates{KeyState::Ctrl, KeyState::Alt}) &&
                                keyEvent.rawKey().sym() !=
                                    keyEvent.origKey().sym() &&
                                Key::keySymToUnicode(keyEvent.origKey().sym()) !=
@@ -1295,7 +1290,7 @@ void InstanceArgument::parseOption(int argc, char **argv) {
     int optionIndex = 0;
     int c;
     std::string addonOptionString;
-    while ((c = getopt_long(argc, argv, "ru:dDs:hvo:", longOptions,
+    while ((c = getopt_long(argc, argv, "ru:dDs:hvo:k", longOptions,
                             &optionIndex)) != EOF) {
         switch (c) {
         case 0: {
@@ -2389,20 +2384,20 @@ int scoreForGroup(FocusGroup *group, const std::string &displayHint) {
         if (group->display() == "x11:") {
             return 2;
         }
-        if (stringutils::startsWith(group->display(), "x11:")) {
+        if (group->display().starts_with("x11:")) {
             return 1;
         }
         if (group->display() == "wayland:") {
             return 4;
         }
-        if (stringutils::startsWith(group->display(), "wayland:")) {
+        if (group->display().starts_with("wayland:")) {
             return 3;
         }
     } else {
         if (group->display() == displayHint) {
             return 2;
         }
-        if (stringutils::startsWith(group->display(), displayHint)) {
+        if (group->display().starts_with(displayHint)) {
             return 1;
         }
     }

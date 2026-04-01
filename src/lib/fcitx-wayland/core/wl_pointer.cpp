@@ -117,10 +117,12 @@ WlPointer::WlPointer(wl_pointer *data)
 
 void WlPointer::destructor(wl_pointer *data) {
     const auto version = wl_pointer_get_version(data);
+#if defined(WL_POINTER_RELEASE_SINCE_VERSION)
     if (version >= 3) {
         wl_pointer_release(data);
         return;
     }
+#endif
     wl_pointer_destroy(data);
 }
 void WlPointer::setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
@@ -128,4 +130,5 @@ void WlPointer::setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
     wl_pointer_set_cursor(*this, serial, rawPointer(surface), hotspotX,
                           hotspotY);
 }
+
 } // namespace fcitx::wayland

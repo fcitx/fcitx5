@@ -65,10 +65,13 @@ WlOutput::WlOutput(wl_output *data)
 
 void WlOutput::destructor(wl_output *data) {
     const auto version = wl_output_get_version(data);
+#if defined(WL_OUTPUT_RELEASE_SINCE_VERSION)
     if (version >= 3) {
         wl_output_release(data);
         return;
     }
+#endif
     wl_output_destroy(data);
 }
+
 } // namespace fcitx::wayland

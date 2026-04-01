@@ -21,7 +21,6 @@
 #include <string_view>
 #include <system_error>
 #include "misc.h"
-#include "stringutils.h"
 #include "unixfd.h"
 #include "utf8.h" // IWYU pragma: keep
 
@@ -107,7 +106,7 @@ std::string cleanPath(const std::string &path) {
         return {};
     }
 
-    // skip first group of continous slash, for possible furture windows support
+    // skip first group of continuous slash, for possible future windows support
     size_t i = 0;
     while (path[i] == '/') {
         buf.push_back(path[i]);
@@ -170,7 +169,7 @@ std::string cleanPath(const std::string &path) {
             break;
         }
     }
-    if (stringutils::startsWith(buf, "./")) {
+    if (buf.starts_with("./")) {
         return buf.substr(2);
     }
     return buf;

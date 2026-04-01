@@ -16,23 +16,15 @@
 #ifndef SIGUNUSED
 #define SIGUNUSED 29
 #endif
-/* ***********************************************************
-// Data structures
-// *********************************************************** */
 
-/* ***********************************************************
-// Functions
-// *********************************************************** */
+namespace fcitx {
 
 //
 // Set Posix Signal Handler
 //
 //
-void SetMyExceptionHandler(void);
+void SetMyExceptionHandler(int pipeFd);
 
-//
-// Process Posix signal
-//
-void OnException(int signo);
+} // namespace fcitx
 
 #endif

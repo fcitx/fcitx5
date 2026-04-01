@@ -134,7 +134,7 @@ if (ENABLE_KEYBOARD)
     add_executable(testisocodes testisocodes.cpp ../src/im/keyboard/isocodes.cpp)
     target_compile_definitions(testisocodes PRIVATE "-D_TEST_XKBRULES")
     target_include_directories(testisocodes PRIVATE ../src)
-    target_link_libraries(testisocodes Fcitx5::Core PkgConfig::JsonC)
+    target_link_libraries(testisocodes Fcitx5::Core nlohmann_json::nlohmann_json)
     add_test(NAME testisocodes COMMAND testisocodes)
 
     add_executable(testcompose testcompose.cpp)

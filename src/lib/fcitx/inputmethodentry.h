@@ -42,7 +42,7 @@ public:
     const std::string &languageCode() const;
     const std::string &addon() const;
     /**
-     * A compact label that intented to be shown in a compact space.
+     * A compact label that intended to be shown in a compact space.
      *
      * usually some latin-character, or a single character of the input method
      * language.

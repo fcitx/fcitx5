@@ -15,6 +15,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <unordered_set>
 #include <utility>
@@ -27,6 +28,7 @@
 #include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventloopinterface.h"
@@ -151,7 +153,7 @@ void WaylandConnection::init(wl_display *display) {
             if (name == wayland::WlSeat::interface) {
                 setupKeyboard(static_cast<wayland::WlSeat *>(seat.get()));
             } else if (name == "zwp_input_method_v1") {
-                // Do a defered layou sync, since this is callback is called
+                // Do a deferred layout sync, since this is callback is called
                 // before waylandim setup.
                 parent_->instance()->eventDispatcher().scheduleWithContext(
                     watch(), [this]() { parent_->setLayoutToCompositor(); });
@@ -517,9 +519,35 @@ void WaylandModule::setLayoutToKDE() {
         safeSaveAsIni(config, StandardPathsType::Config, "kxkbrc");
     }
 
-    auto bus = dbusAddon->call<IDBusModule::bus>();
+    auto *bus = dbusAddon->call<IDBusModule::bus>();
+    // Prior KWin 6.5
     auto message =
         bus->createSignal("/Layouts", "org.kde.keyboard", "reloadConfig");
+    message.send();
+    // After KWin 6.5
+    // https://github.com/KDE/kwin/commit/c75d26ff98fc40004923e4e0f9bb441c3b970ec3
+    message =
+        bus->createSignal("/kxkbrc", "org.kde.kconfig.notify", "ConfigChanged");
+    // Example update from KCM a{saay}
+    // array [
+    //   dict entry(
+    //      string "Layout"
+    //      array [
+    //         array of bytes "DisplayNames"
+    //         array of bytes "LayoutList"
+    //         array of bytes "VariantList"
+    //      ]
+    //   )
+    // ]
+    std::vector<dbus::DictEntry<std::string, std::vector<std::vector<uint8_t>>>>
+        entries;
+    entries.emplace_back("Layout", std::vector<std::vector<uint8_t>>());
+    for (std::string_view key :
+         {"LayoutList", "DisplayNames", "VariantList", "Use"}) {
+        std::vector<uint8_t> bytes(key.begin(), key.end());
+        entries.back().value().push_back(std::move(bytes));
+    }
+    message << entries;
     message.send();
 #endif
 }
@@ -578,7 +606,7 @@ bool WaylandModule::hasWaylandInputMethod() const {
         // connection.
         for (const auto &[_, conn] : conns_) {
             conn->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
-                if (stringutils::startsWith(ic->frontendName(), "wayland")) {
+                if (ic->frontendName().starts_with("wayland")) {
                     isWaylandIM = true;
                     return false;
                 }
@@ -594,8 +622,7 @@ bool WaylandModule::hasWaylandInputMethod() const {
             (*connection)
                 ->focusGroup()
                 ->foreach([&isWaylandIM](InputContext *ic) {
-                    if (stringutils::startsWith(ic->frontendName(),
-                                                "wayland")) {
+                    if (ic->frontendName().starts_with("wayland")) {
                         isWaylandIM = true;
                         return false;
                     }
@@ -716,20 +743,30 @@ void WaylandModule::selfDiagnose() {
             }
         }
 
-        std::unordered_set<std::string> groupLayouts;
-        for (const auto &groupName : instance_->inputMethodManager().groups()) {
-            if (const auto *group =
-                    instance_->inputMethodManager().group(groupName)) {
-                groupLayouts.insert(group->defaultLayout());
-            }
-            if (groupLayouts.size() >= 2) {
-                messages.push_back(
-                    _("Sending keyboard layout configuration to wayland "
-                      "compositor from Fcitx is "
-                      "not yet supported on current desktop. You may still use "
-                      "Fcitx's internal layout conversion by adding layout as "
-                      "input method to the input method group."));
-                break;
+        // layout diagnosis only when overriding is enabled
+        if (*config_.allowOverrideXKB) {
+            std::optional<std::string> firstLayout;
+            for (const auto &groupName :
+                 instance_->inputMethodManager().groups()) {
+                if (const auto *group =
+                        instance_->inputMethodManager().group(groupName)) {
+                    const auto &layout = group->defaultLayout();
+                    if (!firstLayout) {
+                        firstLayout = layout;
+                    } else if (layout != *firstLayout) {
+                        messages.push_back(_(
+                            "Sending keyboard layout configuration to wayland "
+                            "compositor from Fcitx is "
+                            "not yet supported on current desktop. You may "
+                            "still "
+                            "use "
+                            "Fcitx's internal layout conversion by adding "
+                            "layout "
+                            "as "
+                            "input method to the input method group."));
+                        break;
+                    }
+                }
             }
         }
 

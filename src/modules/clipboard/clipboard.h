@@ -10,11 +10,13 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
-#include "fcitx-utils/event.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
@@ -39,7 +41,7 @@
 
 namespace fcitx {
 
-constexpr size_t MAX_CLIPBOARD_SIZE = 4096;
+constexpr size_t MAX_CLIPBOARD_SIZE = 4000;
 constexpr char PASSWORD_MIME_TYPE[] = "x-kde-passwordManagerHint";
 
 FCITX_CONFIGURATION(

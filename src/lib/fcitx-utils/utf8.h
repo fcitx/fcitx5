@@ -298,6 +298,46 @@ auto MakeUTF8StringViewRange(const T &str) {
         MakeUTF8StringViewIterator(std::end(str), std::end(str)));
 }
 
+/**
+ * Replace invalid UTF-8 sequences in-place with given byte.
+ *
+ * The string length will be retained.
+ * For invalid sequence, first byte will be replaced and parse will move to
+ * next. For incomplete sequence, first byte and all continuation bytes will be
+ * replaced and parse will resume after that.
+ *
+ * @param str input string
+ * @param replacement The byte value used to replace.
+ * @return Whether any replacement happened.
+ *
+ * @since 5.1.18
+ */
+FCITXUTILS_EXPORT bool replaceInvalidInplace(std::string &str,
+                                             char replacement);
+/**
+ * Replace invalid UTF-8 sequences with given byte.
+ *
+ * The string length will be retained.
+ *
+ * @param str input string
+ * @param replacement The byte value used to replace.
+ * @see replaceInvalidInplace
+ *
+ * @since 5.1.18
+ */
+FCITXUTILS_EXPORT std::string replaceInvalid(std::string_view str,
+                                             char replacement);
+
+/**
+ * Check if the byte is a utf8 continuation byte.
+ * @param c input byte
+ * @return true if it is a continuation byte.
+ * @since 5.1.18
+ */
+inline bool isContinuationByte(char c) {
+    return (static_cast<uint8_t>(c) & 0xC0) == 0x80;
+}
+
 #ifdef _WIN32
 
 std::string UTF16ToUTF8(std::wstring_view data);

@@ -21,6 +21,8 @@ public:
     }
     void select(InputContext *) const override { selected = number_; }
 
+    using CandidateWord::setSpaceBetweenComment;
+
 private:
     int number_;
 };
@@ -200,6 +202,11 @@ void test_basic() {
         << candidatelist.cursorIndex();
     FCITX_ASSERT(candidatelist.currentPage() == 0)
         << candidatelist.currentPage();
+
+    TestCandidateWord candidate(1, Text("comment"));
+    FCITX_ASSERT(candidate.spaceBetweenComment());
+    candidate.setSpaceBetweenComment(false);
+    FCITX_ASSERT(!candidate.spaceBetweenComment());
 }
 
 void test_faulty_placeholder() {

@@ -58,8 +58,7 @@ void Configuration::dumpDescriptionImpl(
             const auto *oldTypeName = descConfigPtr->valueByPath("Type");
             // Replace the "Type" with the full name we want.
             // Path$To$Value$TypeName
-            if (oldTypeName &&
-                stringutils::endsWith(*oldTypeName, subTypeName)) {
+            if (oldTypeName && oldTypeName->ends_with(subTypeName)) {
                 auto newTypeName = oldTypeName->substr(
                     0, oldTypeName->size() - subTypeName.size());
                 newTypeName.append(stringutils::join(subConfigPath, '$'));
@@ -150,7 +149,7 @@ void Configuration::syncDefaultValueToCurrent() {
         assert(iter != d->options_.end());
         // Unfortunately on certain system OptionBaseV2 doesn't have key
         // function emit type info, so we have to add OptionBaseV3 with a
-        // non-abstract virtual funciton.
+        // non-abstract virtual function.
         if (auto *optionV3 = dynamic_cast<OptionBaseV3 *>(iter->second)) {
             optionV3->syncDefaultValueToCurrent();
         } else if (auto *optionV2 =

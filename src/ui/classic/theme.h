@@ -146,8 +146,24 @@ FCITX_CONFIGURATION(
                                            _("Highlight Background color"),
                                            Color("#a5a5a5ff")};
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
-                                          _("Highlight Candidate Color"),
+                                          _("Highlight Candidate Text Color"),
                                           Color("#ffffffff")};
+    Option<int, IntConstrain> labelTextSizeFactor{
+        this, "LabelTextSizeFactor", _("Candidate Label Text Size Factor"), 100,
+        IntConstrain(0, 400)};
+    Option<std::optional<Color>> candidateLabelColor{
+        this, "CandidateLabelColor", _("Candidate Label Text Color")};
+    Option<std::optional<Color>> highlightCandidateLabelColor{
+        this, "HighlightCandidateLabelColor",
+        _("Highlight Candidate Label Text Color")};
+    Option<int, IntConstrain> commentTextSizeFactor{
+        this, "CommentTextSizeFactor", _("Candidate Comment Text Size Factor"),
+        75, IntConstrain(0, 400)};
+    Option<std::optional<Color>> candidateCommentColor{
+        this, "CandidateCommentColor", _("Candidate Comment Text Color")};
+    Option<std::optional<Color>> highlightCandidateCommentColor{
+        this, "HighlightCandidateCommentColor",
+        _("Highlight Candidate Comment Text Color")};
     Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin"),
                             false};
     Option<std::string> blurMask{this, "BlurMask", _("Blur mask"), ""};
@@ -211,12 +227,13 @@ FCITX_CONFIGURATION(ThemeConfig,
 
 class ClassicUI;
 class ClassicUIConfig;
+class Theme;
 
 class ThemeImage {
 public:
-    ThemeImage(const std::string &name, const BackgroundImageConfig &cfg,
+    ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                const Color &color, const Color &borderColor);
-    ThemeImage(const std::string &name, const ActionImageConfig &cfg);
+    ThemeImage(const Theme &theme, const ActionImageConfig &cfg);
     ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                const std::string &label, uint32_t size,
                const ClassicUI *classicui);
@@ -274,7 +291,7 @@ public:
     Theme();
     ~Theme();
 
-    const std::string &name() { return name_; }
+    const std::string &name() const { return name_; }
     void load(std::string_view name);
     void load(std::string_view name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
@@ -314,6 +331,18 @@ public:
     const auto &inputPanelHighlightCandidateText() const {
         return inputPanelHighlightCandidateText_;
     }
+    const auto &inputPanelCandidateLabelText() const {
+        return inputPanelCandidateLabelText_;
+    }
+    const auto &inputPanelHighlightCandidateLabelText() const {
+        return inputPanelHighlightCandidateLabelText_;
+    }
+    const auto &inputPanelCandidateCommentText() const {
+        return inputPanelCandidateCommentText_;
+    }
+    const auto &inputPanelHighlightCandidateCommentText() const {
+        return inputPanelHighlightCandidateCommentText_;
+    }
 
     const auto &menuBackground() const { return menuBackground_; }
     const auto &menuBorder() const { return menuBorder_; }
@@ -326,6 +355,10 @@ public:
     const auto &menuSeparator() const { return menuSeparator_; }
     const auto &menuText() const { return menuText_; }
     const auto &menuSelectedItemText() const { return menuSelectedItemText_; }
+
+    bool isSystemTheme() const { return isSystemTheme_; }
+
+    static bool isSystemThemeName(std::string_view themeName);
 
 private:
     void reset();
@@ -348,6 +381,11 @@ private:
     Color inputPanelHighlightText_;
     Color inputPanelHighlightCandidateText_;
 
+    Color inputPanelCandidateLabelText_;
+    Color inputPanelHighlightCandidateLabelText_;
+    Color inputPanelCandidateCommentText_;
+    Color inputPanelHighlightCandidateCommentText_;
+
     Color menuBackground_;
     Color menuBorder_;
     Color menuSelectedItemBackground_;
@@ -355,6 +393,8 @@ private:
     Color menuSeparator_;
     Color menuText_;
     Color menuSelectedItemText_;
+
+    bool isSystemTheme_ = false;
 };
 
 inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {

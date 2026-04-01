@@ -60,7 +60,7 @@ inline uint32_t charWidth(uint32_t c) {
     return g_unichar_iswide(c) ? 2 : 1;
 }
 
-// This is heuristic, but we guranteed that we don't do crazy things with label.
+// This is heuristic, but we guarantee that we don't do crazy things with label.
 std::pair<std::string, size_t> extractTextForLabel(const std::string &label) {
     std::string extracted;
 
@@ -234,8 +234,6 @@ cairo_surface_t *loadImage(UnixFD &file, const std::filesystem::path &path) {
     return surface;
 }
 
-} // namespace
-
 const std::vector<std::string> &gdkPixbufSupportedFormats() {
     const static std::vector<std::string> formats = []() {
         std::unordered_set<std::string> exts;
@@ -251,7 +249,7 @@ const std::vector<std::string> &gdkPixbufSupportedFormats() {
             g_strfreev(extension);
         }
 
-        // Only put the common types and we make a prefered order.
+        // Only put the common types and we make a preferred order.
         for (std::string ext : {"svg", "svgz", "png", "bmp", "xpm"}) {
             // png is supported by cairo.
             if (ext == "png" || exts.contains(ext)) {
@@ -264,6 +262,8 @@ const std::vector<std::string> &gdkPixbufSupportedFormats() {
 
     return formats;
 }
+
+} // namespace
 
 ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                        const std::string &label, uint32_t size,
@@ -291,15 +291,16 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
     }
 }
 
-ThemeImage::ThemeImage(const std::string &name,
-                       const BackgroundImageConfig &cfg, const Color &color,
-                       const Color &borderColor) {
+ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
+                       const Color &color, const Color &borderColor) {
     if (!cfg.image->empty()) {
         std::filesystem::path imagePath;
         auto imageFile = StandardPaths::global().open(
             StandardPathsType::PkgData,
-            std::filesystem::path("themes") / name / *cfg.image,
-            StandardPathsMode::Default, &imagePath);
+            std::filesystem::path("themes") / theme.name() / *cfg.image,
+            theme.isSystemTheme() ? StandardPathsMode::System
+                                  : StandardPathsMode::Default,
+            &imagePath);
         image_.reset(loadImage(imageFile, imagePath));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
@@ -312,8 +313,10 @@ ThemeImage::ThemeImage(const std::string &name,
         std::filesystem::path imagePath;
         auto imageFile = StandardPaths::global().open(
             StandardPathsType::PkgData,
-            std::filesystem::path("themes") / name / *cfg.overlay,
-            StandardPathsMode::Default, &imagePath);
+            std::filesystem::path("themes") / theme.name() / *cfg.overlay,
+            theme.isSystemTheme() ? StandardPathsMode::System
+                                  : StandardPathsMode::Default,
+            &imagePath);
         overlay_.reset(loadImage(imageFile, imagePath));
         if (overlay_ &&
             cairo_surface_status(overlay_.get()) != CAIRO_STATUS_SUCCESS) {
@@ -360,13 +363,15 @@ ThemeImage::ThemeImage(const std::string &name,
     }
 }
 
-ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
+ThemeImage::ThemeImage(const Theme &theme, const ActionImageConfig &cfg) {
     if (!cfg.image->empty()) {
         std::filesystem::path imagePath;
         auto imageFile = StandardPaths::global().open(
             StandardPathsType::PkgData,
-            std::filesystem::path("themes") / name / *cfg.image,
-            StandardPathsMode::Default, &imagePath);
+            std::filesystem::path("themes") / theme.name() / *cfg.image,
+            theme.isSystemTheme() ? StandardPathsMode::System
+                                  : StandardPathsMode::Default,
+            &imagePath);
         image_.reset(loadImage(imageFile, imagePath));
         if (image_ &&
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
@@ -425,6 +430,10 @@ Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
 
 Theme::~Theme() {}
 
+bool Theme::isSystemThemeName(std::string_view themeName) {
+    return themeName == "default" || themeName == "default-dark";
+}
+
 const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
     if (auto *image = findValue(backgroundImageTable_, &cfg)) {
         return *image;
@@ -454,7 +463,7 @@ const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
 
     auto result = backgroundImageTable_.emplace(
         std::piecewise_construct, std::forward_as_tuple(&cfg),
-        std::forward_as_tuple(name_, cfg, color, borderColor));
+        std::forward_as_tuple(*this, cfg, color, borderColor));
     assert(result.second);
     return result.first->second;
 }
@@ -466,7 +475,7 @@ const ThemeImage &Theme::loadAction(const ActionImageConfig &cfg) {
 
     auto result = actionImageTable_.emplace(std::piecewise_construct,
                                             std::forward_as_tuple(&cfg),
-                                            std::forward_as_tuple(name_, cfg));
+                                            std::forward_as_tuple(*this, cfg));
     assert(result.second);
     return result.first->second;
 }
@@ -759,6 +768,7 @@ void Theme::reset() {
 
 void Theme::load(std::string_view name) {
     reset();
+    isSystemTheme_ = isSystemThemeName(name);
     ThemeConfig config;
     copyHelper(config);
     // Reset the default value to state.
@@ -777,15 +787,19 @@ void Theme::load(std::string_view name) {
         copyHelper(config);
     }
     syncDefaultValueToCurrent();
-    if (auto themeConfigFile = StandardPaths::global().open(
-            StandardPathsType::PkgData,
-            std::filesystem::path("themes") / name / "theme.conf",
-            StandardPathsMode::User);
-        themeConfigFile.isValid()) {
-        // Has user file, load user file data.
-        RawConfig themeConfig;
-        readFromIni(themeConfig, themeConfigFile.fd());
-        Configuration::load(themeConfig, true);
+    if (!isSystemTheme_) {
+        // For system theme, we don't load user file, as user file is only for
+        // custom theme.
+        if (auto themeConfigFile = StandardPaths::global().open(
+                StandardPathsType::PkgData,
+                std::filesystem::path("themes") / name / "theme.conf",
+                StandardPathsMode::User);
+            themeConfigFile.isValid()) {
+            // Has user file, load user file data.
+            RawConfig themeConfig;
+            readFromIni(themeConfig, themeConfigFile.fd());
+            Configuration::load(themeConfig, true);
+        }
     }
     name_ = name;
     maskConfig_ = *inputPanel->background;
@@ -797,6 +811,7 @@ void Theme::load(std::string_view name) {
 
 void Theme::load(std::string_view name, const RawConfig &rawConfig) {
     reset();
+    isSystemTheme_ = isSystemThemeName(name);
     Configuration::load(rawConfig, true);
     name_ = name;
 }
@@ -907,6 +922,13 @@ void Theme::populateColor(std::optional<Color> accent) {
     inputPanelHighlightText_ = *inputPanel->highlightColor;
     inputPanelHighlightCandidateText_ = *inputPanel->highlightCandidateColor;
 
+    auto inputPanelCandidateLabelText = *inputPanel->candidateLabelColor;
+    auto inputPanelHighlightCandidateLabelText =
+        *inputPanel->highlightCandidateLabelColor;
+    auto inputPanelCandidateCommentText = *inputPanel->candidateCommentColor;
+    auto inputPanelHighlightCandidateCommentText =
+        *inputPanel->highlightCandidateCommentColor;
+
     menuBackground_ = *menu->background->color;
     menuBorder_ = *menu->background->borderColor;
     menuSelectedItemBackground_ = *menu->highlight->color;
@@ -916,12 +938,18 @@ void Theme::populateColor(std::optional<Color> accent) {
     menuSelectedItemText_ = *menu->highlightTextColor;
 
     if (accent) {
-        auto foreground = accentForeground(*accent);
+        auto [foreground, foregroundDim] = accentForeground(*accent);
         for (auto field : accentColorFields_) {
             switch (field) {
             case ColorField::InputPanel_Background:
                 inputPanelBackground_ = *accent;
                 inputPanelText_ = foreground;
+                if (inputPanelCandidateLabelText) {
+                    inputPanelCandidateLabelText = foreground;
+                }
+                if (inputPanelCandidateCommentText) {
+                    inputPanelCandidateCommentText = foregroundDim;
+                }
                 break;
             case ColorField::InputPanel_Border:
                 inputPanelBorder_ = *accent;
@@ -929,6 +957,12 @@ void Theme::populateColor(std::optional<Color> accent) {
             case ColorField::InputPanel_HighlightCandidateBackground:
                 inputPanelHighlightCandidateBackground_ = *accent;
                 inputPanelHighlightCandidateText_ = foreground;
+                if (inputPanelHighlightCandidateLabelText) {
+                    inputPanelHighlightCandidateLabelText = foreground;
+                }
+                if (inputPanelHighlightCandidateCommentText) {
+                    inputPanelHighlightCandidateCommentText = foregroundDim;
+                }
                 break;
             case ColorField::InputPanel_HighlightCandidateBorder:
                 inputPanelHighlightCandidateBorder_ = *accent;
@@ -956,6 +990,34 @@ void Theme::populateColor(std::optional<Color> accent) {
                 break;
             }
         }
+    }
+    if (inputPanelCandidateLabelText) {
+        inputPanelCandidateLabelText_ = *inputPanelCandidateLabelText;
+    } else {
+        inputPanelCandidateLabelText_ = inputPanelText_;
+    }
+    if (inputPanelHighlightCandidateLabelText) {
+        inputPanelHighlightCandidateLabelText_ =
+            *inputPanelHighlightCandidateLabelText;
+    } else {
+        inputPanelHighlightCandidateLabelText_ =
+            inputPanelHighlightCandidateText_;
+    }
+    if (inputPanelCandidateCommentText) {
+        inputPanelCandidateCommentText_ = *inputPanelCandidateCommentText;
+    } else {
+        inputPanelCandidateCommentText_ = inputPanelText_;
+        inputPanelCandidateCommentText_.setAlphaF(
+            inputPanelCandidateCommentText_.alphaF() * 0.6);
+    }
+    if (inputPanelHighlightCandidateCommentText) {
+        inputPanelHighlightCandidateCommentText_ =
+            *inputPanelHighlightCandidateCommentText;
+    } else {
+        inputPanelHighlightCandidateCommentText_ =
+            inputPanelHighlightCandidateText_;
+        inputPanelHighlightCandidateCommentText_.setAlphaF(
+            inputPanelHighlightCandidateCommentText_.alphaF() * 0.6);
     }
 }
 

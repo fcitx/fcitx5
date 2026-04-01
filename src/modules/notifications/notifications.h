@@ -7,12 +7,21 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 #define _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 
+#include <chrono>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/flags.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
@@ -54,6 +63,13 @@ public:
     }
 
     void updateConfig();
+
+    uint32_t sendNotificationInternal(
+        const std::string &appName, uint32_t replaceId,
+        const std::string &appIcon, const std::string &summary,
+        const std::string &body, const std::vector<std::string> &actions,
+        int32_t timeout, NotificationActionCallback actionCallback,
+        NotificationClosedCallback closedCallback, bool transient);
 
     uint32_t sendNotification(const std::string &appName, uint32_t replaceId,
                               const std::string &appIcon,
@@ -107,6 +123,7 @@ private:
     std::unique_ptr<dbus::ServiceWatcherEntry> watcherEntry_;
 
     int lastTipId_ = 0;
+    std::chrono::time_point<std::chrono::steady_clock> lastTipTimestamp_;
     uint64_t internalId_ = 0;
     uint64_t epoch_ = 0;
 

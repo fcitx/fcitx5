@@ -85,7 +85,8 @@ struct ThemeAnnotation : public EnumAnnotation {
                                   themes_[i].first);
             config.setValueByPath("EnumI18n/" + std::to_string(i),
                                   themes_[i].second);
-            if (themes_[i].first != PlasmaThemeName || !plasmaTheme_) {
+            if (themes_[i].first != PlasmaThemeName &&
+                !Theme::isSystemThemeName(themes_[i].first)) {
                 config.setValueByPath(
                     "SubConfigPath/" + std::to_string(i),
                     stringutils::concat("fcitx://config/addon/classicui/theme/",

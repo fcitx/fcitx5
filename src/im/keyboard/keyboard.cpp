@@ -7,6 +7,7 @@
 
 #include "keyboard.h"
 #include <strings.h>
+#include <algorithm>
 #include <cstddef>
 #include <filesystem>
 #include <functional>
@@ -20,6 +21,7 @@
 #include <utility>
 #include <vector>
 #include <format>
+#include <span>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
@@ -79,7 +81,8 @@ std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
      */
     const IsoCodes639Entry *bestEntry = nullptr;
     int bestScore = 0;
-    for (const auto &language : languages) {
+    for (const auto &language : std::span(languages).subspan(
+             0, std::min(static_cast<size_t>(1), languages.size()))) {
         const auto *entry = isocodes.entry(language);
         if (!entry) {
             continue;
@@ -127,7 +130,7 @@ std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
         }
         return bestEntry->iso_639_2B_code;
     }
-    return {};
+    return languages.empty() ? "" : languages[0];
 }
 
 class KeyboardCandidateWord : public CandidateWord {
@@ -199,7 +202,7 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
         if (!rules[0].empty()) {
             if (rules[0][0] == '/') {
                 extraRuleFile = rules[0];
-                if (!stringutils::endsWith(extraRuleFile, ".xml")) {
+                if (!extraRuleFile.ends_with(".xml")) {
                     extraRuleFile = extraRuleFile + ".xml";
                 }
             } else {
@@ -247,7 +250,7 @@ KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     IsoCodes isoCodes;
-    isoCodes.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
+    isoCodes.read(ISOCODES_ISO639_JSON);
 
     std::vector<InputMethodEntry> result;
     bool usExists = false;

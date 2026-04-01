@@ -166,7 +166,11 @@ private:
         while (--maxDepth && std::filesystem::is_symlink(fullPath, ec)) {
             auto linked = std::filesystem::read_symlink(fullPath, ec);
             if (!ec) {
-                fullPath = linked;
+                if (linked.is_relative()) {
+                    fullPath = fullPath.parent_path() / linked;
+                } else {
+                    fullPath = linked;
+                }
             } else {
                 return path;
             }

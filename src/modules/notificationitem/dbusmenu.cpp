@@ -189,10 +189,10 @@ void DBusMenu::fillLayoutItem(
         if (hasAction) {
             appendSubItem(subLayoutItems, BII_Separator2, depth, propertyNames);
         }
-        appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
         if (parent_->instance()->canRestart()) {
             appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
         }
+        appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
         if (parent_->instance()->canRestart() &&
             getDesktopType() != DesktopType::DEEPIN &&
             getDesktopType() != DesktopType::UKUI) {
@@ -251,7 +251,7 @@ void DBusMenu::fillLayoutProperties(
         case BII_Configure:
             /* this icon sucks on KDE, why configure doesn't have "configure" */
             appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Configure")));
+                           dbus::Variant(_("Input Method Settings")));
             if (isKDE()) {
                 properties.emplace_back("icon-name",
                                         dbus::Variant("configure"));
@@ -293,7 +293,7 @@ void DBusMenu::fillLayoutProperties(
         if (!ic) {
             ic = parent_->instance()->mostRecentInputContext();
         }
-        // We can use pointer comparision here.
+        // We can use pointer comparison here.
         appendProperty(
             properties, propertyNames, "toggle-state",
             dbus::Variant(

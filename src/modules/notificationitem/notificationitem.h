@@ -7,13 +7,18 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_H_
 #define _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_H_
 
+#include <cstdint>
 #include <memory>
+#include <string>
+#include <vector>
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
-#include "dbus_public.h"
 #include "notificationitem_public.h"
 
 namespace fcitx {
@@ -37,7 +42,6 @@ public:
     bool registered() const { return registered_; }
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
     watch(NotificationItemCallback callback);
-    void newIcon();
     FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
     DBusMenu *menu() { return menu_.get(); }
 
@@ -50,6 +54,8 @@ private:
 
     void maybeScheduleRegister();
     void cleanUp();
+    void newIcon();
+    void newToolTip();
 
     Instance *instance_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;

@@ -210,7 +210,7 @@ void InputMethodManagerPrivate::loadDynamicEntries(
         FCITX_INFO() << "Found " << newEntries.size() << " input method(s) "
                      << "in addon " << addonName;
         for (auto &newEntry : newEntries) {
-            // ok we can't let you register something werid.
+            // ok we can't let you register something weird.
             if (checkEntry(newEntry, addonNames) &&
                 newEntry.addon() == addonName &&
                 entries_.count(newEntry.uniqueName()) == 0) {

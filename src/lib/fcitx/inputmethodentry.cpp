@@ -6,7 +6,6 @@
  */
 
 #include "inputmethodentry.h"
-#include <fcitx-utils/stringutils.h>
 
 namespace fcitx {
 
@@ -109,7 +108,6 @@ bool InputMethodEntry::isConfigurable() const {
 }
 bool InputMethodEntry::isKeyboard() const {
     FCITX_D();
-    return stringutils::startsWith(d->uniqueName_, "keyboard-") &&
-           d->addon_ == "keyboard";
+    return d->uniqueName_.starts_with("keyboard-") && d->addon_ == "keyboard";
 }
 } // namespace fcitx

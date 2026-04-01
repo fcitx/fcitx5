@@ -79,10 +79,12 @@ WlKeyboard::WlKeyboard(wl_keyboard *data)
 
 void WlKeyboard::destructor(wl_keyboard *data) {
     const auto version = wl_keyboard_get_version(data);
+#if defined(WL_KEYBOARD_RELEASE_SINCE_VERSION)
     if (version >= 3) {
         wl_keyboard_release(data);
         return;
     }
+#endif
     wl_keyboard_destroy(data);
 }
 

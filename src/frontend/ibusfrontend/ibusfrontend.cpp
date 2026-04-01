@@ -49,6 +49,7 @@
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/textformatflags.h"
+#include "fcitx-utils/trackableobject.h"
 #include "fcitx-utils/unixfd.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx-utils/uuid_p.h"
@@ -302,7 +303,7 @@ public:
         }
     }
 
-    dbus::ObjectPath createInputContext(const std::string &args);
+    dbus::ObjectPath createInputContext(const std::string &name);
 
     dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
     dbus::Bus *bus() { return bus_; }
@@ -312,9 +313,12 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext", "s",
                                "o");
 
+    dbus::ObjectPath createInputContextImpl(std::string sender,
+                                            std::string program);
+
     IBusFrontendModule *module_;
     Instance *instance_;
-    int icIdx = 0;
+    int icIdx_ = 0;
     dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
@@ -335,7 +339,7 @@ class IBusInputContext : public InputContext,
                          public dbus::ObjectVTable<IBusInputContext> {
 public:
     IBusInputContext(int id, InputContextManager &icManager, IBusFrontend *im,
-                     const std::string &sender, const std::string &program)
+                     std::string sender, const std::string &program)
         : InputContext(icManager, program),
           path_("/org/freedesktop/IBus/InputContext_" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
@@ -346,7 +350,7 @@ public:
                                delete this;
                            }
                        })),
-          name_(sender) {
+          name_(std::move(sender)) {
         im->bus()->addObjectVTable(path().path(),
                                    IBUS_INPUTCONTEXT_DBUS_INTERFACE, *this);
         im->bus()->addObjectVTable(path().path(), IBUS_SERVICE_DBUS_INTERFACE,
@@ -723,13 +727,72 @@ void IBusService::destroyDBus() {
     delete ic_;
 }
 
-dbus::ObjectPath
-IBusFrontend::createInputContext(const std::string & /* unused */) {
-    auto sender = currentMessage()->sender();
-    auto *ic = new IBusInputContext(icIdx++, instance_->inputContextManager(),
-                                    this, sender, "");
+dbus::ObjectPath IBusFrontend::createInputContextImpl(std::string sender,
+                                                      std::string program) {
+    auto *ic =
+        new IBusInputContext(icIdx_++, instance_->inputContextManager(), this,
+                             std::move(sender), std::move(program));
     ic->setFocusGroup(instance_->defaultFocusGroup());
     return ic->path();
+}
+
+dbus::ObjectPath IBusFrontend::createInputContext(const std::string &name) {
+    auto sender = currentMessage()->sender();
+
+    std::optional<std::string> maybeProgram;
+    if (!name.empty() && name != "QIBusInputContext" && name != "gtk-im") {
+        maybeProgram = name;
+    }
+    if (!maybeProgram && isInFlatpak()) {
+        maybeProgram = sender;
+    }
+
+    // If we have a good program name, use it directly, otherwise we will need
+    // to query the pid.
+    if (maybeProgram) {
+        return createInputContextImpl(std::move(sender),
+                                      std::move(*maybeProgram));
+    }
+
+    auto pendingReply =
+        std::make_shared<dbus::Message>(currentMessage()->createReply());
+    auto slotHolder = std::make_shared<std::unique_ptr<dbus::Slot>>();
+
+    auto msg = bus()->createMethodCall(
+        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
+        "GetConnectionUnixProcessID");
+
+    msg << sender;
+    *slotHolder = msg.callAsync(1000000, [this, watcher = this->watch(), sender,
+                                          pendingReply,
+                                          slotHolder](dbus::Message &pidReply) {
+        if (!*slotHolder) {
+            return true;
+        }
+
+        // Check if ibus frontend is still alive.
+        if (watcher.isValid()) {
+            uint32_t pid = 0;
+            if (pidReply.type() == dbus::MessageType::Reply &&
+                pidReply.signature() == "u") {
+                pidReply >> pid;
+            }
+            FCITX_IBUS_DEBUG() << "Pid of sender " << sender << " is " << pid;
+
+            auto program = pid ? getProcessName(pid) : "";
+            if (program == "xdg-dbus-proxy") {
+                program = sender;
+            }
+
+            *pendingReply << createInputContextImpl(sender, std::move(program));
+            pendingReply->send();
+        }
+        // Make sure the slot is free'd after return.
+        slotHolder->reset();
+        return true;
+    });
+
+    throw dbus::MethodCallNoReply{};
 }
 
 IBusFrontendModule::IBusFrontendModule(Instance *instance)
@@ -933,7 +996,7 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     // https://dbus.freedesktop.org/doc/dbus-specification.html#addresses
     // We just try to append a custom argument. And dbus will simply ignore
     // unrecognized such field.
-    while (stringutils::endsWith(address, ";")) {
+    while (address.ends_with(";")) {
         address.pop_back();
     }
     address.append(",fcitx_random_string=");

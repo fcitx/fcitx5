@@ -76,8 +76,7 @@ auto foreachLanguage(const std::string &lang, const std::string &systemLanguage,
         };
 
     std::vector<std::string> langList;
-    if (stringutils::startsWith(systemLanguage,
-                                stringutils::concat(lang, "_")) &&
+    if (systemLanguage.starts_with(stringutils::concat(lang, "_")) &&
         lang != systemLanguage) {
         langList.push_back(systemLanguage);
     };

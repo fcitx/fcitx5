@@ -3,9 +3,10 @@
 import fileinput
 
 license = """/*
- * SPDX-FileCopyrightText: 2015~2015 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2015~2025 CSSlayer <wengxt@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
+ *
  */
 
 """
@@ -14,9 +15,7 @@ def header(content, guard_var):
     return license + header_guard(content, guard_var);
 
 def header_guard(content, guard_var):
-    return """
-
-#ifndef {0}
+    return """#ifndef {0}
 #define {0}
 
 {1}
@@ -38,10 +37,13 @@ for line in fileinput.input("keylist"):
         continue
     data.append((l[0], l[1].lower(), l[2].strip()))
 
+# Use the order as is.
 for (i, (name, value, comment)) in enumerate(data):
     keysymdef += ("FcitxKey_{0} = {1}, {2}\n".format(name, value, comment))
 
 for (i, (name, value, comment)) in enumerate(sorted(data, key=lambda n: n[0] )):
+    # Normalize the value
+    value = hex(int(value, 16))
     nameList.append(name)
     valueList.append(value)
     if value not in valueToOffset:
@@ -50,9 +52,11 @@ for (i, (name, value, comment)) in enumerate(sorted(data, key=lambda n: n[0] )):
 keysymdef = """
 #include <fcitx-utils/macros.h>
 
+// IWYU pragma: private, include "fcitx-utils/keysym.h"
+
 FCITX_C_DECL_BEGIN
 
-typedef enum _FcitxKeySym
+typedef enum _FcitxKeySym // NOLINT(modernize-use-using)
 {{
 {0}
 }} FcitxKeySym;
@@ -64,6 +68,7 @@ f.write(header(keysymdef, "_FCITX_UTILS_KEYSYMGEN_H_"))
 f.close()
 
 keynametable = """
+#include <cstdint>
 #include <fcitx-utils/macros.h>
 
 FCITX_C_DECL_BEGIN

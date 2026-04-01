@@ -14,7 +14,6 @@
 #include <ostream>
 #include <string>
 #include "charutils.h"
-#include "stringutils.h"
 
 namespace fcitx {
 static unsigned short roundColor(unsigned short c) {
@@ -136,7 +135,7 @@ std::string Color::toString() const {
         result.push_back(to_hex_char(hi));
         result.push_back(to_hex_char(lo));
     }
-    if (stringutils::endsWith(result, "ff")) {
+    if (result.ends_with("ff")) {
         result.erase(result.size() - 2, 2);
     }
 
