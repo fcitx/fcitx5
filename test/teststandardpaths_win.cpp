@@ -33,7 +33,7 @@ void test_basic() {
     FCITX_ASSERT(standardPaths.directories(StandardPathsType::Config).back() ==
                  FCITX5_BINARY_DIR "/config");
     FCITX_ASSERT(standardPaths.directories(StandardPathsType::PkgData).back() ==
-                 std::filesystem::path(FCITX5_BINARY_DIR) / "data/fcitx5");
+                 std::filesystem::path(FCITX5_BINARY_DIR) / "share/fcitx5");
 }
 
 void test_override() {
