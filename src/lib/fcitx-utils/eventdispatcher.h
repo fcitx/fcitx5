@@ -91,18 +91,6 @@ public:
      */
     EventLoop *eventLoop() const;
 
-    /**
-     * Run all functors currently queued by schedule(), on the calling thread.
-     * Used when no event loop thread is running (e.g. TSF IME) so deferred work
-     * is applied before reading shared state.
-     *
-     * Safe to call when the async callback would only swap an empty queue after
-     * this returns (same-thread use after postEvent/schedule).
-     *
-     * @since 5.1.15
-     */
-    void dispatchPending();
-
 private:
     const std::unique_ptr<EventDispatcherPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(EventDispatcher);
