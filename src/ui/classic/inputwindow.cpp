@@ -418,8 +418,8 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
             Text commentText;
             if (!realCommentText.empty()) {
                 if (candidate.spaceBetweenComment()) {
-                    // Still need some extra space before comment, let's just add a
-                    // space and see.
+                    // Still need some extra space before comment, let's just
+                    // add a space and see.
                     commentText = Text(" ");
                 }
                 commentText.append(realCommentText);
