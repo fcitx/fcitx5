@@ -160,8 +160,6 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
     ic_->activate().connect([this]() {
         WAYLANDIM_DEBUG() << "ACTIVATE";
         pendingActivate_ = true;
-        surroundingText().invalidate();
-        updateSurroundingTextWrapper();
     });
     ic_->deactivate().connect([this]() {
         WAYLANDIM_DEBUG() << "DEACTIVATE";
