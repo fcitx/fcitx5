@@ -32,7 +32,7 @@ namespace fcitx {
 class InputContextPrivate : public QPtrHolder<InputContext> {
 public:
     InputContextPrivate(InputContext *q, InputContextManager &manager,
-                        const std::string &program);
+                        const std::string &program, pid_t pid);
 
     template <typename E>
     bool postEvent(E &&event) {
@@ -161,6 +161,7 @@ public:
     bool clientControlVirtualkeyboardShow_ = false;
     bool clientControlVirtualkeyboardHide_ = false;
     std::string program_;
+    pid_t pid_ = 0;
     CapabilityFlags capabilityFlags_;
     bool isPreeditEnabled_ = true;
     SurroundingText surroundingText_;

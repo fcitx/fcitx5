@@ -122,9 +122,9 @@ class DBusInputContext1 : public InputContext,
                           public dbus::ObjectVTable<DBusInputContext1> {
 public:
     DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
-                      const std::string &sender,
+                      const std::string &sender, pid_t pid,
                       const std::unordered_map<std::string, std::string> &args)
-        : InputContext(icManager, getArgument(args, "program")),
+        : InputContext(icManager, getArgument(args, "program"), pid),
           path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
                        sender,
@@ -535,9 +535,19 @@ InputMethod1::createInputContext(
     }
 
     auto sender = currentMessage()->sender();
+    uint32_t pid = 0;
+    auto msg = bus_->createMethodCall(
+        "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus",
+        "GetConnectionUnixProcessID");
+    msg << sender;
+    auto reply = msg.call(1000000);
+    if (reply && reply.type() == dbus::MessageType::Reply) {
+        reply >> pid;
+    }
+
     auto *ic = new DBusInputContext1(module_->nextIcIdx(),
                                      instance_->inputContextManager(), this,
-                                     sender, strMap);
+                                     sender, pid, strMap);
 
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);

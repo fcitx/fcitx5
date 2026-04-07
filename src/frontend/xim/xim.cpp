@@ -214,7 +214,7 @@ public:
         return parent_->xcb()->call<IXCBModule::xkbState>(name_);
     }
 
-    std::string getProgramName(xcb_im_input_context_t *ic) {
+    pid_t getProcessInfo(xcb_im_input_context_t *ic, std::string *name) {
         auto w = xcb_im_input_context_get_client_window(ic);
         if (!w) {
             w = xcb_im_input_context_get_focus_window(ic);
@@ -222,7 +222,10 @@ public:
         if (w) {
             while (w != root_) {
                 if (auto pid = getWindowPid(ewmh_, w)) {
-                    return getProcessName(pid);
+                    if (name) {
+                        *name = getProcessName(pid);
+                    }
+                    return pid;
                 }
 
                 auto cookie = xcb_query_tree(conn_, w);
@@ -238,7 +241,7 @@ public:
                 w = reply->parent;
             }
         }
-        return {};
+        return 0;
     }
 
 private:
@@ -260,9 +263,10 @@ private:
 class XIMInputContext final : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server,
-                    xcb_im_input_context_t *ic, bool useUtf8)
-        : InputContext(inputContextManager, server->getProgramName(ic)),
-          server_(server), xic_(ic), useUtf8_(useUtf8) {
+                    xcb_im_input_context_t *ic, bool useUtf8, pid_t pid,
+                    const std::string &program)
+        : InputContext(inputContextManager, program, pid), xic_(ic),
+          server_(server), useUtf8_(useUtf8) {
         setFocusGroup(server->focusGroup());
         xcb_im_input_context_set_data(xic_, this, nullptr);
 
@@ -600,8 +604,10 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
             entry && *entry) {
             useUtf8 = true;
         }
+        std::string program;
+        auto pid = getProcessInfo(xic, &program);
         new XIMInputContext(parent_->instance()->inputContextManager(), this,
-                            xic, useUtf8);
+                            xic, useUtf8, pid, program);
     } break;
     case XCB_XIM_DESTROY_IC:
         delete ic;

@@ -8,6 +8,7 @@
 #ifndef _FCITX_INPUTCONTEXT_H_
 #define _FCITX_INPUTCONTEXT_H_
 
+#include <sys/types.h>
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -54,7 +55,8 @@ class FCITXCORE_EXPORT InputContext : public TrackableObject<InputContext> {
     friend class UserInterfaceManagerPrivate;
 
 public:
-    InputContext(InputContextManager &manager, const std::string &program = {});
+    InputContext(InputContextManager &manager, const std::string &program = {},
+                 pid_t pid = 0);
     virtual ~InputContext();
     InputContext(InputContext &&other) = delete;
 
@@ -77,6 +79,16 @@ public:
     /// Returns the program name of input context. It can be empty depending on
     /// the application.
     const std::string &program() const;
+
+    /**
+     * Returns the process ID of the client application.
+     *
+     * It may return 0 or -1 if the process ID is not available (e.g. on
+     * Wayland).
+     *
+     * @since 5.1.0
+     */
+    pid_t processId() const;
 
     /// Returns the display server of the client. In form of type:string, E.g.
     /// client from X11 server of :0 will become x11::0.

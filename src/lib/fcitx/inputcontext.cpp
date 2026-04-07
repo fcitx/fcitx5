@@ -78,9 +78,9 @@ CapabilityFlags calculateFlags(CapabilityFlags flag, bool isPreeditEnabled) {
 
 InputContextPrivate::InputContextPrivate(InputContext *q,
                                          InputContextManager &manager,
-                                         const std::string &program)
+                                         const std::string &program, pid_t pid)
     : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
-      statusArea_(q), program_(program),
+      statusArea_(q), program_(program), pid_(pid),
       isPreeditEnabled_(manager.isPreeditEnabledByDefault() &&
                         !shouldDisablePreeditByDefault(program)) {}
 
@@ -92,8 +92,9 @@ InputContextPrivate::InputContextPrivate(InputContext *q,
     } while (0);
 
 InputContext::InputContext(InputContextManager &manager,
-                           const std::string &program)
-    : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
+                           const std::string &program, pid_t pid)
+    : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program,
+                                                  pid)) {
     manager.registerInputContext(*this);
 }
 
@@ -125,6 +126,11 @@ const ICUUID &InputContext::uuid() const {
 const std::string &InputContext::program() const {
     FCITX_D();
     return d->program_;
+}
+
+pid_t InputContext::processId() const {
+    FCITX_D();
+    return d->pid_;
 }
 
 std::string InputContext::display() const {

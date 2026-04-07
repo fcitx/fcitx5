@@ -339,8 +339,9 @@ class IBusInputContext : public InputContext,
                          public dbus::ObjectVTable<IBusInputContext> {
 public:
     IBusInputContext(int id, InputContextManager &icManager, IBusFrontend *im,
-                     std::string sender, const std::string &program)
-        : InputContext(icManager, program),
+                      std::string sender, const std::string &program,
+                      pid_t pid)
+        : InputContext(icManager, program, pid),
           path_("/org/freedesktop/IBus/InputContext_" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
                        sender,
@@ -728,10 +729,11 @@ void IBusService::destroyDBus() {
 }
 
 dbus::ObjectPath IBusFrontend::createInputContextImpl(std::string sender,
-                                                      std::string program) {
+                                                      std::string program,
+                                                      pid_t pid) {
     auto *ic =
         new IBusInputContext(icIdx_++, instance_->inputContextManager(), this,
-                             std::move(sender), std::move(program));
+                             std::move(sender), std::move(program), pid);
     ic->setFocusGroup(instance_->defaultFocusGroup());
     return ic->path();
 }
@@ -747,12 +749,7 @@ dbus::ObjectPath IBusFrontend::createInputContext(const std::string &name) {
         maybeProgram = sender;
     }
 
-    // If we have a good program name, use it directly, otherwise we will need
-    // to query the pid.
-    if (maybeProgram) {
-        return createInputContextImpl(std::move(sender),
-                                      std::move(*maybeProgram));
-    }
+    const std::string program = maybeProgram.value_or("");
 
     auto pendingReply =
         std::make_shared<dbus::Message>(currentMessage()->createReply());
@@ -764,7 +761,7 @@ dbus::ObjectPath IBusFrontend::createInputContext(const std::string &name) {
 
     msg << sender;
     *slotHolder = msg.callAsync(1000000, [this, watcher = this->watch(), sender,
-                                          pendingReply,
+                                          program, pendingReply,
                                           slotHolder](dbus::Message &pidReply) {
         if (!*slotHolder) {
             return true;
@@ -779,12 +776,17 @@ dbus::ObjectPath IBusFrontend::createInputContext(const std::string &name) {
             }
             FCITX_IBUS_DEBUG() << "Pid of sender " << sender << " is " << pid;
 
-            auto program = pid ? getProcessName(pid) : "";
-            if (program == "xdg-dbus-proxy") {
-                program = sender;
+            std::string finalProgram = program;
+            if (finalProgram.empty() && pid > 0) {
+                finalProgram = getProcessName(pid);
+            }
+            if (finalProgram == "xdg-dbus-proxy") {
+                finalProgram = sender;
             }
 
-            *pendingReply << createInputContextImpl(sender, std::move(program));
+            *pendingReply << createInputContextImpl(sender,
+                                                    std::move(finalProgram),
+                                                    pid);
             pendingReply->send();
         }
         // Make sure the slot is free'd after return.
