@@ -69,6 +69,7 @@ public:
     Instance *instance_ = nullptr;
     std::unique_ptr<HandlerTableEntry<EventHandler>> eventWatcher_;
     int64_t timestamp_ = 0;
+    std::vector<std::string> missingInputMethods_;
 };
 
 bool checkEntry(const InputMethodEntry &entry,
@@ -111,6 +112,7 @@ void InputMethodManagerPrivate::loadConfig(
                     FCITX_WARN() << "Group Item " << item.name.value()
                                  << " in group " << groupConfig.name.value()
                                  << " is not valid. Removed.";
+                    missingInputMethods_.push_back(item.name.value());
                     continue;
                 }
                 group.inputMethodList().emplace_back(
@@ -236,6 +238,7 @@ void InputMethodManager::load(const std::function<void(InputMethodManager &)>
     d->loadStaticEntries(addonNames);
     d->loadDynamicEntries(addonNames);
 
+    d->missingInputMethods_.clear();
     d->loadConfig(buildDefaultGroupCallback);
     // groupOrder guarantee to be non-empty at this point.
     emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
@@ -455,6 +458,12 @@ InputMethodManager::entry(const std::string &name) const {
     FCITX_D();
     return findValue(d->entries_, name);
 }
+
+const std::vector<std::string> &InputMethodManager::missingInputMethods() const {
+    FCITX_D();
+    return d->missingInputMethods_;
+}
+
 bool InputMethodManager::foreachEntries(
     const std::function<bool(const InputMethodEntry &entry)> &callback) {
     FCITX_D();

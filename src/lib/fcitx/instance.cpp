@@ -1471,6 +1471,19 @@ void Instance::initialize() {
         return false;
     });
     d->notifications_ = d->addonManager_.addon("notifications", true);
+    if (d->notifications_ && !d->imManager_.missingInputMethods().empty()) {
+        std::string body;
+        for (const auto &im : d->imManager_.missingInputMethods()) {
+            if (!body.empty()) {
+                body += ", ";
+            }
+            body += im;
+        }
+        d->notifications_->call<INotifications::sendNotification>(
+            "fcitx", 0, "fcitx", _("Missing input methods"),
+            _("The following input methods are not available: {0}"),
+            std::vector<std::string>{body}, 0, nullptr, nullptr);
+    }
 }
 
 int Instance::exec() {
