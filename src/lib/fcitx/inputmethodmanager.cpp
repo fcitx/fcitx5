@@ -459,7 +459,8 @@ InputMethodManager::entry(const std::string &name) const {
     return findValue(d->entries_, name);
 }
 
-const std::vector<std::string> &InputMethodManager::missingInputMethods() const {
+const std::vector<std::string> &
+InputMethodManager::missingInputMethods() const {
     FCITX_D();
     return d->missingInputMethods_;
 }
