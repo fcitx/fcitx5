@@ -230,7 +230,10 @@ else()
     set(FCITX_LIBRARY_SUFFIX ".so")
 endif()
 
-check_function_exists(pipe2 HAVE_PIPE2)
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(pipe2 "unistd.h" HAVE_PIPE2)
+unset(CMAKE_REQUIRED_DEFINITIONS)
+
 check_include_file(sys/wait.h HAVE_SYS_WAIT_H)
 check_include_file(sys/mman.h HAVE_SYS_MMAN_H)
 check_include_file(sys/uio.h HAVE_SYS_UIO_H)
