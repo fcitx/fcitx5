@@ -678,7 +678,7 @@ void WaylandModule::selfDiagnose() {
                 _("Fcitx should be launched by KWin under KDE Wayland in order "
                   "to use Wayland input method frontend. This can improve the "
                   "experience when using Fcitx on Wayland. To "
-                  "configure this, you need to go to \"System Settings\" -> "
+                  "configure this, you need to go to \"System Settings\" > "
                   "\"Virtual "
                   "keyboard\" and select \"Fcitx 5\" from it. You may also "
                   "need to disable tools that launches input method, such as "

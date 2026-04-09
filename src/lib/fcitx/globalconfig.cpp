@@ -176,8 +176,9 @@ FCITX_CONFIGURATION(
                   "the timeout. -1 means there is no limit.")}};);
 
 FCITX_CONFIGURATION(
-    BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
-                                                 _("Active By Default")};
+    BehaviorConfig,
+    Option<bool> activeByDefault{this, "ActiveByDefault",
+                                 _("Activate input method by default")};
     OptionWithAnnotation<PropertyPropagatePolicy,
                          PropertyPropagatePolicyI18NAnnotation>
         resetStateWhenFocusIn{this, "resetStateWhenFocusIn",
@@ -204,7 +205,7 @@ FCITX_CONFIGURATION(
         this, "ShowFirstInputMethodInformation",
         _("Show first input method information"), true};
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
-                                              _("Default page size"), 5,
+                                              _("Candidates per page"), 5,
                                               IntConstrain(1, 10)};
     ConditionalHidden<!hasKeyboard,
                       OptionWithAnnotation<bool, ToolTipAnnotation>>
@@ -215,7 +216,7 @@ FCITX_CONFIGURATION(
             false,
             {},
             {},
-            {_("Whether to override the XKB option from display server. It "
+            {_("Override the XKB option from display server. It "
                "will not affect the XKB option send to display, but just the "
                "XKB options for custom XKB layout. This is a workaround when "
                "there is no way to get the current XKB option from Wayland "
