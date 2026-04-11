@@ -7,6 +7,10 @@
 #ifndef _FCITX_UTILS_MISC_H_
 #define _FCITX_UTILS_MISC_H_
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+
 #include <unistd.h>
 #include <cstddef>
 #include <cstdio>
@@ -168,6 +172,20 @@ constexpr bool isAndroid() {
 constexpr bool isApple() {
 #if defined(__APPLE__)
     return true;
+#else
+    return false;
+#endif
+}
+
+/**
+ * Util function that returns whether it is compile against iOS (real device or
+ * simulator).
+ *
+ * @since 5.1.20
+ */
+constexpr bool isIOS() {
+#ifdef TARGET_OS_IPHONE
+    return TARGET_OS_IPHONE == 1;
 #else
     return false;
 #endif
