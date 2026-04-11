@@ -258,28 +258,32 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         const auto &layoutInfo = p.second;
         auto language = findBestLanguage(isoCodes, layoutInfo.description,
                                          layoutInfo.languages);
-        auto description =
-            _("Keyboard - {0}", D_("xkeyboard-config", layoutInfo.description));
+        auto description = !layoutInfo.description.empty()
+                               ? D_("xkeyboard-config", layoutInfo.description)
+                               : layoutInfo.name;
+        auto name = _("Keyboard - {0}", description);
         auto uniqueName = imNamePrefix + layoutInfo.name;
         if (uniqueName == "keyboard-us") {
             usExists = true;
         }
-        result.push_back(std::move(
-            InputMethodEntry(uniqueName, description, language, "keyboard")
-                .setLabel(layoutInfo.shortDescription.empty()
-                              ? layoutInfo.name
-                              : layoutInfo.shortDescription)
-                .setIcon("input-keyboard")
-                .setConfigurable(true)));
+        result.push_back(
+            std::move(InputMethodEntry(uniqueName, name, language, "keyboard")
+                          .setLabel(layoutInfo.shortDescription.empty()
+                                        ? layoutInfo.name
+                                        : layoutInfo.shortDescription)
+                          .setIcon("input-keyboard")
+                          .setConfigurable(true)));
         for (const auto &variantInfo : layoutInfo.variantInfos) {
             auto language = findBestLanguage(isoCodes, variantInfo.description,
                                              !variantInfo.languages.empty()
                                                  ? variantInfo.languages
                                                  : layoutInfo.languages);
-            auto description =
-                _("Keyboard - {0} - {1}",
-                  D_("xkeyboard-config", layoutInfo.description),
-                  D_("xkeyboard-config", variantInfo.description));
+            auto variantDescription =
+                !variantInfo.description.empty()
+                    ? D_("xkeyboard-config", variantInfo.description)
+                    : variantInfo.name;
+            auto name =
+                _("Keyboard - {0} - {1}", description, variantDescription);
             auto uniqueName = stringutils::concat(imNamePrefix, layoutInfo.name,
                                                   "-", variantInfo.name);
 
@@ -295,7 +299,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                     std::format("{0} ({1})", variantLabel, variantInfo.name);
             }
             result.push_back(std::move(
-                InputMethodEntry(uniqueName, description, language, "keyboard")
+                InputMethodEntry(uniqueName, name, language, "keyboard")
                     .setLabel(variantLabel)
                     .setIcon("input-keyboard")
                     .setConfigurable(true)));

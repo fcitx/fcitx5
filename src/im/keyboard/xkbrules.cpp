@@ -16,6 +16,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <ranges>
 #include "fcitx-utils/stringutils.h"
 #include "xmlparser.h"
 
@@ -142,6 +143,12 @@ struct XkbRulesParseState : public XMLParser {
                 std::string name = info.name;
                 rules->layoutInfos_.emplace(std::move(name), std::move(info));
             } else {
+                if (iter->second.description.empty()) {
+                    iter->second.description = info.description;
+                }
+                if (iter->second.shortDescription.empty()) {
+                    iter->second.shortDescription = info.shortDescription;
+                }
                 iter->second.languages.insert(
                     iter->second.languages.end(),
                     std::make_move_iterator(info.languages.begin()),
@@ -160,7 +167,7 @@ bool XkbRules::read(const std::vector<std::filesystem::path> &directories,
     clear();
 
     bool success = false;
-    for (const auto &directory : directories) {
+    for (const auto &directory : directories | std::views::reverse) {
         const auto fileName = directory / "rules" / (name + ".xml");
 
         {
