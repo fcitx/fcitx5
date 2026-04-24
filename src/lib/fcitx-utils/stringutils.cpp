@@ -414,4 +414,75 @@ bool consumePrefix(std::string_view &str, std::string_view prefix) {
     return false;
 }
 
+std::string_view consumeMaybeEscapedValue(std::string_view &input,
+                                          std::string_view skip,
+                                          std::string *output) {
+    if (skip.empty()) {
+        return {};
+    }
+    auto start = input.find_first_not_of(skip);
+    if (start == std::string_view::npos) {
+        input = std::string_view();
+        if (output) {
+            output->clear();
+        }
+        return {};
+    }
+
+    input = input.substr(start);
+    assert(!input.empty());
+    const bool maybeQuoted = input.front() == '"';
+    if (maybeQuoted) {
+        std::string result;
+        UnescapeState state = UnescapeState::NORMAL;
+        size_t end = 0;
+        for (size_t i = 1; i < input.size(); i++) {
+            const char c = input[i];
+            switch (state) {
+            case UnescapeState::NORMAL:
+                if (c == '\\') {
+                    state = UnescapeState::ESCAPE;
+                } else if (c == '"') {
+                    end = i + 1;
+                    break;
+                } else {
+                    result.push_back(c);
+                }
+                break;
+            case UnescapeState::ESCAPE:
+                if (input[i] == '\\') {
+                    result.push_back('\\');
+                } else if (input[i] == 'n') {
+                    result.push_back('\n');
+                } else if (input[i] == '"') {
+                    result.push_back('"');
+                } else {
+                    break;
+                }
+                state = UnescapeState::NORMAL;
+                break;
+            }
+            if (end) {
+                break;
+            }
+        }
+        if (end > 0) {
+            auto consumed = input.substr(0, end);
+            input = input.substr(end);
+            if (output) {
+                *output = std::move(result);
+            }
+            return consumed;
+        }
+    }
+    auto end = input.find_first_of(skip, 1);
+    auto consumed = input.substr(0, end);
+    input =
+        end == std::string_view::npos ? std::string_view() : input.substr(end);
+    if (output) {
+        *output = std::string(consumed);
+    }
+    return consumed;
+}
+
 } // namespace fcitx::stringutils

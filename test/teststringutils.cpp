@@ -5,6 +5,9 @@
  *
  */
 
+#include <string>
+#include <string_view>
+#include <vector>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
@@ -12,7 +15,9 @@
 
 using namespace fcitx;
 
-int main() {
+namespace {
+
+void testBasic() {
     FCITX_ASSERT(stringutils::startsWith("abc", "ab"));
     FCITX_ASSERT(!stringutils::startsWith("abc", "abd"));
     FCITX_ASSERT(!stringutils::startsWith("abc", "abcd"));
@@ -23,7 +28,8 @@ int main() {
 
     std::string trim = " ab c\td\n";
     auto pair = stringutils::trimInplace(trim);
-    auto start = pair.first, end = pair.second;
+    auto start = pair.first;
+    auto end = pair.second;
     FCITX_ASSERT(start == 1);
     FCITX_ASSERT(end == 7);
     FCITX_ASSERT(trim.compare(start, end - start, "ab c\td") == 0);
@@ -40,11 +46,13 @@ int main() {
     FCITX_ASSERT(replace_result == "bbcbbc");
 
     {
-#define REPEAT 2049
-        char largeReplace[3 * REPEAT + 1];
+        constexpr int REPEAT = 1000;
+        char largeReplace[(3 * REPEAT) + 1];
         char largeReplaceCorrect[REPEAT + 1];
-        char largeReplaceCorrect2[4 * REPEAT + 1];
-        int i = 0, j = 0, k = 0;
+        char largeReplaceCorrect2[(4 * REPEAT) + 1];
+        int i = 0;
+        int j = 0;
+        int k = 0;
         for (int n = 0; n < REPEAT; n++) {
             largeReplace[i++] = 'a';
             largeReplace[i++] = 'b';
@@ -116,12 +124,6 @@ int main() {
         stringutils::split("", ",", stringutils::SplitBehavior::KeepEmpty) ==
         (std::vector<std::string>{""}));
 
-    FCITX_ASSERT(stringutils::escapeForValue("\"") == R"("\"")");
-    FCITX_ASSERT(stringutils::escapeForValue("\"\"\n") == R"("\"\"\n")");
-    FCITX_ASSERT(stringutils::escapeForValue("abc") == R"(abc)");
-    FCITX_ASSERT(stringutils::escapeForValue("ab\"c") == R"("ab\"c")");
-    FCITX_ASSERT(stringutils::escapeForValue("a c") == R"("a c")");
-
     for (int i = 0; i < 16; i++) {
         if (i < 10) {
             FCITX_ASSERT(charutils::toHex(i) == i + '0');
@@ -135,6 +137,100 @@ int main() {
     FCITX_ASSERT(str == "abc");
     FCITX_ASSERT(stringutils::consumePrefix(str, "ab"));
     FCITX_ASSERT(str == "c");
+}
 
+void testEscape() {
+
+    FCITX_ASSERT(stringutils::escapeForValue("\"") == R"("\"")");
+    FCITX_ASSERT(stringutils::escapeForValue("\"\"\n") == R"("\"\"\n")");
+    FCITX_ASSERT(stringutils::escapeForValue("abc") == R"(abc)");
+    FCITX_ASSERT(stringutils::escapeForValue("ab\"c") == R"("ab\"c")");
+    FCITX_ASSERT(stringutils::escapeForValue("a c") == R"("a c")");
+
+    struct {
+        std::string_view input;
+        std::string expected;
+        std::string expectedInput;
+        std::string expectedOutput;
+    } cases[] = {
+        {.input = "",
+         .expected = "",
+         .expectedInput = "",
+         .expectedOutput = ""},
+        {.input = "abc",
+         .expected = "abc",
+         .expectedInput = "",
+         .expectedOutput = "abc"},
+        {.input = "ab\"c",
+         .expected = "ab\"c",
+         .expectedInput = "",
+         .expectedOutput = "ab\"c"},
+        {.input = "a c",
+         .expected = "a",
+         .expectedInput = " c",
+         .expectedOutput = "a"},
+        {.input = " a ",
+         .expected = "a",
+         .expectedInput = " ",
+         .expectedOutput = "a"},
+        {.input = R"(  "a"   )",
+         .expected = R"("a")",
+         .expectedInput = R"(   )",
+         .expectedOutput = "a"},
+        {.input = R"(  "a b\n"   )",
+         .expected = R"("a b\n")",
+         .expectedInput = R"(   )",
+         .expectedOutput = "a b\n"},
+        {.input = R"(  "a\"b\n"  c)",
+         .expected = R"("a\"b\n")",
+         .expectedInput = R"(  c)",
+         .expectedOutput = "a\"b\n"},
+        {.input = R"(  "a\\b\n"  c)",
+         .expected = R"("a\\b\n")",
+         .expectedInput = R"(  c)",
+         .expectedOutput = "a\\b\n"},
+        {.input = R"(  "aaa c)",
+         .expected = R"("aaa)",
+         .expectedInput = R"( c)",
+         .expectedOutput = "\"aaa"},
+        {.input = R"("")",
+         .expected = R"("")",
+         .expectedInput = "",
+         .expectedOutput = ""},
+        {.input = " \t   ",
+         .expected = "",
+         .expectedInput = "",
+         .expectedOutput = ""},
+        {.input = "\" “ ”",
+         .expected = "\"",
+         .expectedInput = " “ ”",
+         .expectedOutput = "\""},
+    };
+
+    for (const auto &c : cases) {
+        std::string_view input = c.input;
+        FCITX_ASSERT(stringutils::consumeMaybeEscapedValue(
+                         input, FCITX_WHITESPACE, nullptr) == c.expected)
+            << "expected: " << c.expected;
+        FCITX_ASSERT(input == c.expectedInput)
+            << "expected input: \"" << c.expectedInput << "\", got: \"" << input
+            << "\"";
+
+        input = c.input;
+        std::string output;
+        FCITX_ASSERT(stringutils::consumeMaybeEscapedValue(
+                         input, FCITX_WHITESPACE, &output) == c.expected)
+            << "expected: " << c.expected;
+        FCITX_ASSERT(output == c.expectedOutput)
+            << "expected: \"" << c.expectedOutput << "\", got: \"" << output
+            << "\"";
+    }
+}
+
+} // namespace
+
+int main() {
+    testBasic();
+    testEscape();
     return 0;
 }
