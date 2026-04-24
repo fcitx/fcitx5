@@ -193,6 +193,29 @@ FCITXUTILS_EXPORT std::string escapeForValue(std::string_view str);
 FCITXUTILS_EXPORT bool consumePrefix(std::string_view &str,
                                      std::string_view prefix);
 
+/**
+ * Consume a value that is potentially quoted and escaped. Useful for tokenize a
+ * line with multiple values.
+ *
+ * Logic is like:
+ * 1. skip leading character defined in skip.
+ * 2. if the first non-skip character is quote, consume until next unescaped
+ * quote. if the end is reached before finding the closing quote treat it as
+ * unquoted.
+ * 3. if the first non-skip character is not quote, consume until next skip
+ * character.
+ *
+ * \param input the string to consume from, will be updated to the remaining
+ * string after consuming.
+ * \param skip the characters to skip before and after the value.
+ * \param output the unescaped value, if not null.
+ * \return the consumed value range.
+ * \since 5.1.20
+ */
+FCITXUTILS_EXPORT std::string_view
+consumeMaybeEscapedValue(std::string_view &input, std::string_view skip,
+                         std::string *output);
+
 } // namespace fcitx::stringutils
 
 #endif // _FCITX_UTILS_STRINGUTILS_H_
