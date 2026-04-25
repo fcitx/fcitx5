@@ -159,11 +159,19 @@ constexpr bool literalEqual(char const *a, char const *b) {
     return *a == *b && (*a == '\0' || literalEqual(a + 1, b + 1));
 }
 
-/// \brief Inplace unescape a string contains slash, new line, optionally quote.
+/**
+ * \brief Inplace unescape a string contains slash, new line, optionally quote.
+ *
+ * \param str the string to unescape, will be modified.
+ * \param unescapeQuote whether to unescape quote.
+ */
 FCITXUTILS_EXPORT bool unescape(std::string &str, bool unescapeQuote);
 
 /**
- * \brief unescape a string, that is potentially quoted.
+ * \brief unescape a string if it is quoted, otherwise return the original
+ * string.
+ *
+ * Will return nullopt if the escape is invalid.
  *
  * \param str input string.
  * \return unescaped string
@@ -174,10 +182,12 @@ FCITXUTILS_EXPORT std::optional<std::string>
 unescapeForValue(std::string_view str);
 
 /**
- * \brief escape a string, add quote if needed.
+ * \brief escape a string if str contains certain characters.
+ *
+ * The characters include all FCITX_WHITESPACE, backslash, quote, space.
  *
  * \param str input string.
- * \return escaped string
+ * \return quoted escaped string, or the original string if no escape is needed.
  * \see unescapeForValue
  * \since 5.0.16
  */
