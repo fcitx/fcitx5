@@ -435,9 +435,6 @@ bool consumePrefix(std::string_view &str, std::string_view prefix) {
 std::string_view consumeMaybeEscapedValue(std::string_view &input,
                                           std::string_view skip,
                                           std::string *output) {
-    if (skip.empty()) {
-        return {};
-    }
     auto start = input.find_first_not_of(skip);
     if (start == std::string_view::npos) {
         input = std::string_view();

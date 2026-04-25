@@ -147,6 +147,16 @@ void testEscape() {
     FCITX_ASSERT(stringutils::escapeForValue("ab\"c") == R"("ab\"c")");
     FCITX_ASSERT(stringutils::escapeForValue("a c") == R"("a c")");
 
+    FCITX_ASSERT(stringutils::unescapeForValue("\"") == "\"");
+    FCITX_ASSERT(stringutils::unescapeForValue("\"\"\n") == "\"\"\n");
+    FCITX_ASSERT(stringutils::unescapeForValue("abc") == "abc");
+    FCITX_ASSERT(stringutils::unescapeForValue("\"ab\\\"c\"") == "ab\"c");
+    FCITX_ASSERT(stringutils::unescapeForValue("a c") == "a c");
+    FCITX_ASSERT(stringutils::unescapeForValue("\"工 \"") == "工 ");
+    FCITX_ASSERT(stringutils::unescapeForValue("\"abc\"") == "abc");
+    FCITX_ASSERT(stringutils::unescapeForValue(R"("\r\v\f\n\t\\\" ")") ==
+                 "\r\v\f\n\t\\\" ");
+
     struct {
         std::string_view input;
         std::string expected;
