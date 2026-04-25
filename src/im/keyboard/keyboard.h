@@ -47,8 +47,8 @@ FCITX_CONFIG_ENUM_NAME_WITH_I18N(ChooseModifier, N_("None"), N_("Alt"),
 
 FCITX_CONFIGURATION(
     KeyboardEngineConfig,
-    Option<int, IntConstrain> pageSize{this, "PageSize", _("Page size"), 5,
-                                       IntConstrain(3, 10)};
+    Option<int, IntConstrain> pageSize{
+        this, "PageSize", _("Candidates per page"), 5, IntConstrain(3, 10)};
     KeyListOption prevCandidate{
         this,
         "PrevCandidate",
