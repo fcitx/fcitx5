@@ -5,10 +5,13 @@
  *
  */
 #include "stringutils.h"
+#include <array>
 #include <cassert>
 #include <climits>
+#include <cstdint>
 #include <cstring>
 #include <initializer_list>
+#include <limits>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -77,6 +80,38 @@ std::string concatPathPieces(
     return result;
 }
 } // namespace details
+
+namespace {
+
+constexpr std::array<char, std::numeric_limits<uint8_t>::max()> escapeMap =
+    []() consteval {
+        std::array<char, std::numeric_limits<uint8_t>::max()> table{};
+        table.fill('\0');
+        table['\\'] = '\\';
+        table['"'] = '"';
+        table['\n'] = 'n';
+        table['\f'] = 'f';
+        table['\r'] = 'r';
+        table['\t'] = 't';
+        table['\v'] = 'v';
+        return table;
+    }();
+
+constexpr std::array<char, std::numeric_limits<uint8_t>::max()> unescapeMap =
+    []() consteval {
+        std::array<char, std::numeric_limits<uint8_t>::max()> table{};
+        table.fill('\0');
+        table['\\'] = '\\';
+        table['"'] = '"';
+        table['n'] = '\n';
+        table['f'] = '\f';
+        table['r'] = '\r';
+        table['t'] = '\t';
+        table['v'] = '\v';
+        return table;
+    }();
+
+} // namespace
 
 FCITXUTILS_DEPRECATED_EXPORT bool startsWith(const std::string &str,
                                              const std::string &prefix) {
@@ -337,20 +372,15 @@ bool unescape(std::string &str, bool unescapeQuote) {
             }
             break;
         case UnescapeState::ESCAPE:
-            if (str[i] == '\\') {
-                str[j] = '\\';
+            if (auto c = unescapeMap[str[i]];
+                c && (unescapeQuote || c != '"')) {
+                str[j] = c;
                 j++;
-            } else if (str[i] == 'n') {
-                str[j] = '\n';
-                j++;
-            } else if (str[i] == '\"' && unescapeQuote) {
-                str[j] = '\"';
-                j++;
-            } else {
-                return false;
+                state = UnescapeState::NORMAL;
+                break;
             }
-            state = UnescapeState::NORMAL;
-            break;
+            // invalid escape sequence
+            return false;
         }
     } while (str[i++]);
     str.resize(j - 1);
@@ -358,48 +388,36 @@ bool unescape(std::string &str, bool unescapeQuote) {
 }
 
 std::optional<std::string> unescapeForValue(std::string_view str) {
-    bool unescapeQuote = false;
     // having quote at beginning and end, escape
     if (str.size() >= 2 && str.front() == '"' && str.back() == '"') {
-        unescapeQuote = true;
-        str = str.substr(1, str.size() - 2);
-    }
-    if (str.empty()) {
-        return std::string();
-    }
-
-    std::string value(str);
-    if (!stringutils::unescape(value, unescapeQuote)) {
+        std::string result;
+        auto originLength = str.size();
+        auto consumed = consumeMaybeEscapedValue(str, "", &result);
+        if (consumed.size() == originLength) {
+            return result;
+        }
         return std::nullopt;
     }
-    return value;
+    return std::string{str};
 }
 
 std::string escapeForValue(std::string_view str) {
     std::string value;
     value.reserve(str.size());
-    const bool needQuote =
-        str.find_first_of("\f\r\t\v \"") != std::string::npos;
-    if (needQuote) {
+    const bool needEscape =
+        str.find_first_of("\f\r\t\v \"\\\n") != std::string::npos;
+    if (needEscape) {
         value.push_back('"');
     }
     for (char c : str) {
-        switch (c) {
-        case '\\':
-            value.append("\\\\");
-            break;
-        case '\n':
-            value.append("\\n");
-            break;
-        case '"':
-            value.append("\\\"");
-            break;
-        default:
+        if (auto escape = escapeMap[static_cast<uint8_t>(c)]) {
+            value.push_back('\\');
+            value.push_back(escape);
+        } else {
             value.push_back(c);
-            break;
         }
     }
-    if (needQuote) {
+    if (needEscape) {
         value.push_back('"');
     }
 
@@ -450,14 +468,12 @@ std::string_view consumeMaybeEscapedValue(std::string_view &input,
                 }
                 break;
             case UnescapeState::ESCAPE:
-                if (input[i] == '\\') {
-                    result.push_back('\\');
-                } else if (input[i] == 'n') {
-                    result.push_back('\n');
-                } else if (input[i] == '"') {
-                    result.push_back('"');
+                if (auto c = unescapeMap[input[i]]) {
+                    result.push_back(c);
                 } else {
-                    break;
+                    // invalid escape sequence
+                    // and treat it as normal character.
+                    result.push_back(input[i]);
                 }
                 state = UnescapeState::NORMAL;
                 break;
