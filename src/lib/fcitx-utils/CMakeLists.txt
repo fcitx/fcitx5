@@ -54,7 +54,6 @@ list(APPEND FCITX_UTILS_SOURCES
     color.cpp
     i18nstring.cpp
     eventdispatcher.cpp
-    library.cpp
     fs.cpp
     fs_deprecated.cpp
     standardpath.cpp
@@ -90,7 +89,6 @@ set(FCITX_UTILS_HEADERS
     event.h
     eventloopinterface.h
     eventdispatcher.h
-    library.h
     cutf8.h
     fs.h
     standardpath.h
@@ -125,6 +123,11 @@ set(FCITX_UTILS_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
+if (ENABLE_DL)
+    list(APPEND FCITX_UTILS_SOURCES library.cpp)
+    list(APPEND FCITX_UTILS_HEADERS library.h)
+endif()
+
 set(FCITX_UTILS_DBUS_HEADERS
     dbus/message.h
     dbus/objectvtable.h
@@ -150,9 +153,12 @@ target_include_directories(Fcitx5Utils PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Utils>)
-target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread)
+target_link_libraries(Fcitx5Utils PRIVATE LibIntl::LibIntl Pthread::Pthread)
 if(LIBKVM_FOUND)
     target_link_libraries(Fcitx5Utils PRIVATE LibKVM::LibKVM)
+endif()
+if (ENABLE_DL)
+    target_link_libraries(Fcitx5Utils PRIVATE DL::DL)
 endif()
 target_link_libraries(Fcitx5Utils PRIVATE ${FCITX_UTILS_DEPS})
 

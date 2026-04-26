@@ -13,7 +13,9 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#ifndef FCITX_NO_DL
 #include <fcitx-utils/library.h>
+#endif
 #include <fcitx-utils/standardpaths.h>
 #include <fcitx-utils/stringutils.h>
 #include <fcitx/addonfactory.h>
@@ -27,6 +29,7 @@ namespace {
 constexpr char FCITX_ADDON_FACTORY_ENTRY[] = "fcitx_addon_factory_instance";
 }
 
+#ifndef FCITX_NO_DL
 class SharedLibraryFactory {
 public:
     SharedLibraryFactory(const AddonInfo &info, std::vector<Library> libraries)
@@ -71,6 +74,7 @@ private:
     std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>>
         registry_;
 };
+#endif
 
 class StaticLibraryLoader : public AddonLoader {
 public:
