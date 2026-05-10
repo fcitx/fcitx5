@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-03-02 20:24+0000\n"
+"POT-Creation-Date: 2026-05-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2026\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -39,9 +39,9 @@ msgstr "Control"
 msgid "Super"
 msgstr "Super"
 
-#: src/im/keyboard/keyboard.h:50
-msgid "Page size"
-msgstr "Размер страницы"
+#: src/im/keyboard/keyboard.h:51
+msgid "Candidates per page"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
@@ -119,26 +119,26 @@ msgstr "Кандидаты"
 msgid "Entries"
 msgstr "Записи"
 
-#: src/im/keyboard/keyboard.cpp:262
+#: src/im/keyboard/keyboard.cpp:264
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:280
+#: src/im/keyboard/keyboard.cpp:286
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
 
-#: src/im/keyboard/keyboard.cpp:321
+#: src/im/keyboard/keyboard.cpp:325
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
-#: src/im/keyboard/keyboard.cpp:344 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:348 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:707
+#: src/im/keyboard/keyboard.cpp:711
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -146,19 +146,19 @@ msgstr ""
 "Обнаружена только поддержка эмодзи. Чтобы включить проверку орфографии, вам "
 "может потребоваться установить данные проверки орфографии для языка."
 
-#: src/im/keyboard/keyboard.cpp:713
+#: src/im/keyboard/keyboard.cpp:717
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:716
+#: src/im/keyboard/keyboard.cpp:720
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:718
+#: src/im/keyboard/keyboard.cpp:722
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
-#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
 #: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -169,7 +169,7 @@ msgstr "Завершение включено."
 msgid "Input Method"
 msgstr "Метод ввода"
 
-#: src/im/keyboard/keyboard.cpp:722
+#: src/im/keyboard/keyboard.cpp:726
 msgid "Completion"
 msgstr "Завершение"
 
@@ -508,47 +508,47 @@ msgstr "Перезапустить"
 msgid "Exit"
 msgstr "Выход"
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:108
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:121
 msgid "Vertical Candidate List"
 msgstr "Вертикальный список слов-кандидатов"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:123
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:127
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:128
+#: src/ui/classic/classicui.h:129
 msgid "Menu Font"
 msgstr "Шрифт меню"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:131
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:132
+#: src/ui/classic/classicui.h:133
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:136
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
-#: src/ui/classic/classicui.h:136 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
-#: src/ui/classic/classicui.h:141
+#: src/ui/classic/classicui.h:142
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
-#: src/ui/classic/classicui.h:145
+#: src/ui/classic/classicui.h:146
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -557,11 +557,11 @@ msgstr ""
 "для значка предпочтительного текста установлено значение true, этот параметр "
 "будет игнорироваться."
 
-#: src/ui/classic/classicui.h:152
+#: src/ui/classic/classicui.h:153
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:156
+#: src/ui/classic/classicui.h:157
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -571,37 +571,37 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:162
 msgid "Theme"
 msgstr "Тема"
 
-#: src/ui/classic/classicui.h:164
+#: src/ui/classic/classicui.h:165
 msgid "Dark Theme"
 msgstr "Тёмная тема"
 
-#: src/ui/classic/classicui.h:166
+#: src/ui/classic/classicui.h:167
 msgid "Follow system light/dark color scheme"
 msgstr "Следовать системной светлой/темной цветовой схеме"
 
-#: src/ui/classic/classicui.h:170
+#: src/ui/classic/classicui.h:171
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 "Следовать цветовому акценту системы, если он поддерживается темой и рабочим "
 "столом"
 
-#: src/ui/classic/classicui.h:175
+#: src/ui/classic/classicui.h:176
 msgid "Use Per Screen DPI on X11"
 msgstr "Использовать DPI для каждого экрана на X11"
 
-#: src/ui/classic/classicui.h:179
+#: src/ui/classic/classicui.h:180
 msgid "This option will be always disabled on XWayland."
 msgstr "Этот параметр всегда будет отключен в XWayland."
 
-#: src/ui/classic/classicui.h:184
+#: src/ui/classic/classicui.h:185
 msgid "Force font DPI on Wayland"
 msgstr "Принудительное изменение DPI шрифта на Wayland"
 
-#: src/ui/classic/classicui.h:188
+#: src/ui/classic/classicui.h:189
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -611,19 +611,19 @@ msgstr ""
 "масштабирования экрана. Эта опция позволяет переопределить DPI шрифта. Если "
 "значение равно 0, это означает, что эта опция отключена."
 
-#: src/ui/classic/classicui.h:196
+#: src/ui/classic/classicui.h:197
 msgid "Enable fractional scale under Wayland"
 msgstr "Включить дробную шкалу в Wayland"
 
-#: src/ui/classic/classicui.h:200
+#: src/ui/classic/classicui.h:201
 msgid "This option require support from wayland compositor."
 msgstr "Для этого параметра требуется поддержка wayland compositor."
 
-#: src/ui/classic/classicui.cpp:300
+#: src/ui/classic/classicui.cpp:303
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (экспериментально)"
 
-#: src/ui/kimpanel/kimpanel.cpp:406
+#: src/ui/kimpanel/kimpanel.cpp:430
 msgid "Not available"
 msgstr "Недоступно"
 
@@ -810,75 +810,71 @@ msgstr ""
 "если клавиша-модификатор будет отпущена в течение установленного времени. -1 "
 "означает отсутствие ограничения по времени."
 
-#: src/lib/fcitx/globalconfig.cpp:180
-msgid "Active By Default"
-msgstr "Активен по умолчанию"
+#: src/lib/fcitx/globalconfig.cpp:181
+msgid "Activate input method by default"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:184
+#: src/lib/fcitx/globalconfig.cpp:185
 msgid "Reset state on Focus In"
 msgstr "Сбросить состояние при фокусировке"
 
-#: src/lib/fcitx/globalconfig.cpp:188
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Share Input State"
 msgstr "Поделиться состоянием ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:192
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Show preedit in application"
 msgstr "Показать предварительное редактирование в приложении"
 
-#: src/lib/fcitx/globalconfig.cpp:196
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
-#: src/lib/fcitx/globalconfig.cpp:199
+#: src/lib/fcitx/globalconfig.cpp:200
 msgid "Show Input Method Information when changing focus"
 msgstr "Показывать информацию о способе ввода при изменении фокуса"
 
-#: src/lib/fcitx/globalconfig.cpp:202
+#: src/lib/fcitx/globalconfig.cpp:203
 msgid "Show compact input method information"
 msgstr "Показать информацию о компактном методе ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:205
+#: src/lib/fcitx/globalconfig.cpp:206
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:207
-msgid "Default page size"
-msgstr "Размер страницы по умолчанию"
+#: src/lib/fcitx/globalconfig.cpp:208
+msgid "Default Candidates per page"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:214
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Override XKB Option"
 msgstr "Переопределить параметр XKB"
 
-#: src/lib/fcitx/globalconfig.cpp:218
+#: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
-"Whether to override the XKB option from display server. It will not affect "
-"the XKB option send to display, but just the XKB options for custom XKB "
-"layout. This is a workaround when there is no way to get the current XKB "
-"option from Wayland Compositor."
+"Override the XKB option from display server. It will not affect the XKB "
+"option send to display, but just the XKB options for custom XKB layout. This "
+"is a workaround when there is no way to get the current XKB option from "
+"Wayland Compositor."
 msgstr ""
-"Следует ли переопределять параметр XKB с сервера отображения. Это не "
-"повлияет на параметр XKB, отправляемый на дисплей, а только на параметры XKB "
-"для пользовательской раскладки XKB. Это обходной путь, когда нет возможности "
-"получить текущий параметр XKB из Wayland Compositor."
 
-#: src/lib/fcitx/globalconfig.cpp:224
+#: src/lib/fcitx/globalconfig.cpp:225
 msgid "Custom XKB Option"
 msgstr "Пользовательский вариант XKB"
 
-#: src/lib/fcitx/globalconfig.cpp:234
+#: src/lib/fcitx/globalconfig.cpp:235
 msgid "Allow input method in the password field"
 msgstr "Разрешить метод ввода в поле пароля"
 
-#: src/lib/fcitx/globalconfig.cpp:237
+#: src/lib/fcitx/globalconfig.cpp:238
 msgid "Show preedit text when typing password"
 msgstr "Показывать предварительно редактируемый текст при вводе пароля"
 
-#: src/lib/fcitx/globalconfig.cpp:241
+#: src/lib/fcitx/globalconfig.cpp:242
 msgid "Interval of saving user data in minutes"
 msgstr "Интервал сохранения пользовательских данных в минутах"
 
-#: src/lib/fcitx/globalconfig.cpp:245
+#: src/lib/fcitx/globalconfig.cpp:246
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -886,11 +882,11 @@ msgstr ""
 "Если значение равно 0, пользовательские данные могут быть сохранены только "
 "при выходе из fcitx (например, при выходе из системы)."
 
-#: src/lib/fcitx/globalconfig.cpp:249
+#: src/lib/fcitx/globalconfig.cpp:250
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
-#: src/lib/fcitx/globalconfig.cpp:251
+#: src/lib/fcitx/globalconfig.cpp:252
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -2145,33 +2141,26 @@ msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только "
 "KDE5+ и GNOME)"
 
-#: src/modules/wayland/waylandmodule.cpp:655
+#: src/modules/wayland/waylandmodule.cpp:657
 msgid "Fcitx"
 msgstr "Fcitx"
 
-#: src/modules/wayland/waylandmodule.cpp:655
+#: src/modules/wayland/waylandmodule.cpp:657
 msgid "Wayland Diagnose"
 msgstr "Wayland Диагностика"
 
-#: src/modules/wayland/waylandmodule.cpp:678
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
-"Wayland. To configure this, you need to go to \"System Settings\" -> "
+"Wayland. To configure this, you need to go to \"System Settings\" > "
 "\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
 "disable tools that launches input method, such as imsettings on Fedora, or "
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
-"Fcitx в KDE Wayland должен быть запущен с помощью KWin, чтобы использовать "
-"интерфейс метода ввода Wayland. Это улучшает удобство использования Fcitx "
-"под Wayland. Вам нужно открыть «Системные настройки» -> «Виртуальная "
-"клавиатура» и выбрать «Fcitx 5». Вы также можете отключить инструменты, "
-"которые включают методы ввода, такие как imsettings в Fedora или im-config в "
-"Debian/Ubuntu. Дополнительную информацию можно найти на https://fcitx-im.org/"
-"wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:693
+#: src/modules/wayland/waylandmodule.cpp:695
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -2184,7 +2173,7 @@ msgstr ""
 "более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:708
+#: src/modules/wayland/waylandmodule.cpp:710
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -2196,7 +2185,7 @@ msgstr ""
 "Wayland. Для получения более подробной информации см. https://fcitx-im.org/"
 "wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:720
+#: src/modules/wayland/waylandmodule.cpp:722
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2210,7 +2199,7 @@ msgstr ""
 "поиска действий GNOME Shell. Для получения более подробной информации см. "
 "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 
-#: src/modules/wayland/waylandmodule.cpp:739
+#: src/modules/wayland/waylandmodule.cpp:741
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -2220,7 +2209,7 @@ msgstr ""
 "работает. Рекомендуется отключить GTK_IM_MODULE и вместо этого использовать "
 "интерфейс метода ввода Wayland."
 
-#: src/modules/wayland/waylandmodule.cpp:758
+#: src/modules/wayland/waylandmodule.cpp:760
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2231,7 +2220,7 @@ msgstr ""
 "использовать внутреннее преобразование раскладки Fcitx, добавив раскладку в "
 "качестве метода ввода в группу методов ввода."
 
-#: src/modules/wayland/waylandmodule.cpp:775
+#: src/modules/wayland/waylandmodule.cpp:777
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Для получения более подробной информации см. https://fcitx-im.org/wiki/"

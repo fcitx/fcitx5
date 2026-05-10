@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-04-05 20:24+0000\n"
+"POT-Creation-Date: 2026-05-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2026\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -39,9 +39,9 @@ msgstr "Control"
 msgid "Super"
 msgstr "Super"
 
-#: src/im/keyboard/keyboard.h:50
-msgid "Page size"
-msgstr "페이지 크기"
+#: src/im/keyboard/keyboard.h:51
+msgid "Candidates per page"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
@@ -119,26 +119,26 @@ msgstr "후보"
 msgid "Entries"
 msgstr "항목"
 
-#: src/im/keyboard/keyboard.cpp:262
+#: src/im/keyboard/keyboard.cpp:264
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:280
+#: src/im/keyboard/keyboard.cpp:286
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
-#: src/im/keyboard/keyboard.cpp:321
+#: src/im/keyboard/keyboard.cpp:325
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/im/keyboard/keyboard.cpp:344 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:348 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:707
+#: src/im/keyboard/keyboard.cpp:711
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -146,19 +146,19 @@ msgstr ""
 "이모지 지원만 있습니다. 철자 검사를 사용하려면 언어에 대한 철자 검사 데이터"
 "를 설치해야 할 수 있습니다."
 
-#: src/im/keyboard/keyboard.cpp:713
+#: src/im/keyboard/keyboard.cpp:717
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:716
+#: src/im/keyboard/keyboard.cpp:720
 msgid "Completion is enabled temporarily."
 msgstr "완성이 일시적으로 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:718
+#: src/im/keyboard/keyboard.cpp:722
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
 #: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -169,7 +169,7 @@ msgstr "완성이 활성화되었습니다."
 msgid "Input Method"
 msgstr "입력기"
 
-#: src/im/keyboard/keyboard.cpp:722
+#: src/im/keyboard/keyboard.cpp:726
 msgid "Completion"
 msgstr "완성"
 
@@ -795,75 +795,71 @@ msgstr ""
 "보조 키만 사용하는 단축키를 사용할 때는 시간 제한 내에 보조 키를 놓아야 동작"
 "이 실행될 수 있습니다. -1은 제한이 없음을 의미합니다."
 
-#: src/lib/fcitx/globalconfig.cpp:180
-msgid "Active By Default"
-msgstr "기본적으로 활성화"
+#: src/lib/fcitx/globalconfig.cpp:181
+msgid "Activate input method by default"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:184
+#: src/lib/fcitx/globalconfig.cpp:185
 msgid "Reset state on Focus In"
 msgstr "포커스를 얻을 때 상태 초기화"
 
-#: src/lib/fcitx/globalconfig.cpp:188
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Share Input State"
 msgstr "입력 상태 공유"
 
-#: src/lib/fcitx/globalconfig.cpp:192
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Show preedit in application"
 msgstr "응용프로그램에서 사전편집 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:196
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경시 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:199
+#: src/lib/fcitx/globalconfig.cpp:200
 msgid "Show Input Method Information when changing focus"
 msgstr "포커스를 변경할 때 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:202
+#: src/lib/fcitx/globalconfig.cpp:203
 msgid "Show compact input method information"
 msgstr "간결한 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:205
+#: src/lib/fcitx/globalconfig.cpp:206
 msgid "Show first input method information"
 msgstr "첫 번째 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:207
-msgid "Default page size"
-msgstr "페이지 크기 기본값"
+#: src/lib/fcitx/globalconfig.cpp:208
+msgid "Default Candidates per page"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:214
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Override XKB Option"
 msgstr "XKB 옵션 재정의"
 
-#: src/lib/fcitx/globalconfig.cpp:218
+#: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
-"Whether to override the XKB option from display server. It will not affect "
-"the XKB option send to display, but just the XKB options for custom XKB "
-"layout. This is a workaround when there is no way to get the current XKB "
-"option from Wayland Compositor."
+"Override the XKB option from display server. It will not affect the XKB "
+"option send to display, but just the XKB options for custom XKB layout. This "
+"is a workaround when there is no way to get the current XKB option from "
+"Wayland Compositor."
 msgstr ""
-"디스플레이 서버의 XKB 옵션을 재정의할지 여부입니다. 화면으로 전송되는 XKB 옵"
-"션에는 영향을 주지 않으며, 사용자 지정 XKB 자판 배열에 대한 XKB 옵션에만 적용"
-"됩니다. 현재 Wayland 컴포지터에서 XKB 옵션을 가져올 수 없을 때 사용하는 우회 "
-"방법입니다."
 
-#: src/lib/fcitx/globalconfig.cpp:224
+#: src/lib/fcitx/globalconfig.cpp:225
 msgid "Custom XKB Option"
 msgstr "사용자 지정 XKB 옵션"
 
-#: src/lib/fcitx/globalconfig.cpp:234
+#: src/lib/fcitx/globalconfig.cpp:235
 msgid "Allow input method in the password field"
 msgstr "비밀번호 입력란에서 입력기 허용"
 
-#: src/lib/fcitx/globalconfig.cpp:237
+#: src/lib/fcitx/globalconfig.cpp:238
 msgid "Show preedit text when typing password"
 msgstr "비밀번호 입력 시 사전편집 텍스트 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:241
+#: src/lib/fcitx/globalconfig.cpp:242
 msgid "Interval of saving user data in minutes"
 msgstr "사용자 데이터 저장 간격(분)"
 
-#: src/lib/fcitx/globalconfig.cpp:245
+#: src/lib/fcitx/globalconfig.cpp:246
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -871,11 +867,11 @@ msgstr ""
 "값이 0이면 사용자 데이터는 Fcitx가 종료될 때만(예: 로그아웃) 저장될 수 있습니"
 "다."
 
-#: src/lib/fcitx/globalconfig.cpp:249
+#: src/lib/fcitx/globalconfig.cpp:250
 msgid "Hotkey"
 msgstr "단축키"
 
-#: src/lib/fcitx/globalconfig.cpp:251
+#: src/lib/fcitx/globalconfig.cpp:252
 msgid "Behavior"
 msgstr "동작방식"
 
@@ -2124,32 +2120,26 @@ msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr "시스템 XKB 설정 재정의 허용 (KDE5+ 및 GNOME만 지원)"
 
-#: src/modules/wayland/waylandmodule.cpp:655
+#: src/modules/wayland/waylandmodule.cpp:657
 msgid "Fcitx"
 msgstr "Fcitx"
 
-#: src/modules/wayland/waylandmodule.cpp:655
+#: src/modules/wayland/waylandmodule.cpp:657
 msgid "Wayland Diagnose"
 msgstr "Wayland 진단"
 
-#: src/modules/wayland/waylandmodule.cpp:678
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
-"Wayland. To configure this, you need to go to \"System Settings\" -> "
+"Wayland. To configure this, you need to go to \"System Settings\" > "
 "\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
 "disable tools that launches input method, such as imsettings on Fedora, or "
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
-"Wayland 입력기 프론트엔드를 사용하려면 KDE Wayland에서는 Fcitx를 KWin이 실행"
-"해야 합니다. 이렇게 하면 Wayland에서 Fcitx를 사용할 때의 사용성이 향상될 수 "
-"있습니다. 설정하려면 \"시스템 설정\" -> \"가상 키보드\"로 이동해 \"Fcitx "
-"5\"를 선택하십시오. Fedora의 imsettings, Debian/Ubuntu의 im-config처럼 입력기"
-"를 실행하는 도구를 비활성화해야 할 수도 있습니다. 자세한 내용은 https://"
-"fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma 를 참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:693
+#: src/modules/wayland/waylandmodule.cpp:695
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -2161,7 +2151,7 @@ msgstr ""
 "Wayland 입력기 프론트엔드를 사용하는 것을 권장합니다. 자세한 내용은 https://"
 "fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma 를 참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:708
+#: src/modules/wayland/waylandmodule.cpp:710
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -2173,7 +2163,7 @@ msgstr ""
 "세한 내용은 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma 를 "
 "참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:720
+#: src/modules/wayland/waylandmodule.cpp:722
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2187,7 +2177,7 @@ msgstr ""
 "니다. 자세한 내용은 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME "
 "을 참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:739
+#: src/modules/wayland/waylandmodule.cpp:741
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -2197,7 +2187,7 @@ msgstr ""
 "다. GTK_IM_MODULE 설정을 해제하고 대신 Wayland 입력기 프론트엔드를 사용하는 "
 "것을 권장합니다."
 
-#: src/modules/wayland/waylandmodule.cpp:758
+#: src/modules/wayland/waylandmodule.cpp:760
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2207,7 +2197,7 @@ msgstr ""
 "능이 아직 지원되지 않습니다. 대신 자판 배열을 입력기 그룹에 입력기로 추가해 "
 "Fcitx 내부 자판 배열 변환을 계속 사용할 수 있습니다."
 
-#: src/modules/wayland/waylandmodule.cpp:775
+#: src/modules/wayland/waylandmodule.cpp:777
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "자세한 내용은 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland 를 참조하십"

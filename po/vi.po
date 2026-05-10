@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-02-22 20:24+0000\n"
+"POT-Creation-Date: 2026-05-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Huy Võ <hoanghuy309@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -20,723 +20,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/fcitx5-diagnose.sh:900
-msgid "${1} Environment Variables:"
-msgstr "${1}Các biến môi trường:"
-
-#: data/fcitx5-diagnose.sh:886
-msgid "${1} Settings Directory:"
-msgstr "${1}Thư mục cài đặt:"
-
-#: data/fcitx5-diagnose.sh:960
-msgid "${1} is not running."
-msgstr "${1}không chạy."
-
-#: data/fcitx5-diagnose.sh:909
-msgid "${1} is not set."
-msgstr "${1}không được gán."
-
-#: data/fcitx5-diagnose.sh:906
-msgid "${1} is set to ${2}."
-msgstr "${1} được gán là ${2}."
-
-#: data/fcitx5-diagnose.sh:565
-msgid "${1} not found."
-msgstr "${1}không tìm thấy."
-
-#: data/fcitx5-diagnose.sh:977
-msgid "${1} works properly."
-msgstr "${1} chạy bình thường."
-
-#: src/lib/fcitx/instance.cpp:436
-msgid "(Not available)"
-msgstr "(Không khả dụng)"
-
-#: src/modules/unicode/unicode.cpp:493
-msgid "(Type to search unicode by code or description)"
-msgstr "(Nhập để tìm kiếm theo mã unicode hoặc mô tả)"
-
-#: data/fcitx5-diagnose.sh:707
-#, sh-printf-format
-msgid "/Beginner%27s_Guide"
-msgstr "/Hướng dẫn %27s_người dùng mới"
-
-#: data/fcitx5-diagnose.sh:754
-msgid "/Hall_of_Shame_for_Linux_IME_Support"
-msgstr "/Các_hạn_chế_bộ_gõ_hỗ_trợ_trong_Linux"
-
-#: data/fcitx5-diagnose.sh:718
-msgid "/Input_method_related_environment_variables"
-msgstr "/Kiểu_gõ_liên_quan_biến_môi_trường"
-
-#: data/fcitx5-diagnose.sh:734
-msgid "/Note_for_GNOME_Later_than_3.6"
-msgstr "/Ghi_chú_cho_GNOC_mới_hơn_3.6"
-
-#: data/fcitx5-diagnose.sh:758
-msgid "/XIM"
-msgstr "/XIM"
-
-#: src/modules/clipboard/clipboard.h:81
-msgid "0 means never clear password."
-msgstr "0 có nghĩa là không bao giờ làm trống mật khẩu."
-
-#: src/modules/unicode/charselectdata.cpp:222
-msgid "<Low Surrogate>"
-msgstr "<Low Surrogate>"
-
-#: src/modules/unicode/charselectdata.cpp:218
-msgid "<Non Private Use High Surrogate>"
-msgstr "<Non Private Use High Surrogate>"
-
-#: src/modules/clipboard/clipboard.cpp:144
-msgid "<Password>"
-msgstr "<Password>"
-
-#: src/modules/unicode/charselectdata.cpp:230
-msgid "<Plane 15 Private Use>"
-msgstr "<Plane 15 Private Use>"
-
-#: src/modules/unicode/charselectdata.cpp:232
-msgid "<Plane 16 Private Use>"
-msgstr "<Plane 16 Private Use>"
-
-#: src/modules/unicode/charselectdata.cpp:220
-msgid "<Private Use High Surrogate>"
-msgstr "<Private Use High Surrogate>"
-
-#: src/modules/unicode/charselectdata.cpp:224
-msgid "<Private Use>"
-msgstr "<Private Use>"
-
-#: src/modules/unicode/charselectdata.cpp:262
-msgid "<not assigned>"
-msgstr "<not assigned>"
-
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
-msgid "A virtual keyboard backend based on DBus"
-msgstr "Một phụ trợ bàn phím ảo dựa trên DBUS"
-
-#: src/ui/classic/theme.h:226
-msgid "Accent Colors"
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:30
+msgid "None"
 msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:62
-msgid "Activate Input Method"
-msgstr "Kích hoạt kiểu gõ"
-
-#: src/lib/fcitx/globalconfig.cpp:180
-msgid "Active By Default"
-msgstr "Kích hoạt mặc định"
-
-#: src/lib/fcitx-utils/key.cpp:153
-msgctxt "Key name"
-msgid "Add Favorite"
-msgstr "Thêm vào ưa thích"
-
-#: src/modules/unicode/unicode.conf.in.in:3
-msgid "Add Unicode Typing Support"
-msgstr "Thêm hỗ trợ gõ Unicode"
-
-#: data/fcitx5-diagnose.sh:1465
-msgid "Addon Config Dir:"
-msgstr "Thư mục cấu hình addon:"
-
-#: data/fcitx5-diagnose.sh:1550
-msgid "Addon Libraries:"
-msgstr "Thư viện Addon:"
-
-#: data/fcitx5-diagnose.sh:1493
-msgid "Addon List:"
-msgstr "Danh sách tiện ích bổ sung:"
-
-#: src/lib/fcitx-utils/key.cpp:155
-msgctxt "Key name"
-msgid "Adjust Brightness"
-msgstr "Điều chỉnh độ sáng"
-
-#: src/lib/fcitx/globalconfig.cpp:36
-msgid "All"
-msgstr "Tất cả"
-
-#: data/fcitx5-diagnose.sh:1267
-msgid "All found Gtk ${1} immodule files exist."
-msgstr "Tất cả các tệp immodule Gtk ${1} được tìm thấy đều tồn tại."
-
-#: data/fcitx5-diagnose.sh:1576
-msgid "All libraries for all addons are found."
-msgstr "Tất cả các thư viện cho tất cả các addon được tìm thấy."
-
-#: data/fcitx5-diagnose.sh:854
-msgid "All locales:"
-msgstr "Tất cả địa phương:"
-
-#: src/modules/xcb/xcbmodule.h:59
-msgid "Allow Overriding System XKB Settings"
-msgstr "Cho phép ghi đè cài đặt hệ thống XKB"
-
-#: src/modules/wayland/waylandmodule.h:45
-msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
-msgstr "Cho phép ghi đè cài đặt XKB của hệ thống (Chỉ hỗ trợ KDE5+ và GNOME)"
-
-#: src/lib/fcitx/globalconfig.cpp:234
-msgid "Allow input method in the password field"
-msgstr "Cho phép phương thức nhập vào trường mật khẩu"
 
 #: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:585
-msgctxt "Key name"
-msgid "Alt"
-msgstr "Alt"
-
-#: src/modules/xcb/xcbmodule.h:63
-msgid "Always set layout to be only group layout"
-msgstr "Luôn cài đặt bố cục thành bố cục nhóm"
-
-#: src/lib/fcitx-utils/key.cpp:160
-msgctxt "Key name"
-msgid "Application Left"
-msgstr "Ứng dụng còn lại"
-
-#: src/lib/fcitx-utils/key.cpp:161
-msgctxt "Key name"
-msgid "Application Right"
-msgstr "Quyền ứng dụng"
-
-#: src/im/keyboard/keyboard.h:101
-msgid "Applications disabled for long press"
-msgstr "Các ứng dụng bị vô hiệu hóa khi nhấn lâu"
-
-#: src/lib/fcitx-utils/key.cpp:220
-msgctxt "Key name"
-msgid "Audio Cycle Track"
-msgstr "Theo dõi chu kỳ âm thanh"
-
-#: src/lib/fcitx-utils/key.cpp:218
-msgctxt "Key name"
-msgid "Audio Random Play"
-msgstr "Phát ngẫu nhiên âm thanh"
-
-#: src/lib/fcitx-utils/key.cpp:217
-msgctxt "Key name"
-msgid "Audio Repeat"
-msgstr "Lặp lại âm thanh"
-
-#: src/ui/classic/theme.h:215
-msgid "Author"
-msgstr "Tác giả"
-
-#: src/modules/xcb/xcbmodule.h:37
-msgid "Auto"
-msgstr "Tự động"
-
-#: src/lib/fcitx-utils/key.cpp:207
-msgctxt "Key name"
-msgid "Away"
-msgstr "Xa"
-
-#: src/lib/fcitx-utils/key.cpp:102
-msgctxt "Key name"
-msgid "Back"
-msgstr "Trở lại"
-
-#: src/lib/fcitx-utils/key.cpp:159
-msgctxt "Key name"
-msgid "Back Forward"
-msgstr "Lùi về trước"
-
-#: src/modules/spell/spell.h:39
-msgid "Backends"
-msgstr "Phụ trợ"
-
-#: src/ui/classic/theme.h:180 src/ui/classic/theme.h:200
-msgid "Background"
-msgstr "Nền"
-
-#: src/ui/classic/theme.h:91
-msgid "Background Image"
-msgstr "Hình nền"
-
-#: src/lib/fcitx-utils/key.cpp:51
-msgctxt "Key name"
-msgid "Backspace"
-msgstr "Backspace"
-
-#: data/fcitx5-diagnose.sh:827
-msgid "Bash Version:"
-msgstr "Phiên bản Bash:"
-
-#: src/lib/fcitx-utils/key.cpp:213
-msgctxt "Key name"
-msgid "Battery"
-msgstr "Pin"
-
-#: data/fcitx5-diagnose.sh:706
-msgid "Beginner's Guide"
-msgstr "Hướng dẫn sử dụng cho người mới"
-
-#: src/lib/fcitx/globalconfig.cpp:251
-msgid "Behavior"
-msgstr "Hành vi"
-
-#: src/lib/fcitx-utils/key.cpp:231
-msgctxt "Key name"
-msgid "Blue"
-msgstr "Xanh da trời"
-
-#: src/lib/fcitx-utils/key.cpp:214
-msgctxt "Key name"
-msgid "Bluetooth"
-msgstr "Bluetooth"
-
-#: src/ui/classic/theme.h:170
-msgid "Blur Margin"
-msgstr "Lề mờ"
-
-#: src/ui/classic/theme.h:169
-msgid "Blur mask"
-msgstr "Mặt nạ làm mờ"
-
-#: src/lib/fcitx-utils/key.cpp:162
-msgctxt "Key name"
-msgid "Book"
-msgstr "Sách"
-
-#: src/ui/classic/theme.h:103
-msgid "Border Color"
-msgstr "Màu viền"
-
-#: src/ui/classic/theme.h:111
-msgid "Border width"
-msgstr "Chiều rộng biên"
-
-#: src/ui/classic/theme.h:56
-msgid "Bottom"
-msgstr "Dưới đáy"
-
-#: src/ui/classic/theme.h:44
-msgid "Bottom Center"
-msgstr "Giữa Ở Dưới"
-
-#: src/ui/classic/theme.h:44
-msgid "Bottom Left"
-msgstr "Trái dưới đáy"
-
-#: src/ui/classic/theme.h:45
-msgid "Bottom Right"
-msgstr "Phải ở đáy"
-
-#: src/lib/fcitx-utils/key.cpp:173
-msgctxt "Key name"
-msgid "Browser"
-msgstr "Trình duyệt"
-
-#: src/lib/fcitx-utils/key.cpp:163
-msgctxt "Key name"
-msgid "CD"
-msgstr "CD"
-
-#: src/modules/unicode/charselectdata.cpp:199
-#, c++-format
-msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:164
-msgctxt "Key name"
-msgid "Calculator"
-msgstr "Máy tính"
-
-#: src/lib/fcitx-utils/key.cpp:273
-msgctxt "Key name"
-msgid "Cancel"
-msgstr "Hủy bỏ"
-
-#: src/ui/classic/theme.h:163
-msgid "Candidate Comment Text Color"
-msgstr ""
-
-#: src/ui/classic/theme.h:160
-msgid "Candidate Comment Text Size Factor"
-msgstr ""
-
-#: src/ui/classic/theme.h:155
-msgid "Candidate Label Text Color"
-msgstr ""
-
-#: src/ui/classic/theme.h:152
-msgid "Candidate Label Text Size Factor"
-msgstr ""
-
-#: src/im/keyboard/longpress.h:23
-msgid "Candidates"
-msgstr "Ứng cử viên"
-
-#: data/fcitx5-diagnose.sh:975
-msgid "Cannot connect to ${1} correctly."
-msgstr "Không thể kết nối đến ${1} bình thường."
-
-#: data/fcitx5-diagnose.sh:820
-msgid "Cannot determine desktop environment."
-msgstr "Không thể xác định môi trường Desktop."
-
-#: data/fcitx5-diagnose.sh:1484
-msgid "Cannot find ${1} addon config directory."
-msgstr "Không thể tìm đường dẫn cấu hình addon ${1}  "
-
-#: data/fcitx5-diagnose.sh:1417
-msgid "Cannot find ${1} im module for gtk ${2} in cache."
-msgstr "Không thể tìm thấy module ${1} cho gtk ${2}trong bộ nhớ cache."
-
-#: data/fcitx5-diagnose.sh:1334
-msgid "Cannot find ${1} im module for gtk ${2}."
-msgstr "Không thể tìm thấy module ${1} cho gtk ${2}."
-
-#: data/fcitx5-diagnose.sh:1188 data/fcitx5-diagnose.sh:1193
-#: data/fcitx5-diagnose.sh:1198
-msgid "Cannot find ${1} input method module for ${2}."
-msgstr "Không thể tìm thấy module kiểu gõ ${1} cho ${2}."
-
-#: data/fcitx5-diagnose.sh:1328
-msgid "Cannot find ${2} for gtk ${1}"
-msgstr "Không thể tìm thấy ${2}cho gtk ${1}"
-
-#: data/fcitx5-diagnose.sh:995
-msgid "Cannot find DBus name ${1} owner."
-msgstr "Không thể tìm thấy chủ sở hữu ${1} DBus."
-
-#: data/fcitx5-diagnose.sh:1579
-msgid "Cannot find enabled ${1} user interface!"
-msgstr "Không thể tìm thấy giao diện người dùng ${1} đã bật!"
-
-#: data/fcitx5-diagnose.sh:938
-msgid "Cannot find fcitx5 executable!"
-msgstr "Không thể tìm thấy thực thi fcitx5! "
-
-#: data/fcitx5-diagnose.sh:1558
-msgid "Cannot find file ${1} of addon ${2}."
-msgstr "Không thể tìm thấy tệp ${1} của addon ${2}. "
-
-#: data/fcitx5-diagnose.sh:1568
-msgid "Cannot find following required libraries for ${1} of addon ${2}."
-msgstr "Không thể tìm thấy thư viện yêu cầu cho ${1} của addon ${2}."
-
-#: data/fcitx5-diagnose.sh:1412
-msgid "Cannot find immodules cache for gtk ${1}"
-msgstr "Không tìm thấy bộ nhớ đệm immodules cho gtk ${1}"
-
-#: data/fcitx5-diagnose.sh:1598
-msgid ""
-"Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
-msgstr ""
-"Không tìm thấy giao diện dbus kimpanel hoặc giao diện người dùng không phải "
-"kimpanel được bật."
-
-#: data/fcitx5-diagnose.sh:1003
-msgid "Cannot find pid of DBus name ${1} owner."
-msgstr "Không thể tìm thấy pid của tên DBus ${1} sở hữu."
-
-#: data/fcitx5-diagnose.sh:1075
-msgid "Cannot find xim_server on root window."
-msgstr "Không thể tìm thấy xim_server trong cửa sổ gốc."
-
-#: data/fcitx5-diagnose.sh:1049
-msgid "Cannot interpret XMODIFIERS: ${1}."
-msgstr "Không thể thông dịch XMODIFIERS: ${1}."
-
-#: src/lib/fcitx-utils/key.cpp:62
-msgctxt "Key name"
-msgid "CapsLock"
-msgstr "CapsLock"
-
-#: src/ui/classic/theme.h:43 src/ui/classic/theme.h:55
-msgid "Center"
-msgstr "Giữa"
-
-#: src/ui/classic/theme.h:42
-msgid "Center Left"
-msgstr "Giữa Ở Trái"
-
-#: src/ui/classic/theme.h:43
-msgid "Center Right"
-msgstr "Giữa Ở Phải"
-
-#: data/fcitx5-configtool.desktop.in.in:4
-msgid "Change Fcitx 5 Configuration"
-msgstr "Thay Đổi Cấu Hình Fctix 5"
-
-#: src/ui/classic/theme.h:205
-msgid "Check box"
-msgstr "Hộp kiểm"
-
-#: src/im/keyboard/keyboard.h:69 src/modules/quickphrase/quickphrase.h:43
-msgid "Choose key modifier"
-msgstr "Chọn phím để sửa đổi"
-
-#: src/ui/classic/classicui.conf.in.in:2
-msgid "Classic User Interface"
-msgstr "Giao diện người dùng truyền thống"
-
-#: src/lib/fcitx-utils/key.cpp:165
-msgctxt "Key name"
-msgid "Clear"
-msgstr "Xóa"
-
-#: src/ui/classic/theme.h:137
-msgid "Click Margin"
-msgstr "Nhấp vào lề"
-
-#: src/modules/clipboard/clipboard.conf.in.in:2
-msgid "Clipboard"
-msgstr "Bảng tạm"
-
-#: src/modules/clipboard/clipboard.cpp:397
-msgid "Clipboard (Press BackSpace/Delete to clear history):"
-msgstr "Bảng nhớ tạm (Nhấn BackSpace/Delete để xóa lịch sử):"
-
-#: src/lib/fcitx-utils/key.cpp:166
-msgctxt "Key name"
-msgid "Close"
-msgstr "Đóng"
-
-#: src/lib/fcitx-utils/key.cpp:259
-msgctxt "Key name"
-msgid "Code input"
-msgstr "Nhập mã"
-
-#: src/ui/classic/theme.h:95
-msgid "Color"
-msgstr "Màu"
-
-#: src/lib/fcitx-utils/key.cpp:157
-msgctxt "Key name"
-msgid "Community"
-msgstr "Cộng đồng"
-
-#: src/im/keyboard/keyboard.cpp:722
-msgid "Completion"
-msgstr "Hoàn thành"
-
-#: src/im/keyboard/keyboard.cpp:713
-msgid "Completion is disabled."
-msgstr "Hoàn thành bị vô hiệu hóa."
-
-#: src/im/keyboard/keyboard.cpp:716
-msgid "Completion is enabled temporarily."
-msgstr "Hoàn thành tạm thời được kích hoạt."
-
-#: src/im/keyboard/keyboard.cpp:718
-msgid "Completion is enabled."
-msgstr "Hoàn thành được kích hoạt."
-
-#: data/fcitx5-diagnose.sh:1692
-msgid "Configuration:"
-msgstr "Cấu hình:"
-
 #: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
 msgstr "Điều khiển"
 
-#: src/lib/fcitx-utils/key.cpp:584
-msgctxt "Key name"
-msgid "Control"
-msgstr "Điều khiển"
+#: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
+msgid "Super"
+msgstr "Siêu"
 
-#: src/lib/fcitx-utils/key.cpp:167
-msgctxt "Key name"
-msgid "Copy"
-msgstr "Chép"
-
-#: data/fcitx5-diagnose.sh:888
-msgid "Current ${1} settings directory is ${2} (${3})."
-msgstr "Cấu hình hiện hành ${1} là ${2} (${3})."
-
-#: data/fcitx5-diagnose.sh:856
-msgid "Current locale:"
-msgstr "Ngôn ngữ hiện tại:"
-
-#: data/fcitx5-diagnose.sh:894
-msgid "Current user:"
-msgstr "Người dùng hiện tại:"
-
-#: data/fcitx5-diagnose.sh:882
-msgid "Current value of ${1} is ${2} (${3})."
-msgstr "Giá trị hiện tại của ${1} là ${2} (${3})."
-
-#: src/modules/spell/spell.h:23
-msgid "Custom"
-msgstr "Tùy chỉnh"
-
-#: src/lib/fcitx/globalconfig.cpp:224
-msgid "Custom XKB Option"
+#: src/im/keyboard/keyboard.h:51
+msgid "Candidates per page"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:168
-msgctxt "Key name"
-msgid "Cut"
-msgstr "Cắt"
-
-#: src/modules/dbus/dbus.conf.in.in:2
-msgid "DBus"
-msgstr "DBus"
-
-#: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:2
-msgid "DBus Frontend"
-msgstr "Giao diện người dùng DBus"
-
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:2
-msgid "DBus Virtual Keyboard"
-msgstr "Bản Phím Ảo DBus"
-
-#: src/modules/notificationitem/notificationitem.conf.in.in:3
-msgid "DBus based new Freedesktop.org tray icon"
-msgstr "DBus dựa trên icon mới Freedesktop.org"
-
-#: data/fcitx5-diagnose.sh:983
-msgid "DBus interface:"
-msgstr "Giao diện DBus:"
-
-#: src/lib/fcitx-utils/key.cpp:170
-msgctxt "Key name"
-msgid "DOS"
-msgstr "DOS"
-
-#: src/ui/classic/classicui.h:164
-msgid "Dark Theme"
-msgstr "Chủ đề tối"
-
-#: src/lib/fcitx/globalconfig.cpp:71
-msgid "Deactivate Input Method"
-msgstr "Vô hiệu hóa bộ gõ"
-
-#: data/fcitx5-diagnose.sh:1007
-msgid "Debug information from dbus:"
-msgstr "Thông tin gỡ lỗi từ dbus:"
-
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
-#: src/ui/classic/themes/default/theme.conf.in:2
-msgid "Default"
-msgstr "Mặc định"
-
-#: src/ui/classic/themes/default-dark/theme-dark.conf.in:2
-msgid "Default Dark"
-msgstr "Mặc định tối"
-
-#: src/lib/fcitx/globalconfig.cpp:207
-msgid "Default page size"
-msgstr "Kích thướng trang mặc định"
-
-#: src/lib/fcitx-utils/key.cpp:239
-msgctxt "Key name"
-msgid "Delete"
-msgstr "Xóa"
-
-#: src/ui/classic/theme.h:217
-msgid "Description"
-msgstr "Mô tả"
-
-#: data/fcitx5-diagnose.sh:817
-msgid "Desktop Environment:"
-msgstr "Môi trường Desktop:"
-
-#: data/fcitx5-diagnose.sh:822
-msgid "Desktop environment is ${1}."
-msgstr "Môi trường Desktop là ${1}."
-
-#: src/modules/wayland/waylandmodule.cpp:693
-msgid ""
-"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
-"frontend is working. It is recommended to unset GTK_IM_MODULE and "
-"QT_IM_MODULE and use Wayland input method frontend instead. For more details "
-"see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+#: src/im/keyboard/keyboard.h:55
+msgid "Prev Candidate"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:708
-msgid ""
-"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
-"frontend is working. It is recommended to use Wayland input method frontend. "
-"For more details see https://fcitx-im.org/wiki/"
-"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+#: src/im/keyboard/keyboard.h:61
+msgid "Next Candidate"
 msgstr ""
-
-#: src/modules/wayland/waylandmodule.cpp:739
-msgid ""
-"Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
-"It is recommended to unset GTK_IM_MODULE and use Wayland input method "
-"frontend instead."
-msgstr ""
-
-#: src/frontend/waylandim/waylandim.h:36
-msgid "Detect current running application (Need restart)"
-msgstr "Phát hiện ứng dụng đang chạy (Cần khởi động lại)"
-
-#: data/fcitx5-diagnose.sh:868
-msgid "Directories:"
-msgstr "Thư mục:"
-
-#: src/lib/fcitx-utils/key.cpp:169
-msgctxt "Key name"
-msgid "Display"
-msgstr "Hiển thị"
-
-#: src/modules/clipboard/clipboard.h:71
-msgid "Display passwords as plain text"
-msgstr "Hiển thị mật khẩu dưới dạng thuần văn bản"
-
-#: src/modules/notifications/notifications.cpp:230
-msgid "Do not show again"
-msgstr "Không hiển thị lại"
-
-#: src/modules/clipboard/clipboard.h:63
-msgid "Do not show password from password managers"
-msgstr "Không hiển thị mật khẩu từ trình quản lý mật khẩu"
-
-#: src/lib/fcitx-utils/key.cpp:171
-msgctxt "Key name"
-msgid "Documents"
-msgstr "Tài liệu"
-
-#: src/lib/fcitx-utils/key.cpp:59
-msgctxt "Key name"
-msgid "Down"
-msgstr "Xuống"
-
-#: src/modules/quickphrase/quickphrase.h:49
-msgid "Editor"
-msgstr "Biên tập"
-
-#: src/lib/fcitx-utils/key.cpp:257
-msgctxt "Key name"
-msgid "Eisu Shift"
-msgstr "Eisu Shift"
-
-#: src/lib/fcitx-utils/key.cpp:258
-msgctxt "Key name"
-msgid "Eisu toggle"
-msgstr "Eisu toggle"
-
-#: src/lib/fcitx-utils/key.cpp:146
-msgctxt "Key name"
-msgid "Eject"
-msgstr "Đẩy ra"
-
-#: src/modules/emoji/emoji.conf.in.in:2
-msgid "Emoji"
-msgstr "Emoji"
-
-#: src/im/keyboard/longpress.h:21
-msgid "Enable"
-msgstr "Cho phép"
-
-#: src/ui/classic/theme.h:167
-msgid "Enable Blur on KWin"
-msgstr "Cho phép mờ trên KWin"
-
-#: src/modules/quickphrase/quickphrase.h:45
-msgid "Enable Spell check"
-msgstr "Bật kiểm tra chính tả"
 
 #: src/im/keyboard/keyboard.h:64
 msgid "Enable emoji in hint"
@@ -746,225 +56,505 @@ msgstr "Bật gợi ý emoji"
 msgid "Enable emoji in quickphrase"
 msgstr "Bật emoji trong cụm từ nhanh"
 
-#: src/ui/classic/classicui.h:196
-msgid "Enable fractional scale under Wayland"
-msgstr "Kích hoạt tỷ lệ phân đoạn trong Wayland"
+#: src/im/keyboard/keyboard.h:69 src/modules/quickphrase/quickphrase.h:43
+msgid "Choose key modifier"
+msgstr "Chọn phím để sửa đổi"
 
 #: src/im/keyboard/keyboard.h:72
 msgid "Enable hint by default"
 msgstr "Bật gợi ý mặc định"
 
-#: src/modules/spell/spell.h:24
-msgid "Enchant"
-msgstr "Làm vui thích"
+#: src/im/keyboard/keyboard.h:75
+msgid "Trigger hint mode"
+msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:55
-msgctxt "Key name"
-msgid "End"
-msgstr "Kết thúc"
+#: src/im/keyboard/keyboard.h:80
+msgid "Trigger hint mode for one time"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:86
+msgid "Use new compose behavior"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:90
+msgid ""
+"Show preedit when composing, and commit dead key if there is no matching "
+"sequence."
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:92 src/modules/spell/spell.conf.in.in:2
+msgid "Spell"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:95
+msgid "Type special characters with long press"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:101
+msgid "Applications disabled for long press"
+msgstr "Các ứng dụng bị vô hiệu hóa khi nhấn lâu"
+
+#: src/im/keyboard/keyboard.h:104
+msgid "Long Press behavior"
+msgstr "Hành Vi Nhấn Lâu"
+
+#: src/im/keyboard/longpress.h:20
+msgid "Key"
+msgstr "Phím"
+
+#: src/im/keyboard/longpress.h:21
+msgid "Enable"
+msgstr "Cho phép"
+
+#: src/im/keyboard/longpress.h:23
+msgid "Candidates"
+msgstr "Ứng cử viên"
 
 #: src/im/keyboard/longpress.h:30
 msgid "Entries"
 msgstr "Các mục"
 
-#: src/lib/fcitx/globalconfig.cpp:102
-msgid "Enumerate Input Method Backward"
-msgstr "Liệt kê phương thức nhập liệu trước"
+#: src/im/keyboard/keyboard.cpp:264
+#, c++-format
+msgid "Keyboard - {0}"
+msgstr "Bàn phím - {0}"
 
-#: src/lib/fcitx/globalconfig.cpp:95
-msgid "Enumerate Input Method Forward"
-msgstr "Liệt kê phương thức nhập sau"
+#: src/im/keyboard/keyboard.cpp:286
+#, c++-format
+msgid "Keyboard - {0} - {1}"
+msgstr "Bàn phím - {0} - {1}"
 
-#: src/lib/fcitx/globalconfig.cpp:119
-msgid "Enumerate Input Method Group Backward"
-msgstr "Liệt kê nhóm phương thức nhập liệu trước"
+#: src/im/keyboard/keyboard.cpp:325
+#, c++-format
+msgid "{0} (Not Available)"
+msgstr "{0} (Không khả dụng)"
 
-#: src/lib/fcitx/globalconfig.cpp:112
-msgid "Enumerate Input Method Group Forward"
-msgstr "Liệt kê nhóm phương thức nhập liệu sau"
+#: src/im/keyboard/keyboard.cpp:348 src/im/keyboard/keyboard.conf.in.in:2
+msgid "Keyboard"
+msgstr "Bàn phím"
 
-#: src/lib/fcitx/globalconfig.cpp:52
-msgid "Enumerate when holding modifier of Toggle key"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1027
+#: src/im/keyboard/keyboard.cpp:711
 msgid ""
-"Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
-"you have exported it incorrectly in any of your init files."
+"Only emoji support is found. To enable spell checking, you may need to "
+"install spell check data for the language."
 msgstr ""
-"Biến môi trường ${1} là \"${2}\" thay vì \"${3}\". Vui lòng kiểm tra nếu bạn "
-"đã xuất nó không chính xác trong bất kỳ tệp init nào của bạn."
+"Chỉ tìm thấy hỗ trợ biểu tượng cảm xúc được tìm thấy. Để cho phép kiểm tra "
+"chính tả, bạn có thể cần cài đặt dữ liệu kiểm tra chính tả cho ngôn ngữ."
 
-#: data/fcitx5-diagnose.sh:874
-msgid "Environment variable ${1} is not set."
-msgstr "Biến môi trường ${1} không được đặt."
+#: src/im/keyboard/keyboard.cpp:717
+msgid "Completion is disabled."
+msgstr "Hoàn thành bị vô hiệu hóa."
 
-#: data/fcitx5-diagnose.sh:1021
-msgid "Environment variable ${1} is set to \"${2}\" correctly."
-msgstr "Biến môi trường ${1} được đặt thành \"${2}\" chính xác."
+#: src/im/keyboard/keyboard.cpp:720
+msgid "Completion is enabled temporarily."
+msgstr "Hoàn thành tạm thời được kích hoạt."
 
-#: data/fcitx5-diagnose.sh:878
-msgid "Environment variable ${1} is set to ${2}."
-msgstr "Biến môi trường ${1} được đặt thành ${2}."
+#: src/im/keyboard/keyboard.cpp:722
+msgid "Completion is enabled."
+msgstr "Hoàn thành được kích hoạt."
 
-#: data/fcitx5-diagnose.sh:832
-msgid "Environment:"
-msgstr "Môi trường:"
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
+#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
+#: src/modules/notificationitem/notificationitem.cpp:115
+#: src/modules/notificationitem/notificationitem.cpp:128
+#: src/modules/notificationitem/notificationitem.cpp:285
+#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
+msgid "Input Method"
+msgstr "Phương Thức Nhập"
 
-#: data/fcitx5-diagnose.sh:860
-msgid "Error occurs when running ${1}. Please check your locale settings."
+#: src/im/keyboard/keyboard.cpp:726
+msgid "Completion"
+msgstr "Hoàn thành"
+
+#: src/ui/classic/theme.h:41
+msgid "Top Left"
 msgstr ""
-"Lỗi xảy ra khi chạy ${1}. Vui lòng kiểm tra cài đặt địa phương của bạn."
 
-#: src/lib/fcitx-utils/key.cpp:240
-msgctxt "Key name"
-msgid "Escape"
-msgstr "Thoát ra"
+#: src/ui/classic/theme.h:41
+msgid "Top Center"
+msgstr "Giữa Ở Trên"
 
-#: src/lib/fcitx-utils/key.cpp:274
-msgctxt "Key name"
-msgid "Execute"
-msgstr "Thực thi"
+#: src/ui/classic/theme.h:42
+msgid "Top Right"
+msgstr ""
+
+#: src/ui/classic/theme.h:42
+msgid "Center Left"
+msgstr "Giữa Ở Trái"
+
+#: src/ui/classic/theme.h:43 src/ui/classic/theme.h:55
+msgid "Center"
+msgstr "Giữa"
+
+#: src/ui/classic/theme.h:43
+msgid "Center Right"
+msgstr "Giữa Ở Phải"
+
+#: src/ui/classic/theme.h:44
+msgid "Bottom Left"
+msgstr "Trái dưới đáy"
+
+#: src/ui/classic/theme.h:44
+msgid "Bottom Center"
+msgstr "Giữa Ở Dưới"
+
+#: src/ui/classic/theme.h:45
+msgid "Bottom Right"
+msgstr "Phải ở đáy"
+
+#: src/ui/classic/theme.h:54
+msgid "Top"
+msgstr ""
+
+#: src/ui/classic/theme.h:55
+msgid "First Candidate"
+msgstr ""
+
+#: src/ui/classic/theme.h:56
+msgid "Last Candidate"
+msgstr ""
+
+#: src/ui/classic/theme.h:56
+msgid "Bottom"
+msgstr "Dưới đáy"
+
+#: src/ui/classic/theme.h:71
+msgid "Input Panel Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:71
+msgid "Input Panel Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:72
+msgid "Input Panel Highlight Candidate Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "Input Panel Highlight Candidate Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "Input Panel Highlight"
+msgstr ""
+
+#: src/ui/classic/theme.h:74
+msgid "Menu Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:74
+msgid "Menu Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:75
+msgid "Menu Selected Item Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:75
+msgid "Menu Selected Item Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:76
+msgid "Menu Separator"
+msgstr ""
+
+#: src/ui/classic/theme.h:80
+msgid "Margin Left"
+msgstr "Lề Trái"
+
+#: src/ui/classic/theme.h:82
+msgid "Margin Right"
+msgstr "Lề Phải"
+
+#: src/ui/classic/theme.h:84
+msgid "Margin Top"
+msgstr "Lề Trên Cùng"
+
+#: src/ui/classic/theme.h:86
+msgid "Margin Bottom"
+msgstr "Lề Dưới"
+
+#: src/ui/classic/theme.h:91
+msgid "Background Image"
+msgstr "Hình nền"
+
+#: src/ui/classic/theme.h:95
+msgid "Color"
+msgstr "Màu"
+
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
+msgid "This option is only effective if image is not set."
+msgstr "Tùy chọn này chỉ hiệu quả nếu hình ảnh không được đặt."
+
+#: src/ui/classic/theme.h:103
+msgid "Border Color"
+msgstr "Màu viền"
+
+#: src/ui/classic/theme.h:111
+msgid "Border width"
+msgstr "Chiều rộng biên"
+
+#: src/ui/classic/theme.h:115
+msgid "This value should be less than any of margin value."
+msgstr "Giá trị này nên ít hơn bất kỳ giá trị thụt lề nào."
+
+#: src/ui/classic/theme.h:116
+msgid "Overlay Image"
+msgstr ""
+
+#: src/ui/classic/theme.h:118
+msgid "Overlay position"
+msgstr ""
+
+#: src/ui/classic/theme.h:119
+msgid "Overlay X offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:120
+msgid "Overlay Y offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:122
+msgid "Hide overlay if size does not fit"
+msgstr "Ẩn lớp phủ nếu kích thước không phù hợp"
+
+#: src/ui/classic/theme.h:124
+msgid "Margin"
+msgstr "Lề"
+
+#: src/ui/classic/theme.h:126
+msgid "Overlay Clip Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:132
+msgid "Highlight Click Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:135
+msgid "Image"
+msgstr "Hình ảnh"
+
+#: src/ui/classic/theme.h:137
+msgid "Click Margin"
+msgstr "Nhấp vào lề"
+
+#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:193
+msgid "Normal text color"
+msgstr ""
+
+#: src/ui/classic/theme.h:144
+msgid "Highlight text color"
+msgstr ""
+
+#: src/ui/classic/theme.h:146
+msgid "Highlight Background color"
+msgstr ""
+
+#: src/ui/classic/theme.h:149
+msgid "Highlight Candidate Text Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:152
+msgid "Candidate Label Text Size Factor"
+msgstr ""
+
+#: src/ui/classic/theme.h:155
+msgid "Candidate Label Text Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:158
+msgid "Highlight Candidate Label Text Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:160
+msgid "Candidate Comment Text Size Factor"
+msgstr ""
+
+#: src/ui/classic/theme.h:163
+msgid "Candidate Comment Text Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:166
+msgid "Highlight Candidate Comment Text Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:167
+msgid "Enable Blur on KWin"
+msgstr "Cho phép mờ trên KWin"
+
+#: src/ui/classic/theme.h:169
+msgid "Blur mask"
+msgstr "Mặt nạ làm mờ"
+
+#: src/ui/classic/theme.h:170
+msgid "Blur Margin"
+msgstr "Lề mờ"
+
+#: src/ui/classic/theme.h:173
+msgid "Use all horizontal space for highlight when it is vertical list"
+msgstr ""
+"Sử dụng tất cả khoảng trống theo chiều ngang để đánh dấu khi nó là danh sách "
+"dọc"
+
+#: src/ui/classic/theme.h:177
+msgid "Page button vertical alignment"
+msgstr ""
+
+#: src/ui/classic/theme.h:180 src/ui/classic/theme.h:200
+msgid "Background"
+msgstr "Nền"
+
+#: src/ui/classic/theme.h:182 src/ui/classic/theme.h:202
+msgid "Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+msgid "Margin around all content"
+msgstr "Lề xung quanh tất cả nội dung"
+
+#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+msgid "Margin around text"
+msgstr "Lề xung quanh văn bản"
+
+#: src/ui/classic/theme.h:187
+msgid "Prev Page Button"
+msgstr ""
+
+#: src/ui/classic/theme.h:188
+msgid "Next Page Button"
+msgstr ""
+
+#: src/ui/classic/theme.h:190
+msgid "Shadow Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:196
+msgid "Selected Item text color"
+msgstr "Màu văn bản mục được chọn"
+
+#: src/ui/classic/theme.h:198
+msgid "Spacing"
+msgstr "Khoảng cách"
+
+#: src/ui/classic/theme.h:204
+msgid "Separator Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:205
+msgid "Check box"
+msgstr "Hộp kiểm"
+
+#: src/ui/classic/theme.h:206
+msgid "Sub Menu"
+msgstr ""
+
+#: src/ui/classic/theme.h:213
+msgid "Name"
+msgstr "Tên"
+
+#: src/ui/classic/theme.h:214
+msgid "Version"
+msgstr "Phiên bản"
+
+#: src/ui/classic/theme.h:215
+msgid "Author"
+msgstr "Tác giả"
+
+#: src/ui/classic/theme.h:217
+msgid "Description"
+msgstr "Mô tả"
+
+#: src/ui/classic/theme.h:221
+msgid "Metadata"
+msgstr ""
+
+#: src/ui/classic/theme.h:223
+msgid "Input Panel"
+msgstr "Bảng điều khiển nhập liệu"
+
+#: src/ui/classic/theme.h:224
+msgid "Menu"
+msgstr ""
+
+#: src/ui/classic/theme.h:226
+msgid "Accent Colors"
+msgstr ""
+
+#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/modules/notificationitem/dbusmenu.cpp:244
+msgid "Group"
+msgstr "Nhóm"
+
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:254
+msgid "Input Method Settings"
+msgstr ""
+
+#: src/ui/classic/xcbtraywindow.cpp:56
+#: src/modules/notificationitem/dbusmenu.cpp:262
+msgid "Restart"
+msgstr "Khởi động lại"
 
 #: src/ui/classic/xcbtraywindow.cpp:57
 #: src/modules/notificationitem/dbusmenu.cpp:268
 msgid "Exit"
 msgstr "Thoát"
 
-#: data/fcitx5-diagnose.sh:1406
-msgid "Failed to find ${1} in immodule cache at ${2}"
-msgstr "Không thể tìm ${1} trong cache immodule tại ${2}"
+#: src/ui/classic/classicui.h:108
+msgid "This is only effective when the tray icon is xembed."
+msgstr "Điều này chỉ hiệu quả khi biểu tượng khay được xembed."
 
-#: data/fcitx5-diagnose.sh:1322
-msgid "Failed to find ${1} in the output of ${2}"
-msgstr "Không thể tìm ${1} trong đầu ra của ${2}"
-
-#: src/lib/fcitx/globalconfig.cpp:156
-msgid "Fallback Next Candidate"
+#: src/ui/classic/classicui.h:121
+msgid "Vertical Candidate List"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:140
-msgid "Fallback Next page"
-msgstr ""
+#: src/ui/classic/classicui.h:123
+msgid "Use mouse wheel to go to prev or next page"
+msgstr "Sử dụng bánh xe chuột để đi đến trang trước hoặc trang tiếp theo"
 
-#: src/lib/fcitx/globalconfig.cpp:150
-msgid "Fallback Previous Candidate"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:128
-msgid "Fallback Previous page"
-msgstr ""
-
-#: src/modules/quickphrase/quickphrase.h:47
-msgid "Fallback Spell check language"
-msgstr "Ngôn ngữ kiểm tra Chính Tả dự phòng"
-
-#: src/lib/fcitx-utils/key.cpp:116
-msgctxt "Key name"
-msgid "Favorites"
-msgstr "Yêu thích"
-
-#: src/modules/wayland/waylandmodule.cpp:655
-msgid "Fcitx"
-msgstr "Fcitx"
-
-#: data/org.fcitx.Fcitx5.desktop.in.in:2
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
-msgid "Fcitx 5"
-msgstr "Fcitx 5"
-
-#: data/fcitx5-configtool.desktop.in.in:2
-msgid "Fcitx 5 Configuration"
-msgstr "Cấu Hình Fcitx 5"
-
-#: data/fcitx5-wayland-launcher.desktop.in.in:2
-msgid "Fcitx 5 Wayland Launcher (Experimental)"
-msgstr "Fcitx 5 Wayland Launcher (thử nghiệm)"
-
-#: data/fcitx5-diagnose.sh:1464
-msgid "Fcitx Addons:"
-msgstr "Fcitx Addon:"
-
-#: data/fcitx5-diagnose.sh:935
-msgid "Fcitx State:"
-msgstr "Trạng thái Fcitx:"
-
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:12
-msgid ""
-"Fcitx is an input method framework. It can help you to type your own "
-"language. It also features variant choice of addons that improve your typing "
-"experience."
-msgstr ""
-"Fcitx là một khuôn khổ kiểu gõ. Nó có thể giúp bạn gõ ngôn ngữ của riêng "
-"bạn. Nó cũng có tính năng lựa chọn biến thể của addon giúp cải thiện trải "
-"nghiệm đánh máy của bạn."
-
-#: src/modules/wayland/waylandmodule.cpp:678
-msgid ""
-"Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
-"input method frontend. This can improve the experience when using Fcitx on "
-"Wayland. To configure this, you need to go to \"System Settings\" -> "
-"\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
-"disable tools that launches input method, such as imsettings on Fedora, or "
-"im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
-"Using_Fcitx_5_on_Wayland#KDE_Plasma"
-msgstr ""
-"Fcitx phải được KWin khởi chạy trong KDE Wayland để sử dụng giao diện kiểu "
-"gõ Wayland. Điều này có thể cải thiện trải nghiệm khi sử dụng Fcitx trên "
-"Wayland. Để định cấu hình tính năng này, bạn cần vào \"Cài đặt hệ thống\" -> "
-"\"Bàn phím ảo\" và chọn \"Fcitx 5\" từ đó. Bạn cũng có thể cần tắt các công "
-"cụ khởi chạy kiểu gõ, chẳng hạn như imsettings trên Fedora hoặc im-config "
-"trên Debian/Ubuntu. Để biết thêm chi tiết, hãy xem https://fcitx-im.org/wiki/"
-"Using_Fcitx_5_on_Wayland#KDE_Plasma"
-
-#: data/fcitx5-diagnose.sh:949
-msgid "Fcitx version: ${1}"
-msgstr "Phiên bản Fcitx: ${1}"
-
-#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:2
-msgid "Fcitx4 Frontend"
-msgstr "Fcitx4 Frontend"
-
-#: src/lib/fcitx-utils/key.cpp:156
-msgctxt "Key name"
-msgid "Finance"
-msgstr "Tài chính"
-
-#: src/lib/fcitx-utils/key.cpp:234
-msgctxt "Key name"
-msgid "Find"
-msgstr "Tìm"
-
-#: src/ui/classic/theme.h:55
-msgid "First Candidate"
-msgstr ""
-
-#: src/ui/classic/classicui.h:170
-msgid "Follow system accent color if it is supported by theme and desktop"
-msgstr ""
-"Theo dõi màu sắc hệ thống nếu nó được hỗ trợ bởi chủ đề và máy tính để bàn"
-
-#: src/ui/classic/classicui.h:166
-msgid "Follow system light/dark color scheme"
-msgstr "Thực hiện theo bảng màu của hệ thống ánh sáng/tối"
-
-#: data/fcitx5-diagnose.sh:1184
-msgid ""
-"Following error may not be accurate because guessing Qt version from path "
-"depends on how your distribution packages Qt. It is not a critical error if "
-"you do not use any Qt application with certain version of Qt or you are "
-"using text-input support by Qt under Wayland."
-msgstr ""
-"Lỗi sau có thể không chính xác vì việc đoán phiên bản Qt từ đường dẫn phụ "
-"thuộc vào cách gói phân phối Qt của bạn. Đây không phải là lỗi nghiêm trọng "
-"nếu bạn không sử dụng bất kỳ ứng dụng Qt nào với phiên bản Qt nhất định hoặc "
-"bạn đang sử dụng hỗ trợ nhập văn bản của Qt trong Wayland."
-
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:127
 msgid "Font"
 msgstr "Font"
 
-#: src/ui/classic/classicui.h:156
+#: src/ui/classic/classicui.h:129
+msgid "Menu Font"
+msgstr ""
+
+#: src/ui/classic/classicui.h:131
+msgid "Tray Font"
+msgstr ""
+
+#: src/ui/classic/classicui.h:133
+msgid "Tray Label Outline Color"
+msgstr ""
+
+#: src/ui/classic/classicui.h:136
+msgid "Tray Label Text Color"
+msgstr ""
+
+#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+msgid "Prefer Text Icon"
+msgstr ""
+
+#: src/ui/classic/classicui.h:142
+msgid "Show Layout Name In Icon"
+msgstr "Hiển Thị Tên Bố Cục Trong Biểu Tượng"
+
+#: src/ui/classic/classicui.h:146
+msgid ""
+"Show layout name in icon if there is more than one active layout. If prefer "
+"text icon is set to true, this option will be ignored."
+msgstr ""
+"Hiển thị tên bố cục trong biểu tượng nếu có nhiều hơn một bố cục hoạt động. "
+"Nếu biểu tượng văn bản thích được đặt thành true, tùy chọn này sẽ bị bỏ qua."
+
+#: src/ui/classic/classicui.h:153
+msgid "Use input method language to display text"
+msgstr "Sử dụng ngôn ngữ kiểu gõ để hiển thị văn bản"
+
+#: src/ui/classic/classicui.h:157
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -973,6 +563,134 @@ msgstr ""
 "Ví dụ: hiển thị ký tự với biến thể tiếng Trung khi sử dụng bính âm và biến "
 "thể tiếng Nhật khi sử dụng Anthy. Cấu hình phông chữ cần hỗ trợ điều này để "
 "sử dụng tính năng này."
+
+#: src/ui/classic/classicui.h:162
+msgid "Theme"
+msgstr "Chủ đề"
+
+#: src/ui/classic/classicui.h:165
+msgid "Dark Theme"
+msgstr "Chủ đề tối"
+
+#: src/ui/classic/classicui.h:167
+msgid "Follow system light/dark color scheme"
+msgstr "Thực hiện theo bảng màu của hệ thống ánh sáng/tối"
+
+#: src/ui/classic/classicui.h:171
+msgid "Follow system accent color if it is supported by theme and desktop"
+msgstr ""
+"Theo dõi màu sắc hệ thống nếu nó được hỗ trợ bởi chủ đề và máy tính để bàn"
+
+#: src/ui/classic/classicui.h:176
+msgid "Use Per Screen DPI on X11"
+msgstr ""
+
+#: src/ui/classic/classicui.h:180
+msgid "This option will be always disabled on XWayland."
+msgstr "Tùy chọn này sẽ luôn luôn bị vô hiệu hóa trên Xwayland."
+
+#: src/ui/classic/classicui.h:185
+msgid "Force font DPI on Wayland"
+msgstr "Bắt buộc font DPI trên Wayland"
+
+#: src/ui/classic/classicui.h:189
+msgid ""
+"Normally Wayland uses 96 as font DPI in combination with the screen scale "
+"factor. This option allows you to override the font DPI. If the value is 0, "
+"it means this option is disabled."
+msgstr ""
+
+#: src/ui/classic/classicui.h:197
+msgid "Enable fractional scale under Wayland"
+msgstr "Kích hoạt tỷ lệ phân đoạn trong Wayland"
+
+#: src/ui/classic/classicui.h:201
+msgid "This option require support from wayland compositor."
+msgstr "Tùy chọn này yêu cầu hỗ trợ từ Wayland Compositor."
+
+#: src/ui/classic/classicui.cpp:303
+msgid "KDE Plasma (Experimental)"
+msgstr "KDE Plasma (Thử nghiệm)"
+
+#: src/ui/kimpanel/kimpanel.cpp:430
+msgid "Not available"
+msgstr "Không có sẵn"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
+#: src/ui/classic/themes/default/theme.conf.in:2
+msgid "Default"
+msgstr "Mặc định"
+
+#: src/lib/fcitx/instance.cpp:385
+#, c++-format
+msgid "Group {}"
+msgstr "Nhóm {}"
+
+#: src/lib/fcitx/instance.cpp:431
+#, c++-format
+msgid "{0} ({1})"
+msgstr "{0} ({1})"
+
+#: src/lib/fcitx/instance.cpp:434
+#, c++-format
+msgid "{0} (Not available)"
+msgstr "{0} (Không khả dụng)"
+
+#: src/lib/fcitx/instance.cpp:436
+msgid "(Not available)"
+msgstr "(Không khả dụng)"
+
+#: src/lib/fcitx/instance.cpp:440
+#, c++-format
+msgid "Group {0}: {1}"
+msgstr "Nhóm {0}: {1}"
+
+#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
+#: src/modules/xcb/xcbconnection.cpp:564
+msgid "Switch group"
+msgstr "Chuyển đổi nhóm"
+
+#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:565
+#, c++-format
+msgid "Switch group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:705
+#, c++-format
+msgid "Switched group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:877
+msgid "Preedit"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:878
+msgid "Preedit enabled"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:879
+msgid "Preedit disabled"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:36
+msgid "All"
+msgstr "Tất cả"
+
+#: src/lib/fcitx/globalconfig.cpp:37
+msgid "Program"
+msgstr "Chương trình"
+
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
+msgid "No"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:44
+msgid "Toggle Input Method"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate when holding modifier of Toggle key"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:55
 msgid ""
@@ -984,414 +702,60 @@ msgstr ""
 "cách lần đầu tiên, nếu Control được giữ, thì lần nhấn Phím cách sau sẽ liệt "
 "kê phương thức nhập."
 
-#: src/modules/wayland/waylandmodule.cpp:775
-msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
-msgstr ""
-"Để biết thêm chi tiết xem https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+#: src/lib/fcitx/globalconfig.cpp:62
+msgid "Activate Input Method"
+msgstr "Kích hoạt kiểu gõ"
 
-#: src/ui/classic/classicui.h:184
-msgid "Force font DPI on Wayland"
-msgstr "Bắt buộc font DPI trên Wayland"
+#: src/lib/fcitx/globalconfig.cpp:71
+msgid "Deactivate Input Method"
+msgstr "Vô hiệu hóa bộ gõ"
 
-#: src/lib/fcitx-utils/key.cpp:103
-msgctxt "Key name"
-msgid "Forward"
-msgstr "Tiếp theo"
-
-#: src/frontend/waylandim/waylandim.h:39
-msgid "Forward key event instead of committing text if it is not handled"
+#: src/lib/fcitx/globalconfig.cpp:78
+msgid "Temporarily Toggle Input Method"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1176
-msgid "Found ${1} ${2} module: ${3}."
-msgstr "Tìm thấy ${1} ${2} module: ${3}."
-
-#: data/fcitx5-diagnose.sh:969
-msgid "Found ${1} ${2} process:"
-msgstr "Tìm thấy ${1} ${2} tiến trình:"
-
-#: data/fcitx5-diagnose.sh:967
-msgid "Found ${1} ${2} processes:"
-msgstr "Tìm thấy ${1} ${2} tiến trình:"
-
-#: data/fcitx5-diagnose.sh:1487
-msgid "Found ${1} addon config directory: ${2}."
-msgstr "Tìm thấy${1}  thư mục cấu hình addon: ${2}."
-
-#: data/fcitx5-diagnose.sh:944
-msgid "Found ${1} at ${2}."
-msgstr "Đã tìm thấy ${1} tại ${2}."
-
-#: data/fcitx5-diagnose.sh:1540
-msgid "Found ${1} disabled addons:"
-msgstr "Tìm thấy ${1} addons đã tắt:"
-
-#: data/fcitx5-diagnose.sh:1531
-msgid "Found ${1} enabled addons:"
-msgstr "Tìm thấy ${1} addons đã bật:"
-
-#: data/fcitx5-diagnose.sh:1581
-msgid "Found ${1} enabled user interface addons:"
-msgstr "Đã tìm thấy tiện ích bổ sung giao diện người dùng được kích hoạt ${1}:"
-
-#: data/fcitx5-diagnose.sh:1316 data/fcitx5-diagnose.sh:1400
-msgid "Found ${1} im modules for gtk ${2}."
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1308
-msgid "Found ${2} for unknown gtk version at ${1}."
-msgstr "Đã tìm thấy ${2} cho phiên bản gtk không xác định tại ${1}."
-
-#: data/fcitx5-diagnose.sh:1300
-msgid "Found ${3} for gtk ${1} at ${2}."
-msgstr "Tìm thấy ${3} cho gtk ${1} tại ${2}."
-
-#: data/fcitx5-diagnose.sh:1163 data/fcitx5-diagnose.sh:1168
-msgid "Found ${3} im module for ${2}: ${1}."
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1393
-msgid "Found immodule cache for unknown gtk version at ${1}."
-msgstr "Đã tìm thấy bộ đệm immodule cho phiên bản gtk không xác định tại ${1}."
-
-#: data/fcitx5-diagnose.sh:1385
-msgid "Found immodules cache for gtk ${1} at ${2}."
-msgstr "Tìm thấy bộ nhớ đệm immodules cho GTK ${1} tại ${2}."
-
-#: data/fcitx5-diagnose.sh:1179
-msgid "Found unknown ${1} qt module: ${2}."
-msgstr "Tìm thấy không rõ ${1} qt module: ${2}."
-
-#: src/modules/notifications/notifications.conf.in.in:3
-msgid "Freedesktop.org Notification Support"
-msgstr "Hỗ trợ thông báo Freedesktop.org"
-
-#: data/fcitx5-diagnose.sh:1684
-msgid "Frontends setup:"
-msgstr "Thiết lập giao diện:"
-
-#: src/lib/fcitx-utils/key.cpp:174
-msgctxt "Key name"
-msgid "Game"
-msgstr "Trò chơi"
-
-#: src/lib/fcitx-utils/key.cpp:175
-msgctxt "Key name"
-msgid "Go"
-msgstr "Đi"
-
-#: src/lib/fcitx-utils/key.cpp:229
-msgctxt "Key name"
-msgid "Green"
-msgstr "Xanh lá"
-
-#: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:244
-msgid "Group"
-msgstr "Nhóm"
-
-#: src/lib/fcitx/instance.cpp:440
-#, c++-format
-msgid "Group {0}: {1}"
-msgstr "Nhóm {0}: {1}"
-
-#: src/lib/fcitx/instance.cpp:385
-#, c++-format
-msgid "Group {}"
-msgstr "Nhóm {}"
-
-#: data/fcitx5-diagnose.sh:1261
-msgid "Gtk ${1} immodule file ${2} does not exist."
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1445
-msgid "Gtk IM module cache:"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1450
-msgid "Gtk IM module files:"
-msgstr ""
-
-#: src/modules/unicode/charselectdata.cpp:215
-#, c++-format
-msgid "HANGUL SYLLABLE {0}{1}{2}"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:753
-msgid "Hall of Shame for Linux IME Support"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:262
-msgctxt "Key name"
-msgid "Hangul"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:269
-msgctxt "Key name"
-msgid "Hangul Banja"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:264
-msgctxt "Key name"
-msgid "Hangul End"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:265
-msgctxt "Key name"
-msgid "Hangul Hanja"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:266
-msgctxt "Key name"
-msgid "Hangul Jamo"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:268
-msgctxt "Key name"
-msgid "Hangul Jeonja"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:271
-msgctxt "Key name"
-msgid "Hangul PostHanja"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:270
-msgctxt "Key name"
-msgid "Hangul PreHanja"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:267
-msgctxt "Key name"
-msgid "Hangul Romaja"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:272
-msgctxt "Key name"
-msgid "Hangul Special"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:263
-msgctxt "Key name"
-msgid "Hangul Start"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:251
-msgctxt "Key name"
-msgid "Hankaku"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:101
-msgctxt "Key name"
-msgid "Help"
-msgstr "Trợ giúp"
-
-#: src/lib/fcitx-utils/key.cpp:245
-msgctxt "Key name"
-msgid "Henkan"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:222
-msgctxt "Key name"
-msgid "Hibernate"
-msgstr "Hibernate"
-
-#: src/modules/notifications/notifications.h:35
-msgid "Hidden Notifications"
-msgstr "Thông Báo Ẩn"
-
-#: src/ui/classic/theme.h:122
-msgid "Hide overlay if size does not fit"
-msgstr "Ẩn lớp phủ nếu kích thước không phù hợp"
-
-#: src/ui/classic/theme.h:182 src/ui/classic/theme.h:202
-msgid "Highlight Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:146
-msgid "Highlight Background color"
-msgstr ""
-
-#: src/ui/classic/theme.h:166
-msgid "Highlight Candidate Comment Text Color"
-msgstr ""
-
-#: src/ui/classic/theme.h:158
-msgid "Highlight Candidate Label Text Color"
-msgstr ""
-
-#: src/ui/classic/theme.h:149
-msgid "Highlight Candidate Text Color"
-msgstr ""
-
-#: src/ui/classic/theme.h:132
-msgid "Highlight Click Margin"
-msgstr ""
-
-#: src/ui/classic/theme.h:144
-msgid "Highlight text color"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:247
-msgctxt "Key name"
-msgid "Hiragana"
-msgstr "Hiragana"
-
-#: src/lib/fcitx-utils/key.cpp:249
-msgctxt "Key name"
-msgid "Hiragana Katakana"
-msgstr "Hiragana Katakana"
-
-#: src/lib/fcitx-utils/key.cpp:152
-msgctxt "Key name"
-msgid "History"
-msgstr "Lịch sử"
-
-#: src/lib/fcitx-utils/key.cpp:54
-msgctxt "Key name"
-msgid "Home"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:184
-msgctxt "Key name"
-msgid "Home Office"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:115
-msgctxt "Key name"
-msgid "Home Page"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:870
-msgid "Home:"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:154
-msgctxt "Key name"
-msgid "Hot Links"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:249
-msgid "Hotkey"
-msgstr "Phím tắt"
-
-#: src/modules/imselector/imselector.h:37
-msgid "Hotkey for switching to the N-th input method"
-msgstr "Phím tắt để chuyển sang phương thức nhập thứ N"
-
-#: src/modules/imselector/imselector.h:46
+#: src/lib/fcitx/globalconfig.cpp:83
 msgid ""
-"Hotkey for switching to the N-th input method for only current input context"
+"This key can only be used if current state is active, or is deactivated with "
+"this key. For example, you have two input methods: English as the inactive "
+"state, Pinyin as the active state. It can be used to switch from Pinyin back "
+"to English, and switch back to Pinyin again afterwards. If the initial state "
+"is English will do nothing. This key can be configured to be some simple "
+"single modifier key like Shift, so it can be used with just a single key "
+"press, but won't be triggered by accident if you never activate input method."
 msgstr ""
-"Phím tắt để chuyển sang phương thức nhập thứ N chỉ cho ngữ cảnh nhập hiện tại"
+"Phím này chỉ có thể được sử dụng nếu trạng thái hiện tại đang hoạt động hoặc "
+"bị vô hiệu hóa bằng phím này. Ví dụ: bạn có hai kiểu gõ: tiếng Anh ở trạng "
+"thái không hoạt động, Bính âm là trạng thái hoạt động. Nó có thể được sử "
+"dụng để chuyển từ Bính âm trở lại tiếng Anh và chuyển lại về Bính âm sau đó. "
+"Nếu trạng thái ban đầu là tiếng Anh sẽ không làm gì cả. Phím này có thể được "
+"cấu hình thành một số phím bổ trợ đơn giản như Shift, do đó, nó có thể được "
+"sử dụng chỉ bằng một lần nhấn phím nhưng sẽ không được kích hoạt một cách "
+"ngẫu nhiên nếu bạn không bao giờ kích hoạt kiểu gõ."
 
-#: src/lib/fcitx-utils/key.cpp:589
-msgctxt "Key name"
-msgid "Hyper"
+#: src/lib/fcitx/globalconfig.cpp:95
+msgid "Enumerate Input Method Forward"
+msgstr "Liệt kê phương thức nhập sau"
+
+#: src/lib/fcitx/globalconfig.cpp:102
+msgid "Enumerate Input Method Backward"
+msgstr "Liệt kê phương thức nhập liệu trước"
+
+#: src/lib/fcitx/globalconfig.cpp:108
+msgid "Skip first input method while enumerating"
+msgstr "Bỏ qua kiểu gõ đầu tiên trong khi liệt kê"
+
+#: src/lib/fcitx/globalconfig.cpp:112
+msgid "Enumerate Input Method Group Forward"
+msgstr "Liệt kê nhóm phương thức nhập liệu sau"
+
+#: src/lib/fcitx/globalconfig.cpp:119
+msgid "Enumerate Input Method Group Backward"
+msgstr "Liệt kê nhóm phương thức nhập liệu trước"
+
+#: src/lib/fcitx/globalconfig.cpp:128
+msgid "Fallback Previous page"
 msgstr ""
-
-#: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:2
-msgid "IBus Frontend"
-msgstr "IBus Frontend"
-
-#: src/frontend/waylandim/waylandim.h:48
-msgid ""
-"If enabled, when using zwp_input_method_v2, do not create and destroy "
-"zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
-"bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
-msgstr ""
-"Nếu được bật, khi sử dụng zwp_input_method_v2, đừng tạo và hủy "
-"zwp_virtual_keyboard_v1 mỗi khi kích hoạt và hủy kích hoạt. Điều này giúp "
-"tránh một số lỗi trong một số trình quản lý hiển thị nhất định, bao gồm "
-"Sway<=1.9, RiverWM<=0.3.0."
-
-#: src/lib/fcitx/globalconfig.cpp:245
-msgid ""
-"If value is 0, the user data may only be saved when fcitx quits (e.g. "
-"logout)."
-msgstr ""
-"Nếu giá trị là 0, dữ liệu người dùng chỉ có thể được lưu khi fcitx thoát (ví "
-"dụ: đăng xuất)."
-
-#: data/fcitx5-diagnose.sh:742
-msgid ""
-"If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
-"order to use any input method other than ${2}. See ${link} for more detail "
-"as well as alternative solutions."
-msgstr ""
-"Nếu bạn đang dùng ${1}, bạn có thể muốn gỡ cài đặt ${2} hoặc xóa ${3} để "
-"dùng bất kỳ kiểu gõ nào khác ngoài ${2}. Xem ${link} để biết thêm chi tiết "
-"cũng như các giải pháp thay thế."
-
-#: data/fcitx5-diagnose.sh:740
-msgid ""
-"If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
-"the command ${g36_disable_ibus} to disable IBus integration in order to use "
-"any input method other than ${2}. See ${link} for more detail."
-msgstr ""
-"Nếu bạn đang dùng ${1}, bạn có thể muốn gỡ cài đặt ${2}, xóa ${3} hoặc dùng "
-"lệnh  ${g36_disable_ibus} để tắt IBus tích hợp để dùng bất kỳ kiểu gõ nào "
-"khác ngoài ${2}. Xem ${link} để biết chi tiết."
-
-#: src/ui/classic/theme.h:135
-msgid "Image"
-msgstr "Hình ảnh"
-
-#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
-#: src/modules/notificationitem/notificationitem.cpp:115
-#: src/modules/notificationitem/notificationitem.cpp:128
-#: src/modules/notificationitem/notificationitem.cpp:285
-#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
-#: data/fcitx5-wayland-launcher.desktop.in.in:3
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
-msgid "Input Method"
-msgstr "Phương Thức Nhập"
-
-#: data/fcitx5-configtool.desktop.in.in:3
-msgid "Input Method Configuration"
-msgstr "Cấu Hình Kiểu Gõ"
-
-#: data/fcitx5-diagnose.sh:717
-msgid "Input Method Related Environment Variables: "
-msgstr "Biến môi trường liên quan kiểu gõ:"
-
-#: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:254
-msgid "Input Method Settings"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1604
-msgid "Input Methods:"
-msgstr "Phương Thức Nhập:"
-
-#: src/ui/classic/theme.h:223
-msgid "Input Panel"
-msgstr "Bảng điều khiển nhập liệu"
-
-#: src/ui/classic/theme.h:71
-msgid "Input Panel Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:71
-msgid "Input Panel Border"
-msgstr ""
-
-#: src/ui/classic/theme.h:73
-msgid "Input Panel Highlight"
-msgstr ""
-
-#: src/ui/classic/theme.h:72
-msgid "Input Panel Highlight Candidate Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:73
-msgid "Input Panel Highlight Candidate Border"
-msgstr ""
-
-#: src/modules/imselector/imselector.conf.in.in:2
-msgid "Input method selector"
-msgstr "Chọn kiểu gõ"
 
 #: src/lib/fcitx/globalconfig.cpp:131 src/lib/fcitx/globalconfig.cpp:144
 msgid ""
@@ -1402,111 +766,330 @@ msgstr ""
 "chúng. Điều này thường được sử dụng bởi các mô-đun như bảng nhớ tạm hoặc cụm "
 "từ nhanh."
 
-#: src/lib/fcitx-utils/key.cpp:238
-msgctxt "Key name"
-msgid "Insert"
-msgstr "Chèn"
+#: src/lib/fcitx/globalconfig.cpp:140
+msgid "Fallback Next page"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:241
+#: src/lib/fcitx/globalconfig.cpp:150
+msgid "Fallback Previous Candidate"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:156
+msgid "Fallback Next Candidate"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:161
+msgid "Toggle embedded preedit"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:168
+msgid "Time limit in milliseconds for triggering modifier key shortcuts"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:174
+msgid ""
+"When using modifier only hotkey, the action may only be triggered if the "
+"modifier key is released within the timeout. -1 means there is no limit."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:181
+msgid "Activate input method by default"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:185
+msgid "Reset state on Focus In"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:189
+msgid "Share Input State"
+msgstr "Chia Sẻ Trạng Thái Nhập"
+
+#: src/lib/fcitx/globalconfig.cpp:193
+msgid "Show preedit in application"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:197
+msgid "Show Input Method Information when switch input method"
+msgstr "Hiển thị thông tin Kiểu Gõ khi chuyển đổi Kiểu Gõ"
+
+#: src/lib/fcitx/globalconfig.cpp:200
+msgid "Show Input Method Information when changing focus"
+msgstr "Hiển thị thông tin Kiểu Gõ khi thay đổi tiêu điểm"
+
+#: src/lib/fcitx/globalconfig.cpp:203
+msgid "Show compact input method information"
+msgstr "Hiển thị thông tin kiểu gõ nhỏ gọn"
+
+#: src/lib/fcitx/globalconfig.cpp:206
+msgid "Show first input method information"
+msgstr "Hiển thị thông tin kiểu gõ đầu tiên"
+
+#: src/lib/fcitx/globalconfig.cpp:208
+msgid "Default Candidates per page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:215
+msgid "Override XKB Option"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:219
+msgid ""
+"Override the XKB option from display server. It will not affect the XKB "
+"option send to display, but just the XKB options for custom XKB layout. This "
+"is a workaround when there is no way to get the current XKB option from "
+"Wayland Compositor."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:225
+msgid "Custom XKB Option"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:235
+msgid "Allow input method in the password field"
+msgstr "Cho phép phương thức nhập vào trường mật khẩu"
+
+#: src/lib/fcitx/globalconfig.cpp:238
+msgid "Show preedit text when typing password"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:242
 msgid "Interval of saving user data in minutes"
 msgstr "Chu kỳ lưu dữ liệu người dùng theo phút"
 
-#: data/fcitx5-diagnose.sh:1499
-msgid "Invalid addon config file ${1}."
-msgstr "Tệp cấu hình addon không hợp lệ ${1}."
-
-#: data/fcitx5-diagnose.sh:1105
+#: src/lib/fcitx/globalconfig.cpp:246
 msgid ""
-"It is OK to use ${1} built-in Wayland im module if your compositor fully "
-"supports text-input protocol used by ${1}."
+"If value is 0, the user data may only be saved when fcitx quits (e.g. "
+"logout)."
+msgstr ""
+"Nếu giá trị là 0, dữ liệu người dùng chỉ có thể được lưu khi fcitx thoát (ví "
+"dụ: đăng xuất)."
+
+#: src/lib/fcitx/globalconfig.cpp:250
+msgid "Hotkey"
+msgstr "Phím tắt"
+
+#: src/lib/fcitx/globalconfig.cpp:252
+msgid "Behavior"
+msgstr "Hành vi"
+
+#: src/lib/fcitx-utils/key.cpp:39
+msgctxt "Key name"
+msgid "Left Alt"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:720
-msgid ""
-"It is recommended to install Input Method Panel GNOME Shell Extensions to "
-"provide the input method popup. https://extensions.gnome.org/extension/261/"
-"kimpanel/ Otherwise you may not be able to see input method popup when "
-"typing in GNOME Shell's activities search box. For more details see https://"
-"fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
-msgstr ""
-"Nên cài đặt Bảng phương thức nhập GNOME Shell Extensions để cung cấp cửa sổ "
-"bật lên phương thức nhập liệu. https://extensions.gnome.org/extension/261/"
-"kimpanel/ Nếu không, bạn có thể không thấy cửa sổ bật lên phương thức nhập "
-"khi nhập vào hộp tìm kiếm hoạt động của GNOME Shell. Để biết thêm chi tiết, "
-"hãy xem https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
-
-#: src/ui/kimpanel/kimpanel.conf.in.in:2
-msgid "KDE Input Method Panel"
-msgstr "Bảng Phương Thức Nhập KDE"
-
-#: src/ui/classic/classicui.cpp:300
-msgid "KDE Plasma (Experimental)"
-msgstr "KDE Plasma (Thử nghiệm)"
-
-#: src/lib/fcitx-utils/key.cpp:255
+#: src/lib/fcitx-utils/key.cpp:40
 msgctxt "Key name"
-msgid "Kana Lock"
+msgid "Right Alt"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:256
+#: src/lib/fcitx-utils/key.cpp:41
 msgctxt "Key name"
-msgid "Kana Shift"
+msgid "Left Shift"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:243
+#: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
-msgid "Kanji"
+msgid "Right Shift"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:248
+#: src/lib/fcitx-utils/key.cpp:43
 msgctxt "Key name"
-msgid "Katakana"
+msgid "Left Control"
 msgstr ""
 
-#: src/frontend/waylandim/waylandim.h:44
-msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
-msgstr "Giữ đối tượng bàn phím ảo cho Giao thức V2 (Cần khởi động lại)"
-
-#: src/im/keyboard/longpress.h:20
-msgid "Key"
-msgstr "Phím"
-
-#: src/im/keyboard/keyboard.cpp:344 src/im/keyboard/keyboard.conf.in.in:2
-msgid "Keyboard"
-msgstr "Bàn phím"
-
-#: src/im/keyboard/keyboard.cpp:262
-#, c++-format
-msgid "Keyboard - {0}"
-msgstr "Bàn phím - {0}"
-
-#: src/im/keyboard/keyboard.cpp:280
-#, c++-format
-msgid "Keyboard - {0} - {1}"
-msgstr "Bàn phím - {0} - {1}"
-
-#: src/lib/fcitx-utils/key.cpp:143
+#: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
-msgid "Keyboard Brightness Down"
-msgstr "Bàn Phím Tối Xuống"
+msgid "Right Control"
+msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:141
+#: src/lib/fcitx-utils/key.cpp:45
 msgctxt "Key name"
-msgid "Keyboard Brightness Up"
-msgstr "Bàn Phím Sáng Lên"
+msgid "Left Super"
+msgstr ""
 
-#: data/fcitx5-diagnose.sh:836
-msgid "Keyboard Layout:"
-msgstr "Bố Cục Bàn Phím:"
-
-#: src/lib/fcitx-utils/key.cpp:140
+#: src/lib/fcitx-utils/key.cpp:46
 msgctxt "Key name"
-msgid "Keyboard Light On/Off"
-msgstr "Đèn Bàn Phím Bật/Tắt"
+msgid "Right Super"
+msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:180
+#: src/lib/fcitx-utils/key.cpp:47
 msgctxt "Key name"
-msgid "Keyboard Menu"
+msgid "Left Hyper"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:48
+msgctxt "Key name"
+msgid "Right Hyper"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:49
+msgctxt "Key name"
+msgid "Space"
+msgstr "Khoảng trống"
+
+#: src/lib/fcitx-utils/key.cpp:50
+msgctxt "Key name"
+msgid "Tab"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:51
+msgctxt "Key name"
+msgid "Backspace"
+msgstr "Backspace"
+
+#: src/lib/fcitx-utils/key.cpp:52
+msgctxt "Key name"
+msgid "Return"
+msgstr "Trở lại"
+
+#: src/lib/fcitx-utils/key.cpp:53
+msgctxt "Key name"
+msgid "Pause"
+msgstr "Tạm dừng"
+
+#: src/lib/fcitx-utils/key.cpp:54
+msgctxt "Key name"
+msgid "Home"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:55
+msgctxt "Key name"
+msgid "End"
+msgstr "Kết thúc"
+
+#: src/lib/fcitx-utils/key.cpp:56
+msgctxt "Key name"
+msgid "Left"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:57
+msgctxt "Key name"
+msgid "Up"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:58
+msgctxt "Key name"
+msgid "Right"
+msgstr "Phải"
+
+#: src/lib/fcitx-utils/key.cpp:59
+msgctxt "Key name"
+msgid "Down"
+msgstr "Xuống"
+
+#: src/lib/fcitx-utils/key.cpp:60
+msgctxt "Key name"
+msgid "Page Up"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:61
+msgctxt "Key name"
+msgid "Page Down"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:62
+msgctxt "Key name"
+msgid "CapsLock"
+msgstr "CapsLock"
+
+#: src/lib/fcitx-utils/key.cpp:63
+msgctxt "Key name"
+msgid "NumLock"
+msgstr "NumLock"
+
+#: src/lib/fcitx-utils/key.cpp:64
+msgctxt "Key name"
+msgid "Keypad Space"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:65
+msgctxt "Key name"
+msgid "Keypad Tab"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:66
+msgctxt "Key name"
+msgid "Keypad Enter"
+msgstr "Phím Nhấn Enter"
+
+#: src/lib/fcitx-utils/key.cpp:67
+msgctxt "Key name"
+msgid "Keypad F1"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:68
+msgctxt "Key name"
+msgid "Keypad F2"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:69
+msgctxt "Key name"
+msgid "Keypad F3"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:70
+msgctxt "Key name"
+msgid "Keypad F4"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:71
+msgctxt "Key name"
+msgid "Keypad Home"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:72
+msgctxt "Key name"
+msgid "Keypad Left"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:73
+msgctxt "Key name"
+msgid "Keypad Up"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:74
+msgctxt "Key name"
+msgid "Keypad Right"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:75
+msgctxt "Key name"
+msgid "Keypad Down"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:76
+msgctxt "Key name"
+msgid "Keypad Page Up"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:77
+msgctxt "Key name"
+msgid "Keypad Page Down"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:78
+msgctxt "Key name"
+msgid "Keypad End"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:79
+msgctxt "Key name"
+msgid "Keypad Begin"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:80
+msgctxt "Key name"
+msgid "Keypad Insert"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:81
+msgctxt "Key name"
+msgid "Keypad Delete"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:82
+msgctxt "Key name"
+msgid "Keypad ="
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:83
@@ -1589,107 +1172,114 @@ msgctxt "Key name"
 msgid "Keypad 9"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:82
+#: src/lib/fcitx-utils/key.cpp:99
 msgctxt "Key name"
-msgid "Keypad ="
+msgid "ScrollLock"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:79
+#: src/lib/fcitx-utils/key.cpp:100
 msgctxt "Key name"
-msgid "Keypad Begin"
+msgid "Menu"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:81
+#: src/lib/fcitx-utils/key.cpp:101
 msgctxt "Key name"
-msgid "Keypad Delete"
+msgid "Help"
+msgstr "Trợ giúp"
+
+#: src/lib/fcitx-utils/key.cpp:102
+msgctxt "Key name"
+msgid "Back"
+msgstr "Trở lại"
+
+#: src/lib/fcitx-utils/key.cpp:103
+msgctxt "Key name"
+msgid "Forward"
+msgstr "Tiếp theo"
+
+#: src/lib/fcitx-utils/key.cpp:104
+msgctxt "Key name"
+msgid "Stop"
+msgstr "Dừng"
+
+#: src/lib/fcitx-utils/key.cpp:105
+msgctxt "Key name"
+msgid "Refresh"
+msgstr "Làm mới"
+
+#: src/lib/fcitx-utils/key.cpp:106
+msgctxt "Key name"
+msgid "Volume Down"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:75
+#: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
-msgid "Keypad Down"
+msgid "Volume Mute"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:78
+#: src/lib/fcitx-utils/key.cpp:108
 msgctxt "Key name"
-msgid "Keypad End"
+msgid "Volume Up"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:66
+#: src/lib/fcitx-utils/key.cpp:109
 msgctxt "Key name"
-msgid "Keypad Enter"
-msgstr "Phím Nhấn Enter"
-
-#: src/lib/fcitx-utils/key.cpp:67
-msgctxt "Key name"
-msgid "Keypad F1"
+msgid "Media Play"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:68
+#: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
-msgid "Keypad F2"
+msgid "Media Stop"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:69
+#: src/lib/fcitx-utils/key.cpp:111
 msgctxt "Key name"
-msgid "Keypad F3"
+msgid "Media Previous"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:70
+#: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
-msgid "Keypad F4"
+msgid "Media Next"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:71
+#: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
-msgid "Keypad Home"
+msgid "Media Record"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:80
+#: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
-msgid "Keypad Insert"
+msgid "Media Pause"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:72
+#: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
-msgid "Keypad Left"
+msgid "Home Page"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:77
+#: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
-msgid "Keypad Page Down"
-msgstr ""
+msgid "Favorites"
+msgstr "Yêu thích"
 
-#: src/lib/fcitx-utils/key.cpp:76
+#: src/lib/fcitx-utils/key.cpp:117
 msgctxt "Key name"
-msgid "Keypad Page Up"
-msgstr ""
+msgid "Search"
+msgstr "Tìm kiếm"
 
-#: src/lib/fcitx-utils/key.cpp:74
+#: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
-msgid "Keypad Right"
-msgstr ""
+msgid "Standby"
+msgstr "Chờ đợi"
 
-#: src/lib/fcitx-utils/key.cpp:64
+#: src/lib/fcitx-utils/key.cpp:119
 msgctxt "Key name"
-msgid "Keypad Space"
-msgstr ""
+msgid "Open URL"
+msgstr "Mở URL"
 
-#: src/lib/fcitx-utils/key.cpp:65
+#: src/lib/fcitx-utils/key.cpp:120
 msgctxt "Key name"
-msgid "Keypad Tab"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:73
-msgctxt "Key name"
-msgid "Keypad Up"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1590
-msgid "Kimpanel process:"
-msgstr "Tiến trình Kimpanel:"
-
-#: src/ui/classic/theme.h:56
-msgid "Last Candidate"
+msgid "Launch Mail"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:121
@@ -1772,201 +1362,9 @@ msgctxt "Key name"
 msgid "Launch (F)"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:120
+#: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
-msgid "Launch Mail"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:56
-msgctxt "Key name"
-msgid "Left"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:39
-msgctxt "Key name"
-msgid "Left Alt"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:43
-msgctxt "Key name"
-msgid "Left Control"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:47
-msgctxt "Key name"
-msgid "Left Hyper"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:41
-msgctxt "Key name"
-msgid "Left Shift"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:45
-msgctxt "Key name"
-msgid "Left Super"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:150
-msgctxt "Key name"
-msgid "LightBulb"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:851
-msgid "Locale:"
-msgstr "Địa phương:"
-
-#: data/fcitx5-diagnose.sh:1698
-msgid "Log:"
-msgstr "Nhật ký:"
-
-#: src/lib/fcitx-utils/key.cpp:177
-msgctxt "Key name"
-msgid "Logoff"
-msgstr ""
-
-#: src/im/keyboard/keyboard.h:104
-msgid "Long Press behavior"
-msgstr "Hành Vi Nhấn Lâu"
-
-#: src/lib/fcitx-utils/key.cpp:210
-msgctxt "Key name"
-msgid "Mail Forward"
-msgstr ""
-
-#: src/ui/classic/theme.h:124
-msgid "Margin"
-msgstr "Lề"
-
-#: src/ui/classic/theme.h:86
-msgid "Margin Bottom"
-msgstr "Lề Dưới"
-
-#: src/ui/classic/theme.h:80
-msgid "Margin Left"
-msgstr "Lề Trái"
-
-#: src/ui/classic/theme.h:82
-msgid "Margin Right"
-msgstr "Lề Phải"
-
-#: src/ui/classic/theme.h:84
-msgid "Margin Top"
-msgstr "Lề Trên Cùng"
-
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
-msgid "Margin around all content"
-msgstr "Lề xung quanh tất cả nội dung"
-
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
-msgid "Margin around text"
-msgstr "Lề xung quanh văn bản"
-
-#: src/lib/fcitx-utils/key.cpp:178
-msgctxt "Key name"
-msgid "Market"
-msgstr "Chợ"
-
-#: src/lib/fcitx-utils/key.cpp:254
-msgctxt "Key name"
-msgid "Massyo"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:216
-msgctxt "Key name"
-msgid "Media Fast Forward"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:112
-msgctxt "Key name"
-msgid "Media Next"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:114
-msgctxt "Key name"
-msgid "Media Pause"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:109
-msgctxt "Key name"
-msgid "Media Play"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:111
-msgctxt "Key name"
-msgid "Media Previous"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:113
-msgctxt "Key name"
-msgid "Media Record"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:158
-msgctxt "Key name"
-msgid "Media Rewind"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:110
-msgctxt "Key name"
-msgid "Media Stop"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:179
-msgctxt "Key name"
-msgid "Meeting"
-msgstr ""
-
-#: src/ui/classic/theme.h:224
-msgid "Menu"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:100
-msgctxt "Key name"
-msgid "Menu"
-msgstr ""
-
-#: src/ui/classic/theme.h:74
-msgid "Menu Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:74
-msgid "Menu Border"
-msgstr ""
-
-#: src/ui/classic/classicui.h:128
-msgid "Menu Font"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:181
-msgctxt "Key name"
-msgid "Menu PB"
-msgstr ""
-
-#: src/ui/classic/theme.h:75
-msgid "Menu Selected Item Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:75
-msgid "Menu Selected Item Border"
-msgstr ""
-
-#: src/ui/classic/theme.h:76
-msgid "Menu Separator"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:208
-msgctxt "Key name"
-msgid "Messenger"
-msgstr ""
-
-#: src/ui/classic/theme.h:221
-msgid "Metadata"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:227
-msgctxt "Key name"
-msgid "Microphone Mute"
+msgid "Monitor Brightness Up"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:139
@@ -1974,450 +1372,54 @@ msgctxt "Key name"
 msgid "Monitor Brightness Down"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:137
+#: src/lib/fcitx-utils/key.cpp:140
 msgctxt "Key name"
-msgid "Monitor Brightness Up"
-msgstr ""
+msgid "Keyboard Light On/Off"
+msgstr "Đèn Bàn Phím Bật/Tắt"
 
-#: src/lib/fcitx-utils/key.cpp:244
+#: src/lib/fcitx-utils/key.cpp:141
 msgctxt "Key name"
-msgid "Muhenkan"
-msgstr ""
+msgid "Keyboard Brightness Up"
+msgstr "Bàn Phím Sáng Lên"
 
-#: src/lib/fcitx-utils/key.cpp:260
+#: src/lib/fcitx-utils/key.cpp:143
 msgctxt "Key name"
-msgid "Multiple Candidate"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:212
-msgctxt "Key name"
-msgid "Music"
-msgstr "Nhạc"
-
-#: src/lib/fcitx-utils/key.cpp:182
-msgctxt "Key name"
-msgid "My Sites"
-msgstr ""
-
-#: src/ui/classic/theme.h:213
-msgid "Name"
-msgstr "Tên"
-
-#: src/lib/fcitx-utils/key.cpp:232
-msgctxt "Key name"
-msgid "New"
-msgstr "Mới"
-
-#: src/lib/fcitx-utils/key.cpp:183
-msgctxt "Key name"
-msgid "News"
-msgstr "Tin tức"
-
-#: src/im/keyboard/keyboard.h:61
-msgid "Next Candidate"
-msgstr ""
-
-#: src/ui/classic/theme.h:188
-msgid "Next Page Button"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
-msgid "No"
-msgstr ""
-
-#: src/modules/clipboard/clipboard.cpp:399
-msgid "No clipboard history."
-msgstr ""
-
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:30
-msgid "None"
-msgstr ""
-
-#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:193
-msgid "Normal text color"
-msgstr ""
-
-#: src/ui/classic/classicui.h:188
-msgid ""
-"Normally Wayland uses 96 as font DPI in combination with the screen scale "
-"factor. This option allows you to override the font DPI. If the value is 0, "
-"it means this option is disabled."
-msgstr ""
-
-#: src/ui/kimpanel/kimpanel.cpp:406
-msgid "Not available"
-msgstr "Không có sẵn"
-
-#: data/fcitx5-diagnose.sh:733
-msgid "Note for GNOME Later than 3.6"
-msgstr "Lưu ý cho GNOME Sau 3.6"
-
-#: src/modules/notifications/notifications.conf.in.in:2
-msgid "Notification"
-msgstr "Thông báo"
-
-#: src/lib/fcitx-utils/key.cpp:63
-msgctxt "Key name"
-msgid "NumLock"
-msgstr "NumLock"
-
-#: src/modules/clipboard/clipboard.h:56
-msgid "Number of entries"
-msgstr ""
-
-#: src/im/keyboard/keyboard.cpp:707
-msgid ""
-"Only emoji support is found. To enable spell checking, you may need to "
-"install spell check data for the language."
-msgstr ""
-"Chỉ tìm thấy hỗ trợ biểu tượng cảm xúc được tìm thấy. Để cho phép kiểm tra "
-"chính tả, bạn có thể cần cài đặt dữ liệu kiểm tra chính tả cho ngôn ngữ."
-
-#: src/lib/fcitx-utils/key.cpp:233
-msgctxt "Key name"
-msgid "Open"
-msgstr "Mở"
-
-#: src/lib/fcitx-utils/key.cpp:119
-msgctxt "Key name"
-msgid "Open URL"
-msgstr "Mở URL"
-
-#: src/lib/fcitx-utils/key.cpp:185
-msgctxt "Key name"
-msgid "Option"
-msgstr "Tùy chọn"
-
-#: src/ui/classic/theme.h:126
-msgid "Overlay Clip Margin"
-msgstr ""
-
-#: src/ui/classic/theme.h:116
-msgid "Overlay Image"
-msgstr ""
-
-#: src/ui/classic/theme.h:119
-msgid "Overlay X offset"
-msgstr ""
-
-#: src/ui/classic/theme.h:120
-msgid "Overlay Y offset"
-msgstr ""
-
-#: src/ui/classic/theme.h:118
-msgid "Overlay position"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:214
-msgid "Override XKB Option"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:991
-msgid "Owner of DBus name ${1} is ${2}."
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:999
-msgid "PID of DBus name ${1} owner is ${2}."
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:61
-msgctxt "Key name"
-msgid "Page Down"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:60
-msgctxt "Key name"
-msgid "Page Up"
-msgstr ""
-
-#: src/ui/classic/theme.h:177
-msgid "Page button vertical alignment"
-msgstr ""
-
-#: src/im/keyboard/keyboard.h:50
-msgid "Page size"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:186
-msgctxt "Key name"
-msgid "Paste"
-msgstr "Dán"
-
-#: src/modules/clipboard/clipboard.h:54
-msgid "Paste Primary"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:53
-msgctxt "Key name"
-msgid "Pause"
-msgstr "Tạm dừng"
-
-#: src/lib/fcitx-utils/key.cpp:187
-msgctxt "Key name"
-msgid "Phone"
-msgstr "Điện thoại"
-
-#: src/lib/fcitx-utils/key.cpp:211
-msgctxt "Key name"
-msgid "Pictures"
-msgstr "Hình ảnh"
-
-#: data/fcitx5-diagnose.sh:940
-msgid "Please check ${1} for how to install fcitx5."
-msgstr "Vui lòng kiểm tra ${1} để biết cách cài đặt fcitx5."
-
-#: data/fcitx5-diagnose.sh:962
-msgid ""
-"Please check the Configure link of your distribution in ${1} for how to "
-"setup ${2} autostart."
-msgstr ""
-"Hãy kiểm tra liên kết Cấu Hình của phân phối của bạn trong ${1} để làm sao "
-"cài ${2} tự chạy."
-
-#: data/fcitx5-diagnose.sh:714
-msgid ""
-"Please set environment variable ${env_name} to \"${value}\" using the tool "
-"your distribution provides or add ${1} to your ${2}. See ${link}."
-msgstr ""
-"Hãy đặt biến môi trường ${env_name} to \"${value}\" sử dụng công cụ mà phân "
-"phối của bạn cung cấp hoặc thêm ${1} vào ${2} của bạn. Xem ${link}."
-
-#: src/lib/fcitx-utils/key.cpp:225
-msgctxt "Key name"
-msgid "Power Down"
-msgstr ""
+msgid "Keyboard Brightness Down"
+msgstr "Bàn Phím Tối Xuống"
 
 #: src/lib/fcitx-utils/key.cpp:144
 msgctxt "Key name"
 msgid "Power Off"
 msgstr "Tắt Nguồn"
 
-#: src/lib/fcitx/instance.cpp:877
-msgid "Preedit"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:879
-msgid "Preedit disabled"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:878
-msgid "Preedit enabled"
-msgstr ""
-
-#: src/ui/classic/classicui.h:136 src/ui/kimpanel/kimpanel.h:28
-msgid "Prefer Text Icon"
-msgstr ""
-
-#: src/modules/spell/spell.h:23
-msgid "Presage"
-msgstr ""
-
-#: src/im/keyboard/keyboard.h:55
-msgid "Prev Candidate"
-msgstr ""
-
-#: src/ui/classic/theme.h:187
-msgid "Prev Page Button"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:261
+#: src/lib/fcitx-utils/key.cpp:145
 msgctxt "Key name"
-msgid "Previous Candidate"
+msgid "Wake Up"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:237
+#: src/lib/fcitx-utils/key.cpp:146
 msgctxt "Key name"
-msgid "Print Screen"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:37
-msgid "Program"
-msgstr "Chương trình"
-
-#: data/fcitx5-diagnose.sh:1149
-msgid "Qt IM module files:"
-msgstr ""
-
-#: src/modules/quickphrase/quickphrase.conf.in.in:2
-msgid "Quick Phrase"
-msgstr ""
-
-#: src/modules/quickphrase/quickphrase.cpp:509
-msgid "Quick Phrase: "
-msgstr "Cụm Từ Nhanh:"
-
-#: src/lib/fcitx-utils/key.cpp:228
-msgctxt "Key name"
-msgid "Red"
-msgstr "Đỏ"
-
-#: src/lib/fcitx-utils/key.cpp:236
-msgctxt "Key name"
-msgid "Redo"
-msgstr "Làm lại"
-
-#: src/lib/fcitx-utils/key.cpp:105
-msgctxt "Key name"
-msgid "Refresh"
-msgstr "Làm mới"
-
-#: src/lib/fcitx-utils/key.cpp:189
-msgctxt "Key name"
-msgid "Reload"
-msgstr "Tải lại"
-
-#: src/lib/fcitx-utils/key.cpp:188
-msgctxt "Key name"
-msgid "Reply"
-msgstr "Trả lời"
-
-#: src/lib/fcitx/globalconfig.cpp:184
-msgid "Reset state on Focus In"
-msgstr ""
-
-#: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:262
-msgid "Restart"
-msgstr "Khởi động lại"
-
-#: src/lib/fcitx-utils/key.cpp:52
-msgctxt "Key name"
-msgid "Return"
-msgstr "Trở lại"
-
-#: src/lib/fcitx-utils/key.cpp:58
-msgctxt "Key name"
-msgid "Right"
-msgstr "Phải"
-
-#: src/lib/fcitx-utils/key.cpp:40
-msgctxt "Key name"
-msgid "Right Alt"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:44
-msgctxt "Key name"
-msgid "Right Control"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:48
-msgctxt "Key name"
-msgid "Right Hyper"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:42
-msgctxt "Key name"
-msgid "Right Shift"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:46
-msgctxt "Key name"
-msgid "Right Super"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:246
-msgctxt "Key name"
-msgid "Romaji"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:190
-msgctxt "Key name"
-msgid "Rotate Windows"
-msgstr "Xoay Cửa Sổ"
-
-#: src/lib/fcitx-utils/key.cpp:192
-msgctxt "Key name"
-msgid "Rotation KB"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:191
-msgctxt "Key name"
-msgid "Rotation PB"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:916
-msgid "Running as root:"
-msgstr "Chạy như root:"
-
-#: src/lib/fcitx-utils/key.cpp:193
-msgctxt "Key name"
-msgid "Save"
-msgstr "Lưu"
+msgid "Eject"
+msgstr "Đẩy ra"
 
 #: src/lib/fcitx-utils/key.cpp:147
 msgctxt "Key name"
 msgid "Screensaver"
 msgstr "Trình bảo vệ màn hình"
 
-#: src/lib/fcitx-utils/key.cpp:99
+#: src/lib/fcitx-utils/key.cpp:148
 msgctxt "Key name"
-msgid "ScrollLock"
-msgstr ""
+msgid "WWW"
+msgstr "WWW"
 
-#: src/lib/fcitx-utils/key.cpp:117
+#: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
-msgid "Search"
-msgstr "Tìm kiếm"
+msgid "Sleep"
+msgstr "Ngủ"
 
-#: src/modules/clipboard/clipboard.h:77
-msgid "Seconds before clearing password"
-msgstr "Số giây trước khi xóa mật khẩu"
-
-#: src/lib/fcitx-utils/key.cpp:242
+#: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
-msgid "Select"
-msgstr "Lựa chọn"
-
-#: src/modules/imselector/imselector.cpp:257
-msgid "Select input method:"
-msgstr "Chọn kiểu gõ:"
-
-#: src/modules/imselector/imselector.cpp:256
-msgid "Select local input method:"
-msgstr "Chọn kiểu gõ địa phương:"
-
-#: src/modules/imselector/imselector.conf.in.in:3
-msgid "Select specific input method via keyboard"
-msgstr "Chọn kiểu gõ cụ thể thông qua bàn phím"
-
-#: src/ui/classic/theme.h:196
-msgid "Selected Item text color"
-msgstr "Màu văn bản mục được chọn"
-
-#: src/lib/fcitx-utils/key.cpp:194
-msgctxt "Key name"
-msgid "Send"
-msgstr "Gửi"
-
-#: src/modules/wayland/waylandmodule.cpp:758
-msgid ""
-"Sending keyboard layout configuration to wayland compositor from Fcitx is "
-"not yet supported on current desktop. You may still use Fcitx's internal "
-"layout conversion by adding layout as input method to the input method group."
-msgstr ""
-"Gửi cấu hình bố cục bàn phím đến Wayland Compositor từ FCITX chưa được hỗ "
-"trợ trên máy tính để bàn hiện tại. Bạn vẫn có thể sử dụng chuyển đổi bố cục "
-"nội bộ của FCITX bằng cách thêm bố cục là kiểu gõ vào nhóm kiểu gõ."
-
-#: src/ui/classic/theme.h:204
-msgid "Separator Background"
-msgstr ""
-
-#: src/modules/xcb/xcbmodule.h:69
-msgid "Set client disconnect mode to terminate (Need Restart)"
-msgstr ""
-
-#: src/ui/classic/theme.h:190
-msgid "Shadow Margin"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:188
-msgid "Share Input State"
-msgstr "Chia Sẻ Trạng Thái Nhập"
-
-#: src/lib/fcitx-utils/key.cpp:586
-msgctxt "Key name"
-msgid "Shift"
+msgid "LightBulb"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:151
@@ -2425,69 +1427,220 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:199
-msgid "Show Input Method Information when changing focus"
-msgstr "Hiển thị thông tin Kiểu Gõ khi thay đổi tiêu điểm"
-
-#: src/lib/fcitx/globalconfig.cpp:196
-msgid "Show Input Method Information when switch input method"
-msgstr "Hiển thị thông tin Kiểu Gõ khi chuyển đổi Kiểu Gõ"
-
-#: src/ui/classic/classicui.h:141
-msgid "Show Layout Name In Icon"
-msgstr "Hiển Thị Tên Bố Cục Trong Biểu Tượng"
-
-#: src/lib/fcitx/globalconfig.cpp:202
-msgid "Show compact input method information"
-msgstr "Hiển thị thông tin kiểu gõ nhỏ gọn"
-
-#: src/lib/fcitx/globalconfig.cpp:205
-msgid "Show first input method information"
-msgstr "Hiển thị thông tin kiểu gõ đầu tiên"
-
-#: src/ui/classic/classicui.h:145
-msgid ""
-"Show layout name in icon if there is more than one active layout. If prefer "
-"text icon is set to true, this option will be ignored."
-msgstr ""
-"Hiển thị tên bố cục trong biểu tượng nếu có nhiều hơn một bố cục hoạt động. "
-"Nếu biểu tượng văn bản thích được đặt thành true, tùy chọn này sẽ bị bỏ qua."
-
-#: src/lib/fcitx/globalconfig.cpp:192
-msgid "Show preedit in application"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:237
-msgid "Show preedit text when typing password"
-msgstr ""
-
-#: src/im/keyboard/keyboard.h:90
-msgid ""
-"Show preedit when composing, and commit dead key if there is no matching "
-"sequence."
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:108
-msgid "Skip first input method while enumerating"
-msgstr "Bỏ qua kiểu gõ đầu tiên trong khi liệt kê"
-
-#: src/lib/fcitx-utils/key.cpp:149
+#: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
-msgid "Sleep"
-msgstr "Ngủ"
+msgid "History"
+msgstr "Lịch sử"
 
-#: src/lib/fcitx-utils/key.cpp:49
+#: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
-msgid "Space"
-msgstr "Khoảng trống"
+msgid "Add Favorite"
+msgstr "Thêm vào ưa thích"
 
-#: src/ui/classic/theme.h:198
-msgid "Spacing"
-msgstr "Khoảng cách"
-
-#: src/im/keyboard/keyboard.h:92 src/modules/spell/spell.conf.in.in:2
-msgid "Spell"
+#: src/lib/fcitx-utils/key.cpp:154
+msgctxt "Key name"
+msgid "Hot Links"
 msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:155
+msgctxt "Key name"
+msgid "Adjust Brightness"
+msgstr "Điều chỉnh độ sáng"
+
+#: src/lib/fcitx-utils/key.cpp:156
+msgctxt "Key name"
+msgid "Finance"
+msgstr "Tài chính"
+
+#: src/lib/fcitx-utils/key.cpp:157
+msgctxt "Key name"
+msgid "Community"
+msgstr "Cộng đồng"
+
+#: src/lib/fcitx-utils/key.cpp:158
+msgctxt "Key name"
+msgid "Media Rewind"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:159
+msgctxt "Key name"
+msgid "Back Forward"
+msgstr "Lùi về trước"
+
+#: src/lib/fcitx-utils/key.cpp:160
+msgctxt "Key name"
+msgid "Application Left"
+msgstr "Ứng dụng còn lại"
+
+#: src/lib/fcitx-utils/key.cpp:161
+msgctxt "Key name"
+msgid "Application Right"
+msgstr "Quyền ứng dụng"
+
+#: src/lib/fcitx-utils/key.cpp:162
+msgctxt "Key name"
+msgid "Book"
+msgstr "Sách"
+
+#: src/lib/fcitx-utils/key.cpp:163
+msgctxt "Key name"
+msgid "CD"
+msgstr "CD"
+
+#: src/lib/fcitx-utils/key.cpp:164
+msgctxt "Key name"
+msgid "Calculator"
+msgstr "Máy tính"
+
+#: src/lib/fcitx-utils/key.cpp:165
+msgctxt "Key name"
+msgid "Clear"
+msgstr "Xóa"
+
+#: src/lib/fcitx-utils/key.cpp:166
+msgctxt "Key name"
+msgid "Close"
+msgstr "Đóng"
+
+#: src/lib/fcitx-utils/key.cpp:167
+msgctxt "Key name"
+msgid "Copy"
+msgstr "Chép"
+
+#: src/lib/fcitx-utils/key.cpp:168
+msgctxt "Key name"
+msgid "Cut"
+msgstr "Cắt"
+
+#: src/lib/fcitx-utils/key.cpp:169
+msgctxt "Key name"
+msgid "Display"
+msgstr "Hiển thị"
+
+#: src/lib/fcitx-utils/key.cpp:170
+msgctxt "Key name"
+msgid "DOS"
+msgstr "DOS"
+
+#: src/lib/fcitx-utils/key.cpp:171
+msgctxt "Key name"
+msgid "Documents"
+msgstr "Tài liệu"
+
+#: src/lib/fcitx-utils/key.cpp:172
+msgctxt "Key name"
+msgid "Spreadsheet"
+msgstr "Bảng tính"
+
+#: src/lib/fcitx-utils/key.cpp:173
+msgctxt "Key name"
+msgid "Browser"
+msgstr "Trình duyệt"
+
+#: src/lib/fcitx-utils/key.cpp:174
+msgctxt "Key name"
+msgid "Game"
+msgstr "Trò chơi"
+
+#: src/lib/fcitx-utils/key.cpp:175
+msgctxt "Key name"
+msgid "Go"
+msgstr "Đi"
+
+#: src/lib/fcitx-utils/key.cpp:176
+msgctxt "Key name"
+msgid "iTouch"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:177
+msgctxt "Key name"
+msgid "Logoff"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:178
+msgctxt "Key name"
+msgid "Market"
+msgstr "Chợ"
+
+#: src/lib/fcitx-utils/key.cpp:179
+msgctxt "Key name"
+msgid "Meeting"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:180
+msgctxt "Key name"
+msgid "Keyboard Menu"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:181
+msgctxt "Key name"
+msgid "Menu PB"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:182
+msgctxt "Key name"
+msgid "My Sites"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:183
+msgctxt "Key name"
+msgid "News"
+msgstr "Tin tức"
+
+#: src/lib/fcitx-utils/key.cpp:184
+msgctxt "Key name"
+msgid "Home Office"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:185
+msgctxt "Key name"
+msgid "Option"
+msgstr "Tùy chọn"
+
+#: src/lib/fcitx-utils/key.cpp:186
+msgctxt "Key name"
+msgid "Paste"
+msgstr "Dán"
+
+#: src/lib/fcitx-utils/key.cpp:187
+msgctxt "Key name"
+msgid "Phone"
+msgstr "Điện thoại"
+
+#: src/lib/fcitx-utils/key.cpp:188
+msgctxt "Key name"
+msgid "Reply"
+msgstr "Trả lời"
+
+#: src/lib/fcitx-utils/key.cpp:189
+msgctxt "Key name"
+msgid "Reload"
+msgstr "Tải lại"
+
+#: src/lib/fcitx-utils/key.cpp:190
+msgctxt "Key name"
+msgid "Rotate Windows"
+msgstr "Xoay Cửa Sổ"
+
+#: src/lib/fcitx-utils/key.cpp:191
+msgctxt "Key name"
+msgid "Rotation PB"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:192
+msgctxt "Key name"
+msgid "Rotation KB"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:193
+msgctxt "Key name"
+msgid "Save"
+msgstr "Lưu"
+
+#: src/lib/fcitx-utils/key.cpp:194
+msgctxt "Key name"
+msgid "Send"
+msgstr "Gửi"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -2499,99 +1652,14 @@ msgctxt "Key name"
 msgid "Split Screen"
 msgstr "Chia Màn Hình"
 
-#: src/lib/fcitx-utils/key.cpp:172
-msgctxt "Key name"
-msgid "Spreadsheet"
-msgstr "Bảng tính"
-
-#: src/lib/fcitx-utils/key.cpp:118
-msgctxt "Key name"
-msgid "Standby"
-msgstr "Chờ đợi"
-
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
-#: data/fcitx5-wayland-launcher.desktop.in.in:4
-msgid "Start Input Method"
-msgstr "Kiểu Gõ Bắt Đầu"
-
-#: src/modules/notificationitem/notificationitem.conf.in.in:2
-msgid "Status Notifier"
-msgstr "Trạng Thái Thông Báo"
-
-#: src/lib/fcitx-utils/key.cpp:104
-msgctxt "Key name"
-msgid "Stop"
-msgstr "Dừng"
-
-#: src/ui/classic/theme.h:206
-msgid "Sub Menu"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:219
-msgctxt "Key name"
-msgid "Subtitle"
-msgstr "Phụ đề"
-
-#: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
-msgid "Super"
-msgstr "Siêu"
-
-#: src/lib/fcitx-utils/key.cpp:587
-msgctxt "Key name"
-msgid "Super"
-msgstr "Siêu"
-
 #: src/lib/fcitx-utils/key.cpp:197
 msgctxt "Key name"
 msgid "Support"
 msgstr "Hỗ trợ"
 
-#: src/lib/fcitx-utils/key.cpp:226
-msgctxt "Key name"
-msgid "Suspend"
-msgstr "Đình chỉ"
-
-#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
-#: src/modules/xcb/xcbconnection.cpp:564
-msgid "Switch group"
-msgstr "Chuyển đổi nhóm"
-
-#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:565
-#, c++-format
-msgid "Switch group to {0}"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:705
-#, c++-format
-msgid "Switched group to {0}"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:789
-msgid "System Info:"
-msgstr "Thông tin hệ thống:"
-
-#: src/lib/fcitx-utils/key.cpp:241
-msgctxt "Key name"
-msgid "System Request"
-msgstr "Yêu cầu hệ thống"
-
-#: src/modules/unicode/charselectdata.cpp:227
-#, c++-format
-msgid "TANGUT IDEOGRAPH-{0:X}"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:50
-msgctxt "Key name"
-msgid "Tab"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:198
 msgctxt "Key name"
 msgid "Task Panel"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:78
-msgid "Temporarily Toggle Input Method"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:199
@@ -2599,150 +1667,9 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1685
-#, sh-format
-msgid ""
-"The environment variable checked by this script only shows the environment "
-"under current shell. It is still possible that you did not set the "
-"environment to the whole graphic desktop session. You may inspect the actual "
-"environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
-"environ` for a certain process that you find not working."
-msgstr ""
-
-#: src/modules/imselector/imselector.h:42
-#: src/modules/imselector/imselector.h:52
-msgid "The n-th hotkey in the list selects the n-th input method."
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:895
-msgid "The script is run as ${1} (${2})."
-msgstr "Mã lệnh được chạy dưới dạng ${1} (${2})."
-
-#: src/ui/classic/classicui.h:161
-msgid "Theme"
-msgstr "Chủ đề"
-
-#: src/modules/xcb/xcbmodule.h:45
-msgid ""
-"This allows XWayland to automatically terminate on compositors that launch "
-"XWayland on demand."
-msgstr ""
-
-#: src/ui/classic/classicui.h:107
-msgid "This is only effective when the tray icon is xembed."
-msgstr "Điều này chỉ hiệu quả khi biểu tượng khay được xembed."
-
-#: src/lib/fcitx/globalconfig.cpp:83
-msgid ""
-"This key can only be used if current state is active, or is deactivated with "
-"this key. For example, you have two input methods: English as the inactive "
-"state, Pinyin as the active state. It can be used to switch from Pinyin back "
-"to English, and switch back to Pinyin again afterwards. If the initial state "
-"is English will do nothing. This key can be configured to be some simple "
-"single modifier key like Shift, so it can be used with just a single key "
-"press, but won't be triggered by accident if you never activate input method."
-msgstr ""
-"Phím này chỉ có thể được sử dụng nếu trạng thái hiện tại đang hoạt động hoặc "
-"bị vô hiệu hóa bằng phím này. Ví dụ: bạn có hai kiểu gõ: tiếng Anh ở trạng "
-"thái không hoạt động, Bính âm là trạng thái hoạt động. Nó có thể được sử "
-"dụng để chuyển từ Bính âm trở lại tiếng Anh và chuyển lại về Bính âm sau đó. "
-"Nếu trạng thái ban đầu là tiếng Anh sẽ không làm gì cả. Phím này có thể được "
-"cấu hình thành một số phím bổ trợ đơn giản như Shift, do đó, nó có thể được "
-"sử dụng chỉ bằng một lần nhấn phím nhưng sẽ không được kích hoạt một cách "
-"ngẫu nhiên nếu bạn không bao giờ kích hoạt kiểu gõ."
-
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
-msgid "This option is only effective if image is not set."
-msgstr "Tùy chọn này chỉ hiệu quả nếu hình ảnh không được đặt."
-
-#: src/ui/classic/classicui.h:200
-msgid "This option require support from wayland compositor."
-msgstr "Tùy chọn này yêu cầu hỗ trợ từ Wayland Compositor."
-
-#: src/ui/classic/classicui.h:179
-msgid "This option will be always disabled on XWayland."
-msgstr "Tùy chọn này sẽ luôn luôn bị vô hiệu hóa trên Xwayland."
-
-#: src/ui/classic/theme.h:115
-msgid "This value should be less than any of margin value."
-msgstr "Giá trị này nên ít hơn bất kỳ giá trị thụt lề nào."
-
-#: data/fcitx5-diagnose.sh:1704
-msgid ""
-"Though such information can be helpful to developers for diagnostic purpose, "
-"please double check and remove as necessary before posting it online "
-"publicly."
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:221
-msgctxt "Key name"
-msgid "Time"
-msgstr "Thời gian"
-
-#: src/lib/fcitx/globalconfig.cpp:168
-msgid "Time limit in milliseconds for triggering modifier key shortcuts"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:750
-#, sh-format
-msgid ""
-"To see some application specific problems you may have when using xim, check "
-"${link1}. For other more general problems of using XIM including application "
-"freezing, see ${link2}."
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:44
-msgid "Toggle Input Method"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:161
-msgid "Toggle embedded preedit"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
 msgid "Tools"
-msgstr ""
-
-#: src/ui/classic/theme.h:54
-msgid "Top"
-msgstr ""
-
-#: src/ui/classic/theme.h:41
-msgid "Top Center"
-msgstr "Giữa Ở Trên"
-
-#: src/ui/classic/theme.h:41
-msgid "Top Left"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:224
-msgctxt "Key name"
-msgid "Top Menu"
-msgstr ""
-
-#: src/ui/classic/theme.h:42
-msgid "Top Right"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:277
-msgctxt "Key name"
-msgid "Touchpad Off"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:276
-msgctxt "Key name"
-msgid "Touchpad On"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:275
-msgctxt "Key name"
-msgid "Touchpad Toggle"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:253
-msgctxt "Key name"
-msgid "Touroku"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:201
@@ -2750,17 +1677,525 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr ""
 
-#: src/ui/classic/classicui.h:130
-msgid "Tray Font"
+#: src/lib/fcitx-utils/key.cpp:202
+msgctxt "Key name"
+msgid "Video"
 msgstr ""
 
-#: src/ui/classic/classicui.h:132
-msgid "Tray Label Outline Color"
+#: src/lib/fcitx-utils/key.cpp:203
+msgctxt "Key name"
+msgid "Word Processor"
 msgstr ""
 
-#: src/ui/classic/classicui.h:135
-msgid "Tray Label Text Color"
+#: src/lib/fcitx-utils/key.cpp:204
+msgctxt "Key name"
+msgid "XFer"
 msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:205
+msgctxt "Key name"
+msgid "Zoom In"
+msgstr "Phóng To"
+
+#: src/lib/fcitx-utils/key.cpp:206
+msgctxt "Key name"
+msgid "Zoom Out"
+msgstr "Thu Nhỏ"
+
+#: src/lib/fcitx-utils/key.cpp:207
+msgctxt "Key name"
+msgid "Away"
+msgstr "Xa"
+
+#: src/lib/fcitx-utils/key.cpp:208
+msgctxt "Key name"
+msgid "Messenger"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:209
+msgctxt "Key name"
+msgid "WebCam"
+msgstr "WebCam"
+
+#: src/lib/fcitx-utils/key.cpp:210
+msgctxt "Key name"
+msgid "Mail Forward"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:211
+msgctxt "Key name"
+msgid "Pictures"
+msgstr "Hình ảnh"
+
+#: src/lib/fcitx-utils/key.cpp:212
+msgctxt "Key name"
+msgid "Music"
+msgstr "Nhạc"
+
+#: src/lib/fcitx-utils/key.cpp:213
+msgctxt "Key name"
+msgid "Battery"
+msgstr "Pin"
+
+#: src/lib/fcitx-utils/key.cpp:214
+msgctxt "Key name"
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/lib/fcitx-utils/key.cpp:215
+msgctxt "Key name"
+msgid "Wireless"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:216
+msgctxt "Key name"
+msgid "Media Fast Forward"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:217
+msgctxt "Key name"
+msgid "Audio Repeat"
+msgstr "Lặp lại âm thanh"
+
+#: src/lib/fcitx-utils/key.cpp:218
+msgctxt "Key name"
+msgid "Audio Random Play"
+msgstr "Phát ngẫu nhiên âm thanh"
+
+#: src/lib/fcitx-utils/key.cpp:219
+msgctxt "Key name"
+msgid "Subtitle"
+msgstr "Phụ đề"
+
+#: src/lib/fcitx-utils/key.cpp:220
+msgctxt "Key name"
+msgid "Audio Cycle Track"
+msgstr "Theo dõi chu kỳ âm thanh"
+
+#: src/lib/fcitx-utils/key.cpp:221
+msgctxt "Key name"
+msgid "Time"
+msgstr "Thời gian"
+
+#: src/lib/fcitx-utils/key.cpp:222
+msgctxt "Key name"
+msgid "Hibernate"
+msgstr "Hibernate"
+
+#: src/lib/fcitx-utils/key.cpp:223
+msgctxt "Key name"
+msgid "View"
+msgstr "Xem"
+
+#: src/lib/fcitx-utils/key.cpp:224
+msgctxt "Key name"
+msgid "Top Menu"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:225
+msgctxt "Key name"
+msgid "Power Down"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:226
+msgctxt "Key name"
+msgid "Suspend"
+msgstr "Đình chỉ"
+
+#: src/lib/fcitx-utils/key.cpp:227
+msgctxt "Key name"
+msgid "Microphone Mute"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:228
+msgctxt "Key name"
+msgid "Red"
+msgstr "Đỏ"
+
+#: src/lib/fcitx-utils/key.cpp:229
+msgctxt "Key name"
+msgid "Green"
+msgstr "Xanh lá"
+
+#: src/lib/fcitx-utils/key.cpp:230
+msgctxt "Key name"
+msgid "Yellow"
+msgstr "Vàng"
+
+#: src/lib/fcitx-utils/key.cpp:231
+msgctxt "Key name"
+msgid "Blue"
+msgstr "Xanh da trời"
+
+#: src/lib/fcitx-utils/key.cpp:232
+msgctxt "Key name"
+msgid "New"
+msgstr "Mới"
+
+#: src/lib/fcitx-utils/key.cpp:233
+msgctxt "Key name"
+msgid "Open"
+msgstr "Mở"
+
+#: src/lib/fcitx-utils/key.cpp:234
+msgctxt "Key name"
+msgid "Find"
+msgstr "Tìm"
+
+#: src/lib/fcitx-utils/key.cpp:235
+msgctxt "Key name"
+msgid "Undo"
+msgstr "Hoàn tác"
+
+#: src/lib/fcitx-utils/key.cpp:236
+msgctxt "Key name"
+msgid "Redo"
+msgstr "Làm lại"
+
+#: src/lib/fcitx-utils/key.cpp:237
+msgctxt "Key name"
+msgid "Print Screen"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:238
+msgctxt "Key name"
+msgid "Insert"
+msgstr "Chèn"
+
+#: src/lib/fcitx-utils/key.cpp:239
+msgctxt "Key name"
+msgid "Delete"
+msgstr "Xóa"
+
+#: src/lib/fcitx-utils/key.cpp:240
+msgctxt "Key name"
+msgid "Escape"
+msgstr "Thoát ra"
+
+#: src/lib/fcitx-utils/key.cpp:241
+msgctxt "Key name"
+msgid "System Request"
+msgstr "Yêu cầu hệ thống"
+
+#: src/lib/fcitx-utils/key.cpp:242
+msgctxt "Key name"
+msgid "Select"
+msgstr "Lựa chọn"
+
+#: src/lib/fcitx-utils/key.cpp:243
+msgctxt "Key name"
+msgid "Kanji"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:244
+msgctxt "Key name"
+msgid "Muhenkan"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:245
+msgctxt "Key name"
+msgid "Henkan"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:246
+msgctxt "Key name"
+msgid "Romaji"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:247
+msgctxt "Key name"
+msgid "Hiragana"
+msgstr "Hiragana"
+
+#: src/lib/fcitx-utils/key.cpp:248
+msgctxt "Key name"
+msgid "Katakana"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:249
+msgctxt "Key name"
+msgid "Hiragana Katakana"
+msgstr "Hiragana Katakana"
+
+#: src/lib/fcitx-utils/key.cpp:250
+msgctxt "Key name"
+msgid "Zenkaku"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:251
+msgctxt "Key name"
+msgid "Hankaku"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:252
+msgctxt "Key name"
+msgid "Zenkaku Hankaku"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:253
+msgctxt "Key name"
+msgid "Touroku"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:254
+msgctxt "Key name"
+msgid "Massyo"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:255
+msgctxt "Key name"
+msgid "Kana Lock"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:256
+msgctxt "Key name"
+msgid "Kana Shift"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:257
+msgctxt "Key name"
+msgid "Eisu Shift"
+msgstr "Eisu Shift"
+
+#: src/lib/fcitx-utils/key.cpp:258
+msgctxt "Key name"
+msgid "Eisu toggle"
+msgstr "Eisu toggle"
+
+#: src/lib/fcitx-utils/key.cpp:259
+msgctxt "Key name"
+msgid "Code input"
+msgstr "Nhập mã"
+
+#: src/lib/fcitx-utils/key.cpp:260
+msgctxt "Key name"
+msgid "Multiple Candidate"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:261
+msgctxt "Key name"
+msgid "Previous Candidate"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:262
+msgctxt "Key name"
+msgid "Hangul"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:263
+msgctxt "Key name"
+msgid "Hangul Start"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:264
+msgctxt "Key name"
+msgid "Hangul End"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:265
+msgctxt "Key name"
+msgid "Hangul Hanja"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:266
+msgctxt "Key name"
+msgid "Hangul Jamo"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:267
+msgctxt "Key name"
+msgid "Hangul Romaja"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:268
+msgctxt "Key name"
+msgid "Hangul Jeonja"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Hangul Banja"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:270
+msgctxt "Key name"
+msgid "Hangul PreHanja"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:271
+msgctxt "Key name"
+msgid "Hangul PostHanja"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:272
+msgctxt "Key name"
+msgid "Hangul Special"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:273
+msgctxt "Key name"
+msgid "Cancel"
+msgstr "Hủy bỏ"
+
+#: src/lib/fcitx-utils/key.cpp:274
+msgctxt "Key name"
+msgid "Execute"
+msgstr "Thực thi"
+
+#: src/lib/fcitx-utils/key.cpp:275
+msgctxt "Key name"
+msgid "Touchpad Toggle"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:276
+msgctxt "Key name"
+msgid "Touchpad On"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:277
+msgctxt "Key name"
+msgid "Touchpad Off"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:278
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:584
+msgctxt "Key name"
+msgid "Control"
+msgstr "Điều khiển"
+
+#: src/lib/fcitx-utils/key.cpp:585
+msgctxt "Key name"
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx-utils/key.cpp:586
+msgctxt "Key name"
+msgid "Shift"
+msgstr ""
+
+#: src/lib/fcitx-utils/key.cpp:587
+msgctxt "Key name"
+msgid "Super"
+msgstr "Siêu"
+
+#: src/lib/fcitx-utils/key.cpp:589
+msgctxt "Key name"
+msgid "Hyper"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.h:36
+msgid "Detect current running application (Need restart)"
+msgstr "Phát hiện ứng dụng đang chạy (Cần khởi động lại)"
+
+#: src/frontend/waylandim/waylandim.h:39
+msgid "Forward key event instead of committing text if it is not handled"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.h:44
+msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
+msgstr "Giữ đối tượng bàn phím ảo cho Giao thức V2 (Cần khởi động lại)"
+
+#: src/frontend/waylandim/waylandim.h:48
+msgid ""
+"If enabled, when using zwp_input_method_v2, do not create and destroy "
+"zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
+"bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
+msgstr ""
+"Nếu được bật, khi sử dụng zwp_input_method_v2, đừng tạo và hủy "
+"zwp_virtual_keyboard_v1 mỗi khi kích hoạt và hủy kích hoạt. Điều này giúp "
+"tránh một số lỗi trong một số trình quản lý hiển thị nhất định, bao gồm "
+"Sway<=1.9, RiverWM<=0.3.0."
+
+#: src/frontend/xim/xim.h:32
+msgid "Use On The Spot Style (Needs restarting)"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.h:45
+msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
+msgstr "Cho phép ghi đè cài đặt XKB của hệ thống (Chỉ hỗ trợ KDE5+ và GNOME)"
+
+#: src/modules/wayland/waylandmodule.cpp:657
+msgid "Fcitx"
+msgstr "Fcitx"
+
+#: src/modules/wayland/waylandmodule.cpp:657
+msgid "Wayland Diagnose"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:680
+msgid ""
+"Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
+"input method frontend. This can improve the experience when using Fcitx on "
+"Wayland. To configure this, you need to go to \"System Settings\" > "
+"\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
+"disable tools that launches input method, such as imsettings on Fedora, or "
+"im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:695
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to unset GTK_IM_MODULE and "
+"QT_IM_MODULE and use Wayland input method frontend instead. For more details "
+"see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:710
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to use Wayland input method frontend. "
+"For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:722
+msgid ""
+"It is recommended to install Input Method Panel GNOME Shell Extensions to "
+"provide the input method popup. https://extensions.gnome.org/extension/261/"
+"kimpanel/ Otherwise you may not be able to see input method popup when "
+"typing in GNOME Shell's activities search box. For more details see https://"
+"fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+msgstr ""
+"Nên cài đặt Bảng phương thức nhập GNOME Shell Extensions để cung cấp cửa sổ "
+"bật lên phương thức nhập liệu. https://extensions.gnome.org/extension/261/"
+"kimpanel/ Nếu không, bạn có thể không thấy cửa sổ bật lên phương thức nhập "
+"khi nhập vào hộp tìm kiếm hoạt động của GNOME Shell. Để biết thêm chi tiết, "
+"hãy xem https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+
+#: src/modules/wayland/waylandmodule.cpp:741
+msgid ""
+"Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
+"It is recommended to unset GTK_IM_MODULE and use Wayland input method "
+"frontend instead."
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:760
+msgid ""
+"Sending keyboard layout configuration to wayland compositor from Fcitx is "
+"not yet supported on current desktop. You may still use Fcitx's internal "
+"layout conversion by adding layout as input method to the input method group."
+msgstr ""
+"Gửi cấu hình bố cục bàn phím đến Wayland Compositor từ FCITX chưa được hỗ "
+"trợ trên máy tính để bàn hiện tại. Bạn vẫn có thể sử dụng chuyển đổi bố cục "
+"nội bộ của FCITX bằng cách thêm bố cục là kiểu gõ vào nhóm kiểu gõ."
+
+#: src/modules/wayland/waylandmodule.cpp:777
+msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+msgstr ""
+"Để biết thêm chi tiết xem https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+
+#: src/modules/imselector/imselector.cpp:256
+msgid "Select local input method:"
+msgstr "Chọn kiểu gõ địa phương:"
+
+#: src/modules/imselector/imselector.cpp:257
+msgid "Select input method:"
+msgstr "Chọn kiểu gõ:"
 
 #: src/modules/imselector/imselector.h:25
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
@@ -2772,163 +2207,127 @@ msgstr "Phím Kích Hoạt"
 msgid "Trigger Key for only current input context"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:75
-msgid "Trigger hint mode"
+#: src/modules/imselector/imselector.h:37
+msgid "Hotkey for switching to the N-th input method"
+msgstr "Phím tắt để chuyển sang phương thức nhập thứ N"
+
+#: src/modules/imselector/imselector.h:42
+#: src/modules/imselector/imselector.h:52
+msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:80
-msgid "Trigger hint mode for one time"
+#: src/modules/imselector/imselector.h:46
+msgid ""
+"Hotkey for switching to the N-th input method for only current input context"
+msgstr ""
+"Phím tắt để chuyển sang phương thức nhập thứ N chỉ cho ngữ cảnh nhập hiện tại"
+
+#: src/modules/notifications/notifications.cpp:230
+msgid "Do not show again"
+msgstr "Không hiển thị lại"
+
+#: src/modules/notifications/notifications.h:35
+msgid "Hidden Notifications"
+msgstr "Thông Báo Ẩn"
+
+#: src/modules/quickphrase/quickphrase.h:45
+msgid "Enable Spell check"
+msgstr "Bật kiểm tra chính tả"
+
+#: src/modules/quickphrase/quickphrase.h:47
+msgid "Fallback Spell check language"
+msgstr "Ngôn ngữ kiểm tra Chính Tả dự phòng"
+
+#: src/modules/quickphrase/quickphrase.h:49
+msgid "Editor"
+msgstr "Biên tập"
+
+#: src/modules/quickphrase/quickphrase.cpp:509
+msgid "Quick Phrase: "
+msgstr "Cụm Từ Nhanh:"
+
+#: src/modules/spell/spell.h:23
+msgid "Presage"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:95
-msgid "Type special characters with long press"
+#: src/modules/spell/spell.h:23
+msgid "Custom"
+msgstr "Tùy chỉnh"
+
+#: src/modules/spell/spell.h:24
+msgid "Enchant"
+msgstr "Làm vui thích"
+
+#: src/modules/spell/spell.h:39
+msgid "Backends"
+msgstr "Phụ trợ"
+
+#: src/modules/unicode/charselectdata.cpp:199
+#, c++-format
+msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
 msgstr ""
 
-#: src/modules/unicode/unicode.h:33
-msgid "Type unicode in Hex number"
+#: src/modules/unicode/charselectdata.cpp:215
+#, c++-format
+msgid "HANGUL SYLLABLE {0}{1}{2}"
 msgstr ""
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:26
-msgid "Typing with Fcitx and Kimpanel"
-msgstr "Gõ với Fcitx và Kimpanel"
+#: src/modules/unicode/charselectdata.cpp:218
+msgid "<Non Private Use High Surrogate>"
+msgstr "<Non Private Use High Surrogate>"
 
-#: data/fcitx5-diagnose.sh:1011
-msgid "Unable to find a program to check dbus."
+#: src/modules/unicode/charselectdata.cpp:220
+msgid "<Private Use High Surrogate>"
+msgstr "<Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:222
+msgid "<Low Surrogate>"
+msgstr "<Low Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:224
+msgid "<Private Use>"
+msgstr "<Private Use>"
+
+#: src/modules/unicode/charselectdata.cpp:227
+#, c++-format
+msgid "TANGUT IDEOGRAPH-{0:X}"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:235
-msgctxt "Key name"
-msgid "Undo"
-msgstr "Hoàn tác"
+#: src/modules/unicode/charselectdata.cpp:230
+msgid "<Plane 15 Private Use>"
+msgstr "<Plane 15 Private Use>"
 
-#: src/modules/unicode/unicode.conf.in.in:2
-msgid "Unicode"
-msgstr "Unicode"
+#: src/modules/unicode/charselectdata.cpp:232
+msgid "<Plane 16 Private Use>"
+msgstr "<Plane 16 Private Use>"
+
+#: src/modules/unicode/charselectdata.cpp:262
+msgid "<not assigned>"
+msgstr "<not assigned>"
 
 #: src/modules/unicode/unicode.cpp:491
 msgid "Unicode: "
 msgstr "Unicode:"
 
-#: src/lib/fcitx-utils/key.cpp:57
-msgctxt "Key name"
-msgid "Up"
+#: src/modules/unicode/unicode.cpp:493
+msgid "(Type to search unicode by code or description)"
+msgstr "(Nhập để tìm kiếm theo mã unicode hoặc mô tả)"
+
+#: src/modules/unicode/unicode.h:33
+msgid "Type unicode in Hex number"
 msgstr ""
 
-#: src/frontend/xim/xim.h:32
-msgid "Use On The Spot Style (Needs restarting)"
+#: src/modules/clipboard/clipboard.h:54
+msgid "Paste Primary"
 msgstr ""
 
-#: src/ui/classic/classicui.h:175
-msgid "Use Per Screen DPI on X11"
+#: src/modules/clipboard/clipboard.h:56
+msgid "Number of entries"
 msgstr ""
 
-#: src/ui/classic/theme.h:173
-msgid "Use all horizontal space for highlight when it is vertical list"
-msgstr ""
-"Sử dụng tất cả khoảng trống theo chiều ngang để đánh dấu khi nó là danh sách "
-"dọc"
-
-#: src/ui/classic/classicui.h:152
-msgid "Use input method language to display text"
-msgstr "Sử dụng ngôn ngữ kiểu gõ để hiển thị văn bản"
-
-#: src/ui/classic/classicui.h:122
-msgid "Use mouse wheel to go to prev or next page"
-msgstr "Sử dụng bánh xe chuột để đi đến trang trước hoặc trang tiếp theo"
-
-#: src/im/keyboard/keyboard.h:86
-msgid "Use new compose behavior"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1577
-msgid "User Interface:"
-msgstr "Giao Diện Người Dùng:"
-
-#: data/fcitx5-diagnose.sh:986
-msgid "Using ${1} to check dbus."
-msgstr "Dùng ${1} để kiểm tra dbus."
-
-#: data/fcitx5-diagnose.sh:256
-msgid ""
-"Using ${1} to check the actual im module to be used under current "
-"environment:"
-msgstr ""
-
-#: src/ui/classic/theme.h:214
-msgid "Version"
-msgstr "Phiên bản"
-
-#: data/fcitx5-diagnose.sh:1305 data/fcitx5-diagnose.sh:1389
-msgid "Version Line:"
-msgstr ""
-
-#: src/ui/classic/classicui.h:120
-msgid "Vertical Candidate List"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:202
-msgctxt "Key name"
-msgid "Video"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:223
-msgctxt "Key name"
-msgid "View"
-msgstr "Xem"
-
-#: src/lib/fcitx-utils/key.cpp:278
-msgctxt "Key name"
-msgid "Void Symbol"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:106
-msgctxt "Key name"
-msgid "Volume Down"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:107
-msgctxt "Key name"
-msgid "Volume Mute"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:108
-msgctxt "Key name"
-msgid "Volume Up"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:148
-msgctxt "Key name"
-msgid "WWW"
-msgstr "WWW"
-
-#: src/lib/fcitx-utils/key.cpp:145
-msgctxt "Key name"
-msgid "Wake Up"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1703
-msgid ""
-"Warning: the output of fcitx5-diagnose contains sensitive information, "
-"including the distribution name, kernel version, name of currently running "
-"programs, etc."
-msgstr ""
-
-#: src/modules/wayland/wayland.conf.in.in:2
-msgid "Wayland"
-msgstr "Wayland"
-
-#: src/modules/wayland/waylandmodule.cpp:655
-msgid "Wayland Diagnose"
-msgstr ""
-
-#: src/frontend/waylandim/waylandim.conf.in.in:2
-msgid "Wayland Input method frontend"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:209
-msgctxt "Key name"
-msgid "WebCam"
-msgstr "WebCam"
+#: src/modules/clipboard/clipboard.h:63
+msgid "Do not show password from password managers"
+msgstr "Không hiển thị mật khẩu từ trình quản lý mật khẩu"
 
 #: src/modules/clipboard/clipboard.h:67
 msgid ""
@@ -2940,69 +2339,519 @@ msgstr ""
 "hỗ trợ đánh dấu nội dung bảng tạm dưới dạng mật khẩu, bản cập nhật bản tạm "
 "này sẽ bị bỏ qua."
 
-#: src/lib/fcitx/globalconfig.cpp:174
-msgid ""
-"When using modifier only hotkey, the action may only be triggered if the "
-"modifier key is released within the timeout. -1 means there is no limit."
+#: src/modules/clipboard/clipboard.h:71
+msgid "Display passwords as plain text"
+msgstr "Hiển thị mật khẩu dưới dạng thuần văn bản"
+
+#: src/modules/clipboard/clipboard.h:77
+msgid "Seconds before clearing password"
+msgstr "Số giây trước khi xóa mật khẩu"
+
+#: src/modules/clipboard/clipboard.h:81
+msgid "0 means never clear password."
+msgstr "0 có nghĩa là không bao giờ làm trống mật khẩu."
+
+#: src/modules/clipboard/clipboard.cpp:144
+msgid "<Password>"
+msgstr "<Password>"
+
+#: src/modules/clipboard/clipboard.cpp:397
+msgid "Clipboard (Press BackSpace/Delete to clear history):"
+msgstr "Bảng nhớ tạm (Nhấn BackSpace/Delete để xóa lịch sử):"
+
+#: src/modules/clipboard/clipboard.cpp:399
+msgid "No clipboard history."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:218
+#: src/modules/xcb/xcbmodule.h:37
+msgid "Auto"
+msgstr "Tự động"
+
+#: src/modules/xcb/xcbmodule.h:38
+msgid "Yes"
+msgstr ""
+
+#: src/modules/xcb/xcbmodule.h:45
 msgid ""
-"Whether to override the XKB option from display server. It will not affect "
-"the XKB option send to display, but just the XKB options for custom XKB "
-"layout. This is a workaround when there is no way to get the current XKB "
-"option from Wayland Compositor."
+"This allows XWayland to automatically terminate on compositors that launch "
+"XWayland on demand."
+msgstr ""
+
+#: src/modules/xcb/xcbmodule.h:59
+msgid "Allow Overriding System XKB Settings"
+msgstr "Cho phép ghi đè cài đặt hệ thống XKB"
+
+#: src/modules/xcb/xcbmodule.h:63
+msgid "Always set layout to be only group layout"
+msgstr "Luôn cài đặt bố cục thành bố cục nhóm"
+
+#: src/modules/xcb/xcbmodule.h:69
+msgid "Set client disconnect mode to terminate (Need Restart)"
+msgstr ""
+
+#: data/fcitx5-configtool.desktop.in.in:2
+msgid "Fcitx 5 Configuration"
+msgstr "Cấu Hình Fcitx 5"
+
+#: data/fcitx5-configtool.desktop.in.in:3
+msgid "Input Method Configuration"
+msgstr "Cấu Hình Kiểu Gõ"
+
+#: data/fcitx5-configtool.desktop.in.in:4
+msgid "Change Fcitx 5 Configuration"
+msgstr "Thay Đổi Cấu Hình Fctix 5"
+
+#: data/org.fcitx.Fcitx5.desktop.in.in:2
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
+msgid "Fcitx 5"
+msgstr "Fcitx 5"
+
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
+msgid "Start Input Method"
+msgstr "Kiểu Gõ Bắt Đầu"
+
+#: data/fcitx5-wayland-launcher.desktop.in.in:2
+msgid "Fcitx 5 Wayland Launcher (Experimental)"
+msgstr "Fcitx 5 Wayland Launcher (thử nghiệm)"
+
+#: src/ui/classic/classicui.conf.in.in:2
+msgid "Classic User Interface"
+msgstr "Giao diện người dùng truyền thống"
+
+#: src/ui/classic/themes/default-dark/theme-dark.conf.in:2
+msgid "Default Dark"
+msgstr "Mặc định tối"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:2
+msgid "DBus Virtual Keyboard"
+msgstr "Bản Phím Ảo DBus"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "A virtual keyboard backend based on DBus"
+msgstr "Một phụ trợ bàn phím ảo dựa trên DBUS"
+
+#: src/ui/kimpanel/kimpanel.conf.in.in:2
+msgid "KDE Input Method Panel"
+msgstr "Bảng Phương Thức Nhập KDE"
+
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:2
+msgid "Fcitx4 Frontend"
+msgstr "Fcitx4 Frontend"
+
+#: src/frontend/waylandim/waylandim.conf.in.in:2
+msgid "Wayland Input method frontend"
+msgstr ""
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:2
+msgid "IBus Frontend"
+msgstr "IBus Frontend"
+
+#: src/frontend/xim/xim.conf.in.in:2
+msgid "X Input Method Frontend"
+msgstr ""
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:2
+msgid "DBus Frontend"
+msgstr "Giao diện người dùng DBus"
+
+#: src/modules/notificationitem/notificationitem.conf.in.in:2
+msgid "Status Notifier"
+msgstr "Trạng Thái Thông Báo"
+
+#: src/modules/notificationitem/notificationitem.conf.in.in:3
+msgid "DBus based new Freedesktop.org tray icon"
+msgstr "DBus dựa trên icon mới Freedesktop.org"
+
+#: src/modules/wayland/wayland.conf.in.in:2
+msgid "Wayland"
+msgstr "Wayland"
+
+#: src/modules/dbus/dbus.conf.in.in:2
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/imselector/imselector.conf.in.in:2
+msgid "Input method selector"
+msgstr "Chọn kiểu gõ"
+
+#: src/modules/imselector/imselector.conf.in.in:3
+msgid "Select specific input method via keyboard"
+msgstr "Chọn kiểu gõ cụ thể thông qua bàn phím"
+
+#: src/modules/notifications/notifications.conf.in.in:2
+msgid "Notification"
+msgstr "Thông báo"
+
+#: src/modules/notifications/notifications.conf.in.in:3
+msgid "Freedesktop.org Notification Support"
+msgstr "Hỗ trợ thông báo Freedesktop.org"
+
+#: src/modules/quickphrase/quickphrase.conf.in.in:2
+msgid "Quick Phrase"
+msgstr ""
+
+#: src/modules/emoji/emoji.conf.in.in:2
+msgid "Emoji"
+msgstr "Emoji"
+
+#: src/modules/unicode/unicode.conf.in.in:2
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in.in:3
+msgid "Add Unicode Typing Support"
+msgstr "Thêm hỗ trợ gõ Unicode"
+
+#: src/modules/clipboard/clipboard.conf.in.in:2
+msgid "Clipboard"
+msgstr "Bảng tạm"
+
+#: src/modules/xcb/xcb.conf.in.in:2
+msgid "XCB"
+msgstr ""
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:12
+msgid ""
+"Fcitx is an input method framework. It can help you to type your own "
+"language. It also features variant choice of addons that improve your typing "
+"experience."
+msgstr ""
+"Fcitx là một khuôn khổ kiểu gõ. Nó có thể giúp bạn gõ ngôn ngữ của riêng "
+"bạn. Nó cũng có tính năng lựa chọn biến thể của addon giúp cải thiện trải "
+"nghiệm đánh máy của bạn."
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:26
+msgid "Typing with Fcitx and Kimpanel"
+msgstr "Gõ với Fcitx và Kimpanel"
+
+#: data/fcitx5-diagnose.sh:256
+msgid ""
+"Using ${1} to check the actual im module to be used under current "
+"environment:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:565
+msgid "${1} not found."
+msgstr "${1}không tìm thấy."
+
+#: data/fcitx5-diagnose.sh:706
+msgid "Beginner's Guide"
+msgstr "Hướng dẫn sử dụng cho người mới"
+
+#: data/fcitx5-diagnose.sh:707
+#, sh-printf-format
+msgid "/Beginner%27s_Guide"
+msgstr "/Hướng dẫn %27s_người dùng mới"
+
+#: data/fcitx5-diagnose.sh:714
+msgid ""
+"Please set environment variable ${env_name} to \"${value}\" using the tool "
+"your distribution provides or add ${1} to your ${2}. See ${link}."
+msgstr ""
+"Hãy đặt biến môi trường ${env_name} to \"${value}\" sử dụng công cụ mà phân "
+"phối của bạn cung cấp hoặc thêm ${1} vào ${2} của bạn. Xem ${link}."
+
+#: data/fcitx5-diagnose.sh:717
+msgid "Input Method Related Environment Variables: "
+msgstr "Biến môi trường liên quan kiểu gõ:"
+
+#: data/fcitx5-diagnose.sh:718
+msgid "/Input_method_related_environment_variables"
+msgstr "/Kiểu_gõ_liên_quan_biến_môi_trường"
+
+#: data/fcitx5-diagnose.sh:733
+msgid "Note for GNOME Later than 3.6"
+msgstr "Lưu ý cho GNOME Sau 3.6"
+
+#: data/fcitx5-diagnose.sh:734
+msgid "/Note_for_GNOME_Later_than_3.6"
+msgstr "/Ghi_chú_cho_GNOC_mới_hơn_3.6"
+
+#: data/fcitx5-diagnose.sh:740
+msgid ""
+"If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
+"the command ${g36_disable_ibus} to disable IBus integration in order to use "
+"any input method other than ${2}. See ${link} for more detail."
+msgstr ""
+"Nếu bạn đang dùng ${1}, bạn có thể muốn gỡ cài đặt ${2}, xóa ${3} hoặc dùng "
+"lệnh  ${g36_disable_ibus} để tắt IBus tích hợp để dùng bất kỳ kiểu gõ nào "
+"khác ngoài ${2}. Xem ${link} để biết chi tiết."
+
+#: data/fcitx5-diagnose.sh:742
+msgid ""
+"If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
+"order to use any input method other than ${2}. See ${link} for more detail "
+"as well as alternative solutions."
+msgstr ""
+"Nếu bạn đang dùng ${1}, bạn có thể muốn gỡ cài đặt ${2} hoặc xóa ${3} để "
+"dùng bất kỳ kiểu gõ nào khác ngoài ${2}. Xem ${link} để biết thêm chi tiết "
+"cũng như các giải pháp thay thế."
+
+#: data/fcitx5-diagnose.sh:750
+#, sh-format
+msgid ""
+"To see some application specific problems you may have when using xim, check "
+"${link1}. For other more general problems of using XIM including application "
+"freezing, see ${link2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:753
+msgid "Hall of Shame for Linux IME Support"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:754
+msgid "/Hall_of_Shame_for_Linux_IME_Support"
+msgstr "/Các_hạn_chế_bộ_gõ_hỗ_trợ_trong_Linux"
+
+#: data/fcitx5-diagnose.sh:757
+msgid "here"
+msgstr "ở đây"
+
+#: data/fcitx5-diagnose.sh:758
+msgid "/XIM"
+msgstr "/XIM"
+
+#: data/fcitx5-diagnose.sh:789
+msgid "System Info:"
+msgstr "Thông tin hệ thống:"
+
+#: data/fcitx5-diagnose.sh:817
+msgid "Desktop Environment:"
+msgstr "Môi trường Desktop:"
+
+#: data/fcitx5-diagnose.sh:820
+msgid "Cannot determine desktop environment."
+msgstr "Không thể xác định môi trường Desktop."
+
+#: data/fcitx5-diagnose.sh:822
+msgid "Desktop environment is ${1}."
+msgstr "Môi trường Desktop là ${1}."
+
+#: data/fcitx5-diagnose.sh:825
+msgid "XDG SESSION TYPE:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:827
+msgid "Bash Version:"
+msgstr "Phiên bản Bash:"
+
+#: data/fcitx5-diagnose.sh:832
+msgid "Environment:"
+msgstr "Môi trường:"
+
+#: data/fcitx5-diagnose.sh:836
+msgid "Keyboard Layout:"
+msgstr "Bố Cục Bàn Phím:"
+
+#: data/fcitx5-diagnose.sh:851
+msgid "Locale:"
+msgstr "Địa phương:"
+
+#: data/fcitx5-diagnose.sh:854
+msgid "All locales:"
+msgstr "Tất cả địa phương:"
+
+#: data/fcitx5-diagnose.sh:856
+msgid "Current locale:"
+msgstr "Ngôn ngữ hiện tại:"
+
+#: data/fcitx5-diagnose.sh:860
+msgid "Error occurs when running ${1}. Please check your locale settings."
+msgstr ""
+"Lỗi xảy ra khi chạy ${1}. Vui lòng kiểm tra cài đặt địa phương của bạn."
+
+#: data/fcitx5-diagnose.sh:868
+msgid "Directories:"
+msgstr "Thư mục:"
+
+#: data/fcitx5-diagnose.sh:870
+msgid "Home:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:874
+msgid "Environment variable ${1} is not set."
+msgstr "Biến môi trường ${1} không được đặt."
+
+#: data/fcitx5-diagnose.sh:878
+msgid "Environment variable ${1} is set to ${2}."
+msgstr "Biến môi trường ${1} được đặt thành ${2}."
+
+#: data/fcitx5-diagnose.sh:882
+msgid "Current value of ${1} is ${2} (${3})."
+msgstr "Giá trị hiện tại của ${1} là ${2} (${3})."
+
+#: data/fcitx5-diagnose.sh:886
+msgid "${1} Settings Directory:"
+msgstr "${1}Thư mục cài đặt:"
+
+#: data/fcitx5-diagnose.sh:888
+msgid "Current ${1} settings directory is ${2} (${3})."
+msgstr "Cấu hình hiện hành ${1} là ${2} (${3})."
+
+#: data/fcitx5-diagnose.sh:894
+msgid "Current user:"
+msgstr "Người dùng hiện tại:"
+
+#: data/fcitx5-diagnose.sh:895
+msgid "The script is run as ${1} (${2})."
+msgstr "Mã lệnh được chạy dưới dạng ${1} (${2})."
+
+#: data/fcitx5-diagnose.sh:900
+msgid "${1} Environment Variables:"
+msgstr "${1}Các biến môi trường:"
+
+#: data/fcitx5-diagnose.sh:906
+msgid "${1} is set to ${2}."
+msgstr "${1} được gán là ${2}."
+
+#: data/fcitx5-diagnose.sh:909
+msgid "${1} is not set."
+msgstr "${1}không được gán."
+
+#: data/fcitx5-diagnose.sh:916
+msgid "Running as root:"
+msgstr "Chạy như root:"
+
+#: data/fcitx5-diagnose.sh:919
+msgid ""
+"You are probably using ${1} to run this script. This means the result of "
+"this script may not be accurate. See ${2} for more information."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:921 data/fcitx5-diagnose.sh:927
+msgid "sudo environment variables"
+msgstr "các biến môi trường sudo"
+
+#: data/fcitx5-diagnose.sh:924
+msgid ""
+"You are probably logging in as ${1} or using ${2} to run this script. This "
+"either means you have security problems or the result of this script may not "
+"be accurate. See ${3} or ${4} for more information."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:926
 msgid "Why is it bad to run as root"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:215
-msgctxt "Key name"
-msgid "Wireless"
+#: data/fcitx5-diagnose.sh:935
+msgid "Fcitx State:"
+msgstr "Trạng thái Fcitx:"
+
+#: data/fcitx5-diagnose.sh:936
+msgid "executable:"
+msgstr "thực thi:"
+
+#: data/fcitx5-diagnose.sh:938
+msgid "Cannot find fcitx5 executable!"
+msgstr "Không thể tìm thấy thực thi fcitx5! "
+
+#: data/fcitx5-diagnose.sh:940
+msgid "Please check ${1} for how to install fcitx5."
+msgstr "Vui lòng kiểm tra ${1} để biết cách cài đặt fcitx5."
+
+#: data/fcitx5-diagnose.sh:944
+msgid "Found ${1} at ${2}."
+msgstr "Đã tìm thấy ${1} tại ${2}."
+
+#: data/fcitx5-diagnose.sh:946
+msgid "version:"
+msgstr "phiên bản:"
+
+#: data/fcitx5-diagnose.sh:949
+msgid "Fcitx version: ${1}"
+msgstr "Phiên bản Fcitx: ${1}"
+
+#: data/fcitx5-diagnose.sh:950
+msgid "process:"
+msgstr "tiến trình:"
+
+#: data/fcitx5-diagnose.sh:960
+msgid "${1} is not running."
+msgstr "${1}không chạy."
+
+#: data/fcitx5-diagnose.sh:962
+msgid ""
+"Please check the Configure link of your distribution in ${1} for how to "
+"setup ${2} autostart."
+msgstr ""
+"Hãy kiểm tra liên kết Cấu Hình của phân phối của bạn trong ${1} để làm sao "
+"cài ${2} tự chạy."
+
+#: data/fcitx5-diagnose.sh:967
+msgid "Found ${1} ${2} processes:"
+msgstr "Tìm thấy ${1} ${2} tiến trình:"
+
+#: data/fcitx5-diagnose.sh:969
+msgid "Found ${1} ${2} process:"
+msgstr "Tìm thấy ${1} ${2} tiến trình:"
+
+#: data/fcitx5-diagnose.sh:975
+msgid "Cannot connect to ${1} correctly."
+msgstr "Không thể kết nối đến ${1} bình thường."
+
+#: data/fcitx5-diagnose.sh:977
+msgid "${1} works properly."
+msgstr "${1} chạy bình thường."
+
+#: data/fcitx5-diagnose.sh:983
+msgid "DBus interface:"
+msgstr "Giao diện DBus:"
+
+#: data/fcitx5-diagnose.sh:986
+msgid "Using ${1} to check dbus."
+msgstr "Dùng ${1} để kiểm tra dbus."
+
+#: data/fcitx5-diagnose.sh:991
+msgid "Owner of DBus name ${1} is ${2}."
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:203
-msgctxt "Key name"
-msgid "Word Processor"
+#: data/fcitx5-diagnose.sh:995
+msgid "Cannot find DBus name ${1} owner."
+msgstr "Không thể tìm thấy chủ sở hữu ${1} DBus."
+
+#: data/fcitx5-diagnose.sh:999
+msgid "PID of DBus name ${1} owner is ${2}."
 msgstr ""
 
-#: src/frontend/xim/xim.conf.in.in:2
-msgid "X Input Method Frontend"
+#: data/fcitx5-diagnose.sh:1003
+msgid "Cannot find pid of DBus name ${1} owner."
+msgstr "Không thể tìm thấy pid của tên DBus ${1} sở hữu."
+
+#: data/fcitx5-diagnose.sh:1007
+msgid "Debug information from dbus:"
+msgstr "Thông tin gỡ lỗi từ dbus:"
+
+#: data/fcitx5-diagnose.sh:1011
+msgid "Unable to find a program to check dbus."
 msgstr ""
 
-#: src/modules/xcb/xcb.conf.in.in:2
-msgid "XCB"
-msgstr ""
+#: data/fcitx5-diagnose.sh:1021
+msgid "Environment variable ${1} is set to \"${2}\" correctly."
+msgstr "Biến môi trường ${1} được đặt thành \"${2}\" chính xác."
 
-#: data/fcitx5-diagnose.sh:825
-msgid "XDG SESSION TYPE:"
+#: data/fcitx5-diagnose.sh:1027
+msgid ""
+"Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
+"you have exported it incorrectly in any of your init files."
 msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:204
-msgctxt "Key name"
-msgid "XFer"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1088
-msgid "XIM encoding:"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1083
-msgid "XIM for Emacs:"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:1059
-msgid "XIM_SERVERS on root window:"
-msgstr ""
+"Biến môi trường ${1} là \"${2}\" thay vì \"${3}\". Vui lòng kiểm tra nếu bạn "
+"đã xuất nó không chính xác trong bất kỳ tệp init nào của bạn."
 
 #: data/fcitx5-diagnose.sh:1036
 msgid "XMODIFIERS is not set"
 msgstr ""
 
+#: data/fcitx5-diagnose.sh:1049
+msgid "Cannot interpret XMODIFIERS: ${1}."
+msgstr "Không thể thông dịch XMODIFIERS: ${1}."
+
 #: data/fcitx5-diagnose.sh:1057
 msgid "Xim Server Name from Environment variable is ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1059
+msgid "XIM_SERVERS on root window:"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1069
@@ -3015,26 +2864,40 @@ msgid ""
 "variable: \"${2}\"."
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:230
-msgctxt "Key name"
-msgid "Yellow"
-msgstr "Vàng"
+#: data/fcitx5-diagnose.sh:1075
+msgid "Cannot find xim_server on root window."
+msgstr "Không thể tìm thấy xim_server trong cửa sổ gốc."
 
-#: src/modules/xcb/xcbmodule.h:38
-msgid "Yes"
+#: data/fcitx5-diagnose.sh:1083
+msgid "XIM for Emacs:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:924
+#: data/fcitx5-diagnose.sh:1085
 msgid ""
-"You are probably logging in as ${1} or using ${2} to run this script. This "
-"either means you have security problems or the result of this script may not "
-"be accurate. See ${3} or ${4} for more information."
+"Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
+"able to use input method in emacs because of an really old emacs bug that "
+"upstream refuse to fix for years."
+msgstr ""
+"LC_CTYPE của bạn đặt là ${1} thay vì một trong số zh, ja, ko. Bạn có thể "
+"không sử dụng được kiểu gõ trong emacs vì một lỗi emacs rất cũ mà thượng "
+"nguồn từ chối sửa trong nhiều năm"
+
+#: data/fcitx5-diagnose.sh:1088
+msgid "XIM encoding:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:919
+#: data/fcitx5-diagnose.sh:1090
 msgid ""
-"You are probably using ${1} to run this script. This means the result of "
-"this script may not be accurate. See ${2} for more information."
+"Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
+"trouble committing strings using XIM."
+msgstr ""
+"LC_CTYPE của bạn đặt là ${1} mà mã hóa không phải UTF-8. Bạn có thể gặp rắc "
+"rối khi thực hiện các chuỗi sử dụng XIM."
+
+#: data/fcitx5-diagnose.sh:1105
+msgid ""
+"It is OK to use ${1} built-in Wayland im module if your compositor fully "
+"supports text-input protocol used by ${1}."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1113
@@ -3045,15 +2908,213 @@ msgstr ""
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr ""
 
-#: data/fcitx5-configtool.sh:144
-msgid ""
-"You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be "
-"found. The package name of the configuration tool is usually fcitx5-"
-"configtool. Now it will open the configuration directory."
+#: data/fcitx5-diagnose.sh:1149
+msgid "Qt IM module files:"
 msgstr ""
-"Bạn hiện đang chạy Fcitx5 với GUI, nhưng không thể tìm thấy fcitx5-config-"
-"qt. Tên gói của công cụ cấu hình thường là fcitx5-configtool. Bây giờ nó sẽ "
-"mở thư mục cấu hình."
+
+#: data/fcitx5-diagnose.sh:1163 data/fcitx5-diagnose.sh:1168
+msgid "Found ${3} im module for ${2}: ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1176
+msgid "Found ${1} ${2} module: ${3}."
+msgstr "Tìm thấy ${1} ${2} module: ${3}."
+
+#: data/fcitx5-diagnose.sh:1179
+msgid "Found unknown ${1} qt module: ${2}."
+msgstr "Tìm thấy không rõ ${1} qt module: ${2}."
+
+#: data/fcitx5-diagnose.sh:1184
+msgid ""
+"Following error may not be accurate because guessing Qt version from path "
+"depends on how your distribution packages Qt. It is not a critical error if "
+"you do not use any Qt application with certain version of Qt or you are "
+"using text-input support by Qt under Wayland."
+msgstr ""
+"Lỗi sau có thể không chính xác vì việc đoán phiên bản Qt từ đường dẫn phụ "
+"thuộc vào cách gói phân phối Qt của bạn. Đây không phải là lỗi nghiêm trọng "
+"nếu bạn không sử dụng bất kỳ ứng dụng Qt nào với phiên bản Qt nhất định hoặc "
+"bạn đang sử dụng hỗ trợ nhập văn bản của Qt trong Wayland."
+
+#: data/fcitx5-diagnose.sh:1188 data/fcitx5-diagnose.sh:1193
+#: data/fcitx5-diagnose.sh:1198
+msgid "Cannot find ${1} input method module for ${2}."
+msgstr "Không thể tìm thấy module kiểu gõ ${1} cho ${2}."
+
+#: data/fcitx5-diagnose.sh:1261
+msgid "Gtk ${1} immodule file ${2} does not exist."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1267
+msgid "All found Gtk ${1} immodule files exist."
+msgstr "Tất cả các tệp immodule Gtk ${1} được tìm thấy đều tồn tại."
+
+#: data/fcitx5-diagnose.sh:1300
+msgid "Found ${3} for gtk ${1} at ${2}."
+msgstr "Tìm thấy ${3} cho gtk ${1} tại ${2}."
+
+#: data/fcitx5-diagnose.sh:1305 data/fcitx5-diagnose.sh:1389
+msgid "Version Line:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1308
+msgid "Found ${2} for unknown gtk version at ${1}."
+msgstr "Đã tìm thấy ${2} cho phiên bản gtk không xác định tại ${1}."
+
+#: data/fcitx5-diagnose.sh:1316 data/fcitx5-diagnose.sh:1400
+msgid "Found ${1} im modules for gtk ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1322
+msgid "Failed to find ${1} in the output of ${2}"
+msgstr "Không thể tìm ${1} trong đầu ra của ${2}"
+
+#: data/fcitx5-diagnose.sh:1328
+msgid "Cannot find ${2} for gtk ${1}"
+msgstr "Không thể tìm thấy ${2}cho gtk ${1}"
+
+#: data/fcitx5-diagnose.sh:1334
+msgid "Cannot find ${1} im module for gtk ${2}."
+msgstr "Không thể tìm thấy module ${1} cho gtk ${2}."
+
+#: data/fcitx5-diagnose.sh:1385
+msgid "Found immodules cache for gtk ${1} at ${2}."
+msgstr "Tìm thấy bộ nhớ đệm immodules cho GTK ${1} tại ${2}."
+
+#: data/fcitx5-diagnose.sh:1393
+msgid "Found immodule cache for unknown gtk version at ${1}."
+msgstr "Đã tìm thấy bộ đệm immodule cho phiên bản gtk không xác định tại ${1}."
+
+#: data/fcitx5-diagnose.sh:1406
+msgid "Failed to find ${1} in immodule cache at ${2}"
+msgstr "Không thể tìm ${1} trong cache immodule tại ${2}"
+
+#: data/fcitx5-diagnose.sh:1412
+msgid "Cannot find immodules cache for gtk ${1}"
+msgstr "Không tìm thấy bộ nhớ đệm immodules cho gtk ${1}"
+
+#: data/fcitx5-diagnose.sh:1417
+msgid "Cannot find ${1} im module for gtk ${2} in cache."
+msgstr "Không thể tìm thấy module ${1} cho gtk ${2}trong bộ nhớ cache."
+
+#: data/fcitx5-diagnose.sh:1445
+msgid "Gtk IM module cache:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1450
+msgid "Gtk IM module files:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1464
+msgid "Fcitx Addons:"
+msgstr "Fcitx Addon:"
+
+#: data/fcitx5-diagnose.sh:1465
+msgid "Addon Config Dir:"
+msgstr "Thư mục cấu hình addon:"
+
+#: data/fcitx5-diagnose.sh:1484
+msgid "Cannot find ${1} addon config directory."
+msgstr "Không thể tìm đường dẫn cấu hình addon ${1}  "
+
+#: data/fcitx5-diagnose.sh:1487
+msgid "Found ${1} addon config directory: ${2}."
+msgstr "Tìm thấy${1}  thư mục cấu hình addon: ${2}."
+
+#: data/fcitx5-diagnose.sh:1493
+msgid "Addon List:"
+msgstr "Danh sách tiện ích bổ sung:"
+
+#: data/fcitx5-diagnose.sh:1499
+msgid "Invalid addon config file ${1}."
+msgstr "Tệp cấu hình addon không hợp lệ ${1}."
+
+#: data/fcitx5-diagnose.sh:1531
+msgid "Found ${1} enabled addons:"
+msgstr "Tìm thấy ${1} addons đã bật:"
+
+#: data/fcitx5-diagnose.sh:1540
+msgid "Found ${1} disabled addons:"
+msgstr "Tìm thấy ${1} addons đã tắt:"
+
+#: data/fcitx5-diagnose.sh:1550
+msgid "Addon Libraries:"
+msgstr "Thư viện Addon:"
+
+#: data/fcitx5-diagnose.sh:1558
+msgid "Cannot find file ${1} of addon ${2}."
+msgstr "Không thể tìm thấy tệp ${1} của addon ${2}. "
+
+#: data/fcitx5-diagnose.sh:1568
+msgid "Cannot find following required libraries for ${1} of addon ${2}."
+msgstr "Không thể tìm thấy thư viện yêu cầu cho ${1} của addon ${2}."
+
+#: data/fcitx5-diagnose.sh:1576
+msgid "All libraries for all addons are found."
+msgstr "Tất cả các thư viện cho tất cả các addon được tìm thấy."
+
+#: data/fcitx5-diagnose.sh:1577
+msgid "User Interface:"
+msgstr "Giao Diện Người Dùng:"
+
+#: data/fcitx5-diagnose.sh:1579
+msgid "Cannot find enabled ${1} user interface!"
+msgstr "Không thể tìm thấy giao diện người dùng ${1} đã bật!"
+
+#: data/fcitx5-diagnose.sh:1581
+msgid "Found ${1} enabled user interface addons:"
+msgstr "Đã tìm thấy tiện ích bổ sung giao diện người dùng được kích hoạt ${1}:"
+
+#: data/fcitx5-diagnose.sh:1590
+msgid "Kimpanel process:"
+msgstr "Tiến trình Kimpanel:"
+
+#: data/fcitx5-diagnose.sh:1598
+msgid ""
+"Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
+msgstr ""
+"Không tìm thấy giao diện dbus kimpanel hoặc giao diện người dùng không phải "
+"kimpanel được bật."
+
+#: data/fcitx5-diagnose.sh:1604
+msgid "Input Methods:"
+msgstr "Phương Thức Nhập:"
+
+#: data/fcitx5-diagnose.sh:1684
+msgid "Frontends setup:"
+msgstr "Thiết lập giao diện:"
+
+#: data/fcitx5-diagnose.sh:1685
+#, sh-format
+msgid ""
+"The environment variable checked by this script only shows the environment "
+"under current shell. It is still possible that you did not set the "
+"environment to the whole graphic desktop session. You may inspect the actual "
+"environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
+"environ` for a certain process that you find not working."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1692
+msgid "Configuration:"
+msgstr "Cấu hình:"
+
+#: data/fcitx5-diagnose.sh:1698
+msgid "Log:"
+msgstr "Nhật ký:"
+
+#: data/fcitx5-diagnose.sh:1703
+msgid ""
+"Warning: the output of fcitx5-diagnose contains sensitive information, "
+"including the distribution name, kernel version, name of currently running "
+"programs, etc."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1704
+msgid ""
+"Though such information can be helpful to developers for diagnostic purpose, "
+"please double check and remove as necessary before posting it online "
+"publicly."
+msgstr ""
 
 #: data/fcitx5-configtool.sh:138
 msgid ""
@@ -3077,80 +3138,12 @@ msgstr ""
 "cụ cấu hình cho fcitx5. Tên gói của công cụ cấu hình thường là ukui-control-"
 "center hoặc fcitx5-configtool. Bây giờ nó sẽ mở thư mục cấu hình."
 
-#: data/fcitx5-diagnose.sh:1085
+#: data/fcitx5-configtool.sh:144
 msgid ""
-"Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
-"able to use input method in emacs because of an really old emacs bug that "
-"upstream refuse to fix for years."
+"You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be "
+"found. The package name of the configuration tool is usually fcitx5-"
+"configtool. Now it will open the configuration directory."
 msgstr ""
-"LC_CTYPE của bạn đặt là ${1} thay vì một trong số zh, ja, ko. Bạn có thể "
-"không sử dụng được kiểu gõ trong emacs vì một lỗi emacs rất cũ mà thượng "
-"nguồn từ chối sửa trong nhiều năm"
-
-#: data/fcitx5-diagnose.sh:1090
-msgid ""
-"Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
-"trouble committing strings using XIM."
-msgstr ""
-"LC_CTYPE của bạn đặt là ${1} mà mã hóa không phải UTF-8. Bạn có thể gặp rắc "
-"rối khi thực hiện các chuỗi sử dụng XIM."
-
-#: src/lib/fcitx-utils/key.cpp:250
-msgctxt "Key name"
-msgid "Zenkaku"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:252
-msgctxt "Key name"
-msgid "Zenkaku Hankaku"
-msgstr ""
-
-#: src/lib/fcitx-utils/key.cpp:205
-msgctxt "Key name"
-msgid "Zoom In"
-msgstr "Phóng To"
-
-#: src/lib/fcitx-utils/key.cpp:206
-msgctxt "Key name"
-msgid "Zoom Out"
-msgstr "Thu Nhỏ"
-
-#: data/fcitx5-diagnose.sh:936
-msgid "executable:"
-msgstr "thực thi:"
-
-#: data/fcitx5-diagnose.sh:757
-msgid "here"
-msgstr "ở đây"
-
-#: src/lib/fcitx-utils/key.cpp:176
-msgctxt "Key name"
-msgid "iTouch"
-msgstr ""
-
-#: data/fcitx5-diagnose.sh:950
-msgid "process:"
-msgstr "tiến trình:"
-
-#: data/fcitx5-diagnose.sh:921 data/fcitx5-diagnose.sh:927
-msgid "sudo environment variables"
-msgstr "các biến môi trường sudo"
-
-#: data/fcitx5-diagnose.sh:946
-msgid "version:"
-msgstr "phiên bản:"
-
-#: src/im/keyboard/keyboard.cpp:321
-#, c++-format
-msgid "{0} (Not Available)"
-msgstr "{0} (Không khả dụng)"
-
-#: src/lib/fcitx/instance.cpp:434
-#, c++-format
-msgid "{0} (Not available)"
-msgstr "{0} (Không khả dụng)"
-
-#: src/lib/fcitx/instance.cpp:431
-#, c++-format
-msgid "{0} ({1})"
-msgstr "{0} ({1})"
+"Bạn hiện đang chạy Fcitx5 với GUI, nhưng không thể tìm thấy fcitx5-config-"
+"qt. Tên gói của công cụ cấu hình thường là fcitx5-configtool. Bây giờ nó sẽ "
+"mở thư mục cấu hình."

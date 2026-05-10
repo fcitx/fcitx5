@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-03-02 20:24+0000\n"
+"POT-Creation-Date: 2026-05-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Xuetian Weng <wengxt@gmail.com>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -39,9 +39,9 @@ msgstr "Control"
 msgid "Super"
 msgstr "Super"
 
-#: src/im/keyboard/keyboard.h:50
-msgid "Page size"
-msgstr "页大小"
+#: src/im/keyboard/keyboard.h:51
+msgid "Candidates per page"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
@@ -117,45 +117,45 @@ msgstr "候选"
 msgid "Entries"
 msgstr "项目"
 
-#: src/im/keyboard/keyboard.cpp:262
+#: src/im/keyboard/keyboard.cpp:264
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:280
+#: src/im/keyboard/keyboard.cpp:286
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
 
-#: src/im/keyboard/keyboard.cpp:321
+#: src/im/keyboard/keyboard.cpp:325
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/im/keyboard/keyboard.cpp:344 src/im/keyboard/keyboard.conf.in.in:2
+#: src/im/keyboard/keyboard.cpp:348 src/im/keyboard/keyboard.conf.in.in:2
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:707
+#: src/im/keyboard/keyboard.cpp:711
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
 "只找到了颜文字支持。想要启用拼写检查，您需要安装语言对应的拼写检查数据。"
 
-#: src/im/keyboard/keyboard.cpp:713
+#: src/im/keyboard/keyboard.cpp:717
 msgid "Completion is disabled."
 msgstr "补全已禁用。"
 
-#: src/im/keyboard/keyboard.cpp:716
+#: src/im/keyboard/keyboard.cpp:720
 msgid "Completion is enabled temporarily."
 msgstr "已暂时启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:718
+#: src/im/keyboard/keyboard.cpp:722
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:721 src/lib/fcitx/instance.cpp:474
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
 #: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -166,7 +166,7 @@ msgstr "已启用补全。"
 msgid "Input Method"
 msgstr "输入法"
 
-#: src/im/keyboard/keyboard.cpp:722
+#: src/im/keyboard/keyboard.cpp:726
 msgid "Completion"
 msgstr "补全"
 
@@ -502,47 +502,47 @@ msgstr "重新启动"
 msgid "Exit"
 msgstr "退出"
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:108
 msgid "This is only effective when the tray icon is xembed."
 msgstr "这只在托盘为 xembed 时有效。"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:121
 msgid "Vertical Candidate List"
 msgstr "垂直候选列表"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:123
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:127
 msgid "Font"
 msgstr "字体"
 
-#: src/ui/classic/classicui.h:128
+#: src/ui/classic/classicui.h:129
 msgid "Menu Font"
 msgstr "菜单字体"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:131
 msgid "Tray Font"
 msgstr "托盘字体"
 
-#: src/ui/classic/classicui.h:132
+#: src/ui/classic/classicui.h:133
 msgid "Tray Label Outline Color"
 msgstr "托盘标签轮廓颜色"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:136
 msgid "Tray Label Text Color"
 msgstr "托盘标签文本颜色"
 
-#: src/ui/classic/classicui.h:136 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "优先使用文字图标"
 
-#: src/ui/classic/classicui.h:141
+#: src/ui/classic/classicui.h:142
 msgid "Show Layout Name In Icon"
 msgstr "在图标中显示布局名称"
 
-#: src/ui/classic/classicui.h:145
+#: src/ui/classic/classicui.h:146
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -550,11 +550,11 @@ msgstr ""
 "如果有超过一个活动布局，则在图标中显示布局名称。如果优先使用文字图标已启用，"
 "这个选项将会被忽略"
 
-#: src/ui/classic/classicui.h:152
+#: src/ui/classic/classicui.h:153
 msgid "Use input method language to display text"
 msgstr "使用输入法的语言来显示文字"
 
-#: src/ui/classic/classicui.h:156
+#: src/ui/classic/classicui.h:157
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -563,35 +563,35 @@ msgstr ""
 "例如，用拼音时显示中文的异体字，用 Anthy 时显示日语的异体字。字体配置需要支持"
 "这个功能。"
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:162
 msgid "Theme"
 msgstr "主题"
 
-#: src/ui/classic/classicui.h:164
+#: src/ui/classic/classicui.h:165
 msgid "Dark Theme"
 msgstr "深色主题"
 
-#: src/ui/classic/classicui.h:166
+#: src/ui/classic/classicui.h:167
 msgid "Follow system light/dark color scheme"
 msgstr "跟随系统浅色/深色设置"
 
-#: src/ui/classic/classicui.h:170
+#: src/ui/classic/classicui.h:171
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr "当被主题和桌面支持时使用系统的重点色"
 
-#: src/ui/classic/classicui.h:175
+#: src/ui/classic/classicui.h:176
 msgid "Use Per Screen DPI on X11"
 msgstr "在 X11 上针对不同屏幕使用单独的 DPI"
 
-#: src/ui/classic/classicui.h:179
+#: src/ui/classic/classicui.h:180
 msgid "This option will be always disabled on XWayland."
 msgstr "在 XWayland 上，此选项将始终被禁用。"
 
-#: src/ui/classic/classicui.h:184
+#: src/ui/classic/classicui.h:185
 msgid "Force font DPI on Wayland"
 msgstr "固定 Wayland 的字体 DPI"
 
-#: src/ui/classic/classicui.h:188
+#: src/ui/classic/classicui.h:189
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -600,19 +600,19 @@ msgstr ""
 "通常 Wayland 使用 96 作为字体 DPI，同时和屏幕的缩放倍数组合调整文字大小。这个"
 "选项允许你覆盖字体的 DPI。如果设置为 0，这个选项将被禁用。"
 
-#: src/ui/classic/classicui.h:196
+#: src/ui/classic/classicui.h:197
 msgid "Enable fractional scale under Wayland"
 msgstr "在 Wayland 下启用分数缩放"
 
-#: src/ui/classic/classicui.h:200
+#: src/ui/classic/classicui.h:201
 msgid "This option require support from wayland compositor."
 msgstr "此选项需要 Wayland 混成器 (Wayland compositor) 支持。"
 
-#: src/ui/classic/classicui.cpp:300
+#: src/ui/classic/classicui.cpp:303
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (实验性)"
 
-#: src/ui/kimpanel/kimpanel.cpp:406
+#: src/ui/kimpanel/kimpanel.cpp:430
 msgid "Not available"
 msgstr "不可用"
 
@@ -789,83 +789,81 @@ msgstr ""
 "当使用只有修饰键的快捷键时，对应动作只会在修饰键在时限内松开时触发。-1 表示没"
 "有时限。"
 
-#: src/lib/fcitx/globalconfig.cpp:180
-msgid "Active By Default"
-msgstr "默认状态为激活"
+#: src/lib/fcitx/globalconfig.cpp:181
+msgid "Activate input method by default"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:184
+#: src/lib/fcitx/globalconfig.cpp:185
 msgid "Reset state on Focus In"
 msgstr "重新聚焦时重置状态"
 
-#: src/lib/fcitx/globalconfig.cpp:188
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Share Input State"
 msgstr "共享输入状态"
 
-#: src/lib/fcitx/globalconfig.cpp:192
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Show preedit in application"
 msgstr "在程序中显示预编辑文本"
 
-#: src/lib/fcitx/globalconfig.cpp:196
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:199
+#: src/lib/fcitx/globalconfig.cpp:200
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:202
+#: src/lib/fcitx/globalconfig.cpp:203
 msgid "Show compact input method information"
 msgstr "显示紧凑的输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:205
+#: src/lib/fcitx/globalconfig.cpp:206
 msgid "Show first input method information"
 msgstr "显示第一个输入法的信息"
 
-#: src/lib/fcitx/globalconfig.cpp:207
-msgid "Default page size"
-msgstr "默认页大小"
+#: src/lib/fcitx/globalconfig.cpp:208
+msgid "Default Candidates per page"
+msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:214
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Override XKB Option"
 msgstr "覆盖 XKB 选项"
 
-#: src/lib/fcitx/globalconfig.cpp:218
+#: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
-"Whether to override the XKB option from display server. It will not affect "
-"the XKB option send to display, but just the XKB options for custom XKB "
-"layout. This is a workaround when there is no way to get the current XKB "
-"option from Wayland Compositor."
+"Override the XKB option from display server. It will not affect the XKB "
+"option send to display, but just the XKB options for custom XKB layout. This "
+"is a workaround when there is no way to get the current XKB option from "
+"Wayland Compositor."
 msgstr ""
-"是否覆盖来自显示服务器的 XKB 选项。它不会影响发送给显示服务的 XKB 选项，仅会"
-"影响自定义的 XKB 布局"
 
-#: src/lib/fcitx/globalconfig.cpp:224
+#: src/lib/fcitx/globalconfig.cpp:225
 msgid "Custom XKB Option"
 msgstr "自定义 XKB 选项"
 
-#: src/lib/fcitx/globalconfig.cpp:234
+#: src/lib/fcitx/globalconfig.cpp:235
 msgid "Allow input method in the password field"
 msgstr "允许在密码框中使用输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:237
+#: src/lib/fcitx/globalconfig.cpp:238
 msgid "Show preedit text when typing password"
 msgstr "输入密码时显示预编辑文本"
 
-#: src/lib/fcitx/globalconfig.cpp:241
+#: src/lib/fcitx/globalconfig.cpp:242
 msgid "Interval of saving user data in minutes"
 msgstr "保存用户数据的时间间隔（以分钟为单位）"
 
-#: src/lib/fcitx/globalconfig.cpp:245
+#: src/lib/fcitx/globalconfig.cpp:246
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr "如果值为 0，那么用户数据仅会在 fctix 退出（比如您登出用户）时保存"
 
-#: src/lib/fcitx/globalconfig.cpp:249
+#: src/lib/fcitx/globalconfig.cpp:250
 msgid "Hotkey"
 msgstr "快捷键"
 
-#: src/lib/fcitx/globalconfig.cpp:251
+#: src/lib/fcitx/globalconfig.cpp:252
 msgid "Behavior"
 msgstr "行为"
 
@@ -2114,31 +2112,26 @@ msgstr "使用 On The Spot 风格 (需要重启)"
 msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5+ 和 GNOME)"
 
-#: src/modules/wayland/waylandmodule.cpp:655
+#: src/modules/wayland/waylandmodule.cpp:657
 msgid "Fcitx"
 msgstr "Fcitx"
 
-#: src/modules/wayland/waylandmodule.cpp:655
+#: src/modules/wayland/waylandmodule.cpp:657
 msgid "Wayland Diagnose"
 msgstr "Wayland 诊断"
 
-#: src/modules/wayland/waylandmodule.cpp:678
+#: src/modules/wayland/waylandmodule.cpp:680
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
-"Wayland. To configure this, you need to go to \"System Settings\" -> "
+"Wayland. To configure this, you need to go to \"System Settings\" > "
 "\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
 "disable tools that launches input method, such as imsettings on Fedora, or "
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
-"Fcitx 在 KDE Wayland 应由 KWin 启动从而使用 Wayland 输入法前端。这可以改善在 "
-"Wayland 下使用 Fcitx 的体验。您需要打开“系统设置” -> “虚拟键盘” 然后从中选"
-"择“Fcitx 5”。您也许同时还需要禁用那些启动输入法的工具，例如 Fedora 上的 "
-"imsettings，或者 Debian/Ubuntu 上的 im-config。更多信息请参见 https://fcitx-"
-"im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:693
+#: src/modules/wayland/waylandmodule.cpp:695
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -2149,7 +2142,7 @@ msgstr ""
 "作。推荐不设置 GTK_IM_MODULE 和 QT_IM_MODULE 从而使用 Wayland 输入法前端。更"
 "多信息请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:708
+#: src/modules/wayland/waylandmodule.cpp:710
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -2160,7 +2153,7 @@ msgstr ""
 "作。推荐使用 Wayland 输入法前端。更多信息请参见 https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:720
+#: src/modules/wayland/waylandmodule.cpp:722
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2172,7 +2165,7 @@ msgstr ""
 "extension/261/kimpanel/ 否则您可能无法在 GNOME Shell 的活动界面看到输入法窗"
 "口。更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 
-#: src/modules/wayland/waylandmodule.cpp:739
+#: src/modules/wayland/waylandmodule.cpp:741
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -2181,7 +2174,7 @@ msgstr ""
 "检测到设置了 GTK_IM_MODULE，并且 Wayland 输入法前端可以正常工作。推荐取消设"
 "置 GTK_IM_MODULE 以使用 Wayland 输入法前端。"
 
-#: src/modules/wayland/waylandmodule.cpp:758
+#: src/modules/wayland/waylandmodule.cpp:760
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2190,7 +2183,7 @@ msgstr ""
 "当前桌面不支持由 Fcitx 将键盘布局配置发送给 wayland 混成器。您仍可以通过将布"
 "局作为输入法添加到输入法分组来使用 Fcitx 内部的布局转换。"
 
-#: src/modules/wayland/waylandmodule.cpp:775
+#: src/modules/wayland/waylandmodule.cpp:777
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
