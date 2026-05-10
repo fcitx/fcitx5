@@ -205,7 +205,7 @@ FCITX_CONFIGURATION(
         this, "ShowFirstInputMethodInformation",
         _("Show first input method information"), true};
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
-                                              _("Candidates per page"), 5,
+                                              _("Default Candidates per page"), 5,
                                               IntConstrain(1, 10)};
     ConditionalHidden<!hasKeyboard,
                       OptionWithAnnotation<bool, ToolTipAnnotation>>
