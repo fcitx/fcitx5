@@ -27,6 +27,7 @@ class CursorMovableCandidateList;
 class CursorModifiableCandidateList;
 class BulkCursorCandidateList;
 class ActionableCandidateList;
+class TabbedCandidateList;
 
 class CandidateListPrivate;
 
@@ -122,6 +123,14 @@ public:
     BulkCursorCandidateList *toBulkCursor() const;
     ActionableCandidateList *toActionable() const;
 
+    /**
+     * Cast to TabbedCandidateList if available.
+     *
+     * @return TabbedCandidateList pointer or nullptr.
+     * @since 5.1.20
+     */
+    TabbedCandidateList *toTabbed() const;
+
 protected:
     void setPageable(PageableCandidateList *list);
     void setBulk(BulkCandidateList *list);
@@ -130,6 +139,14 @@ protected:
     void setCursorModifiable(CursorModifiableCandidateList *list);
     void setBulkCursor(BulkCursorCandidateList *list);
     void setActionable(ActionableCandidateList *list);
+
+    /**
+     * Set the TabbedCandidateList implementation.
+     *
+     * @param list pointer to TabbedCandidateList.
+     * @since 5.1.20
+     */
+    void setTabbed(TabbedCandidateList *list);
 
 private:
     std::unique_ptr<CandidateListPrivate> d_ptr;
@@ -244,6 +261,32 @@ public:
      * Trigger the action based on the index returned from candidateActions.
      */
     virtual void triggerAction(const CandidateWord &candidate, int id) = 0;
+};
+
+/**
+ * Interface for tab-related actions on candidate list.
+ *
+ * @since 5.1.20
+ */
+class FCITXCORE_EXPORT TabbedCandidateList {
+public:
+    virtual ~TabbedCandidateList();
+
+    /**
+     * Return a list of tab actions.
+     *
+     * @return vector of CandidateAction.
+     * @since 5.1.20
+     */
+    virtual std::vector<CandidateAction> tabActions() const = 0;
+
+    /**
+     * Trigger the tab action based on the index returned from tabActions.
+     *
+     * @param id action index.
+     * @since 5.1.20
+     */
+    virtual void triggerTabAction(int id) = 0;
 };
 
 class DisplayOnlyCandidateListPrivate;
@@ -373,6 +416,14 @@ public:
      * @since 5.1.10
      */
     void setActionableImpl(std::unique_ptr<ActionableCandidateList> actionable);
+
+    /**
+     * Set an optional implementation of tabbed candidate list.
+     *
+     * @param tabbed pointer to TabbedCandidateList.
+     * @since 5.1.20
+     */
+    void setTabbedImpl(std::unique_ptr<TabbedCandidateList> tabbed);
 
 private:
     void fixAfterUpdate();
