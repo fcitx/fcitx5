@@ -5,10 +5,13 @@
  *
  */
 
+#include <memory>
 #include <stdexcept>
 #include "fcitx-utils/log.h"
 #include "fcitx/candidateaction.h"
 #include "fcitx/candidatelist.h"
+
+namespace {
 
 using namespace fcitx;
 int selected = 0;
@@ -366,6 +369,59 @@ void test_candidateaction() {
     }
 }
 
+class TestTabbedCandidateList : public TabbedCandidateList {
+public:
+    TestTabbedCandidateList() = default;
+
+    std::vector<CandidateAction> tabActions() const override {
+        std::vector<CandidateAction> actions;
+        CandidateAction action;
+        action.setText("Tab1");
+        action.setId(0);
+        actions.push_back(std::move(action));
+        return actions;
+    }
+
+    void triggerTabAction(int id) override { triggeredId_ = id; }
+
+    int triggeredId() const { return triggeredId_; }
+
+private:
+    int triggeredId_ = -1;
+};
+
+void test_tabbed() {
+    CommonCandidateList candidatelist;
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    candidatelist.setPageSize(5);
+    for (int i = 0; i < 10; i++) {
+        candidatelist.append<TestCandidateWord>(i);
+    }
+
+    FCITX_ASSERT(candidatelist.toTabbed() == nullptr);
+
+    auto tabbed = std::make_unique<TestTabbedCandidateList>();
+    CandidateList *list = &candidatelist;
+    FCITX_ASSERT(list->toTabbed() == nullptr);
+
+    candidatelist.setTabbedImpl(std::move(tabbed));
+    FCITX_ASSERT(candidatelist.toTabbed() != nullptr);
+    FCITX_ASSERT(list->toTabbed() != nullptr);
+
+    auto actions = candidatelist.toTabbed()->tabActions();
+    FCITX_ASSERT(actions.size() == 1);
+    FCITX_ASSERT(actions[0].text() == "Tab1");
+    FCITX_ASSERT(actions[0].id() == 0);
+
+    candidatelist.toTabbed()->triggerTabAction(0);
+    FCITX_ASSERT(
+        static_cast<TestTabbedCandidateList *>(candidatelist.toTabbed())
+            ->triggeredId() == 0);
+}
+
+} // namespace
+
 int main() {
     test_basic();
     test_faulty_placeholder();
@@ -373,5 +429,6 @@ int main() {
     test_comment();
     test_cursor();
     test_candidateaction();
+    test_tabbed();
     return 0;
 }

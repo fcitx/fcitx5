@@ -88,6 +88,8 @@ public:
 
 ActionableCandidateList::~ActionableCandidateList() = default;
 
+TabbedCandidateList::~TabbedCandidateList() = default;
+
 class CandidateListPrivate {
 public:
     BulkCandidateList *bulk_ = nullptr;
@@ -97,6 +99,7 @@ public:
     BulkCursorCandidateList *bulkCursor_ = nullptr;
     CursorModifiableCandidateList *cursorModifiable_ = nullptr;
     ActionableCandidateList *actionable_ = nullptr;
+    TabbedCandidateList *tabbed_ = nullptr;
 };
 
 CandidateList::CandidateList()
@@ -141,6 +144,11 @@ ActionableCandidateList *CandidateList::toActionable() const {
     return d->actionable_;
 }
 
+TabbedCandidateList *CandidateList::toTabbed() const {
+    FCITX_D();
+    return d->tabbed_;
+}
+
 void CandidateList::setBulk(BulkCandidateList *list) {
     FCITX_D();
     d->bulk_ = list;
@@ -174,6 +182,11 @@ void CandidateList::setBulkCursor(BulkCursorCandidateList *list) {
 void CandidateList::setActionable(ActionableCandidateList *list) {
     FCITX_D();
     d->actionable_ = list;
+}
+
+void CandidateList::setTabbed(TabbedCandidateList *list) {
+    FCITX_D();
+    d->tabbed_ = list;
 }
 
 class CandidateWordPrivate {
@@ -364,6 +377,8 @@ public:
     CursorPositionAfterPaging cursorPositionAfterPaging_ =
         CursorPositionAfterPaging::DonotChange;
     std::unique_ptr<ActionableCandidateList> actionable_;
+
+    std::unique_ptr<TabbedCandidateList> tabbed_;
 
     int size() const {
         auto start = currentPage_ * pageSize_;
@@ -761,6 +776,13 @@ void CommonCandidateList::setActionableImpl(
     FCITX_D();
     d->actionable_ = std::move(actionable);
     setActionable(d->actionable_.get());
+}
+
+void CommonCandidateList::setTabbedImpl(
+    std::unique_ptr<TabbedCandidateList> tabbed) {
+    FCITX_D();
+    d->tabbed_ = std::move(tabbed);
+    setTabbed(d->tabbed_.get());
 }
 
 } // namespace fcitx
