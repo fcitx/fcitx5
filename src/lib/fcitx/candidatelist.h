@@ -7,6 +7,7 @@
 #ifndef _FCITX_CANDIDATELIST_H_
 #define _FCITX_CANDIDATELIST_H_
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <utility>
@@ -424,6 +425,29 @@ public:
      * @since 5.1.20
      */
     void setTabbedImpl(std::unique_ptr<TabbedCandidateList> tabbed);
+
+    /**
+     * Set a filter function for the candidate list.
+     *
+     * Any modification to the candidate list may clear the filter, so it's
+     * better to set filter after all modification is done.
+     *
+     * @param filterFunc A function that takes a CandidateWord and returns a
+     * boolean. Only candidates for which the function returns true will be
+     * included.
+     *
+     * @since 5.1.20
+     */
+    void
+    setFilter(const std::function<bool(const CandidateWord &)> &filterFunc);
+
+    /**
+     * Clear the filter function for the candidate list.
+     *
+     * @since 5.1.20
+     * @see CommonCandidateList::setFilter
+     */
+    void clearFilter();
 
 private:
     void fixAfterUpdate();

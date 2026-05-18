@@ -8,7 +8,10 @@
 #include "candidatelist.h"
 #include <algorithm>
 #include <cstddef>
+#include <functional>
+#include <iterator>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <unordered_set>
@@ -16,6 +19,7 @@
 #include <vector>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/utf8.h>
+#include <ranges>
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
 #include "fcitx-utils/misc.h"
@@ -371,6 +375,22 @@ public:
     std::vector<Text> labels_;
     // use shared_ptr for type erasure
     std::vector<std::unique_ptr<CandidateWord>> candidateWord_;
+    std::optional<std::vector<CandidateWord *>> filteredCandidateWord_;
+
+    CandidateWord &candidateAt(int idx) {
+        if (filteredCandidateWord_) {
+            return *(*filteredCandidateWord_)[idx];
+        }
+        return *candidateWord_[idx];
+    }
+
+    const CandidateWord &candidateAt(int idx) const {
+        if (filteredCandidateWord_) {
+            return *(*filteredCandidateWord_)[idx];
+        }
+        return *candidateWord_[idx];
+    }
+
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
     bool cursorIncludeUnselected_ = false;
     bool cursorKeepInSamePage_ = false;
@@ -380,9 +400,16 @@ public:
 
     std::unique_ptr<TabbedCandidateList> tabbed_;
 
+    size_t totalSize() const {
+        if (filteredCandidateWord_) {
+            return filteredCandidateWord_->size();
+        }
+        return candidateWord_.size();
+    }
+
     int size() const {
         auto start = currentPage_ * pageSize_;
-        auto remain = static_cast<int>(candidateWord_.size()) - start;
+        auto remain = static_cast<int>(totalSize()) - start;
         if (remain > pageSize_) {
             return pageSize_;
         }
@@ -400,7 +427,7 @@ public:
     }
 
     void checkGlobalIndex(int idx) const {
-        if (idx < 0 || static_cast<size_t>(idx) >= candidateWord_.size()) {
+        if (idx < 0 || static_cast<size_t>(idx) >= totalSize()) {
             throw std::invalid_argument(
                 "CommonCandidateList: invalid global index");
         }
@@ -496,6 +523,7 @@ void CommonCandidateList::setSelectionKey(const KeyList &keyList) {
 
 void CommonCandidateList::clear() {
     FCITX_D();
+    clearFilter();
     d->candidateWord_.clear();
 }
 
@@ -569,14 +597,14 @@ int CommonCandidateList::size() const {
 
 int CommonCandidateList::totalSize() const {
     FCITX_D();
-    return d->candidateWord_.size();
+    return d->totalSize();
 }
 
 const CandidateWord &CommonCandidateList::candidate(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
     auto globalIndex = d->toGlobalIndex(idx);
-    return *d->candidateWord_[globalIndex];
+    return d->candidateAt(globalIndex);
 }
 
 const Text &CommonCandidateList::label(int idx) const {
@@ -592,6 +620,7 @@ const Text &CommonCandidateList::label(int idx) const {
 
 void CommonCandidateList::insert(int idx, std::unique_ptr<CandidateWord> word) {
     FCITX_D();
+    clearFilter();
     // it's ok to insert at tail
     if (idx != static_cast<int>(d->candidateWord_.size())) {
         d->checkGlobalIndex(idx);
@@ -601,6 +630,7 @@ void CommonCandidateList::insert(int idx, std::unique_ptr<CandidateWord> word) {
 
 void CommonCandidateList::remove(int idx) {
     FCITX_D();
+    clearFilter();
     d->checkGlobalIndex(idx);
     d->candidateWord_.erase(d->candidateWord_.begin() + idx);
     fixAfterUpdate();
@@ -646,11 +676,12 @@ CandidateLayoutHint CommonCandidateList::layoutHint() const {
 const CandidateWord &CommonCandidateList::candidateFromAll(int idx) const {
     FCITX_D();
     d->checkGlobalIndex(idx);
-    return *d->candidateWord_[idx];
+    return d->candidateAt(idx);
 }
 
 void CommonCandidateList::move(int from, int to) {
     FCITX_D();
+    clearFilter();
     d->checkGlobalIndex(from);
     d->checkGlobalIndex(to);
     if (from < to) {
@@ -756,6 +787,8 @@ void CommonCandidateList::setPage(int page) {
 void CommonCandidateList::replace(int idx,
                                   std::unique_ptr<CandidateWord> word) {
     FCITX_D();
+    clearFilter();
+    d->checkGlobalIndex(idx);
     d->candidateWord_[idx] = std::move(word);
 }
 
@@ -783,6 +816,36 @@ void CommonCandidateList::setTabbedImpl(
     FCITX_D();
     d->tabbed_ = std::move(tabbed);
     setTabbed(d->tabbed_.get());
+}
+
+void CommonCandidateList::setFilter(
+    const std::function<bool(const CandidateWord &)> &filterFunc) {
+    FCITX_D();
+    setModifiable(nullptr);
+
+    d->filteredCandidateWord_.emplace();
+    std::ranges::copy(
+        d->candidateWord_ |
+            std::views::filter(
+                [&filterFunc](const std::unique_ptr<CandidateWord> &word) {
+                    return filterFunc(*word);
+                }) |
+            std::views::transform(
+                [](const std::unique_ptr<CandidateWord> &word) {
+                    return word.get();
+                }),
+        std::back_inserter(*d->filteredCandidateWord_));
+    fixAfterUpdate();
+}
+
+void CommonCandidateList::clearFilter() {
+    FCITX_D();
+    if (!d->filteredCandidateWord_) {
+        return;
+    }
+    d->filteredCandidateWord_.reset();
+    setModifiable(this);
+    fixAfterUpdate();
 }
 
 } // namespace fcitx
