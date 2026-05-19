@@ -420,6 +420,106 @@ void test_tabbed() {
             ->triggeredId() == 0);
 }
 
+void testFilter() {
+    CommonCandidateList candidatelist;
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    candidatelist.setPageSize(3);
+    for (int i = 0; i < 10; i++) {
+        candidatelist.append<TestCandidateWord>(i);
+    }
+
+    FCITX_ASSERT(candidatelist.totalSize() == 10);
+    FCITX_ASSERT(candidatelist.size() == 3);
+
+    // Filter to even numbers
+    candidatelist.setFilter([](const CandidateWord &word) {
+        return std::stoi(word.text().toString()) % 2 == 0;
+    });
+
+    FCITX_ASSERT(candidatelist.totalSize() == 5);
+    FCITX_ASSERT(candidatelist.size() == 3);
+    FCITX_ASSERT(candidatelist.totalPages() == 2);
+    FCITX_ASSERT(candidatelist.currentPage() == 0);
+    FCITX_ASSERT(!candidatelist.hasPrev());
+    FCITX_ASSERT(candidatelist.hasNext());
+
+    // Check filtered candidates: 0, 2, 4, 6, 8
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "0");
+    FCITX_ASSERT(candidatelist.candidate(1).text().toString() == "2");
+    FCITX_ASSERT(candidatelist.candidate(2).text().toString() == "4");
+    FCITX_ASSERT(candidatelist.candidateFromAll(3).text().toString() == "6");
+    FCITX_ASSERT(candidatelist.candidateFromAll(4).text().toString() == "8");
+
+    // Page navigation with filter
+    candidatelist.next();
+    FCITX_ASSERT(candidatelist.currentPage() == 1);
+    FCITX_ASSERT(candidatelist.size() == 2);
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "6");
+    FCITX_ASSERT(candidatelist.candidate(1).text().toString() == "8");
+    FCITX_ASSERT(candidatelist.hasNext() == false);
+
+    candidatelist.prev();
+    FCITX_ASSERT(candidatelist.currentPage() == 0);
+
+    // clearFilter restores everything
+    candidatelist.clearFilter();
+    FCITX_ASSERT(candidatelist.totalSize() == 10);
+    FCITX_ASSERT(candidatelist.size() == 3);
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "0");
+    FCITX_ASSERT(candidatelist.candidateFromAll(9).text().toString() == "9");
+
+    // Re-apply filter and verify modification clears it
+    candidatelist.setFilter([](const CandidateWord &word) {
+        return std::stoi(word.text().toString()) % 2 == 0;
+    });
+    FCITX_ASSERT(candidatelist.totalSize() == 5);
+
+    // insert clears filter
+    candidatelist.insert(0, std::make_unique<TestCandidateWord>(99));
+    FCITX_ASSERT(candidatelist.totalSize() == 11);
+    FCITX_ASSERT(candidatelist.candidateFromAll(0).text().toString() == "99");
+
+    // Re-apply and test remove clears filter
+    candidatelist.setFilter([](const CandidateWord &word) {
+        return std::stoi(word.text().toString()) % 2 == 0;
+    });
+    FCITX_ASSERT(candidatelist.totalSize() == 5);
+    candidatelist.remove(1);
+    FCITX_ASSERT(candidatelist.totalSize() == 10);
+
+    // Re-apply filter: even items among [99, 1, 2, 3, 4, 5, 6, 7, 8, 9] = 4
+    candidatelist.setFilter([](const CandidateWord &word) {
+        return std::stoi(word.text().toString()) % 2 == 0;
+    });
+    FCITX_ASSERT(candidatelist.totalSize() == 4);
+
+    // replace clears filter
+    candidatelist.replace(0, std::make_unique<TestCandidateWord>(77));
+    FCITX_ASSERT(candidatelist.totalSize() == 10);
+    FCITX_ASSERT(candidatelist.candidateFromAll(0).text().toString() == "77");
+
+    // Re-apply filter
+    candidatelist.setFilter([](const CandidateWord &word) {
+        return std::stoi(word.text().toString()) % 2 == 0;
+    });
+    FCITX_ASSERT(candidatelist.totalSize() == 4);
+
+    // move clears filter
+    candidatelist.move(0, 2);
+    FCITX_ASSERT(candidatelist.totalSize() == 10);
+
+    // Re-apply filter
+    candidatelist.setFilter([](const CandidateWord &word) {
+        return std::stoi(word.text().toString()) % 2 == 0;
+    });
+    FCITX_ASSERT(candidatelist.totalSize() == 4);
+
+    // clear clears filter
+    candidatelist.clear();
+    FCITX_ASSERT(candidatelist.totalSize() == 0);
+}
+
 } // namespace
 
 int main() {
@@ -430,5 +530,6 @@ int main() {
     test_cursor();
     test_candidateaction();
     test_tabbed();
+    testFilter();
     return 0;
 }
