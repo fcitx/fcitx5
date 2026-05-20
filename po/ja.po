@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-05-12 20:24+0000\n"
+"POT-Creation-Date: 2026-05-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2026\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -40,7 +40,7 @@ msgstr "Super"
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Candidates per page"
-msgstr ""
+msgstr "ページあたりの候補数"
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
@@ -800,7 +800,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:181
 msgid "Activate input method by default"
-msgstr ""
+msgstr "入力メソッドをデフォルトで有効にする"
 
 #: src/lib/fcitx/globalconfig.cpp:185
 msgid "Reset state on Focus In"
@@ -832,7 +832,7 @@ msgstr "第1入力メソッドの情報を表示する"
 
 #: src/lib/fcitx/globalconfig.cpp:208
 msgid "Default Candidates per page"
-msgstr ""
+msgstr "ページあたりのデフォルトの候補数"
 
 #: src/lib/fcitx/globalconfig.cpp:215
 msgid "Override XKB Option"
@@ -845,6 +845,10 @@ msgid ""
 "is a workaround when there is no way to get the current XKB option from "
 "Wayland Compositor."
 msgstr ""
+"ディスプレイサーバーからの XKB オプションを上書きします。これはディスプレイに"
+"送信される XKB オプションには影響せず、カスタム XKB レイアウトの XKB オプショ"
+"ンにのみ影響します。これは Wayland コンポジターから現在の XKB オプションを取"
+"得する方法がない場合の回避策です。"
 
 #: src/lib/fcitx/globalconfig.cpp:225
 msgid "Custom XKB Option"
@@ -2142,6 +2146,13 @@ msgid ""
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"KDE Wayland 環境で Wayland 入力メソッドフロントエンドを使用するには、KWin か"
+"ら Fcitx を起動する必要があります。これにより Wayland 上で Fcitx を使用する際"
+"の操作性が向上します。この設定を行うには「システム設定」>「仮想キーボード」に"
+"移動し、「Fcitx 5」を選択してください。また Fedora の imsettings や、Debian/"
+"Ubuntu の im-config などの、入力メソッド起動ツールを無効にする必要があるかも"
+"しれません。詳細については https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma を参照してください"
 
 #: src/modules/wayland/waylandmodule.cpp:695
 msgid ""
