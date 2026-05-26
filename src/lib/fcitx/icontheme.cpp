@@ -231,7 +231,7 @@ public:
 
         memory_ = static_cast<uint8_t *>(
             mmap(nullptr, st.st_size, PROT_READ, MAP_SHARED, fd.fd(), 0));
-        if (!memory_) {
+        if (memory_ == MAP_FAILED) {
             // Failed to mmap is not critical here.
             return;
         }
@@ -302,14 +302,14 @@ public:
     }
 
     uint16_t readWord(uint32_t offset) const {
-        if (offset > size_ - 2 || (offset % 2)) {
+        if (offset + 2 > size_ || (offset % 2)) {
             isValid_ = false;
             return 0;
         }
         return memory_[offset + 1] | memory_[offset] << 8;
     }
     uint32_t readDoubleWord(unsigned int offset) const {
-        if (offset > size_ - 4 || (offset % 4)) {
+        if (offset + 4 > size_ || (offset % 4)) {
             isValid_ = false;
             return 0;
         }

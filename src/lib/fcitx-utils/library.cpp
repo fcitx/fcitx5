@@ -186,7 +186,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         void *needunmap = nullptr;
         needunmap = data;
 #endif
-        if (!data) {
+        if (data == MAP_FAILED) {
             data = malloc(statbuf.st_size);
             needfree.reset(data);
             if (!data) {
