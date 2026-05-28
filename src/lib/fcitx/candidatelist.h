@@ -7,6 +7,7 @@
 #ifndef _FCITX_CANDIDATELIST_H_
 #define _FCITX_CANDIDATELIST_H_
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -459,6 +460,24 @@ public:
      * @see CommonCandidateList::setFilter
      */
     void clearFilter();
+
+    /**
+     * Return the candidate at the specified index, ignore filter.
+     *
+     * @param idx Index of the candidate.
+     * @return Reference to the candidate.
+     * @since 5.1.20
+     */
+    const CandidateWord &originCandidate(int idx) const;
+
+    /**
+     * Return the total number of candidates, ignore filter.
+     *
+     * @return Total number of candidates.
+     * @since 5.1.20
+     * @see totalSize
+     */
+    size_t originSize() const;
 
 private:
     void fixAfterUpdate();
