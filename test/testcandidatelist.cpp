@@ -7,9 +7,15 @@
 
 #include <memory>
 #include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
+#include <span>
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/candidateaction.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/text.h"
 
 namespace {
 
@@ -22,7 +28,9 @@ public:
         : CandidateWord(Text(std::to_string(number))), number_(number) {
         setComment(std::move(comment));
     }
-    void select(InputContext *) const override { selected = number_; }
+    void select(InputContext * /*inputContext*/) const override {
+        selected = number_;
+    }
 
     using CandidateWord::setSpaceBetweenComment;
 
@@ -36,7 +44,9 @@ public:
         : CandidateWord(Text(std::to_string(number))), number_(number) {
         setPlaceHolder(true);
     }
-    void select(InputContext *) const override { selected = number_; }
+    void select(InputContext * /*inputContext*/) const override {
+        selected = number_;
+    }
 
 private:
     int number_;
@@ -371,22 +381,21 @@ void test_candidateaction() {
 
 class TestTabbedCandidateList : public TabbedCandidateList {
 public:
-    TestTabbedCandidateList() = default;
-
-    std::vector<CandidateAction> tabActions() const override {
-        std::vector<CandidateAction> actions;
+    TestTabbedCandidateList() {
         CandidateAction action;
         action.setText("Tab1");
         action.setId(0);
-        actions.push_back(std::move(action));
-        return actions;
+        actions_.push_back(std::move(action));
     }
+
+    std::span<const CandidateAction> tabActions() override { return actions_; }
 
     void triggerTabAction(int id) override { triggeredId_ = id; }
 
     int triggeredId() const { return triggeredId_; }
 
 private:
+    std::vector<CandidateAction> actions_;
     int triggeredId_ = -1;
 };
 

@@ -17,6 +17,7 @@
 #include <fcitx/candidateaction.h>
 #include <fcitx/fcitxcore_export.h>
 #include <fcitx/text.h>
+#include <span>
 
 namespace fcitx {
 
@@ -276,10 +277,20 @@ public:
     /**
      * Return a list of tab actions.
      *
+     * From UI perspective, the returned vector is expected to be small (less
+     * than 10). The text should at most be 6 latin-letters or 2 Chinese
+     * characters.
+     *
+     * The return value is only valid at the time the function is called. The
+     * caller should not keep reference.
+     *
+     * The implementatino can choose lazily construct the return value upon
+     * calling the function.
+     *
      * @return vector of CandidateAction.
      * @since 5.1.20
      */
-    virtual std::vector<CandidateAction> tabActions() const = 0;
+    virtual std::span<const CandidateAction> tabActions() = 0;
 
     /**
      * Trigger the tab action based on the index returned from tabActions.
