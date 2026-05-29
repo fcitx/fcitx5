@@ -848,7 +848,7 @@ void CommonCandidateList::clearFilter() {
     fixAfterUpdate();
 }
 
-const CandidateWord &CommonCandidateList::originCandidate(int idx) const {
+const CandidateWord &CommonCandidateList::originCandidate(size_t idx) const {
     FCITX_D();
     return *d->candidateWord_[idx];
 }

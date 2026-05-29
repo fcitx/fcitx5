@@ -468,7 +468,7 @@ public:
      * @return Reference to the candidate.
      * @since 5.1.20
      */
-    const CandidateWord &originCandidate(int idx) const;
+    const CandidateWord &originCandidate(size_t idx) const;
 
     /**
      * Return the total number of candidates, ignore filter.
