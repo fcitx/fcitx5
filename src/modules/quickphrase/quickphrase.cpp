@@ -137,13 +137,24 @@ QuickPhrase::QuickPhrase(Instance *instance)
                     }
                 }
 
-                if (keyEvent.key().check(FcitxKey_space) &&
-                    !candidateList->empty()) {
+                auto commitCandidate = [&]() {
                     keyEvent.accept();
                     if (candidateList->cursorIndex() >= 0) {
                         candidateList->candidate(candidateList->cursorIndex())
                             .select(inputContext);
                     }
+                };
+
+                if (keyEvent.key().check(FcitxKey_space) &&
+                    !candidateList->empty()) {
+                    commitCandidate();
+                    return;
+                }
+
+                if ((keyEvent.key().check(FcitxKey_Return) ||
+                     keyEvent.key().check(FcitxKey_KP_Enter)) &&
+                    !candidateList->empty()) {
+                    commitCandidate();
                     return;
                 }
 
