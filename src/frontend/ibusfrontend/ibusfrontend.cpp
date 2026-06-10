@@ -383,6 +383,7 @@ public:
         IBusAttrList attrList = makeIBusAttrList();
 
         size_t offset = 0;
+        bool dontCommit = true;
         for (int i = 0, e = preedit.size(); i < e; i++) {
             auto len = utf8::length(preedit.stringAt(i));
             if (preedit.formatAt(i) & TextFormatFlag::Underline) {
@@ -395,6 +396,9 @@ public:
                 std::get<2>(attrList).emplace_back(
                     makeIBusAttr(3, 0, offset, offset + len));
             }
+            if (!preedit.formatAt(i).test(TextFormatFlag::DontCommit)) {
+                dontCommit = false;
+            }
 
             offset += len;
         }
@@ -406,7 +410,13 @@ public:
                               ? utf8::length(preeditString, 0, preedit.cursor())
                               : 0;
         if (clientCommitPreedit_) {
-            updatePreeditTextWithModeTo(name_, v, cursor, offset != 0, 0);
+            // IBUS_ENGINE_PREEDIT_CLEAR = 0
+            // IBUS_ENGINE_PREEDIT_COMMIT = 1
+            // as it can't do "don't" commit like fcitx, use
+            // IBUS_ENGINE_PREEDIT_COMMIT unless all preedit segments are marked
+            // as DontCommit.
+            int mode = dontCommit ? 0 : 1;
+            updatePreeditTextWithModeTo(name_, v, cursor, offset != 0, mode);
         } else {
             updatePreeditTextTo(name_, v, cursor, offset != 0);
         }
