@@ -112,22 +112,20 @@ public:
 
     std::string label() { return ""; }
 
-    std::string title() { return _("Input Method"); }
+    std::string title() {
+        const InputMethodEntry *imEntry = nullptr;
+        if (auto *ic = parent_->menu()->lastRelevantIc()) {
+            imEntry = parent_->instance()->inputMethodEntry(ic);
+        }
+        return imEntry ? imEntry->name() : _("Input Method");
+    }
 
     dbus::DBusStruct<
         std::string,
         std::vector<dbus::DBusStruct<int32_t, int32_t, std::vector<uint8_t>>>,
         std::string, std::string>
     tooltip() {
-
-        const InputMethodEntry *imEntry = nullptr;
-        if (auto *ic = parent_->menu()->lastRelevantIc()) {
-            imEntry = parent_->instance()->inputMethodEntry(ic);
-        }
-        std::string title =
-            imEntry == nullptr ? _("Input Method") : imEntry->name();
-        return {iconNamePropertyImpl(), iconPixmap(), std::move(title),
-                std::string()};
+        return {iconNamePropertyImpl(), iconPixmap(), title(), std::string()};
     }
 
     bool preferTextIcon(const std::string &label,
