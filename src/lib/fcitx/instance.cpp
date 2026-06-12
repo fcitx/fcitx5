@@ -129,14 +129,23 @@ void initAsDaemon() {
 #endif
 }
 
+// Whether the input context is forced to the fallback keyboard input
+// method. Password fields only count when input method is not allowed for
+// password fields, since otherwise they use the regular input method. This
+// must mirror the condition in Instance::inputMethod().
+bool isInputMethodDisabled(const CapabilityFlags &flags,
+                           bool allowInputMethodForPassword) {
+    return flags.test(CapabilityFlag::Disable) ||
+           (flags.test(CapabilityFlag::Password) &&
+            !allowInputMethodForPassword);
+}
+
 // Switch IM when these capabilities change.
 bool shouldSwitchIM(const CapabilityFlags &oldFlags,
-                    const CapabilityFlags &newFlags) {
-    const bool oldDisable = oldFlags.testAny(
-        CapabilityFlags{CapabilityFlag::Password, CapabilityFlag::Disable});
-    const bool newDisable = newFlags.testAny(
-        CapabilityFlags{CapabilityFlag::Password, CapabilityFlag::Disable});
-    return oldDisable != newDisable;
+                    const CapabilityFlags &newFlags,
+                    bool allowInputMethodForPassword) {
+    return isInputMethodDisabled(oldFlags, allowInputMethodForPassword) !=
+           isInputMethodDisabled(newFlags, allowInputMethodForPassword);
 }
 
 } // namespace
@@ -711,14 +720,16 @@ Instance::Instance(int argc, char **argv) {
 
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextCapabilityAboutToChange,
-        EventWatcherPhase::ReservedFirst, [this](Event &event) {
+        EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
             auto &capChanged =
                 static_cast<CapabilityAboutToChangeEvent &>(event);
             if (!capChanged.inputContext()->hasFocus()) {
                 return;
             }
 
-            if (!shouldSwitchIM(capChanged.oldFlags(), capChanged.newFlags())) {
+            if (!shouldSwitchIM(
+                    capChanged.oldFlags(), capChanged.newFlags(),
+                    d->globalConfig_.allowInputMethodForPassword())) {
                 return;
             }
 
@@ -730,13 +741,15 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextCapabilityChanged,
-        EventWatcherPhase::ReservedFirst, [this](Event &event) {
+        EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
             auto &capChanged = static_cast<CapabilityChangedEvent &>(event);
             if (!capChanged.inputContext()->hasFocus()) {
                 return;
             }
 
-            if (!shouldSwitchIM(capChanged.oldFlags(), capChanged.newFlags())) {
+            if (!shouldSwitchIM(
+                    capChanged.oldFlags(), capChanged.newFlags(),
+                    d->globalConfig_.allowInputMethodForPassword())) {
                 return;
             }
 
