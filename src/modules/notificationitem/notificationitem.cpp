@@ -119,13 +119,14 @@ public:
         std::vector<dbus::DBusStruct<int32_t, int32_t, std::vector<uint8_t>>>,
         std::string, std::string>
     tooltip() {
+
         const InputMethodEntry *imEntry = nullptr;
         if (auto *ic = parent_->menu()->lastRelevantIc()) {
             imEntry = parent_->instance()->inputMethodEntry(ic);
         }
-        std::string tipTitle =
-            imEntry ? imEntry->name() : _("Input Method");
-        return {iconNamePropertyImpl(), iconPixmap(), std::move(tipTitle),
+        std::string title =
+            imEntry == nullptr ? _("Input Method") : imEntry->name();
+        return {iconNamePropertyImpl(), iconPixmap(), std::move(title),
                 std::string()};
     }
 
