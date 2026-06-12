@@ -112,20 +112,21 @@ public:
 
     std::string label() { return ""; }
 
-    std::string title() {
-        const InputMethodEntry *imEntry = nullptr;
-        if (auto *ic = parent_->menu()->lastRelevantIc()) {
-            imEntry = parent_->instance()->inputMethodEntry(ic);
-        }
-        return imEntry ? imEntry->name() : _("Input Method");
-    }
+    std::string title() { return _("Input Method"); }
 
     dbus::DBusStruct<
         std::string,
         std::vector<dbus::DBusStruct<int32_t, int32_t, std::vector<uint8_t>>>,
         std::string, std::string>
     tooltip() {
-        return {iconNamePropertyImpl(), iconPixmap(), title(), std::string()};
+        const InputMethodEntry *imEntry = nullptr;
+        if (auto *ic = parent_->menu()->lastRelevantIc()) {
+            imEntry = parent_->instance()->inputMethodEntry(ic);
+        }
+        std::string tipTitle =
+            imEntry ? imEntry->name() : _("Input Method");
+        return {iconNamePropertyImpl(), iconPixmap(), std::move(tipTitle),
+                std::string()};
     }
 
     bool preferTextIcon(const std::string &label,
@@ -153,12 +154,13 @@ public:
     }
 
     void notifyNewTooltip() {
-        std::string currentTitle = title();
-        if (currentTitle.empty() || lastTitle_ == currentTitle) {
+        auto currentTooltip = tooltip();
+        const auto &tipTitle = std::get<2>(currentTooltip);
+        if (tipTitle.empty() || lastTitle_ == tipTitle) {
             return;
         }
         newToolTip();
-        lastTitle_ = std::move(currentTitle);
+        lastTitle_ = tipTitle;
     }
 
     void reset() {
