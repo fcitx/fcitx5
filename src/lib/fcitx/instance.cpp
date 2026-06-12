@@ -1079,19 +1079,26 @@ Instance::Instance(int argc, char **argv) {
                 inputContext->showVirtualKeyboard();
             }
 
-            if (!d->globalConfig_.showInputMethodInformationWhenFocusIn() ||
-                icEvent.inputContext()->capabilityFlags().test(
-                    CapabilityFlag::Disable)) {
+            if (!d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
                 return;
             }
             // Give some time because the cursor location may need some time
-            // to be updated.
+            // to be updated. Do not check the Disable capability here:
+            // clients may update the capability for the newly focused
+            // widget shortly after the focus in, so check it when the
+            // timer fires instead. This avoids showing the information
+            // of the fallback keyboard layout for input contexts that
+            // are about to be disabled, and keeps showing it for input
+            // contexts that are about to be enabled.
             d->focusInImInfoTimer_ = d->eventLoop_.addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                 [d, icRef = icEvent.inputContext()->watch()](EventSourceTime *,
                                                              uint64_t) {
-                    // Check if ic is still valid and has focus.
-                    if (auto *ic = icRef.get(); ic && ic->hasFocus()) {
+                    // Check if ic is still valid, has focus and is not
+                    // disabled.
+                    if (auto *ic = icRef.get();
+                        ic && ic->hasFocus() &&
+                        !ic->capabilityFlags().test(CapabilityFlag::Disable)) {
                         d->showInputMethodInformation(ic);
                     }
                     return true;
