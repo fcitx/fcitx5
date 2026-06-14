@@ -1,0 +1,7 @@
+[InputMethod]
+Name=Avro
+Icon=input-keyboard
+Label=Avro
+LangCode=bn
+Addon=bangla
+Configurable=True
