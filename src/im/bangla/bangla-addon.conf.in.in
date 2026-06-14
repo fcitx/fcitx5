@@ -1,0 +1,11 @@
+[Addon]
+Name=Bangla
+Type=@FCITX_ADDON_TYPE@
+Library=libbangla
+Category=InputMethod
+Version=@PROJECT_VERSION@
+OnDemand=True
+Configurable=True
+
+[Addon/Dependencies]
+0=core:@PROJECT_VERSION@

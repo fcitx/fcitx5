@@ -1,0 +1,2 @@
+# Bangla user dictionary (Avro): one entry per line as roman<TAB>বাংলা or roman=বাংলা
+# Lines starting with # are comments.

@@ -1,0 +1,7 @@
+[InputMethod]
+Name=Probhat
+Icon=input-keyboard
+Label=Probhat
+LangCode=bn
+Addon=bangla
+Configurable=True
