@@ -155,12 +155,13 @@ public:
     }
 
     void notifyNewTooltip() {
-        std::string currentTitle = title();
-        if (currentTitle.empty() || lastTitle_ == currentTitle) {
+        auto currentTooltip = tooltip();
+        const auto &tipTitle = std::get<2>(currentTooltip);
+        if (tipTitle.empty() || lastTitle_ == tipTitle) {
             return;
         }
         newToolTip();
-        lastTitle_ = std::move(currentTitle);
+        lastTitle_ = tipTitle;
     }
 
     void reset() {
