@@ -70,6 +70,10 @@ wayland::ZwpInputMethodV2 *WaylandIMModule::getInputMethodV2(InputContext *ic) {
         ->inputMethodV2();
 }
 
+zwp_input_method_v2 *WaylandIMModule::getInputMethodV2Raw(InputContext *ic) {
+    return wayland::rawPointer(getInputMethodV2(ic));
+}
+
 bool WaylandIMModule::hasKeyboardGrab(const std::string &display) const {
     if (const auto *server = findValue(servers_, display); server && *server) {
         if (server->get()->hasKeyboardGrab()) {

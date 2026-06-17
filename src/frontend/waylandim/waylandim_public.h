@@ -21,6 +21,13 @@ FCITX_ADDON_DECLARE_FUNCTION(
     WaylandIMModule, getInputMethodV2,
     fcitx::wayland::ZwpInputMethodV2 *(fcitx::InputContext *));
 
+// Raw zwp_input_method_v2 accessor for external UI addons (no internal
+// C++ wrapper needed): create the input popup surface yourself.
+struct zwp_input_method_v2;
+FCITX_ADDON_DECLARE_FUNCTION(
+    WaylandIMModule, getInputMethodV2Raw,
+    struct zwp_input_method_v2 *(fcitx::InputContext *));
+
 FCITX_ADDON_DECLARE_FUNCTION(WaylandIMModule, hasKeyboardGrab,
                              bool(const std::string &display));
 
