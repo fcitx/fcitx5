@@ -10,13 +10,7 @@ WlSubcompositor::WlSubcompositor(wl_subcompositor *data)
 }
 
 void WlSubcompositor::destructor(wl_subcompositor *data) {
-    const auto version = wl_subcompositor_get_version(data);
-#if defined(WL_SUBCOMPOSITOR_DESTROY_SINCE_VERSION)
-    if (version >= 1) {
-        wl_subcompositor_destroy(data);
-        return;
-    }
-#endif
+    wl_subcompositor_destroy(data);
 }
 WlSubsurface *WlSubcompositor::getSubsurface(WlSurface *surface,
                                              WlSurface *parent) {

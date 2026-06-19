@@ -19,14 +19,6 @@ WlBuffer::WlBuffer(wl_buffer *data)
     wl_buffer_add_listener(*this, &WlBuffer::listener, this);
 }
 
-void WlBuffer::destructor(wl_buffer *data) {
-    const auto version = wl_buffer_get_version(data);
-#if defined(WL_BUFFER_DESTROY_SINCE_VERSION)
-    if (version >= 1) {
-        wl_buffer_destroy(data);
-        return;
-    }
-#endif
-}
+void WlBuffer::destructor(wl_buffer *data) { wl_buffer_destroy(data); }
 
 } // namespace fcitx::wayland
