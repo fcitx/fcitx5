@@ -47,6 +47,26 @@ public:
     }
 };
 
+template <typename T>
+class GlobalsFactoryWithVersion : public GlobalsFactoryBase {
+public:
+    GlobalsFactoryWithVersion(uint32_t minVersion) : minVersion_(minVersion) {};
+
+    virtual std::shared_ptr<void> create(WlRegistry &registry, uint32_t name,
+                                         uint32_t version) {
+        if (version < minVersion_) {
+            return {};
+        }
+        std::shared_ptr<T> p;
+        p.reset(registry.bind<T>(name, std::min(version, T::version)));
+        globals_.insert(name);
+        return p;
+    }
+
+private:
+    uint32_t minVersion_;
+};
+
 class Display {
 public:
     Display(wl_display *display);
@@ -108,6 +128,21 @@ public:
     void requestGlobals() {
         auto result = requestedGlobals_.emplace(std::make_pair(
             T::interface, std::make_unique<GlobalsFactory<T>>()));
+        if (result.second) {
+            auto iter = result.first;
+            for (auto &p : globals_) {
+                if (std::get<std::string>(p.second) == T::interface) {
+                    createGlobalHelper(iter->second.get(), p);
+                }
+            }
+        }
+    }
+
+    template <typename T>
+    void requestGlobalsWithMinimalVersion(uint32_t version) {
+        auto result = requestedGlobals_.emplace(std::make_pair(
+            T::interface,
+            std::make_unique<GlobalsFactoryWithVersion<T>>(version)));
         if (result.second) {
             auto iter = result.first;
             for (auto &p : globals_) {

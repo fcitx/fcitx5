@@ -20,6 +20,10 @@ void Display::createGlobalHelper(
     std::get<std::shared_ptr<void>>(globalsPair.second) = factory->create(
         *registry(), globalsPair.first, std::get<2>(globalsPair.second));
 
+    if (!std::get<std::shared_ptr<void>>(globalsPair.second)) {
+        return;
+    }
+
     globalCreatedSignal_(std::get<std::string>(globalsPair.second),
                          std::get<std::shared_ptr<void>>(globalsPair.second));
 }

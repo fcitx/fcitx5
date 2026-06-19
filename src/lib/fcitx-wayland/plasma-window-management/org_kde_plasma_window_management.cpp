@@ -1,5 +1,6 @@
 #include "org_kde_plasma_window_management.h"
 #include <cassert>
+#include "org_kde_plasma_stacking_order.h"
 #include "org_kde_plasma_window.h"
 #include "wayland-plasma-window-management-client-protocol.h"
 
@@ -51,6 +52,14 @@ const struct org_kde_plasma_window_management_listener
                     obj->windowWithUuid()(id, uuid);
                 }
             },
+        .stacking_order_changed_2 =
+            [](void *data, org_kde_plasma_window_management *wldata) {
+                auto *obj = static_cast<OrgKdePlasmaWindowManagement *>(data);
+                assert(*obj == wldata);
+                {
+                    obj->stackingOrderChanged2()();
+                }
+            },
 };
 
 OrgKdePlasmaWindowManagement::OrgKdePlasmaWindowManagement(
@@ -79,6 +88,10 @@ OrgKdePlasmaWindowManagement::getWindowByUuid(const char *internalWindowUuid) {
     return new OrgKdePlasmaWindow(
         org_kde_plasma_window_management_get_window_by_uuid(
             *this, internalWindowUuid));
+}
+OrgKdePlasmaStackingOrder *OrgKdePlasmaWindowManagement::getStackingOrder() {
+    return new OrgKdePlasmaStackingOrder(
+        org_kde_plasma_window_management_get_stacking_order(*this));
 }
 
 } // namespace fcitx::wayland

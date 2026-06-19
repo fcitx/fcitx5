@@ -8,6 +8,7 @@
 #include "wayland-plasma-window-management-client-protocol.h" // IWYU pragma: export
 namespace fcitx::wayland {
 
+class OrgKdePlasmaStackingOrder;
 class OrgKdePlasmaWindow;
 
 class OrgKdePlasmaWindowManagement final {
@@ -15,7 +16,7 @@ public:
     static constexpr const char *interface = "org_kde_plasma_window_management";
     static constexpr const wl_interface *const wlInterface =
         &org_kde_plasma_window_management_interface;
-    static constexpr const uint32_t version = 16;
+    static constexpr const uint32_t version = 20;
     using wlType = org_kde_plasma_window_management;
     operator org_kde_plasma_window_management *() { return data_.get(); }
     OrgKdePlasmaWindowManagement(wlType *data);
@@ -29,12 +30,14 @@ public:
     void showDesktop(uint32_t state);
     OrgKdePlasmaWindow *getWindow(uint32_t internalWindowId);
     OrgKdePlasmaWindow *getWindowByUuid(const char *internalWindowUuid);
+    OrgKdePlasmaStackingOrder *getStackingOrder();
 
     auto &showDesktopChanged() { return showDesktopChangedSignal_; }
     auto &window() { return windowSignal_; }
     auto &stackingOrderChanged() { return stackingOrderChangedSignal_; }
     auto &stackingOrderUuidChanged() { return stackingOrderUuidChangedSignal_; }
     auto &windowWithUuid() { return windowWithUuidSignal_; }
+    auto &stackingOrderChanged2() { return stackingOrderChanged2Signal_; }
 
 private:
     static void destructor(org_kde_plasma_window_management *);
@@ -44,6 +47,7 @@ private:
     fcitx::Signal<void(wl_array *)> stackingOrderChangedSignal_;
     fcitx::Signal<void(const char *)> stackingOrderUuidChangedSignal_;
     fcitx::Signal<void(uint32_t, const char *)> windowWithUuidSignal_;
+    fcitx::Signal<void()> stackingOrderChanged2Signal_;
 
     uint32_t version_;
     void *userData_ = nullptr;

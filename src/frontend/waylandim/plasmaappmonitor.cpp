@@ -49,7 +49,8 @@ private:
 };
 
 PlasmaAppMonitor::PlasmaAppMonitor(wayland::Display *display) {
-    display->requestGlobals<wayland::OrgKdePlasmaWindowManagement>();
+    display->requestGlobalsWithMinimalVersion<
+        wayland::OrgKdePlasmaWindowManagement>(17);
 
     globalConn_ = display->globalCreated().connect(
         [this](const std::string &name,
