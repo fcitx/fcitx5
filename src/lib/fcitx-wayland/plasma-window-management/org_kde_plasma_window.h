@@ -16,7 +16,7 @@ public:
     static constexpr const char *interface = "org_kde_plasma_window";
     static constexpr const wl_interface *const wlInterface =
         &org_kde_plasma_window_interface;
-    static constexpr const uint32_t version = 16;
+    static constexpr const uint32_t version = 20;
     using wlType = org_kde_plasma_window;
     operator org_kde_plasma_window *() { return data_.get(); }
     OrgKdePlasmaWindow(wlType *data);
@@ -58,6 +58,7 @@ public:
     auto &activityEntered() { return activityEnteredSignal_; }
     auto &activityLeft() { return activityLeftSignal_; }
     auto &resourceNameChanged() { return resourceNameChangedSignal_; }
+    auto &clientGeometry() { return clientGeometrySignal_; }
 
 private:
     static void destructor(org_kde_plasma_window *);
@@ -79,6 +80,8 @@ private:
     fcitx::Signal<void(const char *)> activityEnteredSignal_;
     fcitx::Signal<void(const char *)> activityLeftSignal_;
     fcitx::Signal<void(const char *)> resourceNameChangedSignal_;
+    fcitx::Signal<void(int32_t, int32_t, uint32_t, uint32_t)>
+        clientGeometrySignal_;
 
     uint32_t version_;
     void *userData_ = nullptr;
