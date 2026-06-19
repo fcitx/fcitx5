@@ -169,13 +169,7 @@ OrgKdePlasmaWindow::OrgKdePlasmaWindow(org_kde_plasma_window *data)
 }
 
 void OrgKdePlasmaWindow::destructor(org_kde_plasma_window *data) {
-    const auto version = org_kde_plasma_window_get_version(data);
-#if defined(ORG_KDE_PLASMA_WINDOW_DESTROY_SINCE_VERSION)
-    if (version >= 4) {
-        org_kde_plasma_window_destroy(data);
-        return;
-    }
-#endif
+    org_kde_plasma_window_destroy(data);
 }
 void OrgKdePlasmaWindow::setState(uint32_t flags, uint32_t state) {
     org_kde_plasma_window_set_state(*this, flags, state);

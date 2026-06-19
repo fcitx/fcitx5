@@ -8,6 +8,9 @@
 #include "display.h"
 #include <errno.h>
 #include <poll.h>
+#include <cstdint>
+#include <memory>
+#include <string>
 #include "wl_output.h"
 #include "wl_registry.h"
 
@@ -43,8 +46,12 @@ Display::Display(wl_display *display) : display_(display) {
     reg->globalRemove().connect([this](uint32_t name) {
         auto iter = globals_.find(name);
         if (iter != globals_.end()) {
-            globalRemovedSignal_(std::get<std::string>(iter->second),
-                                 std::get<std::shared_ptr<void>>(iter->second));
+            const auto &globalObject =
+                std::get<std::shared_ptr<void>>(iter->second);
+            if (globalObject) {
+                globalRemovedSignal_(std::get<std::string>(iter->second),
+                                     globalObject);
+            }
             const auto &interface = std::get<std::string>(iter->second);
             auto localGlobalIter = requestedGlobals_.find(interface);
             if (localGlobalIter != requestedGlobals_.end()) {

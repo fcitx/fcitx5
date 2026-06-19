@@ -32,13 +32,7 @@ OrgKdePlasmaActivation::OrgKdePlasmaActivation(org_kde_plasma_activation *data)
 }
 
 void OrgKdePlasmaActivation::destructor(org_kde_plasma_activation *data) {
-    const auto version = org_kde_plasma_activation_get_version(data);
-#if defined(ORG_KDE_PLASMA_ACTIVATION_DESTROY_SINCE_VERSION)
-    if (version >= 1) {
-        org_kde_plasma_activation_destroy(data);
-        return;
-    }
-#endif
+    org_kde_plasma_activation_destroy(data);
 }
 
 } // namespace fcitx::wayland

@@ -29,13 +29,7 @@ OrgKdePlasmaActivationFeedback::OrgKdePlasmaActivationFeedback(
 
 void OrgKdePlasmaActivationFeedback::destructor(
     org_kde_plasma_activation_feedback *data) {
-    const auto version = org_kde_plasma_activation_feedback_get_version(data);
-#if defined(ORG_KDE_PLASMA_ACTIVATION_FEEDBACK_DESTROY_SINCE_VERSION)
-    if (version >= 1) {
-        org_kde_plasma_activation_feedback_destroy(data);
-        return;
-    }
-#endif
+    org_kde_plasma_activation_feedback_destroy(data);
 }
 
 } // namespace fcitx::wayland
