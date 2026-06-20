@@ -12,7 +12,7 @@ public:
     static constexpr const char *interface = "wp_cursor_shape_device_v1";
     static constexpr const wl_interface *const wlInterface =
         &wp_cursor_shape_device_v1_interface;
-    static constexpr const uint32_t version = 1;
+    static constexpr const uint32_t version = 2;
     using wlType = wp_cursor_shape_device_v1;
     operator wp_cursor_shape_device_v1 *() { return data_.get(); }
     WpCursorShapeDeviceV1(wlType *data);

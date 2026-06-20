@@ -9,11 +9,7 @@ WpCursorShapeDeviceV1::WpCursorShapeDeviceV1(wp_cursor_shape_device_v1 *data)
 }
 
 void WpCursorShapeDeviceV1::destructor(wp_cursor_shape_device_v1 *data) {
-    const auto version = wp_cursor_shape_device_v1_get_version(data);
-    if (version >= 1) {
-        wp_cursor_shape_device_v1_destroy(data);
-        return;
-    }
+    wp_cursor_shape_device_v1_destroy(data);
 }
 void WpCursorShapeDeviceV1::setShape(uint32_t serial, uint32_t shape) {
     wp_cursor_shape_device_v1_set_shape(*this, serial, shape);

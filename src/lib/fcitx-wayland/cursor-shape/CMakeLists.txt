@@ -1,5 +1,5 @@
 ecm_add_wayland_client_protocol(CURSOR_SHAPE_PROTOCOL_SRCS
-    PROTOCOL ${CMAKE_CURRENT_SOURCE_DIR}/cursor-shape-v1.xml
+    PROTOCOL ${WAYLAND_PROTOCOLS_PKGDATADIR}/staging/cursor-shape/cursor-shape-v1.xml
     BASENAME cursor-shape-v1)
 
 set(FCITX_WAYLAND_CURSOR_SHAPE_PROTOCOL_SOURCES

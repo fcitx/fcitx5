@@ -12,11 +12,7 @@ WpCursorShapeManagerV1::WpCursorShapeManagerV1(wp_cursor_shape_manager_v1 *data)
 }
 
 void WpCursorShapeManagerV1::destructor(wp_cursor_shape_manager_v1 *data) {
-    const auto version = wp_cursor_shape_manager_v1_get_version(data);
-    if (version >= 1) {
-        wp_cursor_shape_manager_v1_destroy(data);
-        return;
-    }
+    wp_cursor_shape_manager_v1_destroy(data);
 }
 WpCursorShapeDeviceV1 *WpCursorShapeManagerV1::getPointer(WlPointer *pointer) {
     return new WpCursorShapeDeviceV1(
