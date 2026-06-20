@@ -1,5 +1,5 @@
 ecm_add_wayland_client_protocol(FRACTIONAL_SCALE_PROTOCOL_SRCS
-    PROTOCOL ${CMAKE_CURRENT_SOURCE_DIR}/fractional-scale-v1.xml
+    PROTOCOL ${WAYLAND_PROTOCOLS_PKGDATADIR}/staging/fractional-scale/fractional-scale-v1.xml
     BASENAME fractional-scale-v1)
 
 set(FCITX_WAYLAND_FRACTIONAL_SCALE_PROTOCOL_SRCS

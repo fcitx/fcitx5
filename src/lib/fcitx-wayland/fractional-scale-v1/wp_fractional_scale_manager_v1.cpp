@@ -13,11 +13,7 @@ WpFractionalScaleManagerV1::WpFractionalScaleManagerV1(
 
 void WpFractionalScaleManagerV1::destructor(
     wp_fractional_scale_manager_v1 *data) {
-    const auto version = wp_fractional_scale_manager_v1_get_version(data);
-    if (version >= 1) {
-        wp_fractional_scale_manager_v1_destroy(data);
-        return;
-    }
+    wp_fractional_scale_manager_v1_destroy(data);
 }
 WpFractionalScaleV1 *
 WpFractionalScaleManagerV1::getFractionalScale(WlSurface *surface) {
