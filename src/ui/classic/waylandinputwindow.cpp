@@ -15,8 +15,8 @@
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
 #include "common.h"
+#include "ext_background_effect_manager_v1.h"
 #include "inputwindow.h"
-#include "org_kde_kwin_blur_manager.h"
 #include "theme.h"
 #include "waylandim_public.h"
 #include "waylandui.h"
@@ -99,7 +99,7 @@ void WaylandInputWindow::initPanel() {
 }
 
 void WaylandInputWindow::setBlurManager(
-    std::shared_ptr<wayland::OrgKdeKwinBlurManager> blur) {
+    std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur) {
     blurManager_ = std::move(blur);
     updateBlur();
 }
@@ -135,9 +135,8 @@ void WaylandInputWindow::updateBlur() {
             region->add(rect.left(), rect.top(), rect.width(), rect.height());
         }
     }
-    blur_.reset(blurManager_->create(window_->surface()));
-    blur_->setRegion(region.get());
-    blur_->commit();
+    blur_.reset(blurManager_->getBackgroundEffect(window_->surface()));
+    blur_->setBlurRegion(region.get());
 }
 
 void WaylandInputWindow::updateScale() { window_->updateScale(); }

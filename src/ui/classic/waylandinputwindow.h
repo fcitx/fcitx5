@@ -11,9 +11,9 @@
 #include <wayland-util.h>
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/inputcontext.h"
+#include "ext_background_effect_manager_v1.h"
+#include "ext_background_effect_surface_v1.h"
 #include "inputwindow.h"
-#include "org_kde_kwin_blur.h"
-#include "org_kde_kwin_blur_manager.h"
 #include "zwp_input_panel_surface_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
@@ -30,7 +30,8 @@ public:
     void resetPanel();
     void update(InputContext *ic);
     void repaint();
-    void setBlurManager(std::shared_ptr<wayland::OrgKdeKwinBlurManager> blur);
+    void
+    setBlurManager(std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur);
     void updateScale();
 
 private:
@@ -43,8 +44,8 @@ private:
     std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> panelSurfaceV2_;
     std::unique_ptr<WaylandWindow> window_;
     TrackableObjectReference<InputContext> repaintIC_;
-    std::shared_ptr<wayland::OrgKdeKwinBlurManager> blurManager_;
-    std::unique_ptr<wayland::OrgKdeKwinBlur> blur_;
+    std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
+    std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
 };
 
 } // namespace fcitx::classicui

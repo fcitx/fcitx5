@@ -12,7 +12,7 @@
 #include "classicui.h"
 #include "common.h"
 #include "display.h"
-#include "org_kde_kwin_blur_manager.h"
+#include "ext_background_effect_manager_v1.h"
 #include "waylandcursortheme.h"
 #include "waylandinputwindow.h"
 #include "waylandpointer.h"
@@ -35,7 +35,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
-    display_->requestGlobals<wayland::OrgKdeKwinBlurManager>();
+    display_->requestGlobals<wayland::ExtBackgroundEffectManagerV1>();
     display_->requestGlobals<wayland::WpFractionalScaleManagerV1>();
     display_->requestGlobals<wayland::WpViewporter>();
     panelConn_ = display_->globalCreated().connect(
@@ -53,10 +53,12 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                     pointer_ =
                         std::make_unique<WaylandPointer>(this, seat.get());
                 }
-            } else if (name == wayland::OrgKdeKwinBlurManager::interface) {
+            } else if (name ==
+                       wayland::ExtBackgroundEffectManagerV1::interface) {
                 if (inputWindow_) {
                     inputWindow_->setBlurManager(
-                        display_->getGlobal<wayland::OrgKdeKwinBlurManager>());
+                        display_->getGlobal<
+                            wayland::ExtBackgroundEffectManagerV1>());
                 }
             } else if (name == wayland::WpFractionalScaleManagerV1::interface ||
                        name == wayland::WpViewporter::interface) {
@@ -71,7 +73,8 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                 if (inputWindow_) {
                     inputWindow_->resetPanel();
                 }
-            } else if (name == wayland::OrgKdeKwinBlurManager::interface) {
+            } else if (name ==
+                       wayland::ExtBackgroundEffectManagerV1::interface) {
                 if (inputWindow_) {
                     inputWindow_->setBlurManager(nullptr);
                 }
@@ -130,7 +133,7 @@ void WaylandUI::setupInputWindow() {
     inputWindow_ = std::make_unique<WaylandInputWindow>(this);
     inputWindow_->initPanel();
     inputWindow_->setBlurManager(
-        display_->getGlobal<wayland::OrgKdeKwinBlurManager>());
+        display_->getGlobal<wayland::ExtBackgroundEffectManagerV1>());
 }
 
 std::unique_ptr<WaylandWindow> WaylandUI::newWindow() {
