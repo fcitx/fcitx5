@@ -2,11 +2,17 @@ Next generation of fcitx
 ==========================
 Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 
-# Resources
-
 [![Jenkins Build](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.fcitx-im.org%2Fjob%2Ffcitx5%2F)](https://jenkins.fcitx-im.org/job/fcitx5/)
 [![Coverity Scan Status](https://img.shields.io/coverity/scan/9063.svg)](https://scan.coverity.com/projects/fcitx-fcitx5)
 [![Documentation](https://codedocs.xyz/fcitx/fcitx5.svg)](https://codedocs.xyz/fcitx/fcitx5/)
+
+# Resources
+
+* Install
+  - Source code release: [https://download.fcitx-im.org/fcitx5/](https://download.fcitx-im.org/fcitx5/)
+  - [Install on Linux](https://fcitx-im.org/wiki/Install_Fcitx_5)
+  - [News and Release Notes](https://groups.google.com/g/fcitx-announce)
+  - Looking for [Mac](https://github.com/fcitx-contrib/fcitx5-macos/) or [Android](https://github.com/fcitx5-android/fcitx5-android)?
 
 * Wiki: [https://fcitx-im.org/](https://fcitx-im.org/)
   - Registration require explicit approval due to the spam, please send an email to the mail list if you do not get approved.
@@ -28,13 +34,8 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 X11/Wayland
 
 For using input method under TTY, please check [fbterm](https://github.com/fcitx/fcitx5-fbterm/) or [tmux](https://github.com/wengxt/fcitx5-tmux), not all features are supported.
- 
-# Quick start for Linux
-[Install Fcitx 5](https://fcitx-im.org/wiki/Install_Fcitx_5)
 
-Looking for Mac or Android?
-[Mac](https://github.com/fcitx-contrib/fcitx5-macos/)
-[Android](https://github.com/fcitx5-android/fcitx5-android)
+# Engines
  
 The main package (this repository) only contains keyboard layout engine.
 
