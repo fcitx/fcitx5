@@ -295,9 +295,8 @@ void WaylandIMInputContextV1::resetCallback() {
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
     CapabilityFlags flags = baseFlags;
-    if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD) {
-        flags |= CapabilityFlag::Password;
-    }
+    // ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD == SENSTIVE | HIDDEN_TEXT
+    // no need to check individually.
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_AUTO_COMPLETION) {
         flags |= CapabilityFlag::WordCompletion;
     }
