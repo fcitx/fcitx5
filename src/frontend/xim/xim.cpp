@@ -660,7 +660,14 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
             result = ic->keyEvent(event);
         }
         if (!result) {
-            xcb_im_forward_event(im(), xic, xevent);
+            if (!(event.isRelease() &&
+                  !event.key().states().testAny(
+                      KeyStates{KeyState::Ctrl, KeyState::Alt,
+                                KeyState::Super, KeyState::Shift}) &&
+                  !ic->inputPanel().preedit().toString().empty() &&
+                  Key::keySymToUnicode(event.key().sym()) > 0x20)) {
+                xcb_im_forward_event(im(), xic, xevent);
+            }
         }
         break;
     }
