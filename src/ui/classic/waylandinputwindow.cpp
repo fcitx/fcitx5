@@ -146,17 +146,20 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
-    CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
-                      << " for IC program:"
-                      << (ic ? ic->program() : std::string("-")) << " frontend:"
-                      << (ic ? ic->frontendName() : std::string("-"));
+    CLASSICUI_INFO() << "[WaylandUpdate] visible:" << visible()
+                      << " oldVisible:" << oldVisible
+                      << " program:" << (ic ? ic->program() : std::string("-"))
+                      << " frontend:" << (ic ? ic->frontendName() : std::string("-"))
+                      << " display:" << (ic ? ic->display() : std::string("-"))
+                      << " cursorRect:" << (ic ? ic->cursorRect() : Rect())
+                      << " size:" << width << "x" << height;
     if (!oldVisible && !visible()) {
-        CLASSICUI_DEBUG() << "Wayland Input Window has been hidden.";
+        CLASSICUI_INFO() << "[WaylandUpdate] Window has been hidden, skip.";
         return;
     }
 
     if (!visible()) {
-        CLASSICUI_DEBUG() << "Hide Wayland Input Window.";
+        CLASSICUI_INFO() << "[WaylandUpdate] Hide window.";
         hoverIndex_ = -1;
         window_->hide();
         repaintIC_.unwatch();
@@ -169,8 +172,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     assert(!visible() || ic != nullptr);
 
-    CLASSICUI_DEBUG()
-        << "Wayland Input Window is visible, ensure surface is created.";
+    CLASSICUI_INFO()
+        << "[WaylandUpdate] Window is visible, ensuring surface. frontend="
+        << (ic ? ic->frontendName() : "null");
     initPanel();
     if (ic->frontendName() == "wayland_v2") {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
@@ -205,7 +209,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         }
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
-        CLASSICUI_DEBUG() << "No Panel surface available, return.";
+        CLASSICUI_INFO() << "[WaylandUpdate] No panel surface available.";
         return;
     }
 

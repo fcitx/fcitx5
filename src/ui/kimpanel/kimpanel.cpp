@@ -6,6 +6,7 @@
  */
 
 #include "kimpanel.h"
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <iterator>
@@ -93,11 +94,23 @@ public:
         auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
                                           "org.kde.impanel2", name);
 
+        // Anchor the spot rect at cursor bottom with a margin so
+        // the panel appears below the input field rather than covering it.
+        // 80px was determined empirically to work across Chrome variants
+        // (with/without bookmarks bar) and different web page layouts.
+        static constexpr int32_t kCursorMargin = 80;
         int32_t x = inputContext->cursorRect().left(),
-                y = inputContext->cursorRect().top(),
-                w = inputContext->cursorRect().width(),
-                h = inputContext->cursorRect().height();
+                y = inputContext->cursorRect().bottom() + kCursorMargin,
+                w = std::max(static_cast<int32_t>(inputContext->cursorRect().width()), static_cast<int32_t>(1)),
+                h = std::max(static_cast<int32_t>(inputContext->cursorRect().height()), static_cast<int32_t>(1));
 
+        FCITX_INFO() << "[Kimpanel] D-Bus " << name
+                      << " program=" << inputContext->program()
+                      << " frontend=" << inputContext->frontendName()
+                      << " display=" << inputContext->display()
+                      << " origTop=" << inputContext->cursorRect().top()
+                      << " sent=(" << x << "," << y << " " << w << "x" << h
+                      << ")";
         msg << x << y << w << h;
         if (method == CursorRectMethod::SetRelativeSpotRectV2) {
             msg << inputContext->scaleFactor();
@@ -292,11 +305,18 @@ void Kimpanel::update(UserInterfaceComponent component,
         return;
     }
     if (component == UserInterfaceComponent::InputPanel) {
+        FCITX_INFO() << "[Kimpanel] update InputPanel"
+                      << " program=" << inputContext->program()
+                      << " frontend=" << inputContext->frontendName()
+                      << " display=" << inputContext->display()
+                      << " isKDE=" << isKDE()
+                      << " hasClassicUI=" << (classicui() != nullptr);
         if (classicui() && isKDE() &&
             (inputContext->frontendName().starts_with("wayland") ||
              (xcb() && inputContext->display().starts_with("x11:") &&
               xcb()->call<IXCBModule::isXWayland>(
                   inputContext->display().substr(4))))) {
+            FCITX_INFO() << "[Kimpanel] Delegating to classicui.";
             proxy_->showAux(false);
             proxy_->showPreedit(false);
             proxy_->showLookupTable(false);
@@ -304,6 +324,7 @@ void Kimpanel::update(UserInterfaceComponent component,
                 ->update(component, inputContext);
             lastInputContext_ = inputContext->watch();
         } else {
+            FCITX_INFO() << "[Kimpanel] Handling panel directly (kimpanel).";
             updateInputPanel(inputContext);
         }
     } else if (component == UserInterfaceComponent::StatusArea) {

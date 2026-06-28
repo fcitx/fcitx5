@@ -456,10 +456,11 @@ void ClassicUI::update(UserInterfaceComponent component,
             ui = uiPtr->get();
         }
     }
-    CLASSICUI_DEBUG() << "Update component: " << static_cast<int>(component)
+    CLASSICUI_INFO() << "Update component: " << static_cast<int>(component)
                       << " for IC program:" << inputContext->program()
                       << " frontend:" << inputContext->frontendName()
                       << " display:" << inputContext->display()
+                      << " cursorRect:" << inputContext->cursorRect()
                       << " ui:" << (ui ? ui->name() : "(not available)");
 
     if (ui) {

@@ -19,6 +19,7 @@
 #include <xcb/xproto.h>
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
+#include "common.h"
 #include "inputwindow.h"
 #include "theme.h"
 #include "xcb_public.h"
@@ -96,6 +97,15 @@ int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
     // exclude shadow border width
     x -= leftSW;
 
+    CLASSICUI_INFO() << "[PositionX] cursorRect=" << cursorRect
+                     << " windowWidth=" << width()
+                     << " actualWidth=" << actualWidth
+                     << " leftShadow=" << leftSW
+                     << " rightShadow=" << rightSW
+                     << " closestScreen="
+                     << (closestScreen ? *closestScreen : Rect())
+                     << " finalX=" << x;
+
     return x;
 }
 
@@ -111,6 +121,7 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
     int actualHeight = height() - topSW - bottomSW;
     actualHeight = actualHeight <= 0 ? height() : actualHeight;
 
+    bool flipped = false;
     if (closestScreen != nullptr) {
         int h = cursorRect.height();
         int newY;
@@ -133,6 +144,7 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
             if (newY < closestScreen->top()) {
                 newY = closestScreen->top();
             }
+            flipped = true;
         }
 
         y = newY;
@@ -141,11 +153,23 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
     // exclude shadow border width
     y -= topSW;
 
+    CLASSICUI_INFO() << "[PositionY] cursorRect=" << cursorRect
+                     << " windowHeight=" << height()
+                     << " actualHeight=" << actualHeight
+                     << " topShadow=" << topSW
+                     << " bottomShadow=" << bottomSW
+                     << " dpi=" << dpi_
+                     << " closestScreen="
+                     << (closestScreen ? *closestScreen : Rect())
+                     << " flipped=" << (flipped ? "yes" : "no")
+                     << " finalY=" << y;
+
     return y;
 }
 
 void XCBInputWindow::updatePosition(InputContext *inputContext) {
     if (!visible()) {
+        CLASSICUI_INFO() << "[updatePosition] Window not visible, skip";
         return;
     }
 
@@ -155,6 +179,14 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     wc.x = calculatePositionX(cursorRect, closestScreen);
     wc.y = calculatePositionY(cursorRect, closestScreen);
     wc.stack_mode = XCB_STACK_MODE_ABOVE;
+
+    CLASSICUI_INFO() << "[updatePosition] program=" << inputContext->program()
+                     << " frontend=" << inputContext->frontendName()
+                     << " display=" << inputContext->display()
+                     << " cursorRect=" << cursorRect
+                     << " finalPos=(" << wc.x << "," << wc.y << ")"
+                     << " windowSize=" << width() << "x" << height();
+
     xcb_aux_configure_window(ui_->connection(), wid_,
                              XCB_CONFIG_WINDOW_STACK_MODE |
                                  XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y,
@@ -177,6 +209,19 @@ void XCBInputWindow::update(InputContext *inputContext) {
         updateDPI(inputContext);
     }
     auto [width, height] = InputWindow::update(inputContext);
+
+    CLASSICUI_INFO() << "[Update] program="
+                     << (inputContext ? inputContext->program() : std::string("null"))
+                     << " frontend="
+                     << (inputContext ? inputContext->frontendName() : std::string("null"))
+                     << " display="
+                     << (inputContext ? inputContext->display() : std::string("null"))
+                     << " oldVisible=" << (oldVisible ? "yes" : "no")
+                     << " newVisible=" << (visible() ? "yes" : "no")
+                     << " size=" << width << "x" << height
+                     << " cursorRect="
+                     << (inputContext ? inputContext->cursorRect() : Rect());
+
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);

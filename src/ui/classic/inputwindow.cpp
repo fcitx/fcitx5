@@ -457,6 +457,11 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
             visible_ = false;
         }
     }
+    CLASSICUI_INFO() << "[InputWindow] nCandidates=" << nCandidates_
+                     << " upperLen=" << pango_layout_get_character_count(upperLayout_.get())
+                     << " lowerLen=" << pango_layout_get_character_count(lowerLayout_.get())
+                     << " visible=" << (visible_ ? "yes" : "no")
+                     << " size=" << width << "x" << height;
     return {width, height};
 }
 

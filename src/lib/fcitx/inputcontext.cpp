@@ -268,6 +268,12 @@ void InputContext::setCursorRect(Rect rect, double scale) {
     if (d->cursorRect_ == rect && d->scale_ == scale) {
         return;
     }
+    FCITX_INFO() << "[CursorRect] program=" << program()
+                 << " frontend=" << frontendName()
+                 << " display=" << display()
+                 << " oldRect=" << d->cursorRect_
+                 << " newRect=" << rect
+                 << " scale=" << scale;
     d->cursorRect_ = rect;
     d->scale_ = scale;
     d->emplaceEvent<CursorRectChangedEvent>(this);
