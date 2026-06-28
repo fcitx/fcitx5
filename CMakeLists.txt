@@ -178,7 +178,7 @@ if (ENABLE_WAYLAND)
     set(REQUIRED_WAYLAND_COMPONENTS Client Cursor)
     find_package(Wayland 1.22 REQUIRED COMPONENTS ${REQUIRED_WAYLAND_COMPONENTS})
     find_package(WaylandScanner REQUIRED)
-    find_package(WaylandProtocols 1.46 REQUIRED)
+    find_package(WaylandProtocols 1.45 REQUIRED)
     pkg_check_modules(Gio IMPORTED_TARGET gio-2.0)
 
     if (USE_SYSTEM_PLASMA_WAYLAND_PROTOCOLS)
