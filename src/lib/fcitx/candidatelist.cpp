@@ -413,6 +413,11 @@ public:
         if (remain > pageSize_) {
             return pageSize_;
         }
+        // This means a bug, but try to be defensive and return 0 instead of
+        // negative number.
+        if (remain < 0) {
+            return 0;
+        }
         return remain;
     }
 
@@ -794,8 +799,13 @@ void CommonCandidateList::replace(int idx,
 
 void CommonCandidateList::fixAfterUpdate() {
     FCITX_D();
-    if (d->currentPage_ >= totalPages() && d->currentPage_ > 0) {
-        d->currentPage_ = totalPages() - 1;
+    auto totalPage = totalPages();
+    if (d->currentPage_ >= totalPage && d->currentPage_ > 0) {
+        if (totalPage > 0) {
+            d->currentPage_ = totalPage - 1;
+        } else {
+            d->currentPage_ = 0;
+        }
     }
     if (d->cursorIndex_ >= 0) {
         if (d->cursorIndex_ >= totalSize()) {

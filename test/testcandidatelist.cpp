@@ -524,6 +524,12 @@ void testFilter() {
     });
     FCITX_ASSERT(candidatelist.totalSize() == 4);
 
+    candidatelist.setPage(1);
+    candidatelist.setFilter(
+        [](const CandidateWord & /*word*/) { return false; });
+    FCITX_ASSERT(candidatelist.size() == 0);
+    FCITX_ASSERT(candidatelist.totalSize() == 0);
+
     // clear clears filter
     candidatelist.clear();
     FCITX_ASSERT(candidatelist.totalSize() == 0);
