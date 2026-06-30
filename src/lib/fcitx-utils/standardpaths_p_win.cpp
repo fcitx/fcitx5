@@ -18,6 +18,7 @@
 #include <initguid.h>
 #include <knownfolders.h>
 #include <ranges>
+#include "fcitx-utils/environ.h"
 #include "fcitx-utils/fcitxutils_export.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpaths.h"
@@ -38,7 +39,7 @@ namespace {
 // standard path. We will have a 3 layer directory structure:
 // AppData/Roaming/Fcitx5/{config,data}/[package]/
 // AppData/Local/Fcitx5/{config,data}/[package]/
-// appFilePath/../{config,data}/[package]/
+// appFilePath/../{config,share}/... (pkg data: share/fcitx5, addons: lib/fcitx5)
 constexpr std::string_view windowsTopLevelAppName = "Fcitx5";
 
 void normalizeSlash(std::wstring &path) {
@@ -172,15 +173,16 @@ std::vector<std::filesystem::path> builtinPath(
         basePath = path->front();
     }
 
+    // Install layout matches CMake GNUInstallDirs (data under share/, not data/).
     const std::unordered_map<std::string, std::filesystem::path> pathMap = {
         {"basedir", basePath},
         {"configdir", basePath / "config"},
         {"pkgconfigdir", basePath / "config/fcitx5"},
-        {"datadir", basePath / "data"},
-        {"pkgdatadir", basePath / "data/fcitx5"},
+        {"datadir", basePath / "share"},
+        {"pkgdatadir", basePath / "share/fcitx5"},
         {"libdir", basePath / "lib"},
         {"bindir", basePath / "bin"},
-        {"localedir", basePath / "data/locale"},
+        {"localedir", basePath / "share/locale"},
         {"addondir", basePath / "lib/fcitx5"},
         {"libdatadir", basePath / "lib"},
         {"libexecdir", basePath / "libexec"},
@@ -272,6 +274,15 @@ std::vector<std::filesystem::path> getPath(
         }
         if (!options.test(StandardPathsOption::SkipBuiltInPath)) {
             if (packageName == "fcitx5") {
+                if (const auto extra = getEnvironment("FCITX_DATA_DIRS")) {
+                    for (const auto &dir :
+                         stringutils::split(*extra, std::string_view{";"})) {
+                        if (!dir.empty()) {
+                            paths.push_back(
+                                std::filesystem::path(dir).lexically_normal());
+                        }
+                    }
+                }
                 std::ranges::copy(builtinPath(builtInPathMap, "pkgdatadir"),
                                   std::back_inserter(paths));
             } else {
