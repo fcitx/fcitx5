@@ -88,6 +88,10 @@ if (ENABLE_LIBUUID)
     target_link_libraries(Fcitx5Core PRIVATE LibUUID::LibUUID)
 endif()
 
+if (NOT ENABLE_DL)
+    target_compile_definitions(Fcitx5Core PRIVATE -DFCITX_NO_DL)
+endif()
+
 configure_file(Fcitx5Core.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Core.pc @ONLY)
 
 install(TARGETS Fcitx5Core EXPORT Fcitx5CoreTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
