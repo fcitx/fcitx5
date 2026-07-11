@@ -14,6 +14,7 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
+#include "imselectortempmode.h"
 
 namespace fcitx {
 
@@ -51,34 +52,22 @@ FCITX_CONFIGURATION(
         ToolTipAnnotation(
             _("The n-th hotkey in the list selects the n-th input method."))};);
 
-class IMSelectorState : public InputContextProperty {
-public:
-    bool enabled_ = false;
-
-    void reset(InputContext *ic) {
-        enabled_ = false;
-        ic->inputPanel().reset();
-        ic->updatePreedit();
-        ic->updateUserInterface(UserInterfaceComponent::InputPanel);
-    }
-};
-
 class IMSelector final : public AddonInstance {
 public:
     IMSelector(Instance *instance);
 
     const IMSelectorConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
+    const KeyList &selectionKeys() const { return selectionKeys_; }
 
+    void reset(InputContext *inputContext);
+    bool selectInputMethod(InputContext *inputContext, size_t index, bool local);
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
         safeSaveAsIni(config_, "conf/imselector.conf");
     }
-    auto &factory() { return factory_; }
-
     void reloadConfig() override;
-    bool trigger(InputContext *inputContext, bool local);
 
 private:
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
@@ -86,7 +75,7 @@ private:
     Instance *instance_;
     IMSelectorConfig config_;
     KeyList selectionKeys_;
-    FactoryFor<IMSelectorState> factory_;
+    IMSelectorTempMode tempMode_;
 };
 } // namespace fcitx
 
