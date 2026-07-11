@@ -117,6 +117,8 @@ public:
         using reference = value_type &;
         using pointer = value_type *;
 
+        iterator() = default;
+
         iterator(typename container_type::const_iterator iter,
                  typename container_type::const_iterator end)
             : parentIter_(iter), endIter_(end) {
@@ -150,9 +152,9 @@ public:
             return {old, endIter_};
         }
 
-        reference operator*() { return ***parentIter_; }
+        reference operator*() const { return ***parentIter_; }
 
-        pointer operator->() { return (**parentIter_).get(); }
+        pointer operator->() const { return (**parentIter_).get(); }
 
     private:
         typename container_type::const_iterator parentIter_;

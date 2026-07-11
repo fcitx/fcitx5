@@ -5,6 +5,7 @@
  *
  */
 
+#include <algorithm>
 #include <memory>
 #include <unordered_set>
 #include "fcitx-utils/handlertable.h"
@@ -41,6 +42,13 @@ int main() {
         };
 
         auto table2 = std::move(table);
+
+        {
+            FCITX_ASSERT(table2.size() == 6);
+            FCITX_ASSERT(std::ranges::all_of(table2.view(), [](auto &handler) {
+                return handler != nullptr;
+            }));
+        }
 
         {
             FCITX_ASSERT(table2.size() == 6);
