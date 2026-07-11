@@ -80,7 +80,7 @@ FCITX_CONFIGURATION(
                            {},
                            {_("0 means never clear password.")}};);
 
-class ClipboardState;
+class ClipboardTempMode;
 class Clipboard final : public AddonInstance {
     static constexpr char configFile[] = "conf/clipboard.conf";
 
@@ -90,9 +90,9 @@ public:
 
     Instance *instance() { return instance_; }
 
-    void trigger(InputContext *inputContext);
+    void clear();
+    void reset(InputContext *inputContext);
     void updateUI(InputContext *inputContext);
-    auto &factory() { return factory_; }
 
     void reloadConfig() override;
 
@@ -138,7 +138,7 @@ private:
         eventHandlers_;
     KeyList selectionKeys_;
     ClipboardConfig config_;
-    FactoryFor<ClipboardState> factory_;
+    std::unique_ptr<ClipboardTempMode> tempMode_;
 
 #ifdef ENABLE_X11
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
