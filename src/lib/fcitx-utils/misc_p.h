@@ -53,6 +53,9 @@ class OrderedSet {
     using OrderList = std::list<T>;
 
 public:
+    using iterator = typename OrderList::iterator;
+    using const_iterator = typename OrderList::const_iterator;
+
     auto begin() { return order_.begin(); }
 
     auto end() { return order_.end(); }
@@ -130,6 +133,11 @@ public:
         order_.erase(iter->second);
         dict_.erase(iter);
         return true;
+    }
+
+    iterator erase(const_iterator iter) {
+        dict_.erase(*iter);
+        return order_.erase(iter);
     }
 
     const OrderList &order() const { return order_; }
