@@ -11,14 +11,13 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
-#include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
 #include "charselectdata.h"
 #include "clipboard_public.h"
 #include "unicode_public.h"
+#include "unicodetempmode.h"
 
 namespace fcitx {
 
@@ -36,7 +35,6 @@ FCITX_CONFIGURATION(
 
 );
 
-class UnicodeState;
 class Unicode : public AddonInstance {
     static constexpr char configFile[] = "conf/unicode.conf";
 
@@ -47,11 +45,11 @@ public:
     Instance *instance() { return instance_; }
 
     bool trigger(InputContext *inputContext);
-    bool triggerDirect(KeyEvent &keyEvent);
-    void updateUI(InputContext *inputContext, bool trigger = false);
-    auto &factory() { return factory_; }
 
+    CharSelectData &data() { return data_; }
     const CharSelectData &data() const { return data_; }
+    const UnicodeConfig &config() const { return config_; }
+    const KeyList &selectionKeys() const { return selectionKeys_; }
 
     void reloadConfig() override { readAsIni(config_, configFile); }
 
@@ -64,17 +62,12 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(clipboard, instance_->addonManager());
 
 private:
-    void handleSearch(KeyEvent &keyEvent);
-    void handleDirect(KeyEvent &keyEvent);
-
     FCITX_ADDON_EXPORT_FUNCTION(Unicode, trigger);
     Instance *instance_;
     UnicodeConfig config_;
     CharSelectData data_;
-    std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
-        eventHandlers_;
     KeyList selectionKeys_;
-    FactoryFor<UnicodeState> factory_;
+    UnicodeTempMode tempMode_;
 };
 } // namespace fcitx
 

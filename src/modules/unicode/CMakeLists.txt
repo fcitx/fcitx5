@@ -1,4 +1,4 @@
-add_fcitx5_addon(unicode unicode.cpp charselectdata.cpp)
+add_fcitx5_addon(unicode unicode.cpp unicodetempmode.cpp charselectdata.cpp)
 target_link_libraries(unicode Fcitx5::Core Fcitx5::Module::Clipboard)
 install(TARGETS unicode DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(unicode.conf.in.in unicode.conf.in @ONLY)
@@ -8,4 +8,3 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/unicode.conf" DESTINATION "${FCITX_IN
 fcitx5_export_module(Unicode TARGET unicode BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS unicode_public.h INSTALL)
 
 install(FILES charselectdata DESTINATION "${FCITX_INSTALL_PKGDATADIR}/unicode" COMPONENT config)
-
