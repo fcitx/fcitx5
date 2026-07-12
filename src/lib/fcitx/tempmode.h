@@ -29,7 +29,7 @@ template <typename PropertyBaseType>
 class SimpleTempModeState : public InputContextProperty,
                             public PropertyBaseType {
 public:
-    bool active() const { return active_; }
+    bool isActive() const { return active_; }
     void setActive(bool active) { active_ = active; }
 
 private:
@@ -133,7 +133,7 @@ public:
 protected:
     bool isActive(InputContext *inputContext) const override {
         if (auto *prop = property(inputContext)) {
-            return prop->active();
+            return prop->isActive();
         }
         return false;
     }

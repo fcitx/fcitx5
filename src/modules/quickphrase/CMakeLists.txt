@@ -1,4 +1,4 @@
-add_fcitx5_addon(quickphrase quickphrase.cpp quickphraseprovider.cpp)
+add_fcitx5_addon(quickphrase quickphrase.cpp quickphrasetempmode.cpp quickphraseprovider.cpp)
 target_link_libraries(quickphrase Fcitx5::Core Fcitx5::Module::Spell)
 install(TARGETS quickphrase DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(quickphrase.conf.in.in quickphrase.conf.in @ONLY)
@@ -10,4 +10,3 @@ fcitx5_export_module(QuickPhrase TARGET quickphrase BUILD_INCLUDE_DIRECTORIES "$
 install(DIRECTORY quickphrase.d DESTINATION "${FCITX_INSTALL_PKGDATADIR}/data"
         COMPONENT config
         FILES_MATCHING PATTERN "*.mb")
-
