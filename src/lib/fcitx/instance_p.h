@@ -19,6 +19,7 @@
 #include <fcitx/inputcontextproperty.h>
 #include <fcitx/inputmethodmanager.h>
 #include <fcitx/instance.h>
+#include <fcitx/tempmodemanager.h>
 #include <fcitx/userinterfacemanager.h>
 #include "config.h"
 
@@ -172,6 +173,7 @@ public:
     AddonManager addonManager_;
     InputMethodManager imManager_{&this->addonManager_};
     UserInterfaceManager uiManager_{&this->addonManager_};
+    std::unique_ptr<TempModeManager> tempModeManager_;
     GlobalConfig globalConfig_;
     std::unordered_map<EventType,
                        std::unordered_map<EventWatcherPhase,

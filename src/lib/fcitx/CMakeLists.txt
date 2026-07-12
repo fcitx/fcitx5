@@ -26,6 +26,8 @@ set(FCITX_CORE_SOURCES
     candidateaction.cpp
     icontheme.cpp
     inputmethodengine.cpp
+    tempmode.cpp
+    tempmodemanager.cpp
     )
 
 set(FCITX_CORE_HEADERS
@@ -57,6 +59,8 @@ set(FCITX_CORE_HEADERS
     userinterfacemanager.h
     icontheme.h
     statusarea.h
+    tempmode.h
+    tempmodemanager.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
