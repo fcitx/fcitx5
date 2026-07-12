@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <cstdint>
 #include <memory>
+#include <string>
+#include <string_view>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -16,15 +18,18 @@
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
 #include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/text.h"
 #include "fcitx/userinterface.h"
+#include "clipboard_public.h"
 #include "unicode.h"
 
 namespace fcitx {
@@ -63,7 +68,8 @@ public:
     UnicodeCandidateWord(UnicodeTempMode *tempMode, Unicode *unicode,
                          uint32_t chr)
         : tempMode_(tempMode) {
-        Text text, comment;
+        Text text;
+        Text comment;
         text.append(utf8::UCS4ToUTF8(chr));
         comment.append(unicode->data().name(chr));
         setText(std::move(text));

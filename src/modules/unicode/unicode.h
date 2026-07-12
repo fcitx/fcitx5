@@ -9,13 +9,14 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "charselectdata.h"
-#include "clipboard_public.h"
 #include "unicode_public.h"
 #include "unicodetempmode.h"
 

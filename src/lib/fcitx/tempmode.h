@@ -151,7 +151,7 @@ protected:
         return false;
     }
 
-    virtual void reset(InputContext *inputContext) override {
+    void reset(InputContext *inputContext) override {
         if (auto *prop = property(inputContext)) {
             prop->setActive(false);
         }

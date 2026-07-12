@@ -8,6 +8,9 @@
 #ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARDTEMPMODE_H_
 #define _FCITX_MODULES_CLIPBOARD_CLIPBOARDTEMPMODE_H_
 
+#include <string_view>
+#include "fcitx-utils/key.h"
+#include "fcitx/event.h"
 #include "fcitx/tempmode.h"
 
 namespace fcitx {

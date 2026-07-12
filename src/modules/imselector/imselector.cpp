@@ -19,21 +19,21 @@ IMSelector::IMSelector(Instance *instance)
     eventHandlers_.emplace_back(
         instance_->watchEvent<EventType::InputContextKeyEvent>(
             EventWatcherPhase::PreInputMethod, [this](KeyEvent &keyEvent) {
-            auto *inputContext = keyEvent.inputContext();
-            if (int index =
-                    keyEvent.key().keyListIndex(config_.switchKey.value());
-                index >= 0 &&
-                selectInputMethod(inputContext, index, /*local=*/false)) {
-                keyEvent.filterAndAccept();
-                return;
-            }
-            if (int index =
-                    keyEvent.key().keyListIndex(config_.switchKeyLocal.value());
-                index >= 0 &&
-                selectInputMethod(inputContext, index, /*local=*/true)) {
-                keyEvent.filterAndAccept();
-                return;
-            }
+                auto *inputContext = keyEvent.inputContext();
+                if (int index =
+                        keyEvent.key().keyListIndex(config_.switchKey.value());
+                    index >= 0 &&
+                    selectInputMethod(inputContext, index, /*local=*/false)) {
+                    keyEvent.filterAndAccept();
+                    return;
+                }
+                if (int index = keyEvent.key().keyListIndex(
+                        config_.switchKeyLocal.value());
+                    index >= 0 &&
+                    selectInputMethod(inputContext, index, /*local=*/true)) {
+                    keyEvent.filterAndAccept();
+                    return;
+                }
             }));
 
     std::array<KeySym, 10> syms = {
@@ -48,7 +48,7 @@ IMSelector::IMSelector(Instance *instance)
     reloadConfig();
 }
 
-void IMSelector::   reloadConfig() { readAsIni(config_, "conf/imselector.conf"); }
+void IMSelector::reloadConfig() { readAsIni(config_, "conf/imselector.conf"); }
 
 void IMSelector::reset(InputContext *inputContext) {
     tempMode_.reset(inputContext);
