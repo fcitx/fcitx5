@@ -19,10 +19,10 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx/addoninstance.h"
-#include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
 #include "quickphrase_public.h"
 #include "quickphraseprovider.h"
+#include "quickphrasetempmode.h"
 
 namespace fcitx {
 
@@ -49,7 +49,6 @@ FCITX_CONFIGURATION(
     ExternalOption editor{this, "Editor", _("Editor"),
                           "fcitx://config/addon/quickphrase/editor"};);
 
-class QuickPhraseState;
 class QuickPhrase final : public AddonInstance {
 public:
     QuickPhrase(Instance *instance);
@@ -57,6 +56,11 @@ public:
 
     const QuickPhraseConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
+    CallbackQuickPhraseProvider &callbackProvider() {
+        return callbackProvider_;
+    }
+    BuiltInQuickPhraseProvider &builtinProvider() { return builtinProvider_; }
+    SpellQuickPhraseProvider &spellProvider() { return spellProvider_; }
 
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
@@ -71,8 +75,6 @@ public:
     }
 
     void reloadConfig() override;
-    void updateUI(InputContext *inputContext);
-    auto &factory() { return factory_; }
 
     void trigger(InputContext *ic, const std::string &text,
                  const std::string &prefix, const std::string &str,
@@ -95,18 +97,14 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, setBuffer);
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, setBufferWithRestoreCallback);
 
-    void setSelectionKeys(QuickPhraseAction action);
-
     QuickPhraseConfig config_;
     Instance *instance_;
-    std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
-        eventHandlers_;
     KeyList selectionKeys_;
     KeyStates selectionModifier_;
     CallbackQuickPhraseProvider callbackProvider_;
     BuiltInQuickPhraseProvider builtinProvider_;
     SpellQuickPhraseProvider spellProvider_;
-    FactoryFor<QuickPhraseState> factory_;
+    QuickPhraseTempMode tempMode_;
 };
 } // namespace fcitx
 
