@@ -5,9 +5,12 @@
  *
  */
 #include "unicode.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/keysym.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/tempmodemanager.h"
 
 namespace fcitx {

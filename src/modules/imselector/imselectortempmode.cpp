@@ -6,8 +6,15 @@
  */
 
 #include "imselectortempmode.h"
-#include "imselector.h"
+#include <memory>
+#include <string>
+#include <string_view>
+#include <utility>
+#include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
@@ -15,6 +22,7 @@
 #include "fcitx/instance.h"
 #include "fcitx/text.h"
 #include "fcitx/userinterface.h"
+#include "imselector.h"
 
 namespace fcitx {
 
@@ -32,8 +40,8 @@ void selectInputMethod(InputContext *inputContext, IMSelector *imSelector,
 
 class IMSelectorCandidateWord : public CandidateWord {
 public:
-    IMSelectorCandidateWord(IMSelector *imSelector, const InputMethodEntry *entry,
-                            bool local)
+    IMSelectorCandidateWord(IMSelector *imSelector,
+                            const InputMethodEntry *entry, bool local)
         : CandidateWord(Text(entry->name())), imSelector_(imSelector),
           uniqueName_(entry->uniqueName()), local_(local) {}
 
@@ -107,28 +115,34 @@ bool IMSelectorTempMode::keyEvent(const KeyEvent &keyEvent) {
         if (keyEvent.key().checkKeyList(
                 imSelector_->instance()->globalConfig().defaultPrevPage())) {
             candidateList->toPageable()->prev();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
 
         if (keyEvent.key().checkKeyList(
                 imSelector_->instance()->globalConfig().defaultNextPage())) {
             candidateList->toPageable()->next();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
-                imSelector_->instance()->globalConfig().defaultPrevCandidate())) {
+        if (keyEvent.key().checkKeyList(imSelector_->instance()
+                                            ->globalConfig()
+                                            .defaultPrevCandidate())) {
             candidateList->toCursorMovable()->prevCandidate();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
-                imSelector_->instance()->globalConfig().defaultNextCandidate())) {
+        if (keyEvent.key().checkKeyList(imSelector_->instance()
+                                            ->globalConfig()
+                                            .defaultNextCandidate())) {
             candidateList->toCursorMovable()->nextCandidate();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
     }
@@ -158,7 +172,8 @@ bool IMSelectorTempMode::trigger(InputContext *inputContext, bool local) {
     candidateList->setPageSize(10);
     int index = -1;
     for (const auto &item : list) {
-        if (const auto *entry = instance->inputMethodManager().entry(item.name())) {
+        if (const auto *entry =
+                instance->inputMethodManager().entry(item.name())) {
             if (entry->uniqueName() == currentIM) {
                 index = candidateList->totalSize();
             }

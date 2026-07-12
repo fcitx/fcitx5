@@ -10,8 +10,10 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx/inputcontextproperty.h"
 #include "instance.h"
 #include "tempmode.h"
 

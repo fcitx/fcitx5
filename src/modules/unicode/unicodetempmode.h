@@ -8,7 +8,10 @@
 #ifndef _FCITX_MODULES_UNICODE_UNICODETEMPMODE_H_
 #define _FCITX_MODULES_UNICODE_UNICODETEMPMODE_H_
 
+#include <string_view>
 #include "fcitx-utils/inputbuffer.h"
+#include "fcitx-utils/key.h"
+#include "fcitx/event.h"
 #include "fcitx/tempmode.h"
 
 namespace fcitx {

@@ -6,12 +6,16 @@
  */
 
 #include "clipboardtempmode.h"
-#include "clipboard.h"
+#include <string_view>
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
+#include "clipboard.h"
 
 namespace fcitx {
 
@@ -75,21 +79,26 @@ bool ClipboardTempMode::keyEvent(const KeyEvent &keyEvent) {
         if (keyEvent.key().checkKeyList(
                 clipboard_->instance()->globalConfig().defaultNextPage())) {
             candidateList->toPageable()->next();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
-                clipboard_->instance()->globalConfig().defaultPrevCandidate())) {
+        if (keyEvent.key().checkKeyList(clipboard_->instance()
+                                            ->globalConfig()
+                                            .defaultPrevCandidate())) {
             candidateList->toCursorMovable()->prevCandidate();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
-                clipboard_->instance()->globalConfig().defaultNextCandidate())) {
+        if (keyEvent.key().checkKeyList(clipboard_->instance()
+                                            ->globalConfig()
+                                            .defaultNextCandidate())) {
             candidateList->toCursorMovable()->nextCandidate();
-            inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
             return true;
         }
     }

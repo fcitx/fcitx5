@@ -5,7 +5,6 @@
  *
  */
 #include "clipboard.h"
-#include "clipboardtempmode.h"
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
@@ -34,10 +33,11 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
-#include "fcitx/text.h"
 #include "fcitx/tempmodemanager.h"
+#include "fcitx/text.h"
 #include "fcitx/userinterface.h"
 #include "clipboardentry.h"
+#include "clipboardtempmode.h"
 
 #ifdef ENABLE_X11
 #include <xcb/xcb.h>
@@ -55,6 +55,7 @@ namespace fcitx {
 namespace {
 
 constexpr uint64_t oneSecond = 1000000ULL;
+constexpr char threeDot[] = "\xe2\x80\xa6";
 
 bool shouldClearPassword(const ClipboardEntry &entry, uint64_t life) {
     if (entry.passwordTimestamp == 0 || life == 0) {
@@ -62,15 +63,9 @@ bool shouldClearPassword(const ClipboardEntry &entry, uint64_t life) {
         return false;
     }
     // Allow 0.5 second skew.
-    return (entry.passwordTimestamp + life * oneSecond - oneSecond / 2) <=
+    return (entry.passwordTimestamp + (life * oneSecond) - (oneSecond / 2)) <=
            now(CLOCK_MONOTONIC);
 }
-
-} // namespace
-
-FCITX_DEFINE_LOG_CATEGORY(clipboard_log, "clipboard");
-
-constexpr char threeDot[] = "\xe2\x80\xa6";
 
 std::string ClipboardSelectionStrip(const std::string &text) {
     if (!utf8::validate(text)) {
@@ -112,6 +107,10 @@ std::string ClipboardSelectionStrip(const std::string &text) {
     }
     return result;
 }
+
+} // namespace
+
+FCITX_DEFINE_LOG_CATEGORY(clipboard_log, "clipboard");
 
 class ClipboardCandidateWord : public CandidateWord {
 public:

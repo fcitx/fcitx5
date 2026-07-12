@@ -48,7 +48,7 @@ public:
             EventWatcherPhase::Default, reset);
         switchInputMethodHandler_ =
             instance->watchEvent<EventType::InputContextSwitchInputMethod>(
-                EventWatcherPhase::Default, std::move(reset));
+                EventWatcherPhase::Default, reset);
     }
 
     void checkModeTrigger(KeyEvent &keyEvent) const {

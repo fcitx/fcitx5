@@ -7,10 +7,16 @@
 #ifndef _FCITX5_MODULES_IMSELECTOR_IMSELECTOR_H_
 #define _FCITX5_MODULES_IMSELECTOR_IMSELECTOR_H_
 
+#include <cstddef>
+#include <memory>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
@@ -61,7 +67,8 @@ public:
     const KeyList &selectionKeys() const { return selectionKeys_; }
 
     void reset(InputContext *inputContext);
-    bool selectInputMethod(InputContext *inputContext, size_t index, bool local);
+    bool selectInputMethod(InputContext *inputContext, size_t index,
+                           bool local);
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
