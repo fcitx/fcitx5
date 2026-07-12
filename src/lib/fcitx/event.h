@@ -17,6 +17,7 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx/fcitxcore_export.h>
 #include <fcitx/userinterface.h>
+#include "fcitx/inputmethodgroup.h"
 
 /// \addtogroup FcitxCore
 /// \{
@@ -205,6 +206,18 @@ enum class EventType : uint32_t {
      */
     VirtualKeyboardVisibilityChanged = InstanceEventFlag | 0x8,
 };
+
+template <EventType T>
+struct EventForType;
+
+template <EventType T>
+using EventFor = typename EventForType<T>::type;
+
+#define FCITX_DEFINE_EVENT_TYPE(KLASS, TYPE)                                   \
+    template <>                                                                \
+    struct EventForType<EventType::TYPE> {                                     \
+        using type = KLASS;                                                    \
+    }
 
 /**
  * Base class for fcitx event.
@@ -689,6 +702,44 @@ public:
         : CapabilityEvent(ic, EventType::InputContextCapabilityAboutToChange,
                           oldFlags, newFlags) {}
 };
+
+FCITX_DEFINE_EVENT_TYPE(InputContextCreatedEvent, InputContextCreated);
+FCITX_DEFINE_EVENT_TYPE(InputContextDestroyedEvent, InputContextDestroyed);
+FCITX_DEFINE_EVENT_TYPE(FocusInEvent, InputContextFocusIn);
+FCITX_DEFINE_EVENT_TYPE(FocusOutEvent, InputContextFocusOut);
+FCITX_DEFINE_EVENT_TYPE(KeyEvent, InputContextKeyEvent);
+FCITX_DEFINE_EVENT_TYPE(ResetEvent, InputContextReset);
+FCITX_DEFINE_EVENT_TYPE(SurroundingTextUpdatedEvent,
+                        InputContextSurroundingTextUpdated);
+FCITX_DEFINE_EVENT_TYPE(CursorRectChangedEvent, InputContextCursorRectChanged);
+FCITX_DEFINE_EVENT_TYPE(CapabilityChangedEvent, InputContextCapabilityChanged);
+FCITX_DEFINE_EVENT_TYPE(CapabilityAboutToChangeEvent,
+                        InputContextCapabilityAboutToChange);
+FCITX_DEFINE_EVENT_TYPE(InputContextSwitchInputMethodEvent,
+                        InputContextSwitchInputMethod);
+FCITX_DEFINE_EVENT_TYPE(InputMethodActivatedEvent,
+                        InputContextInputMethodActivated);
+FCITX_DEFINE_EVENT_TYPE(InputMethodDeactivatedEvent,
+                        InputContextInputMethodDeactivated);
+FCITX_DEFINE_EVENT_TYPE(InvokeActionEvent, InputContextInvokeAction);
+FCITX_DEFINE_EVENT_TYPE(VirtualKeyboardEvent, InputContextVirtualKeyboardEvent);
+FCITX_DEFINE_EVENT_TYPE(ForwardKeyEvent, InputContextForwardKey);
+FCITX_DEFINE_EVENT_TYPE(CommitStringEvent, InputContextCommitString);
+FCITX_DEFINE_EVENT_TYPE(UpdatePreeditEvent, InputContextUpdatePreedit);
+FCITX_DEFINE_EVENT_TYPE(InputContextUpdateUIEvent, InputContextUpdateUI);
+FCITX_DEFINE_EVENT_TYPE(CommitStringWithCursorEvent,
+                        InputContextCommitStringWithCursor);
+FCITX_DEFINE_EVENT_TYPE(InputContextFlushUIEvent, InputContextFlushUI);
+FCITX_DEFINE_EVENT_TYPE(InputMethodGroupChangedEvent, InputMethodGroupChanged);
+FCITX_DEFINE_EVENT_TYPE(InputMethodGroupAboutToChangeEvent,
+                        InputMethodGroupAboutToChange);
+FCITX_DEFINE_EVENT_TYPE(UIChangedEvent, UIChanged);
+FCITX_DEFINE_EVENT_TYPE(CheckUpdateEvent, CheckUpdate);
+FCITX_DEFINE_EVENT_TYPE(FocusGroupFocusChangedEvent, FocusGroupFocusChanged);
+FCITX_DEFINE_EVENT_TYPE(InputMethodModeChangedEvent, InputMethodModeChanged);
+FCITX_DEFINE_EVENT_TYPE(GlobalConfigReloadedEvent, GlobalConfigReloaded);
+FCITX_DEFINE_EVENT_TYPE(VirtualKeyboardVisibilityChangedEvent,
+                        VirtualKeyboardVisibilityChanged);
 
 } // namespace fcitx
 

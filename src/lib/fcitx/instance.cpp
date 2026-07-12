@@ -680,6 +680,7 @@ Instance::Instance(int argc, char **argv) {
     d->addonManager_.setInstance(this);
     d->addonManager_.setAddonOptions(arg.addonOptions_);
     d->icManager_.setInstance(this);
+    d->tempModeManager_ = std::make_unique<TempModeManager>(this);
     d->connections_.emplace_back(
         d->imManager_.connect<InputMethodManager::CurrentGroupAboutToChange>(
             [this, d](const std::string &lastGroup) {
@@ -1284,6 +1285,7 @@ Instance::Instance(int argc, char **argv) {
 
 Instance::~Instance() {
     FCITX_D();
+    d->tempModeManager_.reset();
     d->icManager_.finalize();
     d->addonManager_.unload();
     d->notifications_ = nullptr;
@@ -1623,6 +1625,11 @@ InputMethodManager &Instance::inputMethodManager() {
 const InputMethodManager &Instance::inputMethodManager() const {
     FCITX_D();
     return d->imManager_;
+}
+
+TempModeManager &Instance::tempModeManager() {
+    FCITX_D();
+    return *d->tempModeManager_;
 }
 
 UserInterfaceManager &Instance::userInterfaceManager() {

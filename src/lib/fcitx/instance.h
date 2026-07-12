@@ -7,10 +7,13 @@
 #ifndef _FCITX_INSTANCE_H_
 #define _FCITX_INSTANCE_H_
 
+#include <exception>
 #include <memory>
 #include <string>
+#include <utility>
 #include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/eventdispatcher.h>
+#include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/event.h>
 #include <fcitx/fcitxcore_export.h>
@@ -29,6 +32,7 @@ class InputContextManager;
 class InputMethodManager;
 class InputMethodEngine;
 class InputMethodEntry;
+class TempModeManager;
 class UserInterfaceManager;
 class GlobalConfig;
 class FocusGroup;
@@ -180,6 +184,9 @@ public:
     /// Get the input method manager
     const InputMethodManager &inputMethodManager() const;
 
+    /// Get the temporary mode manager.
+    TempModeManager &tempModeManager();
+
     /// Get the global config.
     GlobalConfig &globalConfig();
 
@@ -207,6 +214,16 @@ public:
      */
     FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<EventHandler>>
     watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);
+
+    template <EventType T, typename Callback>
+    FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<EventHandler>>
+    watchEvent(EventWatcherPhase phase, Callback &&callback) {
+        return watchEvent(T, phase,
+                          [callback = std::forward<Callback>(callback)](
+                              Event &event) mutable {
+                              callback(static_cast<EventFor<T> &>(event));
+                          });
+    }
 
     /// Return the unique name of input method for given input context.
     std::string inputMethod(InputContext *ic);

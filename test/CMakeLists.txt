@@ -100,6 +100,7 @@ endforeach()
 
 set(testinputcontext_LIBS Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM)
 set(testinstance_LIBS Fcitx5::Module::TestFrontend)
+set(testtempmode_LIBS Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM)
 
 set(FCITX_CORE_TEST
     testinputcontext
@@ -111,7 +112,8 @@ set(FCITX_CORE_TEST
     testcandidatelist
     testicontheme
     testtext
-    testinstance)
+    testinstance
+    testtempmode)
 
 foreach(TESTCASE ${FCITX_CORE_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
@@ -123,6 +125,7 @@ endforeach()
 add_dependencies(testaddon dummyaddon)
 add_dependencies(testinstance copy-addon testfrontend testim)
 add_dependencies(testinputcontext copy-addon testfrontend testim)
+add_dependencies(testtempmode copy-addon testfrontend testim)
 
 if (ENABLE_KEYBOARD)
     add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp ../src/im/keyboard/xmlparser.cpp)
