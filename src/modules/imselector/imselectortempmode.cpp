@@ -28,8 +28,6 @@ namespace fcitx {
 
 namespace {
 
-constexpr KeyList emptyKeyList;
-
 void selectInputMethod(InputContext *inputContext, IMSelector *imSelector,
                        const std::string &uniqueName, bool local) {
     auto *instance = imSelector->instance();
