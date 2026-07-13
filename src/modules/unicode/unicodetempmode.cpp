@@ -140,10 +140,6 @@ void UnicodeTempMode::reset(InputContext *inputContext) {
 
 std::string_view UnicodeTempMode::name() const { return "unicodeState"; }
 
-const KeyList &UnicodeTempMode::triggerKeys() const {
-    return unicode_->config().triggerKey.value();
-}
-
 bool UnicodeTempMode::trigger(InputContext *inputContext, UnicodeMode mode) {
     if (!unicode_->data().load()) {
         return false;

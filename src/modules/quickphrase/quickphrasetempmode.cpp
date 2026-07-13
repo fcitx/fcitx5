@@ -427,10 +427,6 @@ void QuickPhraseTempMode::updateUI(InputContext *inputContext) {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-const KeyList &QuickPhraseTempMode::triggerKeys() const {
-    return quickPhrase_->config().triggerKey.value();
-}
-
 void QuickPhraseTempMode::setSelectionKeys(QuickPhraseAction action) {
     std::array<KeySym, 10> syms;
     switch (action) {

@@ -211,6 +211,4 @@ void IMSelectorTempMode::reset(InputContext *inputContext) {
 
 std::string_view IMSelectorTempMode::name() const { return "imselector"; }
 
-const KeyList &IMSelectorTempMode::triggerKeys() const { return emptyKeyList; }
-
 } // namespace fcitx

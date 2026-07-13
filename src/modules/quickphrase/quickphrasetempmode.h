@@ -60,9 +60,6 @@ public:
                                       QuickPhraseRestoreCallback callback);
     void updateUI(InputContext *inputContext);
 
-protected:
-    const KeyList &triggerKeys() const override;
-
 private:
     void setSelectionKeys(QuickPhraseAction action);
 

@@ -8,6 +8,8 @@
 #ifndef _FCITX5_MODULES_IMSELECTOR_IMSELECTORTEMPMODE_H_
 #define _FCITX5_MODULES_IMSELECTOR_IMSELECTORTEMPMODE_H_
 
+#include <string_view>
+#include "fcitx/event.h"
 #include "fcitx/tempmode.h"
 
 namespace fcitx {
@@ -29,9 +31,6 @@ public:
     bool keyEvent(const KeyEvent &keyEvent) override;
     void reset(InputContext *inputContext) override;
     std::string_view name() const override;
-
-protected:
-    const KeyList &triggerKeys() const override;
 
 private:
     bool trigger(InputContext *inputContext, bool local);
