@@ -42,8 +42,12 @@ public:
     using Base::isActive;
 
     bool triggerTempMode(const KeyEvent &keyEvent) override {
-        if (Base::triggerTempMode(keyEvent)) {
+        if (keyEvent.isRelease()) {
+            return false;
+        }
+        if (keyEvent.key().checkKeyList(triggerKeys_)) {
             triggerCount_++;
+            property(keyEvent.inputContext())->setActive(true);
             return true;
         }
         return false;
@@ -67,8 +71,6 @@ public:
     const std::vector<std::string> &handledKeys() const { return handledKeys_; }
 
 private:
-    const KeyList &triggerKeys() const override { return triggerKeys_; }
-
     KeyList triggerKeys_;
     int triggerCount_ = 0;
     int invokeActionCount_ = 0;

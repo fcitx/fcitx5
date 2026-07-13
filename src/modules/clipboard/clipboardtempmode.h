@@ -33,9 +33,6 @@ public:
     void reset(InputContext *inputContext) override;
     std::string_view name() const override;
 
-protected:
-    const KeyList &triggerKeys() const override;
-
 private:
     Clipboard *clipboard_;
 };

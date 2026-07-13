@@ -138,19 +138,6 @@ protected:
         return false;
     }
 
-    bool triggerTempMode(const KeyEvent &keyEvent) override {
-        if (keyEvent.isRelease()) {
-            return false;
-        }
-        if (keyEvent.key().checkKeyList(triggerKeys())) {
-            if (auto *prop = property(keyEvent.inputContext())) {
-                prop->setActive(true);
-            }
-            return true;
-        }
-        return false;
-    }
-
     void reset(InputContext *inputContext) override {
         if (auto *prop = property(inputContext)) {
             prop->setActive(false);
@@ -161,11 +148,6 @@ protected:
         FCITX_UNUSED(inputContext);
         return new PropertyType;
     }
-
-    /**
-     * Return the hotkeys that can activate this temp mode.
-     */
-    virtual const KeyList &triggerKeys() const = 0;
 };
 
 } // namespace fcitx

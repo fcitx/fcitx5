@@ -48,9 +48,6 @@ public:
 
     void updateUI(InputContext *inputContext, bool trigger = false);
 
-protected:
-    const KeyList &triggerKeys() const override;
-
 private:
     bool trigger(InputContext *inputContext, UnicodeMode mode);
     bool handleSearch(const KeyEvent &keyEvent);

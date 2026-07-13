@@ -29,7 +29,12 @@ ClipboardTempMode::ClipboardTempMode(Clipboard *clipboard)
     : clipboard_(clipboard) {}
 
 bool ClipboardTempMode::triggerTempMode(const KeyEvent &keyEvent) {
-    if (Base::triggerTempMode(keyEvent)) {
+    if (keyEvent.isRelease()) {
+        return false;
+    }
+
+    if (keyEvent.key().checkKeyList(*clipboard_->config().triggerKey)) {
+        property(keyEvent.inputContext())->setActive(true);
         clipboard_->updateUI(keyEvent.inputContext());
         return true;
     }
@@ -129,9 +134,5 @@ void ClipboardTempMode::reset(InputContext *inputContext) {
 }
 
 std::string_view ClipboardTempMode::name() const { return "clipboardState"; }
-
-const KeyList &ClipboardTempMode::triggerKeys() const {
-    return clipboard_->config().triggerKey.value();
-}
 
 } // namespace fcitx
