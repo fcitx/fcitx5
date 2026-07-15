@@ -329,6 +329,15 @@ void WaylandIMInputContextV2::resetCallback() {
 void WaylandIMInputContextV2::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
     CapabilityFlags flags = baseFlags;
+    // CONTENT_PURPOSE_NORMAL (purpose=0) is "general text input" — apps like
+    // Electron/Chromium send this by default. pinyin's keyEvent() declines
+    // letter keys unless *some* letter-class capability is set, so without
+    // this the IC would route raw keys straight to the client's built-in
+    // IME and bypass fcitx5 entirely. Add Alpha to opt in to letter input.
+    if (purpose == ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NORMAL ||
+        purpose == 0) {
+        flags |= CapabilityFlag::Alpha;
+    }
 
     if (hint & ZWP_TEXT_INPUT_V3_CONTENT_HINT_COMPLETION) {
         flags |= CapabilityFlag::WordCompletion;

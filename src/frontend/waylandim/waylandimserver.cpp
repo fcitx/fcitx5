@@ -295,6 +295,14 @@ void WaylandIMInputContextV1::resetCallback() {
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
     CapabilityFlags flags = baseFlags;
+    // CONTENT_PURPOSE_NORMAL (purpose=0) is "general text input" — apps like
+    // Electron/Chromium send this by default. pinyin's keyEvent() declines
+    // letter keys unless *some* letter-class capability is set, so without
+    // this the IC would route raw keys straight to the client's built-in
+    // IME and bypass fcitx5 entirely. Add Alpha to opt in to letter input.
+    if (purpose == ZWP_TEXT_INPUT_V1_CONTENT_PURPOSE_NORMAL || purpose == 0) {
+        flags |= CapabilityFlag::Alpha;
+    }
     // ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD == SENSTIVE | HIDDEN_TEXT
     // no need to check individually.
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_AUTO_COMPLETION) {
@@ -520,9 +528,10 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
         }
     }
 
+    bool accepted = ic->keyEvent(event);
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
-    if (!ic->keyEvent(event)) {
+    if (!accepted) {
         sendKeyToVK(time, event.rawKey(), state);
     }
 
