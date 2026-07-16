@@ -51,8 +51,11 @@ void testBasics() {
     RawConfig another;
     readFromIni(another, ss);
 
+    // Default values are marked as implicit and not written to INI,
+    // so they won't be read back.
     FCITX_ASSERT(*rawConfig.valueByPath("IntOption") == "0");
-    FCITX_ASSERT(*another.valueByPath("IntOption") == "0") << another;
+    FCITX_ASSERT(!another.valueByPath("IntOption"))
+        << "Default value should not be written to INI";
 
     config.intValue.setValue(5);
     FCITX_ASSERT(config.intValue.value() == 5);
