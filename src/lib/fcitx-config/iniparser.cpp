@@ -124,6 +124,9 @@ bool writeAsIni(const RawConfig &config, std::ostream &out) {
                         values += "\n";
                     }
 
+                    if (config.isImplicit()) {
+                        values += "# ";
+                    }
                     values += config.name();
                     values += "=";
                     values += stringutils::escapeForValue(config.value());
@@ -133,7 +136,11 @@ bool writeAsIni(const RawConfig &config, std::ostream &out) {
                 "", false, path);
             if (!values.empty()) {
                 if (!path.empty()) {
-                    out << "[" << path << "]\n";
+                    if (config.isImplicit()) {
+                        out << "# [" << path << "]\n";
+                    } else {
+                        out << "[" << path << "]\n";
+                    }
                     FCITX_RETURN_IF(!out, false);
                 }
                 out << values << "\n";

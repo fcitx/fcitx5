@@ -37,10 +37,13 @@ public:
     void setValue(std::string value);
     void setComment(std::string comment);
     void setLineNumber(unsigned int lineNumber);
+    void setImplicit(bool implicit);
     const std::string &name() const;
     const std::string &comment() const;
     const std::string &value() const;
     unsigned int lineNumber() const;
+    bool isImplicitSelf() const;
+    bool isImplicit() const;
     bool hasSubItems() const;
     size_t subItemsSize() const;
     std::vector<std::string> subItems() const;

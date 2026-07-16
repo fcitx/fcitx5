@@ -235,6 +235,87 @@ void testOptional() {
     FCITX_ASSERT(!*config2.optionalIntVectorValue);
 }
 
+void testImplicit() {
+    // Test isImplicitSelf and isImplicit on a simple node
+    {
+        RawConfig config;
+        config["A"].setValue("1");
+
+        FCITX_ASSERT(!config["A"].isImplicitSelf());
+        FCITX_ASSERT(!config["A"].isImplicit());
+
+        config["A"].setImplicit(true);
+        FCITX_ASSERT(config["A"].isImplicitSelf());
+        FCITX_ASSERT(config["A"].isImplicit());
+    }
+
+    // Test isImplicit with parent inheritance
+    {
+        RawConfig config;
+        config["A"]["B"].setValue("1");
+        config["A"]["C"].setValue("2");
+
+        // Initially, no implicit flags
+        FCITX_ASSERT(!config["A"].isImplicit());
+        FCITX_ASSERT(!config["A"]["B"].isImplicit());
+        FCITX_ASSERT(!config["A"]["C"].isImplicit());
+
+        // Set implicit on parent
+        config["A"].setImplicit(true);
+        FCITX_ASSERT(config["A"].isImplicitSelf());
+        FCITX_ASSERT(config["A"].isImplicit());
+
+        // Children inherit implicit from parent
+        FCITX_ASSERT(!config["A"]["B"].isImplicitSelf());
+        FCITX_ASSERT(config["A"]["B"].isImplicit());
+        FCITX_ASSERT(!config["A"]["C"].isImplicitSelf());
+        FCITX_ASSERT(config["A"]["C"].isImplicit());
+    }
+
+    // Test writeAsIni with implicit
+    {
+        RawConfig config;
+        config["A"]["B"].setValue("1");
+        config["A"]["C"].setValue("2");
+        config["D"]["E"].setValue("3");
+
+        // Set implicit on section A
+        config["A"].setImplicit(true);
+
+        std::stringstream ss;
+        writeAsIni(config, ss);
+        std::string output = ss.str();
+
+        // Section A should be commented out
+        FCITX_ASSERT(output.find("# [A]") != std::string::npos)
+            << "Section header should be commented: " << output;
+        FCITX_ASSERT(output.find("# B=1") != std::string::npos)
+            << "Value should be commented: " << output;
+        FCITX_ASSERT(output.find("# C=2") != std::string::npos)
+            << "Value should be commented: " << output;
+
+        // Section D should not be commented
+        FCITX_ASSERT(output.find("[D]") != std::string::npos)
+            << "Section header should not be commented: " << output;
+        FCITX_ASSERT(output.find("E=3") != std::string::npos)
+            << "Value should not be commented: " << output;
+    }
+
+    // Test copy preserves implicit flag
+    {
+        RawConfig config;
+        config["A"].setValue("1");
+        config["A"].setImplicit(true);
+
+        RawConfig copy(config);
+        FCITX_ASSERT(copy["A"].isImplicitSelf());
+
+        RawConfig assign;
+        assign = config;
+        FCITX_ASSERT(assign["A"].isImplicitSelf());
+    }
+}
+
 int main() {
     testBasics();
     testMove();
@@ -244,5 +325,6 @@ int main() {
     testExtend();
     testCopyConfiguration();
     testOptional();
+    testImplicit();
     return 0;
 }
