@@ -20,21 +20,23 @@ namespace fcitx {
 class RawConfigPrivate : public QPtrHolder<RawConfig> {
 public:
     RawConfigPrivate(RawConfig *q, std::string _name)
-        : QPtrHolder(q), name_(std::move(_name)), lineNumber_(0) {}
+        : QPtrHolder(q), name_(std::move(_name)), lineNumber_(0),
+          implicit_(false) {}
     RawConfigPrivate(RawConfig *q, const RawConfigPrivate &other)
         : QPtrHolder(q), value_(other.value_), comment_(other.comment_),
-          lineNumber_(other.lineNumber_) {}
+          lineNumber_(other.lineNumber_), implicit_(other.implicit_) {}
 
     RawConfigPrivate &operator=(const RawConfigPrivate &other) {
         if (&other == this) {
             return *this;
         }
         // There is no need to copy "name_", because name refers to its parent.
-        // Make a copy of value, comment, and lineNumber, because this "other"
-        // might be our parent.
+        // Make a copy of value, comment, lineNumber, and implicit_, because
+        // this "other" might be our parent.
         auto value = other.value_;
         auto comment = other.comment_;
         auto lineNumber = other.lineNumber_;
+        auto implicit = other.implicit_;
         OrderedMap<std::string, std::shared_ptr<RawConfig>> newSubItems;
         for (const auto &item : other.subItems_) {
             auto result = newSubItems[item.first] =
@@ -44,6 +46,7 @@ public:
         value_ = std::move(value);
         comment_ = std::move(comment);
         lineNumber_ = lineNumber;
+        implicit_ = implicit;
         detachSubItems();
         subItems_ = std::move(newSubItems);
         return *this;
@@ -123,6 +126,7 @@ public:
     std::string comment_;
     OrderedMap<std::string, std::shared_ptr<RawConfig>> subItems_;
     unsigned int lineNumber_;
+    bool implicit_;
 };
 
 RawConfig::RawConfig() : RawConfig("") {}
@@ -195,6 +199,11 @@ void RawConfig::setLineNumber(unsigned int lineNumber) {
     d->lineNumber_ = lineNumber;
 }
 
+void RawConfig::setImplicit(bool implicit) {
+    FCITX_D();
+    d->implicit_ = implicit;
+}
+
 const std::string &RawConfig::name() const {
     FCITX_D();
     return d->name_;
@@ -213,6 +222,22 @@ const std::string &RawConfig::value() const {
 unsigned int RawConfig::lineNumber() const {
     FCITX_D();
     return d->lineNumber_;
+}
+
+bool RawConfig::isImplicitSelf() const {
+    FCITX_D();
+    return d->implicit_;
+}
+
+bool RawConfig::isImplicit() const {
+    const RawConfig *node = this;
+    while (node) {
+        if (node->isImplicitSelf()) {
+            return true;
+        }
+        node = node->parent();
+    }
+    return false;
 }
 
 bool RawConfig::hasSubItems() const {
