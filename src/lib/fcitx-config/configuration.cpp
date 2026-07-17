@@ -129,9 +129,7 @@ void Configuration::save(RawConfig &config) const {
         auto subConfigPtr = config.get(path, true);
         iter->second->marshall(*subConfigPtr);
         subConfigPtr->setComment(iter->second->description());
-        if (iter->second->isDefault()) {
-            subConfigPtr->setImplicit(true);
-        }
+        subConfigPtr->setImplicit(iter->second->isDefault());
     }
 }
 
