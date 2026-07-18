@@ -3,6 +3,7 @@
 
 namespace fcitx::wayland {
 const struct wl_registry_listener WlRegistry::listener = {
+#if defined(WL_REGISTRY_GLOBAL_SINCE_VERSION)
     .global =
         [](void *data, wl_registry *wldata, uint32_t name,
            const char *interface, uint32_t version) {
@@ -12,6 +13,8 @@ const struct wl_registry_listener WlRegistry::listener = {
                 obj->global()(name, interface, version);
             }
         },
+#endif
+#if defined(WL_REGISTRY_GLOBAL_REMOVE_SINCE_VERSION)
     .global_remove =
         [](void *data, wl_registry *wldata, uint32_t name) {
             auto *obj = static_cast<WlRegistry *>(data);
@@ -20,6 +23,7 @@ const struct wl_registry_listener WlRegistry::listener = {
                 obj->globalRemove()(name);
             }
         },
+#endif
 };
 
 WlRegistry::WlRegistry(wl_registry *data)

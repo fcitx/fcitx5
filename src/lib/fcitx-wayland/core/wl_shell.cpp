@@ -10,9 +10,11 @@ WlShell::WlShell(wl_shell *data)
 }
 
 void WlShell::destructor(wl_shell *data) { wl_shell_destroy(data); }
+#if defined(WL_SHELL_GET_SHELL_SURFACE_SINCE_VERSION)
 WlShellSurface *WlShell::getShellSurface(WlSurface *surface) {
     return new WlShellSurface(
         wl_shell_get_shell_surface(*this, rawPointer(surface)));
 }
+#endif
 
 } // namespace fcitx::wayland

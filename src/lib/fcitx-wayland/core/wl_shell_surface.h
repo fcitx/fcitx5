@@ -25,17 +25,37 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SHELL_SURFACE_PONG_SINCE_VERSION)
     void pong(uint32_t serial);
+#endif
+#if defined(WL_SHELL_SURFACE_MOVE_SINCE_VERSION)
     void move(WlSeat *seat, uint32_t serial);
+#endif
+#if defined(WL_SHELL_SURFACE_RESIZE_SINCE_VERSION)
     void resize(WlSeat *seat, uint32_t serial, uint32_t edges);
+#endif
+#if defined(WL_SHELL_SURFACE_SET_TOPLEVEL_SINCE_VERSION)
     void setToplevel();
+#endif
+#if defined(WL_SHELL_SURFACE_SET_TRANSIENT_SINCE_VERSION)
     void setTransient(WlSurface *parent, int32_t x, int32_t y, uint32_t flags);
+#endif
+#if defined(WL_SHELL_SURFACE_SET_FULLSCREEN_SINCE_VERSION)
     void setFullscreen(uint32_t method, uint32_t framerate, WlOutput *output);
+#endif
+#if defined(WL_SHELL_SURFACE_SET_POPUP_SINCE_VERSION)
     void setPopup(WlSeat *seat, uint32_t serial, WlSurface *parent, int32_t x,
                   int32_t y, uint32_t flags);
+#endif
+#if defined(WL_SHELL_SURFACE_SET_MAXIMIZED_SINCE_VERSION)
     void setMaximized(WlOutput *output);
+#endif
+#if defined(WL_SHELL_SURFACE_SET_TITLE_SINCE_VERSION)
     void setTitle(const char *title);
+#endif
+#if defined(WL_SHELL_SURFACE_SET_CLASS_SINCE_VERSION)
     void setClass(const char *class_);
+#endif
 
     auto &ping() { return pingSignal_; }
     auto &configure() { return configureSignal_; }

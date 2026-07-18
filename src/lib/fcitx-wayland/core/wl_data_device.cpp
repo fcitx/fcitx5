@@ -6,6 +6,7 @@
 
 namespace fcitx::wayland {
 const struct wl_data_device_listener WlDataDevice::listener = {
+#if defined(WL_DATA_DEVICE_DATA_OFFER_SINCE_VERSION)
     .data_offer =
         [](void *data, wl_data_device *wldata, wl_data_offer *id) {
             auto *obj = static_cast<WlDataDevice *>(data);
@@ -15,6 +16,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
                 obj->dataOffer()(id_);
             }
         },
+#endif
+#if defined(WL_DATA_DEVICE_ENTER_SINCE_VERSION)
     .enter =
         [](void *data, wl_data_device *wldata, uint32_t serial,
            wl_surface *surface, wl_fixed_t x, wl_fixed_t y, wl_data_offer *id) {
@@ -32,6 +35,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
                 obj->enter()(serial, surface_, x, y, id_);
             }
         },
+#endif
+#if defined(WL_DATA_DEVICE_LEAVE_SINCE_VERSION)
     .leave =
         [](void *data, wl_data_device *wldata) {
             auto *obj = static_cast<WlDataDevice *>(data);
@@ -40,6 +45,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
                 obj->leave()();
             }
         },
+#endif
+#if defined(WL_DATA_DEVICE_MOTION_SINCE_VERSION)
     .motion =
         [](void *data, wl_data_device *wldata, uint32_t time, wl_fixed_t x,
            wl_fixed_t y) {
@@ -49,6 +56,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
                 obj->motion()(time, x, y);
             }
         },
+#endif
+#if defined(WL_DATA_DEVICE_DROP_SINCE_VERSION)
     .drop =
         [](void *data, wl_data_device *wldata) {
             auto *obj = static_cast<WlDataDevice *>(data);
@@ -57,6 +66,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
                 obj->drop()();
             }
         },
+#endif
+#if defined(WL_DATA_DEVICE_SELECTION_SINCE_VERSION)
     .selection =
         [](void *data, wl_data_device *wldata, wl_data_offer *id) {
             auto *obj = static_cast<WlDataDevice *>(data);
@@ -68,6 +79,7 @@ const struct wl_data_device_listener WlDataDevice::listener = {
                 obj->selection()(id_);
             }
         },
+#endif
 };
 
 WlDataDevice::WlDataDevice(wl_data_device *data)
@@ -86,13 +98,17 @@ void WlDataDevice::destructor(wl_data_device *data) {
 #endif
     wl_data_device_destroy(data);
 }
+#if defined(WL_DATA_DEVICE_START_DRAG_SINCE_VERSION)
 void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin,
                              WlSurface *icon, uint32_t serial) {
     wl_data_device_start_drag(*this, rawPointer(source), rawPointer(origin),
                               rawPointer(icon), serial);
 }
+#endif
+#if defined(WL_DATA_DEVICE_SET_SELECTION_SINCE_VERSION)
 void WlDataDevice::setSelection(WlDataSource *source, uint32_t serial) {
     wl_data_device_set_selection(*this, rawPointer(source), serial);
 }
+#endif
 
 } // namespace fcitx::wayland

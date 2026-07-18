@@ -3,6 +3,7 @@
 
 namespace fcitx::wayland {
 const struct wl_output_listener WlOutput::listener = {
+#if defined(WL_OUTPUT_GEOMETRY_SINCE_VERSION)
     .geometry =
         [](void *data, wl_output *wldata, int32_t x, int32_t y,
            int32_t physicalWidth, int32_t physicalHeight, int32_t subpixel,
@@ -14,6 +15,8 @@ const struct wl_output_listener WlOutput::listener = {
                                 make, model, transform);
             }
         },
+#endif
+#if defined(WL_OUTPUT_MODE_SINCE_VERSION)
     .mode =
         [](void *data, wl_output *wldata, uint32_t flags, int32_t width,
            int32_t height, int32_t refresh) {
@@ -23,6 +26,8 @@ const struct wl_output_listener WlOutput::listener = {
                 obj->mode()(flags, width, height, refresh);
             }
         },
+#endif
+#if defined(WL_OUTPUT_DONE_SINCE_VERSION)
     .done =
         [](void *data, wl_output *wldata) {
             auto *obj = static_cast<WlOutput *>(data);
@@ -31,6 +36,8 @@ const struct wl_output_listener WlOutput::listener = {
                 obj->done()();
             }
         },
+#endif
+#if defined(WL_OUTPUT_SCALE_SINCE_VERSION)
     .scale =
         [](void *data, wl_output *wldata, int32_t factor) {
             auto *obj = static_cast<WlOutput *>(data);
@@ -39,6 +46,8 @@ const struct wl_output_listener WlOutput::listener = {
                 obj->scale()(factor);
             }
         },
+#endif
+#if defined(WL_OUTPUT_NAME_SINCE_VERSION)
     .name =
         [](void *data, wl_output *wldata, const char *name) {
             auto *obj = static_cast<WlOutput *>(data);
@@ -47,6 +56,8 @@ const struct wl_output_listener WlOutput::listener = {
                 obj->name()(name);
             }
         },
+#endif
+#if defined(WL_OUTPUT_DESCRIPTION_SINCE_VERSION)
     .description =
         [](void *data, wl_output *wldata, const char *description) {
             auto *obj = static_cast<WlOutput *>(data);
@@ -55,6 +66,7 @@ const struct wl_output_listener WlOutput::listener = {
                 obj->description()(description);
             }
         },
+#endif
 };
 
 WlOutput::WlOutput(wl_output *data)

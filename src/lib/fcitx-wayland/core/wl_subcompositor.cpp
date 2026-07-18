@@ -12,10 +12,12 @@ WlSubcompositor::WlSubcompositor(wl_subcompositor *data)
 void WlSubcompositor::destructor(wl_subcompositor *data) {
     wl_subcompositor_destroy(data);
 }
+#if defined(WL_SUBCOMPOSITOR_GET_SUBSURFACE_SINCE_VERSION)
 WlSubsurface *WlSubcompositor::getSubsurface(WlSurface *surface,
                                              WlSurface *parent) {
     return new WlSubsurface(wl_subcompositor_get_subsurface(
         *this, rawPointer(surface), rawPointer(parent)));
 }
+#endif
 
 } // namespace fcitx::wayland

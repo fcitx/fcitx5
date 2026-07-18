@@ -21,12 +21,14 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_REGISTRY_BIND_SINCE_VERSION)
 
     template <typename T>
     T *bind(uint32_t name, uint32_t requested_version) {
         return new T(static_cast<typename T::wlType *>(
             wl_registry_bind(*this, name, T::wlInterface, requested_version)));
     }
+#endif
 
     auto &global() { return globalSignal_; }
     auto &globalRemove() { return globalRemoveSignal_; }

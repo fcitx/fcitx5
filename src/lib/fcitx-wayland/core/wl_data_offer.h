@@ -21,10 +21,18 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_DATA_OFFER_ACCEPT_SINCE_VERSION)
     void accept(uint32_t serial, const char *mimeType);
+#endif
+#if defined(WL_DATA_OFFER_RECEIVE_SINCE_VERSION)
     void receive(const char *mimeType, int32_t fd);
+#endif
+#if defined(WL_DATA_OFFER_FINISH_SINCE_VERSION)
     void finish();
+#endif
+#if defined(WL_DATA_OFFER_SET_ACTIONS_SINCE_VERSION)
     void setActions(uint32_t dndActions, uint32_t preferredAction);
+#endif
 
     auto &offer() { return offerSignal_; }
     auto &sourceActions() { return sourceActionsSignal_; }

@@ -25,9 +25,13 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_DATA_DEVICE_START_DRAG_SINCE_VERSION)
     void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon,
                    uint32_t serial);
+#endif
+#if defined(WL_DATA_DEVICE_SET_SELECTION_SINCE_VERSION)
     void setSelection(WlDataSource *source, uint32_t serial);
+#endif
 
     auto &dataOffer() { return dataOfferSignal_; }
     auto &enter() { return enterSignal_; }

@@ -19,11 +19,15 @@ void WlCompositor::destructor(wl_compositor *data) {
 #endif
     wl_compositor_destroy(data);
 }
+#if defined(WL_COMPOSITOR_CREATE_SURFACE_SINCE_VERSION)
 WlSurface *WlCompositor::createSurface() {
     return new WlSurface(wl_compositor_create_surface(*this));
 }
+#endif
+#if defined(WL_COMPOSITOR_CREATE_REGION_SINCE_VERSION)
 WlRegion *WlCompositor::createRegion() {
     return new WlRegion(wl_compositor_create_region(*this));
 }
+#endif
 
 } // namespace fcitx::wayland
