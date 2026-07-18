@@ -10,6 +10,13 @@ WlCompositor::WlCompositor(wl_compositor *data)
 }
 
 void WlCompositor::destructor(wl_compositor *data) {
+    const auto version = wl_compositor_get_version(data);
+#if defined(WL_COMPOSITOR_RELEASE_SINCE_VERSION)
+    if (version >= 7) {
+        wl_compositor_release(data);
+        return;
+    }
+#endif
     wl_compositor_destroy(data);
 }
 WlSurface *WlCompositor::createSurface() {

@@ -107,6 +107,15 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axisRelativeDirection()(axis, direction);
             }
         },
+    .warp =
+        [](void *data, wl_pointer *wldata, wl_fixed_t surfaceX,
+           wl_fixed_t surfaceY) {
+            auto *obj = static_cast<WlPointer *>(data);
+            assert(*obj == wldata);
+            {
+                obj->warp()(surfaceX, surfaceY);
+            }
+        },
 };
 
 WlPointer::WlPointer(wl_pointer *data)

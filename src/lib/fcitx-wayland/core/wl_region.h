@@ -11,7 +11,7 @@ public:
     static constexpr const char *interface = "wl_region";
     static constexpr const wl_interface *const wlInterface =
         &wl_region_interface;
-    static constexpr const uint32_t version = 1;
+    static constexpr const uint32_t version = 7;
     using wlType = wl_region;
     operator wl_region *() { return data_.get(); }
     WlRegion(wlType *data);

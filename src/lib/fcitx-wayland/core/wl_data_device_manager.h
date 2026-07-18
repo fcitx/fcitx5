@@ -15,7 +15,7 @@ public:
     static constexpr const char *interface = "wl_data_device_manager";
     static constexpr const wl_interface *const wlInterface =
         &wl_data_device_manager_interface;
-    static constexpr const uint32_t version = 3;
+    static constexpr const uint32_t version = 4;
     using wlType = wl_data_device_manager;
     operator wl_data_device_manager *() { return data_.get(); }
     WlDataDeviceManager(wlType *data);
