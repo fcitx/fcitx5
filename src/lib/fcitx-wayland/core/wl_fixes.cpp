@@ -9,11 +9,15 @@ WlFixes::WlFixes(wl_fixes *data)
 }
 
 void WlFixes::destructor(wl_fixes *data) { wl_fixes_destroy(data); }
+#if defined(WL_FIXES_DESTROY_REGISTRY_SINCE_VERSION)
 void WlFixes::destroyRegistry(WlRegistry *registry) {
     wl_fixes_destroy_registry(*this, rawPointer(registry));
 }
+#endif
+#if defined(WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION)
 void WlFixes::ackGlobalRemove(WlRegistry *registry, uint32_t name) {
     wl_fixes_ack_global_remove(*this, rawPointer(registry), name);
 }
+#endif
 
 } // namespace fcitx::wayland

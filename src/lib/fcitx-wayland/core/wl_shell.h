@@ -23,7 +23,9 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SHELL_GET_SHELL_SURFACE_SINCE_VERSION)
     WlShellSurface *getShellSurface(WlSurface *surface);
+#endif
 
 private:
     static void destructor(wl_shell *);

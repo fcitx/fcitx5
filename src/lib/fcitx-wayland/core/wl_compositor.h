@@ -23,8 +23,12 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_COMPOSITOR_CREATE_SURFACE_SINCE_VERSION)
     WlSurface *createSurface();
+#endif
+#if defined(WL_COMPOSITOR_CREATE_REGION_SINCE_VERSION)
     WlRegion *createRegion();
+#endif
 
 private:
     static void destructor(wl_compositor *);

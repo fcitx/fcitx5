@@ -4,6 +4,7 @@
 
 namespace fcitx::wayland {
 const struct wl_pointer_listener WlPointer::listener = {
+#if defined(WL_POINTER_ENTER_SINCE_VERSION)
     .enter =
         [](void *data, wl_pointer *wldata, uint32_t serial, wl_surface *surface,
            wl_fixed_t surfaceX, wl_fixed_t surfaceY) {
@@ -18,6 +19,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->enter()(serial, surface_, surfaceX, surfaceY);
             }
         },
+#endif
+#if defined(WL_POINTER_LEAVE_SINCE_VERSION)
     .leave =
         [](void *data, wl_pointer *wldata, uint32_t serial,
            wl_surface *surface) {
@@ -32,6 +35,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->leave()(serial, surface_);
             }
         },
+#endif
+#if defined(WL_POINTER_MOTION_SINCE_VERSION)
     .motion =
         [](void *data, wl_pointer *wldata, uint32_t time, wl_fixed_t surfaceX,
            wl_fixed_t surfaceY) {
@@ -41,6 +46,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->motion()(time, surfaceX, surfaceY);
             }
         },
+#endif
+#if defined(WL_POINTER_BUTTON_SINCE_VERSION)
     .button =
         [](void *data, wl_pointer *wldata, uint32_t serial, uint32_t time,
            uint32_t button, uint32_t state) {
@@ -50,6 +57,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->button()(serial, time, button, state);
             }
         },
+#endif
+#if defined(WL_POINTER_AXIS_SINCE_VERSION)
     .axis =
         [](void *data, wl_pointer *wldata, uint32_t time, uint32_t axis,
            wl_fixed_t value) {
@@ -59,6 +68,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axis()(time, axis, value);
             }
         },
+#endif
+#if defined(WL_POINTER_FRAME_SINCE_VERSION)
     .frame =
         [](void *data, wl_pointer *wldata) {
             auto *obj = static_cast<WlPointer *>(data);
@@ -67,6 +78,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->frame()();
             }
         },
+#endif
+#if defined(WL_POINTER_AXIS_SOURCE_SINCE_VERSION)
     .axis_source =
         [](void *data, wl_pointer *wldata, uint32_t axisSource) {
             auto *obj = static_cast<WlPointer *>(data);
@@ -75,6 +88,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axisSource()(axisSource);
             }
         },
+#endif
+#if defined(WL_POINTER_AXIS_STOP_SINCE_VERSION)
     .axis_stop =
         [](void *data, wl_pointer *wldata, uint32_t time, uint32_t axis) {
             auto *obj = static_cast<WlPointer *>(data);
@@ -83,6 +98,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axisStop()(time, axis);
             }
         },
+#endif
+#if defined(WL_POINTER_AXIS_DISCRETE_SINCE_VERSION)
     .axis_discrete =
         [](void *data, wl_pointer *wldata, uint32_t axis, int32_t discrete) {
             auto *obj = static_cast<WlPointer *>(data);
@@ -91,6 +108,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axisDiscrete()(axis, discrete);
             }
         },
+#endif
+#if defined(WL_POINTER_AXIS_VALUE120_SINCE_VERSION)
     .axis_value120 =
         [](void *data, wl_pointer *wldata, uint32_t axis, int32_t value120) {
             auto *obj = static_cast<WlPointer *>(data);
@@ -99,6 +118,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axisValue120()(axis, value120);
             }
         },
+#endif
+#if defined(WL_POINTER_AXIS_RELATIVE_DIRECTION_SINCE_VERSION)
     .axis_relative_direction =
         [](void *data, wl_pointer *wldata, uint32_t axis, uint32_t direction) {
             auto *obj = static_cast<WlPointer *>(data);
@@ -107,6 +128,8 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->axisRelativeDirection()(axis, direction);
             }
         },
+#endif
+#if defined(WL_POINTER_WARP_SINCE_VERSION)
     .warp =
         [](void *data, wl_pointer *wldata, wl_fixed_t surfaceX,
            wl_fixed_t surfaceY) {
@@ -116,6 +139,7 @@ const struct wl_pointer_listener WlPointer::listener = {
                 obj->warp()(surfaceX, surfaceY);
             }
         },
+#endif
 };
 
 WlPointer::WlPointer(wl_pointer *data)
@@ -134,10 +158,12 @@ void WlPointer::destructor(wl_pointer *data) {
 #endif
     wl_pointer_destroy(data);
 }
+#if defined(WL_POINTER_SET_CURSOR_SINCE_VERSION)
 void WlPointer::setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
                           int32_t hotspotY) {
     wl_pointer_set_cursor(*this, serial, rawPointer(surface), hotspotX,
                           hotspotY);
 }
+#endif
 
 } // namespace fcitx::wayland

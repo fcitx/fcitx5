@@ -3,6 +3,7 @@
 
 namespace fcitx::wayland {
 const struct wl_callback_listener WlCallback::listener = {
+#if defined(WL_CALLBACK_DONE_SINCE_VERSION)
     .done =
         [](void *data, wl_callback *wldata, uint32_t callbackData) {
             auto *obj = static_cast<WlCallback *>(data);
@@ -11,6 +12,7 @@ const struct wl_callback_listener WlCallback::listener = {
                 obj->done()(callbackData);
             }
         },
+#endif
 };
 
 WlCallback::WlCallback(wl_callback *data)

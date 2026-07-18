@@ -3,6 +3,7 @@
 
 namespace fcitx::wayland {
 const struct wl_buffer_listener WlBuffer::listener = {
+#if defined(WL_BUFFER_RELEASE_SINCE_VERSION)
     .release =
         [](void *data, wl_buffer *wldata) {
             auto *obj = static_cast<WlBuffer *>(data);
@@ -11,6 +12,7 @@ const struct wl_buffer_listener WlBuffer::listener = {
                 obj->release()();
             }
         },
+#endif
 };
 
 WlBuffer::WlBuffer(wl_buffer *data)

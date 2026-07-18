@@ -22,8 +22,12 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_FIXES_DESTROY_REGISTRY_SINCE_VERSION)
     void destroyRegistry(WlRegistry *registry);
+#endif
+#if defined(WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION)
     void ackGlobalRemove(WlRegistry *registry, uint32_t name);
+#endif
 
 private:
     static void destructor(wl_fixes *);

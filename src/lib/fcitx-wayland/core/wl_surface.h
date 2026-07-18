@@ -26,17 +26,39 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SURFACE_ATTACH_SINCE_VERSION)
     void attach(WlBuffer *buffer, int32_t x, int32_t y);
+#endif
+#if defined(WL_SURFACE_DAMAGE_SINCE_VERSION)
     void damage(int32_t x, int32_t y, int32_t width, int32_t height);
+#endif
+#if defined(WL_SURFACE_FRAME_SINCE_VERSION)
     WlCallback *frame();
+#endif
+#if defined(WL_SURFACE_SET_OPAQUE_REGION_SINCE_VERSION)
     void setOpaqueRegion(WlRegion *region);
+#endif
+#if defined(WL_SURFACE_SET_INPUT_REGION_SINCE_VERSION)
     void setInputRegion(WlRegion *region);
+#endif
+#if defined(WL_SURFACE_COMMIT_SINCE_VERSION)
     void commit();
+#endif
+#if defined(WL_SURFACE_SET_BUFFER_TRANSFORM_SINCE_VERSION)
     void setBufferTransform(int32_t transform);
+#endif
+#if defined(WL_SURFACE_SET_BUFFER_SCALE_SINCE_VERSION)
     void setBufferScale(int32_t scale);
+#endif
+#if defined(WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION)
     void damageBuffer(int32_t x, int32_t y, int32_t width, int32_t height);
+#endif
+#if defined(WL_SURFACE_OFFSET_SINCE_VERSION)
     void offset(int32_t x, int32_t y);
+#endif
+#if defined(WL_SURFACE_GET_RELEASE_SINCE_VERSION)
     WlCallback *getRelease();
+#endif
 
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }

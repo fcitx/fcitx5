@@ -4,6 +4,7 @@
 
 namespace fcitx::wayland {
 const struct wl_shm_listener WlShm::listener = {
+#if defined(WL_SHM_FORMAT_SINCE_VERSION)
     .format =
         [](void *data, wl_shm *wldata, uint32_t format) {
             auto *obj = static_cast<WlShm *>(data);
@@ -12,6 +13,7 @@ const struct wl_shm_listener WlShm::listener = {
                 obj->format()(format);
             }
         },
+#endif
 };
 
 WlShm::WlShm(wl_shm *data) : version_(wl_shm_get_version(data)), data_(data) {
@@ -29,8 +31,10 @@ void WlShm::destructor(wl_shm *data) {
 #endif
     wl_shm_destroy(data);
 }
+#if defined(WL_SHM_CREATE_POOL_SINCE_VERSION)
 WlShmPool *WlShm::createPool(int32_t fd, int32_t size) {
     return new WlShmPool(wl_shm_create_pool(*this, fd, size));
 }
+#endif
 
 } // namespace fcitx::wayland

@@ -22,9 +22,13 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SHM_POOL_CREATE_BUFFER_SINCE_VERSION)
     WlBuffer *createBuffer(int32_t offset, int32_t width, int32_t height,
                            int32_t stride, uint32_t format);
+#endif
+#if defined(WL_SHM_POOL_RESIZE_SINCE_VERSION)
     void resize(int32_t size);
+#endif
 
 private:
     static void destructor(wl_shm_pool *);

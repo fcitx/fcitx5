@@ -23,8 +23,10 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_POINTER_SET_CURSOR_SINCE_VERSION)
     void setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
                    int32_t hotspotY);
+#endif
 
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }

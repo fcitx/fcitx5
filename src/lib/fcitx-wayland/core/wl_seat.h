@@ -24,9 +24,15 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SEAT_GET_POINTER_SINCE_VERSION)
     WlPointer *getPointer();
+#endif
+#if defined(WL_SEAT_GET_KEYBOARD_SINCE_VERSION)
     WlKeyboard *getKeyboard();
+#endif
+#if defined(WL_SEAT_GET_TOUCH_SINCE_VERSION)
     WlTouch *getTouch();
+#endif
 
     auto &capabilities() { return capabilitiesSignal_; }
     auto &name() { return nameSignal_; }

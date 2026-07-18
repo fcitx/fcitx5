@@ -22,7 +22,9 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SHM_CREATE_POOL_SINCE_VERSION)
     WlShmPool *createPool(int32_t fd, int32_t size);
+#endif
 
     auto &format() { return formatSignal_; }
 

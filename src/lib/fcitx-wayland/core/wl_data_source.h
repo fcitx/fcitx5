@@ -21,8 +21,12 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_DATA_SOURCE_OFFER_SINCE_VERSION)
     void offer(const char *mimeType);
+#endif
+#if defined(WL_DATA_SOURCE_SET_ACTIONS_SINCE_VERSION)
     void setActions(uint32_t dndActions);
+#endif
 
     auto &target() { return targetSignal_; }
     auto &send() { return sendSignal_; }

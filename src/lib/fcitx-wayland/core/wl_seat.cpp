@@ -6,6 +6,7 @@
 
 namespace fcitx::wayland {
 const struct wl_seat_listener WlSeat::listener = {
+#if defined(WL_SEAT_CAPABILITIES_SINCE_VERSION)
     .capabilities =
         [](void *data, wl_seat *wldata, uint32_t capabilities) {
             auto *obj = static_cast<WlSeat *>(data);
@@ -14,6 +15,8 @@ const struct wl_seat_listener WlSeat::listener = {
                 obj->capabilities()(capabilities);
             }
         },
+#endif
+#if defined(WL_SEAT_NAME_SINCE_VERSION)
     .name =
         [](void *data, wl_seat *wldata, const char *name) {
             auto *obj = static_cast<WlSeat *>(data);
@@ -22,6 +25,7 @@ const struct wl_seat_listener WlSeat::listener = {
                 obj->name()(name);
             }
         },
+#endif
 };
 
 WlSeat::WlSeat(wl_seat *data)
@@ -40,12 +44,18 @@ void WlSeat::destructor(wl_seat *data) {
 #endif
     wl_seat_destroy(data);
 }
+#if defined(WL_SEAT_GET_POINTER_SINCE_VERSION)
 WlPointer *WlSeat::getPointer() {
     return new WlPointer(wl_seat_get_pointer(*this));
 }
+#endif
+#if defined(WL_SEAT_GET_KEYBOARD_SINCE_VERSION)
 WlKeyboard *WlSeat::getKeyboard() {
     return new WlKeyboard(wl_seat_get_keyboard(*this));
 }
+#endif
+#if defined(WL_SEAT_GET_TOUCH_SINCE_VERSION)
 WlTouch *WlSeat::getTouch() { return new WlTouch(wl_seat_get_touch(*this)); }
+#endif
 
 } // namespace fcitx::wayland

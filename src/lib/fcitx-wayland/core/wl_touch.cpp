@@ -4,6 +4,7 @@
 
 namespace fcitx::wayland {
 const struct wl_touch_listener WlTouch::listener = {
+#if defined(WL_TOUCH_DOWN_SINCE_VERSION)
     .down =
         [](void *data, wl_touch *wldata, uint32_t serial, uint32_t time,
            wl_surface *surface, int32_t id, wl_fixed_t x, wl_fixed_t y) {
@@ -18,6 +19,8 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->down()(serial, time, surface_, id, x, y);
             }
         },
+#endif
+#if defined(WL_TOUCH_UP_SINCE_VERSION)
     .up =
         [](void *data, wl_touch *wldata, uint32_t serial, uint32_t time,
            int32_t id) {
@@ -27,6 +30,8 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->up()(serial, time, id);
             }
         },
+#endif
+#if defined(WL_TOUCH_MOTION_SINCE_VERSION)
     .motion =
         [](void *data, wl_touch *wldata, uint32_t time, int32_t id,
            wl_fixed_t x, wl_fixed_t y) {
@@ -36,6 +41,8 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->motion()(time, id, x, y);
             }
         },
+#endif
+#if defined(WL_TOUCH_FRAME_SINCE_VERSION)
     .frame =
         [](void *data, wl_touch *wldata) {
             auto *obj = static_cast<WlTouch *>(data);
@@ -44,6 +51,8 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->frame()();
             }
         },
+#endif
+#if defined(WL_TOUCH_CANCEL_SINCE_VERSION)
     .cancel =
         [](void *data, wl_touch *wldata) {
             auto *obj = static_cast<WlTouch *>(data);
@@ -52,6 +61,8 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->cancel()();
             }
         },
+#endif
+#if defined(WL_TOUCH_SHAPE_SINCE_VERSION)
     .shape =
         [](void *data, wl_touch *wldata, int32_t id, wl_fixed_t major,
            wl_fixed_t minor) {
@@ -61,6 +72,8 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->shape()(id, major, minor);
             }
         },
+#endif
+#if defined(WL_TOUCH_ORIENTATION_SINCE_VERSION)
     .orientation =
         [](void *data, wl_touch *wldata, int32_t id, wl_fixed_t orientation) {
             auto *obj = static_cast<WlTouch *>(data);
@@ -69,6 +82,7 @@ const struct wl_touch_listener WlTouch::listener = {
                 obj->orientation()(id, orientation);
             }
         },
+#endif
 };
 
 WlTouch::WlTouch(wl_touch *data)

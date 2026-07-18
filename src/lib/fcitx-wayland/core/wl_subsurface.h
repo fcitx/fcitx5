@@ -22,11 +22,21 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SUBSURFACE_SET_POSITION_SINCE_VERSION)
     void setPosition(int32_t x, int32_t y);
+#endif
+#if defined(WL_SUBSURFACE_PLACE_ABOVE_SINCE_VERSION)
     void placeAbove(WlSurface *sibling);
+#endif
+#if defined(WL_SUBSURFACE_PLACE_BELOW_SINCE_VERSION)
     void placeBelow(WlSurface *sibling);
+#endif
+#if defined(WL_SUBSURFACE_SET_SYNC_SINCE_VERSION)
     void setSync();
+#endif
+#if defined(WL_SUBSURFACE_SET_DESYNC_SINCE_VERSION)
     void setDesync();
+#endif
 
 private:
     static void destructor(wl_subsurface *);

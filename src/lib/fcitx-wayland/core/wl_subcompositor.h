@@ -23,7 +23,9 @@ public:
     auto actualVersion() const { return version_; }
     void *userData() const { return userData_; }
     void setUserData(void *userData) { userData_ = userData; }
+#if defined(WL_SUBCOMPOSITOR_GET_SUBSURFACE_SINCE_VERSION)
     WlSubsurface *getSubsurface(WlSurface *surface, WlSurface *parent);
+#endif
 
 private:
     static void destructor(wl_subcompositor *);
