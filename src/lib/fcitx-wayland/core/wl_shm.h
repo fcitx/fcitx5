@@ -13,7 +13,7 @@ class WlShm final {
 public:
     static constexpr const char *interface = "wl_shm";
     static constexpr const wl_interface *const wlInterface = &wl_shm_interface;
-    static constexpr const uint32_t version = 2;
+    static constexpr const uint32_t version = 3;
     using wlType = wl_shm;
     operator wl_shm *() { return data_.get(); }
     WlShm(wlType *data);

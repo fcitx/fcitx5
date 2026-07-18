@@ -24,6 +24,10 @@ set(FCITX_WAYLAND_CORE_SOURCES
     wl_touch.cpp
 )
 
+if (Wayland_VERSION VERSION_GREATER_EQUAL 1.26)
+    list(APPEND FCITX_WAYLAND_CORE_SOURCES wl_fixes.cpp)
+endif()
+
 add_library(Fcitx5WaylandCore STATIC ${FCITX_WAYLAND_CORE_SOURCES})
 set_target_properties(Fcitx5WaylandCore PROPERTIES
   POSITION_INDEPENDENT_CODE ON

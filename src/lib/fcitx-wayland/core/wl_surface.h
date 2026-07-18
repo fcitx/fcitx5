@@ -17,7 +17,7 @@ public:
     static constexpr const char *interface = "wl_surface";
     static constexpr const wl_interface *const wlInterface =
         &wl_surface_interface;
-    static constexpr const uint32_t version = 6;
+    static constexpr const uint32_t version = 7;
     using wlType = wl_surface;
     operator wl_surface *() { return data_.get(); }
     WlSurface(wlType *data);
@@ -36,6 +36,7 @@ public:
     void setBufferScale(int32_t scale);
     void damageBuffer(int32_t x, int32_t y, int32_t width, int32_t height);
     void offset(int32_t x, int32_t y);
+    WlCallback *getRelease();
 
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }

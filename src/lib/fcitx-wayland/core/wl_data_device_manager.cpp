@@ -11,6 +11,13 @@ WlDataDeviceManager::WlDataDeviceManager(wl_data_device_manager *data)
 }
 
 void WlDataDeviceManager::destructor(wl_data_device_manager *data) {
+    const auto version = wl_data_device_manager_get_version(data);
+#if defined(WL_DATA_DEVICE_MANAGER_RELEASE_SINCE_VERSION)
+    if (version >= 4) {
+        wl_data_device_manager_release(data);
+        return;
+    }
+#endif
     wl_data_device_manager_destroy(data);
 }
 WlDataSource *WlDataDeviceManager::createDataSource() {

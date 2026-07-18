@@ -14,7 +14,7 @@ public:
     static constexpr const char *interface = "wl_pointer";
     static constexpr const wl_interface *const wlInterface =
         &wl_pointer_interface;
-    static constexpr const uint32_t version = 10;
+    static constexpr const uint32_t version = 11;
     using wlType = wl_pointer;
     operator wl_pointer *() { return data_.get(); }
     WlPointer(wlType *data);
@@ -37,6 +37,7 @@ public:
     auto &axisDiscrete() { return axisDiscreteSignal_; }
     auto &axisValue120() { return axisValue120Signal_; }
     auto &axisRelativeDirection() { return axisRelativeDirectionSignal_; }
+    auto &warp() { return warpSignal_; }
 
 private:
     static void destructor(wl_pointer *);
@@ -53,6 +54,7 @@ private:
     fcitx::Signal<void(uint32_t, int32_t)> axisDiscreteSignal_;
     fcitx::Signal<void(uint32_t, int32_t)> axisValue120Signal_;
     fcitx::Signal<void(uint32_t, uint32_t)> axisRelativeDirectionSignal_;
+    fcitx::Signal<void(wl_fixed_t, wl_fixed_t)> warpSignal_;
 
     uint32_t version_;
     void *userData_ = nullptr;

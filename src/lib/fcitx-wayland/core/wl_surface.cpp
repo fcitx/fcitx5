@@ -85,5 +85,8 @@ void WlSurface::damageBuffer(int32_t x, int32_t y, int32_t width,
     wl_surface_damage_buffer(*this, x, y, width, height);
 }
 void WlSurface::offset(int32_t x, int32_t y) { wl_surface_offset(*this, x, y); }
+WlCallback *WlSurface::getRelease() {
+    return new WlCallback(wl_surface_get_release(*this));
+}
 
 } // namespace fcitx::wayland
