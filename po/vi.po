@@ -4,15 +4,15 @@
 #
 # Translators:
 # zenfas, 2024
-# Huy Võ <hoanghuy309@gmail.com>, 2025
+# Huy Võ <hoanghuy309@gmail.com>, 2026
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-05-20 20:24+0000\n"
+"POT-Creation-Date: 2026-07-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Huy Võ <hoanghuy309@gmail.com>, 2025\n"
+"Last-Translator: Huy Võ <hoanghuy309@gmail.com>, 2026\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Siêu"
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Candidates per page"
-msgstr ""
+msgstr "Ứng viên trên mỗi trang"
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Prev Candidate"
@@ -153,11 +153,11 @@ msgstr "Hoàn thành tạm thời được kích hoạt."
 msgid "Completion is enabled."
 msgstr "Hoàn thành được kích hoạt."
 
-#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:483
+#: src/lib/fcitx/instance.cpp:713 src/lib/fcitx/instance.cpp:891
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
-#: src/modules/notificationitem/notificationitem.cpp:285
+#: src/modules/notificationitem/notificationitem.cpp:286
 #: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -616,59 +616,59 @@ msgstr "KDE Plasma (Thử nghiệm)"
 msgid "Not available"
 msgstr "Không có sẵn"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:392
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "Mặc định"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:394
 #, c++-format
 msgid "Group {}"
 msgstr "Nhóm {}"
 
-#: src/lib/fcitx/instance.cpp:431
+#: src/lib/fcitx/instance.cpp:440
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: src/lib/fcitx/instance.cpp:434
+#: src/lib/fcitx/instance.cpp:443
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (Không khả dụng)"
 
-#: src/lib/fcitx/instance.cpp:436
+#: src/lib/fcitx/instance.cpp:445
 msgid "(Not available)"
 msgstr "(Không khả dụng)"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:449
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Nhóm {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
+#: src/lib/fcitx/instance.cpp:484 src/lib/fcitx/instance.cpp:714
 #: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "Chuyển đổi nhóm"
 
-#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:485 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:705
+#: src/lib/fcitx/instance.cpp:715
 #, c++-format
 msgid "Switched group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:877
+#: src/lib/fcitx/instance.cpp:891
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:878
+#: src/lib/fcitx/instance.cpp:892
 msgid "Preedit enabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:879
+#: src/lib/fcitx/instance.cpp:893
 msgid "Preedit disabled"
 msgstr ""
 
@@ -794,7 +794,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:181
 msgid "Activate input method by default"
-msgstr ""
+msgstr "Kích hoạt kiểu gõ theo mặc định"
 
 #: src/lib/fcitx/globalconfig.cpp:185
 msgid "Reset state on Focus In"
@@ -839,6 +839,10 @@ msgid ""
 "is a workaround when there is no way to get the current XKB option from "
 "Wayland Compositor."
 msgstr ""
+"Ghi đè tùy chọn XKB từ máy chủ hiển thị. Nó sẽ không ảnh hưởng đến tùy chọn "
+"XKB gửi để hiển thị mà chỉ ảnh hưởng đến các tùy chọn XKB cho bố cục XKB tùy "
+"chỉnh. Đây là giải pháp thay thế khi không có cách nào để có được tùy chọn "
+"XKB hiện tại từ Wayland Compositor."
 
 #: src/lib/fcitx/globalconfig.cpp:225
 msgid "Custom XKB Option"
@@ -2136,6 +2140,13 @@ msgid ""
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Fcitx phải được KWin khởi chạy trong KDE Wayland để sử dụng giao diện kiểu "
+"gõ Wayland. Điều này có thể cải thiện trải nghiệm khi sử dụng Fcitx trên "
+"Wayland. Để định cấu hình tính năng này, bạn cần đi tới \"Cài đặt hệ thống\" "
+"> \"Bàn phím ảo\" và chọn \"Fcitx 5\" từ đó. Bạn cũng có thể cần tắt các "
+"công cụ khởi chạy kiểu gõ, chẳng hạn như imsettings trên Fedora hoặc im-"
+"config trên Debian/Ubuntu. Để biết thêm chi tiết, hãy xem https://fcitx-"
+"im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: src/modules/wayland/waylandmodule.cpp:695
 msgid ""
@@ -2189,38 +2200,38 @@ msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Để biết thêm chi tiết xem https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
-#: src/modules/imselector/imselector.cpp:256
-msgid "Select local input method:"
-msgstr "Chọn kiểu gõ địa phương:"
-
-#: src/modules/imselector/imselector.cpp:257
-msgid "Select input method:"
-msgstr "Chọn kiểu gõ:"
-
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:32
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:50
 msgid "Trigger Key"
 msgstr "Phím Kích Hoạt"
 
-#: src/modules/imselector/imselector.h:31
+#: src/modules/imselector/imselector.h:38
 msgid "Trigger Key for only current input context"
 msgstr ""
 
-#: src/modules/imselector/imselector.h:37
+#: src/modules/imselector/imselector.h:44
 msgid "Hotkey for switching to the N-th input method"
 msgstr "Phím tắt để chuyển sang phương thức nhập thứ N"
 
-#: src/modules/imselector/imselector.h:42
-#: src/modules/imselector/imselector.h:52
+#: src/modules/imselector/imselector.h:49
+#: src/modules/imselector/imselector.h:59
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
 
-#: src/modules/imselector/imselector.h:46
+#: src/modules/imselector/imselector.h:53
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 "Phím tắt để chuyển sang phương thức nhập thứ N chỉ cho ngữ cảnh nhập hiện tại"
+
+#: src/modules/imselector/imselectortempmode.cpp:194
+msgid "Select local input method:"
+msgstr "Chọn kiểu gõ địa phương:"
+
+#: src/modules/imselector/imselectortempmode.cpp:195
+msgid "Select input method:"
+msgstr "Chọn kiểu gõ:"
 
 #: src/modules/notifications/notifications.cpp:230
 msgid "Do not show again"
@@ -2229,6 +2240,10 @@ msgstr "Không hiển thị lại"
 #: src/modules/notifications/notifications.h:35
 msgid "Hidden Notifications"
 msgstr "Thông Báo Ẩn"
+
+#: src/modules/quickphrase/quickphrasetempmode.cpp:416
+msgid "Quick Phrase: "
+msgstr "Cụm Từ Nhanh:"
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Enable Spell check"
@@ -2241,10 +2256,6 @@ msgstr "Ngôn ngữ kiểm tra Chính Tả dự phòng"
 #: src/modules/quickphrase/quickphrase.h:49
 msgid "Editor"
 msgstr "Biên tập"
-
-#: src/modules/quickphrase/quickphrase.cpp:509
-msgid "Quick Phrase: "
-msgstr "Cụm Từ Nhanh:"
 
 #: src/modules/spell/spell.h:23
 msgid "Presage"
@@ -2305,17 +2316,17 @@ msgstr "<Plane 16 Private Use>"
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
-#: src/modules/unicode/unicode.cpp:491
-msgid "Unicode: "
-msgstr "Unicode:"
-
-#: src/modules/unicode/unicode.cpp:493
-msgid "(Type to search unicode by code or description)"
-msgstr "(Nhập để tìm kiếm theo mã unicode hoặc mô tả)"
-
 #: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
 msgstr ""
+
+#: src/modules/unicode/unicodetempmode.cpp:408
+msgid "Unicode: "
+msgstr "Unicode:"
+
+#: src/modules/unicode/unicodetempmode.cpp:410
+msgid "(Type to search unicode by code or description)"
+msgstr "(Nhập để tìm kiếm theo mã unicode hoặc mô tả)"
 
 #: src/modules/clipboard/clipboard.h:54
 msgid "Paste Primary"
@@ -2351,15 +2362,15 @@ msgstr "Số giây trước khi xóa mật khẩu"
 msgid "0 means never clear password."
 msgstr "0 có nghĩa là không bao giờ làm trống mật khẩu."
 
-#: src/modules/clipboard/clipboard.cpp:144
+#: src/modules/clipboard/clipboard.cpp:130
 msgid "<Password>"
 msgstr "<Password>"
 
-#: src/modules/clipboard/clipboard.cpp:397
+#: src/modules/clipboard/clipboard.cpp:256
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "Bảng nhớ tạm (Nhấn BackSpace/Delete để xóa lịch sử):"
 
-#: src/modules/clipboard/clipboard.cpp:399
+#: src/modules/clipboard/clipboard.cpp:258
 msgid "No clipboard history."
 msgstr ""
 
