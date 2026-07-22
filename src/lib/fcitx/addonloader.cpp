@@ -14,7 +14,9 @@
 #include <utility>
 #include <vector>
 #include "fcitx-utils/flags.h"
+#ifndef FCITX_NO_DL
 #include "fcitx-utils/library.h"
+#endif
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
@@ -27,6 +29,7 @@ namespace fcitx {
 
 AddonLoader::~AddonLoader() {}
 
+#ifndef FCITX_NO_DL
 SharedLibraryLoader::~SharedLibraryLoader() {}
 
 AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
@@ -100,6 +103,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
     }
     return nullptr;
 }
+#endif
 
 StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
     : registry(registry_) {}
