@@ -135,6 +135,13 @@ public:
     const InputMethodEntry *entry(const std::string &name) const;
 
     /**
+     * Return the names of input methods that are configured but not available.
+     *
+     * @since 5.1.13
+     */
+    const std::vector<std::string> &missingInputMethods() const;
+
+    /**
      * Enumerate all the input method entries.
      *
      * @return return true if the enumeration is done without interruption.
