@@ -105,19 +105,24 @@ protected:
         if (!ic_) {
             return;
         }
+
+        auto state = key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                     : WL_KEYBOARD_KEY_STATE_PRESSED;
+
         if (key.rawKey().code() && key.rawKey().states() == KeyState::NoState) {
-            sendKeyToVK(time_, key.rawKey(),
-                        key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                        : WL_KEYBOARD_KEY_STATE_PRESSED);
-            if (!key.isRelease()) {
-                sendKeyToVK(time_, key.rawKey(),
-                            WL_KEYBOARD_KEY_STATE_RELEASED);
+            auto params = server_->mayChangeModifiers(key.rawKey().code(),
+                                                      state);
+            if (params) {
+                sendModifiers(params.value());
+            } else {
+                sendKeyToVK(time_, key.rawKey(), state);
+                if (!key.isRelease()) {
+                    sendKeyToVK(time_, key.rawKey(),
+                                WL_KEYBOARD_KEY_STATE_RELEASED);
+                }
             }
         } else {
-            sendKey(time_, key.rawKey().sym(),
-                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                    : WL_KEYBOARD_KEY_STATE_PRESSED,
-                    key.rawKey().states());
+            sendKey(time_, key.rawKey().sym(), state, key.rawKey().states());
             if (!key.isRelease()) {
                 sendKey(time_, key.rawKey().sym(),
                         WL_KEYBOARD_KEY_STATE_RELEASED, key.rawKey().states());
@@ -148,6 +153,8 @@ private:
     void sendKey(uint32_t time, uint32_t sym, uint32_t state,
                  KeyStates states) const;
     void sendKeyToVK(uint32_t time, const Key &key, uint32_t state) const;
+
+    void sendModifiers(const WlModifiersParams &params) const;
 
     static uint32_t toModifiers(KeyStates states) {
         uint32_t modifiers = 0;
