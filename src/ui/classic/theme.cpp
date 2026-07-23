@@ -487,10 +487,11 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
                              double destHeight, double alpha) const {
     if (const auto *image = std::get_if<CairoSurface>(&image_)) {
         cairo_save(c);
-        cairo_rectangle(c, destX, destY, destWidth, destHeight);
+        cairo_translate(c, destX, destY);
+        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
+        cairo_rectangle(c, 0, 0, sourceWidth, sourceHeight);
         cairo_clip(c);
-        cairo_set_source_surface(c, image->get(), destX - sourceX,
-                                 destY - sourceY);
+        cairo_set_source_surface(c, image->get(), -sourceX, -sourceY);
         cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
         return;
@@ -513,58 +514,6 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
             cairo_pop_group(c);
         }
         cairo_restore(c);
-    }
-}
-
-void paintSvgTile(cairo_t *c, int width, int height, double alpha,
-                  const ThemeImage &image, int marginLeft, int marginTop,
-                  int marginRight, int marginBottom) {
-    int resizeWidth = image.width() - marginLeft - marginRight;
-    int resizeHeight = image.height() - marginTop - marginBottom;
-    if (resizeWidth <= 0) {
-        resizeWidth = 1;
-    }
-    if (resizeHeight <= 0) {
-        resizeHeight = 1;
-    }
-    if (width < 0) {
-        width = resizeWidth;
-    }
-    if (height < 0) {
-        height = resizeHeight;
-    }
-    int targetWidth = width - marginLeft - marginRight;
-    int targetHeight = height - marginTop - marginBottom;
-
-    auto part = [&](double sx, double sy, double sw, double sh, double dx,
-                    double dy, double dw, double dh) {
-        if (dw > 0 && dh > 0) {
-            image.paintRegion(c, sx, sy, sw, sh, dx, dy, dw, dh, alpha);
-        }
-    };
-    part(0, marginTop + resizeHeight, marginLeft, marginBottom, 0,
-         height - marginBottom, marginLeft, marginBottom);
-    part(marginLeft + resizeWidth, marginTop + resizeHeight, marginRight,
-         marginBottom, width - marginRight, height - marginBottom, marginRight,
-         marginBottom);
-    part(0, 0, marginLeft, marginTop, 0, 0, marginLeft, marginTop);
-    part(marginLeft + resizeWidth, 0, marginRight, marginTop,
-         width - marginRight, 0, marginRight, marginTop);
-    if (targetWidth > 0) {
-        part(marginLeft, 0, resizeWidth, marginTop, marginLeft, 0, targetWidth,
-             marginTop);
-        part(marginLeft, marginTop + resizeHeight, resizeWidth, marginBottom,
-             marginLeft, height - marginBottom, targetWidth, marginBottom);
-    }
-    if (targetHeight > 0) {
-        part(0, marginTop, marginLeft, resizeHeight, 0, marginTop, marginLeft,
-             targetHeight);
-        part(marginLeft + resizeWidth, marginTop, marginRight, resizeHeight,
-             width - marginRight, marginTop, marginRight, targetHeight);
-    }
-    if (targetWidth > 0 && targetHeight > 0) {
-        part(marginLeft, marginTop, resizeWidth, resizeHeight, marginLeft,
-             marginTop, targetWidth, targetHeight);
     }
 }
 
@@ -642,13 +591,11 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
 }
 
 void paintTile(cairo_t *c, int width, int height, double alpha,
-               cairo_surface_t *image, int marginLeft, int marginTop,
+               const ThemeImage &image, int marginLeft, int marginTop,
                int marginRight, int marginBottom) {
 
-    int resizeHeight =
-        cairo_image_surface_get_height(image) - marginTop - marginBottom;
-    int resizeWidth =
-        cairo_image_surface_get_width(image) - marginLeft - marginRight;
+    int resizeHeight = image.height() - marginTop - marginBottom;
+    int resizeWidth = image.width() - marginLeft - marginRight;
 
     if (resizeHeight <= 0) {
         resizeHeight = 1;
@@ -667,9 +614,12 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
     }
     const auto targetResizeWidth = width - marginLeft - marginRight;
     const auto targetResizeHeight = height - marginTop - marginBottom;
-    const double scaleX = static_cast<double>(targetResizeWidth) / resizeWidth;
-    const double scaleY =
-        static_cast<double>(targetResizeHeight) / resizeHeight;
+    auto part = [&](double sx, double sy, double sw, double sh, double dx,
+                    double dy, double dw, double dh) {
+        if (dw > 0 && dh > 0) {
+            image.paintRegion(c, sx, sy, sw, sh, dx, dy, dw, dh, alpha);
+        }
+    };
     /*
      * 7 8 9
      * 4 5 6
@@ -678,110 +628,55 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
 
     if (marginLeft && marginBottom) {
         /* part 1 */
-        cairo_save(c);
-        cairo_translate(c, 0, height - marginBottom);
-        cairo_set_source_surface(c, image, 0, -marginTop - resizeHeight);
-        cairo_rectangle(c, 0, 0, marginLeft, marginBottom);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(0, marginTop + resizeHeight, marginLeft, marginBottom, 0,
+             height - marginBottom, marginLeft, marginBottom);
     }
 
     if (marginRight && marginBottom) {
         /* part 3 */
-        cairo_save(c);
-        cairo_translate(c, width - marginRight, height - marginBottom);
-        cairo_set_source_surface(c, image, -marginLeft - resizeWidth,
-                                 -marginTop - resizeHeight);
-        cairo_rectangle(c, 0, 0, marginRight, marginBottom);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(marginLeft + resizeWidth, marginTop + resizeHeight, marginRight,
+             marginBottom, width - marginRight, height - marginBottom,
+             marginRight, marginBottom);
     }
 
     if (marginLeft && marginTop) {
         /* part 7 */
-        cairo_save(c);
-        cairo_set_source_surface(c, image, 0, 0);
-        cairo_rectangle(c, 0, 0, marginLeft, marginTop);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(0, 0, marginLeft, marginTop, 0, 0, marginLeft, marginTop);
     }
 
     if (marginRight && marginTop) {
         /* part 9 */
-        cairo_save(c);
-        cairo_translate(c, width - marginRight, 0);
-        cairo_set_source_surface(c, image, -marginLeft - resizeWidth, 0);
-        cairo_rectangle(c, 0, 0, marginRight, marginTop);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(marginLeft + resizeWidth, 0, marginRight, marginTop,
+             width - marginRight, 0, marginRight, marginTop);
     }
 
     /* part 2 & 8 */
     if (marginTop && targetResizeWidth > 0) {
-        cairo_save(c);
-        cairo_translate(c, marginLeft, 0);
-        cairo_scale(c, scaleX, 1);
-        cairo_set_source_surface(c, image, -marginLeft, 0);
-        cairo_rectangle(c, 0, 0, resizeWidth, marginTop);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(marginLeft, 0, resizeWidth, marginTop, marginLeft, 0,
+             targetResizeWidth, marginTop);
     }
 
     if (marginBottom && targetResizeWidth > 0) {
-        cairo_save(c);
-        cairo_translate(c, marginLeft, height - marginBottom);
-        cairo_scale(c, scaleX, 1);
-        cairo_set_source_surface(c, image, -marginLeft,
-                                 -marginTop - resizeHeight);
-        cairo_rectangle(c, 0, 0, resizeWidth, marginBottom);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(marginLeft, marginTop + resizeHeight, resizeWidth, marginBottom,
+             marginLeft, height - marginBottom, targetResizeWidth,
+             marginBottom);
     }
 
     /* part 4 & 6 */
     if (marginLeft && targetResizeHeight > 0) {
-        cairo_save(c);
-        cairo_translate(c, 0, marginTop);
-        cairo_scale(c, 1, scaleY);
-        cairo_set_source_surface(c, image, 0, -marginTop);
-        cairo_rectangle(c, 0, 0, marginLeft, resizeHeight);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(0, marginTop, marginLeft, resizeHeight, 0, marginTop, marginLeft,
+             targetResizeHeight);
     }
 
     if (marginRight && targetResizeHeight > 0) {
-        cairo_save(c);
-        cairo_translate(c, width - marginRight, marginTop);
-        cairo_scale(c, 1, scaleY);
-        cairo_set_source_surface(c, image, -marginLeft - resizeWidth,
-                                 -marginTop);
-        cairo_rectangle(c, 0, 0, marginRight, resizeHeight);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(marginLeft + resizeWidth, marginTop, marginRight, resizeHeight,
+             width - marginRight, marginTop, marginRight, targetResizeHeight);
     }
 
     /* part 5 */
     if (targetResizeHeight > 0 && targetResizeWidth > 0) {
-        cairo_save(c);
-        cairo_translate(c, marginLeft, marginTop);
-        cairo_scale(c, scaleX, scaleY);
-        cairo_set_source_surface(c, image, -marginLeft, -marginTop);
-        cairo_pattern_set_filter(cairo_get_source(c), CAIRO_FILTER_NEAREST);
-        int w = resizeWidth;
-        int h = resizeHeight;
-
-        cairo_rectangle(c, 0, 0, w, h);
-        cairo_clip(c);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+        part(marginLeft, marginTop, resizeWidth, resizeHeight, marginLeft,
+             marginTop, targetResizeWidth, targetResizeHeight);
     }
 }
 
@@ -792,12 +687,6 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     auto marginBottom = *cfg.margin->marginBottom;
     auto marginLeft = *cfg.margin->marginLeft;
     auto marginRight = *cfg.margin->marginRight;
-
-    if (image.isSvg()) {
-        paintSvgTile(c, width, height, alpha, image, marginLeft, marginTop,
-                     marginRight, marginBottom);
-        return;
-    }
 
     if (scale != 1.0) {
         UniqueCPtr<cairo_surface_t, cairo_surface_destroy> background(
