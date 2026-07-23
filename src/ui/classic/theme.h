@@ -7,14 +7,17 @@
 #ifndef _FCITX_UI_CLASSIC_THEME_H_
 #define _FCITX_UI_CLASSIC_THEME_H_
 
+#include <algorithm>
 #include <cstdint>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <variant>
 #include <vector>
 #include <cairo.h>
+#include <librsvg/rsvg.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/option.h"
@@ -25,6 +28,7 @@
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/icontheme.h"
+#include "common.h"
 
 namespace fcitx::classicui {
 enum class Gravity {
@@ -231,6 +235,13 @@ class Theme;
 
 class ThemeImage {
 public:
+    using CairoSurface = UniqueCPtr<cairo_surface_t, cairo_surface_destroy>;
+    struct Svg {
+        int width = 0;
+        int height = 0;
+        GObjectUniquePtr<RsvgHandle> handle;
+    };
+
     ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                const Color &color, const Color &borderColor);
     ThemeImage(const Theme &theme, const ActionImageConfig &cfg);
@@ -241,25 +252,37 @@ public:
     static void drawTextIcon(cairo_surface_t *surface, const std::string &label,
                              uint32_t size, const ClassicUIConfig &config);
 
-    operator cairo_surface_t *() const { return image_.get(); }
+    operator cairo_surface_t *() const {
+        return std::holds_alternative<CairoSurface>(image_)
+                   ? std::get<CairoSurface>(image_).get()
+                   : nullptr;
+    }
     auto height() const {
         int height = 1;
-        if (image_) {
-            height = cairo_image_surface_get_height(image_.get());
+        if (std::holds_alternative<Svg>(image_)) {
+            height = std::get<Svg>(image_).height;
+        } else if (std::holds_alternative<CairoSurface>(image_)) {
+            height = cairo_image_surface_get_height(
+                std::get<CairoSurface>(image_).get());
         }
         return height <= 0 ? 1 : height;
     }
     auto width() const {
         int width = 1;
-        if (image_) {
-            width = cairo_image_surface_get_width(image_.get());
+        if (std::holds_alternative<Svg>(image_)) {
+            width = std::get<Svg>(image_).width;
+        } else if (std::holds_alternative<CairoSurface>(image_)) {
+            width = cairo_image_surface_get_width(
+                std::get<CairoSurface>(image_).get());
         }
         return width <= 0 ? 1 : width;
     }
 
     auto size() const { return size_; }
 
-    bool valid() const { return valid_; }
+    bool valid() const {
+        return !std::holds_alternative<std::monostate>(image_);
+    }
     cairo_surface_t *overlay() const { return overlay_.get(); }
     auto overlayWidth() const {
         int width = 1;
@@ -276,13 +299,17 @@ public:
         return height <= 0 ? 1 : height;
     }
     bool isImage() const { return isImage_; }
+    bool isSvg() const { return std::holds_alternative<Svg>(image_); }
+    void paintRegion(cairo_t *c, double sourceX, double sourceY,
+                     double sourceWidth, double sourceHeight, double destX,
+                     double destY, double destWidth, double destHeight,
+                     double alpha = 1.0) const;
 
 private:
-    bool valid_ = false;
     std::string currentText_;
     uint32_t size_ = 0;
     bool isImage_ = false;
-    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> image_;
+    std::variant<std::monostate, Svg, CairoSurface> image_;
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> overlay_;
 };
 
@@ -405,12 +432,8 @@ inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {
 inline void shrink(Rect &rect, const MarginConfig &margin) {
     int newWidth = rect.width() - *margin.marginLeft - *margin.marginRight;
     int newHeight = rect.height() - *margin.marginTop - *margin.marginBottom;
-    if (newWidth < 0) {
-        newWidth = 0;
-    }
-    if (newHeight < 0) {
-        newHeight = 0;
-    }
+    newWidth = std::max(newWidth, 0);
+    newHeight = std::max(newHeight, 0);
     rect.setPosition(rect.left() + *margin.marginLeft,
                      rect.top() + *margin.marginTop);
     rect.setSize(newWidth, newHeight);

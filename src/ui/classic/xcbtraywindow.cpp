@@ -385,10 +385,9 @@ void XCBTrayWindow::paint(cairo_t *c) {
     int aw = scaleW * image.width();
     int ah = scaleH * image.height();
 
-    cairo_scale(c, scaleW, scaleH);
-    cairo_set_source_surface(c, image, (width() - aw) / 2.0,
-                             (height() - ah) / 2.0);
-    cairo_paint(c);
+    image.paintRegion(c, 0, 0, image.width(), image.height(),
+                      (width() - aw) / 2.0, (height() - ah) / 2.0,
+                      image.width() * scaleW, image.height() * scaleH);
     cairo_restore(c);
 }
 
