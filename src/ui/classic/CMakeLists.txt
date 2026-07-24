@@ -42,7 +42,7 @@ endif()
 target_link_libraries(classicui
     Fcitx5::Core
     PkgConfig::Cairo PkgConfig::Pango
-    PkgConfig::GdkPixbuf PkgConfig::GioUnix
+    PkgConfig::GdkPixbuf PkgConfig::Rsvg PkgConfig::GioUnix
     Fcitx5::Module::NotificationItem
     ${YOGA_TARGET}
     ${CLASSICUI_LIBS}
