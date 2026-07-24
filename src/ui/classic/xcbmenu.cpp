@@ -527,11 +527,10 @@ void XCBMenu::update() {
     resize(width, height);
 
     cairo_t *c = cairo_create(prerender());
-
-    cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    theme.paint(c, *theme.menu->background, width, height, /*alpha=*/1.0,
-                /*scale=*/1.0);
+    cairo_set_operator(c, CAIRO_OPERATOR_CLEAR);
+    cairo_paint(c);
     cairo_set_operator(c, CAIRO_OPERATOR_OVER);
+    theme.paint(c, *theme.menu->background, width, height, /*alpha=*/1.0);
     for (const auto &item : items_) {
         if (item.isSeparator_) {
             cairo_save(c);
@@ -541,8 +540,7 @@ void XCBMenu::update() {
             theme.paint(c, *theme.menu->separator,
                         width - *theme.menu->contentMargin->marginLeft -
                             *theme.menu->contentMargin->marginRight,
-                        (separator.isImage() ? 2 : -1), /*alpha=*/1.0,
-                        /*scale=*/1.0);
+                        (separator.isImage() ? 2 : -1), /*alpha=*/1.0);
             cairo_restore(c);
             continue;
         }
@@ -552,23 +550,21 @@ void XCBMenu::update() {
             cairo_translate(c, item.region_.left(), item.region_.top());
             theme.paint(c, *theme.menu->highlight, item.region_.width(),
                         item.region_.height(),
-                        /*alpha=*/1.0, /*scale=*/1.0);
+                        /*alpha=*/1.0);
             cairo_restore(c);
         }
 
         if (item.isChecked_) {
             cairo_save(c);
             cairo_translate(c, item.checkBoxX_, item.checkBoxY_);
-            theme.paint(c, *theme.menu->checkBox, -1, -1, /*alpha=*/1.0,
-                        /*scale=*/1.0);
+            theme.paint(c, *theme.menu->checkBox, -1, -1, /*alpha=*/1.0);
             cairo_restore(c);
         }
 
         if (item.hasSubMenu_) {
             cairo_save(c);
             cairo_translate(c, item.subMenuX_, item.subMenuY_);
-            theme.paint(c, *theme.menu->subMenu, -1, -1, /*alpha=*/1.0,
-                        /*scale=*/1.0);
+            theme.paint(c, *theme.menu->subMenu, -1, -1, /*alpha=*/1.0);
             cairo_restore(c);
         }
 

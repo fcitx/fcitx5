@@ -508,9 +508,11 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
                         double scale) {
     cairo_scale(cr, scale, scale);
     auto &theme = parent_->theme();
-    cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-    theme.paint(cr, *theme.inputPanel->background, width, height, /*alpha=*/1.0,
-                scale);
+    cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+    cairo_paint(cr);
+    cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
+    theme.paint(cr, *theme.inputPanel->background, width, height,
+                /*alpha=*/1.0);
     const auto &margin = *theme.inputPanel->contentMargin;
     const auto &textMargin = *theme.inputPanel->textMargin;
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
@@ -609,7 +611,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
                             *highlightMargin.marginRight,
                         candidateHeight + *highlightMargin.marginTop +
                             *highlightMargin.marginBottom,
-                        /*alpha=*/1.0, scale);
+                        /*alpha=*/1.0);
             cairo_restore(cr);
             highlight = true;
         }
