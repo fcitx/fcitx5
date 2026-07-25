@@ -1,4 +1,4 @@
-file(GLOB IMAGE_FILES *.png)
+file(GLOB IMAGE_FILES *.svg)
 
 fcitx5_translate_desktop_file(theme-dark.conf.in theme.conf)
 

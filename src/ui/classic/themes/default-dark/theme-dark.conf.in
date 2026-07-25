@@ -45,7 +45,7 @@ Top=5
 Bottom=5
 
 [InputPanel/PrevPage]
-Image=prev.png
+Image=prev.svg
 
 [InputPanel/PrevPage/ClickMargin]
 Left=5
@@ -54,7 +54,7 @@ Top=4
 Bottom=4
 
 [InputPanel/NextPage]
-Image=next.png
+Image=next.svg
 
 [InputPanel/NextPage/ClickMargin]
 Left=5
@@ -84,10 +84,10 @@ Top=2
 Bottom=2
 
 [Menu/CheckBox]
-Image=radio.png
+Image=radio.svg
 
 [Menu/SubMenu]
-Image=arrow.png
+Image=arrow.svg
 
 [Menu/Highlight]
 Color=#606060
@@ -100,12 +100,6 @@ Bottom=5
 
 [Menu/Separator]
 Color=#c0c0c0
-
-[Menu/CheckBox]
-Image=radio.png
-
-[Menu/SubMenu]
-Image=arrow.png
 
 [Menu/TextMargin]
 Left=5
