@@ -241,6 +241,12 @@ public:
         int height = 0;
         GObjectUniquePtr<RsvgHandle> handle;
     };
+    struct Pattern {
+        int width = 0;
+        int height = 0;
+        int borderWidth = 0;
+        UniqueCPtr<cairo_pattern_t, cairo_pattern_destroy> pattern;
+    };
 
     ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                const Color &color, const Color &borderColor);
@@ -252,31 +258,8 @@ public:
     static void drawTextIcon(cairo_surface_t *surface, const std::string &label,
                              uint32_t size, const ClassicUIConfig &config);
 
-    operator cairo_surface_t *() const {
-        return std::holds_alternative<CairoSurface>(image_)
-                   ? std::get<CairoSurface>(image_).get()
-                   : nullptr;
-    }
-    auto height() const {
-        int height = 1;
-        if (std::holds_alternative<Svg>(image_)) {
-            height = std::get<Svg>(image_).height;
-        } else if (std::holds_alternative<CairoSurface>(image_)) {
-            height = cairo_image_surface_get_height(
-                std::get<CairoSurface>(image_).get());
-        }
-        return height <= 0 ? 1 : height;
-    }
-    auto width() const {
-        int width = 1;
-        if (std::holds_alternative<Svg>(image_)) {
-            width = std::get<Svg>(image_).width;
-        } else if (std::holds_alternative<CairoSurface>(image_)) {
-            width = cairo_image_surface_get_width(
-                std::get<CairoSurface>(image_).get());
-        }
-        return width <= 0 ? 1 : width;
-    }
+    auto height() const { return imageVariantHeight(image_); }
+    auto width() const { return imageVariantWidth(image_); }
 
     auto size() const { return size_; }
 
@@ -286,27 +269,9 @@ public:
     bool hasOverlay() const {
         return !std::holds_alternative<std::monostate>(overlay_);
     }
-    auto overlayWidth() const {
-        int width = 1;
-        if (std::holds_alternative<Svg>(overlay_)) {
-            width = std::get<Svg>(overlay_).width;
-        } else if (std::holds_alternative<CairoSurface>(overlay_)) {
-            width = cairo_image_surface_get_width(
-                std::get<CairoSurface>(overlay_).get());
-        }
-        return width <= 0 ? 1 : width;
-    }
-    auto overlayHeight() const {
-        int height = 1;
-        if (std::holds_alternative<Svg>(overlay_)) {
-            height = std::get<Svg>(overlay_).height;
-        } else if (std::holds_alternative<CairoSurface>(overlay_)) {
-            height = cairo_image_surface_get_height(
-                std::get<CairoSurface>(overlay_).get());
-        }
-        return height <= 0 ? 1 : height;
-    }
-    bool isImage() const { return isImage_; }
+    auto overlayWidth() const { return imageVariantWidth(overlay_); }
+    auto overlayHeight() const { return imageVariantHeight(overlay_); }
+    bool isPattern() const { return std::holds_alternative<Pattern>(image_); }
     bool isSvg() const { return std::holds_alternative<Svg>(image_); }
     void paintRegion(cairo_t *c, double sourceX, double sourceY,
                      double sourceWidth, double sourceHeight, double destX,
@@ -317,8 +282,38 @@ private:
     std::string currentText_;
     uint32_t size_ = 0;
     bool isImage_ = false;
-    std::variant<std::monostate, Svg, CairoSurface> image_;
-    std::variant<std::monostate, Svg, CairoSurface> overlay_;
+
+    using ImageVariant =
+        std::variant<std::monostate, Svg, Pattern, CairoSurface>;
+
+    static int imageVariantWidth(const ImageVariant &image) {
+        if (const auto *svg = std::get_if<Svg>(&image)) {
+            return svg->width;
+        }
+        if (const auto *pattern = std::get_if<Pattern>(&image)) {
+            return pattern->width;
+        }
+        if (const auto *surface = std::get_if<CairoSurface>(&image)) {
+            return cairo_image_surface_get_width(surface->get());
+        }
+        return 0;
+    }
+
+    static int imageVariantHeight(const ImageVariant &image) {
+        if (const auto *svg = std::get_if<Svg>(&image)) {
+            return svg->height;
+        }
+        if (const auto *pattern = std::get_if<Pattern>(&image)) {
+            return pattern->height;
+        }
+        if (const auto *surface = std::get_if<CairoSurface>(&image)) {
+            return cairo_image_surface_get_height(surface->get());
+        }
+        return 0;
+    }
+
+    ImageVariant image_;
+    ImageVariant overlay_;
 };
 
 class Theme : public ThemeConfig {

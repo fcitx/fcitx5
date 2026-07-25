@@ -485,7 +485,7 @@ void XCBMenu::update() {
         if (item.isSeparator_) {
             item.layoutX_ = width;
             item.layoutY_ = height;
-            height += (separator.isImage() ? 2 : separator.height());
+            height += (separator.isPattern() ? 2 : separator.height());
             prevIsSeparator = true;
             continue;
         }
@@ -540,7 +540,7 @@ void XCBMenu::update() {
             theme.paint(c, *theme.menu->separator,
                         width - *theme.menu->contentMargin->marginLeft -
                             *theme.menu->contentMargin->marginRight,
-                        (separator.isImage() ? 2 : -1), /*alpha=*/1.0);
+                        (separator.isPattern() ? 2 : -1), /*alpha=*/1.0);
             cairo_restore(c);
             continue;
         }

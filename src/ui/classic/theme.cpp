@@ -400,23 +400,42 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                           << width << " border=" << borderColor
                           << " border width=" << *cfg.borderWidth
                           << " color=" << color;
-        image_ = ThemeImage::CairoSurface(
-            cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
-        auto *cr =
-            cairo_create(std::get<ThemeImage::CairoSurface>(image_).get());
-        cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-        if (borderWidth) {
-            cairoSetSourceColor(cr, borderColor);
-            cairo_paint(cr);
+        ThemeImage::Pattern pattern;
+        pattern.width = width;
+        pattern.height = height;
+        pattern.borderWidth = borderWidth;
+        pattern.pattern.reset(cairo_pattern_create_mesh());
+        const auto setPatch = [&](double x0, double y0, double x1, double y1,
+                                  const Color &color) {
+            cairo_mesh_pattern_begin_patch(pattern.pattern.get());
+            cairo_mesh_pattern_move_to(pattern.pattern.get(), x0, y0);
+            cairo_mesh_pattern_line_to(pattern.pattern.get(), x1, y0);
+            cairo_mesh_pattern_line_to(pattern.pattern.get(), x1, y1);
+            cairo_mesh_pattern_line_to(pattern.pattern.get(), x0, y1);
+            for (int i = 0; i < 4; i++) {
+                cairo_mesh_pattern_set_corner_color_rgba(
+                    pattern.pattern.get(), i, color.redF(), color.greenF(),
+                    color.blueF(), color.alphaF());
+            }
+            cairo_mesh_pattern_end_patch(pattern.pattern.get());
+        };
+        if (borderWidth > 0) {
+            const double x[] = {0.0, static_cast<double>(borderWidth),
+                                static_cast<double>(width - borderWidth),
+                                static_cast<double>(width)};
+            const double y[] = {0.0, static_cast<double>(borderWidth),
+                                static_cast<double>(height - borderWidth),
+                                static_cast<double>(height)};
+            for (int row = 0; row < 3; row++) {
+                for (int column = 0; column < 3; column++) {
+                    setPatch(x[column], y[row], x[column + 1], y[row + 1],
+                             (row == 1 && column == 1) ? color : borderColor);
+                }
+            }
+        } else {
+            setPatch(0, 0, width, height, color);
         }
-
-        cairo_rectangle(cr, borderWidth, borderWidth, width - (borderWidth * 2),
-                        height - (borderWidth * 2));
-        cairo_clip(cr);
-        cairoSetSourceColor(cr, color);
-        cairo_paint(cr);
-        cairo_destroy(cr);
-        isImage_ = true;
+        image_ = std::move(pattern);
     }
 }
 
@@ -521,6 +540,18 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
         } else {
             cairo_pop_group(c);
         }
+        cairo_restore(c);
+        return;
+    }
+    if (const auto *pattern = std::get_if<Pattern>(&source)) {
+        cairo_save(c);
+        cairo_rectangle(c, destX, destY, destWidth, destHeight);
+        cairo_clip(c);
+        cairo_translate(c, destX - (sourceX * destWidth / sourceWidth),
+                        destY - (sourceY * destHeight / sourceHeight));
+        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
+        cairo_set_source(c, pattern->pattern.get());
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 }
@@ -779,18 +810,8 @@ void Theme::paint(cairo_t *c, const ActionImageConfig &cfg, double alpha) {
     int height = image.height();
     int width = image.width();
 
-    if (image.isSvg()) {
-        image.paintRegion(c, 0, 0, image.width(), image.height(), 0, 0, width,
-                          height, alpha);
-        return;
-    }
-
-    cairo_save(c);
-    cairo_set_source_surface(c, image, 0, 0);
-    cairo_rectangle(c, 0, 0, width, height);
-    cairo_clip(c);
-    cairo_paint_with_alpha(c, alpha);
-    cairo_restore(c);
+    image.paintRegion(c, 0, 0, image.width(), image.height(), 0, 0, width,
+                      height, alpha);
 }
 
 void Theme::reset() {
