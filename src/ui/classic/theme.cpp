@@ -371,7 +371,13 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
             theme.isSystemTheme() ? StandardPathsMode::System
                                   : StandardPathsMode::Default,
             &imagePath);
-        overlay_ = loadImage(imageFile, imagePath);
+        if (isSvgPath(imagePath)) {
+            if (auto svg = loadSvg(imageFile)) {
+                overlay_ = std::move(svg.value());
+            }
+        } else if (auto overlay = loadImage(imageFile, imagePath)) {
+            overlay_ = std::move(overlay);
+        }
     }
 
     if (!valid()) {
@@ -484,8 +490,10 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
 void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
                              double sourceWidth, double sourceHeight,
                              double destX, double destY, double destWidth,
-                             double destHeight, double alpha) const {
-    if (const auto *image = std::get_if<CairoSurface>(&image_)) {
+                             double destHeight, double alpha,
+                             bool overlay) const {
+    const auto &source = overlay ? overlay_ : image_;
+    if (const auto *image = std::get_if<CairoSurface>(&source)) {
         cairo_save(c);
         cairo_translate(c, destX, destY);
         cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
@@ -496,7 +504,7 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
         cairo_restore(c);
         return;
     }
-    if (const auto *svg = std::get_if<Svg>(&image_)) {
+    if (const auto *svg = std::get_if<Svg>(&source)) {
         cairo_save(c);
         cairo_rectangle(c, destX, destY, destWidth, destHeight);
         cairo_clip(c);
@@ -691,7 +699,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     paintTile(c, width, height, alpha, image, marginLeft, marginTop,
               marginRight, marginBottom);
 
-    if (!image.overlay()) {
+    if (!image.hasOverlay()) {
         return;
     }
 
@@ -757,12 +765,12 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
 
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_OVER);
-    cairo_translate(c, finalRect.left(), finalRect.top());
-    cairo_set_source_surface(c, image.overlay(), x - finalRect.left(),
-                             y - finalRect.top());
-    cairo_rectangle(c, 0, 0, finalRect.width(), finalRect.height());
+    cairo_rectangle(c, finalRect.left(), finalRect.top(), finalRect.width(),
+                    finalRect.height());
     cairo_clip(c);
-    cairo_paint_with_alpha(c, alpha);
+    image.paintRegion(c, 0, 0, image.overlayWidth(), image.overlayHeight(), x,
+                      y, image.overlayWidth(), image.overlayHeight(), alpha,
+                      true);
     cairo_restore(c);
 }
 

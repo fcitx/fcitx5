@@ -283,18 +283,26 @@ public:
     bool valid() const {
         return !std::holds_alternative<std::monostate>(image_);
     }
-    cairo_surface_t *overlay() const { return overlay_.get(); }
+    bool hasOverlay() const {
+        return !std::holds_alternative<std::monostate>(overlay_);
+    }
     auto overlayWidth() const {
         int width = 1;
-        if (overlay_) {
-            width = cairo_image_surface_get_width(overlay_.get());
+        if (std::holds_alternative<Svg>(overlay_)) {
+            width = std::get<Svg>(overlay_).width;
+        } else if (std::holds_alternative<CairoSurface>(overlay_)) {
+            width = cairo_image_surface_get_width(
+                std::get<CairoSurface>(overlay_).get());
         }
         return width <= 0 ? 1 : width;
     }
     auto overlayHeight() const {
         int height = 1;
-        if (overlay_) {
-            height = cairo_image_surface_get_height(overlay_.get());
+        if (std::holds_alternative<Svg>(overlay_)) {
+            height = std::get<Svg>(overlay_).height;
+        } else if (std::holds_alternative<CairoSurface>(overlay_)) {
+            height = cairo_image_surface_get_height(
+                std::get<CairoSurface>(overlay_).get());
         }
         return height <= 0 ? 1 : height;
     }
@@ -303,14 +311,14 @@ public:
     void paintRegion(cairo_t *c, double sourceX, double sourceY,
                      double sourceWidth, double sourceHeight, double destX,
                      double destY, double destWidth, double destHeight,
-                     double alpha = 1.0) const;
+                     double alpha = 1.0, bool overlay = false) const;
 
 private:
     std::string currentText_;
     uint32_t size_ = 0;
     bool isImage_ = false;
     std::variant<std::monostate, Svg, CairoSurface> image_;
-    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> overlay_;
+    std::variant<std::monostate, Svg, CairoSurface> overlay_;
 };
 
 class Theme : public ThemeConfig {
