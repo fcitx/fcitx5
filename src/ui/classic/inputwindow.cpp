@@ -504,14 +504,12 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     return {width, height};
 }
 
-void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
-                        double scale) {
-    cairo_scale(cr, scale, scale);
+void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     auto &theme = parent_->theme();
     cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
     cairo_paint(cr);
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
-    theme.paint(cr, *theme.inputPanel->background, width, height,
+    theme.paint(cr, *theme.inputPanel->background, 0, 0, width, height,
                 /*alpha=*/1.0);
     const auto &margin = *theme.inputPanel->contentMargin;
     const auto &textMargin = *theme.inputPanel->textMargin;
@@ -604,9 +602,9 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
         bool highlight = false;
         if (highlightIndex >= 0 && i == static_cast<size_t>(highlightIndex)) {
             cairo_save(cr);
-            cairo_translate(cr, candidateLeft - *highlightMargin.marginLeft,
-                            candidateTop - *highlightMargin.marginTop);
             theme.paint(cr, *theme.inputPanel->highlight,
+                        candidateLeft - *highlightMargin.marginLeft,
+                        candidateTop - *highlightMargin.marginTop,
                         highlightWidth + *highlightMargin.marginLeft +
                             *highlightMargin.marginRight,
                         candidateHeight + *highlightMargin.marginTop +

@@ -307,6 +307,133 @@ const std::vector<std::string> &gdkPixbufSupportedFormats() {
     return formats;
 }
 
+constexpr double RoundEpsilon = 1e-3;
+
+double pixelCeil(double f) { return std::ceil(f - RoundEpsilon); }
+double pixelFloor(double f) { return std::floor(f + RoundEpsilon); }
+
+void paintTile(cairo_t *c, int x, int y, int width, int height, double alpha,
+               const ThemeImage &image, int marginLeft, int marginTop,
+               int marginRight, int marginBottom) {
+
+    int resizeHeight = image.height() - marginTop - marginBottom;
+    int resizeWidth = image.width() - marginLeft - marginRight;
+
+    if (resizeHeight <= 0) {
+        resizeHeight = 1;
+    }
+
+    if (resizeWidth <= 0) {
+        resizeWidth = 1;
+    }
+
+    if (height < 0) {
+        height = resizeHeight;
+    }
+
+    if (width < 0) {
+        width = resizeWidth;
+    }
+    const auto targetResizeWidth = width - marginLeft - marginRight;
+    const auto targetResizeHeight = height - marginTop - marginBottom;
+
+    double sourceX[] = {0.0, static_cast<double>(marginLeft),
+                        static_cast<double>(image.width() - marginRight),
+                        static_cast<double>(image.width())};
+    double sourceY[] = {0.0, static_cast<double>(marginTop),
+                        static_cast<double>(image.height() - marginBottom),
+                        static_cast<double>(image.height())};
+
+    double gridX[] = {0.0, static_cast<double>(marginLeft),
+                      static_cast<double>(width - marginRight),
+                      static_cast<double>(width)};
+    double gridY[] = {0.0, static_cast<double>(marginTop),
+                      static_cast<double>(height - marginBottom),
+                      static_cast<double>(height)};
+    for (double &gx : gridX) {
+        gx += x;
+    }
+    for (double &gy : gridY) {
+        gy += y;
+    }
+
+    auto *surface = cairo_get_target(c);
+    double xScale;
+    double yScale;
+    cairo_surface_get_device_scale(surface, &xScale, &yScale);
+    for (int i = 0; i < 4; i++) {
+        if (i % 2 == 0) {
+            gridX[i] = pixelFloor(gridX[i] * xScale) / xScale;
+            gridY[i] = pixelFloor(gridY[i] * yScale) / yScale;
+        } else {
+            gridX[i] = pixelCeil(gridX[i] * xScale) / xScale;
+            gridY[i] = pixelCeil(gridY[i] * yScale) / yScale;
+        }
+    }
+
+    auto part = [&](int ix, int iy) {
+        double sx = sourceX[ix];
+        double sy = sourceY[iy];
+        double sw = sourceX[ix + 1] - sourceX[ix];
+        double sh = sourceY[iy + 1] - sourceY[iy];
+        double dx = gridX[ix];
+        double dy = gridY[iy];
+        double dw = gridX[ix + 1] - gridX[ix];
+        double dh = gridY[iy + 1] - gridY[iy];
+        if (dw > 0 && dh > 0) {
+            image.paintRegion(c, sx, sy, sw, sh, dx, dy, dw, dh, alpha);
+        }
+    };
+    /*
+     * 7 8 9
+     * 4 5 6
+     * 1 2 3
+     */
+
+    if (marginLeft && marginBottom) {
+        /* part 1 */
+        part(0, 2);
+    }
+
+    if (marginRight && marginBottom) {
+        /* part 3 */
+        part(2, 2);
+    }
+
+    if (marginLeft && marginTop) {
+        /* part 7 */
+        part(0, 0);
+    }
+
+    if (marginRight && marginTop) {
+        /* part 9 */
+        part(2, 0);
+    }
+
+    /* part 2 & 8 */
+    if (marginTop && targetResizeWidth > 0) {
+        part(1, 0);
+    }
+
+    if (marginBottom && targetResizeWidth > 0) {
+        part(1, 2);
+    }
+
+    /* part 4 & 6 */
+    if (marginLeft && targetResizeHeight > 0) {
+        part(0, 1);
+    }
+
+    if (marginRight && targetResizeHeight > 0) {
+        part(2, 1);
+    }
+
+    /* part 5 */
+    if (targetResizeHeight > 0 && targetResizeWidth > 0) {
+        part(1, 1);
+    }
+}
+
 } // namespace
 
 ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
@@ -514,11 +641,12 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
     const auto &source = overlay ? overlay_ : image_;
     if (const auto *image = std::get_if<CairoSurface>(&source)) {
         cairo_save(c);
-        cairo_translate(c, destX, destY);
-        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
-        cairo_rectangle(c, 0, 0, sourceWidth, sourceHeight);
+        cairo_rectangle(c, destX, destY, destWidth, destHeight);
         cairo_clip(c);
-        cairo_set_source_surface(c, image->get(), -sourceX, -sourceY);
+        cairo_translate(c, destX - (sourceX * destWidth / sourceWidth),
+                        destY - (sourceY * destHeight / sourceHeight));
+        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
+        cairo_set_source_surface(c, image->get(), 0, 0);
         cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
         return;
@@ -629,105 +757,15 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
     return result.first->second;
 }
 
-void paintTile(cairo_t *c, int width, int height, double alpha,
-               const ThemeImage &image, int marginLeft, int marginTop,
-               int marginRight, int marginBottom) {
-
-    int resizeHeight = image.height() - marginTop - marginBottom;
-    int resizeWidth = image.width() - marginLeft - marginRight;
-
-    if (resizeHeight <= 0) {
-        resizeHeight = 1;
-    }
-
-    if (resizeWidth <= 0) {
-        resizeWidth = 1;
-    }
-
-    if (height < 0) {
-        height = resizeHeight;
-    }
-
-    if (width < 0) {
-        width = resizeWidth;
-    }
-    const auto targetResizeWidth = width - marginLeft - marginRight;
-    const auto targetResizeHeight = height - marginTop - marginBottom;
-    auto part = [&](double sx, double sy, double sw, double sh, double dx,
-                    double dy, double dw, double dh) {
-        if (dw > 0 && dh > 0) {
-            image.paintRegion(c, sx, sy, sw, sh, dx, dy, dw, dh, alpha);
-        }
-    };
-    /*
-     * 7 8 9
-     * 4 5 6
-     * 1 2 3
-     */
-
-    if (marginLeft && marginBottom) {
-        /* part 1 */
-        part(0, marginTop + resizeHeight, marginLeft, marginBottom, 0,
-             height - marginBottom, marginLeft, marginBottom);
-    }
-
-    if (marginRight && marginBottom) {
-        /* part 3 */
-        part(marginLeft + resizeWidth, marginTop + resizeHeight, marginRight,
-             marginBottom, width - marginRight, height - marginBottom,
-             marginRight, marginBottom);
-    }
-
-    if (marginLeft && marginTop) {
-        /* part 7 */
-        part(0, 0, marginLeft, marginTop, 0, 0, marginLeft, marginTop);
-    }
-
-    if (marginRight && marginTop) {
-        /* part 9 */
-        part(marginLeft + resizeWidth, 0, marginRight, marginTop,
-             width - marginRight, 0, marginRight, marginTop);
-    }
-
-    /* part 2 & 8 */
-    if (marginTop && targetResizeWidth > 0) {
-        part(marginLeft, 0, resizeWidth, marginTop, marginLeft, 0,
-             targetResizeWidth, marginTop);
-    }
-
-    if (marginBottom && targetResizeWidth > 0) {
-        part(marginLeft, marginTop + resizeHeight, resizeWidth, marginBottom,
-             marginLeft, height - marginBottom, targetResizeWidth,
-             marginBottom);
-    }
-
-    /* part 4 & 6 */
-    if (marginLeft && targetResizeHeight > 0) {
-        part(0, marginTop, marginLeft, resizeHeight, 0, marginTop, marginLeft,
-             targetResizeHeight);
-    }
-
-    if (marginRight && targetResizeHeight > 0) {
-        part(marginLeft + resizeWidth, marginTop, marginRight, resizeHeight,
-             width - marginRight, marginTop, marginRight, targetResizeHeight);
-    }
-
-    /* part 5 */
-    if (targetResizeHeight > 0 && targetResizeWidth > 0) {
-        part(marginLeft, marginTop, resizeWidth, resizeHeight, marginLeft,
-             marginTop, targetResizeWidth, targetResizeHeight);
-    }
-}
-
-void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-                  int height, double alpha) {
+void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int dx, int dy,
+                  int width, int height, double alpha) {
     const ThemeImage &image = loadBackground(cfg);
     auto marginTop = *cfg.margin->marginTop;
     auto marginBottom = *cfg.margin->marginBottom;
     auto marginLeft = *cfg.margin->marginLeft;
     auto marginRight = *cfg.margin->marginRight;
 
-    paintTile(c, width, height, alpha, image, marginLeft, marginTop,
+    paintTile(c, dx, dy, width, height, alpha, image, marginLeft, marginTop,
               marginRight, marginBottom);
 
     if (!image.hasOverlay()) {
@@ -885,7 +923,7 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
         cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
     auto *c = cairo_create(mask.get());
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    paint(c, cfg, width, height, 1);
+    paint(c, cfg, 0, 0, width, height, 1);
     cairo_destroy(c);
 
     UniqueCPtr<cairo_region_t, cairo_region_destroy> region(
