@@ -72,6 +72,19 @@ FCITX_CONFIGURATION(
         {Key("Hangul_Romaja")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
+    OptionWithAnnotation<bool, ToolTipAnnotation>
+        consumeRedundantActivateKeys{{
+            .parent = this,
+            .path{"ConsumeRedundantActivateKeys"},
+            .description{_("Consume redundant Activate/Deactivate key")},
+            .defaultValue = false,
+            .annotation{
+                _("When the input method is already in the state the key "
+                  "requests, pressing an Activate/Deactivate key changes "
+                  "nothing; consume the key event in that case instead of "
+                  "forwarding it to the application. Modifier only keys are "
+                  "never consumed.")},
+        }};
     KeyListOptionWithAnnotation<ToolTipAnnotation> altTriggerKeys{
         {.parent = this,
          .path{"AltTriggerKeys"},
@@ -296,6 +309,11 @@ const KeyList &GlobalConfig::activateKeys() const {
 const KeyList &GlobalConfig::deactivateKeys() const {
     FCITX_D();
     return d->hotkey->deactivateKeys.value();
+}
+
+bool GlobalConfig::consumeRedundantActivateKeys() const {
+    FCITX_D();
+    return *d->hotkey->consumeRedundantActivateKeys;
 }
 
 const KeyList &GlobalConfig::enumerateForwardKeys() const {

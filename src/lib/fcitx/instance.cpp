@@ -873,6 +873,19 @@ Instance::Instance(int argc, char **argv) {
                     }
                     idx++;
                 }
+                if (d->globalConfig_.consumeRedundantActivateKeys() &&
+                    !isModifier && canTrigger() &&
+                    (origKey.keyListIndex(d->globalConfig_.activateKeys()) >=
+                         0 ||
+                     origKey.keyListIndex(d->globalConfig_.deactivateKeys()) >=
+                         0)) {
+                    // Activate/Deactivate keys act as modeless switches: when
+                    // the state already matches, the state-gated handlers
+                    // above do not claim the key. Consume it instead of
+                    // leaking it to the client.
+                    keyEvent.filterAndAccept();
+                    return;
+                }
             }
         }));
     d->eventWatchers_.emplace_back(watchEvent(
