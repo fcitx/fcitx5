@@ -216,8 +216,11 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
-        paint(c, width, height,
-              window_->bufferScale() / WaylandWindow::ScaleDominatorF);
+        cairo_surface_set_device_scale(
+            cairo_get_target(c),
+            window_->bufferScale() / WaylandWindow::ScaleDominatorF,
+            window_->bufferScale() / WaylandWindow::ScaleDominatorF);
+        paint(c, width, height);
         cairo_destroy(c);
         window_->render();
     }
@@ -231,8 +234,11 @@ void WaylandInputWindow::repaint() {
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
-        paint(c, window_->width(), window_->height(),
-              window_->bufferScale() / WaylandWindow::ScaleDominatorF);
+        cairo_surface_set_device_scale(
+            cairo_get_target(c),
+            window_->bufferScale() / WaylandWindow::ScaleDominatorF,
+            window_->bufferScale() / WaylandWindow::ScaleDominatorF);
+        paint(c, window_->width(), window_->height());
         cairo_destroy(c);
         window_->render();
     }
