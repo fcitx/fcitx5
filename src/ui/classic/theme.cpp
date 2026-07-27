@@ -638,6 +638,10 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
                              double destX, double destY, double destWidth,
                              double destHeight, double alpha,
                              bool overlay) const {
+    if (sourceWidth <= 0 || sourceHeight <= 0 || destWidth <= 0 ||
+        destHeight <= 0) {
+        return;
+    }
     const auto &source = overlay ? overlay_ : image_;
     if (const auto *image = std::get_if<CairoSurface>(&source)) {
         cairo_save(c);
