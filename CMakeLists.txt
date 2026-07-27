@@ -161,11 +161,12 @@ endif()
 
 # Library for classicui painting
 if (ENABLE_X11 OR ENABLE_WAYLAND)
-    pkg_check_modules(Cairo IMPORTED_TARGET cairo)
-    pkg_check_modules(Pango IMPORTED_TARGET pango pangocairo)
-    pkg_check_modules(GdkPixbuf IMPORTED_TARGET gdk-pixbuf-2.0)
-    pkg_check_modules(Rsvg IMPORTED_TARGET librsvg-2.0)
-    pkg_check_modules(GioUnix IMPORTED_TARGET gio-unix-2.0)
+    pkg_check_modules(Cairo REQUIRED IMPORTED_TARGET cairo)
+    pkg_check_modules(Pango REQUIRED IMPORTED_TARGET pango pangocairo)
+    pkg_check_modules(GdkPixbuf REQUIRED IMPORTED_TARGET gdk-pixbuf-2.0)
+    pkg_check_modules(Rsvg REQUIRED IMPORTED_TARGET librsvg-2.0)
+    # Required for fd based imaging loading and put int gdk pixbuf
+    pkg_check_modules(GioUnix REQUIRED IMPORTED_TARGET gio-unix-2.0)
     if (USE_SYSTEM_YOGA)
         find_package(yoga REQUIRED)
         set(YOGA_TARGET yoga::yogacore)
@@ -180,7 +181,8 @@ if (ENABLE_WAYLAND)
     find_package(Wayland 1.22 REQUIRED COMPONENTS ${REQUIRED_WAYLAND_COMPONENTS})
     find_package(WaylandScanner REQUIRED)
     find_package(WaylandProtocols 1.46 REQUIRED)
-    pkg_check_modules(Gio IMPORTED_TARGET gio-2.0)
+    # Required for gsettings
+    pkg_check_modules(Gio REQUIRED IMPORTED_TARGET gio-2.0)
 
     if (USE_SYSTEM_PLASMA_WAYLAND_PROTOCOLS)
         find_package(PlasmaWaylandProtocols 1.20 REQUIRED)

@@ -9,7 +9,6 @@
 #include <fcntl.h>
 #include <algorithm>
 #include <cstdint>
-#include <cstdlib>
 #include <exception>
 #include <memory>
 #include <optional>
@@ -17,7 +16,6 @@
 #include <string>
 #include <string_view>
 #include <tuple>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 #include <fcitx-utils/handlertable.h>
