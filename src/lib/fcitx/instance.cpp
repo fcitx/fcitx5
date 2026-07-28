@@ -457,7 +457,8 @@ bool InstancePrivate::canActivate(InputContext *ic) {
         return false;
     }
     auto *inputState = ic->propertyFor(&inputStateFactory_);
-    return !inputState->isActive();
+    return (!inputState->isActive()) ||
+        globalConfig_.consumeRedundantActivateKeys();
 }
 
 bool InstancePrivate::canDeactivate(InputContext *ic) {
@@ -466,7 +467,8 @@ bool InstancePrivate::canDeactivate(InputContext *ic) {
         return false;
     }
     auto *inputState = ic->propertyFor(&inputStateFactory_);
-    return inputState->isActive();
+    return inputState->isActive() ||
+        globalConfig_.consumeRedundantActivateKeys();
 }
 
 void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
@@ -872,19 +874,6 @@ Instance::Instance(int argc, char **argv) {
                         return;
                     }
                     idx++;
-                }
-                if (d->globalConfig_.consumeRedundantActivateKeys() &&
-                    !isModifier && canTrigger() &&
-                    (origKey.keyListIndex(d->globalConfig_.activateKeys()) >=
-                         0 ||
-                     origKey.keyListIndex(d->globalConfig_.deactivateKeys()) >=
-                         0)) {
-                    // Activate/Deactivate keys act as modeless switches: when
-                    // the state already matches, the state-gated handlers
-                    // above do not claim the key. Consume it instead of
-                    // leaking it to the client.
-                    keyEvent.filterAndAccept();
-                    return;
                 }
             }
         }));
