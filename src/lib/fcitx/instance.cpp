@@ -519,7 +519,7 @@ InputState::InputState(InstancePrivate *d, InputContext *ic)
 }
 
 void InputState::showInputMethodInformation(const std::string &name) {
-    ic_->inputPanel().setAuxUp(Text(name));
+    ic_->inputPanel().setOverlayMessage(Text(name));
     ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
     lastInfo_ = name;
     imInfoTimer_ = d_ptr->eventLoop_.addTimeEvent(
@@ -615,11 +615,9 @@ void InputState::hideInputMethodInfo() {
     }
     imInfoTimer_.reset();
     auto &panel = ic_->inputPanel();
-    if (panel.auxDown().empty() && panel.preedit().empty() &&
-        panel.clientPreedit().empty() &&
-        (!panel.candidateList() || panel.candidateList()->empty()) &&
-        panel.auxUp().size() == 1 && panel.auxUp().stringAt(0) == lastInfo_) {
-        panel.reset();
+    if (panel.overlayMessage().size() == 1 &&
+        panel.overlayMessage().stringAt(0) == lastInfo_) {
+        panel.setOverlayMessage(Text());
         ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
     }
 }
@@ -663,6 +661,11 @@ Instance::Instance(int argc, char **argv) {
     if (arg.quietQuit) {
         throw InstanceQuietQuit();
     }
+
+    // Start logging after quietQuit to avoid spamming the log with version
+    // information when user just want to see the version.
+    FCITX_INFO() << "Starting fcitx5 " << Instance::version();
+    FCITX_LOG_IF(Info, isInFlatpak()) << "Running inside flatpak.";
 
     if (arg.runAsDaemon) {
         initAsDaemon();

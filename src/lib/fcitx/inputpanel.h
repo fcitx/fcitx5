@@ -8,8 +8,11 @@
 #define _FCITX_INPUTPANEL_H_
 
 #include <functional>
+#include <memory>
+#include <fcitx-utils/macros.h>
 #include <fcitx/candidatelist.h>
 #include <fcitx/fcitxcore_export.h>
+#include <fcitx/text.h>
 
 /// \addtogroup FcitxCore
 /// \{
@@ -66,6 +69,36 @@ public:
 
     std::shared_ptr<CandidateList> candidateList() const;
     void setCandidateList(std::unique_ptr<CandidateList> candidate);
+
+    /**
+     * An text message that allows the input method to display a message on top
+     * of the input panel.
+     *
+     * When not empty, it should behave as if it is displayed in aux up.
+     *
+     * If you just need a naive implementation with timeout, consider using
+     * Instance::showCustomInputMethodInformation.
+     *
+     * This is intended to be used by a third party to display some message when
+     * engine/temp mode is controlling the input panel.
+     *
+     * This message should still be considered as temporary and
+     * InputPanel::reset will still clear it when the input panel current owner
+     * want to reset.
+     *
+     * @see Instance::showInputMethodInformation
+     * @see Instance::showCustomInputMethodInformation
+     */
+    const Text &overlayMessage() const;
+
+    /**
+     * Set an overlay message on the input panel.
+     *
+     * When set, the input panel will not display any other fields.
+     *
+     * @param text the message to display.
+     */
+    void setOverlayMessage(Text text);
 
     /**
      * Return the current input panel display callback.

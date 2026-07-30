@@ -17,6 +17,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/semver.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx/addonfactory.h"
@@ -58,7 +59,6 @@ int main(int argc, char *argv[]) {
     bool restart = false;
     bool canRestart = false;
     try {
-        FCITX_LOG_IF(Info, isInFlatpak()) << "Running inside flatpak.";
         Instance instance(argc, argv);
         instance.setBinaryMode();
         instance.setSignalPipe(selfPipe[0]);
