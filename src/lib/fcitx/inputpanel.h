@@ -88,15 +88,20 @@ public:
      *
      * @see Instance::showInputMethodInformation
      * @see Instance::showCustomInputMethodInformation
+     *
+     * @since 5.1.22
      */
     const Text &overlayMessage() const;
 
     /**
      * Set an overlay message on the input panel.
      *
-     * When set, the input panel will not display any other fields.
+     * It will not be shown if input panel has content, otherwise it will be
+     * shown as if it is in aux up.
      *
      * @param text the message to display.
+     *
+     * @since 5.1.22
      */
     void setOverlayMessage(Text text);
 
