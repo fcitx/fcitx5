@@ -12,6 +12,7 @@
 #include <functional>
 #include <initializer_list>
 #include <limits>
+#include <memory>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -360,8 +361,18 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
     inputContext_ = inputContext->watch();
 
     cursor_ = -1;
-    auto preedit = instance->outputFilter(inputContext, inputPanel.preedit());
-    auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
+    Text preedit;
+    Text auxUp;
+    Text auxDown;
+    std::shared_ptr<CandidateList> candidateList;
+    if (!inputPanel.empty()) {
+        preedit = instance->outputFilter(inputContext, inputPanel.preedit());
+        auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
+        auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
+        candidateList = inputPanel.candidateList();
+    } else if (!inputPanel.overlayMessage().empty()) {
+        auxUp = inputPanel.overlayMessage();
+    }
     pango_layout_set_single_paragraph_mode(upperLayout_.get(), true);
     setTextToLayout(inputContext, upperLayout_.get(), nullptr, nullptr,
                     {auxUp, preedit});
@@ -370,11 +381,10 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
         cursor_ = preedit.cursor() + auxUp.toString().size();
     }
 
-    auto auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
     setTextToLayout(inputContext, lowerLayout_.get(), nullptr, nullptr,
                     {auxDown});
 
-    if (auto candidateList = inputPanel.candidateList()) {
+    if (candidateList) {
         // Count non-placeholder candidates.
         int count = 0;
 

@@ -29,6 +29,7 @@
 #include "fcitx-utils/rect.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/candidatelist.h"
 #include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
@@ -225,10 +226,18 @@ public:
             return;
         }
 
-        auto preedit = instance->outputFilter(this, inputPanel().preedit());
-        auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
-        auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
-        auto candidateList = inputPanel().candidateList();
+        Text preedit;
+        Text auxUp;
+        Text auxDown;
+        std::shared_ptr<CandidateList> candidateList;
+        if (!inputPanel().empty()) {
+            preedit = instance->outputFilter(this, inputPanel().preedit());
+            auxUp = instance->outputFilter(this, inputPanel().auxUp());
+            auxDown = instance->outputFilter(this, inputPanel().auxDown());
+            candidateList = inputPanel().candidateList();
+        } else if (!inputPanel().overlayMessage().empty()) {
+            auxUp = inputPanel().overlayMessage();
+        }
         int cursorIndex = 0;
 
         preeditStrings = buildFormattedTextVector(preedit);

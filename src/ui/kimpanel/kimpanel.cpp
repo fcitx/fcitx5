@@ -316,8 +316,18 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     auto *instance = this->instance();
     auto &inputPanel = inputContext->inputPanel();
 
-    auto preedit = instance->outputFilter(inputContext, inputPanel.preedit());
-    auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
+    Text preedit;
+    Text auxUp;
+    Text auxDown;
+    std::shared_ptr<CandidateList> candidateList;
+    if (!inputPanel.empty()) {
+        preedit = instance->outputFilter(inputContext, inputPanel.preedit());
+        auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
+        auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
+        candidateList = inputPanel.candidateList();
+    } else if (!inputPanel.overlayMessage().empty()) {
+        auxUp = inputPanel.overlayMessage();
+    }
     auto preeditString = preedit.toString();
     auto auxUpString = auxUp.toString();
     if (!preeditString.empty() || !auxUpString.empty()) {
@@ -347,9 +357,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
         proxy_->showPreedit(false);
     }
 
-    auto auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
     auto auxDownString = auxDown.toString();
-    auto candidateList = inputPanel.candidateList();
 
     auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
                                       "org.kde.impanel2", "SetLookupTable");
