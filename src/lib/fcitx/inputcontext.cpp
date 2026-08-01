@@ -39,6 +39,9 @@
 
 namespace fcitx {
 
+AtomicSurroundingTextInputContext::~AtomicSurroundingTextInputContext() =
+    default;
+
 namespace {
 
 bool shouldDisablePreeditByDefault(const std::string &program) {

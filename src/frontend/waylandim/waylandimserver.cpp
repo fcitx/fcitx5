@@ -660,6 +660,43 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
                        preeditCommitString.c_str());
 }
 
+bool WaylandIMInputContextV1::
+supportsAtomicSurroundingTextReplacementDelegate(
+    const InputContext * /*ic*/) const {
+    return static_cast<bool>(ic_);
+}
+
+bool WaylandIMInputContextV1::replaceSurroundingTextAtomicallyDelegate(
+    InputContext *ic, int offset, unsigned int size,
+    const std::string &text) const {
+    if (!ic_ || !utf8::validate(text)) {
+        return false;
+    }
+    const size_t cursor = ic->surroundingText().cursor();
+    if (static_cast<ssize_t>(cursor) + offset < 0) {
+        return false;
+    }
+    const auto &surrounding = ic->surroundingText().text();
+    const auto len = utf8::length(surrounding);
+    const size_t start = cursor + offset;
+    const size_t end = start + size;
+    if (cursor > len || start > len || end > len) {
+        return false;
+    }
+    const auto startBytes = utf8::ncharByteLength(surrounding.begin(), start);
+    const auto cursorBytes =
+        utf8::ncharByteLength(surrounding.begin(), cursor);
+    const auto sizeBytes =
+        utf8::ncharByteLength(surrounding.begin() + startBytes, size);
+    ic_->deleteSurroundingText(startBytes - cursorBytes, sizeBytes);
+    bool committed = false;
+    WaylandIMServerBase::commitStringWrapper(text, [&](const char *str) {
+        ic_->commitString(serial_, str);
+        committed = true;
+    });
+    return committed;
+}
+
 void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
     InputContext *ic, int offset, unsigned int size) const {
     if (!ic_) {

@@ -21,7 +21,8 @@ namespace fcitx {
 
 class VirtualInputContextManager;
 
-class VirtualInputContextGlue : public InputContext {
+class VirtualInputContextGlue : public InputContext,
+                                public AtomicSurroundingTextInputContext {
 public:
     using InputContext::InputContext;
     // Qualifier is const to ensure the state is read from ic.
@@ -32,6 +33,20 @@ public:
     virtual void forwardKeyDelegate(InputContext *ic,
                                     const ForwardKeyEvent &key) const = 0;
     virtual void updatePreeditDelegate(InputContext *ic) const = 0;
+    virtual bool supportsAtomicSurroundingTextReplacementDelegate(
+        const InputContext *ic) const = 0;
+    virtual bool replaceSurroundingTextAtomicallyDelegate(
+        InputContext *ic, int offset, unsigned int size,
+        const std::string &text) const = 0;
+
+    bool supportsAtomicSurroundingTextReplacement() const final {
+        return supportsAtomicSurroundingTextReplacementDelegate(this);
+    }
+    bool replaceSurroundingTextAtomically(
+        int offset, unsigned int size, const std::string &text) final {
+        return replaceSurroundingTextAtomicallyDelegate(
+            this, offset, size, text);
+    }
 
     bool realFocus() const {
         if (virtualICManager_) {
@@ -70,7 +85,8 @@ private:
     VirtualInputContextManager *virtualICManager_ = nullptr;
 };
 
-class VirtualInputContext : public InputContext {
+class VirtualInputContext : public InputContext,
+                            public AtomicSurroundingTextInputContext {
 public:
     VirtualInputContext(InputContextManager &manager,
                         const std::string &program,
@@ -86,6 +102,15 @@ public:
 
     const char *frontend() const override { return parent_->frontend(); }
     InputContext *parent() const { return parent_; }
+    bool supportsAtomicSurroundingTextReplacement() const final {
+        return parent_->supportsAtomicSurroundingTextReplacementDelegate(
+            this);
+    }
+    bool replaceSurroundingTextAtomically(
+        int offset, unsigned int size, const std::string &text) final {
+        return parent_->replaceSurroundingTextAtomicallyDelegate(
+            this, offset, size, text);
+    }
 
 protected:
     void commitStringImpl(const std::string &text) override {
