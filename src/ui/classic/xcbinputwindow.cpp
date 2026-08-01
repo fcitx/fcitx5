@@ -77,11 +77,13 @@ int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
     int x = cursorRect.left();
 
     auto &theme = parent_->theme();
-    int leftSW = theme.inputPanel->shadowMargin->marginLeft.value();
-    int rightSW = theme.inputPanel->shadowMargin->marginRight.value();
+    int leftSW =
+        physicalFromLogical(theme.inputPanel->shadowMargin->marginLeft.value());
+    int rightSW = physicalFromLogical(
+        theme.inputPanel->shadowMargin->marginRight.value());
 
-    int actualWidth = width() - leftSW - rightSW;
-    actualWidth = actualWidth <= 0 ? width() : actualWidth;
+    int actualWidth = physicalWidth_ - leftSW - rightSW;
+    actualWidth = actualWidth <= 0 ? physicalWidth_ : actualWidth;
 
     if (closestScreen != nullptr) {
         int newX = std::max(x, closestScreen->left());
@@ -105,11 +107,13 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
     int y = cursorRect.top();
 
     auto &theme = parent_->theme();
-    int topSW = theme.inputPanel->shadowMargin->marginTop.value();
-    int bottomSW = theme.inputPanel->shadowMargin->marginBottom.value();
+    int topSW =
+        physicalFromLogical(theme.inputPanel->shadowMargin->marginTop.value());
+    int bottomSW = physicalFromLogical(
+        theme.inputPanel->shadowMargin->marginBottom.value());
 
-    int actualHeight = height() - topSW - bottomSW;
-    actualHeight = actualHeight <= 0 ? height() : actualHeight;
+    int actualHeight = physicalHeight_ - topSW - bottomSW;
+    actualHeight = actualHeight <= 0 ? physicalHeight_ : actualHeight;
 
     if (closestScreen != nullptr) {
         int h = cursorRect.height();
@@ -117,15 +121,17 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
         if (y < closestScreen->top()) {
             newY = closestScreen->top();
         } else {
-            newY = y + (h ? h : (10 * ((dpi_ < 0 ? 96.0 : dpi_) / 96.0)));
+            newY = y + (h ? h : physicalFromLogical(10));
         }
 
         // Try flip y.
         if (newY + actualHeight > closestScreen->bottom()) {
             if (newY > closestScreen->bottom()) {
-                newY = closestScreen->bottom() - actualHeight - 40;
+                newY = closestScreen->bottom() - actualHeight -
+                       physicalFromLogical(40);
             } else { /* better position the window */
-                newY = newY - actualHeight - ((h == 0) ? 40 : h);
+                newY = newY - actualHeight -
+                       ((h == 0) ? physicalFromLogical(40) : h);
             }
 
             // If after flip, top is out of the screen, we still prefer the top
@@ -165,8 +171,11 @@ void XCBInputWindow::updateDPI(InputContext *inputContext) {
     dpi_ = ui_->dpiByPosition(inputContext->cursorRect().left(),
                               inputContext->cursorRect().top());
 
-    setFontDPI(dpi_);
+    // Let Cairo device scale handle HiDPI so Pango keeps logical font sizes.
+    setFontDPI(-1);
 }
+
+double XCBInputWindow::scale() const { return scaleForDPI(dpi_); }
 
 void XCBInputWindow::update(InputContext *inputContext) {
     if (!wid_) {
@@ -185,15 +194,19 @@ void XCBInputWindow::update(InputContext *inputContext) {
         return;
     }
 
-    if (width != this->width() || height != this->height()) {
-        resize(width, height);
+    auto oldPhysicalWidth = physicalWidth_;
+    auto oldPhysicalHeight = physicalHeight_;
+    resize(width, height);
+    if (physicalWidth_ != oldPhysicalWidth ||
+        physicalHeight_ != oldPhysicalHeight) {
         if (atomBlur_) {
-            Rect rect(0, 0, width, height);
-            shrink(rect, *ui_->parent()->theme().inputPanel->blurMargin);
+            Rect logicalRect(0, 0, width, height);
+            shrink(logicalRect, *ui_->parent()->theme().inputPanel->blurMargin);
             if (!*ui_->parent()->theme().inputPanel->enableBlur ||
-                rect.isEmpty()) {
+                logicalRect.isEmpty()) {
                 xcb_delete_property(ui_->connection(), wid_, atomBlur_);
             } else {
+                auto rect = physicalFromLogical(logicalRect);
                 std::vector<uint32_t> data;
                 if (ui_->parent()->theme().inputPanel->blurMask->empty()) {
                     data.push_back(rect.left());
@@ -208,10 +221,11 @@ void XCBInputWindow::update(InputContext *inputContext) {
                     auto region = parent_->theme().mask(
                         parent_->theme().maskConfig(), width, height);
                     for (const auto &rect : region) {
-                        data.push_back(rect.left());
-                        data.push_back(rect.top());
-                        data.push_back(rect.width());
-                        data.push_back(rect.height());
+                        auto physicalRect = physicalFromLogical(rect);
+                        data.push_back(physicalRect.left());
+                        data.push_back(physicalRect.top());
+                        data.push_back(physicalRect.width());
+                        data.push_back(physicalRect.height());
                     }
                     xcb_change_property(ui_->connection(),
                                         XCB_PROP_MODE_REPLACE, wid_, atomBlur_,
@@ -250,7 +264,8 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             break;
         }
         if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
-            click(buttonPress->event_x, buttonPress->event_y);
+            click(logicalFromPhysical(buttonPress->event_x),
+                  logicalFromPhysical(buttonPress->event_y));
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_4) {
             wheel(/*up=*/true);
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_5) {
@@ -261,7 +276,8 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     case XCB_MOTION_NOTIFY: {
         auto *motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
         if (motion->event == wid_) {
-            if (hover(motion->event_x, motion->event_y)) {
+            if (hover(logicalFromPhysical(motion->event_x),
+                      logicalFromPhysical(motion->event_y))) {
                 repaint();
             }
             return true;

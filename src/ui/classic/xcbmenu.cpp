@@ -105,8 +105,9 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         }
         if (auto *menu =
                 childByPosition(buttonPress->root_x, buttonPress->root_y)) {
-            menu->handleButtonPress(buttonPress->root_x - menu->x_,
-                                    buttonPress->root_y - menu->y_);
+            menu->handleButtonPress(
+                menu->logicalFromPhysical(buttonPress->root_x - menu->x_),
+                menu->logicalFromPhysical(buttonPress->root_y - menu->y_));
         } else {
             hideAll();
             return true;
@@ -120,8 +121,9 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         }
 
         if (auto *menu = childByPosition(motion->root_x, motion->root_y)) {
-            menu->handleMotionNotify(motion->root_x - menu->x_,
-                                     motion->root_y - menu->y_);
+            menu->handleMotionNotify(
+                menu->logicalFromPhysical(motion->root_x - menu->x_),
+                menu->logicalFromPhysical(motion->root_y - menu->y_));
         }
         return true;
     }
@@ -279,7 +281,7 @@ XCBMenu *XCBMenu::childByPosition(int rootX, int rootY) {
     while (result) {
         Rect rect;
         rect.setPosition(result->x_, result->y_)
-            .setSize(result->width_, result->height_);
+            .setSize(result->physicalWidth_, result->physicalHeight_);
         if (rect.contains(rootX, rootY)) {
             break;
         }
@@ -353,7 +355,8 @@ void XCBMenu::setHoveredIndex(int idx) {
                             // FCITX_INFO() << this << " in timer show submenu "
                             // << newMenu;
                             newMenu->show(
-                                item.first->region_.translated(x_, y_),
+                                physicalFromLogical(item.first->region_)
+                                    .translated(x_, y_),
                                 ConstrainAdjustment::Slide);
                         }
                     } else {
@@ -385,17 +388,13 @@ std::pair<MenuItem *, Action *> XCBMenu::actionAt(size_t index) {
 void XCBMenu::updateDPI(int x, int y) {
     dpi_ = ui_->dpiByPosition(x, y);
 
-    // Unlike pango cairo context, Cairo font map does not accept negative dpi.
-    // Restore to default value instead.
-    if (dpi_ < 0) {
-        pango_cairo_font_map_set_resolution(
-            PANGO_CAIRO_FONT_MAP(fontMap_.get()), fontMapDefaultDPI_);
-    } else {
-        pango_cairo_font_map_set_resolution(
-            PANGO_CAIRO_FONT_MAP(fontMap_.get()), dpi_);
-    }
-    pango_cairo_context_set_resolution(context_.get(), dpi_);
+    // Let Cairo device scale handle HiDPI so Pango keeps logical font sizes.
+    pango_cairo_font_map_set_resolution(PANGO_CAIRO_FONT_MAP(fontMap_.get()),
+                                        fontMapDefaultDPI_);
+    pango_cairo_context_set_resolution(context_.get(), -1);
 }
+
+double XCBMenu::scale() const { return scaleForDPI(dpi_); }
 
 void XCBMenu::update() {
     auto *ic = lastRelevantIc();
@@ -501,7 +500,7 @@ void XCBMenu::update() {
             .setSize(maxItemWidth + *highlightMargin.marginLeft +
                          *highlightMargin.marginRight,
                      maxItemHeight + *highlightMargin.marginTop +
-                         *highlightMargin.marginTop);
+                         *highlightMargin.marginBottom);
         item.layoutX_ = width + *textMargin.marginLeft +
                         (hasCheckable ? checkBox.width() : 0);
         item.layoutY_ = height + *textMargin.marginTop +
@@ -664,20 +663,19 @@ void XCBMenu::show(Rect rect, ConstrainAdjustment adjustY) {
     x = x + rect.width();
 
     if (closestScreen) {
-
-        if (x + width() > closestScreen->right()) {
-            x = rect.left() - width();
+        if (x + physicalWidth_ > closestScreen->right()) {
+            x = rect.left() - physicalWidth_;
         }
 
         switch (adjustY) {
         case ConstrainAdjustment::Slide:
-            if (y + height() > closestScreen->bottom()) {
-                y = closestScreen->bottom() - height();
+            if (y + physicalHeight_ > closestScreen->bottom()) {
+                y = closestScreen->bottom() - physicalHeight_;
             }
             break;
         case ConstrainAdjustment::Flip:
-            if (y + height() > closestScreen->bottom()) {
-                y = rect.top() - height();
+            if (y + physicalHeight_ > closestScreen->bottom()) {
+                y = rect.top() - physicalHeight_;
             }
             break;
         };

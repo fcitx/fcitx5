@@ -31,6 +31,7 @@ public:
 
 private:
     void repaint();
+    double scale() const override;
     const Rect *getClosestScreen(const Rect &cursorRect) const;
     int calculatePositionX(const Rect &cursorRect,
                            const Rect *closestScreen) const;
