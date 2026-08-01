@@ -92,6 +92,7 @@ private:
     void setHoveredIndex(int idx);
     void setChild(XCBMenu *child);
     void updateDPI(int x, int y);
+    double scale() const override;
     std::pair<MenuItem *, Action *> actionAt(size_t index);
 
     MenuPool *pool_;
