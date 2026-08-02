@@ -44,8 +44,6 @@ namespace fcitx::classicui {
 XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
     : XCBWindow(ui), pool_(pool), menu_(menu) {
     fontMap_.reset(pango_cairo_font_map_new());
-    fontMapDefaultDPI_ = pango_cairo_font_map_get_resolution(
-        PANGO_CAIRO_FONT_MAP(fontMap_.get()));
     context_.reset(pango_font_map_create_context(fontMap_.get()));
     if (auto *ic = ui_->parent()->instance()->mostRecentInputContext()) {
         lastRelevantIc_ = ic->watch();
@@ -386,15 +384,8 @@ std::pair<MenuItem *, Action *> XCBMenu::actionAt(size_t index) {
 }
 
 void XCBMenu::updateDPI(int x, int y) {
-    dpi_ = ui_->dpiByPosition(x, y);
-
-    // Let Cairo device scale handle HiDPI so Pango keeps logical font sizes.
-    pango_cairo_font_map_set_resolution(PANGO_CAIRO_FONT_MAP(fontMap_.get()),
-                                        fontMapDefaultDPI_);
-    pango_cairo_context_set_resolution(context_.get(), -1);
+    setScale(scaleForDPI(ui_->dpiByPosition(x, y)));
 }
-
-double XCBMenu::scale() const { return scaleForDPI(dpi_); }
 
 void XCBMenu::update() {
     auto *ic = lastRelevantIc();
