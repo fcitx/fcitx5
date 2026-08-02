@@ -31,7 +31,6 @@ public:
 
 private:
     void repaint();
-    double scale() const override;
     const Rect *getClosestScreen(const Rect &cursorRect) const;
     int calculatePositionX(const Rect &cursorRect,
                            const Rect *closestScreen) const;
@@ -39,7 +38,6 @@ private:
                            const Rect *closestScreen) const;
 
     xcb_atom_t atomBlur_;
-    int dpi_ = -1;
 };
 
 } // namespace fcitx::classicui

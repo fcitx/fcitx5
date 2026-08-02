@@ -168,14 +168,10 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
 }
 
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
-    dpi_ = ui_->dpiByPosition(inputContext->cursorRect().left(),
-                              inputContext->cursorRect().top());
-
-    // Let Cairo device scale handle HiDPI so Pango keeps logical font sizes.
-    setFontDPI(-1);
+    auto dpi = ui_->dpiByPosition(inputContext->cursorRect().left(),
+                                  inputContext->cursorRect().top());
+    setScale(scaleForDPI(dpi));
 }
-
-double XCBInputWindow::scale() const { return scaleForDPI(dpi_); }
 
 void XCBInputWindow::update(InputContext *inputContext) {
     if (!wid_) {
@@ -249,7 +245,6 @@ void XCBInputWindow::update(InputContext *inputContext) {
 bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
     switch (response_type) {
-
     case XCB_EXPOSE: {
         auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
@@ -294,6 +289,8 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         }
         break;
     }
+    default:
+        break;
     }
     return false;
 }

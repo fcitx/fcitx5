@@ -92,7 +92,6 @@ private:
     void setHoveredIndex(int idx);
     void setChild(XCBMenu *child);
     void updateDPI(int x, int y);
-    double scale() const override;
     std::pair<MenuItem *, Action *> actionAt(size_t index);
 
     MenuPool *pool_;
@@ -106,8 +105,6 @@ private:
     Menu *menu_;
     TrackableObjectReference<XCBMenu> parent_;
     TrackableObjectReference<XCBMenu> child_;
-    int dpi_ = -1;
-    double fontMapDefaultDPI_ = 96.0;
     int x_ = 0;
     int y_ = 0;
     bool hasMouse_ = false;

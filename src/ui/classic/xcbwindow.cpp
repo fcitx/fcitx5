@@ -16,6 +16,7 @@
 #include <xcb/xcb_aux.h>
 #include <xcb/xproto.h>
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/rect.h"
 #include "common.h"
 #include "window.h"
 #include "xcb_public.h"
@@ -112,8 +113,7 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
             : xcb_aux_find_visual_by_id(screen, screen->root_visual),
         physicalWidth_, physicalHeight_));
     if (surface_) {
-        auto s = scale();
-        cairo_surface_set_device_scale(surface_.get(), s, s);
+        cairo_surface_set_device_scale(surface_.get(), scale_, scale_);
         ui_->setCairoDevice(cairo_surface_get_device(surface_.get()));
     }
     contentSurface_.reset();
@@ -138,8 +138,14 @@ void XCBWindow::destroyWindow() {
     }
 }
 
+void XCBWindow::setScale(double scale) {
+    if (scale_ != scale && scale > 0) {
+        scale_ = scale;
+        cairo_surface_set_device_scale(surface_.get(), scale_, scale_);
+    }
+}
+
 void XCBWindow::resize(unsigned int width, unsigned int height) {
-    auto s = scale();
     auto newPhysicalWidth = physicalSizeFromLogical(width);
     auto newPhysicalHeight = physicalSizeFromLogical(height);
     if (newPhysicalWidth != physicalWidth_ ||
@@ -154,10 +160,9 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
         physicalWidth_ = newPhysicalWidth;
         physicalHeight_ = newPhysicalHeight;
     }
-    cairo_surface_set_device_scale(surface_.get(), s, s);
     Window::resize(width, height);
-    CLASSICUI_DEBUG() << "Resize: " << width << " " << height << " scale " << s
-                      << " physical " << physicalWidth_ << " "
+    CLASSICUI_DEBUG() << "Resize: " << width << " " << height << " scale "
+                      << scale_ << " physical " << physicalWidth_ << " "
                       << physicalHeight_;
 }
 
@@ -169,8 +174,7 @@ cairo_surface_t *XCBWindow::prerender() {
     contentSurface_.reset(cairo_image_surface_create(
         CAIRO_FORMAT_ARGB32, physicalWidth_, physicalHeight_));
 #endif
-    auto s = scale();
-    cairo_surface_set_device_scale(contentSurface_.get(), s, s);
+    cairo_surface_set_device_scale(contentSurface_.get(), scale_, scale_);
     return contentSurface_.get();
 }
 
@@ -183,16 +187,16 @@ void XCBWindow::render() {
     CLASSICUI_DEBUG() << "Render";
 }
 
-int XCBWindow::logicalFromPhysical(int value) const {
-    return static_cast<int>(std::floor(value / scale()));
+double XCBWindow::logicalFromPhysical(double value) const {
+    return std::floor(value / scale_);
 }
 
-int XCBWindow::physicalFromLogical(int value) const {
-    return static_cast<int>(std::lround(value * scale()));
+double XCBWindow::physicalFromLogical(double value) const {
+    return std::round(value * scale_);
 }
 
-int XCBWindow::physicalSizeFromLogical(int size) const {
-    return std::max(1, physicalFromLogical(size));
+int XCBWindow::physicalSizeFromLogical(double size) const {
+    return std::max(1.0, physicalFromLogical(size));
 }
 
 Rect XCBWindow::physicalFromLogical(const Rect &rect) const {
