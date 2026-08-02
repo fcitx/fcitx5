@@ -9,6 +9,7 @@
 #include <cstring>
 #include <ctime>
 #include <stdexcept>
+#include <string>
 #include <format>
 
 namespace fcitx {
@@ -39,8 +40,8 @@ uint64_t timespec_load(const struct timespec *ts) {
         return USEC_INFINITY;
     }
 
-    return (uint64_t)ts->tv_sec * USEC_PER_SEC +
-           (uint64_t)ts->tv_nsec / NSEC_PER_USEC;
+    return ((uint64_t)ts->tv_sec * USEC_PER_SEC) +
+           ((uint64_t)ts->tv_nsec / NSEC_PER_USEC);
 }
 
 uint64_t now(clockid_t clock_id) {

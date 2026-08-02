@@ -5,6 +5,7 @@
  *
  */
 
+#include <sys/types.h>
 #include <cstdint>
 #include <cstdlib>
 #include <exception>
@@ -15,6 +16,7 @@
 #include <utility>
 #include <sys/epoll.h>
 #include "eventloopinterface.h"
+#include "fs.h"
 #include "log.h"
 #include "macros.h"
 #include "misc_p.h"

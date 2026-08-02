@@ -6,6 +6,7 @@
  */
 
 #include <poll.h>
+#include <sys/types.h>
 #include <unistd.h>
 #include <algorithm>
 #include <cassert>
@@ -18,6 +19,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/intrusivelist.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
