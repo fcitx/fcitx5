@@ -7,9 +7,8 @@
  */
 
 #include "event.h"
+#include <sys/types.h>
 #include <cstdint>
-#include <cstring>
-#include <ctime>
 #include <memory>
 #include <stdexcept>
 #include <utility>
@@ -69,7 +68,7 @@ bool EventLoop::exec() {
 
 void EventLoop::exit() {
     FCITX_D();
-    return d->impl_->exit();
+    d->impl_->exit();
 }
 
 std::unique_ptr<EventSourceIO> EventLoop::addIOEvent(int fd, IOEventFlags flags,

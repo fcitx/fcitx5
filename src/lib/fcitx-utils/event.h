@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_EVENT_H_
 #define _FCITX_UTILS_EVENT_H_
 
+#include <sys/types.h>
 #include <cstdint>
 #include <functional>
 #include <memory>

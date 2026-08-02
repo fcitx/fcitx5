@@ -7,6 +7,7 @@
  */
 
 #include "event_libuv.h"
+#include <sys/types.h>
 #include <cstdint>
 #include <cstdlib>
 #include <ctime>
@@ -25,13 +26,17 @@
 
 namespace fcitx {
 
+namespace {
+
+FCITX_DEFINE_LOG_CATEGORY(libuv_logcategory, "libuv");
+
+}
+
 std::unique_ptr<EventLoopInterface> createDefaultEventLoop() {
     return std::make_unique<EventLoopLibUV>();
 }
 
 const char *defaultEventLoopImplementation() { return "libuv"; }
-
-FCITX_DEFINE_LOG_CATEGORY(libuv_logcategory, "libuv");
 
 static int IOEventFlagsToLibUVFlags(IOEventFlags flags) {
     int result = 0;
