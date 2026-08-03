@@ -16,6 +16,10 @@
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 
+#if defined(_WIN32)
+#include <pthread.h>
+#endif
+
 namespace fcitx {
 
 using EventLoopFactory = std::function<std::unique_ptr<EventLoopInterface>()>;

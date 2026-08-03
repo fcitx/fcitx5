@@ -19,6 +19,10 @@
 #include <fcitx-utils/trackableobject.h>
 #include <uv.h>
 
+#if defined(_WIN32)
+#include <pthread.h>
+#endif
+
 namespace fcitx {
 
 struct UVLoop {
