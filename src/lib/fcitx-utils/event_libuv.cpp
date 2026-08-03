@@ -22,6 +22,10 @@
 #include "log.h"
 #include "trackableobject.h"
 
+#if defined(_WIN32)
+#include <pthread.h>
+#endif
+
 #define FCITX_LIBUV_DEBUG() FCITX_LOGC(::fcitx::libuv_logcategory, Debug)
 
 namespace fcitx {

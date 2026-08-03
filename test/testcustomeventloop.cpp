@@ -27,6 +27,10 @@
 #include "fcitx-utils/unixfd.h"
 #include "eventlooptests.h"
 
+#if defined(_WIN32)
+#include <pthread.h>
+#endif
+
 using namespace fcitx;
 
 // Following is also an example of poll() based event loop

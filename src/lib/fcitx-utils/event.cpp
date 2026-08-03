@@ -16,6 +16,10 @@
 #include "eventloopinterface.h"
 #include "macros.h"
 
+#if defined(_WIN32)
+#include <pthread.h>
+#endif
+
 namespace fcitx {
 
 class EventLoopPrivate {
