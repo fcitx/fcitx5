@@ -352,7 +352,11 @@ void InputMethodManager::setGroup(InputMethodGroup newGroupInfo) {
                                    return !d->entries_.count(item.name());
                                });
     list.erase(iter, list.end());
-    newGroupInfo.setDefaultInputMethod(newGroupInfo.defaultInputMethod());
+    auto defaultInputMethod = newGroupInfo.defaultInputMethod();
+    if (defaultInputMethod.empty()) {
+        defaultInputMethod = group->defaultInputMethod();
+    }
+    newGroupInfo.setDefaultInputMethod(defaultInputMethod);
     *group = std::move(newGroupInfo);
     if (!d->buildingGroup_ && isCurrent) {
         emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
