@@ -54,6 +54,38 @@ void testReloadGlobalConfig(Instance &instance) {
     });
 }
 
+void testSetGroupDefaultInputMethod(Instance &instance) {
+    instance.eventDispatcher().schedule([&instance]() {
+        auto &imManager = instance.inputMethodManager();
+        auto group = imManager.currentGroup();
+        group.inputMethodList().clear();
+        group.inputMethodList().emplace_back("keyboard-us");
+        group.inputMethodList().emplace_back("testim");
+        group.setDefaultInputMethod("testim");
+        imManager.setGroup(group);
+        FCITX_ASSERT(imManager.currentGroup().defaultInputMethod() == "testim");
+
+        InputMethodGroup replacement(group.name());
+        replacement.inputMethodList().emplace_back("keyboard-us");
+        replacement.inputMethodList().emplace_back("testim");
+        imManager.setGroup(std::move(replacement));
+        FCITX_ASSERT(imManager.currentGroup().defaultInputMethod() == "testim");
+
+        InputMethodGroup invalidDefault(group.name());
+        invalidDefault.inputMethodList().emplace_back("keyboard-us");
+        invalidDefault.inputMethodList().emplace_back("testim2");
+        imManager.setGroup(std::move(invalidDefault));
+        FCITX_ASSERT(imManager.currentGroup().defaultInputMethod() ==
+                     "testim2");
+
+        InputMethodGroup fallback(group.name());
+        fallback.inputMethodList().emplace_back("keyboard-us");
+        imManager.setGroup(std::move(fallback));
+        FCITX_ASSERT(imManager.currentGroup().defaultInputMethod() ==
+                     "keyboard-us");
+    });
+}
+
 void testModifierOnlyHotkey(Instance &instance) {
     instance.eventDispatcher().schedule([&instance]() {
         auto defaultGroup = instance.inputMethodManager().currentGroup();
@@ -145,6 +177,7 @@ int main() {
                  std::vector<std::string>{});
     testCheckUpdate(instance);
     testReloadGlobalConfig(instance);
+    testSetGroupDefaultInputMethod(instance);
     testModifierOnlyHotkey(instance);
     instance.eventDispatcher().schedule([&instance]() { instance.exit(); });
     instance.exec();
