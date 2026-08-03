@@ -8,6 +8,7 @@
 #define _FCITX_UTILS_EVENTLOOPINTERFACE_H_
 
 #include <cstdint>
+#include <ctime>
 #include <functional>
 #include <memory>
 #include <stdexcept>
