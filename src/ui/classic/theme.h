@@ -200,6 +200,10 @@ FCITX_CONFIGURATION(
                                      _("Selected Item text color"),
                                      Color("#ffffffff")};
     Option<int> spacing{this, "Spacing", _("Spacing"), 0};
+    Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin"),
+                            false};
+    Option<std::string> blurMask{this, "BlurMask", _("Blur mask"), ""};
+    Option<MarginConfig> blurMargin{this, "BlurMargin", _("Blur Margin")};
     Option<BackgroundImageConfig> background{this, "Background",
                                              _("Background")};
     Option<BackgroundImageConfig> highlight{this, "Highlight",
@@ -385,6 +389,7 @@ public:
     const auto &menuSeparator() const { return menuSeparator_; }
     const auto &menuText() const { return menuText_; }
     const auto &menuSelectedItemText() const { return menuSelectedItemText_; }
+    const auto &menuBlurMaskConfig() const { return menuBlurMaskConfig_; }
 
     bool isSystemTheme() const { return isSystemTheme_; }
 
@@ -400,6 +405,7 @@ private:
     IconTheme iconTheme_;
     std::string name_;
     BackgroundImageConfig maskConfig_;
+    BackgroundImageConfig menuBlurMaskConfig_;
     std::unordered_set<ColorField> accentColorFields_;
 
     Color inputPanelBackground_;

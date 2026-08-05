@@ -901,6 +901,9 @@ void Theme::load(std::string_view name) {
     maskConfig_ = *inputPanel->background;
     maskConfig_.overlay.setValue("");
     maskConfig_.image.setValue(*inputPanel->blurMask);
+    menuBlurMaskConfig_ = *menu->background;
+    menuBlurMaskConfig_.overlay.setValue("");
+    menuBlurMaskConfig_.image.setValue(*menu->blurMask);
     accentColorFields_ = std::unordered_set<ColorField>(
         accentColor.value().begin(), accentColor.value().end());
 }

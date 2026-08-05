@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <tuple>
 #include <utility>
+#include <vector>
 #include <cairo.h>
 #include <pango/pango-context.h>
 #include <pango/pango-font.h>
@@ -42,13 +43,16 @@
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
 #include "theme.h"
+#include "xcb_public.h"
 #include "xcbui.h"
 #include "xcbwindow.h"
 
 namespace fcitx::classicui {
 
 XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
-    : XCBWindow(ui), pool_(pool), menu_(menu) {
+    : XCBWindow(ui), pool_(pool), menu_(menu),
+      atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
+          ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {
     fontMap_.reset(pango_cairo_font_map_new());
     context_.reset(pango_font_map_create_context(fontMap_.get()));
     rootNode_.reset(YGNodeNew());
@@ -396,6 +400,47 @@ void XCBMenu::updateDPI(int x, int y) {
     setScale(scaleForDPI(ui_->dpiByPosition(x, y)));
 }
 
+void XCBMenu::updateBlur() {
+    if (!atomBlur_) {
+        return;
+    }
+
+    const auto width =
+        static_cast<unsigned int>(YGNodeLayoutGetWidth(rootNode_.get()));
+    const auto height =
+        static_cast<unsigned int>(YGNodeLayoutGetHeight(rootNode_.get()));
+    Rect logicalRect(0, 0, width, height);
+    auto &theme = ui_->parent()->theme();
+    const auto &menu = *theme.menu;
+    shrink(logicalRect, *menu.blurMargin);
+    if (!*menu.enableBlur || logicalRect.isEmpty()) {
+        xcb_delete_property(ui_->connection(), wid_, atomBlur_);
+        return;
+    }
+
+    const auto rect = physicalFromLogical(logicalRect);
+    std::vector<uint32_t> data;
+    if (menu.blurMask->empty()) {
+        data = {static_cast<uint32_t>(rect.left()),
+                static_cast<uint32_t>(rect.top()),
+                static_cast<uint32_t>(rect.width()),
+                static_cast<uint32_t>(rect.height())};
+    } else {
+        const auto region =
+            theme.mask(theme.menuBlurMaskConfig(), width, height);
+        for (const auto &maskRect : region) {
+            const auto physicalRect = physicalFromLogical(maskRect);
+            data.push_back(physicalRect.left());
+            data.push_back(physicalRect.top());
+            data.push_back(physicalRect.width());
+            data.push_back(physicalRect.height());
+        }
+    }
+    xcb_change_property(ui_->connection(), XCB_PROP_MODE_REPLACE, wid_,
+                        atomBlur_, XCB_ATOM_CARDINAL, 32, data.size(),
+                        data.data());
+}
+
 void XCBMenu::renderYogaNode(cairo_t *cr, YGNodeRef node) {
     if (!node) {
         return;
@@ -559,7 +604,13 @@ void XCBMenu::update() {
     const auto height =
         static_cast<unsigned int>(YGNodeLayoutGetHeight(rootNode_.get()));
 
+    const auto oldPhysicalWidth = physicalWidth_;
+    const auto oldPhysicalHeight = physicalHeight_;
     resize(width, height);
+    if (physicalWidth_ != oldPhysicalWidth ||
+        physicalHeight_ != oldPhysicalHeight) {
+        updateBlur();
+    }
 
     cairo_t *c = cairo_create(prerender());
     cairo_set_operator(c, CAIRO_OPERATOR_CLEAR);
@@ -710,6 +761,7 @@ void XCBMenu::show(Rect rect, ConstrainAdjustment adjustY) {
     int y = rect.top();
     updateDPI(x, y);
     update();
+    updateBlur();
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
     for (const auto &rect : ui_->screenRects()) {
