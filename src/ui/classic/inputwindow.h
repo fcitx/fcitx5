@@ -182,17 +182,6 @@ private:
 
     std::vector<CandidateNode> candidateNodes_;
     YGNodePtr buttonNode_;
-
-    template <auto Getter>
-    float absolute(const YGNodePtr &node) const {
-        float offset = 0.0F;
-        YGNodeRef current = node.get();
-        while (current != nullptr) {
-            offset += Getter(current);
-            current = YGNodeGetParent(current);
-        }
-        return offset;
-    }
 };
 
 } // namespace fcitx::classicui
