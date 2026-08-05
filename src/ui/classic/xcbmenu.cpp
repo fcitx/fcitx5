@@ -690,7 +690,7 @@ void XCBMenu::postCreateWindow() {
         ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
         uint32_t types[] = {ui_->ewmh()->_NET_WM_WINDOW_TYPE_MENU,
                             ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU};
-        xcb_ewmh_set_wm_window_type(ui_->ewmh(), wid_, 1, types);
+        xcb_ewmh_set_wm_window_type(ui_->ewmh(), wid_, 2, types);
     }
 
     if (ui_->ewmh()->_NET_WM_PID) {
