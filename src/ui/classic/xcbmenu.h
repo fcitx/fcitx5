@@ -103,6 +103,7 @@ private:
     void setHoveredIndex(int idx);
     void setChild(XCBMenu *child);
     void updateDPI(int x, int y);
+    void updateBlur();
     std::pair<MenuItem *, Action *> actionAt(size_t index);
     void renderYogaNode(cairo_t *cr, YGNodeRef node);
 
@@ -124,6 +125,7 @@ private:
     bool visible_ = false;
     int subMenuIndex_ = -1;
     int hoveredIndex_ = -1;
+    xcb_atom_t atomBlur_;
     std::unique_ptr<EventSourceTime> activateTimer_;
 };
 
