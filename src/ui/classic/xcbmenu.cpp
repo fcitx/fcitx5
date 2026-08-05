@@ -396,24 +396,6 @@ void XCBMenu::updateDPI(int x, int y) {
     setScale(scaleForDPI(ui_->dpiByPosition(x, y)));
 }
 
-float XCBMenu::absoluteLeft(YGNodeRef node) {
-    float offset = 0.0F;
-    while (node) {
-        offset += YGNodeLayoutGetLeft(node);
-        node = YGNodeGetParent(node);
-    }
-    return offset;
-}
-
-float XCBMenu::absoluteTop(YGNodeRef node) {
-    float offset = 0.0F;
-    while (node) {
-        offset += YGNodeLayoutGetTop(node);
-        node = YGNodeGetParent(node);
-    }
-    return offset;
-}
-
 void XCBMenu::renderYogaNode(cairo_t *cr, YGNodeRef node) {
     if (!node) {
         return;
@@ -589,16 +571,16 @@ void XCBMenu::update() {
             const ThemeImage &separator =
                 theme.loadBackground(*theme.menu->separator);
             theme.paint(c, *theme.menu->separator,
-                        absoluteLeft(item.self_.get()),
-                        absoluteTop(item.self_.get()),
+                        absolute<YGNodeLayoutGetLeft>(item.self_.get()),
+                        absolute<YGNodeLayoutGetTop>(item.self_.get()),
                         width - *theme.menu->contentMargin->marginLeft -
                             *theme.menu->contentMargin->marginRight,
                         (separator.isPattern() ? 2 : -1), /*alpha=*/1.0);
             continue;
         }
 
-        const auto itemLeft = absoluteLeft(item.self_.get());
-        const auto itemTop = absoluteTop(item.self_.get());
+        const auto itemLeft = absolute<YGNodeLayoutGetLeft>(item.self_.get());
+        const auto itemTop = absolute<YGNodeLayoutGetTop>(item.self_.get());
         const auto itemWidth = YGNodeLayoutGetWidth(item.self_.get());
         const auto itemHeight = YGNodeLayoutGetHeight(item.self_.get());
         item.region_
@@ -616,15 +598,19 @@ void XCBMenu::update() {
         }
 
         if (item.isChecked_) {
-            theme.paint(
-                c, *theme.menu->checkBox, absoluteLeft(item.checkBox_.get()),
-                absoluteTop(item.checkBox_.get()), -1, -1, /*alpha=*/1.0);
+            theme.paint(c, *theme.menu->checkBox,
+                        absolute<YGNodeLayoutGetLeft>(item.checkBox_.get()),
+                        absolute<YGNodeLayoutGetTop>(item.checkBox_.get()), -1,
+                        -1,
+                        /*alpha=*/1.0);
         }
 
         if (item.hasSubMenu_) {
-            theme.paint(
-                c, *theme.menu->subMenu, absoluteLeft(item.subMenu_.get()),
-                absoluteTop(item.subMenu_.get()), -1, -1, /*alpha=*/1.0);
+            theme.paint(c, *theme.menu->subMenu,
+                        absolute<YGNodeLayoutGetLeft>(item.subMenu_.get()),
+                        absolute<YGNodeLayoutGetTop>(item.subMenu_.get()), -1,
+                        -1,
+                        /*alpha=*/1.0);
         }
 
         cairo_save(c);
@@ -633,8 +619,8 @@ void XCBMenu::update() {
         } else {
             cairoSetSourceColor(c, theme.menuText());
         }
-        cairo_translate(c, absoluteLeft(item.text_.get()),
-                        absoluteTop(item.text_.get()));
+        cairo_translate(c, absolute<YGNodeLayoutGetLeft>(item.text_.get()),
+                        absolute<YGNodeLayoutGetTop>(item.text_.get()));
         pango_cairo_show_layout(c, item.layout_.get());
         cairo_restore(c);
     }

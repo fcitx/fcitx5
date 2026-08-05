@@ -104,8 +104,6 @@ private:
     void setChild(XCBMenu *child);
     void updateDPI(int x, int y);
     std::pair<MenuItem *, Action *> actionAt(size_t index);
-    static float absoluteLeft(YGNodeRef node);
-    static float absoluteTop(YGNodeRef node);
     void renderYogaNode(cairo_t *cr, YGNodeRef node);
 
     MenuPool *pool_;
