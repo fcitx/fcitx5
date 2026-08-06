@@ -726,6 +726,8 @@ void WaylandModule::selfDiagnose() {
                   "see "
                   "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"));
         }
+    } else if (desktop == DesktopType::DEEPIN) {
+        // Per Deepin upstream request, do not show this message for them.
     } else if (desktop == DesktopType::UKUI) {
         // Per UkUI upstream request, do not show this message for them.
     } else {
