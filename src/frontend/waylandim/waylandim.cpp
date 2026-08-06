@@ -17,8 +17,11 @@
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "appmonitor.h"
+#include "config.h"
 #include "display.h"
+#ifdef ENABLE_WAYLAND_PLASMA
 #include "plasmaappmonitor.h"
+#endif
 #include "virtualinputcontext.h"
 #include "wayland_public.h"
 #include "waylandimserver.h"
@@ -100,9 +103,10 @@ AggregatedAppMonitor *WaylandIMModule::appMonitor(const std::string &display) {
         auto *display = static_cast<wayland::Display *>(
             wl_display_get_user_data(displayIter->second));
 
-        auto plasmaMonitor = std::make_unique<PlasmaAppMonitor>(display);
         auto wlrMonitor = std::make_unique<WlrAppMonitor>(display);
         appMonitorPtr = std::make_unique<AggregatedAppMonitor>();
+#ifdef ENABLE_WAYLAND_PLASMA
+        auto plasmaMonitor = std::make_unique<PlasmaAppMonitor>(display);
         if (getDesktopType() == DesktopType::KDE5 ||
             getDesktopType() == DesktopType::KDE6) {
             appMonitorPtr->addSubMonitor(std::move(plasmaMonitor));
@@ -111,6 +115,9 @@ AggregatedAppMonitor *WaylandIMModule::appMonitor(const std::string &display) {
             appMonitorPtr->addSubMonitor(std::move(wlrMonitor));
             appMonitorPtr->addSubMonitor(std::move(plasmaMonitor));
         }
+#else
+        appMonitorPtr->addSubMonitor(std::move(wlrMonitor));
+#endif
     }
     return appMonitorPtr.get();
 }

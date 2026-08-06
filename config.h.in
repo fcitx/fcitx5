@@ -39,6 +39,7 @@
 #cmakedefine CAIRO_EGL_FOUND
 #cmakedefine ENABLE_X11
 #cmakedefine WAYLAND_FOUND
+#cmakedefine ENABLE_WAYLAND_PLASMA
 #cmakedefine HAS_DLMOPEN
 #cmakedefine USE_FLATPAK_ICON
 #define XKEYBOARDCONFIG_DATADIR "@XKEYBOARDCONFIG_DATADIR@"

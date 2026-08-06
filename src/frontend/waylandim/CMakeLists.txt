@@ -8,19 +8,27 @@ ecm_add_wayland_client_protocol(WAYLAND_IM_PROTOCOL_SRCS
     PROTOCOL ${WAYLAND_PROTOCOLS_PKGDATADIR}/unstable/text-input/text-input-unstable-v3.xml
     BASENAME text-input-unstable-v3)
 
+if (ENABLE_WAYLAND_PLASMA)
+    set(WAYLANDIM_PLASMA_SRCS plasmaappmonitor.cpp)
+endif()
+
 add_fcitx5_addon(waylandim
     waylandim.cpp
     waylandimserverbase.cpp
     waylandimserver.cpp
     waylandimserverv2.cpp
-    plasmaappmonitor.cpp
+    ${WAYLANDIM_PLASMA_SRCS}
     virtualinputcontext.cpp
     wlrappmonitor.cpp
     appmonitor.cpp
     ${WAYLAND_IM_PROTOCOL_SRCS}
 )
 target_include_directories(waylandim PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(waylandim Fcitx5::Core Wayland::Client XKBCommon::XKBCommon Fcitx5::Wayland::PlasmaWindowManagement Fcitx5::Wayland::WLRForeignToplevelManagement Fcitx5::Module::Wayland Fcitx5::Wayland::Core Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2)
+if (ENABLE_WAYLAND_PLASMA)
+    set(WAYLANDIM_PLASMA_LIBS Fcitx5::Wayland::PlasmaWindowManagement)
+endif()
+
+target_link_libraries(waylandim Fcitx5::Core Wayland::Client XKBCommon::XKBCommon ${WAYLANDIM_PLASMA_LIBS} Fcitx5::Wayland::WLRForeignToplevelManagement Fcitx5::Module::Wayland Fcitx5::Wayland::Core Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2)
 install(TARGETS waylandim DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/waylandim.conf.in.in ${CMAKE_CURRENT_BINARY_DIR}/waylandim.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/waylandim.conf.in waylandim.conf)
