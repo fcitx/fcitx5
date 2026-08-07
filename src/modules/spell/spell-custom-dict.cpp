@@ -9,9 +9,15 @@
 #include "spell-custom-dict.h"
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <algorithm>
 #include <cstdint>
 #include <cstring>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
 #include <format>
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/endian_p.h"
@@ -77,11 +83,15 @@
 
 #define DICT_BIN_MAGIC "FSCD0000"
 
+namespace fcitx {
+
+namespace {
+
 bool checkLang(const std::string &full_lang, const std::string &lang) {
     if (full_lang.empty() || lang.empty()) {
         return false;
     }
-    if (full_lang.compare(0, lang.size(), lang) != 0) {
+    if (!full_lang.starts_with(lang)) {
         return false;
     }
     switch (full_lang[lang.size()]) {
@@ -94,11 +104,9 @@ bool checkLang(const std::string &full_lang, const std::string &lang) {
     return false;
 }
 
-static inline uint32_t load_le32(const void *p) {
-    return le32toh(*(uint32_t *)p);
-}
+inline uint32_t load_le32(const void *p) { return le32toh(*(uint32_t *)p); }
 
-static bool isFirstCapital(const std::string &str) {
+bool isFirstCapital(const std::string &str) {
     if (str.empty()) {
         return false;
     }
@@ -121,12 +129,12 @@ static bool isFirstCapital(const std::string &str) {
     return true;
 }
 
-static bool isAllCapital(const std::string &str) {
+bool isAllCapital(const std::string &str) {
     if (str.empty()) {
         return false;
     }
-    for (auto iter = str.begin(); iter != str.end(); iter++) {
-        switch (*iter) {
+    for (char iter : str) {
+        switch (iter) {
         case_a_z:
             return false;
         default:
@@ -142,14 +150,14 @@ enum {
     CUSTOM_ALL_CAPITAL,
 };
 
-static void toUpperString(std::string &str) {
+void toUpperString(std::string &str) {
     if (str.empty()) {
         return;
     }
-    for (auto iter = str.begin(); iter != str.end(); iter++) {
-        switch (*iter) {
+    for (char &iter : str) {
+        switch (iter) {
         case_a_z:
-            *iter += 'A' - 'a';
+            iter += 'A' - 'a';
             break;
         default:
             break;
@@ -157,7 +165,7 @@ static void toUpperString(std::string &str) {
     }
 }
 
-namespace fcitx {
+} // namespace
 
 class SpellCustomDictEn : public SpellCustomDict {
 public:
@@ -179,6 +187,8 @@ public:
         switch (c2) {
         case_A_Z:
             c2 += 'a' - 'A';
+            break;
+        default:
             break;
         }
         return c1 == c2;
@@ -218,14 +228,6 @@ public:
         }
     }
 };
-
-#if 0
-static inline uint16_t
-load_le16(const void* p)
-{
-    return le16toh(*(uint16_t*)p);
-}
-#endif
 
 void SpellCustomDict::loadDict(const std::string &lang) {
     auto fd = StandardPaths::global().open(
@@ -427,20 +429,19 @@ SpellCustomDict::hint(const std::string &str, size_t limit) {
         return lhs.second < rhs.second;
     };
     for (const auto &wordOffset : words_) {
-        int dist;
         const char *dictWord = data_.data() + wordOffset;
-        if ((dist = getDistance(real_word, word_len, dictWord)) >= 0) {
+        if (int dist = getDistance(real_word, word_len, dictWord); dist >= 0) {
             tops.emplace_back(dictWord, dist);
-            std::push_heap(tops.begin(), tops.end(), compare);
+            std::ranges::push_heap(tops, compare);
             if (tops.size() > limit) {
-                std::pop_heap(tops.begin(), tops.end(), compare);
+                std::ranges::pop_heap(tops, compare);
                 tops.pop_back();
             }
         }
     }
 
     // Or sort heap?..
-    std::sort(tops.begin(), tops.end(), compare);
+    std::ranges::sort(tops, compare);
 
     result.reserve(tops.size());
     for (auto &top : tops) {

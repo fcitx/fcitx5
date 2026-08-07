@@ -214,9 +214,9 @@ public:
         return {old, *nodeGetter};
     }
 
-    reference operator*() { return nodeGetter->toValue(*node); }
+    reference operator*() const { return nodeGetter->toValue(*node); }
 
-    pointer operator->() { return &nodeGetter->toValue(*node); }
+    pointer operator->() const { return &nodeGetter->toValue(*node); }
 
     node_ptr pointed_node() const { return node; }
 

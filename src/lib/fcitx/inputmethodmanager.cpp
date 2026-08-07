@@ -39,6 +39,15 @@
 
 namespace fcitx {
 
+namespace {
+
+bool checkEntry(const InputMethodEntry &entry,
+                const std::unordered_set<std::string> &inputMethods) {
+    return !entry.name().empty() && !entry.uniqueName().empty() &&
+           !entry.addon().empty() && inputMethods.contains(entry.addon());
+}
+} // namespace
+
 class InputMethodManagerPrivate : QPtrHolder<InputMethodManager> {
 public:
     InputMethodManagerPrivate(AddonManager *addonManager_,
@@ -71,12 +80,6 @@ public:
     int64_t timestamp_ = 0;
 };
 
-bool checkEntry(const InputMethodEntry &entry,
-                const std::unordered_set<std::string> &inputMethods) {
-    return !(entry.name().empty() || entry.uniqueName().empty() ||
-             entry.addon().empty() || inputMethods.count(entry.addon()) == 0);
-}
-
 void InputMethodManagerPrivate::loadConfig(
     const std::function<void(InputMethodManager &)>
         &buildDefaultGroupCallback) {
@@ -107,7 +110,7 @@ void InputMethodManagerPrivate::loadConfig(
             group.setDefaultLayout(groupConfig.defaultLayout.value());
             const auto &items = groupConfig.items.value();
             for (const auto &item : items) {
-                if (!entries_.count(item.name.value())) {
+                if (!entries_.contains(item.name.value())) {
                     FCITX_WARN() << "Group Item " << item.name.value()
                                  << " in group " << groupConfig.name.value()
                                  << " is not valid. Removed.";
@@ -172,7 +175,7 @@ void InputMethodManagerPrivate::loadStaticEntries(
     for (const auto &[fileName, fullName] : filesMap) {
         const auto u8name = fileName.stem().u8string();
         std::string name(u8name.begin(), u8name.end());
-        if (entries_.count(name) != 0) {
+        if (entries_.contains(name)) {
             continue;
         }
         RawConfig config;
@@ -213,7 +216,7 @@ void InputMethodManagerPrivate::loadDynamicEntries(
             // ok we can't let you register something weird.
             if (checkEntry(newEntry, addonNames) &&
                 newEntry.addon() == addonName &&
-                entries_.count(newEntry.uniqueName()) == 0) {
+                !entries_.contains(newEntry.uniqueName())) {
                 entries_.emplace(std::string(newEntry.uniqueName()),
                                  std::move(newEntry));
             }
@@ -273,8 +276,7 @@ void InputMethodManager::setCurrentGroup(const std::string &groupName) {
     if (groupName == d->groupOrder_.front()) {
         return;
     }
-    auto iter =
-        std::find(d->groupOrder_.begin(), d->groupOrder_.end(), groupName);
+    auto iter = std::ranges::find(d->groupOrder_, groupName);
     if (iter != d->groupOrder_.end()) {
         emit<InputMethodManager::CurrentGroupAboutToChange>(
             d->groupOrder_.front());
@@ -288,8 +290,7 @@ void InputMethodManager::enumerateGroupTo(const std::string &groupName) {
     if (groupName == d->groupOrder_.front()) {
         return;
     }
-    auto iter =
-        std::find(d->groupOrder_.begin(), d->groupOrder_.end(), groupName);
+    auto iter = std::ranges::find(d->groupOrder_, groupName);
     if (iter != d->groupOrder_.end()) {
         emit<InputMethodManager::CurrentGroupAboutToChange>(
             d->groupOrder_.front());
@@ -347,11 +348,9 @@ void InputMethodManager::setGroup(InputMethodGroup newGroupInfo) {
         }
     }
     auto &list = newGroupInfo.inputMethodList();
-    auto iter = std::remove_if(list.begin(), list.end(),
-                               [d](const InputMethodGroupItem &item) {
-                                   return !d->entries_.count(item.name());
-                               });
-    list.erase(iter, list.end());
+    std::erase_if(list, [d](const InputMethodGroupItem &item) {
+        return !d->entries_.contains(item.name());
+    });
     auto defaultInputMethod = newGroupInfo.defaultInputMethod();
     if (defaultInputMethod.empty()) {
         defaultInputMethod = group->defaultInputMethod();
@@ -368,13 +367,13 @@ void InputMethodManagerPrivate::setGroupOrder(
     groupOrder_.clear();
     std::unordered_set<std::string> added;
     for (const auto &groupName : groupOrder) {
-        if (groups_.count(groupName)) {
+        if (groups_.contains(groupName)) {
             groupOrder_.push_back(groupName);
             added.insert(groupName);
         }
     }
     for (auto &p : groups_) {
-        if (!added.count(p.first)) {
+        if (!added.contains(p.first)) {
             groupOrder_.push_back(p.first);
         }
     }

@@ -6,12 +6,17 @@
  */
 
 #include <algorithm>
+#include <cstddef>
 #include <iterator>
+#include <type_traits>
+#include <utility>
 #include <vector>
 #include "fcitx-utils/intrusivelist.h"
 #include "fcitx-utils/log.h"
 
 using namespace fcitx;
+
+namespace {
 
 struct Foo : public IntrusiveListNode {
     Foo(int d) : data(d) {}
@@ -20,7 +25,10 @@ struct Foo : public IntrusiveListNode {
 
 void test_regular() {
     IntrusiveList<Foo> list;
-    Foo a(1), b(2), c(3), d(4);
+    Foo a(1);
+    Foo b(2);
+    Foo c(3);
+    Foo d(4);
     list.push_back(a);
     list.push_back(b);
     list.push_back(c);
@@ -47,13 +55,12 @@ void test_regular() {
     FCITX_ASSERT(idx == 3);
 
     static_assert(
-        std::is_same<
+        std::is_same_v<
             std::iterator_traits<decltype(list)::iterator>::iterator_category,
-            std::bidirectional_iterator_tag>::value,
+            std::bidirectional_iterator_tag>,
         "Error");
 
-    auto iter = std::find_if(list.begin(), list.end(),
-                             [](Foo &f) { return f.data == 2; });
+    auto iter = std::ranges::find_if(list, [](Foo &f) { return f.data == 2; });
     FCITX_ASSERT(iter != list.end());
     list.erase(iter);
     FCITX_ASSERT(list.size() == 2);
@@ -95,7 +102,10 @@ void test_move() {
     {
         // something to empty
         IntrusiveList<Foo> list;
-        Foo a(1), b(2), c(3), d(4);
+        Foo a(1);
+        Foo b(2);
+        Foo c(3);
+        Foo d(4);
         list.push_back(a);
         list.push_back(b);
         list.push_back(c);
@@ -119,7 +129,10 @@ void test_move() {
         // something to empty
         IntrusiveList<Foo> list;
         IntrusiveList<Foo> list2;
-        Foo a(1), b(2), c(3), d(4);
+        Foo a(1);
+        Foo b(2);
+        Foo c(3);
+        Foo d(4);
         list2.push_back(a);
         list2.push_back(b);
         list2.push_back(c);
@@ -137,7 +150,10 @@ void test_const() {
     {
         // something to empty
         IntrusiveList<Foo> list;
-        Foo a(1), b(2), c(3), d(4);
+        Foo a(1);
+        Foo b(2);
+        Foo c(3);
+        Foo d(4);
         list.push_back(a);
         list.push_back(b);
         list.push_back(c);
@@ -145,7 +161,7 @@ void test_const() {
         const IntrusiveList<Foo> &cref = list;
         std::vector<int> check = {1, 2, 3, 4};
         size_t idx = 0;
-        for (auto &f : cref) {
+        for (const auto &f : cref) {
             FCITX_ASSERT(f.data == check[idx]);
             idx++;
         }
@@ -156,6 +172,8 @@ void test_const() {
         citer = iter;
     }
 }
+
+} // namespace
 
 int main() {
     test_regular();

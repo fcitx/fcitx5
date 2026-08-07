@@ -7,6 +7,7 @@
 #ifndef _FCITX_CONFIG_OPTION_H_
 #define _FCITX_CONFIG_OPTION_H_
 
+#include <algorithm>
 #include <limits>
 #include <memory>
 #include <optional>
@@ -157,9 +158,8 @@ struct ListConstrain {
     using ElementType = typename SubConstrain::Type;
     using Type = std::vector<ElementType>;
     bool check(const Type &value) {
-        return std::all_of(
-            value.begin(), value.end(),
-            [this](const ElementType &ele) { return sub_.check(ele); });
+        return std::ranges::all_of(
+            value, [this](const ElementType &ele) { return sub_.check(ele); });
     }
 
     void dumpDescription(RawConfig &config) const {

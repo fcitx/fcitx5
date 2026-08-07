@@ -20,6 +20,7 @@
 #include <string>
 #include <string_view>
 #include <system_error>
+#include <ranges>
 #include "misc.h"
 #include "unixfd.h"
 #include "utf8.h" // IWYU pragma: keep
@@ -198,7 +199,7 @@ std::string dirName(const std::string &path) {
         return result;
     }
 
-    auto iter = std::find(result.rbegin(), result.rend(), '/');
+    auto iter = std::ranges::find(std::ranges::reverse_view(result), '/');
     if (iter != result.rend()) {
         result.erase(iter.base(), result.end());
         // remove trailing slash
@@ -220,7 +221,7 @@ std::string baseName(std::string_view path) {
         return std::string{path};
     }
 
-    auto iter = std::find(path.rbegin(), path.rend(), '/');
+    auto iter = std::ranges::find(std::ranges::reverse_view(path), '/');
     if (iter != path.rend()) {
         path.remove_prefix(std::distance(path.begin(), iter.base()));
     }

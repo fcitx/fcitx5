@@ -7,6 +7,12 @@
 
 #include "inputmethodgroup.h"
 #include <algorithm>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 
 namespace fcitx {
 
@@ -16,7 +22,7 @@ const std::string emptyString;
 
 class InputMethodGroupItemPrivate {
 public:
-    InputMethodGroupItemPrivate(const std::string &name) : name_(name) {}
+    InputMethodGroupItemPrivate(std::string name) : name_(std::move(name)) {}
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE_WITHOUT_SPEC(
         InputMethodGroupItemPrivate);
 
@@ -26,7 +32,7 @@ public:
 
 class InputMethodGroupPrivate {
 public:
-    InputMethodGroupPrivate(const std::string &name) : name_(name) {}
+    InputMethodGroupPrivate(std::string name) : name_(std::move(name)) {}
 
     std::string name_;
     std::vector<InputMethodGroupItem> inputMethodList_;
@@ -86,10 +92,10 @@ InputMethodGroup::inputMethodList() const {
 
 void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
     FCITX_D();
-    if (std::any_of(d->inputMethodList_.begin(), d->inputMethodList_.end(),
-                    [&im](const InputMethodGroupItem &item) {
-                        return item.name() == im;
-                    })) {
+    if (std::ranges::any_of(d->inputMethodList_,
+                            [&im](const InputMethodGroupItem &item) {
+                                return item.name() == im;
+                            })) {
         if (d->inputMethodList_.size() > 1 &&
             d->inputMethodList_[0].name() == im) {
             d->defaultInputMethod_ = d->inputMethodList_[1].name();
@@ -109,8 +115,8 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
 
 const std::string &InputMethodGroup::layoutFor(const std::string &im) const {
     FCITX_D();
-    auto iter = std::find_if(
-        d->inputMethodList_.begin(), d->inputMethodList_.end(),
+    auto iter = std::ranges::find_if(
+        d->inputMethodList_,
         [&im](const InputMethodGroupItem &item) { return item.name() == im; });
     if (iter != d->inputMethodList_.end()) {
         return iter->layout();

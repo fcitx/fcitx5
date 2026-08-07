@@ -34,7 +34,7 @@ bool isIdChar(char c) {
 
 std::optional<uint32_t> consumeNumericIdentifier(std::string_view &str) {
     std::string_view::iterator endOfNum =
-        std::find_if_not(str.begin(), str.end(), charutils::isdigit);
+        std::ranges::find_if_not(str, charutils::isdigit);
     auto length = std::distance(str.begin(), endOfNum);
     if (length == 0) {
         return std::nullopt;
@@ -58,7 +58,7 @@ std::optional<std::vector<PreReleaseId>>
 consumePrereleaseIds(std::string_view &data) {
     std::vector<PreReleaseId> preReleaseIds;
     std::string_view::const_iterator endOfVersion =
-        std::find_if_not(data.begin(), data.end(), isIdChar);
+        std::ranges::find_if_not(data, isIdChar);
     auto length = std::distance(data.begin(), endOfVersion);
     auto idString = data.substr(0, length);
     auto ids = stringutils::split(idString, ".",
@@ -69,7 +69,7 @@ consumePrereleaseIds(std::string_view &data) {
         }
         // If it's numeric, it need to be a valid numeric.
         // Otherwise it can be anything.
-        if (std::all_of(id.begin(), id.end(), charutils::isdigit)) {
+        if (std::ranges::all_of(id, charutils::isdigit)) {
             std::string_view idView(id);
             auto result = consumeNumericIdentifier(idView);
             if (result && idView.empty()) {
@@ -86,11 +86,11 @@ consumePrereleaseIds(std::string_view &data) {
 }
 
 std::optional<std::vector<std::string>> consumeBuild(std::string_view &data) {
-    if (std::all_of(data.begin(), data.end(), isIdChar)) {
+    if (std::ranges::all_of(data, isIdChar)) {
         auto ids = stringutils::split(data, ".",
                                       stringutils::SplitBehavior::KeepEmpty);
-        if (std::any_of(ids.begin(), ids.end(),
-                        [](const auto &id) { return id.empty(); })) {
+        if (std::ranges::any_of(ids,
+                                [](const auto &id) { return id.empty(); })) {
             return std::nullopt;
         }
         data.remove_prefix(data.size());

@@ -23,6 +23,7 @@
 #include <fcitx-utils/endian_p.h>
 #include <fcitx-utils/environ.h>
 #include <fcitx-utils/macros.h>
+#include <ranges>
 #include "config.h" // IWYU pragma: keep
 
 #ifdef _WIN32
@@ -44,8 +45,7 @@ decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
 
 template <typename C, typename V>
 bool containerContains(C &&container, V &&value) {
-    return std::find(std::begin(container), std::end(container), value) !=
-           std::end(container);
+    return std::ranges::find(container, value) != std::ranges::end(container);
 }
 
 template <typename T>

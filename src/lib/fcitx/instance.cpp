@@ -1585,14 +1585,13 @@ bool Instance::canRestart() const {
     FCITX_D();
     const auto &addonNames = d->addonManager_.loadedAddonNames();
     return d->binaryMode_ &&
-           std::all_of(addonNames.begin(), addonNames.end(),
-                       [d](const std::string &name) {
-                           auto *addon = d->addonManager_.lookupAddon(name);
-                           if (!addon) {
-                               return true;
-                           }
-                           return addon->canRestart();
-                       });
+           std::ranges::all_of(addonNames, [d](const std::string &name) {
+               auto *addon = d->addonManager_.lookupAddon(name);
+               if (!addon) {
+                   return true;
+               }
+               return addon->canRestart();
+           });
 }
 
 InstancePrivate *Instance::privateData() {
@@ -1726,11 +1725,11 @@ Instance::watchEvent(EventType type, EventWatcherPhase phase,
 
 bool groupContains(const InputMethodGroup &group, const std::string &name) {
     const auto &list = group.inputMethodList();
-    auto iter = std::find_if(list.begin(), list.end(),
-                             [&name](const InputMethodGroupItem &item) {
-                                 return item.name() == name;
-                             });
-    return iter != list.end();
+    auto iter =
+        std::ranges::find_if(list, [&name](const InputMethodGroupItem &item) {
+            return item.name() == name;
+        });
+    return iter != std::ranges::end(list);
 }
 
 std::string Instance::inputMethod(InputContext *ic) {
@@ -2109,11 +2108,11 @@ void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
 
     auto &imManager = inputMethodManager();
     const auto &imList = imManager.currentGroup().inputMethodList();
-    auto iter = std::find_if(imList.begin(), imList.end(),
-                             [&name](const InputMethodGroupItem &item) {
-                                 return item.name() == name;
-                             });
-    if (iter == imList.end()) {
+    auto iter =
+        std::ranges::find_if(imList, [&name](const InputMethodGroupItem &item) {
+            return item.name() == name;
+        });
+    if (iter == std::ranges::end(imList)) {
         return;
     }
 

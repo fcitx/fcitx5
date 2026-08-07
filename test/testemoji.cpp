@@ -5,6 +5,8 @@
  *
  */
 #include <fcntl.h>
+#include <algorithm>
+#include <string>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/testing.h"
@@ -24,12 +26,10 @@ int main() {
     auto *emoji = manager.addon("emoji", true);
     FCITX_ASSERT(emoji);
     auto emojis = emoji->call<IEmoji::query>("zh", "大笑", false);
-    FCITX_ASSERT(std::find(emojis.begin(), emojis.end(), "\xf0\x9f\x98\x84") !=
-                 emojis.end())
+    FCITX_ASSERT(std::ranges::find(emojis, "\xf0\x9f\x98\x84") != emojis.end())
         << emojis;
     emojis = emoji->call<IEmoji::query>("en", "eggplant", false);
-    FCITX_ASSERT(std::find(emojis.begin(), emojis.end(), "\xf0\x9f\x8d\x86") !=
-                 emojis.end())
+    FCITX_ASSERT(std::ranges::find(emojis, "\xf0\x9f\x8d\x86") != emojis.end())
         << emojis;
 
     auto files =

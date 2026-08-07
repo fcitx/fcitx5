@@ -5,8 +5,16 @@
  *
  */
 #include "xcbeventreader.h"
+#include <list>
+#include <memory>
+#include <mutex>
+#include <thread>
+#include <utility>
 #include <xcb/xcb.h>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "xcbconnection.h"
 #include "xcbmodule.h"
 
