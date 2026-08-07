@@ -21,12 +21,14 @@
 #include <cstdint>
 #include <cstring>
 #include <exception>
+#include <iterator>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 #include <format>
 #include "fcitx-utils/charutils.h"
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/macros.h"
@@ -63,13 +65,13 @@ static const char JAMO_T_TABLE[][4] = {"",   "G",  "GG", "GS", "N",  "NJ", "NH",
 std::string FormatCode(uint32_t code, int length, const char *prefix);
 
 uint16_t FromLittleEndian16(const char *d) {
-    const uint8_t *data = (const uint8_t *)d;
+    const auto *data = reinterpret_cast<const uint8_t *>(d);
     uint16_t t;
     memcpy(&t, data, sizeof(t));
     return le16toh(t);
 }
 
-CharSelectData::CharSelectData() {}
+CharSelectData::CharSelectData() = default;
 
 bool CharSelectData::load() {
     if (loaded_) {
@@ -376,7 +378,7 @@ std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
     }
 
     returnRes.reserve(returnRes.size() + result.size());
-    std::copy(result.begin(), result.end(), std::back_inserter(returnRes));
+    std::ranges::copy(result, std::back_inserter(returnRes));
     return returnRes;
 }
 
@@ -580,7 +582,7 @@ void CharSelectData::createIndex() {
     for (auto &p : index_) {
         indexList_.push_back(&p);
     }
-    std::sort(indexList_.begin(), indexList_.end(), [](auto lhs, auto rhs) {
+    std::ranges::sort(indexList_, [](auto lhs, auto rhs) {
         return strcasecmp(lhs->first.c_str(), rhs->first.c_str()) < 0;
     });
 }

@@ -7,10 +7,21 @@
  */
 
 #include "spell-enchant.h"
-#include <time.h>
+#include <algorithm>
+#include <ctime>
+#include <iterator>
 #include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 #include <enchant.h>
+#include <ranges>
+#include "fcitx-utils/charutils.h"
+#include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/misc_p.h"
+#include "spell.h"
 
 namespace fcitx {
 namespace {
@@ -24,13 +35,13 @@ SpellType guessSpellType(const std::string &input) {
         return SpellType::AllLower;
     }
 
-    if (std::all_of(input.begin(), input.end(),
-                    [](char c) { return charutils::isupper(c); })) {
+    if (std::ranges::all_of(input,
+                            [](char c) { return charutils::isupper(c); })) {
         return SpellType::AllUpper;
     }
 
-    if (std::all_of(input.begin() + 1, input.end(),
-                    [](char c) { return charutils::islower(c); })) {
+    if (std::ranges::all_of(input | std::views::drop(1),
+                            [](char c) { return charutils::islower(c); })) {
         if (charutils::isupper(input[0])) {
             return SpellType::FirstUpper;
         }
@@ -50,8 +61,8 @@ std::string formatWord(const std::string &input, SpellType type) {
     std::string result;
     if (type == SpellType::AllUpper) {
         result.reserve(input.size());
-        std::transform(input.begin(), input.end(), std::back_inserter(result),
-                       charutils::toupper);
+        std::ranges::transform(input, std::back_inserter(result),
+                               charutils::toupper);
     } else {
         // FirstUpper
         result = input;
@@ -61,8 +72,6 @@ std::string formatWord(const std::string &input, SpellType type) {
     }
     return result;
 }
-
-} // namespace
 
 template <typename Callback>
 auto foreachLanguage(const std::string &lang, const std::string &systemLanguage,
@@ -81,7 +90,7 @@ auto foreachLanguage(const std::string &lang, const std::string &systemLanguage,
         langList.push_back(systemLanguage);
     };
     langList.push_back(lang);
-    if (auto *fallback = findValue(fallbackLanguage, lang)) {
+    if (const auto *fallback = findValue(fallbackLanguage, lang)) {
         for (const auto &fallbackLang : *fallback) {
             if (fallbackLang != langList[0]) {
                 langList.push_back(fallbackLang);
@@ -97,6 +106,8 @@ auto foreachLanguage(const std::string &lang, const std::string &systemLanguage,
     }
     return result;
 }
+
+} // namespace
 
 SpellEnchant::SpellEnchant(Spell *spell)
     : SpellBackend(spell), broker_(enchant_broker_init()),

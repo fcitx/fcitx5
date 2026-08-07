@@ -11,8 +11,15 @@
 #include <list>
 #include <memory>
 #include <stdexcept>
+#include <string>
+#include <tuple>
 #include <unordered_map>
+#include <utility>
+#include <vector>
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
+#include "option.h"
+#include "rawconfig.h"
 
 namespace fcitx {
 class ConfigurationPrivate {
@@ -27,7 +34,7 @@ Configuration::Configuration()
 Configuration::~Configuration() = default;
 
 void Configuration::dumpDescription(RawConfig &config) const {
-    return dumpDescriptionImpl(config, {});
+    dumpDescriptionImpl(config, {});
 }
 
 void Configuration::dumpDescriptionImpl(
@@ -78,15 +85,13 @@ void Configuration::dumpDescriptionImpl(
 
 bool Configuration::compareHelper(const Configuration &other) const {
     FCITX_D();
-    return std::all_of(
-        d->optionsOrder_.begin(), d->optionsOrder_.end(),
-        [d, &other](const auto &path) {
-            auto optionIter = d->options_.find(path);
-            assert(optionIter != d->options_.end());
-            auto otherOptionIter = other.d_func()->options_.find(path);
-            assert(otherOptionIter != other.d_func()->options_.end());
-            return *optionIter->second == *otherOptionIter->second;
-        });
+    return std::ranges::all_of(d->optionsOrder_, [d, &other](const auto &path) {
+        auto optionIter = d->options_.find(path);
+        assert(optionIter != d->options_.end());
+        auto otherOptionIter = other.d_func()->options_.find(path);
+        assert(otherOptionIter != other.d_func()->options_.end());
+        return *optionIter->second == *otherOptionIter->second;
+    });
     return true;
 }
 
@@ -135,7 +140,7 @@ void Configuration::save(RawConfig &config) const {
 
 void Configuration::addOption(OptionBase *option) {
     FCITX_D();
-    if (d->options_.count(option->path())) {
+    if (d->options_.contains(option->path())) {
         throw std::logic_error("Duplicate option path");
     }
 

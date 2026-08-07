@@ -15,9 +15,8 @@ const UnicodeToKeySymTab &unicode_to_keysym_tab() {
         for (size_t i = 0; i < tab.size(); i++) {
             tab[i] = keysym_to_unicode_tab[i];
         }
-        std::stable_sort(tab.begin(), tab.end(), [](auto &lhs, auto &rhs) {
-            return lhs.ucs < rhs.ucs;
-        });
+        std::ranges::stable_sort(
+            tab, [](auto &lhs, auto &rhs) { return lhs.ucs < rhs.ucs; });
         return tab;
     }();
 

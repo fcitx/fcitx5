@@ -48,7 +48,7 @@ bool isHexKey(const Key &key) {
 
 bool bufferIsValid(const std::string &input, uint32_t *ret) {
     std::string hex = input;
-    std::transform(hex.begin(), hex.end(), hex.begin(), charutils::tolower);
+    std::ranges::for_each(hex, [](char &c) { c = charutils::tolower(c); });
     uint32_t value = 0;
     try {
         value = stoi(hex, nullptr, 16);
@@ -351,15 +351,15 @@ void UnicodeTempMode::updateUI(InputContext *inputContext, bool trigger) {
                     auto primary =
                         unicode_->clipboard()->call<IClipboard::primary>(
                             inputContext);
-                    if (std::find(selectedTexts.begin(), selectedTexts.end(),
-                                  primary) == selectedTexts.end()) {
+                    if (std::ranges::find(selectedTexts, primary) ==
+                        selectedTexts.end()) {
                         selectedTexts.push_back(std::move(primary));
                     }
                 }
                 auto clip = unicode_->clipboard()->call<IClipboard::clipboard>(
                     inputContext);
-                if (std::find(selectedTexts.begin(), selectedTexts.end(),
-                              clip) == selectedTexts.end()) {
+                if (std::ranges::find(selectedTexts, clip) ==
+                    selectedTexts.end()) {
                     selectedTexts.push_back(std::move(clip));
                 }
             }

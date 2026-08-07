@@ -294,8 +294,7 @@ private:
                 builtInPath = StandardPath::fcitxPath(builtInPathType);
             }
             std::string path = fs::cleanPath(builtInPath);
-            if (!path.empty() &&
-                std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
+            if (!path.empty() && std::ranges::find(dirs, path) == dirs.end()) {
                 dirs.push_back(path);
             }
         }

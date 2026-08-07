@@ -265,7 +265,7 @@ void WaylandIMInputContextV1::repeat() {
 void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
                                                       uint32_t cursor,
                                                       uint32_t anchor) {
-    std::string str(text);
+    std::string_view str(text);
     surroundingText().invalidate();
     do {
         auto length = utf8::lengthValidated(str);
@@ -275,13 +275,11 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
         if (cursor > str.size() || anchor > str.size()) {
             break;
         }
-        size_t cursorByChar =
-            utf8::lengthValidated(str.begin(), str.begin() + cursor);
+        size_t cursorByChar = utf8::lengthValidated(str.substr(0, cursor));
         if (cursorByChar == utf8::INVALID_LENGTH) {
             break;
         }
-        size_t anchorByChar =
-            utf8::lengthValidated(str.begin(), str.begin() + anchor);
+        size_t anchorByChar = utf8::lengthValidated(str.substr(0, anchor));
         if (anchorByChar == utf8::INVALID_LENGTH) {
             break;
         }

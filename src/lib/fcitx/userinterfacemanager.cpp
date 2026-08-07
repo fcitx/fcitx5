@@ -6,7 +6,27 @@
  */
 
 #include "userinterfacemanager.h"
+#include <algorithm>
+#include <cassert>
+#include <iterator>
+#include <list>
+#include <memory>
 #include <set>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/connectableobject.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx/addoninfo.h"
 #include "action.h"
 #include "event.h"
 #include "inputcontext.h"
@@ -14,6 +34,8 @@
 #include "userinterface.h"
 
 namespace fcitx {
+
+namespace {
 
 struct UserInterfaceComponentHash {
     template <typename T>
@@ -34,13 +56,28 @@ public:
         return value;
     }
     void returnId(int id) {
-        assert(id <= maxId_ && freeList_.count(id) == 0);
+        assert(id <= maxId_ && !freeList_.contains(id));
         freeList_.insert(id);
     }
 
     std::set<int> freeList_;
     int maxId_ = 0;
 };
+
+bool isUserInterfaceValid(UserInterface *userInterface,
+                          InputMethodMode inputMethodMode) {
+    if (userInterface == nullptr || !userInterface->available() ||
+        userInterface->addonInfo() == nullptr) {
+        return false;
+    }
+
+    return (userInterface->addonInfo()->uiType() == UIType::OnScreenKeyboard &&
+            inputMethodMode == InputMethodMode::OnScreenKeyboard) ||
+           (userInterface->addonInfo()->uiType() == UIType::PhyscialKeyboard &&
+            inputMethodMode == InputMethodMode::PhysicalKeyboard);
+}
+
+} // namespace
 
 class UserInterfaceManagerPrivate {
 public:
@@ -146,7 +183,7 @@ void UserInterfaceManager::load(const std::string &uiName) {
     auto names = d->addonManager_->addonNames(AddonCategory::UI);
 
     d->uis_.clear();
-    if (names.count(uiName)) {
+    if (names.contains(uiName)) {
         auto *ui = d->addonManager_->addon(uiName, true);
         if (ui) {
             d->uis_.push_back(uiName);
@@ -155,23 +192,23 @@ void UserInterfaceManager::load(const std::string &uiName) {
 
     if (d->uis_.empty()) {
         d->uis_.insert(d->uis_.end(), names.begin(), names.end());
-        std::sort(d->uis_.begin(), d->uis_.end(),
-                  [d](const std::string &lhs, const std::string &rhs) {
-                      const auto *linfo = d->addonManager_->addonInfo(lhs);
-                      const auto *rinfo = d->addonManager_->addonInfo(rhs);
-                      if (!linfo) {
-                          return false;
-                      }
-                      if (!rinfo) {
-                          return true;
-                      }
-                      auto lp = linfo->uiPriority();
-                      auto rp = rinfo->uiPriority();
-                      if (lp == rp) {
-                          return lhs > rhs;
-                      }
-                      return lp > rp;
-                  });
+        std::ranges::sort(
+            d->uis_, [d](const std::string &lhs, const std::string &rhs) {
+                const auto *linfo = d->addonManager_->addonInfo(lhs);
+                const auto *rinfo = d->addonManager_->addonInfo(rhs);
+                if (!linfo) {
+                    return false;
+                }
+                if (!rinfo) {
+                    return true;
+                }
+                auto lp = linfo->uiPriority();
+                auto rp = rinfo->uiPriority();
+                if (lp == rp) {
+                    return lhs > rhs;
+                }
+                return lp > rp;
+            });
     }
     updateAvailability();
 }
@@ -270,19 +307,6 @@ void UserInterfaceManager::flush() {
     }
     d->updateIndex_.clear();
     d->updateList_.clear();
-}
-
-bool isUserInterfaceValid(UserInterface *userInterface,
-                          InputMethodMode inputMethodMode) {
-    if (userInterface == nullptr || !userInterface->available() ||
-        userInterface->addonInfo() == nullptr) {
-        return false;
-    }
-
-    return (userInterface->addonInfo()->uiType() == UIType::OnScreenKeyboard &&
-            inputMethodMode == InputMethodMode::OnScreenKeyboard) ||
-           (userInterface->addonInfo()->uiType() == UIType::PhyscialKeyboard &&
-            inputMethodMode == InputMethodMode::PhysicalKeyboard);
 }
 
 void UserInterfaceManager::updateAvailability() {

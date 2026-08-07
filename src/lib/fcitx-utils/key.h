@@ -22,6 +22,7 @@
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/keysym.h>
 #include <fcitx-utils/macros.h>
+#include <ranges>
 
 namespace fcitx {
 class Key;
@@ -220,9 +221,9 @@ public:
     /// \see fcitx::Key::check
     template <typename Container>
     bool checkKeyList(const Container &c) const {
-        return std::find_if(c.begin(), c.end(), [this](const Key &toCheck) {
+        return std::ranges::find_if(c, [this](const Key &toCheck) {
                    return check(toCheck);
-               }) != c.end();
+               }) != std::ranges::end(c);
     }
 
     /// Check the current key against a key list and get the matched key index.
