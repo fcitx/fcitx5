@@ -298,14 +298,6 @@ public:
 
     const char *frontend() const override { return "xim"; }
 
-    void maybeUpdateCursorLocationForRootStyle() {
-        if ((validatedInputStyle() & XCB_IM_PreeditPosition) ==
-            XCB_IM_PreeditPosition) {
-            return;
-        }
-        updateCursorLocation();
-    }
-
     void updateCursorLocation() {
         // kinds of like notification for position moving
         auto mask = xcb_im_input_context_get_preedit_attr_mask(xic_);
@@ -703,7 +695,7 @@ XIMModule::XIMModule(Instance *instance) : instance_(instance) {
             if (uiEvent.component() == UserInterfaceComponent::InputPanel &&
                 ic->frontendName() == "xim") {
                 auto *xic = static_cast<XIMInputContext *>(ic);
-                xic->maybeUpdateCursorLocationForRootStyle();
+                xic->updateCursorLocation();
             }
         });
 }
