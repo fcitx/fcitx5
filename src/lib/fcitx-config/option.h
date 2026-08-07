@@ -107,7 +107,7 @@ private:
 struct FontAnnotation {
     bool skipDescription() { return false; }
     bool skipSave() { return false; }
-    void dumpDescription(RawConfig &config) {
+    void dumpDescription(RawConfig &config) const {
         config.setValueByPath("Font", "True");
     }
 };
