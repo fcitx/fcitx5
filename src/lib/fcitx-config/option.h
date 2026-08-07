@@ -10,7 +10,6 @@
 #include <limits>
 #include <memory>
 #include <optional>
-#include <regex>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -225,20 +224,11 @@ private:
  * validate the value before saving, while other frontends simply treat it as a
  * plain string and rely on this constrain to reject invalid values on save.
  */
-class RegexConstrain {
+class FCITXCONFIG_EXPORT RegexConstrain {
 public:
     using Type = std::string;
-    bool check(const std::string &value) const {
-        try {
-            std::regex re(value);
-        } catch (const std::regex_error &) {
-            return false;
-        }
-        return true;
-    }
-    void dumpDescription(RawConfig &config) const {
-        config.setValueByPath("IsRegex", "True");
-    }
+    bool check(const std::string &value) const;
+    void dumpDescription(RawConfig &config) const;
 };
 
 /// Key option constrain flag.

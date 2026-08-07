@@ -7,6 +7,7 @@
 
 #include "option.h"
 #include <memory>
+#include <regex>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -80,5 +81,18 @@ void ExternalOption::dumpDescription(RawConfig &config) const {
 void SubConfigOption::dumpDescription(RawConfig &config) const {
     ExternalOption::dumpDescription(config);
     config.setValueByPath("LaunchSubConfig", "True");
+}
+
+bool RegexConstrain::check(const std::string &value) const {
+    try {
+        std::regex re(value);
+    } catch (const std::regex_error &) {
+        return false;
+    }
+    return true;
+}
+
+void RegexConstrain::dumpDescription(RawConfig &config) const {
+    config.setValueByPath("IsRegex", "True");
 }
 } // namespace fcitx
