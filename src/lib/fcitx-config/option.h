@@ -10,6 +10,7 @@
 #include <limits>
 #include <memory>
 #include <optional>
+#include <regex>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -215,6 +216,29 @@ public:
 private:
     int min_;
     int max_;
+};
+
+/**
+ * String constrain that requires the value to be a valid regular expression.
+ * Use it directly on a String option, or wrapped in ListConstrain for a list
+ * of regular expressions. Frontends that understand the IsRegex marker can
+ * validate the value before saving, while other frontends simply treat it as a
+ * plain string and rely on this constrain to reject invalid values on save.
+ */
+class RegexConstrain {
+public:
+    using Type = std::string;
+    bool check(const std::string &value) const {
+        try {
+            std::regex re(value);
+        } catch (const std::regex_error &) {
+            return false;
+        }
+        return true;
+    }
+    void dumpDescription(RawConfig &config) const {
+        config.setValueByPath("IsRegex", "True");
+    }
 };
 
 /// Key option constrain flag.
