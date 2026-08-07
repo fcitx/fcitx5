@@ -277,7 +277,6 @@ public:
                 InputMethodGroupItem(std::get<0>(entry))
                     .setLayout(std::get<1>(entry)));
         }
-        group.setDefaultInputMethod("");
         imManager.setGroup(std::move(group));
         imManager.save();
     }
