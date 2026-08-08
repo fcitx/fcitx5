@@ -7,9 +7,12 @@
 #ifndef _FCITX_INSTANCE_H_
 #define _FCITX_INSTANCE_H_
 
+#include <cstdint>
 #include <exception>
 #include <memory>
+#include <optional>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/eventdispatcher.h>
@@ -454,6 +457,18 @@ public:
 
     /// Clear xkb state mask for given display
     void clearXkbStateMask(const std::string &display);
+
+    /**
+     * Return xkb state mask for given display
+     *
+     * @see Instance::updateXkbStateMask
+     * @see Instance::clearXkbStateMask
+     * @see InputContext::display
+     * @param display display name
+     * @since 5.1.22
+     */
+    std::optional<std::tuple<uint32_t, uint32_t, uint32_t>>
+    xkbStateMask(const std::string &display) const;
 
     /**
      * Show a small popup with input popup window with current input method

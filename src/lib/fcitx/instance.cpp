@@ -2620,6 +2620,15 @@ void Instance::clearXkbStateMask(const std::string &display) {
     d->stateMask_.erase(display);
 }
 
+std::optional<std::tuple<uint32_t, uint32_t, uint32_t>>
+Instance::xkbStateMask(const std::string &display) const {
+    FCITX_D();
+    if (const auto *mask = findValue(d->stateMask_, display)) {
+        return *mask;
+    }
+    return std::nullopt;
+}
+
 const char *Instance::version() { return FCITX_VERSION_STRING; }
 
 } // namespace fcitx
