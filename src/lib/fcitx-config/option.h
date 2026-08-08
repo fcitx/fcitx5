@@ -217,6 +217,20 @@ private:
     int max_;
 };
 
+/**
+ * String constrain that requires the value to be a valid regular expression.
+ * Use it directly on a String option, or wrapped in ListConstrain for a list
+ * of regular expressions. Frontends that understand the IsRegex marker can
+ * validate the value before saving, while other frontends simply treat it as a
+ * plain string and rely on this constrain to reject invalid values on save.
+ */
+class FCITXCONFIG_EXPORT RegexConstrain {
+public:
+    using Type = std::string;
+    bool check(const std::string &value) const;
+    void dumpDescription(RawConfig &config) const;
+};
+
 /// Key option constrain flag.
 enum class KeyConstrainFlag {
     /// The key can be modifier only, like Control_L.
