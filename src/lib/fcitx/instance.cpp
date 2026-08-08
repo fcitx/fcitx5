@@ -2613,11 +2613,15 @@ void Instance::updateXkbStateMask(const std::string &display,
     FCITX_D();
     d->stateMask_[display] =
         std::make_tuple(depressed_mods, latched_mods, locked_mods);
+    emit<Instance::XkbStateMaskChanged>(display);
 }
 
 void Instance::clearXkbStateMask(const std::string &display) {
     FCITX_D();
-    d->stateMask_.erase(display);
+    bool changed = d->stateMask_.erase(display) > 0;
+    if (changed) {
+        emit<XkbStateMaskChanged>(display);
+    }
 }
 
 std::optional<std::tuple<uint32_t, uint32_t, uint32_t>>
