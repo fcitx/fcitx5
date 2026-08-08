@@ -332,8 +332,11 @@ public:
                          void(InputContext *inputContext, Text &orig));
     FCITX_DECLARE_SIGNAL(Instance, KeyEventResult,
                          void(const KeyEvent &keyEvent));
-    FCITX_DECLARE_SIGNAL(Instance, XkbStateMaskChanged,
-                         void(const std::string &display));
+    FCITX_DECLARE_SIGNAL(
+        Instance, XkbStateMaskChanged,
+        void(const std::string &display,
+             std::optional<std::tuple<uint32_t, uint32_t, uint32_t>> oldMask,
+             std::optional<std::tuple<uint32_t, uint32_t, uint32_t>> newMask));
     /**
      * \deprecated
      */
