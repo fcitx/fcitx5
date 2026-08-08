@@ -24,6 +24,8 @@
 
 using namespace fcitx;
 
+namespace {
+
 void testCheckUpdate(Instance &instance) {
     instance.eventDispatcher().schedule([&instance]() {
         FCITX_ASSERT(!instance.checkUpdate());
@@ -159,6 +161,25 @@ void testModifierOnlyHotkey(Instance &instance) {
     });
 }
 
+void testXkbStateMask(Instance &instance) {
+    instance.eventDispatcher().schedule([&instance]() {
+        bool xkbStateMaskChanged = false;
+        auto connection = instance.connect<Instance::XkbStateMaskChanged>(
+            [&](const std::string &event) {
+                FCITX_ASSERT(event == "testdisplay");
+                xkbStateMaskChanged = true;
+            });
+
+        instance.updateXkbStateMask("testdisplay", 1, 2, 3);
+        FCITX_ASSERT(xkbStateMaskChanged);
+        xkbStateMaskChanged = false;
+        instance.clearXkbStateMask("testdisplay");
+        FCITX_ASSERT(xkbStateMaskChanged);
+    });
+}
+
+} // namespace
+
 int main() {
     setupTestingEnvironmentPath(FCITX5_BINARY_DIR, {"bin"}, {"test"});
 
@@ -179,6 +200,7 @@ int main() {
     testReloadGlobalConfig(instance);
     testSetGroupDefaultInputMethod(instance);
     testModifierOnlyHotkey(instance);
+    testXkbStateMask(instance);
     instance.eventDispatcher().schedule([&instance]() { instance.exit(); });
     instance.exec();
     return 0;

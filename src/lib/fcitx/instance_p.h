@@ -21,6 +21,7 @@
 #include <fcitx/instance.h>
 #include <fcitx/tempmodemanager.h>
 #include <fcitx/userinterfacemanager.h>
+#include "fcitx-utils/connectableobject.h"
 #include "config.h"
 
 #ifdef ENABLE_KEYBOARD
@@ -191,6 +192,7 @@ public:
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, KeyEventResult);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CheckUpdate);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, XkbStateMaskChanged);
 
     FactoryFor<InputState> inputStateFactory_{
         [this](InputContext &ic) { return new InputState(this, &ic); }};

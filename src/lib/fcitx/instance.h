@@ -332,6 +332,8 @@ public:
                          void(InputContext *inputContext, Text &orig));
     FCITX_DECLARE_SIGNAL(Instance, KeyEventResult,
                          void(const KeyEvent &keyEvent));
+    FCITX_DECLARE_SIGNAL(Instance, XkbStateMaskChanged,
+                         void(const std::string &display));
     /**
      * \deprecated
      */
