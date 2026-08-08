@@ -2611,16 +2611,21 @@ void Instance::updateXkbStateMask(const std::string &display,
                                   uint32_t depressed_mods,
                                   uint32_t latched_mods, uint32_t locked_mods) {
     FCITX_D();
-    d->stateMask_[display] =
-        std::make_tuple(depressed_mods, latched_mods, locked_mods);
-    emit<Instance::XkbStateMaskChanged>(display);
+    auto oldMask = xkbStateMask(display);
+    auto &newMask = d->stateMask_[display];
+    newMask = std::make_tuple(depressed_mods, latched_mods, locked_mods);
+    emit<Instance::XkbStateMaskChanged>(display, oldMask, newMask);
 }
 
 void Instance::clearXkbStateMask(const std::string &display) {
     FCITX_D();
+    auto oldMask = xkbStateMask(display);
+    if (!oldMask.has_value()) {
+        return;
+    }
     bool changed = d->stateMask_.erase(display) > 0;
     if (changed) {
-        emit<XkbStateMaskChanged>(display);
+        emit<XkbStateMaskChanged>(display, oldMask, std::nullopt);
     }
 }
 
