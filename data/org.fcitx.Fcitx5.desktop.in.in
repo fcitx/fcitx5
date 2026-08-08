@@ -4,6 +4,7 @@ GenericName=Input Method
 Comment=Start Input Method
 Exec=@FCITX_INSTALL_BINDIR@/fcitx5
 Icon=@FCITX_ICON_NAME@
+NoDisplay=true
 Terminal=false
 Type=Application
 Categories=System;Utility;
