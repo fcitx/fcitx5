@@ -187,7 +187,11 @@ void testXkbStateMask(Instance &instance) {
         FCITX_ASSERT(instance.xkbStateMask("testdisplay") ==
                      std::make_tuple(1, 2, 3));
         FCITX_ASSERT(instance.xkbStateMask("baddisplay") == std::nullopt);
+
         xkbStateMaskChanged = false;
+        instance.updateXkbStateMask("testdisplay", 1, 2, 3);
+        FCITX_ASSERT(!xkbStateMaskChanged);
+
         instance.clearXkbStateMask("testdisplay");
         FCITX_ASSERT(xkbStateMaskChanged);
         FCITX_ASSERT(savedOldMask == std::make_tuple(1, 2, 3));

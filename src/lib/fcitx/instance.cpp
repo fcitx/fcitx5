@@ -2614,6 +2614,9 @@ void Instance::updateXkbStateMask(const std::string &display,
     auto oldMask = xkbStateMask(display);
     auto &newMask = d->stateMask_[display];
     newMask = std::make_tuple(depressed_mods, latched_mods, locked_mods);
+    if (oldMask == newMask) {
+        return;
+    }
     emit<Instance::XkbStateMaskChanged>(display, oldMask, newMask);
 }
 
