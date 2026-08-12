@@ -76,9 +76,7 @@ public:
             deltaAcc_ += 120;
         }
     }
-    void activate(int /*unused*/, int /*unused*/) {
-        parent_->instance()->toggle();
-    }
+    void activate(int /*unused*/, int /*unused*/) {}
     void secondaryActivate(int /*unused*/, int /*unused*/) {}
     std::string keyboardIconName() const {
         if (isKDE()) {
@@ -270,7 +268,7 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(tooltip, "ToolTip", "(sa(iiay)ss)",
                                  [this]() { return tooltip(); });
     FCITX_OBJECT_VTABLE_PROPERTY(itemIsMenu, "ItemIsMenu", "b",
-                                 []() { return false; });
+                                 []() { return true; });
     FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o",
                                  []() { return dbus::ObjectPath("/MenuBar"); });
     FCITX_OBJECT_VTABLE_PROPERTY(iconThemePath, "IconThemePath", "s",
