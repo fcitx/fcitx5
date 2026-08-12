@@ -111,15 +111,14 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     case XCB_BUTTON_PRESS: {
         auto *press = reinterpret_cast<xcb_button_press_event_t *>(event);
         if (press->event == wid_) {
-            if (press->detail == XCB_BUTTON_INDEX_3) {
+            if (press->detail == XCB_BUTTON_INDEX_1 ||
+                press->detail == XCB_BUTTON_INDEX_3) {
                 updateMenu();
                 XCBMenu *menu = menuPool_.requestMenu(ui_, &menu_, nullptr);
                 menu->show(Rect()
                                .setPosition(press->root_x, press->root_y)
                                .setSize(1, 1),
                            ConstrainAdjustment::Flip);
-            } else if (press->detail == XCB_BUTTON_INDEX_1) {
-                ui_->parent()->instance()->toggle();
             }
             return true;
         }
