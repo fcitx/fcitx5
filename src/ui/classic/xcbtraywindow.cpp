@@ -120,6 +120,10 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
                            ConstrainAdjustment::Flip);
             } else if (press->detail == XCB_BUTTON_INDEX_1) {
                 ui_->parent()->instance()->toggle();
+            } else if (press->detail == XCB_BUTTON_INDEX_4) {
+                ui_->parent()->instance()->enumerate(true);
+            } else if (press->detail == XCB_BUTTON_INDEX_5) {
+                ui_->parent()->instance()->enumerate(false);
             }
             return true;
         }
