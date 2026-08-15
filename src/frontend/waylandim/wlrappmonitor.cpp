@@ -37,13 +37,17 @@ public:
                 }
             }
         }));
-        conns_.emplace_back(window->done().connect([this]() {
-            active_ = pendingActive_;
-            parent_->refresh();
+        conns_.emplace_back(window_->done().connect([this]() {
+            if (active_ != pendingActive_) {
+                active_ = pendingActive_;
+                parent_->refresh();
+            }
         }));
-        conns_.emplace_back(window->appId().connect([this](const char *appId) {
-            appId_ = appId;
-            parent_->refresh();
+        conns_.emplace_back(window_->appId().connect([this](const char *appId) {
+            if (appId_ != appId) {
+                appId_ = appId;
+                parent_->refresh();
+            }
         }));
     }
 

@@ -7,7 +7,6 @@
 #include "waylandim.h"
 #include <memory>
 #include <string>
-#include <utility>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx/addonfactory.h"
@@ -17,6 +16,7 @@
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "appmonitor.h"
+#include "cosmicappmonitor.h"
 #include "display.h"
 #include "plasmaappmonitor.h"
 #include "virtualinputcontext.h"
@@ -100,16 +100,21 @@ AggregatedAppMonitor *WaylandIMModule::appMonitor(const std::string &display) {
         auto *display = static_cast<wayland::Display *>(
             wl_display_get_user_data(displayIter->second));
 
-        auto plasmaMonitor = std::make_unique<PlasmaAppMonitor>(display);
-        auto wlrMonitor = std::make_unique<WlrAppMonitor>(display);
         appMonitorPtr = std::make_unique<AggregatedAppMonitor>();
         if (getDesktopType() == DesktopType::KDE5 ||
             getDesktopType() == DesktopType::KDE6) {
-            appMonitorPtr->addSubMonitor(std::move(plasmaMonitor));
-            appMonitorPtr->addSubMonitor(std::move(wlrMonitor));
+            appMonitorPtr->addSubMonitor(
+                std::make_unique<PlasmaAppMonitor>(display));
+            appMonitorPtr->addSubMonitor(
+                std::make_unique<WlrAppMonitor>(display));
+        } else if (getDesktopType() == DesktopType::Cosmic) {
+            appMonitorPtr->addSubMonitor(
+                std::make_unique<CosmicAppMonitor>(display));
         } else {
-            appMonitorPtr->addSubMonitor(std::move(wlrMonitor));
-            appMonitorPtr->addSubMonitor(std::move(plasmaMonitor));
+            appMonitorPtr->addSubMonitor(
+                std::make_unique<WlrAppMonitor>(display));
+            appMonitorPtr->addSubMonitor(
+                std::make_unique<PlasmaAppMonitor>(display));
         }
     }
     return appMonitorPtr.get();
