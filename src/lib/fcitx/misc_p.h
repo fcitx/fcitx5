@@ -127,6 +127,7 @@ enum class DesktopType {
     DEEPIN,
     UKUI,
     Sway,
+    Cosmic,
     Unknown
 };
 
@@ -189,6 +190,9 @@ static inline DesktopType getDesktopType() {
         }
         if (desktop == "sway") {
             return DesktopType::Sway;
+        }
+        if (desktop == "cosmic") {
+            return DesktopType::Cosmic;
         }
     }
     return DesktopType::Unknown;
