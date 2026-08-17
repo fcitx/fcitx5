@@ -241,6 +241,16 @@ void Message::skip() {
     dbus_message_iter_next(d->iterator());
 }
 
+uint64_t Message::serial() {
+    FCITX_D();
+    return dbus_message_get_serial(d->msg());
+}
+
+uint64_t Message::replySerial() {
+    FCITX_D();
+    return dbus_message_get_reply_serial(d->msg());
+}
+
 std::pair<char, std::string> Message::peekType() {
     FCITX_D();
 
