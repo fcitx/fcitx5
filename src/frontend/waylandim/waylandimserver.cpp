@@ -621,7 +621,7 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, const Key &key,
     }
 }
 
-void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
+void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) {
     if (!ic_) {
         return;
     }
@@ -658,8 +658,9 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
                        preeditCommitString.c_str());
 }
 
-void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
-    InputContext *ic, int offset, unsigned int size) const {
+void WaylandIMInputContextV1::deleteSurroundingTextDelegate(InputContext *ic,
+                                                            int offset,
+                                                            unsigned int size) {
     if (!ic_) {
         return;
     }
