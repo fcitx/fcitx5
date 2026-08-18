@@ -99,7 +99,7 @@ public:
 
 protected:
     void commitStringDelegate(const InputContext * /*ic*/,
-                              const std::string &text) const override {
+                              const std::string &text) override {
         if (!ic_) {
             return;
         }
@@ -110,11 +110,11 @@ protected:
         });
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
-                                       unsigned int size) const override;
+                                       unsigned int size) override;
     void forwardKeyDelegate(InputContext * /*ic*/,
-                            const ForwardKeyEvent &key) const override;
+                            const ForwardKeyEvent &key) override;
 
-    void updatePreeditDelegate(InputContext *ic) const override;
+    void updatePreeditDelegate(InputContext *ic) override;
 
 private:
     void repeat();
@@ -131,7 +131,7 @@ private:
                            uint32_t mods_latched, uint32_t mods_locked,
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
-    void sendKeyToVK(uint32_t time, const Key &key, uint32_t state) const;
+    void sendKeyToVK(uint32_t time, const Key &key, uint32_t state);
 
     int32_t repeatRate() const;
     int32_t repeatDelay() const;

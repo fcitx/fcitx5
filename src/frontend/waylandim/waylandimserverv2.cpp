@@ -597,7 +597,7 @@ void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
 }
 
 void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
-                                          uint32_t state) const {
+                                          uint32_t state) {
     if (!vkReady_) {
         return;
     }
@@ -616,8 +616,8 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
     vk_->key(time, code, state);
 }
 
-void WaylandIMInputContextV2::forwardKeyDelegate(
-    InputContext * /*ic*/, const ForwardKeyEvent &key) const {
+void WaylandIMInputContextV2::forwardKeyDelegate(InputContext * /*ic*/,
+                                                 const ForwardKeyEvent &key) {
     uint32_t code = 0;
     if (key.rawKey().code()) {
         code = key.rawKey().code();
@@ -644,7 +644,7 @@ void WaylandIMInputContextV2::forwardKeyDelegate(
     }
 }
 
-void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
+void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) {
     if (!realFocus()) {
         return;
     }
@@ -694,8 +694,9 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
     ic_->commit(serial_);
 }
 
-void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
-    InputContext *ic, int offset, unsigned int size) const {
+void WaylandIMInputContextV2::deleteSurroundingTextDelegate(InputContext *ic,
+                                                            int offset,
+                                                            unsigned int size) {
     if (!realFocus()) {
         return;
     }
