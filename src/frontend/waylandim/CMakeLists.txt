@@ -14,10 +14,8 @@ add_fcitx5_addon(waylandim
     waylandimserver.cpp
     waylandimserverv2.cpp
     plasmaappmonitor.cpp
-    virtualinputcontext.cpp
     wlrappmonitor.cpp
     cosmicappmonitor.cpp
-    appmonitor.cpp
     ${WAYLAND_IM_PROTOCOL_SRCS}
 )
 target_include_directories(waylandim PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -30,7 +28,9 @@ target_link_libraries(waylandim
     Fcitx5::Wayland::InputMethod
     Fcitx5::Wayland::InputMethodV2
     Fcitx5::Wayland::ExtForeignToplevelList
-    Fcitx5::Wayland::CosmicToplevelInfo)
+    Fcitx5::Wayland::CosmicToplevelInfo
+    virtualinputcontext
+)
 install(TARGETS waylandim DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/waylandim.conf.in.in ${CMAKE_CURRENT_BINARY_DIR}/waylandim.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/waylandim.conf.in waylandim.conf)
