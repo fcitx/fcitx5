@@ -27,6 +27,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
+#include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/candidatelist.h"
@@ -120,6 +121,7 @@ private:
 };
 
 class DBusInputContext1 : public InputContext,
+                          public AtomicSurroundingTextInputContext,
                           public dbus::ObjectVTable<DBusInputContext1> {
 public:
     DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
@@ -171,6 +173,24 @@ public:
     const char *frontend() const override { return "dbus"; }
 
     const dbus::ObjectPath &path() const { return path_; }
+
+    bool supportsAtomicSurroundingTextReplacement() const override {
+        return blocked_;
+    }
+
+    bool replaceSurroundingTextAtomically(
+        int offset, unsigned int size, const std::string &text) override {
+        if (!blocked_ || !utf8::validate(text)) {
+            return false;
+        }
+        blockedEvents_.emplace_back(
+            BATCHED_DELETE_SURROUNDING,
+            dbus::DBusStruct<int32_t, uint32_t>(offset, size));
+        if (!text.empty()) {
+            blockedEvents_.emplace_back(BATCHED_COMMIT_STRING, text);
+        }
+        return true;
+    }
 
     void updateIM(const InputMethodEntry *entry) {
         currentIMTo(name_, entry->name(), entry->uniqueName(),

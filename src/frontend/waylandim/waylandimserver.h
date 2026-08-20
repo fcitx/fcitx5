@@ -99,6 +99,11 @@ protected:
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;
+    bool supportsAtomicSurroundingTextReplacementDelegate(
+        const InputContext *ic) const override;
+    bool replaceSurroundingTextAtomicallyDelegate(
+        InputContext *ic, int offset, unsigned int size,
+        const std::string &text) const override;
     void forwardKeyDelegate(InputContext *ic,
                             const ForwardKeyEvent &key) const override {
         FCITX_UNUSED(ic);
