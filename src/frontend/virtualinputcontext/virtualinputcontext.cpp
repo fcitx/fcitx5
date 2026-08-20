@@ -43,6 +43,13 @@ void VirtualInputContextGlue::focusOutWrapper() {
     }
 }
 
+void VirtualInputContextGlue::resetWrapper() {
+    reset();
+    if (auto *ic = delegatedInputContext(); ic != this) {
+        ic->reset();
+    }
+}
+
 void VirtualInputContextGlue::updateSurroundingTextWrapper() {
     updateSurroundingText();
     if (auto *ic = delegatedInputContext(); ic != this) {

@@ -49,6 +49,7 @@ public:
 
     void focusInWrapper();
     void focusOutWrapper();
+    void resetWrapper();
     void updateSurroundingTextWrapper();
     void setCapabilityFlagsWrapper(CapabilityFlags flags);
     void setCursorRectWrapper(const Rect &rect) {
