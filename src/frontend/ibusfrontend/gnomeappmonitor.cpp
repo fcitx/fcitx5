@@ -43,9 +43,11 @@ void GnomeAppMonitor::setShell(const std::string &name) {
     if (shellName_ == name) {
         return;
     }
+    shellPidSlot_.reset();
     shellPid_.reset();
     shellName_ = name;
     if (shellName_.empty()) {
+        shellNameChanged();
         refreshState();
         return;
     }
@@ -184,12 +186,9 @@ void GnomeAppMonitor::refreshState() {
 bool GnomeAppMonitor::isAvailable() const { return !monitorBus_; }
 
 void GnomeAppMonitor::getOverviewActive() {
-    if (!monitorBus_) {
-        return;
-    }
     auto call =
-        monitorBus_->createMethodCall(shellDBusName, "/org/gnome/Shell",
-                                      "org.freedesktop.DBus.Properties", "Get");
+        bus_->createMethodCall(shellDBusName, "/org/gnome/Shell",
+                               "org.freedesktop.DBus.Properties", "Get");
     call << "org.gnome.Shell" << "OverviewActive";
     getSlot_ = call.callAsync(0, [this](dbus::Message &message) {
         if (message.type() == dbus::MessageType::Reply &&
