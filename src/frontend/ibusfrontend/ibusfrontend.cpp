@@ -407,15 +407,18 @@ public:
         // match it against PID, this is not reliable with in sandbox, so app
         // monitor is disabled in flatpak.
         if (appMonitor && !appMonitor->shellName().empty() &&
-            pid_.has_value() && appMonitor->shellPid() == pid_ &&
-            !virtualInputContextManager_) {
-            bool focus = hasFocus();
-            virtualInputContextManager_ =
-                std::make_unique<VirtualInputContextManager>(
-                    &im_->instance()->inputContextManager(), this, appMonitor);
-            virtualInputContextManager_->setRealFocus(focus);
+            pid_.has_value() && appMonitor->shellPid() == pid_) {
+
+            if (!virtualInputContextManager_) {
+                bool focus = hasFocus();
+                virtualInputContextManager_ =
+                    std::make_unique<VirtualInputContextManager>(
+                        &im_->instance()->inputContextManager(), this,
+                        appMonitor);
+                virtualInputContextManager_->setRealFocus(focus);
+                FCITX_IBUS_DEBUG() << "Virtual input context manager created";
+            }
             appMonitor->updateState();
-            FCITX_IBUS_DEBUG() << "Virtual input context manager created";
         } else {
             virtualInputContextManager_.reset();
         }
