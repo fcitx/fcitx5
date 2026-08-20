@@ -518,7 +518,7 @@ public:
 
     void resetDBus() {
         CHECK_SENDER_OR_RETURN;
-        reset();
+        resetWrapper();
     }
 
     void setCursorLocation(int x, int y, int w, int h) {
@@ -564,13 +564,6 @@ public:
         setCapabilityFlagsWrapper(flags);
     }
 
-    void setSurroundingText(const std::string &str, uint32_t cursor,
-                            uint32_t anchor) {
-        CHECK_SENDER_OR_RETURN;
-        surroundingText().setText(str, cursor, anchor);
-        updateSurroundingTextWrapper();
-    }
-
     bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state) {
         CHECK_SENDER_OR_RETURN false;
         auto *ic = delegatedInputContext();
@@ -600,7 +593,7 @@ public:
         }
         const auto &s = text.dataAs<IBusText>();
         surroundingText().setText(std::get<2>(s), cursor, anchor);
-        updateSurroundingText();
+        updateSurroundingTextWrapper();
     }
     IBusService &service() { return service_; }
 
