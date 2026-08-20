@@ -9,8 +9,7 @@ import requests
 
 EMOJI_JSON_URL = "https://raw.githubusercontent.com/delthas/gemoji-json/master/emoji.json"
 OUTPUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "src/modules/quickphrase/quickphrase.d/emoji-eac.mb",
+    os.path.dirname(os.path.abspath(__file__)), "quickphrase.d/emoji-eac.mb",
 )
 
 print(f"Downloading {EMOJI_JSON_URL}")
