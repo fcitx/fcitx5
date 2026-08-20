@@ -243,11 +243,17 @@ void Message::skip() {
 
 uint64_t Message::serial() {
     FCITX_D();
+    if (!d->msg()) {
+        return 0;
+    }
     return dbus_message_get_serial(d->msg());
 }
 
 uint64_t Message::replySerial() {
     FCITX_D();
+    if (!d->msg()) {
+        return 0;
+    }
     return dbus_message_get_reply_serial(d->msg());
 }
 
