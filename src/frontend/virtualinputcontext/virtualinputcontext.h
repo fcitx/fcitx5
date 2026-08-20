@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#ifndef _FCITX5_FRONTEND_WAYLANDIM_VIRTUALINPUTCONTEXT_H_
-#define _FCITX5_FRONTEND_WAYLANDIM_VIRTUALINPUTCONTEXT_H_
+#ifndef _FCITX5_FRONTEND_VIRTUALINPUTCONTEXT_VIRTUALINPUTCONTEXT_H_
+#define _FCITX5_FRONTEND_VIRTUALINPUTCONTEXT_VIRTUALINPUTCONTEXT_H_
 
 #include <memory>
 #include <optional>
@@ -26,12 +26,12 @@ public:
     using InputContext::InputContext;
     // Qualifier is const to ensure the state is read from ic.
     virtual void commitStringDelegate(const InputContext *ic,
-                                      const std::string &text) const = 0;
+                                      const std::string &text) = 0;
     virtual void deleteSurroundingTextDelegate(InputContext *ic, int offset,
-                                               unsigned int size) const = 0;
+                                               unsigned int size) = 0;
     virtual void forwardKeyDelegate(InputContext *ic,
-                                    const ForwardKeyEvent &key) const = 0;
-    virtual void updatePreeditDelegate(InputContext *ic) const = 0;
+                                    const ForwardKeyEvent &key) = 0;
+    virtual void updatePreeditDelegate(InputContext *ic) = 0;
 
     bool realFocus() const {
         if (virtualICManager_) {
@@ -49,8 +49,15 @@ public:
 
     void focusInWrapper();
     void focusOutWrapper();
+    void resetWrapper();
     void updateSurroundingTextWrapper();
     void setCapabilityFlagsWrapper(CapabilityFlags flags);
+    void setCursorRectWrapper(const Rect &rect) {
+        setCursorRect(rect);
+        if (auto *ic = delegatedInputContext(); ic != this) {
+            ic->setCursorRect(rect);
+        }
+    }
 
 private:
     void commitStringImpl(const std::string &text) override {
@@ -135,4 +142,4 @@ private:
 
 } // namespace fcitx
 
-#endif // _FCITX5_FRONTEND_WAYLANDIM_VIRTUALINPUTCONTEXT_H_
+#endif // _FCITX5_FRONTEND_VIRTUALINPUTCONTEXT_VIRTUALINPUTCONTEXT_H_

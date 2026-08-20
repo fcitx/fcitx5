@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <systemd/sd-bus.h>
 #include "../../macros.h"
 #include "../../unixfd.h"
 #include "../variant.h"
@@ -209,6 +210,26 @@ void Message::skip() {
         return;
     }
     d->lastError_ = sd_bus_message_skip(d->msg_, nullptr);
+}
+
+uint64_t Message::serial() {
+    FCITX_D();
+    if (!*this) {
+        return 0;
+    }
+    uint64_t cookie = 0;
+    d->lastError_ = sd_bus_message_get_cookie(d->msg_, &cookie);
+    return cookie;
+}
+
+uint64_t Message::replySerial() {
+    FCITX_D();
+    if (!*this) {
+        return 0;
+    }
+    uint64_t cookie = 0;
+    d->lastError_ = sd_bus_message_get_reply_cookie(d->msg_, &cookie);
+    return cookie;
 }
 
 std::pair<char, std::string> Message::peekType() {

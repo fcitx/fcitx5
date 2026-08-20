@@ -322,6 +322,10 @@ public:
     /// Skip the next data.
     void skip();
 
+    uint64_t serial();
+
+    uint64_t replySerial();
+
     /// Check the next type of data in the message
     std::pair<char, std::string> peekType();
 

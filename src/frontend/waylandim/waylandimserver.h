@@ -88,7 +88,7 @@ public:
 
 protected:
     void commitStringDelegate(const InputContext *ic,
-                              const std::string &text) const override {
+                              const std::string &text) override {
         FCITX_UNUSED(ic);
         if (!ic_) {
             return;
@@ -98,9 +98,9 @@ protected:
             text, [this](const char *str) { ic_->commitString(serial_, str); });
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
-                                       unsigned int size) const override;
+                                       unsigned int size) override;
     void forwardKeyDelegate(InputContext *ic,
-                            const ForwardKeyEvent &key) const override {
+                            const ForwardKeyEvent &key) override {
         FCITX_UNUSED(ic);
         if (!ic_) {
             return;
@@ -125,7 +125,7 @@ protected:
         }
     }
 
-    void updatePreeditDelegate(InputContext *ic) const override;
+    void updatePreeditDelegate(InputContext *ic) override;
 
 private:
     void repeat();
