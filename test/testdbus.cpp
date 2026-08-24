@@ -7,17 +7,21 @@
 
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <tuple>
 #include <utility>
 #include <vector>
+#include "fcitx-utils/coroutine.h"
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/coroutine.h"
 #include "fcitx-utils/dbus/matchrule.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/log.h"
 
@@ -257,6 +261,113 @@ void test_client() {
     thread.join();
 }
 
+void test_coroutine() {
+    Bus bus(BusType::Session);
+    FCITX_ASSERT(bus.isOpen());
+    EventLoop loop;
+    bus.attachEventLoop(&loop);
+
+    FCITX_ASSERT(&loop == bus.eventLoop());
+    FCITX_ASSERT(
+        bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
+                                       RequestNameFlag::ReplaceExisting}));
+    TestObject obj;
+    FCITX_ASSERT(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
+    EventDispatcher dispatcher;
+    dispatcher.attach(&loop);
+    sendToEventDispatcherDetached(
+        &dispatcher, [](dbus::Bus &bus) -> Coroutine<void> {
+            auto msg = bus.createMethodCall(TEST_SERVICE, "/test",
+                                            TEST_INTERFACE, "test2");
+            msg << 2;
+            FCITX_INFO() << "Coroutine call test2";
+            auto reply = co_await AsyncCall(std::move(msg), 0);
+            FCITX_ASSERT(reply.type() == MessageType::Reply);
+            FCITX_INFO() << "Coroutine got reply";
+            std::string value;
+            reply >> value;
+            FCITX_ASSERT(value == "2");
+            bus.eventLoop()->exit();
+            co_return;
+        }(bus));
+
+    loop.exec();
+}
+
+Coroutine<void> emptyMessageCall(bool &threw, EventLoop &loop) {
+    try {
+        co_await AsyncCall(dbus::Message());
+    } catch (const std::runtime_error &) {
+        threw = true;
+        loop.exit();
+    }
+}
+
+void test_coroutine_empty_message() {
+    EventLoop loop;
+    EventDispatcher dispatcher;
+    dispatcher.attach(&loop);
+    bool threw = false;
+    sendToEventDispatcherDetached(&dispatcher, emptyMessageCall(threw, loop));
+    loop.exec();
+    FCITX_ASSERT(threw);
+}
+
+void test_coroutine_multiple_calls() {
+    Bus bus(BusType::Session);
+    FCITX_ASSERT(bus.isOpen());
+    EventLoop loop;
+    bus.attachEventLoop(&loop);
+
+    FCITX_ASSERT(&loop == bus.eventLoop());
+    FCITX_ASSERT(
+        bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
+                                       RequestNameFlag::ReplaceExisting}));
+    TestObject obj;
+    FCITX_ASSERT(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
+    EventDispatcher dispatcher;
+    dispatcher.attach(&loop);
+
+    sendToEventDispatcherDetached(
+        &dispatcher, [](dbus::Bus &bus, EventLoop &loop) -> Coroutine<void> {
+            auto reply1 = co_await AsyncCall(
+                std::move(bus.createMethodCall(TEST_SERVICE, "/test",
+                                               TEST_INTERFACE, "test2")
+                          << 2),
+                0);
+            FCITX_ASSERT(reply1.type() == MessageType::Reply);
+            std::string value1;
+            reply1 >> value1;
+            FCITX_ASSERT(value1 == "2");
+
+            auto msg2 = bus.createMethodCall(TEST_SERVICE, "/test",
+                                             TEST_INTERFACE, "test2");
+            msg2 << 5;
+            auto reply2 = co_await AsyncCall(std::move(msg2), 0);
+            FCITX_ASSERT(reply2.type() == MessageType::Reply);
+            std::string value2;
+            reply2 >> value2;
+            FCITX_ASSERT(value2 == "5");
+
+            auto msg3 = bus.createMethodCall(TEST_SERVICE, "/test",
+                                             TEST_INTERFACE, "test5");
+            std::vector<DictEntry<std::string, std::string>> entries;
+            entries.emplace_back("abc", "def");
+            entries.emplace_back("a", "defg");
+            msg3 << entries;
+            auto reply3 = co_await AsyncCall(std::move(msg3), 0);
+            FCITX_ASSERT(reply3.type() == MessageType::Reply);
+            std::string value3;
+            reply3 >> value3;
+            FCITX_ASSERT(value3 == "defg");
+
+            loop.exit();
+            co_return;
+        }(bus, loop));
+
+    loop.exec();
+}
+
 void test_rule() {
 
     {
@@ -369,6 +480,9 @@ void test_defer() {
 
 int main() {
     test_client();
+    test_coroutine();
+    test_coroutine_multiple_calls();
+    test_coroutine_empty_message();
     test_rule();
     test_delete();
     test_defer();

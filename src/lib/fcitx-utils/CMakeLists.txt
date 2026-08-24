@@ -122,17 +122,22 @@ set(FCITX_UTILS_HEADERS
     environ.h
     fdstreambuf.h
     standardpaths.h
+    # Experimental for now.
+    # coroutine.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
 set(FCITX_UTILS_DBUS_HEADERS
     dbus/message.h
+    dbus/coroutine.h
     dbus/objectvtable.h
     dbus/bus.h
     dbus/message_details.h
     dbus/servicewatcher.h
     dbus/matchrule.h
     dbus/variant.h
+    # Experimental for now.
+    # dbus/coroutine.h
     )
 
 ecm_setup_version(PROJECT
