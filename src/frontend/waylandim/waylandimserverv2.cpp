@@ -252,12 +252,17 @@ void WaylandIMInputContextV2::deactivate() {
     timeEvent_->setEnabled(false);
     if (realFocus()) {
         if (vkReady_) {
+            bool releasedKey = false;
             // If last key to vk is press, send a release.
             while (!pressedVKKey_.empty()) {
                 auto [vkkey, vktime] = *pressedVKKey_.begin();
                 // This is key release, so we don't need real sym and states.
                 sendKeyToVK(vktime, Key(FcitxKey_None, KeyStates(), vkkey + 8),
                             WL_KEYBOARD_KEY_STATE_RELEASED);
+                releasedKey = true;
+            }
+            if (releasedKey) {
+                server_->display()->flush();
             }
         }
         focusOutWrapper();
