@@ -271,6 +271,7 @@ void WaylandIMInputContextV2::deactivate() {
 }
 
 WaylandIMInputContextV2::~WaylandIMInputContextV2() {
+    deactivate();
     server_->remove(seat_.get());
     destroy();
 }
