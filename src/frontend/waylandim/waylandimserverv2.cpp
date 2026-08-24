@@ -253,7 +253,7 @@ void WaylandIMInputContextV2::deactivate() {
     if (realFocus()) {
         if (vkReady_) {
             bool releasedKey = false;
-            // If last key to vk is press, send a release.
+            // Release keys that are still pressed on the virtual keyboard.
             while (!pressedVKKey_.empty()) {
                 auto [vkkey, vktime] = *pressedVKKey_.begin();
                 // This is key release, so we don't need real sym and states.
@@ -617,8 +617,7 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
     }
     // Erase old to ensure order, and released ones can the be removed.
     pressedVKKey_.erase(code);
-    if (state == WL_KEYBOARD_KEY_STATE_PRESSED &&
-        xkb_keymap_key_repeats(server_->keymap_.get(), key.code())) {
+    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
         pressedVKKey_[code] = time;
     }
     vk_->key(time, code, state);
