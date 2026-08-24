@@ -172,34 +172,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         ++serial_;
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
-            keyboardGrab_.reset();
-            repeatInfo_.reset();
-            // This is the only place we update wayland xkb mask, so it is ok to
-            // reset it to 0. This breaks the caps lock or num lock. But we have
-            // no other option until we can listen to the mod change globally.
-            server_->instance()->clearXkbStateMask(server_->group()->display());
-
-            timeEvent_->setEnabled(false);
-            if (realFocus()) {
-                if (vkReady_) {
-                    // If last key to vk is press, send a release.
-                    while (!pressedVKKey_.empty()) {
-                        auto [vkkey, vktime] = *pressedVKKey_.begin();
-                        // This is key release, so we don't need real sym and
-                        // states.
-                        sendKeyToVK(vktime,
-                                    Key(FcitxKey_None, KeyStates(), vkkey + 8),
-                                    WL_KEYBOARD_KEY_STATE_RELEASED);
-                    }
-                }
-                focusOutWrapper();
-            }
-            if (!server_->parent()->persistentVirtualKeyboard()) {
-                vk_.reset();
-                vkReady_ = false;
-            }
-            surroundingText().invalidate();
-            updateSurroundingTextWrapper();
+            deactivate();
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
@@ -266,6 +239,35 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         virtualICManager_ = std::make_unique<VirtualInputContextManager>(
             &inputContextManager, this, appMonitor);
     }
+}
+
+void WaylandIMInputContextV2::deactivate() {
+    keyboardGrab_.reset();
+    repeatInfo_.reset();
+    // This is the only place we update wayland xkb mask, so it is ok to
+    // reset it to 0. This breaks the caps lock or num lock. But we have no
+    // other option until we can listen to the mod change globally.
+    server_->instance()->clearXkbStateMask(server_->group()->display());
+
+    timeEvent_->setEnabled(false);
+    if (realFocus()) {
+        if (vkReady_) {
+            // If last key to vk is press, send a release.
+            while (!pressedVKKey_.empty()) {
+                auto [vkkey, vktime] = *pressedVKKey_.begin();
+                // This is key release, so we don't need real sym and states.
+                sendKeyToVK(vktime, Key(FcitxKey_None, KeyStates(), vkkey + 8),
+                            WL_KEYBOARD_KEY_STATE_RELEASED);
+            }
+        }
+        focusOutWrapper();
+    }
+    if (!server_->parent()->persistentVirtualKeyboard()) {
+        vk_.reset();
+        vkReady_ = false;
+    }
+    surroundingText().invalidate();
+    updateSurroundingTextWrapper();
 }
 
 WaylandIMInputContextV2::~WaylandIMInputContextV2() {

@@ -117,6 +117,7 @@ protected:
     void updatePreeditDelegate(InputContext *ic) const override;
 
 private:
+    void deactivate();
     void repeat();
     void surroundingTextCallback(const char *text, uint32_t cursor,
                                  uint32_t anchor);
