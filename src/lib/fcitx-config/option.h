@@ -371,7 +371,7 @@ public:
 
     void dumpDescription(RawConfig &config) const override {
         OptionBase::dumpDescription(config);
-        if constexpr (not std::is_base_of_v<Configuration, T>) {
+        if constexpr (!std::is_base_of_v<Configuration, T>) {
             marshaller_.marshall(config["DefaultValue"], defaultValue_);
         }
         constrain_.dumpDescription(config);
