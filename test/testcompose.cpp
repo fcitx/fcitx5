@@ -26,7 +26,7 @@ FCITX_DEFINE_STATIC_ADDON_REGISTRY(staticAddon);
 FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
-    dispatcher->schedule([instance]() {
+    dispatcher->dispatch([instance]() {
         auto *keyboard = instance->addonManager().addon("keyboard", true);
         FCITX_ASSERT(keyboard);
         FCITX_ASSERT(!instance->inputMethodManager()
@@ -39,7 +39,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
                          .inputMethodList()[0]
                          .name() == "keyboard-us");
     });
-    dispatcher->schedule([dispatcher, instance]() {
+    dispatcher->dispatch([dispatcher, instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("ḙ");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("Ḅ");
@@ -62,7 +62,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key(FcitxKey_A),
                                                     false);
 
-        dispatcher->schedule([dispatcher, instance]() {
+        dispatcher->dispatch([dispatcher, instance]() {
             dispatcher->detach();
             instance->exit();
         });

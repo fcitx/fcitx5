@@ -21,7 +21,7 @@ namespace fcitx {
 class EventDispatcherPrivate {
 public:
     void dispatchEvent() {
-        std::queue<std::function<void()>> eventList;
+        std::queue<std::move_only_function<void()>> eventList;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             using std::swap;
@@ -36,7 +36,7 @@ public:
 
     // Mutex to be used to protect fields below.
     mutable std::mutex mutex_;
-    std::queue<std::function<void()>> eventList_;
+    std::queue<std::move_only_function<void()>> eventList_;
     std::unique_ptr<EventSourceAsync> asyncEvent_;
     EventLoop *loop_ = nullptr;
 };
@@ -64,6 +64,10 @@ void EventDispatcher::detach() {
 }
 
 void EventDispatcher::schedule(std::function<void()> functor) {
+    dispatch(std::move(functor));
+}
+
+void EventDispatcher::dispatch(std::move_only_function<void()> functor) {
     FCITX_D();
     std::lock_guard<std::mutex> lock(d->mutex_);
     // functor can be null and we will still trigger async event.

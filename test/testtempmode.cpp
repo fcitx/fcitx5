@@ -78,7 +78,7 @@ private:
 };
 
 void scheduleEvent(Instance *instance, TestTempMode *tempMode) {
-    instance->eventDispatcher().schedule([instance, tempMode]() {
+    instance->eventDispatcher().dispatch([instance, tempMode]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         auto *testim = instance->addonManager().addon("testim");
         FCITX_ASSERT(testfrontend);
