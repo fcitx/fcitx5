@@ -42,6 +42,15 @@ class InputPanel;
 class StatusArea;
 using InputContextVisitor = std::function<bool(InputContext *ic)>;
 
+/** Optional frontend contract for one-transaction surrounding replacement. */
+class FCITXCORE_EXPORT AtomicSurroundingTextInputContext {
+public:
+    virtual ~AtomicSurroundingTextInputContext();
+    virtual bool supportsAtomicSurroundingTextReplacement() const = 0;
+    virtual bool replaceSurroundingTextAtomically(
+        int offset, unsigned int size, const std::string &text) = 0;
+};
+
 /**
  * An input context represents a client of Fcitx. It can be a Window, or a text
  * field depending on the application.
