@@ -63,7 +63,7 @@ enum {
     FCITX_DBUS_OPEN_X11_CONNECTION,
 };
 
-int main(int argc, char *argv[]) {
+int runRemote(int argc, char *argv[]) {
     Bus bus(BusType::Session);
     Message message;
     if (!bus.isOpen()) {
@@ -270,4 +270,13 @@ int main(int argc, char *argv[]) {
 
     auto reply = message.call(defaultTimeout);
     return reply.isError() ? 1 : 0;
+}
+
+int main(int argc, char *argv[]) {
+    try {
+        return runRemote(argc, argv);
+    } catch (const std::exception &e) {
+        std::cerr << "Failed to connect to Fcitx: " << e.what() << std::endl;
+        return 1;
+    }
 }
