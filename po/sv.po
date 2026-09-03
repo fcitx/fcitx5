@@ -1,0 +1,3215 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the fcitx5 package.
+#
+# Translators:
+# Daniel Nylander <po@danielnylander.se>, 2026
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx5\n"
+"Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
+"POT-Creation-Date: 2026-09-03 20:24+0000\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>, 2026\n"
+"Language-Team: Swedish (https://app.transifex.com/fcitx/teams/12005/sv/)\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:30
+msgid "None"
+msgstr "Ingen"
+
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
+msgid "Alt"
+msgstr "Alt"
+
+#: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
+msgid "Control"
+msgstr "Control"
+
+#: src/im/keyboard/keyboard.h:46 src/modules/quickphrase/quickphrase.h:31
+msgid "Super"
+msgstr "Super"
+
+#: src/im/keyboard/keyboard.h:51
+msgid "Candidates per page"
+msgstr "Kandidater per sida"
+
+#: src/im/keyboard/keyboard.h:55
+msgid "Prev Candidate"
+msgstr "Föregående kandidat"
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Next Candidate"
+msgstr "Nästa kandidat"
+
+#: src/im/keyboard/keyboard.h:64
+msgid "Enable emoji in hint"
+msgstr "Aktivera emoji i tipset"
+
+#: src/im/keyboard/keyboard.h:67
+msgid "Enable emoji in quickphrase"
+msgstr "Aktivera emoji i snabbfraser"
+
+#: src/im/keyboard/keyboard.h:69 src/modules/quickphrase/quickphrase.h:43
+msgid "Choose key modifier"
+msgstr "Välj modifieringstangent"
+
+#: src/im/keyboard/keyboard.h:72
+msgid "Enable hint by default"
+msgstr "Aktivera tips som standard"
+
+#: src/im/keyboard/keyboard.h:75
+msgid "Trigger hint mode"
+msgstr "Aktivera tipsläge"
+
+#: src/im/keyboard/keyboard.h:80
+msgid "Trigger hint mode for one time"
+msgstr "Aktivera tipsläge en gång"
+
+#: src/im/keyboard/keyboard.h:86
+msgid "Use new compose behavior"
+msgstr "Använd nytt Compose-beteende"
+
+#: src/im/keyboard/keyboard.h:90
+msgid ""
+"Show preedit when composing, and commit dead key if there is no matching "
+"sequence."
+msgstr ""
+"Visa förredigering vid sammansättning och mata in den döda tangenten om "
+"ingen sekvens matchar."
+
+#: src/im/keyboard/keyboard.h:92 src/modules/spell/spell.conf.in.in:2
+msgid "Spell"
+msgstr "Stava"
+
+#: src/im/keyboard/keyboard.h:95
+msgid "Type special characters with long press"
+msgstr "Skriv specialtecken med långt tryck"
+
+#: src/im/keyboard/keyboard.h:101
+msgid "Applications disabled for long press"
+msgstr "Program där långt tryck är inaktiverat"
+
+#: src/im/keyboard/keyboard.h:104
+msgid "Long Press behavior"
+msgstr "Beteende för långt tryck"
+
+#: src/im/keyboard/longpress.h:20
+msgid "Key"
+msgstr "Tangent"
+
+#: src/im/keyboard/longpress.h:21
+msgid "Enable"
+msgstr "Aktivera"
+
+#: src/im/keyboard/longpress.h:23
+msgid "Candidates"
+msgstr "Kandidater"
+
+#: src/im/keyboard/longpress.h:30
+msgid "Entries"
+msgstr "Poster"
+
+#: src/im/keyboard/keyboard.cpp:264
+#, c++-format
+msgid "Keyboard - {0}"
+msgstr "Tangentbord – {0}"
+
+#: src/im/keyboard/keyboard.cpp:286
+#, c++-format
+msgid "Keyboard - {0} - {1}"
+msgstr "Tangentbord – {0} – {1}"
+
+#: src/im/keyboard/keyboard.cpp:325
+#, c++-format
+msgid "{0} (Not Available)"
+msgstr "{0} (inte tillgänglig)"
+
+#: src/im/keyboard/keyboard.cpp:348 src/im/keyboard/keyboard.conf.in.in:2
+msgid "Keyboard"
+msgstr "Tangentbord"
+
+#: src/im/keyboard/keyboard.cpp:711
+msgid ""
+"Only emoji support is found. To enable spell checking, you may need to "
+"install spell check data for the language."
+msgstr ""
+"Endast stöd för emoji hittades. För att aktivera stavningskontroll kan du "
+"behöva installera stavningsdata för språket."
+
+#: src/im/keyboard/keyboard.cpp:717
+msgid "Completion is disabled."
+msgstr "Komplettering är inaktiverad."
+
+#: src/im/keyboard/keyboard.cpp:720
+msgid "Completion is enabled temporarily."
+msgstr "Komplettering är tillfälligt aktiverad."
+
+#: src/im/keyboard/keyboard.cpp:722
+msgid "Completion is enabled."
+msgstr "Komplettering är aktiverad."
+
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:483
+#: src/lib/fcitx/instance.cpp:716 src/lib/fcitx/instance.cpp:894
+#: src/modules/notificationitem/notificationitem.cpp:115
+#: src/modules/notificationitem/notificationitem.cpp:128
+#: src/modules/notificationitem/notificationitem.cpp:286
+#: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
+msgid "Input Method"
+msgstr "Inmatningsmetod"
+
+#: src/im/keyboard/keyboard.cpp:726
+msgid "Completion"
+msgstr "Komplettering"
+
+#: src/ui/classic/theme.h:45
+msgid "Top Left"
+msgstr "Överst till vänster"
+
+#: src/ui/classic/theme.h:45
+msgid "Top Center"
+msgstr "Överst i mitten"
+
+#: src/ui/classic/theme.h:46
+msgid "Top Right"
+msgstr "Överst till höger"
+
+#: src/ui/classic/theme.h:46
+msgid "Center Left"
+msgstr "Vänster i mitten"
+
+#: src/ui/classic/theme.h:47 src/ui/classic/theme.h:59
+msgid "Center"
+msgstr "Mitten"
+
+#: src/ui/classic/theme.h:47
+msgid "Center Right"
+msgstr "Höger i mitten"
+
+#: src/ui/classic/theme.h:48
+msgid "Bottom Left"
+msgstr "Nederst till vänster"
+
+#: src/ui/classic/theme.h:48
+msgid "Bottom Center"
+msgstr "Nederst i mitten"
+
+#: src/ui/classic/theme.h:49
+msgid "Bottom Right"
+msgstr "Nederst till höger"
+
+#: src/ui/classic/theme.h:58
+msgid "Top"
+msgstr "Överst"
+
+#: src/ui/classic/theme.h:59
+msgid "First Candidate"
+msgstr "Första kandidaten"
+
+#: src/ui/classic/theme.h:60
+msgid "Last Candidate"
+msgstr "Sista kandidaten"
+
+#: src/ui/classic/theme.h:60
+msgid "Bottom"
+msgstr "Nederst"
+
+#: src/ui/classic/theme.h:75
+msgid "Input Panel Background"
+msgstr "Bakgrund för inmatningspanelen"
+
+#: src/ui/classic/theme.h:75
+msgid "Input Panel Border"
+msgstr "Kant för inmatningspanelen"
+
+#: src/ui/classic/theme.h:76
+msgid "Input Panel Highlight Candidate Background"
+msgstr "Bakgrund för markerad kandidat i inmatningspanelen"
+
+#: src/ui/classic/theme.h:77
+msgid "Input Panel Highlight Candidate Border"
+msgstr "Kant för markerad kandidat i inmatningspanelen"
+
+#: src/ui/classic/theme.h:77
+msgid "Input Panel Highlight"
+msgstr "Markering i inmatningspanelen"
+
+#: src/ui/classic/theme.h:78
+msgid "Menu Background"
+msgstr "Menybakgrund"
+
+#: src/ui/classic/theme.h:78
+msgid "Menu Border"
+msgstr "Menykanter"
+
+#: src/ui/classic/theme.h:79
+msgid "Menu Selected Item Background"
+msgstr "Bakgrund för markerat menyobjekt"
+
+#: src/ui/classic/theme.h:79
+msgid "Menu Selected Item Border"
+msgstr "Kant för markerat menyobjekt"
+
+#: src/ui/classic/theme.h:80
+msgid "Menu Separator"
+msgstr "Menyavgränsare"
+
+#: src/ui/classic/theme.h:84
+msgid "Margin Left"
+msgstr "Vänstermarginal"
+
+#: src/ui/classic/theme.h:86
+msgid "Margin Right"
+msgstr "Högermarginal"
+
+#: src/ui/classic/theme.h:88
+msgid "Margin Top"
+msgstr "Övermarginal"
+
+#: src/ui/classic/theme.h:90
+msgid "Margin Bottom"
+msgstr "Undermarginal"
+
+#: src/ui/classic/theme.h:95
+msgid "Background Image"
+msgstr "Bakgrundsbild"
+
+#: src/ui/classic/theme.h:99
+msgid "Color"
+msgstr "Färg"
+
+#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:111
+msgid "This option is only effective if image is not set."
+msgstr "Det här alternativet fungerar bara om ingen bild har angetts."
+
+#: src/ui/classic/theme.h:107
+msgid "Border Color"
+msgstr "Kantfärg"
+
+#: src/ui/classic/theme.h:115
+msgid "Border width"
+msgstr "Kantbredd"
+
+#: src/ui/classic/theme.h:119
+msgid "This value should be less than any of margin value."
+msgstr "Det här värdet ska vara mindre än varje marginalvärde."
+
+#: src/ui/classic/theme.h:120
+msgid "Overlay Image"
+msgstr "Överlagringsbild"
+
+#: src/ui/classic/theme.h:122
+msgid "Overlay position"
+msgstr "Överlagringsposition"
+
+#: src/ui/classic/theme.h:123
+msgid "Overlay X offset"
+msgstr "X-förskjutning för överlagring"
+
+#: src/ui/classic/theme.h:124
+msgid "Overlay Y offset"
+msgstr "Y-förskjutning för överlagring"
+
+#: src/ui/classic/theme.h:126
+msgid "Hide overlay if size does not fit"
+msgstr "Dölj överlagring om storleken inte passar"
+
+#: src/ui/classic/theme.h:128
+msgid "Margin"
+msgstr "Marginal"
+
+#: src/ui/classic/theme.h:130
+msgid "Overlay Clip Margin"
+msgstr "Klippmarginal för överlagring"
+
+#: src/ui/classic/theme.h:136
+msgid "Highlight Click Margin"
+msgstr "Klickmarginal för markering"
+
+#: src/ui/classic/theme.h:139
+msgid "Image"
+msgstr "Bild"
+
+#: src/ui/classic/theme.h:141
+msgid "Click Margin"
+msgstr "Klickmarginal"
+
+#: src/ui/classic/theme.h:145 src/ui/classic/theme.h:197
+msgid "Normal text color"
+msgstr "Färg för vanlig text"
+
+#: src/ui/classic/theme.h:148
+msgid "Highlight text color"
+msgstr "Färg för markerad text"
+
+#: src/ui/classic/theme.h:150
+msgid "Highlight Background color"
+msgstr "Bakgrundsfärg för markering"
+
+#: src/ui/classic/theme.h:153
+msgid "Highlight Candidate Text Color"
+msgstr "Textfärg för markerad kandidat"
+
+#: src/ui/classic/theme.h:156
+msgid "Candidate Label Text Size Factor"
+msgstr "Faktor för kandidatetikettens textstorlek"
+
+#: src/ui/classic/theme.h:159
+msgid "Candidate Label Text Color"
+msgstr "Textfärg för kandidatetikett"
+
+#: src/ui/classic/theme.h:162
+msgid "Highlight Candidate Label Text Color"
+msgstr "Textfärg för markerad kandidatetikett"
+
+#: src/ui/classic/theme.h:164
+msgid "Candidate Comment Text Size Factor"
+msgstr "Faktor för kandidatkommentarens textstorlek"
+
+#: src/ui/classic/theme.h:167
+msgid "Candidate Comment Text Color"
+msgstr "Textfärg för kandidatkommentar"
+
+#: src/ui/classic/theme.h:170
+msgid "Highlight Candidate Comment Text Color"
+msgstr "Textfärg för markerad kandidatkommentar"
+
+#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:203
+msgid "Enable Blur on KWin"
+msgstr "Aktivera oskärpa i KWin"
+
+#: src/ui/classic/theme.h:173 src/ui/classic/theme.h:205
+msgid "Blur mask"
+msgstr "Oskärpemask"
+
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+msgid "Blur Margin"
+msgstr "Oskärpemarginal"
+
+#: src/ui/classic/theme.h:177
+msgid "Use all horizontal space for highlight when it is vertical list"
+msgstr "Använd hela den horisontella ytan för markering i en lodrät lista"
+
+#: src/ui/classic/theme.h:181
+msgid "Page button vertical alignment"
+msgstr "Lodrät justering av sidknapp"
+
+#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+msgid "Background"
+msgstr "Bakgrund"
+
+#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+msgid "Highlight Background"
+msgstr "Markeringsbakgrund"
+
+#: src/ui/classic/theme.h:188 src/ui/classic/theme.h:216
+msgid "Margin around all content"
+msgstr "Marginal runt allt innehåll"
+
+#: src/ui/classic/theme.h:190 src/ui/classic/theme.h:218
+msgid "Margin around text"
+msgstr "Marginal runt text"
+
+#: src/ui/classic/theme.h:191
+msgid "Prev Page Button"
+msgstr "Knapp för föregående sida"
+
+#: src/ui/classic/theme.h:192
+msgid "Next Page Button"
+msgstr "Knapp för nästa sida"
+
+#: src/ui/classic/theme.h:194
+msgid "Shadow Margin"
+msgstr "Skuggmarginal"
+
+#: src/ui/classic/theme.h:200
+msgid "Selected Item text color"
+msgstr "Textfärg för valt objekt"
+
+#: src/ui/classic/theme.h:202
+msgid "Spacing"
+msgstr "Mellanrum"
+
+#: src/ui/classic/theme.h:212
+msgid "Separator Background"
+msgstr "Avgränsarens bakgrund"
+
+#: src/ui/classic/theme.h:213
+msgid "Check box"
+msgstr "Kryssruta"
+
+#: src/ui/classic/theme.h:214
+msgid "Sub Menu"
+msgstr "Undermeny"
+
+#: src/ui/classic/theme.h:221
+msgid "Name"
+msgstr "Namn"
+
+#: src/ui/classic/theme.h:222
+msgid "Version"
+msgstr "Version"
+
+#: src/ui/classic/theme.h:223
+msgid "Author"
+msgstr "Upphovsperson"
+
+#: src/ui/classic/theme.h:225
+msgid "Description"
+msgstr "Beskrivning"
+
+#: src/ui/classic/theme.h:229
+msgid "Metadata"
+msgstr "Metadata"
+
+#: src/ui/classic/theme.h:231
+msgid "Input Panel"
+msgstr "Inmatningspanel"
+
+#: src/ui/classic/theme.h:232
+msgid "Menu"
+msgstr "Meny"
+
+#: src/ui/classic/theme.h:234
+msgid "Accent Colors"
+msgstr "Accentfärger"
+
+#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/modules/notificationitem/dbusmenu.cpp:244
+msgid "Group"
+msgstr "Grupp"
+
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:254
+msgid "Input Method Settings"
+msgstr "Inställningar för inmatningsmetod"
+
+#: src/ui/classic/xcbtraywindow.cpp:56
+#: src/modules/notificationitem/dbusmenu.cpp:262
+msgid "Restart"
+msgstr "Starta om"
+
+#: src/ui/classic/xcbtraywindow.cpp:57
+#: src/modules/notificationitem/dbusmenu.cpp:268
+msgid "Exit"
+msgstr "Avsluta"
+
+#: src/ui/classic/classicui.h:108
+msgid "This is only effective when the tray icon is xembed."
+msgstr "Det här fungerar bara när systemfältsikonen använder xembed."
+
+#: src/ui/classic/classicui.h:121
+msgid "Vertical Candidate List"
+msgstr "Lodrät kandidatlista"
+
+#: src/ui/classic/classicui.h:123
+msgid "Use mouse wheel to go to prev or next page"
+msgstr "Använd mushjulet för att gå till föregående eller nästa sida"
+
+#: src/ui/classic/classicui.h:127
+msgid "Font"
+msgstr "Typsnitt"
+
+#: src/ui/classic/classicui.h:129
+msgid "Menu Font"
+msgstr "Menytypsnitt"
+
+#: src/ui/classic/classicui.h:131
+msgid "Tray Font"
+msgstr "Typsnitt för systemfält"
+
+#: src/ui/classic/classicui.h:133
+msgid "Tray Label Outline Color"
+msgstr "Konturfärg för systemfältsetikett"
+
+#: src/ui/classic/classicui.h:136
+msgid "Tray Label Text Color"
+msgstr "Textfärg för systemfältsetikett"
+
+#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+msgid "Prefer Text Icon"
+msgstr "Föredra textikon"
+
+#: src/ui/classic/classicui.h:142
+msgid "Show Layout Name In Icon"
+msgstr "Visa layoutnamn i ikonen"
+
+#: src/ui/classic/classicui.h:146
+msgid ""
+"Show layout name in icon if there is more than one active layout. If prefer "
+"text icon is set to true, this option will be ignored."
+msgstr ""
+"Visa layoutnamnet i ikonen om fler än en layout är aktiv. Om Föredra "
+"textikon är aktiverat ignoreras det här alternativet."
+
+#: src/ui/classic/classicui.h:153
+msgid "Use input method language to display text"
+msgstr "Använd inmatningsmetodens språk för att visa text"
+
+#: src/ui/classic/classicui.h:157
+msgid ""
+"For example, display character with Chinese variant when using Pinyin and "
+"Japanese variant when using Anthy. The font configuration needs to support "
+"this to use this feature."
+msgstr ""
+"Visa till exempel ett tecken med kinesisk variant när Pinyin används och "
+"japansk variant när Anthy används. Typsnittsinställningarna måste ha stöd "
+"för detta för att funktionen ska kunna användas."
+
+#: src/ui/classic/classicui.h:162
+msgid "Theme"
+msgstr "Tema"
+
+#: src/ui/classic/classicui.h:165
+msgid "Dark Theme"
+msgstr "Mörkt tema"
+
+#: src/ui/classic/classicui.h:167
+msgid "Follow system light/dark color scheme"
+msgstr "Följ systemets ljusa/mörka färgschema"
+
+#: src/ui/classic/classicui.h:171
+msgid "Follow system accent color if it is supported by theme and desktop"
+msgstr "Följ systemets accentfärg om temat och skrivbordet har stöd för det"
+
+#: src/ui/classic/classicui.h:176
+msgid "Use Per Screen DPI on X11"
+msgstr "Använd DPI per skärm på X11"
+
+#: src/ui/classic/classicui.h:180
+msgid "This option will be always disabled on XWayland."
+msgstr "Det här alternativet är alltid inaktiverat på XWayland."
+
+#: src/ui/classic/classicui.h:185
+msgid "Force font DPI on Wayland"
+msgstr "Tvinga typsnitts-DPI på Wayland"
+
+#: src/ui/classic/classicui.h:189
+msgid ""
+"Normally Wayland uses 96 as font DPI in combination with the screen scale "
+"factor. This option allows you to override the font DPI. If the value is 0, "
+"it means this option is disabled."
+msgstr ""
+"Normalt använder Wayland 96 som typsnitts-DPI tillsammans med skärmens "
+"skalfaktor. Med det här alternativet kan du åsidosätta typsnitts-DPI. Värdet "
+"0 innebär att alternativet är inaktiverat."
+
+#: src/ui/classic/classicui.h:197
+msgid "Enable fractional scale under Wayland"
+msgstr "Aktivera fraktionell skalning i Wayland"
+
+#: src/ui/classic/classicui.h:201
+msgid "This option require support from wayland compositor."
+msgstr "Det här alternativet kräver stöd från Wayland-kompositorn."
+
+#: src/ui/classic/classicui.cpp:303
+msgid "KDE Plasma (Experimental)"
+msgstr "KDE Plasma (experimentellt)"
+
+#: src/ui/kimpanel/kimpanel.cpp:438
+msgid "Not available"
+msgstr "Inte tillgänglig"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:392
+#: src/ui/classic/themes/default/theme.conf.in:2
+msgid "Default"
+msgstr "Standard"
+
+#: src/lib/fcitx/instance.cpp:394
+#, c++-format
+msgid "Group {}"
+msgstr "Grupp {}"
+
+#: src/lib/fcitx/instance.cpp:440
+#, c++-format
+msgid "{0} ({1})"
+msgstr "{0} ({1})"
+
+#: src/lib/fcitx/instance.cpp:443
+#, c++-format
+msgid "{0} (Not available)"
+msgstr "{0} (inte tillgänglig)"
+
+#: src/lib/fcitx/instance.cpp:445
+msgid "(Not available)"
+msgstr "(inte tillgänglig)"
+
+#: src/lib/fcitx/instance.cpp:449
+#, c++-format
+msgid "Group {0}: {1}"
+msgstr "Grupp {0}: {1}"
+
+#: src/lib/fcitx/instance.cpp:484 src/lib/fcitx/instance.cpp:717
+#: src/modules/xcb/xcbconnection.cpp:564
+msgid "Switch group"
+msgstr "Byt grupp"
+
+#: src/lib/fcitx/instance.cpp:485 src/modules/xcb/xcbconnection.cpp:565
+#, c++-format
+msgid "Switch group to {0}"
+msgstr "Byt grupp till {0}"
+
+#: src/lib/fcitx/instance.cpp:718
+#, c++-format
+msgid "Switched group to {0}"
+msgstr "Bytte grupp till {0}"
+
+#: src/lib/fcitx/instance.cpp:894
+msgid "Preedit"
+msgstr "Förredigering"
+
+#: src/lib/fcitx/instance.cpp:895
+msgid "Preedit enabled"
+msgstr "Förredigering aktiverad"
+
+#: src/lib/fcitx/instance.cpp:896
+msgid "Preedit disabled"
+msgstr "Förredigering inaktiverad"
+
+#: src/lib/fcitx/globalconfig.cpp:36
+msgid "All"
+msgstr "Alla"
+
+#: src/lib/fcitx/globalconfig.cpp:37
+msgid "Program"
+msgstr "Program"
+
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
+msgid "No"
+msgstr "Nej"
+
+#: src/lib/fcitx/globalconfig.cpp:44
+msgid "Toggle Input Method"
+msgstr "Växla inmatningsmetod"
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate when holding modifier of Toggle key"
+msgstr ""
+"Bläddra när modifieringstangenten för växlingstangenten hålls nedtryckt"
+
+#: src/lib/fcitx/globalconfig.cpp:55
+msgid ""
+"For example, if Control+Space is the toggle key, after pressing "
+"Control+Space for the first time, if Control is held, following key press of "
+"Space will enumerate the input method."
+msgstr ""
+"Om Control+Blanksteg är växlingstangenten kan inmatningsmetoden bläddras när "
+"du efter första trycket på Control+Blanksteg håller ned Control och trycker "
+"på Blanksteg igen."
+
+#: src/lib/fcitx/globalconfig.cpp:62
+msgid "Activate Input Method"
+msgstr "Aktivera inmatningsmetod"
+
+#: src/lib/fcitx/globalconfig.cpp:71
+msgid "Deactivate Input Method"
+msgstr "Inaktivera inmatningsmetod"
+
+#: src/lib/fcitx/globalconfig.cpp:78
+msgid "Temporarily Toggle Input Method"
+msgstr "Växla inmatningsmetod tillfälligt"
+
+#: src/lib/fcitx/globalconfig.cpp:83
+msgid ""
+"This key can only be used if current state is active, or is deactivated with "
+"this key. For example, you have two input methods: English as the inactive "
+"state, Pinyin as the active state. It can be used to switch from Pinyin back "
+"to English, and switch back to Pinyin again afterwards. If the initial state "
+"is English will do nothing. This key can be configured to be some simple "
+"single modifier key like Shift, so it can be used with just a single key "
+"press, but won't be triggered by accident if you never activate input method."
+msgstr ""
+"Den här tangenten kan bara användas om det aktuella tillståndet är aktivt "
+"eller inaktiveras med tangenten. Om du till exempel har två "
+"inmatningsmetoder, engelska som inaktivt tillstånd och Pinyin som aktivt "
+"tillstånd, kan den användas för att växla från Pinyin tillbaka till engelska "
+"och sedan tillbaka till Pinyin. Om ursprungstillståndet är engelska händer "
+"inget. Tangenten kan konfigureras som en enkel modifieringstangent, "
+"exempelvis Skift, så att den används med ett enda tangenttryck utan att "
+"utlösas av misstag om inmatningsmetoden aldrig aktiveras."
+
+#: src/lib/fcitx/globalconfig.cpp:95
+msgid "Enumerate Input Method Forward"
+msgstr "Bläddra framåt bland inmatningsmetoder"
+
+#: src/lib/fcitx/globalconfig.cpp:102
+msgid "Enumerate Input Method Backward"
+msgstr "Bläddra bakåt bland inmatningsmetoder"
+
+#: src/lib/fcitx/globalconfig.cpp:108
+msgid "Skip first input method while enumerating"
+msgstr "Hoppa över den första inmatningsmetoden vid bläddring"
+
+#: src/lib/fcitx/globalconfig.cpp:112
+msgid "Enumerate Input Method Group Forward"
+msgstr "Bläddra framåt bland grupper av inmatningsmetoder"
+
+#: src/lib/fcitx/globalconfig.cpp:119
+msgid "Enumerate Input Method Group Backward"
+msgstr "Bläddra bakåt bland grupper av inmatningsmetoder"
+
+#: src/lib/fcitx/globalconfig.cpp:128
+msgid "Fallback Previous page"
+msgstr "Reserv: föregående sida"
+
+#: src/lib/fcitx/globalconfig.cpp:131 src/lib/fcitx/globalconfig.cpp:144
+msgid ""
+"Input methods may have different setup in their own configuration. This is "
+"commonly used by modules like clipboard or quickphrase."
+msgstr ""
+"Inmatningsmetoder kan ha olika inställningar i sin egen konfiguration. Detta "
+"används ofta av moduler som urklipp och snabbfraser."
+
+#: src/lib/fcitx/globalconfig.cpp:140
+msgid "Fallback Next page"
+msgstr "Reserv: nästa sida"
+
+#: src/lib/fcitx/globalconfig.cpp:150
+msgid "Fallback Previous Candidate"
+msgstr "Reserv: föregående kandidat"
+
+#: src/lib/fcitx/globalconfig.cpp:156
+msgid "Fallback Next Candidate"
+msgstr "Reserv: nästa kandidat"
+
+#: src/lib/fcitx/globalconfig.cpp:161
+msgid "Toggle embedded preedit"
+msgstr "Växla inbäddad förredigering"
+
+#: src/lib/fcitx/globalconfig.cpp:168
+msgid "Time limit in milliseconds for triggering modifier key shortcuts"
+msgstr ""
+"Tidsgräns i millisekunder för att utlösa genvägar med modifieringstangenter"
+
+#: src/lib/fcitx/globalconfig.cpp:174
+msgid ""
+"When using modifier only hotkey, the action may only be triggered if the "
+"modifier key is released within the timeout. -1 means there is no limit."
+msgstr ""
+"När en snabbtangent endast använder en modifieringstangent kan åtgärden "
+"utlösas bara om modifieringstangenten släpps inom tidsgränsen. -1 innebär "
+"att det inte finns någon gräns."
+
+#: src/lib/fcitx/globalconfig.cpp:181
+msgid "Activate input method by default"
+msgstr "Aktivera inmatningsmetod som standard"
+
+#: src/lib/fcitx/globalconfig.cpp:185
+msgid "Reset state on Focus In"
+msgstr "Återställ tillstånd när fokus tas emot"
+
+#: src/lib/fcitx/globalconfig.cpp:189
+msgid "Share Input State"
+msgstr "Dela inmatningstillstånd"
+
+#: src/lib/fcitx/globalconfig.cpp:193
+msgid "Show preedit in application"
+msgstr "Visa förredigering i programmet"
+
+#: src/lib/fcitx/globalconfig.cpp:197
+msgid "Show Input Method Information when switch input method"
+msgstr "Visa information om inmatningsmetoden vid byte av inmatningsmetod"
+
+#: src/lib/fcitx/globalconfig.cpp:200
+msgid "Show Input Method Information when changing focus"
+msgstr "Visa information om inmatningsmetoden när fokus ändras"
+
+#: src/lib/fcitx/globalconfig.cpp:203
+msgid "Show compact input method information"
+msgstr "Visa kompakt information om inmatningsmetoden"
+
+#: src/lib/fcitx/globalconfig.cpp:206
+msgid "Show first input method information"
+msgstr "Visa information om den första inmatningsmetoden"
+
+#: src/lib/fcitx/globalconfig.cpp:208
+msgid "Default Candidates per page"
+msgstr "Standardantal kandidater per sida"
+
+#: src/lib/fcitx/globalconfig.cpp:215
+msgid "Override XKB Option"
+msgstr "Åsidosätt XKB-alternativ"
+
+#: src/lib/fcitx/globalconfig.cpp:219
+msgid ""
+"Override the XKB option from display server. It will not affect the XKB "
+"option send to display, but just the XKB options for custom XKB layout. This "
+"is a workaround when there is no way to get the current XKB option from "
+"Wayland Compositor."
+msgstr ""
+"Åsidosätt XKB-alternativet från bildskärmsservern. Det påverkar inte XKB-"
+"alternativet som skickas till bildskärmen, utan bara XKB-alternativen för "
+"den anpassade XKB-layouten. Detta är en reservlösning när det inte går att "
+"hämta aktuellt XKB-alternativ från Wayland-kompositorn."
+
+#: src/lib/fcitx/globalconfig.cpp:225
+msgid "Custom XKB Option"
+msgstr "Anpassat XKB-alternativ"
+
+#: src/lib/fcitx/globalconfig.cpp:235
+msgid "Allow input method in the password field"
+msgstr "Tillåt inmatningsmetod i lösenordsfältet"
+
+#: src/lib/fcitx/globalconfig.cpp:238
+msgid "Show preedit text when typing password"
+msgstr "Visa förredigeringstext när lösenord skrivs"
+
+#: src/lib/fcitx/globalconfig.cpp:242
+msgid "Interval of saving user data in minutes"
+msgstr "Intervall för att spara användardata i minuter"
+
+#: src/lib/fcitx/globalconfig.cpp:246
+msgid ""
+"If value is 0, the user data may only be saved when fcitx quits (e.g. "
+"logout)."
+msgstr ""
+"Om värdet är 0 kan användardata bara sparas när Fcitx avslutas, exempelvis "
+"vid utloggning."
+
+#: src/lib/fcitx/globalconfig.cpp:250
+msgid "Hotkey"
+msgstr "Snabbtangent"
+
+#: src/lib/fcitx/globalconfig.cpp:252
+msgid "Behavior"
+msgstr "Beteende"
+
+#: src/lib/fcitx-utils/key.cpp:39
+msgctxt "Key name"
+msgid "Left Alt"
+msgstr "Vänster Alt"
+
+#: src/lib/fcitx-utils/key.cpp:40
+msgctxt "Key name"
+msgid "Right Alt"
+msgstr "Höger Alt"
+
+#: src/lib/fcitx-utils/key.cpp:41
+msgctxt "Key name"
+msgid "Left Shift"
+msgstr "Vänster Skift"
+
+#: src/lib/fcitx-utils/key.cpp:42
+msgctxt "Key name"
+msgid "Right Shift"
+msgstr "Höger Skift"
+
+#: src/lib/fcitx-utils/key.cpp:43
+msgctxt "Key name"
+msgid "Left Control"
+msgstr "Vänster Control"
+
+#: src/lib/fcitx-utils/key.cpp:44
+msgctxt "Key name"
+msgid "Right Control"
+msgstr "Höger Control"
+
+#: src/lib/fcitx-utils/key.cpp:45
+msgctxt "Key name"
+msgid "Left Super"
+msgstr "Vänster Super"
+
+#: src/lib/fcitx-utils/key.cpp:46
+msgctxt "Key name"
+msgid "Right Super"
+msgstr "Höger Super"
+
+#: src/lib/fcitx-utils/key.cpp:47
+msgctxt "Key name"
+msgid "Left Hyper"
+msgstr "Vänster Hyper"
+
+#: src/lib/fcitx-utils/key.cpp:48
+msgctxt "Key name"
+msgid "Right Hyper"
+msgstr "Höger Hyper"
+
+#: src/lib/fcitx-utils/key.cpp:49
+msgctxt "Key name"
+msgid "Space"
+msgstr "Mellanslag"
+
+#: src/lib/fcitx-utils/key.cpp:50
+msgctxt "Key name"
+msgid "Tab"
+msgstr "Tabb"
+
+#: src/lib/fcitx-utils/key.cpp:51
+msgctxt "Key name"
+msgid "Backspace"
+msgstr "Backsteg"
+
+#: src/lib/fcitx-utils/key.cpp:52
+msgctxt "Key name"
+msgid "Return"
+msgstr "Retur"
+
+#: src/lib/fcitx-utils/key.cpp:53
+msgctxt "Key name"
+msgid "Pause"
+msgstr "Paus"
+
+#: src/lib/fcitx-utils/key.cpp:54
+msgctxt "Key name"
+msgid "Home"
+msgstr "Home"
+
+#: src/lib/fcitx-utils/key.cpp:55
+msgctxt "Key name"
+msgid "End"
+msgstr "End"
+
+#: src/lib/fcitx-utils/key.cpp:56
+msgctxt "Key name"
+msgid "Left"
+msgstr "Vänster"
+
+#: src/lib/fcitx-utils/key.cpp:57
+msgctxt "Key name"
+msgid "Up"
+msgstr "Upp"
+
+#: src/lib/fcitx-utils/key.cpp:58
+msgctxt "Key name"
+msgid "Right"
+msgstr "Höger"
+
+#: src/lib/fcitx-utils/key.cpp:59
+msgctxt "Key name"
+msgid "Down"
+msgstr "Ned"
+
+#: src/lib/fcitx-utils/key.cpp:60
+msgctxt "Key name"
+msgid "Page Up"
+msgstr "Sida upp"
+
+#: src/lib/fcitx-utils/key.cpp:61
+msgctxt "Key name"
+msgid "Page Down"
+msgstr "Sida ned"
+
+#: src/lib/fcitx-utils/key.cpp:62
+msgctxt "Key name"
+msgid "CapsLock"
+msgstr "Caps Lock"
+
+#: src/lib/fcitx-utils/key.cpp:63
+msgctxt "Key name"
+msgid "NumLock"
+msgstr "Num Lock"
+
+#: src/lib/fcitx-utils/key.cpp:64
+msgctxt "Key name"
+msgid "Keypad Space"
+msgstr "Numeriskt tangentbord: mellanslag"
+
+#: src/lib/fcitx-utils/key.cpp:65
+msgctxt "Key name"
+msgid "Keypad Tab"
+msgstr "Numeriskt tangentbord: tabb"
+
+#: src/lib/fcitx-utils/key.cpp:66
+msgctxt "Key name"
+msgid "Keypad Enter"
+msgstr "Numeriskt tangentbord: Retur"
+
+#: src/lib/fcitx-utils/key.cpp:67
+msgctxt "Key name"
+msgid "Keypad F1"
+msgstr "Numeriskt tangentbord: F1"
+
+#: src/lib/fcitx-utils/key.cpp:68
+msgctxt "Key name"
+msgid "Keypad F2"
+msgstr "Numeriskt tangentbord: F2"
+
+#: src/lib/fcitx-utils/key.cpp:69
+msgctxt "Key name"
+msgid "Keypad F3"
+msgstr "Numeriskt tangentbord: F3"
+
+#: src/lib/fcitx-utils/key.cpp:70
+msgctxt "Key name"
+msgid "Keypad F4"
+msgstr "Numeriskt tangentbord: F4"
+
+#: src/lib/fcitx-utils/key.cpp:71
+msgctxt "Key name"
+msgid "Keypad Home"
+msgstr "Numeriskt tangentbord: Home"
+
+#: src/lib/fcitx-utils/key.cpp:72
+msgctxt "Key name"
+msgid "Keypad Left"
+msgstr "Numeriskt tangentbord: vänster"
+
+#: src/lib/fcitx-utils/key.cpp:73
+msgctxt "Key name"
+msgid "Keypad Up"
+msgstr "Numeriskt tangentbord: upp"
+
+#: src/lib/fcitx-utils/key.cpp:74
+msgctxt "Key name"
+msgid "Keypad Right"
+msgstr "Numeriskt tangentbord: höger"
+
+#: src/lib/fcitx-utils/key.cpp:75
+msgctxt "Key name"
+msgid "Keypad Down"
+msgstr "Numeriskt tangentbord: ned"
+
+#: src/lib/fcitx-utils/key.cpp:76
+msgctxt "Key name"
+msgid "Keypad Page Up"
+msgstr "Numeriskt tangentbord: sida upp"
+
+#: src/lib/fcitx-utils/key.cpp:77
+msgctxt "Key name"
+msgid "Keypad Page Down"
+msgstr "Numeriskt tangentbord: sida ned"
+
+#: src/lib/fcitx-utils/key.cpp:78
+msgctxt "Key name"
+msgid "Keypad End"
+msgstr "Numeriskt tangentbord: End"
+
+#: src/lib/fcitx-utils/key.cpp:79
+msgctxt "Key name"
+msgid "Keypad Begin"
+msgstr "Numeriskt tangentbord: Begin"
+
+#: src/lib/fcitx-utils/key.cpp:80
+msgctxt "Key name"
+msgid "Keypad Insert"
+msgstr "Numeriskt tangentbord: Insert"
+
+#: src/lib/fcitx-utils/key.cpp:81
+msgctxt "Key name"
+msgid "Keypad Delete"
+msgstr "Numeriskt tangentbord: Delete"
+
+#: src/lib/fcitx-utils/key.cpp:82
+msgctxt "Key name"
+msgid "Keypad ="
+msgstr "Numeriskt tangentbord: ="
+
+#: src/lib/fcitx-utils/key.cpp:83
+msgctxt "Key name"
+msgid "Keypad *"
+msgstr "Numeriskt tangentbord: *"
+
+#: src/lib/fcitx-utils/key.cpp:84
+msgctxt "Key name"
+msgid "Keypad +"
+msgstr "Numeriskt tangentbord: +"
+
+#: src/lib/fcitx-utils/key.cpp:85
+msgctxt "Key name"
+msgid "Keypad ,"
+msgstr "Numeriskt tangentbord: ,"
+
+#: src/lib/fcitx-utils/key.cpp:86
+msgctxt "Key name"
+msgid "Keypad -"
+msgstr "Numeriskt tangentbord: -"
+
+#: src/lib/fcitx-utils/key.cpp:87
+msgctxt "Key name"
+msgid "Keypad ."
+msgstr "Numeriskt tangentbord: ."
+
+#: src/lib/fcitx-utils/key.cpp:88
+msgctxt "Key name"
+msgid "Keypad /"
+msgstr "Numeriskt tangentbord: /"
+
+#: src/lib/fcitx-utils/key.cpp:89
+msgctxt "Key name"
+msgid "Keypad 0"
+msgstr "Numeriskt tangentbord: 0"
+
+#: src/lib/fcitx-utils/key.cpp:90
+msgctxt "Key name"
+msgid "Keypad 1"
+msgstr "Numeriskt tangentbord: 1"
+
+#: src/lib/fcitx-utils/key.cpp:91
+msgctxt "Key name"
+msgid "Keypad 2"
+msgstr "Numeriskt tangentbord: 2"
+
+#: src/lib/fcitx-utils/key.cpp:92
+msgctxt "Key name"
+msgid "Keypad 3"
+msgstr "Numeriskt tangentbord: 3"
+
+#: src/lib/fcitx-utils/key.cpp:93
+msgctxt "Key name"
+msgid "Keypad 4"
+msgstr "Numeriskt tangentbord: 4"
+
+#: src/lib/fcitx-utils/key.cpp:94
+msgctxt "Key name"
+msgid "Keypad 5"
+msgstr "Numeriskt tangentbord: 5"
+
+#: src/lib/fcitx-utils/key.cpp:95
+msgctxt "Key name"
+msgid "Keypad 6"
+msgstr "Numeriskt tangentbord: 6"
+
+#: src/lib/fcitx-utils/key.cpp:96
+msgctxt "Key name"
+msgid "Keypad 7"
+msgstr "Numeriskt tangentbord: 7"
+
+#: src/lib/fcitx-utils/key.cpp:97
+msgctxt "Key name"
+msgid "Keypad 8"
+msgstr "Numeriskt tangentbord: 8"
+
+#: src/lib/fcitx-utils/key.cpp:98
+msgctxt "Key name"
+msgid "Keypad 9"
+msgstr "Numeriskt tangentbord: 9"
+
+#: src/lib/fcitx-utils/key.cpp:99
+msgctxt "Key name"
+msgid "ScrollLock"
+msgstr "Scroll Lock"
+
+#: src/lib/fcitx-utils/key.cpp:100
+msgctxt "Key name"
+msgid "Menu"
+msgstr "Meny"
+
+#: src/lib/fcitx-utils/key.cpp:101
+msgctxt "Key name"
+msgid "Help"
+msgstr "Hjälp"
+
+#: src/lib/fcitx-utils/key.cpp:102
+msgctxt "Key name"
+msgid "Back"
+msgstr "Bakåt"
+
+#: src/lib/fcitx-utils/key.cpp:103
+msgctxt "Key name"
+msgid "Forward"
+msgstr "Framåt"
+
+#: src/lib/fcitx-utils/key.cpp:104
+msgctxt "Key name"
+msgid "Stop"
+msgstr "Stoppa"
+
+#: src/lib/fcitx-utils/key.cpp:105
+msgctxt "Key name"
+msgid "Refresh"
+msgstr "Uppdatera"
+
+#: src/lib/fcitx-utils/key.cpp:106
+msgctxt "Key name"
+msgid "Volume Down"
+msgstr "Sänk volymen"
+
+#: src/lib/fcitx-utils/key.cpp:107
+msgctxt "Key name"
+msgid "Volume Mute"
+msgstr "Tysta volymen"
+
+#: src/lib/fcitx-utils/key.cpp:108
+msgctxt "Key name"
+msgid "Volume Up"
+msgstr "Höj volymen"
+
+#: src/lib/fcitx-utils/key.cpp:109
+msgctxt "Key name"
+msgid "Media Play"
+msgstr "Spela upp media"
+
+#: src/lib/fcitx-utils/key.cpp:110
+msgctxt "Key name"
+msgid "Media Stop"
+msgstr "Stoppa media"
+
+#: src/lib/fcitx-utils/key.cpp:111
+msgctxt "Key name"
+msgid "Media Previous"
+msgstr "Föregående media"
+
+#: src/lib/fcitx-utils/key.cpp:112
+msgctxt "Key name"
+msgid "Media Next"
+msgstr "Nästa media"
+
+#: src/lib/fcitx-utils/key.cpp:113
+msgctxt "Key name"
+msgid "Media Record"
+msgstr "Spela in media"
+
+#: src/lib/fcitx-utils/key.cpp:114
+msgctxt "Key name"
+msgid "Media Pause"
+msgstr "Pausa media"
+
+#: src/lib/fcitx-utils/key.cpp:115
+msgctxt "Key name"
+msgid "Home Page"
+msgstr "Hemsida"
+
+#: src/lib/fcitx-utils/key.cpp:116
+msgctxt "Key name"
+msgid "Favorites"
+msgstr "Favoriter"
+
+#: src/lib/fcitx-utils/key.cpp:117
+msgctxt "Key name"
+msgid "Search"
+msgstr "Sök"
+
+#: src/lib/fcitx-utils/key.cpp:118
+msgctxt "Key name"
+msgid "Standby"
+msgstr "Viloläge"
+
+#: src/lib/fcitx-utils/key.cpp:119
+msgctxt "Key name"
+msgid "Open URL"
+msgstr "Öppna URL"
+
+#: src/lib/fcitx-utils/key.cpp:120
+msgctxt "Key name"
+msgid "Launch Mail"
+msgstr "Starta e-post"
+
+#: src/lib/fcitx-utils/key.cpp:121
+msgctxt "Key name"
+msgid "Launch (0)"
+msgstr "Starta (0)"
+
+#: src/lib/fcitx-utils/key.cpp:122
+msgctxt "Key name"
+msgid "Launch (1)"
+msgstr "Starta (1)"
+
+#: src/lib/fcitx-utils/key.cpp:123
+msgctxt "Key name"
+msgid "Launch (2)"
+msgstr "Starta (2)"
+
+#: src/lib/fcitx-utils/key.cpp:124
+msgctxt "Key name"
+msgid "Launch (3)"
+msgstr "Starta (3)"
+
+#: src/lib/fcitx-utils/key.cpp:125
+msgctxt "Key name"
+msgid "Launch (4)"
+msgstr "Starta (4)"
+
+#: src/lib/fcitx-utils/key.cpp:126
+msgctxt "Key name"
+msgid "Launch (5)"
+msgstr "Starta (5)"
+
+#: src/lib/fcitx-utils/key.cpp:127
+msgctxt "Key name"
+msgid "Launch (6)"
+msgstr "Starta (6)"
+
+#: src/lib/fcitx-utils/key.cpp:128
+msgctxt "Key name"
+msgid "Launch (7)"
+msgstr "Starta (7)"
+
+#: src/lib/fcitx-utils/key.cpp:129
+msgctxt "Key name"
+msgid "Launch (8)"
+msgstr "Starta (8)"
+
+#: src/lib/fcitx-utils/key.cpp:130
+msgctxt "Key name"
+msgid "Launch (9)"
+msgstr "Starta (9)"
+
+#: src/lib/fcitx-utils/key.cpp:131
+msgctxt "Key name"
+msgid "Launch (A)"
+msgstr "Starta (A)"
+
+#: src/lib/fcitx-utils/key.cpp:132
+msgctxt "Key name"
+msgid "Launch (B)"
+msgstr "Starta (B)"
+
+#: src/lib/fcitx-utils/key.cpp:133
+msgctxt "Key name"
+msgid "Launch (C)"
+msgstr "Starta (C)"
+
+#: src/lib/fcitx-utils/key.cpp:134
+msgctxt "Key name"
+msgid "Launch (D)"
+msgstr "Starta (D)"
+
+#: src/lib/fcitx-utils/key.cpp:135
+msgctxt "Key name"
+msgid "Launch (E)"
+msgstr "Starta (E)"
+
+#: src/lib/fcitx-utils/key.cpp:136
+msgctxt "Key name"
+msgid "Launch (F)"
+msgstr "Starta (F)"
+
+#: src/lib/fcitx-utils/key.cpp:137
+msgctxt "Key name"
+msgid "Monitor Brightness Up"
+msgstr "Öka bildskärmens ljusstyrka"
+
+#: src/lib/fcitx-utils/key.cpp:139
+msgctxt "Key name"
+msgid "Monitor Brightness Down"
+msgstr "Minska bildskärmens ljusstyrka"
+
+#: src/lib/fcitx-utils/key.cpp:140
+msgctxt "Key name"
+msgid "Keyboard Light On/Off"
+msgstr "Slå på/av tangentbordsbelysning"
+
+#: src/lib/fcitx-utils/key.cpp:141
+msgctxt "Key name"
+msgid "Keyboard Brightness Up"
+msgstr "Öka tangentbordets ljusstyrka"
+
+#: src/lib/fcitx-utils/key.cpp:143
+msgctxt "Key name"
+msgid "Keyboard Brightness Down"
+msgstr "Minska tangentbordets ljusstyrka"
+
+#: src/lib/fcitx-utils/key.cpp:144
+msgctxt "Key name"
+msgid "Power Off"
+msgstr "Stäng av"
+
+#: src/lib/fcitx-utils/key.cpp:145
+msgctxt "Key name"
+msgid "Wake Up"
+msgstr "Väck"
+
+#: src/lib/fcitx-utils/key.cpp:146
+msgctxt "Key name"
+msgid "Eject"
+msgstr "Mata ut"
+
+#: src/lib/fcitx-utils/key.cpp:147
+msgctxt "Key name"
+msgid "Screensaver"
+msgstr "Skärmsläckare"
+
+#: src/lib/fcitx-utils/key.cpp:148
+msgctxt "Key name"
+msgid "WWW"
+msgstr "WWW"
+
+#: src/lib/fcitx-utils/key.cpp:149
+msgctxt "Key name"
+msgid "Sleep"
+msgstr "Sömn"
+
+#: src/lib/fcitx-utils/key.cpp:150
+msgctxt "Key name"
+msgid "LightBulb"
+msgstr "Glödlampa"
+
+#: src/lib/fcitx-utils/key.cpp:151
+msgctxt "Key name"
+msgid "Shop"
+msgstr "Butik"
+
+#: src/lib/fcitx-utils/key.cpp:152
+msgctxt "Key name"
+msgid "History"
+msgstr "Historik"
+
+#: src/lib/fcitx-utils/key.cpp:153
+msgctxt "Key name"
+msgid "Add Favorite"
+msgstr "Lägg till favorit"
+
+#: src/lib/fcitx-utils/key.cpp:154
+msgctxt "Key name"
+msgid "Hot Links"
+msgstr "Snabblänkar"
+
+#: src/lib/fcitx-utils/key.cpp:155
+msgctxt "Key name"
+msgid "Adjust Brightness"
+msgstr "Justera ljusstyrka"
+
+#: src/lib/fcitx-utils/key.cpp:156
+msgctxt "Key name"
+msgid "Finance"
+msgstr "Ekonomi"
+
+#: src/lib/fcitx-utils/key.cpp:157
+msgctxt "Key name"
+msgid "Community"
+msgstr "Gemenskap"
+
+#: src/lib/fcitx-utils/key.cpp:158
+msgctxt "Key name"
+msgid "Media Rewind"
+msgstr "Spola tillbaka media"
+
+#: src/lib/fcitx-utils/key.cpp:159
+msgctxt "Key name"
+msgid "Back Forward"
+msgstr "Bakåt/framåt"
+
+#: src/lib/fcitx-utils/key.cpp:160
+msgctxt "Key name"
+msgid "Application Left"
+msgstr "Program vänster"
+
+#: src/lib/fcitx-utils/key.cpp:161
+msgctxt "Key name"
+msgid "Application Right"
+msgstr "Program höger"
+
+#: src/lib/fcitx-utils/key.cpp:162
+msgctxt "Key name"
+msgid "Book"
+msgstr "Bok"
+
+#: src/lib/fcitx-utils/key.cpp:163
+msgctxt "Key name"
+msgid "CD"
+msgstr "CD"
+
+#: src/lib/fcitx-utils/key.cpp:164
+msgctxt "Key name"
+msgid "Calculator"
+msgstr "Miniräknare"
+
+#: src/lib/fcitx-utils/key.cpp:165
+msgctxt "Key name"
+msgid "Clear"
+msgstr "Rensa"
+
+#: src/lib/fcitx-utils/key.cpp:166
+msgctxt "Key name"
+msgid "Close"
+msgstr "Stäng"
+
+#: src/lib/fcitx-utils/key.cpp:167
+msgctxt "Key name"
+msgid "Copy"
+msgstr "Kopiera"
+
+#: src/lib/fcitx-utils/key.cpp:168
+msgctxt "Key name"
+msgid "Cut"
+msgstr "Klipp ut"
+
+#: src/lib/fcitx-utils/key.cpp:169
+msgctxt "Key name"
+msgid "Display"
+msgstr "Bildskärm"
+
+#: src/lib/fcitx-utils/key.cpp:170
+msgctxt "Key name"
+msgid "DOS"
+msgstr "DOS"
+
+#: src/lib/fcitx-utils/key.cpp:171
+msgctxt "Key name"
+msgid "Documents"
+msgstr "Dokument"
+
+#: src/lib/fcitx-utils/key.cpp:172
+msgctxt "Key name"
+msgid "Spreadsheet"
+msgstr "Kalkylblad"
+
+#: src/lib/fcitx-utils/key.cpp:173
+msgctxt "Key name"
+msgid "Browser"
+msgstr "Webbläsare"
+
+#: src/lib/fcitx-utils/key.cpp:174
+msgctxt "Key name"
+msgid "Game"
+msgstr "Spel"
+
+#: src/lib/fcitx-utils/key.cpp:175
+msgctxt "Key name"
+msgid "Go"
+msgstr "Gå"
+
+#: src/lib/fcitx-utils/key.cpp:176
+msgctxt "Key name"
+msgid "iTouch"
+msgstr "iTouch"
+
+#: src/lib/fcitx-utils/key.cpp:177
+msgctxt "Key name"
+msgid "Logoff"
+msgstr "Logga ut"
+
+#: src/lib/fcitx-utils/key.cpp:178
+msgctxt "Key name"
+msgid "Market"
+msgstr "Marknad"
+
+#: src/lib/fcitx-utils/key.cpp:179
+msgctxt "Key name"
+msgid "Meeting"
+msgstr "Möte"
+
+#: src/lib/fcitx-utils/key.cpp:180
+msgctxt "Key name"
+msgid "Keyboard Menu"
+msgstr "Tangentbordsmeny"
+
+#: src/lib/fcitx-utils/key.cpp:181
+msgctxt "Key name"
+msgid "Menu PB"
+msgstr "Meny PB"
+
+#: src/lib/fcitx-utils/key.cpp:182
+msgctxt "Key name"
+msgid "My Sites"
+msgstr "Mina webbplatser"
+
+#: src/lib/fcitx-utils/key.cpp:183
+msgctxt "Key name"
+msgid "News"
+msgstr "Nyheter"
+
+#: src/lib/fcitx-utils/key.cpp:184
+msgctxt "Key name"
+msgid "Home Office"
+msgstr "Hemmakontor"
+
+#: src/lib/fcitx-utils/key.cpp:185
+msgctxt "Key name"
+msgid "Option"
+msgstr "Alternativ"
+
+#: src/lib/fcitx-utils/key.cpp:186
+msgctxt "Key name"
+msgid "Paste"
+msgstr "Klistra in"
+
+#: src/lib/fcitx-utils/key.cpp:187
+msgctxt "Key name"
+msgid "Phone"
+msgstr "Telefon"
+
+#: src/lib/fcitx-utils/key.cpp:188
+msgctxt "Key name"
+msgid "Reply"
+msgstr "Svara"
+
+#: src/lib/fcitx-utils/key.cpp:189
+msgctxt "Key name"
+msgid "Reload"
+msgstr "Läs in igen"
+
+#: src/lib/fcitx-utils/key.cpp:190
+msgctxt "Key name"
+msgid "Rotate Windows"
+msgstr "Rotera fönster"
+
+#: src/lib/fcitx-utils/key.cpp:191
+msgctxt "Key name"
+msgid "Rotation PB"
+msgstr "Rotering PB"
+
+#: src/lib/fcitx-utils/key.cpp:192
+msgctxt "Key name"
+msgid "Rotation KB"
+msgstr "Rotering KB"
+
+#: src/lib/fcitx-utils/key.cpp:193
+msgctxt "Key name"
+msgid "Save"
+msgstr "Spara"
+
+#: src/lib/fcitx-utils/key.cpp:194
+msgctxt "Key name"
+msgid "Send"
+msgstr "Skicka"
+
+#: src/lib/fcitx-utils/key.cpp:195
+msgctxt "Key name"
+msgid "Spellchecker"
+msgstr "Stavningskontroll"
+
+#: src/lib/fcitx-utils/key.cpp:196
+msgctxt "Key name"
+msgid "Split Screen"
+msgstr "Dela skärm"
+
+#: src/lib/fcitx-utils/key.cpp:197
+msgctxt "Key name"
+msgid "Support"
+msgstr "Support"
+
+#: src/lib/fcitx-utils/key.cpp:198
+msgctxt "Key name"
+msgid "Task Panel"
+msgstr "Aktivitetspanel"
+
+#: src/lib/fcitx-utils/key.cpp:199
+msgctxt "Key name"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: src/lib/fcitx-utils/key.cpp:200
+msgctxt "Key name"
+msgid "Tools"
+msgstr "Verktyg"
+
+#: src/lib/fcitx-utils/key.cpp:201
+msgctxt "Key name"
+msgid "Travel"
+msgstr "Resa"
+
+#: src/lib/fcitx-utils/key.cpp:202
+msgctxt "Key name"
+msgid "Video"
+msgstr "Video"
+
+#: src/lib/fcitx-utils/key.cpp:203
+msgctxt "Key name"
+msgid "Word Processor"
+msgstr "Ordbehandlare"
+
+#: src/lib/fcitx-utils/key.cpp:204
+msgctxt "Key name"
+msgid "XFer"
+msgstr "XFer"
+
+#: src/lib/fcitx-utils/key.cpp:205
+msgctxt "Key name"
+msgid "Zoom In"
+msgstr "Zooma in"
+
+#: src/lib/fcitx-utils/key.cpp:206
+msgctxt "Key name"
+msgid "Zoom Out"
+msgstr "Zooma ut"
+
+#: src/lib/fcitx-utils/key.cpp:207
+msgctxt "Key name"
+msgid "Away"
+msgstr "Borta"
+
+#: src/lib/fcitx-utils/key.cpp:208
+msgctxt "Key name"
+msgid "Messenger"
+msgstr "Meddelanden"
+
+#: src/lib/fcitx-utils/key.cpp:209
+msgctxt "Key name"
+msgid "WebCam"
+msgstr "Webbkamera"
+
+#: src/lib/fcitx-utils/key.cpp:210
+msgctxt "Key name"
+msgid "Mail Forward"
+msgstr "Vidarebefordra e-post"
+
+#: src/lib/fcitx-utils/key.cpp:211
+msgctxt "Key name"
+msgid "Pictures"
+msgstr "Bilder"
+
+#: src/lib/fcitx-utils/key.cpp:212
+msgctxt "Key name"
+msgid "Music"
+msgstr "Musik"
+
+#: src/lib/fcitx-utils/key.cpp:213
+msgctxt "Key name"
+msgid "Battery"
+msgstr "Batteri"
+
+#: src/lib/fcitx-utils/key.cpp:214
+msgctxt "Key name"
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/lib/fcitx-utils/key.cpp:215
+msgctxt "Key name"
+msgid "Wireless"
+msgstr "Trådlöst"
+
+#: src/lib/fcitx-utils/key.cpp:216
+msgctxt "Key name"
+msgid "Media Fast Forward"
+msgstr "Spola framåt media"
+
+#: src/lib/fcitx-utils/key.cpp:217
+msgctxt "Key name"
+msgid "Audio Repeat"
+msgstr "Upprepa ljud"
+
+#: src/lib/fcitx-utils/key.cpp:218
+msgctxt "Key name"
+msgid "Audio Random Play"
+msgstr "Spela ljud slumpmässigt"
+
+#: src/lib/fcitx-utils/key.cpp:219
+msgctxt "Key name"
+msgid "Subtitle"
+msgstr "Undertext"
+
+#: src/lib/fcitx-utils/key.cpp:220
+msgctxt "Key name"
+msgid "Audio Cycle Track"
+msgstr "Växla ljudspår"
+
+#: src/lib/fcitx-utils/key.cpp:221
+msgctxt "Key name"
+msgid "Time"
+msgstr "Tid"
+
+#: src/lib/fcitx-utils/key.cpp:222
+msgctxt "Key name"
+msgid "Hibernate"
+msgstr "Viloläge"
+
+#: src/lib/fcitx-utils/key.cpp:223
+msgctxt "Key name"
+msgid "View"
+msgstr "Visa"
+
+#: src/lib/fcitx-utils/key.cpp:224
+msgctxt "Key name"
+msgid "Top Menu"
+msgstr "Övre meny"
+
+#: src/lib/fcitx-utils/key.cpp:225
+msgctxt "Key name"
+msgid "Power Down"
+msgstr "Stäng av"
+
+#: src/lib/fcitx-utils/key.cpp:226
+msgctxt "Key name"
+msgid "Suspend"
+msgstr "Viloläge"
+
+#: src/lib/fcitx-utils/key.cpp:227
+msgctxt "Key name"
+msgid "Microphone Mute"
+msgstr "Tysta mikrofon"
+
+#: src/lib/fcitx-utils/key.cpp:228
+msgctxt "Key name"
+msgid "Red"
+msgstr "Röd"
+
+#: src/lib/fcitx-utils/key.cpp:229
+msgctxt "Key name"
+msgid "Green"
+msgstr "Grön"
+
+#: src/lib/fcitx-utils/key.cpp:230
+msgctxt "Key name"
+msgid "Yellow"
+msgstr "Gul"
+
+#: src/lib/fcitx-utils/key.cpp:231
+msgctxt "Key name"
+msgid "Blue"
+msgstr "Blå"
+
+#: src/lib/fcitx-utils/key.cpp:232
+msgctxt "Key name"
+msgid "New"
+msgstr "Ny"
+
+#: src/lib/fcitx-utils/key.cpp:233
+msgctxt "Key name"
+msgid "Open"
+msgstr "Öppna"
+
+#: src/lib/fcitx-utils/key.cpp:234
+msgctxt "Key name"
+msgid "Find"
+msgstr "Sök"
+
+#: src/lib/fcitx-utils/key.cpp:235
+msgctxt "Key name"
+msgid "Undo"
+msgstr "Ångra"
+
+#: src/lib/fcitx-utils/key.cpp:236
+msgctxt "Key name"
+msgid "Redo"
+msgstr "Gör om"
+
+#: src/lib/fcitx-utils/key.cpp:237
+msgctxt "Key name"
+msgid "Print Screen"
+msgstr "Print Screen"
+
+#: src/lib/fcitx-utils/key.cpp:238
+msgctxt "Key name"
+msgid "Insert"
+msgstr "Insert"
+
+#: src/lib/fcitx-utils/key.cpp:239
+msgctxt "Key name"
+msgid "Delete"
+msgstr "Delete"
+
+#: src/lib/fcitx-utils/key.cpp:240
+msgctxt "Key name"
+msgid "Escape"
+msgstr "Escape"
+
+#: src/lib/fcitx-utils/key.cpp:241
+msgctxt "Key name"
+msgid "System Request"
+msgstr "Systembegäran"
+
+#: src/lib/fcitx-utils/key.cpp:242
+msgctxt "Key name"
+msgid "Select"
+msgstr "Markera"
+
+#: src/lib/fcitx-utils/key.cpp:243
+msgctxt "Key name"
+msgid "Kanji"
+msgstr "Kanji"
+
+#: src/lib/fcitx-utils/key.cpp:244
+msgctxt "Key name"
+msgid "Muhenkan"
+msgstr "Muhenkan"
+
+#: src/lib/fcitx-utils/key.cpp:245
+msgctxt "Key name"
+msgid "Henkan"
+msgstr "Henkan"
+
+#: src/lib/fcitx-utils/key.cpp:246
+msgctxt "Key name"
+msgid "Romaji"
+msgstr "Romaji"
+
+#: src/lib/fcitx-utils/key.cpp:247
+msgctxt "Key name"
+msgid "Hiragana"
+msgstr "Hiragana"
+
+#: src/lib/fcitx-utils/key.cpp:248
+msgctxt "Key name"
+msgid "Katakana"
+msgstr "Katakana"
+
+#: src/lib/fcitx-utils/key.cpp:249
+msgctxt "Key name"
+msgid "Hiragana Katakana"
+msgstr "Hiragana Katakana"
+
+#: src/lib/fcitx-utils/key.cpp:250
+msgctxt "Key name"
+msgid "Zenkaku"
+msgstr "Zenkaku"
+
+#: src/lib/fcitx-utils/key.cpp:251
+msgctxt "Key name"
+msgid "Hankaku"
+msgstr "Hankaku"
+
+#: src/lib/fcitx-utils/key.cpp:252
+msgctxt "Key name"
+msgid "Zenkaku Hankaku"
+msgstr "Zenkaku Hankaku"
+
+#: src/lib/fcitx-utils/key.cpp:253
+msgctxt "Key name"
+msgid "Touroku"
+msgstr "Touroku"
+
+#: src/lib/fcitx-utils/key.cpp:254
+msgctxt "Key name"
+msgid "Massyo"
+msgstr "Massyo"
+
+#: src/lib/fcitx-utils/key.cpp:255
+msgctxt "Key name"
+msgid "Kana Lock"
+msgstr "Kana Lock"
+
+#: src/lib/fcitx-utils/key.cpp:256
+msgctxt "Key name"
+msgid "Kana Shift"
+msgstr "Kana Shift"
+
+#: src/lib/fcitx-utils/key.cpp:257
+msgctxt "Key name"
+msgid "Eisu Shift"
+msgstr "Eisu Shift"
+
+#: src/lib/fcitx-utils/key.cpp:258
+msgctxt "Key name"
+msgid "Eisu toggle"
+msgstr "Eisu toggle"
+
+#: src/lib/fcitx-utils/key.cpp:259
+msgctxt "Key name"
+msgid "Code input"
+msgstr "Kodinmatning"
+
+#: src/lib/fcitx-utils/key.cpp:260
+msgctxt "Key name"
+msgid "Multiple Candidate"
+msgstr "Flera kandidater"
+
+#: src/lib/fcitx-utils/key.cpp:261
+msgctxt "Key name"
+msgid "Previous Candidate"
+msgstr "Föregående kandidat"
+
+#: src/lib/fcitx-utils/key.cpp:262
+msgctxt "Key name"
+msgid "Hangul"
+msgstr "Hangul"
+
+#: src/lib/fcitx-utils/key.cpp:263
+msgctxt "Key name"
+msgid "Hangul Start"
+msgstr "Hangul Start"
+
+#: src/lib/fcitx-utils/key.cpp:264
+msgctxt "Key name"
+msgid "Hangul End"
+msgstr "Hangul End"
+
+#: src/lib/fcitx-utils/key.cpp:265
+msgctxt "Key name"
+msgid "Hangul Hanja"
+msgstr "Hangul Hanja"
+
+#: src/lib/fcitx-utils/key.cpp:266
+msgctxt "Key name"
+msgid "Hangul Jamo"
+msgstr "Hangul Jamo"
+
+#: src/lib/fcitx-utils/key.cpp:267
+msgctxt "Key name"
+msgid "Hangul Romaja"
+msgstr "Hangul Romaja"
+
+#: src/lib/fcitx-utils/key.cpp:268
+msgctxt "Key name"
+msgid "Hangul Jeonja"
+msgstr "Hangul Jeonja"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Hangul Banja"
+msgstr "Hangul Banja"
+
+#: src/lib/fcitx-utils/key.cpp:270
+msgctxt "Key name"
+msgid "Hangul PreHanja"
+msgstr "Hangul PreHanja"
+
+#: src/lib/fcitx-utils/key.cpp:271
+msgctxt "Key name"
+msgid "Hangul PostHanja"
+msgstr "Hangul PostHanja"
+
+#: src/lib/fcitx-utils/key.cpp:272
+msgctxt "Key name"
+msgid "Hangul Special"
+msgstr "Hangul Special"
+
+#: src/lib/fcitx-utils/key.cpp:273
+msgctxt "Key name"
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: src/lib/fcitx-utils/key.cpp:274
+msgctxt "Key name"
+msgid "Execute"
+msgstr "Kör"
+
+#: src/lib/fcitx-utils/key.cpp:275
+msgctxt "Key name"
+msgid "Touchpad Toggle"
+msgstr "Växla pekplatta"
+
+#: src/lib/fcitx-utils/key.cpp:276
+msgctxt "Key name"
+msgid "Touchpad On"
+msgstr "Slå på pekplatta"
+
+#: src/lib/fcitx-utils/key.cpp:277
+msgctxt "Key name"
+msgid "Touchpad Off"
+msgstr "Stäng av pekplatta"
+
+#: src/lib/fcitx-utils/key.cpp:278
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr "Tom symbol"
+
+#: src/lib/fcitx-utils/key.cpp:584
+msgctxt "Key name"
+msgid "Control"
+msgstr "Control"
+
+#: src/lib/fcitx-utils/key.cpp:585
+msgctxt "Key name"
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx-utils/key.cpp:586
+msgctxt "Key name"
+msgid "Shift"
+msgstr "Skift"
+
+#: src/lib/fcitx-utils/key.cpp:587
+msgctxt "Key name"
+msgid "Super"
+msgstr "Super"
+
+#: src/lib/fcitx-utils/key.cpp:589
+msgctxt "Key name"
+msgid "Hyper"
+msgstr "Hyper"
+
+#: src/frontend/waylandim/waylandim.h:36
+msgid "Detect current running application (Need restart)"
+msgstr "Identifiera aktuellt körande program (kräver omstart)"
+
+#: src/frontend/waylandim/waylandim.h:39
+msgid "Forward key event instead of committing text if it is not handled"
+msgstr ""
+"Vidarebefordra tangentbordshändelsen i stället för att mata in text om den "
+"inte hanteras"
+
+#: src/frontend/waylandim/waylandim.h:44
+msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
+msgstr ""
+"Behåll objektet för virtuellt tangentbord för V2-protokollet (kräver omstart)"
+
+#: src/frontend/waylandim/waylandim.h:48
+msgid ""
+"If enabled, when using zwp_input_method_v2, do not create and destroy "
+"zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
+"bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
+msgstr ""
+"Om alternativet är aktiverat skapas eller tas inte zwp_virtual_keyboard_v1 "
+"bort när zwp_input_method_v2 aktiveras och inaktiveras. Detta kan kringgå "
+"vissa fel i vissa kompositorer, däribland Sway<=1.9 och RiverWM<=0.3.0."
+
+#: src/frontend/xim/xim.h:32
+msgid "Use On The Spot Style (Needs restarting)"
+msgstr "Använd On The Spot-stil (kräver omstart)"
+
+#: src/modules/wayland/waylandmodule.h:45
+msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
+msgstr ""
+"Tillåt åsidosättning av systemets XKB-inställningar (stöd finns endast i "
+"KDE5+ och GNOME)"
+
+#: src/modules/wayland/waylandmodule.cpp:660
+msgid "Fcitx"
+msgstr "Fcitx"
+
+#: src/modules/wayland/waylandmodule.cpp:660
+msgid "Wayland Diagnose"
+msgstr "Wayland-diagnostik"
+
+#: src/modules/wayland/waylandmodule.cpp:683
+msgid ""
+"Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
+"input method frontend. This can improve the experience when using Fcitx on "
+"Wayland. To configure this, you need to go to \"System Settings\" > "
+"\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
+"disable tools that launches input method, such as imsettings on Fedora, or "
+"im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+"Fcitx bör startas av KWin i KDE Wayland för att använda Waylands "
+"inmatningsmetodsgränssnitt. Detta kan förbättra upplevelsen av Fcitx på "
+"Wayland. Öppna ”Systeminställningar” > ”Virtuellt tangentbord” och välj "
+"”Fcitx 5”. Du kan även behöva inaktivera verktyg som startar "
+"inmatningsmetoder, exempelvis imsettings i Fedora eller im-config i Debian/"
+"Ubuntu. Mer information finns på https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+
+#: src/modules/wayland/waylandmodule.cpp:698
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to unset GTK_IM_MODULE and "
+"QT_IM_MODULE and use Wayland input method frontend instead. For more details "
+"see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+"GTK_IM_MODULE och QT_IM_MODULE är inställda och Waylands "
+"inmatningsmetodsgränssnitt fungerar. Vi rekommenderar att du avaktiverar "
+"GTK_IM_MODULE och QT_IM_MODULE och använder Waylands "
+"inmatningsmetodsgränssnitt i stället. Mer information finns på https://fcitx-"
+"im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+
+#: src/modules/wayland/waylandmodule.cpp:713
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to use Wayland input method frontend. "
+"For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+"GTK_IM_MODULE och QT_IM_MODULE är inställda och Waylands "
+"inmatningsmetodsgränssnitt fungerar. Vi rekommenderar att du använder "
+"Waylands inmatningsmetodsgränssnitt. Mer information finns på https://fcitx-"
+"im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+
+#: src/modules/wayland/waylandmodule.cpp:725
+msgid ""
+"It is recommended to install Input Method Panel GNOME Shell Extensions to "
+"provide the input method popup. https://extensions.gnome.org/extension/261/"
+"kimpanel/ Otherwise you may not be able to see input method popup when "
+"typing in GNOME Shell's activities search box. For more details see https://"
+"fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+msgstr ""
+"Vi rekommenderar att du installerar GNOME Shell-tillägget Input Method Panel "
+"för att visa inmatningsmetodens popup. https://extensions.gnome.org/"
+"extension/261/kimpanel/ Annars kanske popupen för inmatningsmetoden inte "
+"visas när du skriver i aktivitetsöversiktens sökruta i GNOME Shell. Mer "
+"information finns på https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+
+#: src/modules/wayland/waylandmodule.cpp:746
+msgid ""
+"Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
+"It is recommended to unset GTK_IM_MODULE and use Wayland input method "
+"frontend instead."
+msgstr ""
+"GTK_IM_MODULE är inställd och Waylands inmatningsmetodsgränssnitt fungerar. "
+"Vi rekommenderar att du avaktiverar GTK_IM_MODULE och använder Waylands "
+"inmatningsmetodsgränssnitt i stället."
+
+#: src/modules/wayland/waylandmodule.cpp:765
+msgid ""
+"Sending keyboard layout configuration to wayland compositor from Fcitx is "
+"not yet supported on current desktop. You may still use Fcitx's internal "
+"layout conversion by adding layout as input method to the input method group."
+msgstr ""
+"Det aktuella skrivbordet har ännu inte stöd för att skicka "
+"tangentbordslayoutinställningar från Fcitx till Wayland-kompositorn. Du kan "
+"fortfarande använda Fcitx interna layoutkonvertering genom att lägga till "
+"layouten som inmatningsmetod i gruppen för inmatningsmetoder."
+
+#: src/modules/wayland/waylandmodule.cpp:782
+msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+msgstr ""
+"Mer information finns på https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+
+#: src/modules/imselector/imselector.h:32
+#: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
+#: src/modules/clipboard/clipboard.h:50
+msgid "Trigger Key"
+msgstr "Aktiveringstangent"
+
+#: src/modules/imselector/imselector.h:38
+msgid "Trigger Key for only current input context"
+msgstr "Aktiveringstangent endast för aktuellt inmatningssammanhang"
+
+#: src/modules/imselector/imselector.h:44
+msgid "Hotkey for switching to the N-th input method"
+msgstr "Snabbtangent för att växla till den n:te inmatningsmetoden"
+
+#: src/modules/imselector/imselector.h:49
+#: src/modules/imselector/imselector.h:59
+msgid "The n-th hotkey in the list selects the n-th input method."
+msgstr "Den n:te snabbtangenten i listan väljer den n:te inmatningsmetoden."
+
+#: src/modules/imselector/imselector.h:53
+msgid ""
+"Hotkey for switching to the N-th input method for only current input context"
+msgstr ""
+"Snabbtangent för att växla till den n:te inmatningsmetoden endast för "
+"aktuellt inmatningssammanhang"
+
+#: src/modules/imselector/imselectortempmode.cpp:194
+msgid "Select local input method:"
+msgstr "Välj lokal inmatningsmetod:"
+
+#: src/modules/imselector/imselectortempmode.cpp:195
+msgid "Select input method:"
+msgstr "Välj inmatningsmetod:"
+
+#: src/modules/notifications/notifications.cpp:230
+msgid "Do not show again"
+msgstr "Visa inte igen"
+
+#: src/modules/notifications/notifications.h:35
+msgid "Hidden Notifications"
+msgstr "Dolda aviseringar"
+
+#: src/modules/quickphrase/quickphrasetempmode.cpp:416
+msgid "Quick Phrase: "
+msgstr "Snabbfras: "
+
+#: src/modules/quickphrase/quickphrase.h:45
+msgid "Enable Spell check"
+msgstr "Aktivera stavningskontroll"
+
+#: src/modules/quickphrase/quickphrase.h:47
+msgid "Fallback Spell check language"
+msgstr "Reservspråk för stavningskontroll"
+
+#: src/modules/quickphrase/quickphrase.h:49
+msgid "Editor"
+msgstr "Redigerare"
+
+#: src/modules/spell/spell.h:23
+msgid "Presage"
+msgstr "Presage"
+
+#: src/modules/spell/spell.h:23
+msgid "Custom"
+msgstr "Anpassad"
+
+#: src/modules/spell/spell.h:24
+msgid "Enchant"
+msgstr "Enchant"
+
+#: src/modules/spell/spell.h:39
+msgid "Backends"
+msgstr "Bakändar"
+
+#: src/modules/unicode/charselectdata.cpp:201
+#, c++-format
+msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
+msgstr "CJK UNIFIED IDEOGRAPH-{0:X}"
+
+#: src/modules/unicode/charselectdata.cpp:217
+#, c++-format
+msgid "HANGUL SYLLABLE {0}{1}{2}"
+msgstr "HANGUL SYLLABLE {0}{1}{2}"
+
+#: src/modules/unicode/charselectdata.cpp:220
+msgid "<Non Private Use High Surrogate>"
+msgstr "<Non Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:222
+msgid "<Private Use High Surrogate>"
+msgstr "<Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:224
+msgid "<Low Surrogate>"
+msgstr "<Low Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:226
+msgid "<Private Use>"
+msgstr "<Private Use>"
+
+#: src/modules/unicode/charselectdata.cpp:229
+#, c++-format
+msgid "TANGUT IDEOGRAPH-{0:X}"
+msgstr "TANGUT IDEOGRAPH-{0:X}"
+
+#: src/modules/unicode/charselectdata.cpp:232
+msgid "<Plane 15 Private Use>"
+msgstr "<Plan 15 för privat användning>"
+
+#: src/modules/unicode/charselectdata.cpp:234
+msgid "<Plane 16 Private Use>"
+msgstr "<Plan 16 för privat användning>"
+
+#: src/modules/unicode/charselectdata.cpp:264
+msgid "<not assigned>"
+msgstr "<ej tilldelad>"
+
+#: src/modules/unicode/unicode.h:33
+msgid "Type unicode in Hex number"
+msgstr "Ange Unicode som hexadecimalt tal"
+
+#: src/modules/unicode/unicodetempmode.cpp:408
+msgid "Unicode: "
+msgstr "Unicode: "
+
+#: src/modules/unicode/unicodetempmode.cpp:410
+msgid "(Type to search unicode by code or description)"
+msgstr "(Skriv för att söka efter Unicode via kod eller beskrivning)"
+
+#: src/modules/clipboard/clipboard.h:54
+msgid "Paste Primary"
+msgstr "Klistra in primärt urval"
+
+#: src/modules/clipboard/clipboard.h:56
+msgid "Number of entries"
+msgstr "Antal poster"
+
+#: src/modules/clipboard/clipboard.h:63
+msgid "Do not show password from password managers"
+msgstr "Visa inte lösenord från lösenordshanterare"
+
+#: src/modules/clipboard/clipboard.h:67
+msgid ""
+"When copying password from a password manager, if the password manager "
+"supports marking the clipboard content as password, this clipboard update "
+"will be ignored."
+msgstr ""
+"När ett lösenord kopieras från en lösenordshanterare ignoreras denna "
+"uppdatering av urklipp, om lösenordshanteraren stöder märkning av "
+"urklippsinnehåll som lösenord."
+
+#: src/modules/clipboard/clipboard.h:71
+msgid "Display passwords as plain text"
+msgstr "Visa lösenord som oformaterad text"
+
+#: src/modules/clipboard/clipboard.h:77
+msgid "Seconds before clearing password"
+msgstr "Sekunder innan lösenordet rensas"
+
+#: src/modules/clipboard/clipboard.h:81
+msgid "0 means never clear password."
+msgstr "0 innebär att lösenordet aldrig rensas."
+
+#: src/modules/clipboard/clipboard.cpp:130
+msgid "<Password>"
+msgstr "<Lösenord>"
+
+#: src/modules/clipboard/clipboard.cpp:256
+msgid "Clipboard (Press BackSpace/Delete to clear history):"
+msgstr "Urklipp (tryck på Backsteg/Delete för att rensa historiken):"
+
+#: src/modules/clipboard/clipboard.cpp:258
+msgid "No clipboard history."
+msgstr "Ingen urklippshistorik."
+
+#: src/modules/xcb/xcbmodule.h:37
+msgid "Auto"
+msgstr "Automatiskt"
+
+#: src/modules/xcb/xcbmodule.h:38
+msgid "Yes"
+msgstr "Ja"
+
+#: src/modules/xcb/xcbmodule.h:45
+msgid ""
+"This allows XWayland to automatically terminate on compositors that launch "
+"XWayland on demand."
+msgstr ""
+"Detta gör att XWayland kan avslutas automatiskt i fönsterhanterare som "
+"startar XWayland vid behov."
+
+#: src/modules/xcb/xcbmodule.h:59
+msgid "Allow Overriding System XKB Settings"
+msgstr "Tillåt åsidosättning av systemets XKB-inställningar"
+
+#: src/modules/xcb/xcbmodule.h:63
+msgid "Always set layout to be only group layout"
+msgstr "Ange alltid layout till endast grupplayout"
+
+#: src/modules/xcb/xcbmodule.h:69
+msgid "Set client disconnect mode to terminate (Need Restart)"
+msgstr "Ange frånkopplingsläge för klient till avsluta (kräver omstart)"
+
+#: data/fcitx5-configtool.desktop.in.in:2
+msgid "Fcitx 5 Configuration"
+msgstr "Fcitx 5-konfiguration"
+
+#: data/fcitx5-configtool.desktop.in.in:3
+msgid "Input Method Configuration"
+msgstr "Konfiguration av inmatningsmetod"
+
+#: data/fcitx5-configtool.desktop.in.in:4
+msgid "Change Fcitx 5 Configuration"
+msgstr "Ändra Fcitx 5-konfiguration"
+
+#: data/org.fcitx.Fcitx5.desktop.in.in:2
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
+msgid "Fcitx 5"
+msgstr "Fcitx 5"
+
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
+msgid "Start Input Method"
+msgstr "Starta inmatningsmetod"
+
+#: data/fcitx5-wayland-launcher.desktop.in.in:2
+msgid "Fcitx 5 Wayland Launcher (Experimental)"
+msgstr "Fcitx 5 Wayland-startare (experimentell)"
+
+#: src/ui/classic/classicui.conf.in.in:2
+msgid "Classic User Interface"
+msgstr "Klassiskt användargränssnitt"
+
+#: src/ui/classic/themes/default-dark/theme-dark.conf.in:2
+msgid "Default Dark"
+msgstr "Standardmörk"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:2
+msgid "DBus Virtual Keyboard"
+msgstr "Virtuellt DBus-tangentbord"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "A virtual keyboard backend based on DBus"
+msgstr "Bakände för virtuellt tangentbord baserad på DBus"
+
+#: src/ui/kimpanel/kimpanel.conf.in.in:2
+msgid "KDE Input Method Panel"
+msgstr "KDE-panel för inmatningsmetod"
+
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:2
+msgid "Fcitx4 Frontend"
+msgstr "Fcitx4-gränssnitt"
+
+#: src/frontend/waylandim/waylandim.conf.in.in:2
+msgid "Wayland Input method frontend"
+msgstr "Gränssnitt för Wayland-inmatningsmetod"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:2
+msgid "IBus Frontend"
+msgstr "IBus-gränssnitt"
+
+#: src/frontend/xim/xim.conf.in.in:2
+msgid "X Input Method Frontend"
+msgstr "X Input Method-gränssnitt"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:2
+msgid "DBus Frontend"
+msgstr "DBus-gränssnitt"
+
+#: src/modules/notificationitem/notificationitem.conf.in.in:2
+msgid "Status Notifier"
+msgstr "Statusnotifierare"
+
+#: src/modules/notificationitem/notificationitem.conf.in.in:3
+msgid "DBus based new Freedesktop.org tray icon"
+msgstr "Ny Freedesktop.org-brickikon baserad på DBus"
+
+#: src/modules/wayland/wayland.conf.in.in:2
+msgid "Wayland"
+msgstr "Wayland"
+
+#: src/modules/dbus/dbus.conf.in.in:2
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/imselector/imselector.conf.in.in:2
+msgid "Input method selector"
+msgstr "Väljare för inmatningsmetod"
+
+#: src/modules/imselector/imselector.conf.in.in:3
+msgid "Select specific input method via keyboard"
+msgstr "Välj specifik inmatningsmetod via tangentbordet"
+
+#: src/modules/notifications/notifications.conf.in.in:2
+msgid "Notification"
+msgstr "Avisering"
+
+#: src/modules/notifications/notifications.conf.in.in:3
+msgid "Freedesktop.org Notification Support"
+msgstr "Stöd för Freedesktop.org-aviseringar"
+
+#: src/modules/quickphrase/quickphrase.conf.in.in:2
+msgid "Quick Phrase"
+msgstr "Snabbfras"
+
+#: src/modules/emoji/emoji.conf.in.in:2
+msgid "Emoji"
+msgstr "Emoji"
+
+#: src/modules/unicode/unicode.conf.in.in:2
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in.in:3
+msgid "Add Unicode Typing Support"
+msgstr "Lägg till stöd för Unicode-inmatning"
+
+#: src/modules/clipboard/clipboard.conf.in.in:2
+msgid "Clipboard"
+msgstr "Urklipp"
+
+#: src/modules/xcb/xcb.conf.in.in:2
+msgid "XCB"
+msgstr "XCB"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:12
+msgid ""
+"Fcitx is an input method framework. It can help you to type your own "
+"language. It also features variant choice of addons that improve your typing "
+"experience."
+msgstr ""
+"Fcitx är ett ramverk för inmatningsmetoder. Det kan hjälpa dig att skriva på "
+"ditt eget språk. Det erbjuder också olika tillägg som förbättrar din "
+"skrivupplevelse."
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:26
+msgid "Typing with Fcitx and Kimpanel"
+msgstr "Skriva med Fcitx och Kimpanel"
+
+#: data/fcitx5-diagnose.sh:256
+msgid ""
+"Using ${1} to check the actual im module to be used under current "
+"environment:"
+msgstr ""
+"Använd ${1} för att kontrollera vilken IM-modul som faktiskt används i den "
+"aktuella miljön:"
+
+#: data/fcitx5-diagnose.sh:565
+msgid "${1} not found."
+msgstr "${1} hittades inte."
+
+#: data/fcitx5-diagnose.sh:706
+msgid "Beginner's Guide"
+msgstr "Nybörjarguide"
+
+#: data/fcitx5-diagnose.sh:707
+#, sh-printf-format
+msgid "/Beginner%27s_Guide"
+msgstr "/Beginner%27s_Guide"
+
+#: data/fcitx5-diagnose.sh:714
+msgid ""
+"Please set environment variable ${env_name} to \"${value}\" using the tool "
+"your distribution provides or add ${1} to your ${2}. See ${link}."
+msgstr ""
+"Ange miljövariabeln ${env_name} till ”${value}” med verktyget som din "
+"distribution tillhandahåller, eller lägg till ${1} i ${2}. Se ${link}."
+
+#: data/fcitx5-diagnose.sh:717
+msgid "Input Method Related Environment Variables: "
+msgstr "Miljövariabler för inmatningsmetoder: "
+
+#: data/fcitx5-diagnose.sh:718
+msgid "/Input_method_related_environment_variables"
+msgstr "/Input_method_related_environment_variables"
+
+#: data/fcitx5-diagnose.sh:733
+msgid "Note for GNOME Later than 3.6"
+msgstr "Anmärkning om GNOME senare än 3.6"
+
+#: data/fcitx5-diagnose.sh:734
+msgid "/Note_for_GNOME_Later_than_3.6"
+msgstr "/Note_for_GNOME_Later_than_3.6"
+
+#: data/fcitx5-diagnose.sh:740
+msgid ""
+"If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
+"the command ${g36_disable_ibus} to disable IBus integration in order to use "
+"any input method other than ${2}. See ${link} for more detail."
+msgstr ""
+"Om du använder ${1} kanske du vill avinstallera ${2}, ta bort ${3} eller "
+"använda kommandot ${g36_disable_ibus} för att inaktivera IBus-integrering, "
+"för att kunna använda andra inmatningsmetoder än ${2}. Se ${link} för mer "
+"information."
+
+#: data/fcitx5-diagnose.sh:742
+msgid ""
+"If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
+"order to use any input method other than ${2}. See ${link} for more detail "
+"as well as alternative solutions."
+msgstr ""
+"Om du använder ${1} kanske du vill avinstallera ${2} eller ta bort ${3} för "
+"att kunna använda andra inmatningsmetoder än ${2}. Se även ${link} för mer "
+"information och alternativa lösningar."
+
+#: data/fcitx5-diagnose.sh:750
+#, sh-format
+msgid ""
+"To see some application specific problems you may have when using xim, check "
+"${link1}. For other more general problems of using XIM including application "
+"freezing, see ${link2}."
+msgstr ""
+"För information om vissa programspecifika problem som kan uppstå när du "
+"använder XIM, se ${link1}. För mer allmänna problem med XIM, inklusive "
+"program som fryser, se ${link2}."
+
+#: data/fcitx5-diagnose.sh:753
+msgid "Hall of Shame for Linux IME Support"
+msgstr "Skamlistan för Linux IME-stöd"
+
+#: data/fcitx5-diagnose.sh:754
+msgid "/Hall_of_Shame_for_Linux_IME_Support"
+msgstr "/Hall_of_Shame_for_Linux_IME_Support"
+
+#: data/fcitx5-diagnose.sh:757
+msgid "here"
+msgstr "här"
+
+#: data/fcitx5-diagnose.sh:758
+msgid "/XIM"
+msgstr "/XIM"
+
+#: data/fcitx5-diagnose.sh:789
+msgid "System Info:"
+msgstr "Systeminformation:"
+
+#: data/fcitx5-diagnose.sh:817
+msgid "Desktop Environment:"
+msgstr "Skrivbordsmiljö:"
+
+#: data/fcitx5-diagnose.sh:820
+msgid "Cannot determine desktop environment."
+msgstr "Det gick inte att fastställa skrivbordsmiljön."
+
+#: data/fcitx5-diagnose.sh:822
+msgid "Desktop environment is ${1}."
+msgstr "Skrivbordsmiljön är ${1}."
+
+#: data/fcitx5-diagnose.sh:825
+msgid "XDG SESSION TYPE:"
+msgstr "XDG-SESSIONSTYP:"
+
+#: data/fcitx5-diagnose.sh:827
+msgid "Bash Version:"
+msgstr "Bash-version:"
+
+#: data/fcitx5-diagnose.sh:832
+msgid "Environment:"
+msgstr "Miljö:"
+
+#: data/fcitx5-diagnose.sh:836
+msgid "Keyboard Layout:"
+msgstr "Tangentbordslayout:"
+
+#: data/fcitx5-diagnose.sh:851
+msgid "Locale:"
+msgstr "Språkmiljö:"
+
+#: data/fcitx5-diagnose.sh:854
+msgid "All locales:"
+msgstr "Alla språkmiljöer:"
+
+#: data/fcitx5-diagnose.sh:856
+msgid "Current locale:"
+msgstr "Aktuell språkmiljö:"
+
+#: data/fcitx5-diagnose.sh:860
+msgid "Error occurs when running ${1}. Please check your locale settings."
+msgstr ""
+"Ett fel uppstår när ${1} körs. Kontrollera inställningarna för din "
+"språkmiljö."
+
+#: data/fcitx5-diagnose.sh:868
+msgid "Directories:"
+msgstr "Kataloger:"
+
+#: data/fcitx5-diagnose.sh:870
+msgid "Home:"
+msgstr "Hem:"
+
+#: data/fcitx5-diagnose.sh:874
+msgid "Environment variable ${1} is not set."
+msgstr "Miljövariabeln ${1} är inte angiven."
+
+#: data/fcitx5-diagnose.sh:878
+msgid "Environment variable ${1} is set to ${2}."
+msgstr "Miljövariabeln ${1} är satt till ${2}."
+
+#: data/fcitx5-diagnose.sh:882
+msgid "Current value of ${1} is ${2} (${3})."
+msgstr "Aktuellt värde för ${1} är ${2} (${3})."
+
+#: data/fcitx5-diagnose.sh:886
+msgid "${1} Settings Directory:"
+msgstr "Inställningskatalog för ${1}:"
+
+#: data/fcitx5-diagnose.sh:888
+msgid "Current ${1} settings directory is ${2} (${3})."
+msgstr "Aktuell inställningskatalog för ${1} är ${2} (${3})."
+
+#: data/fcitx5-diagnose.sh:894
+msgid "Current user:"
+msgstr "Aktuell användare:"
+
+#: data/fcitx5-diagnose.sh:895
+msgid "The script is run as ${1} (${2})."
+msgstr "Skriptet körs som ${1} (${2})."
+
+#: data/fcitx5-diagnose.sh:900
+msgid "${1} Environment Variables:"
+msgstr "Miljövariabler för ${1}:"
+
+#: data/fcitx5-diagnose.sh:906
+msgid "${1} is set to ${2}."
+msgstr "${1} är satt till ${2}."
+
+#: data/fcitx5-diagnose.sh:909
+msgid "${1} is not set."
+msgstr "${1} är inte angiven."
+
+#: data/fcitx5-diagnose.sh:916
+msgid "Running as root:"
+msgstr "Körs som root:"
+
+#: data/fcitx5-diagnose.sh:919
+msgid ""
+"You are probably using ${1} to run this script. This means the result of "
+"this script may not be accurate. See ${2} for more information."
+msgstr ""
+"Du använder troligen ${1} för att köra detta skript. Det innebär att "
+"skriptets resultat kanske inte är korrekt. Se ${2} för mer information."
+
+#: data/fcitx5-diagnose.sh:921 data/fcitx5-diagnose.sh:927
+msgid "sudo environment variables"
+msgstr "sudo-miljövariabler"
+
+#: data/fcitx5-diagnose.sh:924
+msgid ""
+"You are probably logging in as ${1} or using ${2} to run this script. This "
+"either means you have security problems or the result of this script may not "
+"be accurate. See ${3} or ${4} for more information."
+msgstr ""
+"Du loggar troligen in som ${1} eller använder ${2} för att köra detta "
+"skript. Det innebär antingen att du har säkerhetsproblem eller att skriptets "
+"resultat kanske inte är korrekt. Se ${3} eller ${4} för mer information."
+
+#: data/fcitx5-diagnose.sh:926
+msgid "Why is it bad to run as root"
+msgstr "Varför det är dåligt att köra som root"
+
+#: data/fcitx5-diagnose.sh:935
+msgid "Fcitx State:"
+msgstr "Fcitx-tillstånd:"
+
+#: data/fcitx5-diagnose.sh:936
+msgid "executable:"
+msgstr "körbar fil:"
+
+#: data/fcitx5-diagnose.sh:938
+msgid "Cannot find fcitx5 executable!"
+msgstr "Det går inte att hitta den körbara filen fcitx5!"
+
+#: data/fcitx5-diagnose.sh:940
+msgid "Please check ${1} for how to install fcitx5."
+msgstr "Se ${1} för information om hur fcitx5 installeras."
+
+#: data/fcitx5-diagnose.sh:944
+msgid "Found ${1} at ${2}."
+msgstr "Hittade ${1} på ${2}."
+
+#: data/fcitx5-diagnose.sh:946
+msgid "version:"
+msgstr "version:"
+
+#: data/fcitx5-diagnose.sh:949
+msgid "Fcitx version: ${1}"
+msgstr "Fcitx-version: ${1}"
+
+#: data/fcitx5-diagnose.sh:950
+msgid "process:"
+msgstr "process:"
+
+#: data/fcitx5-diagnose.sh:960
+msgid "${1} is not running."
+msgstr "${1} körs inte."
+
+#: data/fcitx5-diagnose.sh:962
+msgid ""
+"Please check the Configure link of your distribution in ${1} for how to "
+"setup ${2} autostart."
+msgstr ""
+"Se konfigurationslänken för din distribution i ${1} för hur autostart av "
+"${2} ställs in."
+
+#: data/fcitx5-diagnose.sh:967
+msgid "Found ${1} ${2} processes:"
+msgstr "Hittade ${1} ${2}-processer:"
+
+#: data/fcitx5-diagnose.sh:969
+msgid "Found ${1} ${2} process:"
+msgstr "Hittade ${1} ${2}-process:"
+
+#: data/fcitx5-diagnose.sh:975
+msgid "Cannot connect to ${1} correctly."
+msgstr "Det går inte att ansluta korrekt till ${1}."
+
+#: data/fcitx5-diagnose.sh:977
+msgid "${1} works properly."
+msgstr "${1} fungerar korrekt."
+
+#: data/fcitx5-diagnose.sh:983
+msgid "DBus interface:"
+msgstr "DBus-gränssnitt:"
+
+#: data/fcitx5-diagnose.sh:986
+msgid "Using ${1} to check dbus."
+msgstr "Använder ${1} för att kontrollera DBus."
+
+#: data/fcitx5-diagnose.sh:991
+msgid "Owner of DBus name ${1} is ${2}."
+msgstr "Ägaren till DBus-namnet ${1} är ${2}."
+
+#: data/fcitx5-diagnose.sh:995
+msgid "Cannot find DBus name ${1} owner."
+msgstr "Det går inte att hitta ägaren till DBus-namnet ${1}."
+
+#: data/fcitx5-diagnose.sh:999
+msgid "PID of DBus name ${1} owner is ${2}."
+msgstr "PID för ägaren till DBus-namnet ${1} är ${2}."
+
+#: data/fcitx5-diagnose.sh:1003
+msgid "Cannot find pid of DBus name ${1} owner."
+msgstr "Det går inte att hitta PID för ägaren till DBus-namnet ${1}."
+
+#: data/fcitx5-diagnose.sh:1007
+msgid "Debug information from dbus:"
+msgstr "Felsökningsinformation från DBus:"
+
+#: data/fcitx5-diagnose.sh:1011
+msgid "Unable to find a program to check dbus."
+msgstr "Det gick inte att hitta något program för att kontrollera DBus."
+
+#: data/fcitx5-diagnose.sh:1021
+msgid "Environment variable ${1} is set to \"${2}\" correctly."
+msgstr "Miljövariabeln ${1} är korrekt satt till ”${2}”."
+
+#: data/fcitx5-diagnose.sh:1027
+msgid ""
+"Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
+"you have exported it incorrectly in any of your init files."
+msgstr ""
+"Miljövariabeln ${1} är ”${2}” i stället för ”${3}”. Kontrollera om den har "
+"exporterats felaktigt i någon av dina initieringsfiler."
+
+#: data/fcitx5-diagnose.sh:1036
+msgid "XMODIFIERS is not set"
+msgstr "XMODIFIERS är inte angiven"
+
+#: data/fcitx5-diagnose.sh:1049
+msgid "Cannot interpret XMODIFIERS: ${1}."
+msgstr "Det går inte att tolka XMODIFIERS: ${1}."
+
+#: data/fcitx5-diagnose.sh:1057
+msgid "Xim Server Name from Environment variable is ${1}."
+msgstr "Xim-servernamn från miljövariabeln är ${1}."
+
+#: data/fcitx5-diagnose.sh:1059
+msgid "XIM_SERVERS on root window:"
+msgstr "XIM_SERVERS i rotfönstret:"
+
+#: data/fcitx5-diagnose.sh:1069
+msgid "Xim server name is the same with that set in the environment variable."
+msgstr "Xim-servernamnet är samma som det som är angivet i miljövariabeln."
+
+#: data/fcitx5-diagnose.sh:1071
+msgid ""
+"Xim server name: \"${1}\" is different from that set in the environment "
+"variable: \"${2}\"."
+msgstr ""
+"Xim-servernamnet ”${1}” skiljer sig från det som är angivet i "
+"miljövariabeln: ”${2}”."
+
+#: data/fcitx5-diagnose.sh:1075
+msgid "Cannot find xim_server on root window."
+msgstr "Det går inte att hitta xim_server i rotfönstret."
+
+#: data/fcitx5-diagnose.sh:1083
+msgid "XIM for Emacs:"
+msgstr "XIM för Emacs:"
+
+#: data/fcitx5-diagnose.sh:1085
+msgid ""
+"Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
+"able to use input method in emacs because of an really old emacs bug that "
+"upstream refuse to fix for years."
+msgstr ""
+"Din LC_CTYPE är satt till ${1} i stället för zh, ja eller ko. Du kanske inte "
+"kan använda inmatningsmetoden i Emacs på grund av ett mycket gammalt Emacs-"
+"fel som uppströmsprojektet har vägrat åtgärda i flera år."
+
+#: data/fcitx5-diagnose.sh:1088
+msgid "XIM encoding:"
+msgstr "XIM-kodning:"
+
+#: data/fcitx5-diagnose.sh:1090
+msgid ""
+"Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
+"trouble committing strings using XIM."
+msgstr ""
+"Din LC_CTYPE är satt till ${1}, vars kodning inte är UTF-8. Du kan få "
+"problem med att mata in strängar med XIM."
+
+#: data/fcitx5-diagnose.sh:1105
+msgid ""
+"It is OK to use ${1} built-in Wayland im module if your compositor fully "
+"supports text-input protocol used by ${1}."
+msgstr ""
+"Det är okej att använda den inbyggda Wayland-IM-modulen i ${1} om din "
+"fönsterhanterare har fullt stöd för textinmatningsprotokollet som används av "
+"${1}."
+
+#: data/fcitx5-diagnose.sh:1113
+msgid "You are using xim in ${1} programs."
+msgstr "Du använder xim i ${1}-program."
+
+#: data/fcitx5-diagnose.sh:1118
+msgid "You may have trouble using fcitx in ${1} programs."
+msgstr "Du kan få problem med att använda fcitx i ${1}-program."
+
+#: data/fcitx5-diagnose.sh:1149
+msgid "Qt IM module files:"
+msgstr "Filer för Qt-IM-modul:"
+
+#: data/fcitx5-diagnose.sh:1163 data/fcitx5-diagnose.sh:1168
+msgid "Found ${3} im module for ${2}: ${1}."
+msgstr "Hittade IM-modulen ${3} för ${2}: ${1}."
+
+#: data/fcitx5-diagnose.sh:1176
+msgid "Found ${1} ${2} module: ${3}."
+msgstr "Hittade ${1} ${2}-modul: ${3}."
+
+#: data/fcitx5-diagnose.sh:1179
+msgid "Found unknown ${1} qt module: ${2}."
+msgstr "Hittade okänd ${1}-Qt-modul: ${2}."
+
+#: data/fcitx5-diagnose.sh:1184
+msgid ""
+"Following error may not be accurate because guessing Qt version from path "
+"depends on how your distribution packages Qt. It is not a critical error if "
+"you do not use any Qt application with certain version of Qt or you are "
+"using text-input support by Qt under Wayland."
+msgstr ""
+"Följande fel kanske inte är korrekt, eftersom gissningen av Qt-version från "
+"sökvägen beror på hur din distribution paketerar Qt. Det är inte ett "
+"kritiskt fel om du inte använder något Qt-program med en viss Qt-version "
+"eller använder Qt:s textinmatningsstöd under Wayland."
+
+#: data/fcitx5-diagnose.sh:1188 data/fcitx5-diagnose.sh:1193
+#: data/fcitx5-diagnose.sh:1198
+msgid "Cannot find ${1} input method module for ${2}."
+msgstr "Det går inte att hitta inmatningsmetodmodulen ${1} för ${2}."
+
+#: data/fcitx5-diagnose.sh:1261
+msgid "Gtk ${1} immodule file ${2} does not exist."
+msgstr "Gtk ${1}-IM-modulfilen ${2} finns inte."
+
+#: data/fcitx5-diagnose.sh:1267
+msgid "All found Gtk ${1} immodule files exist."
+msgstr "Alla hittade Gtk ${1}-IM-modulfiler finns."
+
+#: data/fcitx5-diagnose.sh:1300
+msgid "Found ${3} for gtk ${1} at ${2}."
+msgstr "Hittade ${3} för Gtk ${1} på ${2}."
+
+#: data/fcitx5-diagnose.sh:1305 data/fcitx5-diagnose.sh:1389
+msgid "Version Line:"
+msgstr "Versionsrad:"
+
+#: data/fcitx5-diagnose.sh:1308
+msgid "Found ${2} for unknown gtk version at ${1}."
+msgstr "Hittade ${2} för okänd Gtk-version på ${1}."
+
+#: data/fcitx5-diagnose.sh:1316 data/fcitx5-diagnose.sh:1400
+msgid "Found ${1} im modules for gtk ${2}."
+msgstr "Hittade ${1} IM-moduler för Gtk ${2}."
+
+#: data/fcitx5-diagnose.sh:1322
+msgid "Failed to find ${1} in the output of ${2}"
+msgstr "Det gick inte att hitta ${1} i utdata från ${2}"
+
+#: data/fcitx5-diagnose.sh:1328
+msgid "Cannot find ${2} for gtk ${1}"
+msgstr "Det går inte att hitta ${2} för Gtk ${1}"
+
+#: data/fcitx5-diagnose.sh:1334
+msgid "Cannot find ${1} im module for gtk ${2}."
+msgstr "Det går inte att hitta IM-modulen ${1} för Gtk ${2}."
+
+#: data/fcitx5-diagnose.sh:1385
+msgid "Found immodules cache for gtk ${1} at ${2}."
+msgstr "Hittade immodules-cache för Gtk ${1} på ${2}."
+
+#: data/fcitx5-diagnose.sh:1393
+msgid "Found immodule cache for unknown gtk version at ${1}."
+msgstr "Hittade immodule-cache för okänd Gtk-version på ${1}."
+
+#: data/fcitx5-diagnose.sh:1406
+msgid "Failed to find ${1} in immodule cache at ${2}"
+msgstr "Det gick inte att hitta ${1} i immodule-cachen på ${2}"
+
+#: data/fcitx5-diagnose.sh:1412
+msgid "Cannot find immodules cache for gtk ${1}"
+msgstr "Det går inte att hitta immodules-cache för Gtk ${1}"
+
+#: data/fcitx5-diagnose.sh:1417
+msgid "Cannot find ${1} im module for gtk ${2} in cache."
+msgstr "Det går inte att hitta IM-modulen ${1} för Gtk ${2} i cachen."
+
+#: data/fcitx5-diagnose.sh:1445
+msgid "Gtk IM module cache:"
+msgstr "Cache för Gtk-IM-modul:"
+
+#: data/fcitx5-diagnose.sh:1450
+msgid "Gtk IM module files:"
+msgstr "Filer för Gtk-IM-modul:"
+
+#: data/fcitx5-diagnose.sh:1464
+msgid "Fcitx Addons:"
+msgstr "Fcitx-tillägg:"
+
+#: data/fcitx5-diagnose.sh:1465
+msgid "Addon Config Dir:"
+msgstr "Konfigurationskatalog för tillägg:"
+
+#: data/fcitx5-diagnose.sh:1484
+msgid "Cannot find ${1} addon config directory."
+msgstr "Det går inte att hitta konfigurationskatalogen för tillägget ${1}."
+
+#: data/fcitx5-diagnose.sh:1487
+msgid "Found ${1} addon config directory: ${2}."
+msgstr "Hittade konfigurationskatalogen för tillägget ${1}: ${2}."
+
+#: data/fcitx5-diagnose.sh:1493
+msgid "Addon List:"
+msgstr "Tilläggslista:"
+
+#: data/fcitx5-diagnose.sh:1499
+msgid "Invalid addon config file ${1}."
+msgstr "Ogiltig konfigurationsfil för tillägget ${1}."
+
+#: data/fcitx5-diagnose.sh:1531
+msgid "Found ${1} enabled addons:"
+msgstr "Hittade ${1} aktiverade tillägg:"
+
+#: data/fcitx5-diagnose.sh:1540
+msgid "Found ${1} disabled addons:"
+msgstr "Hittade ${1} inaktiverade tillägg:"
+
+#: data/fcitx5-diagnose.sh:1550
+msgid "Addon Libraries:"
+msgstr "Tilläggsbibliotek:"
+
+#: data/fcitx5-diagnose.sh:1558
+msgid "Cannot find file ${1} of addon ${2}."
+msgstr "Det går inte att hitta filen ${1} för tillägget ${2}."
+
+#: data/fcitx5-diagnose.sh:1568
+msgid "Cannot find following required libraries for ${1} of addon ${2}."
+msgstr ""
+"Det går inte att hitta följande obligatoriska bibliotek för ${1} i tillägget "
+"${2}."
+
+#: data/fcitx5-diagnose.sh:1576
+msgid "All libraries for all addons are found."
+msgstr "Alla bibliotek för alla tillägg hittades."
+
+#: data/fcitx5-diagnose.sh:1577
+msgid "User Interface:"
+msgstr "Användargränssnitt:"
+
+#: data/fcitx5-diagnose.sh:1579
+msgid "Cannot find enabled ${1} user interface!"
+msgstr "Det går inte att hitta aktiverat användargränssnitt för ${1}!"
+
+#: data/fcitx5-diagnose.sh:1581
+msgid "Found ${1} enabled user interface addons:"
+msgstr "Hittade ${1} aktiverade tillägg för användargränssnitt:"
+
+#: data/fcitx5-diagnose.sh:1590
+msgid "Kimpanel process:"
+msgstr "Kimpanel-process:"
+
+#: data/fcitx5-diagnose.sh:1598
+msgid ""
+"Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
+msgstr ""
+"Det går inte att hitta Kimpanel-DBus-gränssnittet eller något aktiverat "
+"användargränssnitt som inte är Kimpanel."
+
+#: data/fcitx5-diagnose.sh:1604
+msgid "Input Methods:"
+msgstr "Inmatningsmetoder:"
+
+#: data/fcitx5-diagnose.sh:1684
+msgid "Frontends setup:"
+msgstr "Konfiguration av gränssnitt:"
+
+#: data/fcitx5-diagnose.sh:1685
+#, sh-format
+msgid ""
+"The environment variable checked by this script only shows the environment "
+"under current shell. It is still possible that you did not set the "
+"environment to the whole graphic desktop session. You may inspect the actual "
+"environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
+"environ` for a certain process that you find not working."
+msgstr ""
+"Miljövariabeln som kontrolleras av detta skript visar endast miljön i det "
+"aktuella skalet. Det är fortfarande möjligt att du inte har angett miljön "
+"för hela den grafiska skrivbordssessionen. Du kan granska den faktiska "
+"miljövariabeln för en viss process med `xargs -0 -L1 /proc/$PID/environ` för "
+"en process som inte fungerar."
+
+#: data/fcitx5-diagnose.sh:1692
+msgid "Configuration:"
+msgstr "Konfiguration:"
+
+#: data/fcitx5-diagnose.sh:1698
+msgid "Log:"
+msgstr "Logg:"
+
+#: data/fcitx5-diagnose.sh:1703
+msgid ""
+"Warning: the output of fcitx5-diagnose contains sensitive information, "
+"including the distribution name, kernel version, name of currently running "
+"programs, etc."
+msgstr ""
+"Varning: utdata från fcitx5-diagnose innehåller känslig information, bland "
+"annat distributionsnamn, kärnversion och namn på program som körs just nu."
+
+#: data/fcitx5-diagnose.sh:1704
+msgid ""
+"Though such information can be helpful to developers for diagnostic purpose, "
+"please double check and remove as necessary before posting it online "
+"publicly."
+msgstr ""
+"Informationen kan vara till hjälp för utvecklare vid felsökning, men "
+"kontrollera den noga och ta bort sådant som behövs innan du publicerar den "
+"öppet på nätet."
+
+#: data/fcitx5-configtool.sh:138
+msgid ""
+"You're currently running KDE, but the configuration tool for fcitx5 couldn't "
+"be found. The package name of the configuration tool is usually kcm-fcitx5, "
+"kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration "
+"directory."
+msgstr ""
+"Du kör KDE just nu, men det gick inte att hitta konfigurationsverktyget för "
+"fcitx5. Paketnamnet för konfigurationsverktyget är vanligtvis kcm-fcitx5, "
+"kde-config-fcitx5 eller fcitx5-configtool. Konfigurationskatalogen öppnas nu."
+
+#: data/fcitx5-configtool.sh:141
+msgid ""
+"You're currently running UKUI desktop environment, but the configuration "
+"tool for fcitx5 couldn't be found. The package name of the configuration "
+"tool is usually ukui-control-center, or fcitx5-configtool. Now it will open "
+"the configuration directory."
+msgstr ""
+"Du kör skrivbordsmiljön UKUI just nu, men det gick inte att hitta "
+"konfigurationsverktyget för fcitx5. Paketnamnet för konfigurationsverktyget "
+"är vanligtvis ukui-control-center eller fcitx5-configtool. "
+"Konfigurationskatalogen öppnas nu."
+
+#: data/fcitx5-configtool.sh:144
+msgid ""
+"You're currently running Fcitx5 with GUI, but fcitx5-config-qt couldn't be "
+"found. The package name of the configuration tool is usually fcitx5-"
+"configtool. Now it will open the configuration directory."
+msgstr ""
+"Du kör Fcitx5 med grafiskt gränssnitt just nu, men det gick inte att hitta "
+"fcitx5-config-qt. Paketnamnet för konfigurationsverktyget är vanligtvis "
+"fcitx5-configtool. Konfigurationskatalogen öppnas nu."
