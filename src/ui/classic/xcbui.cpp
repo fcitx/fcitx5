@@ -730,8 +730,12 @@ int XCBUI::dpiByPosition(int x, int y) {
 }
 
 int XCBUI::scaledDPI(int dpi) {
-    if (!*parent_->config().perScreenDPI ||
-        parent_->xcb()->call<IXCBModule::isXWayland>(displayName_)) {
+    const bool isXWayland =
+        parent_->xcb()->call<IXCBModule::isXWayland>(displayName_);
+    if (isXWayland && *parent_->config().forceXWaylandDPI > 0) {
+        return *parent_->config().forceXWaylandDPI;
+    }
+    if (!*parent_->config().perScreenDPI || isXWayland) {
         // CLASSICUI_DEBUG() << "Use font option dpi: " << fontOption_.dpi;
         if (fontOption_.dpi > 0) {
             return fontOption_.dpi;

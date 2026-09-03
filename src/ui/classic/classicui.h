@@ -190,6 +190,18 @@ FCITX_CONFIGURATION(
                "screen scale factor. This option allows you to override the "
                "font DPI. If the value is 0, it means this option is "
                "disabled.")}};
+    Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
+        forceXWaylandDPI{
+            this,
+            "ForceXWaylandDPI",
+            _("Force font DPI on XWayland"),
+            0,
+            IntConstrain(0),
+            {},
+            {_("XWayland reports 96 DPI regardless of the screen scale. This "
+               "option allows you to override the font DPI when the compositor "
+               "does not scale X11 windows, for example 192 on a 2x screen. "
+               "If the value is 0, it means this option is disabled.")}};
 
     OptionWithAnnotation<bool, ToolTipAnnotation> fractionalScale{
         this,
