@@ -5,7 +5,9 @@
  *
  */
 
+#include <exception>
 #include <iostream>
+#include <memory>
 #include <getopt.h>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/environ.h"
@@ -64,15 +66,12 @@ enum {
 };
 
 int main(int argc, char *argv[]) {
-    Bus bus(BusType::Session);
     Message message;
-    if (!bus.isOpen()) {
-        FCITX_ERROR() << "Could not open DBus connection.";
-        return 1;
-    }
     int c;
     int ret = 1;
     int messageType = FCITX_DBUS_GET_CURRENT_STATE;
+    bool check = false;
+    bool printAddress = false;
     std::string imname;
     std::string serviceName = fcitxServiceName;
     struct option longOptions[] = {{"check", no_argument, nullptr, 0},
@@ -85,14 +84,9 @@ int main(int argc, char *argv[]) {
         switch (c) {
         case 0:
             switch (optionIndex) {
-            case 0: {
-                // Make sure we use the unique name to send request to avoid any
-                // race, otherwise it may trigger dbus activation.
-                serviceName = bus.serviceOwner(serviceName, defaultTimeout);
-                if (serviceName.empty()) {
-                    return 1;
-                }
-            } break;
+            case 0:
+                check = true;
+                break;
             }
             break;
         case 'o':
@@ -144,8 +138,8 @@ int main(int argc, char *argv[]) {
             break;
 
         case 'a':
-            std::cout << bus.address() << std::endl;
-            return 0;
+            printAddress = true;
+            break;
         case 'h':
             usage(std::cout);
             return 0;
@@ -159,10 +153,36 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    std::unique_ptr<Bus> bus;
+    try {
+        bus = std::make_unique<Bus>(BusType::Session);
+    } catch (const std::exception &e) {
+        FCITX_ERROR() << "Could not open DBus connection: " << e.what();
+        return 1;
+    }
+    if (!bus->isOpen()) {
+        FCITX_ERROR() << "Could not open DBus connection.";
+        return 1;
+    }
+
+    if (check) {
+        // Make sure we use the unique name to send request to avoid any race,
+        // otherwise it may trigger dbus activation.
+        serviceName = bus->serviceOwner(serviceName, defaultTimeout);
+        if (serviceName.empty()) {
+            return 1;
+        }
+    }
+
+    if (printAddress) {
+        std::cout << bus->address() << std::endl;
+        return 0;
+    }
+
 #define CASE(ENUMNAME, MESSAGENAME)                                            \
     case FCITX_DBUS_##ENUMNAME:                                                \
-        message = bus.createMethodCall(serviceName.data(), path,               \
-                                       interfaceName, #MESSAGENAME);           \
+        message = bus->createMethodCall(serviceName.data(), path,              \
+                                        interfaceName, #MESSAGENAME);          \
         break;
 
     switch (messageType) {
@@ -189,7 +209,7 @@ int main(int argc, char *argv[]) {
     // We need to have some special code for this, this is because we don't want
     // to trigger dbus activation for it.
     if (messageType == FCITX_DBUS_EXIT) {
-        auto owner = bus.serviceOwner(serviceName, defaultTimeout);
+        auto owner = bus->serviceOwner(serviceName, defaultTimeout);
         // Either failed or not present, it will be return empty.
         if (owner.empty()) {
             return 0;
