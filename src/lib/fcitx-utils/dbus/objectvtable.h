@@ -76,6 +76,13 @@ public:
     const char *what() const noexcept override { return "MethodCallNoReply"; }
 };
 
+class FCITXUTILS_EXPORT MethodReturnTypeMismatch : public std::exception {
+public:
+    explicit MethodReturnTypeMismatch();
+
+    const char *what() const noexcept override;
+};
+
 class ObjectVTableMethodPrivate;
 
 /**
