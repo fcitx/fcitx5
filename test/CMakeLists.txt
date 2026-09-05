@@ -66,6 +66,11 @@ if (ENABLE_DBUS)
     add_executable(DBusWrapper IMPORTED)
     set_target_properties(DBusWrapper PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/dbus_wrapper.sh")
 
+    add_test(NAME testremotehelp
+             COMMAND ${CMAKE_COMMAND} -E env
+                     "DBUS_SESSION_BUS_ADDRESS=unix:path=${CMAKE_CURRENT_BINARY_DIR}/nonexistent-dbus"
+                     $<TARGET_FILE:fcitx5-remote> --help)
+
     foreach(TESTCASE ${FCITX_UTILS_DBUS_TEST})
         add_executable(${TESTCASE} ${TESTCASE}.cpp)
         target_link_libraries(${TESTCASE} Fcitx5::Utils ${${TESTCASE}_LIBS})
