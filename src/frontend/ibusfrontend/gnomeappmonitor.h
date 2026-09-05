@@ -12,6 +12,7 @@
 #include <optional>
 #include <string>
 #include <unordered_set>
+#include "fcitx-utils/coroutine.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/matchrule.h"
 #include "fcitx-utils/dbus/message.h"
@@ -29,36 +30,44 @@ public:
 
     bool isAvailable() const override;
     void setShell(const std::string &name);
-    void setShellPid(uint32_t pid);
     void setPortal(const std::string &name);
 
     const std::string &shellName() const { return shellName_; }
     std::optional<uint32_t> shellPid() const { return shellPid_; }
 
-    void refreshState();
-
     Signal<void()> shellNameChanged;
-
-    void getOverviewActive();
 
     void updateState();
 
 private:
+    void init();
+    void reset();
+
+    Coroutine<void> initShell();
+    void initMonitorBus();
+
     dbus::Bus *bus_;
+
+    // monitoring resources
     std::unique_ptr<dbus::ServiceWatcher> serviceWatcher_;
     std::unique_ptr<dbus::ServiceWatcherEntry> handleShell_;
     std::unique_ptr<dbus::ServiceWatcherEntry> handlePortal_;
-    std::unique_ptr<dbus::Bus> monitorBus_;
-    std::unique_ptr<dbus::Slot> filter_;
-    std::unique_ptr<dbus::Slot> shellPidSlot_;
+
+    // Precondition to start init
     std::string shellName_;
-    std::optional<uint32_t> shellPid_;
     std::string portalName_;
 
-    std::unique_ptr<dbus::Slot> propertyChangedSlot_;
-    std::unique_ptr<dbus::Slot> getSlot_;
+    // init shell task.
+    std::optional<CoroutineTask<void>> initShellTask_;
 
+    // init shell result.
+    std::unique_ptr<dbus::Bus> monitorBus_;
+    std::unique_ptr<dbus::Slot> filter_;
+    std::optional<uint32_t> shellPid_;
+    std::unique_ptr<dbus::Slot> propertyChangedSlot_;
     bool overviewActive_ = false;
+
+    // State.
     std::unordered_set<std::string> apps_;
     std::string focus_;
 

@@ -16,6 +16,12 @@ namespace fcitx::dbus {
 
 MethodCallNoReply::MethodCallNoReply() = default;
 
+MethodReturnTypeMismatch::MethodReturnTypeMismatch() = default;
+
+const char *MethodReturnTypeMismatch::what() const noexcept {
+    return "MethodReturnTypeMismatch";
+}
+
 ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
                                        const std::string &name,
                                        const std::string &signature,

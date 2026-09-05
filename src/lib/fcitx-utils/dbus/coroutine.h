@@ -10,13 +10,16 @@
 #include <cstdint>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <utility>
 #include <coroutine>
 #include <fcitx-utils/coroutine.h>
 #include <fcitx-utils/dbus/bus.h>
 #include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/misc.h>
+#include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/trackableobject.h"
+#include "message.h"
 
 namespace fcitx::dbus {
 
@@ -46,12 +49,37 @@ public:
 
     Message await_resume() { return std::move(reply_); }
 
-private:
+protected:
     Message message_;
     uint64_t usec_;
     std::unique_ptr<Slot> slot_;
     std::coroutine_handle<> continuation_{nullptr};
     Message reply_;
+};
+
+template <typename... ReturnTypes>
+class AsyncReturn : protected AsyncCall {
+public:
+    using AsyncCall::AsyncCall;
+
+    using AsyncCall::await_ready;
+    using AsyncCall::await_suspend;
+    auto await_resume() {
+        if (reply_.isError()) {
+            throw MethodCallError(reply_.errorName().c_str(),
+                                  reply_.errorMessage().c_str());
+        }
+        if (reply_.signature() !=
+            DBusSignatureTraits<ReturnTypes...>::signature::str()) {
+            throw MethodReturnTypeMismatch();
+        }
+
+        MetaStringToDBusTupleType<
+            typename DBusSignatureTraits<ReturnTypes...>::signature>
+            ret;
+        reply_ >> ret;
+        return ret;
+    }
 };
 
 } // namespace fcitx::dbus
