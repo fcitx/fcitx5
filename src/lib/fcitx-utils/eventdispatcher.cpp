@@ -5,7 +5,6 @@
  *
  */
 #include "eventdispatcher.h"
-#include <cstdint>
 #include <functional>
 #include <memory>
 #include <mutex>
@@ -13,9 +12,7 @@
 #include <utility>
 #include "event.h"
 #include "eventloopinterface.h"
-#include "fs.h"
 #include "macros.h"
-#include "unixfd.h"
 
 namespace fcitx {
 class EventDispatcherPrivate {

@@ -28,7 +28,8 @@ set(FCITX_UTILS_TEST
     testfallbackuuid
     testsemver
     testenviron
-    testfdstreambuf)
+    testfdstreambuf
+    testcoroutine)
 
 if (WIN32)
     list(APPEND FCITX_UTILS_TEST teststandardpaths_win)

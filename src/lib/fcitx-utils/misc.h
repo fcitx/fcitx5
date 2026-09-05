@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_MISC_H_
 #define _FCITX_UTILS_MISC_H_
 
+#include <optional>
 #ifdef __APPLE__
 #include <TargetConditionals.h>
 #endif
@@ -29,26 +30,24 @@ template <class Parent, class Member>
 inline std::ptrdiff_t
 offsetFromPointerToMember(const Member Parent::*ptr_to_member) {
     const Parent *const parent = 0;
-    const char *const member = static_cast<const char *>(
-        static_cast<const void *>(&(parent->*ptr_to_member)));
-    return std::ptrdiff_t(
-        member - static_cast<const char *>(static_cast<const void *>(parent)));
+    const char *const member =
+        reinterpret_cast<const char *>(&(parent->*ptr_to_member));
+    return std::ptrdiff_t(member - reinterpret_cast<const char *>(parent));
 }
 
 template <class Parent, class Member>
 inline Parent *parentFromMember(Member *member,
                                 const Member Parent::*ptr_to_member) {
-    return static_cast<Parent *>(
-        static_cast<void *>(static_cast<char *>(static_cast<void *>(member)) -
-                            offsetFromPointerToMember(ptr_to_member)));
+    return reinterpret_cast<Parent *>(reinterpret_cast<char *>(member) -
+                                      offsetFromPointerToMember(ptr_to_member));
 }
 
 template <class Parent, class Member>
 inline const Parent *parentFromMember(const Member *member,
                                       const Member Parent::*ptr_to_member) {
-    return static_cast<const Parent *>(static_cast<const void *>(
-        static_cast<const char *>(static_cast<const void *>(member)) -
-        offsetFromPointerToMember(ptr_to_member)));
+    return reinterpret_cast<const Parent *>(
+        reinterpret_cast<const char *>(member) -
+        offsetFromPointerToMember(ptr_to_member));
 }
 
 template <typename Iter>
@@ -103,11 +102,38 @@ IterRange<Iter> MakeIterRange(Iter begin, Iter end) {
 
 struct EnumHash {
     template <typename T>
-    inline auto operator()(T const value) const {
+    auto operator()(T const value) const {
         return std::hash<std::underlying_type_t<T>>()(
             static_cast<std::underlying_type_t<T>>(value));
     }
 };
+
+template <typename Callback>
+class [[nodiscard]] ScopeExit {
+public:
+    explicit ScopeExit(Callback callback) : callback_(std::move(callback)) {}
+
+    ScopeExit(ScopeExit &&) = delete;
+    ScopeExit(const ScopeExit &) = delete;
+    ScopeExit &operator=(const ScopeExit &) = delete;
+    ScopeExit &operator=(ScopeExit &&) = delete;
+
+    ~ScopeExit() noexcept { invoke(); }
+
+    void release() noexcept { callback_.reset(); }
+    void invoke() noexcept {
+        if (callback_) {
+            (*callback_)();
+            callback_.reset();
+        }
+    }
+
+private:
+    std::optional<Callback> callback_;
+};
+
+template <typename Callback>
+ScopeExit(Callback) -> ScopeExit<Callback>;
 
 FCITXUTILS_EXPORT void startProcess(const std::vector<std::string> &args,
                                     const std::string &workingDirectory = {});
