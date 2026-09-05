@@ -107,6 +107,7 @@ void VirtualInputContextManager::updateFocus() {
         // forward capability flags on focus in.
         if (ic != parentIC_) {
             ic->setCapabilityFlags(parentIC_->capabilityFlags());
+            ic->setCursorRect(parentIC_->cursorRect());
             ic->surroundingText() = parentIC_->surroundingText();
             ic->updateSurroundingText();
         }
