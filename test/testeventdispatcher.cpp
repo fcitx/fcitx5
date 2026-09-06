@@ -21,12 +21,12 @@ std::atomic<int> a = 0;
 
 void scheduleEvent(EventDispatcher *dispatcher, EventLoop *loop) {
     for (int i = 0; i < 100; i++) {
-        dispatcher->schedule([]() { a.fetch_add(1); });
+        dispatcher->dispatch([]() { a.fetch_add(1); });
     }
     while (a != 100) {
         usleep(1000);
     }
-    dispatcher->schedule([loop, dispatcher]() {
+    dispatcher->dispatch([loop, dispatcher]() {
         loop->exit();
         dispatcher->detach();
     });
@@ -48,9 +48,9 @@ void testOrder() {
     dispatcher.attach(&loop);
     std::vector<int> value;
     for (int i = 0; i < 100; i++) {
-        dispatcher.schedule([i, &value]() { value.push_back(i); });
+        dispatcher.dispatch([i, &value]() { value.push_back(i); });
     }
-    dispatcher.schedule([&loop]() { loop.exit(); });
+    dispatcher.dispatch([&loop]() { loop.exit(); });
     loop.exec();
     FCITX_ASSERT(value.size() == 100);
     for (int i = 0; i < 100; i++) {
@@ -70,10 +70,10 @@ void recursiveSchedule() {
             return;
         }
         ++counter;
-        dispatcher.schedule(callback);
+        dispatcher.dispatch(callback);
     };
 
-    dispatcher.schedule(callback);
+    dispatcher.dispatch(callback);
 
     loop.exec();
     FCITX_ASSERT(counter == 100);
@@ -97,7 +97,7 @@ void withContext() {
             [&invalidCalled]() { invalidCalled = true; });
     }
 
-    dispatcher.schedule([&loop]() { loop.exit(); });
+    dispatcher.dispatch([&loop]() { loop.exit(); });
     loop.exec();
 
     FCITX_ASSERT(called);
@@ -129,7 +129,7 @@ void scheduleNull() {
             ready = true;
         }
         // Test schedule nullptr is accepted.
-        dispatcher.schedule(nullptr);
+        dispatcher.dispatch(nullptr);
     });
     e.exec();
     thread.join();

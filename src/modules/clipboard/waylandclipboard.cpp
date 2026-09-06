@@ -55,7 +55,7 @@ uint64_t DataReaderThread::addTask(DataOfferInterface *offer,
 
 void DataReaderThread::removeTask(uint64_t token) {
     FCITX_CLIPBOARD_DEBUG() << "Remove task: " << token;
-    dispatcherToWorker_.schedule([this, token]() { tasks_.erase(token); });
+    dispatcherToWorker_.dispatch([this, token]() { tasks_.erase(token); });
 }
 
 void DataReaderThread::realRun() {
@@ -288,8 +288,8 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
                     extManager_ =
                         display_->getGlobal<wayland::ExtDataControlManagerV1>();
                 }
-                parent_->instance()->eventDispatcher().schedule(
-                    [this]() { refreshSeat(); });
+                parent_->instance()->eventDispatcher().dispatchWithContext(
+                    watch(), [this]() { refreshSeat(); });
                 deferRefreshSeat();
             } else if (interface ==
                        wayland::ZwlrDataControlManagerV1::interface) {

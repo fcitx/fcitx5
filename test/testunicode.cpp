@@ -18,11 +18,11 @@
 using namespace fcitx;
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
-    dispatcher->schedule([instance]() {
+    dispatcher->dispatch([instance]() {
         auto *unicode = instance->addonManager().addon("unicode", true);
         FCITX_ASSERT(unicode);
     });
-    dispatcher->schedule([dispatcher, instance]() {
+    dispatcher->dispatch([dispatcher, instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("🍏");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("’");
@@ -69,7 +69,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("9"), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("space"), false);
 
-        dispatcher->schedule([dispatcher, instance]() {
+        dispatcher->dispatch([dispatcher, instance]() {
             dispatcher->detach();
             instance->exit();
         });
