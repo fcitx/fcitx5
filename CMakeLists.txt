@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.18)
 project(fcitx VERSION 5.1.22)
 set(FCITX_VERSION ${PROJECT_VERSION})
 
