@@ -22,11 +22,9 @@ function(fcitx5_import_addons target)
 
   foreach(addon IN LISTS FCITX5_IMPORT_ADDONS)
       set(filename "${CMAKE_CURRENT_BINARY_DIR}/${target}-${addon}-import-addon.cpp")
-      file(CONFIGURE OUTPUT "${filename}" CONTENT "
-#include <fcitx/addonloader.h>
-extern fcitx::StaticAddonRegistry &${FCITX5_IMPORT_REGISTRY_VARNAME}();
-FCITX_IMPORT_ADDON_FACTORY(${FCITX5_IMPORT_REGISTRY_VARNAME}, ${addon});
-")
+      set(FCITX5_IMPORT_ADDON "${addon}")
+      configure_file("${_Fcitx5Macro_SELF_DIR}/Fcitx5ImportAddon.cpp.in"
+                     "${filename}" @ONLY)
       target_sources(${target} PRIVATE ${filename})
       target_link_libraries(${target} ${addon})
   endforeach()
