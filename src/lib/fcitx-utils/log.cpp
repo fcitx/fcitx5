@@ -21,7 +21,13 @@
 #include <utility>
 #include <vector>
 #include <format>
+#include <version>
+#if defined(__cpp_lib_syncbuf) && __cpp_lib_syncbuf >= 201803L
+#define FCITX_HAS_SYNCSTREAM 1
 #include <syncstream>
+#else
+#define FCITX_HAS_SYNCSTREAM 0
+#endif
 #include "macros.h"
 #include "stringutils.h"
 
@@ -35,16 +41,20 @@ using LogRule = std::pair<std::string, LogLevel>;
 
 struct LogConfig {
     static std::ostream *defaultLogStream;
+#if FCITX_HAS_SYNCSTREAM
     static thread_local std::osyncstream localLogStream;
+#endif
     static bool showTimeDate;
 };
 
 std::ostream *LogConfig::defaultLogStream = &std::cerr;
+#if FCITX_HAS_SYNCSTREAM
 thread_local std::osyncstream LogConfig::localLogStream = []() {
     std::osyncstream out(*LogConfig::defaultLogStream);
     out.rdbuf()->set_emit_on_sync(true);
     return out;
 }();
+#endif
 bool LogConfig::showTimeDate = true;
 
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
@@ -199,12 +209,16 @@ void Log::setLogStream(std::ostream &stream) {
 }
 
 std::ostream &Log::logStream() {
+#if FCITX_HAS_SYNCSTREAM
     auto *buf = LogConfig::defaultLogStream->rdbuf();
     if (LogConfig::localLogStream.get_wrapped() != buf) {
         LogConfig::localLogStream = std::osyncstream(buf);
         LogConfig::localLogStream.rdbuf()->set_emit_on_sync(true);
     }
     return LogConfig::localLogStream;
+#else
+    return *LogConfig::defaultLogStream;
+#endif
 }
 
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
