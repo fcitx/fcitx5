@@ -76,7 +76,8 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
     }
 
     const auto actions = actionable->candidateActions(*candidate);
-    if (actions.empty()) {
+    if (actions.empty() ||
+        std::ranges::all_of(actions, &CandidateAction::isSeparator)) {
         return false;
     }
 

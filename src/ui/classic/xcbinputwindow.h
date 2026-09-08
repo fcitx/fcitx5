@@ -34,7 +34,9 @@ public:
     void updateDPI(InputContext *inputContext);
 
 private:
+    /// Build and show the candidate action menu at the pointer position.
     bool showCandidateMenu(int x, int y, int rootX, int rootY);
+    /// Hide the candidate action menu and unregister its temporary actions.
     void clearCandidateMenu();
     void repaint();
     const Rect *getClosestScreen(const Rect &cursorRect) const;
