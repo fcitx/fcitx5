@@ -42,6 +42,7 @@
 
 namespace fcitx::classicui {
 
+/** Initializes the Wayland input window and its event handlers. */
 WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
     menuContext_.reset(pango_font_map_create_context(fontMap_.get()));
@@ -133,6 +134,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     initPanel();
 }
 
+/** Hides the candidate menu and discards its temporary state. */
 void WaylandInputWindow::clearCandidateMenu() {
     candidateMenuVisible_ = false;
     candidateMenuCandidate_ = nullptr;
@@ -147,6 +149,7 @@ void WaylandInputWindow::clearCandidateMenu() {
     candidateMenuHoveredIndex_ = -1;
 }
 
+/** Restores the input panel surface after a candidate menu closes. */
 void WaylandInputWindow::restorePanelSize() {
     if (!window_ || panelWidth_ <= 0 || panelHeight_ <= 0 ||
         (window_->width() == panelWidth_ &&
@@ -157,6 +160,7 @@ void WaylandInputWindow::restorePanelSize() {
     updateBlur();
 }
 
+/** Builds and shows the candidate action menu at the pointer position. */
 void WaylandInputWindow::showCandidateMenu(int x, int y) {
     auto dismiss = [this]() {
         if (!candidateMenuVisible_) {
@@ -310,6 +314,7 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     repaint();
 }
 
+/** Updates the candidate menu item under the pointer. */
 bool WaylandInputWindow::hoverCandidateMenu(int x, int y) {
     if (!candidateMenuVisible_) {
         return false;
@@ -330,6 +335,7 @@ bool WaylandInputWindow::hoverCandidateMenu(int x, int y) {
     return true;
 }
 
+/** Activates or dismisses the candidate menu after a left click. */
 void WaylandInputWindow::clickCandidateMenu(int x, int y) {
     if (!candidateMenuVisible_) {
         return;
@@ -363,6 +369,7 @@ void WaylandInputWindow::clickCandidateMenu(int x, int y) {
     repaint();
 }
 
+/** Paints the candidate action menu over the input panel. */
 void WaylandInputWindow::paintCandidateMenu(cairo_t *cr) {
     if (!candidateMenuVisible_) {
         return;
@@ -415,6 +422,7 @@ void WaylandInputWindow::paintCandidateMenu(cairo_t *cr) {
     }
 }
 
+/** Creates the Wayland input panel surface when necessary. */
 void WaylandInputWindow::initPanel() {
     if (!window_->surface()) {
         window_->createWindow();
@@ -424,12 +432,14 @@ void WaylandInputWindow::initPanel() {
     setFontDPI(*parent_->config().forceWaylandDPI);
 }
 
+/** Sets the compositor background-effect manager for the input panel. */
 void WaylandInputWindow::setBlurManager(
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur) {
     blurManager_ = std::move(blur);
     updateBlur();
 }
 
+/** Updates the compositor blur region for the current panel size. */
 void WaylandInputWindow::updateBlur() {
     if (!window_->surface()) {
         return;
@@ -465,10 +475,13 @@ void WaylandInputWindow::updateBlur() {
     blur_->setBlurRegion(region.get());
 }
 
+/** Updates the input window buffer scale. */
 void WaylandInputWindow::updateScale() { window_->updateScale(); }
 
+/** Releases the current Wayland input panel surface. */
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
+/** Updates the input panel contents, surface, and candidate menu state. */
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     clearCandidateMenu();
     const auto oldVisible = visible();
@@ -557,6 +570,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     repaintIC_ = ic->watch();
 }
 
+/** Repaints the visible Wayland input window. */
 void WaylandInputWindow::repaint() {
     if (!visible()) {
         return;
