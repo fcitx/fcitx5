@@ -83,6 +83,7 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
 
     clearCandidateMenu();
     auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    bool hasRegisteredAction = false;
     for (const auto &candidateAction : actions) {
         candidateActions_.emplace_back();
         auto &action = candidateActions_.back();
@@ -105,9 +106,11 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
             continue;
         }
         candidateMenu_.addAction(&action);
+        hasRegisteredAction =
+            hasRegisteredAction || !candidateAction.isSeparator();
     }
 
-    if (candidateMenu_.actions().empty()) {
+    if (!hasRegisteredAction) {
         clearCandidateMenu();
         return false;
     }
