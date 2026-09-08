@@ -17,8 +17,10 @@
 #include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>
 #include <xcb/xproto.h>
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/userinterfacemanager.h"
 #include "inputwindow.h"
 #include "theme.h"
 #include "xcb_public.h"
@@ -31,6 +33,90 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
           ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
+
+void XCBInputWindow::clearCandidateMenu() {
+    if (candidateMenuWindow_) {
+        candidateMenuWindow_->hideAll();
+        candidateMenuWindow_ = nullptr;
+    }
+
+    for (auto *action : candidateMenu_.actions()) {
+        candidateMenu_.removeAction(action);
+    }
+
+    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    for (auto &action : candidateActions_) {
+        uiManager.unregisterAction(&action);
+    }
+    candidateActions_.clear();
+}
+
+bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
+    auto *inputContext = inputContext_.get();
+    if (!inputContext) {
+        return false;
+    }
+
+    const auto candidateList = inputContext->inputPanel().candidateList();
+    if (!candidateList) {
+        return false;
+    }
+
+    const CandidateWord *candidate = nullptr;
+    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(x, y)) {
+            candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
+            break;
+        }
+    }
+
+    auto *actionable = candidateList->toActionable();
+    if (!candidate || !actionable || !actionable->hasAction(*candidate)) {
+        return false;
+    }
+
+    const auto actions = actionable->candidateActions(*candidate);
+    if (actions.empty()) {
+        return false;
+    }
+
+    clearCandidateMenu();
+    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    for (const auto &candidateAction : actions) {
+        candidateActions_.emplace_back();
+        auto &action = candidateActions_.back();
+        action.setShortText(candidateAction.text());
+        action.setIcon(candidateAction.icon());
+        action.setCheckable(candidateAction.isCheckable());
+        action.setChecked(candidateAction.isChecked());
+        action.setSeparator(candidateAction.isSeparator());
+
+        const auto id = candidateAction.id();
+        action.connect<SimpleAction::Activated>(
+            [candidateList, candidate, id](InputContext *) {
+                if (auto *actionable = candidateList->toActionable()) {
+                    actionable->triggerAction(*candidate, id);
+                }
+            });
+
+        if (!uiManager.registerAction(&action)) {
+            candidateActions_.pop_back();
+            continue;
+        }
+        candidateMenu_.addAction(&action);
+    }
+
+    if (candidateMenu_.actions().empty()) {
+        clearCandidateMenu();
+        return false;
+    }
+
+    candidateMenuWindow_ =
+        candidateMenuPool_.requestMenu(ui_, &candidateMenu_, nullptr);
+    candidateMenuWindow_->show(Rect().setPosition(rootX, rootY).setSize(1, 1),
+                               ConstrainAdjustment::Flip);
+    return true;
+}
 
 void XCBInputWindow::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_COMBO &&
@@ -174,6 +260,7 @@ void XCBInputWindow::updateDPI(InputContext *inputContext) {
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {
+    clearCandidateMenu();
     if (!wid_) {
         return;
     }
@@ -258,7 +345,11 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         if (buttonPress->event != wid_) {
             break;
         }
-        if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
+        if (buttonPress->detail == XCB_BUTTON_INDEX_3) {
+            showCandidateMenu(logicalFromPhysical(buttonPress->event_x),
+                              logicalFromPhysical(buttonPress->event_y),
+                              buttonPress->root_x, buttonPress->root_y);
+        } else if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
             click(logicalFromPhysical(buttonPress->event_x),
                   logicalFromPhysical(buttonPress->event_y));
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_4) {

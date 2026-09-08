@@ -7,11 +7,15 @@
 #ifndef _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 
+#include <list>
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 #include "fcitx-utils/rect.h"
+#include "fcitx/action.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/menu.h"
 #include "inputwindow.h"
+#include "xcbmenu.h"
 #include "xcbui.h"
 #include "xcbwindow.h"
 
@@ -30,6 +34,8 @@ public:
     void updateDPI(InputContext *inputContext);
 
 private:
+    bool showCandidateMenu(int x, int y, int rootX, int rootY);
+    void clearCandidateMenu();
     void repaint();
     const Rect *getClosestScreen(const Rect &cursorRect) const;
     int calculatePositionX(const Rect &cursorRect,
@@ -38,6 +44,11 @@ private:
                            const Rect *closestScreen) const;
 
     xcb_atom_t atomBlur_;
+
+    MenuPool candidateMenuPool_;
+    Menu candidateMenu_;
+    std::list<SimpleAction> candidateActions_;
+    XCBMenu *candidateMenuWindow_ = nullptr;
 };
 
 } // namespace fcitx::classicui
