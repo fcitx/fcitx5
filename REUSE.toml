@@ -1,0 +1,10 @@
+version = 1
+SPDX-PackageName = "fcitx5"
+SPDX-PackageSupplier = "fcitx-dev <fcitx-dev@googlegroups.com>"
+SPDX-PackageDownloadLocation = "https://github.com/fcitx/fcitx5"
+
+[[annotations]]
+path = "src/modules/emoji/data/**.dict"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Unicode, Inc."
+SPDX-License-Identifier = "Unicode-DFS-2016"
