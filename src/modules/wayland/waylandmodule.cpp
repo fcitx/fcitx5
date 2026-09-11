@@ -212,7 +212,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) { setLayoutToCompositor(); }));
 
-    instance_->eventDispatcher().schedule([this]() {
+    instance_->eventDispatcher().dispatch([this]() {
         deferredDiagnose_ = instance_->eventLoop().addTimeEvent(
             CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000000, 0,
             [this](EventSourceTime *, uint64_t) {

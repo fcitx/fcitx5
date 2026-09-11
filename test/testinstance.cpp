@@ -30,7 +30,7 @@ using namespace fcitx;
 namespace {
 
 void testCheckUpdate(Instance &instance) {
-    instance.eventDispatcher().schedule([&instance]() {
+    instance.eventDispatcher().dispatch([&instance]() {
         FCITX_ASSERT(!instance.checkUpdate());
         auto hasUpdateTrue =
             instance.watchEvent(EventType::CheckUpdate,
@@ -46,7 +46,7 @@ void testCheckUpdate(Instance &instance) {
 }
 
 void testReloadGlobalConfig(Instance &instance) {
-    instance.eventDispatcher().schedule([&instance]() {
+    instance.eventDispatcher().dispatch([&instance]() {
         bool globalConfigReloadedEventFired = false;
         auto reloadConfigEventWatcher =
             instance.watchEvent(EventType::GlobalConfigReloaded,
@@ -60,7 +60,7 @@ void testReloadGlobalConfig(Instance &instance) {
 }
 
 void testSetGroupDefaultInputMethod(Instance &instance) {
-    instance.eventDispatcher().schedule([&instance]() {
+    instance.eventDispatcher().dispatch([&instance]() {
         auto &imManager = instance.inputMethodManager();
         auto group = imManager.currentGroup();
         group.inputMethodList().clear();
@@ -92,7 +92,7 @@ void testSetGroupDefaultInputMethod(Instance &instance) {
 }
 
 void testModifierOnlyHotkey(Instance &instance) {
-    instance.eventDispatcher().schedule([&instance]() {
+    instance.eventDispatcher().dispatch([&instance]() {
         auto defaultGroup = instance.inputMethodManager().currentGroup();
         defaultGroup.inputMethodList().clear();
         defaultGroup.inputMethodList().push_back(
@@ -165,7 +165,7 @@ void testModifierOnlyHotkey(Instance &instance) {
 }
 
 void testXkbStateMask(Instance &instance) {
-    instance.eventDispatcher().schedule([&instance]() {
+    instance.eventDispatcher().dispatch([&instance]() {
         bool xkbStateMaskChanged = false;
         std::optional<std::tuple<uint32_t, uint32_t, uint32_t>> savedOldMask;
         std::optional<std::tuple<uint32_t, uint32_t, uint32_t>> savedNewMask;
@@ -222,7 +222,7 @@ int main() {
     testSetGroupDefaultInputMethod(instance);
     testModifierOnlyHotkey(instance);
     testXkbStateMask(instance);
-    instance.eventDispatcher().schedule([&instance]() { instance.exit(); });
+    instance.eventDispatcher().dispatch([&instance]() { instance.exit(); });
     instance.exec();
     return 0;
 }
