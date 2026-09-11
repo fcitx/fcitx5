@@ -1,0 +1,3 @@
+#include <fcitx/addonloader.h>
+extern fcitx::StaticAddonRegistry &@FCITX5_IMPORT_REGISTRY_VARNAME@();
+FCITX_IMPORT_ADDON_FACTORY(@FCITX5_IMPORT_REGISTRY_VARNAME@, @FCITX5_IMPORT_ADDON@);
