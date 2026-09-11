@@ -96,7 +96,7 @@ Display::Display(wl_display *display) : display_(display) {
 #endif
 }
 
-Display::~Display() {}
+Display::~Display() { flush(); }
 
 void Display::roundtrip() { wl_display_roundtrip(*this); }
 
