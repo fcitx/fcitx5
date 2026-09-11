@@ -134,7 +134,8 @@ jobs:
         env:
           HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
         run: |
-          brew install cmake extra-cmake-modules gettext libuv libxkbcommon iso-codes xkeyboard-config nlohmann-json ninja pkgconf
+          brew install cmake extra-cmake-modules expat gettext libuv libxkbcommon iso-codes xkeyboard-config nlohmann-json ninja pkgconf
+          echo "CMAKE_PREFIX_PATH=$(brew --prefix expat)" >> "$GITHUB_ENV"
 
       - name: Cache fcitx5 data files
         uses: actions/cache@v6
