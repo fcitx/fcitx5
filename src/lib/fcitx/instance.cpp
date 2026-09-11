@@ -457,7 +457,8 @@ bool InstancePrivate::canActivate(InputContext *ic) {
         return false;
     }
     auto *inputState = ic->propertyFor(&inputStateFactory_);
-    return !inputState->isActive();
+    return (!inputState->isActive()) ||
+           globalConfig_.consumeRedundantActivateKeys();
 }
 
 bool InstancePrivate::canDeactivate(InputContext *ic) {
@@ -466,7 +467,8 @@ bool InstancePrivate::canDeactivate(InputContext *ic) {
         return false;
     }
     auto *inputState = ic->propertyFor(&inputStateFactory_);
-    return inputState->isActive();
+    return inputState->isActive() ||
+           globalConfig_.consumeRedundantActivateKeys();
 }
 
 void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
