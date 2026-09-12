@@ -19,7 +19,7 @@ jobs:
         run: |
           pacman -Syu --noconfirm git clang diffutils
           git config --global --add safe.directory $GITHUB_WORKSPACE
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: fcitx/github-actions@clang-format
   check:
     name: Build and test
@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           pacman -Syu --noconfirm base-devel clang cmake ninja extra-cmake-modules xcb-util xcb-util-keysyms cairo enchant iso-codes libxkbcommon-x11 pango systemd wayland xcb-util-wm libxkbfile nlohmann-json gdk-pixbuf2 wayland-protocols git plasma-wayland-protocols
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           path: xcb-imdkit
           repository: fcitx/xcb-imdkit
@@ -50,17 +50,17 @@ jobs:
         uses: fcitx/github-actions@cmake
         with:
           path: xcb-imdkit
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           path: fcitx5
           submodules: true
       - name: Cache fcitx5 data files
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: 'fcitx5/**/*.tar.*'
           key: ${{ runner.os }}-${{ hashFiles('fcitx5/src/modules/spell/CMakeLists.txt') }}
       - name: Init CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: cpp
           source-root: fcitx5
@@ -72,7 +72,7 @@ jobs:
         run: |
           ctest --output-on-failure --test-dir fcitx5/build
       - name: CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v4
 
   check-windows:
     name: Build on Windows
@@ -82,7 +82,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           path: fcitx5
           submodules: true
@@ -102,7 +102,7 @@ jobs:
           Add-Content $env:GITHUB_PATH "C:/msys64/clang64/bin"
 
       - name: Cache fcitx5 data files
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: 'fcitx5/**/*.tar.*'
           key: ${{ runner.os }}-${{ hashFiles('fcitx5/src/modules/spell/CMakeLists.txt') }}
@@ -114,6 +114,42 @@ jobs:
           cmake-option: >-
             -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_SERVER=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_LIBUUID=Off -DENABLE_KEYBOARD=Off -DCMAKE_CXX_FLAGS=-fexperimental-library
           shell: pwsh
+
+      - name: Test
+        run: |
+          ctest --output-on-failure --test-dir fcitx5/build
+
+  check-macos:
+    name: Build on macOS
+    needs: clang-format
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: fcitx5
+          submodules: true
+
+      - name: Install dependencies
+        env:
+          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+        run: |
+          brew install cmake extra-cmake-modules expat gettext libuv libxkbcommon iso-codes xkeyboard-config nlohmann-json ninja pkgconf
+          echo "CMAKE_PREFIX_PATH=$(brew --prefix expat)" >> "$GITHUB_ENV"
+
+      - name: Cache fcitx5 data files
+        uses: actions/cache@v6
+        with:
+          path: 'fcitx5/**/*.tar.*'
+          key: ${{ runner.os }}-${{ hashFiles('fcitx5/src/modules/spell/CMakeLists.txt') }}
+
+      - name: Build
+        uses: fcitx/github-actions@cmake
+        with:
+          path: fcitx5
+          install-prefix: ${{ runner.temp }}/fcitx
+          cmake-option: >-
+            -DENABLE_DBUS=Off -DENABLE_X11=Off -DENABLE_WAYLAND=Off -DENABLE_ENCHANT=Off -DENABLE_DOC=Off -DENABLE_SERVER=Off -DUSE_SYSTEMD=Off -DENABLE_XDGAUTOSTART=Off -DENABLE_EMOJI=Off -DENABLE_LIBUUID=Off
 
       - name: Test
         run: |

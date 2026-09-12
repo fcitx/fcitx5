@@ -16,6 +16,7 @@
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/event.h"
@@ -116,8 +117,17 @@ void testModifierOnlyHotkey(Instance &instance) {
         FCITX_ASSERT(instance.inputMethod(ic) == "keyboard-us");
 
         FCITX_ASSERT(instance.inputMethod(ic) == "keyboard-us");
-        FCITX_ASSERT(testfrontend->call<ITestFrontend::sendKeyEvent>(
-            uuid, Key("Control+space"), false));
+        if (isApple()) {
+            // macOS includes Shift in the modifier state on key press and
+            // removes it on key release.
+            FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
+                uuid, Key("Control+Shift+Shift_L"), false));
+            FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
+                uuid, Key("Control+Shift_L"), true));
+        } else {
+            FCITX_ASSERT(testfrontend->call<ITestFrontend::sendKeyEvent>(
+                uuid, Key("Control+space"), false));
+        }
         FCITX_ASSERT(instance.inputMethod(ic) == "testim");
 
         FCITX_ASSERT(!testfrontend->call<ITestFrontend::sendKeyEvent>(
