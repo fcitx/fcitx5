@@ -282,10 +282,10 @@ bool WaylandModule::openConnectionSocket(int fd) {
 bool WaylandModule::openConnectionSocketWithName(int fd,
                                                  const std::string &name,
                                                  const std::string &realName) {
+    UnixFD guard = UnixFD::own(fd);
     if (instance_->exiting()) {
         return false;
     }
-    UnixFD guard = UnixFD::own(fd);
 
     if (conns_.contains(name)) {
         return false;
@@ -320,10 +320,10 @@ bool WaylandModule::openConnectionSocketWithName(int fd,
 
 bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
                                            int fd) {
+    UnixFD guard = UnixFD::own(fd);
     if (instance_->exiting()) {
         return false;
     }
-    UnixFD guard = UnixFD::own(fd);
     std::string name = displayName;
 
     auto iter = conns_.find(name);
