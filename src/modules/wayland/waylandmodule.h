@@ -26,6 +26,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/signals.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx-utils/unixfd.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
@@ -84,7 +85,7 @@ private:
 class WaylandConnection : public TrackableObject<WaylandConnection> {
 public:
     WaylandConnection(WaylandModule *wayland, std::string name);
-    WaylandConnection(WaylandModule *wayland, std::string name, int fd,
+    WaylandConnection(WaylandModule *wayland, std::string name, UnixFD fd,
                       std::string realName);
     ~WaylandConnection();
 
@@ -126,10 +127,11 @@ public:
 
     bool openConnection(const std::string &name);
     bool openConnectionSocket(int fd);
-    bool openConnectionSocketWithName(int fd, const std::string &name,
-                                      const std::string &realName);
     bool reopenConnectionSocket(const std::string &name, int fd);
     void removeConnection(const std::string &name);
+
+    bool openConnectionSocketV2(UnixFD fd);
+    bool reopenConnectionSocketV2(const std::string &name, UnixFD fd);
 
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
     addConnectionCreatedCallback(WaylandConnectionCreated callback);
@@ -152,6 +154,8 @@ public:
     void setLayoutToCompositor();
 
 private:
+    bool openConnectionSocketWithName(UnixFD fd, const std::string &name,
+                                      const std::string &realName);
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
     void refreshCanRestart();
@@ -178,6 +182,8 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnectionSocket);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reopenConnectionSocket);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, repeatInfo);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnectionSocketV2);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reopenConnectionSocketV2);
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
