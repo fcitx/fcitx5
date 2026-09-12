@@ -17,7 +17,6 @@
 #include <variant>
 #include <vector>
 #include <cairo.h>
-#include <librsvg/rsvg.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/option.h"
@@ -240,16 +239,17 @@ class Theme;
 class ThemeImage {
 public:
     using CairoSurface = UniqueCPtr<cairo_surface_t, cairo_surface_destroy>;
+    using CairoPattern = UniqueCPtr<cairo_pattern_t, cairo_pattern_destroy>;
     struct Svg {
         int width = 0;
         int height = 0;
-        GObjectUniquePtr<RsvgHandle> handle;
+        CairoPattern pattern;
     };
     struct Pattern {
         int width = 0;
         int height = 0;
         int borderWidth = 0;
-        UniqueCPtr<cairo_pattern_t, cairo_pattern_destroy> pattern;
+        CairoPattern pattern;
     };
 
     ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
