@@ -248,6 +248,32 @@ std::optional<std::pair<int, int>> svgSize(RsvgHandle *svg) {
     return std::nullopt;
 }
 
+ThemeImage::CairoPattern renderSvg(RsvgHandle *svg, int width, int height) {
+    const cairo_rectangle_t extents{0, 0, static_cast<double>(width),
+                                    static_cast<double>(height)};
+    ThemeImage::CairoSurface surface(
+        cairo_recording_surface_create(CAIRO_CONTENT_COLOR_ALPHA, &extents));
+    if (cairo_surface_status(surface.get()) != CAIRO_STATUS_SUCCESS) {
+        return nullptr;
+    }
+    UniqueCPtr<cairo_t, cairo_destroy> context(cairo_create(surface.get()));
+    if (cairo_status(context.get()) != CAIRO_STATUS_SUCCESS) {
+        return nullptr;
+    }
+    const RsvgRectangle viewport{0, 0, static_cast<double>(width),
+                                 static_cast<double>(height)};
+    if (!rsvg_handle_render_document(svg, context.get(), &viewport, nullptr) ||
+        cairo_status(context.get()) != CAIRO_STATUS_SUCCESS) {
+        return nullptr;
+    }
+    ThemeImage::CairoPattern pattern(
+        cairo_pattern_create_for_surface(surface.get()));
+    if (cairo_pattern_status(pattern.get()) != CAIRO_STATUS_SUCCESS) {
+        return nullptr;
+    }
+    return pattern;
+}
+
 std::optional<ThemeImage::Svg> loadSvg(UnixFD &file) {
     if (!file.isValid()) {
         return std::nullopt;
@@ -270,7 +296,10 @@ std::optional<ThemeImage::Svg> loadSvg(UnixFD &file) {
     ThemeImage::Svg svg;
     svg.width = size->first;
     svg.height = size->second;
-    svg.handle = std::move(handle);
+    svg.pattern = renderSvg(handle.get(), svg.width, svg.height);
+    if (!svg.pattern) {
+        return std::nullopt;
+    }
     return svg;
 }
 
@@ -662,16 +691,8 @@ void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
         cairo_translate(c, destX - (sourceX * destWidth / sourceWidth),
                         destY - (sourceY * destHeight / sourceHeight));
         cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
-        RsvgRectangle viewport{0, 0, static_cast<double>(svg->width),
-                               static_cast<double>(svg->height)};
-        cairo_push_group(c);
-        if (rsvg_handle_render_document(svg->handle.get(), c, &viewport,
-                                        nullptr)) {
-            cairo_pop_group_to_source(c);
-            cairo_paint_with_alpha(c, alpha);
-        } else {
-            cairo_pop_group(c);
-        }
+        cairo_set_source(c, svg->pattern.get());
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
         return;
     }
