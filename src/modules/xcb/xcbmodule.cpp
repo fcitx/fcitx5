@@ -43,6 +43,13 @@ XCBModule::XCBModule(Instance *instance) : instance_(instance) {
                            "nodefault")) {
         openConnection("");
     }
+
+    exitConnection_ = instance_->connect<Instance::AboutToExit>([this]() {
+        // Handle about to exit signal
+        while (!conns_.empty()) {
+            removeConnection(conns_.begin()->first);
+        }
+    });
 }
 
 void XCBModule::reloadConfig() { readAsIni(config_, "conf/xcb.conf"); }
@@ -52,13 +59,16 @@ void XCBModule::openConnection(const std::string &name_) {
 }
 
 bool XCBModule::openConnectionChecked(const std::string &name_) {
+    if (instance_->exiting()) {
+        return false;
+    }
     std::string name = name_;
     if (name.empty()) {
         if (auto env = getEnvironment("DISPLAY")) {
             name = *env;
         }
     }
-    if (name.empty() || conns_.count(name)) {
+    if (name.empty() || conns_.contains(name)) {
         return false;
     }
 
