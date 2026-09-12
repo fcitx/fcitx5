@@ -1491,8 +1491,10 @@ void Instance::initialize() {
 #endif
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
-        FCITX_DEBUG() << "Running save...";
+        emit<Instance::AboutToExit>();
+        FCITX_INFO() << "Save before exiting...";
         save();
+        emit<Instance::Exit>();
         return false;
     });
     d->notifications_ = d->addonManager_.addon("notifications", true);

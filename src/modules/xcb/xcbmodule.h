@@ -21,6 +21,7 @@
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/signals.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
@@ -129,6 +130,7 @@ private:
     HandlerTable<XCBConnectionCreated> createdCallbacks_;
     HandlerTable<XCBConnectionClosed> closedCallbacks_;
     std::string mainDisplay_;
+    ScopedConnection exitConnection_;
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, openConnection);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, openConnectionChecked);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);

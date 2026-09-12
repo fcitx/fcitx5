@@ -139,7 +139,16 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name,
     init(display);
 }
 
-WaylandConnection::~WaylandConnection() {}
+WaylandConnection::~WaylandConnection() {
+    // Stop all event handling.
+    eventReader_.reset();
+
+    // Try to flush the last event, this should help to apply virtual keyboard
+    // do the final destroy.
+    if (!wl_display_get_error(*display_)) {
+        display_->flush();
+    }
+}
 
 void WaylandConnection::init(wl_display *display) {
     display_ = std::make_unique<wayland::Display>(display);
@@ -221,11 +230,21 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
             });
     });
 #endif
+
+    exitConnection_ = instance_->connect<Instance::AboutToExit>([this]() {
+        // Handle about to exit signal
+        while (!conns_.empty()) {
+            removeConnection(conns_.begin()->first);
+        }
+    });
 }
 
 void WaylandModule::reloadConfig() { readAsIni(config_, "conf/wayland.conf"); }
 
 bool WaylandModule::openConnection(const std::string &name) {
+    if (instance_->exiting()) {
+        return false;
+    }
     if (conns_.contains(name)) {
         return false;
     }
@@ -263,6 +282,9 @@ bool WaylandModule::openConnectionSocket(int fd) {
 bool WaylandModule::openConnectionSocketWithName(int fd,
                                                  const std::string &name,
                                                  const std::string &realName) {
+    if (instance_->exiting()) {
+        return false;
+    }
     UnixFD guard = UnixFD::own(fd);
 
     if (conns_.contains(name)) {
@@ -298,6 +320,9 @@ bool WaylandModule::openConnectionSocketWithName(int fd,
 
 bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
                                            int fd) {
+    if (instance_->exiting()) {
+        return false;
+    }
     UnixFD guard = UnixFD::own(fd);
     std::string name = displayName;
 

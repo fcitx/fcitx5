@@ -183,6 +183,7 @@ private:
         eventHandlers_;
     std::unique_ptr<EventSourceTime> delayedReloadXkbOption_;
     std::unique_ptr<EventSourceTime> deferredDiagnose_;
+    ScopedConnection exitConnection_;
 };
 
 FCITX_DECLARE_LOG_CATEGORY(wayland_log);
