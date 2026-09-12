@@ -17,8 +17,10 @@
 #include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>
 #include <xcb/xproto.h>
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/userinterfacemanager.h"
 #include "inputwindow.h"
 #include "theme.h"
 #include "xcb_public.h"
@@ -27,11 +29,103 @@
 
 namespace fcitx::classicui {
 
+/** Initializes the X11 input window and its candidate menu state. */
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
           ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
+/** Hides the candidate menu and unregisters its temporary actions. */
+void XCBInputWindow::clearCandidateMenu() {
+    if (candidateMenuWindow_) {
+        candidateMenuWindow_->hideAll();
+        candidateMenuWindow_ = nullptr;
+    }
+
+    for (auto *action : candidateMenu_.actions()) {
+        candidateMenu_.removeAction(action);
+    }
+
+    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    for (auto &action : candidateActions_) {
+        uiManager.unregisterAction(&action);
+    }
+    candidateActions_.clear();
+}
+
+/** Shows the actions for the candidate under the pointer. */
+bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
+    auto *inputContext = inputContext_.get();
+    if (!inputContext) {
+        return false;
+    }
+
+    const auto candidateList = inputContext->inputPanel().candidateList();
+    if (!candidateList) {
+        return false;
+    }
+
+    const CandidateWord *candidate = nullptr;
+    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(x, y)) {
+            candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
+            break;
+        }
+    }
+
+    auto *actionable = candidateList->toActionable();
+    if (!candidate || !actionable || !actionable->hasAction(*candidate)) {
+        return false;
+    }
+
+    const auto actions = actionable->candidateActions(*candidate);
+    if (actions.empty() ||
+        std::ranges::all_of(actions, &CandidateAction::isSeparator)) {
+        return false;
+    }
+
+    clearCandidateMenu();
+    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    bool hasRegisteredAction = false;
+    for (const auto &candidateAction : actions) {
+        candidateActions_.emplace_back();
+        auto &action = candidateActions_.back();
+        action.setShortText(candidateAction.text());
+        action.setIcon(candidateAction.icon());
+        action.setCheckable(candidateAction.isCheckable());
+        action.setChecked(candidateAction.isChecked());
+        action.setSeparator(candidateAction.isSeparator());
+
+        const auto id = candidateAction.id();
+        action.connect<SimpleAction::Activated>(
+            [candidateList, candidate, id](InputContext *) {
+                if (auto *actionable = candidateList->toActionable()) {
+                    actionable->triggerAction(*candidate, id);
+                }
+            });
+
+        if (!uiManager.registerAction(&action)) {
+            candidateActions_.pop_back();
+            continue;
+        }
+        candidateMenu_.addAction(&action);
+        hasRegisteredAction =
+            hasRegisteredAction || !candidateAction.isSeparator();
+    }
+
+    if (!hasRegisteredAction) {
+        clearCandidateMenu();
+        return false;
+    }
+
+    candidateMenuWindow_ =
+        candidateMenuPool_.requestMenu(ui_, &candidateMenu_, nullptr);
+    candidateMenuWindow_->show(Rect().setPosition(rootX, rootY).setSize(1, 1),
+                               ConstrainAdjustment::Flip);
+    return true;
+}
+
+/** Applies X11 properties and event masks after window creation. */
 void XCBInputWindow::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_COMBO &&
         ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
@@ -55,6 +149,7 @@ void XCBInputWindow::postCreateWindow() {
             XCB_EVENT_MASK_LEAVE_WINDOW);
 }
 
+/** Finds the screen nearest to the input cursor. */
 const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
     const Rect *closestScreen = nullptr;
 
@@ -71,6 +166,7 @@ const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
     return closestScreen;
 }
 
+/** Calculates an input window x-coordinate constrained to a screen. */
 int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
                                        const Rect *closestScreen) const {
     // TODO: RTL support.
@@ -101,6 +197,7 @@ int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
     return x;
 }
 
+/** Calculates an input window y-coordinate constrained to a screen. */
 int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
                                        const Rect *closestScreen) const {
     // TODO: RTL support.
@@ -150,6 +247,7 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
     return y;
 }
 
+/** Positions the input window relative to the cursor. */
 void XCBInputWindow::updatePosition(InputContext *inputContext) {
     if (!visible()) {
         return;
@@ -167,13 +265,16 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
                              &wc);
 }
 
+/** Updates the window scale for the cursor's display. */
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
     auto dpi = ui_->dpiByPosition(inputContext->cursorRect().left(),
                                   inputContext->cursorRect().top());
     setScale(scaleForDPI(dpi));
 }
 
+/** Updates the input panel contents and visibility. */
 void XCBInputWindow::update(InputContext *inputContext) {
+    clearCandidateMenu();
     if (!wid_) {
         return;
     }
@@ -242,6 +343,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
     render();
 }
 
+/** Handles X11 events for the input window. */
 bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
     switch (response_type) {
@@ -258,7 +360,11 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         if (buttonPress->event != wid_) {
             break;
         }
-        if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
+        if (buttonPress->detail == XCB_BUTTON_INDEX_3) {
+            showCandidateMenu(logicalFromPhysical(buttonPress->event_x),
+                              logicalFromPhysical(buttonPress->event_y),
+                              buttonPress->root_x, buttonPress->root_y);
+        } else if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
             click(logicalFromPhysical(buttonPress->event_x),
                   logicalFromPhysical(buttonPress->event_y));
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_4) {
@@ -295,6 +401,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     return false;
 }
 
+/** Repaints the visible input window. */
 void XCBInputWindow::repaint() {
     if (!visible()) {
         return;
