@@ -64,6 +64,10 @@ set(FCITX_CORE_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
+if (ENABLE_DL)
+    list(APPEND FCITX_CORE_SOURCES sharedlibraryloader.cpp)
+endif()
+
 ecm_setup_version(PROJECT
                   VARIABLE_PREFIX Fcitx5Core
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
@@ -90,6 +94,10 @@ if (ENABLE_KEYBOARD)
 endif()
 if (ENABLE_LIBUUID)
     target_link_libraries(Fcitx5Core PRIVATE LibUUID::LibUUID)
+endif()
+
+if (NOT ENABLE_DL)
+    target_compile_definitions(Fcitx5Core PRIVATE -DFCITX_NO_DL)
 endif()
 
 configure_file(Fcitx5Core.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Core.pc @ONLY)
