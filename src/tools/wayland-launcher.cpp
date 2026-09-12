@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <cassert>
 #include <charconv>
 #include <cstdint>
 #include <cstdio>
@@ -16,7 +17,10 @@
 #include <string>
 #include <utility>
 #include <getopt.h>
+#include "fcitx-utils/awaiter.h"
+#include "fcitx-utils/coroutine.h"
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/coroutine.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/environ.h"
@@ -83,84 +87,93 @@ private:
 
         if (oldOwner.empty() && newOwner.empty()) {
             // This is initial query, let's just start service.
+            startServiceTask_ =
+                std::make_unique<CoroutineTask<void>>(startService());
+            startServiceTask_->resume();
+            return;
+        }
+
+        if (!newOwner.empty() && connectedName_.empty()) {
+            connectedName_ = newOwner;
+            connectionTask_ =
+                std::make_unique<CoroutineTask<void>>(connectTo());
+            connectionTask_->resume();
+        }
+    }
+
+    Coroutine<void> startService() {
+        try {
             auto message = bus_.createMethodCall("org.freedesktop.DBus", "/",
                                                  "org.freedesktop.DBus",
                                                  "StartServiceByName");
             message << "org.fcitx.Fcitx5";
             message << 0U;
-            message.send();
-            return;
-        }
-
-        if (!newOwner.empty() && connectedName_.empty()) {
-            delayedConnection_ = loop_.addTimeEvent(
-                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                [this, newOwner](EventSource *, uint64_t) {
-                    connectTo(newOwner);
-                    return true;
-                });
-        }
-    }
-
-    void connectTo(const std::string &newOwner) {
-        connectedName_ = newOwner;
-        if (fd_.isValid()) {
-            if (reopen_) {
-                auto message =
-                    bus_.createMethodCall(newOwner.data(), "/controller",
-                                          "org.fcitx.Fcitx.Controller1",
-                                          "ReopenWaylandConnectionSocket");
-                message << display_;
-                message << fd_;
-                reply_ = message.callAsync(0, [this](dbus::Message &message) {
-                    reply(message);
-                    return true;
-                });
-                fd_.release();
-            } else {
-                auto message =
-                    bus_.createMethodCall(newOwner.data(), "/controller",
-                                          "org.fcitx.Fcitx.Controller1",
-                                          "OpenWaylandConnectionSocket");
-                message << fd_;
-                reply_ = message.callAsync(0, [this](dbus::Message &message) {
-                    reply(message);
-                    return true;
-                });
-                fd_.release();
+            auto result =
+                co_await dbus::AsyncReturn<uint32_t>(std::move(message));
+            if (result != 1 && result != 2) {
+                throw std::runtime_error(
+                    "Unexpected response from StartServiceByName: " +
+                    std::to_string(result));
             }
-        } else {
-            auto message = bus_.createMethodCall(newOwner.data(), "/controller",
-                                                 "org.fcitx.Fcitx.Controller1",
-                                                 "OpenWaylandConnection");
-            message << display_;
-            reply_ = message.callAsync(0, [this](dbus::Message &message) {
-                reply(message);
-                return true;
-            });
-        }
-    }
-
-    void reply(dbus::Message &message) {
-        if (message.isError()) {
+        } catch (const std::exception &e) {
             done_ = true;
             error_ = true;
-            FCITX_ERROR() << "DBus call error: " << message.errorName()
-                          << message.errorMessage();
+            FCITX_ERROR() << "Failed to start Fcitx service: " << e.what();
             loop_.exit();
         }
+        assert(startServiceTask_);
+        std::move(*startServiceTask_).detach_handle();
+    }
+
+    Coroutine<void> connectTo() {
+        try {
+            co_await TimeAwaiter::after(loop_, 1000000);
+            if (fd_.isValid()) {
+                if (reopen_) {
+                    auto message = bus_.createMethodCall(
+                        connectedName_.data(), "/controller",
+                        "org.fcitx.Fcitx.Controller1",
+                        "ReopenWaylandConnectionSocket");
+                    message << display_;
+                    message << fd_;
+                    fd_.release();
+                    co_await dbus::AsyncReturn<>(std::move(message));
+                } else {
+                    auto message = bus_.createMethodCall(
+                        connectedName_.data(), "/controller",
+                        "org.fcitx.Fcitx.Controller1",
+                        "OpenWaylandConnectionSocket");
+                    message << fd_;
+                    fd_.release();
+                    co_await dbus::AsyncReturn<>(std::move(message));
+                }
+            } else {
+                auto message = bus_.createMethodCall(
+                    connectedName_.data(), "/controller",
+                    "org.fcitx.Fcitx.Controller1", "OpenWaylandConnection");
+                message << display_;
+                co_await dbus::AsyncReturn<>(std::move(message));
+            }
+        } catch (const std::exception &e) {
+            done_ = true;
+            error_ = true;
+            FCITX_ERROR() << "Failed to open Wayland connection: " << e.what();
+            loop_.exit();
+        }
+        assert(connectionTask_);
+        std::move(*connectionTask_).detach_handle();
     }
 
     dbus::Bus bus_{dbus::BusType::Session};
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
     EventLoop loop_;
     std::unique_ptr<dbus::ServiceWatcherEntry> slot_;
-    std::unique_ptr<dbus::Slot> reply_;
+    std::unique_ptr<CoroutineTask<void>> startServiceTask_;
+    std::unique_ptr<CoroutineTask<void>> connectionTask_;
     std::string connectedName_;
     UnixFD fd_;
     std::string display_;
     bool done_ = false;
-    std::unique_ptr<EventSource> delayedConnection_;
     bool error_ = false;
     bool reopen_ = false;
 };
