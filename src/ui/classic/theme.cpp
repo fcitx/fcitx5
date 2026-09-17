@@ -20,7 +20,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <variant>
 #include <vector>
 #include <cairo.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -103,7 +102,7 @@ cairo_status_t readFromFd(void *closure, unsigned char *data,
     return CAIRO_STATUS_SUCCESS;
 }
 
-ThemeImage::CairoSurface pixBufToCairoSurface(GdkPixbuf *image) {
+ThemeImage::Pixmap pixBufToPixmap(GdkPixbuf *image) {
     cairo_format_t format;
     cairo_surface_t *surface;
 
@@ -200,11 +199,10 @@ ThemeImage::CairoSurface pixBufToCairoSurface(GdkPixbuf *image) {
     }
 
     cairo_surface_mark_dirty(surface);
-    return ThemeImage::CairoSurface{surface};
+    return ThemeImage::Pixmap{surface};
 }
 
-ThemeImage::CairoSurface loadImage(UnixFD &file,
-                                   const std::filesystem::path &path) {
+ThemeImage::Pixmap loadPixmap(UnixFD &file, const std::filesystem::path &path) {
     if (file.fd() < 0) {
         return nullptr;
     }
@@ -219,7 +217,7 @@ ThemeImage::CairoSurface loadImage(UnixFD &file,
             g_clear_pointer(&surface, cairo_surface_destroy);
             return nullptr;
         }
-        return ThemeImage::CairoSurface{surface};
+        return ThemeImage::Pixmap{surface};
     }
 
     GObjectUniquePtr<GInputStream> stream(
@@ -234,7 +232,7 @@ ThemeImage::CairoSurface loadImage(UnixFD &file,
         return nullptr;
     }
 
-    return pixBufToCairoSurface(image.get());
+    return pixBufToPixmap(image.get());
 }
 
 std::optional<std::pair<int, int>> svgSize(RsvgHandle *svg) {
@@ -251,7 +249,7 @@ std::optional<std::pair<int, int>> svgSize(RsvgHandle *svg) {
 ThemeImage::CairoPattern renderSvg(RsvgHandle *svg, int width, int height) {
     const cairo_rectangle_t extents{0, 0, static_cast<double>(width),
                                     static_cast<double>(height)};
-    ThemeImage::CairoSurface surface(
+    ThemeImage::Pixmap surface(
         cairo_recording_surface_create(CAIRO_CONTENT_COLOR_ALPHA, &extents));
     if (cairo_surface_status(surface.get()) != CAIRO_STATUS_SUCCESS) {
         return nullptr;
@@ -341,6 +339,74 @@ constexpr double RoundEpsilon = 1e-3;
 double pixelCeil(double f) { return std::ceil(f - RoundEpsilon); }
 double pixelFloor(double f) { return std::floor(f + RoundEpsilon); }
 
+template <typename CreatePattern>
+std::optional<ThemeImage::NineTiles>
+createImage(int width, int height, int marginLeft, int marginTop,
+            int marginRight, int marginBottom, bool retainSourceOffset,
+            CreatePattern createPattern) {
+    ThemeImage::NineTiles result;
+    result.width = width;
+    result.height = height;
+    const int sourceX[] = {0, marginLeft, width - marginRight, width};
+    const int sourceY[] = {0, marginTop, height - marginBottom, height};
+    for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 3; x++) {
+            int tileWidth = sourceX[x + 1] - sourceX[x];
+            int tileHeight = sourceY[y + 1] - sourceY[y];
+            if (tileWidth <= 0 || tileHeight <= 0) {
+                continue;
+            }
+            auto &resultTile = result.tiles[(y * 3) + x];
+            resultTile.width = tileWidth;
+            resultTile.height = tileHeight;
+            if (retainSourceOffset) {
+                resultTile.sourceX = sourceX[x];
+                resultTile.sourceY = sourceY[y];
+            }
+            resultTile.pattern =
+                createPattern(sourceX[x], sourceY[y], tileWidth, tileHeight);
+            if (cairo_pattern_status(resultTile.pattern.get()) !=
+                CAIRO_STATUS_SUCCESS) {
+                return std::nullopt;
+            }
+        }
+    }
+    return result;
+}
+
+std::optional<ThemeImage::NineTiles>
+createImage(cairo_pattern_t *source, int width, int height, int marginLeft = 0,
+            int marginTop = 0, int marginRight = 0, int marginBottom = 0) {
+    if (cairo_pattern_status(source) != CAIRO_STATUS_SUCCESS) {
+        return std::nullopt;
+    }
+    return createImage(width, height, marginLeft, marginTop, marginRight,
+                       marginBottom, true, [source](int, int, int, int) {
+                           return ThemeImage::CairoPattern(
+                               cairo_pattern_reference(source));
+                       });
+}
+
+std::optional<ThemeImage::NineTiles>
+createImage(ThemeImage::Pixmap pixmap, int marginLeft = 0, int marginTop = 0,
+            int marginRight = 0, int marginBottom = 0) {
+    if (!pixmap) {
+        return std::nullopt;
+    }
+    int width = cairo_image_surface_get_width(pixmap.get());
+    int height = cairo_image_surface_get_height(pixmap.get());
+    return createImage(
+        width, height, marginLeft, marginTop, marginRight, marginBottom, false,
+        [surface = pixmap.get()](int x, int y, int tileWidth, int tileHeight) {
+            ThemeImage::Pixmap tile(cairo_surface_create_for_rectangle(
+                surface, x, y, tileWidth, tileHeight));
+            ThemeImage::CairoPattern pattern(
+                cairo_pattern_create_for_surface(tile.get()));
+            cairo_pattern_set_extend(pattern.get(), CAIRO_EXTEND_PAD);
+            return pattern;
+        });
+}
+
 void paintTile(cairo_t *c, double x, double y, double width, double height,
                double alpha, const ThemeImage &image, int marginLeft,
                int marginTop, int marginRight, int marginBottom) {
@@ -365,13 +431,6 @@ void paintTile(cairo_t *c, double x, double y, double width, double height,
     }
     const auto targetResizeWidth = width - marginLeft - marginRight;
     const auto targetResizeHeight = height - marginTop - marginBottom;
-
-    double sourceX[] = {0.0, static_cast<double>(marginLeft),
-                        static_cast<double>(image.width() - marginRight),
-                        static_cast<double>(image.width())};
-    double sourceY[] = {0.0, static_cast<double>(marginTop),
-                        static_cast<double>(image.height() - marginBottom),
-                        static_cast<double>(image.height())};
 
     double gridX[] = {0.0, static_cast<double>(marginLeft),
                       static_cast<double>(width - marginRight), width};
@@ -399,16 +458,14 @@ void paintTile(cairo_t *c, double x, double y, double width, double height,
     }
 
     auto part = [&](int ix, int iy) {
-        double sx = sourceX[ix];
-        double sy = sourceY[iy];
-        double sw = sourceX[ix + 1] - sourceX[ix];
-        double sh = sourceY[iy + 1] - sourceY[iy];
         double dx = gridX[ix];
         double dy = gridY[iy];
         double dw = gridX[ix + 1] - gridX[ix];
         double dh = gridY[iy + 1] - gridY[iy];
         if (dw > 0 && dh > 0) {
-            image.paintRegion(c, sx, sy, sw, sh, dx, dy, dw, dh, alpha);
+            image.paintRegion(
+                c, static_cast<ThemeImage::TilePosition>((iy * 3) + ix), dx, dy,
+                dw, dh, alpha);
         }
     };
     /*
@@ -478,20 +535,25 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
         auto fd = StandardPaths::openPath(iconPath);
         if (isSvgPath(iconPath)) {
             if (auto svg = loadSvg(fd)) {
-                image_ = std::move(svg.value());
+                if (auto image = createImage(svg->pattern.get(), svg->width,
+                                             svg->height)) {
+                    image_ = std::move(*image);
+                }
             }
         } else {
-            CairoSurface image = loadImage(fd, iconPath);
-            if (image) {
-                image_ = std::move(image);
+            Pixmap pixmap = loadPixmap(fd, iconPath);
+            if (auto image = createImage(std::move(pixmap))) {
+                image_ = std::move(*image);
             }
         }
     }
-    if (std::holds_alternative<std::monostate>(image_)) {
-        CairoSurface textImage(
+    if (!valid()) {
+        Pixmap textImage(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size));
         drawTextIcon(textImage.get(), label, size, classicui->config());
-        image_ = std::move(textImage);
+        if (auto image = createImage(std::move(textImage))) {
+            image_ = std::move(*image);
+        }
     }
 }
 
@@ -507,12 +569,20 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
             &imagePath);
         if (isSvgPath(imagePath)) {
             if (auto svg = loadSvg(imageFile)) {
-                image_ = std::move(svg.value());
+                if (auto image = createImage(
+                        svg->pattern.get(), svg->width, svg->height,
+                        *cfg.margin->marginLeft, *cfg.margin->marginTop,
+                        *cfg.margin->marginRight, *cfg.margin->marginBottom)) {
+                    image_ = std::move(*image);
+                }
             }
         } else {
-            CairoSurface image = loadImage(imageFile, imagePath);
-            if (image) {
-                image_ = std::move(image);
+            Pixmap pixmap = loadPixmap(imageFile, imagePath);
+            if (auto image = createImage(
+                    std::move(pixmap), *cfg.margin->marginLeft,
+                    *cfg.margin->marginTop, *cfg.margin->marginRight,
+                    *cfg.margin->marginBottom)) {
+                image_ = std::move(*image);
             }
         }
     }
@@ -527,10 +597,14 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
             &imagePath);
         if (isSvgPath(imagePath)) {
             if (auto svg = loadSvg(imageFile)) {
-                overlay_ = std::move(svg.value());
+                if (auto overlay = createImage(svg->pattern.get(), svg->width,
+                                               svg->height)) {
+                    overlay_ = std::move(overlay->tiles[4]);
+                }
             }
-        } else if (auto overlay = loadImage(imageFile, imagePath)) {
-            overlay_ = std::move(overlay);
+        } else if (auto overlay =
+                       createImage(loadPixmap(imageFile, imagePath))) {
+            overlay_ = std::move(overlay->tiles[4]);
         }
     }
 
@@ -589,7 +663,13 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
         } else {
             setPatch(0, 0, width, height, color);
         }
-        image_ = std::move(pattern);
+        if (auto image = createImage(
+                pattern.pattern.get(), pattern.width, pattern.height,
+                *cfg.margin->marginLeft, *cfg.margin->marginTop,
+                *cfg.margin->marginRight, *cfg.margin->marginBottom)) {
+            image_ = std::move(*image);
+            isPattern_ = true;
+        }
     }
 }
 
@@ -604,12 +684,14 @@ ThemeImage::ThemeImage(const Theme &theme, const ActionImageConfig &cfg) {
             &imagePath);
         if (isSvgPath(imagePath)) {
             if (auto svg = loadSvg(imageFile)) {
-                image_ = std::move(svg.value());
+                if (auto image = createImage(svg->pattern.get(), svg->width,
+                                             svg->height)) {
+                    image_ = std::move(*image);
+                }
             }
         } else {
-            auto image = loadImage(imageFile, imagePath);
-            if (image) {
-                image_ = std::move(image);
+            if (auto image = createImage(loadPixmap(imageFile, imagePath))) {
+                image_ = std::move(*image);
             }
         }
     }
@@ -660,51 +742,29 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
     cairo_destroy(cr);
 }
 
-void ThemeImage::paintRegion(cairo_t *c, double sourceX, double sourceY,
-                             double sourceWidth, double sourceHeight,
-                             double destX, double destY, double destWidth,
-                             double destHeight, double alpha,
-                             bool overlay) const {
-    if (sourceWidth <= 0 || sourceHeight <= 0 || destWidth <= 0 ||
-        destHeight <= 0) {
+void ThemeImage::paintRegion(cairo_t *c, TilePosition tile, double destX,
+                             double destY, double destWidth, double destHeight,
+                             double alpha, bool overlay) const {
+    if (destWidth <= 0 || destHeight <= 0) {
         return;
     }
-    const auto &source = overlay ? overlay_ : image_;
-    if (const auto *image = std::get_if<CairoSurface>(&source)) {
-        cairo_save(c);
-        cairo_rectangle(c, destX, destY, destWidth, destHeight);
-        cairo_clip(c);
-        cairo_translate(c, destX - (sourceX * destWidth / sourceWidth),
-                        destY - (sourceY * destHeight / sourceHeight));
-        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
-        cairo_set_source_surface(c, image->get(), 0, 0);
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+    if ((overlay && !overlay_) || (!overlay && !image_)) {
         return;
     }
-    if (const auto *svg = std::get_if<Svg>(&source)) {
-        cairo_save(c);
-        cairo_rectangle(c, destX, destY, destWidth, destHeight);
-        cairo_clip(c);
-        cairo_translate(c, destX - (sourceX * destWidth / sourceWidth),
-                        destY - (sourceY * destHeight / sourceHeight));
-        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
-        cairo_set_source(c, svg->pattern.get());
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
+    const auto &source =
+        overlay ? *overlay_ : image_->tiles[static_cast<std::size_t>(tile)];
+    if (!source.pattern) {
         return;
     }
-    if (const auto *pattern = std::get_if<Pattern>(&source)) {
-        cairo_save(c);
-        cairo_rectangle(c, destX, destY, destWidth, destHeight);
-        cairo_clip(c);
-        cairo_translate(c, destX - (sourceX * destWidth / sourceWidth),
-                        destY - (sourceY * destHeight / sourceHeight));
-        cairo_scale(c, destWidth / sourceWidth, destHeight / sourceHeight);
-        cairo_set_source(c, pattern->pattern.get());
-        cairo_paint_with_alpha(c, alpha);
-        cairo_restore(c);
-    }
+    cairo_save(c);
+    cairo_rectangle(c, destX, destY, destWidth, destHeight);
+    cairo_clip(c);
+    cairo_translate(c, destX, destY);
+    cairo_scale(c, destWidth / source.width, destHeight / source.height);
+    cairo_translate(c, -source.sourceX, -source.sourceY);
+    cairo_set_source(c, source.pattern.get());
+    cairo_paint_with_alpha(c, alpha);
+    cairo_restore(c);
 }
 
 Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
@@ -860,9 +920,8 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, double dx,
     cairo_rectangle(c, finalRect.left(), finalRect.top(), finalRect.width(),
                     finalRect.height());
     cairo_clip(c);
-    image.paintRegion(c, 0, 0, image.overlayWidth(), image.overlayHeight(), x,
-                      y, image.overlayWidth(), image.overlayHeight(), alpha,
-                      true);
+    image.paintRegion(c, ThemeImage::TilePosition::Center, x, y,
+                      image.overlayWidth(), image.overlayHeight(), alpha, true);
     cairo_restore(c);
 }
 
@@ -871,8 +930,8 @@ void Theme::paint(cairo_t *c, const ActionImageConfig &cfg, double alpha) {
     int height = image.height();
     int width = image.width();
 
-    image.paintRegion(c, 0, 0, image.width(), image.height(), 0, 0, width,
-                      height, alpha);
+    image.paintRegion(c, ThemeImage::TilePosition::Center, 0, 0, width, height,
+                      alpha);
 }
 
 void Theme::reset() {

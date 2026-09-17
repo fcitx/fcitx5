@@ -391,9 +391,9 @@ void XCBTrayWindow::paint(cairo_t *c) {
     int aw = scaleW * image.width();
     int ah = scaleH * image.height();
 
-    image.paintRegion(c, 0, 0, image.width(), image.height(),
-                      (width() - aw) / 2.0, (height() - ah) / 2.0,
-                      image.width() * scaleW, image.height() * scaleH);
+    image.paintRegion(c, ThemeImage::TilePosition::Center, (width() - aw) / 2.0,
+                      (height() - ah) / 2.0, image.width() * scaleW,
+                      image.height() * scaleH);
     cairo_restore(c);
 }
 
