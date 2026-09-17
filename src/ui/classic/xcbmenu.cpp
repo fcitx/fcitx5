@@ -613,10 +613,16 @@ void XCBMenu::update() {
     }
 
     cairo_t *c = cairo_create(prerender());
+    auto surface = cairo_get_target(c);
+    auto surfaceWidth = cairo_image_surface_get_width(surface);
+    auto surfaceHeight = cairo_image_surface_get_height(surface);
+    auto renderWidth = surfaceWidth / scale_;
+    auto renderHeight = surfaceHeight / scale_;
     cairo_set_operator(c, CAIRO_OPERATOR_CLEAR);
     cairo_paint(c);
     cairo_set_operator(c, CAIRO_OPERATOR_OVER);
-    theme.paint(c, *theme.menu->background, 0, 0, width, height, /*alpha=*/1.0);
+    theme.paint(c, *theme.menu->background, 0, 0, renderWidth, renderHeight,
+                /*alpha=*/1.0);
     for (auto &item : items_) {
         if (item.isSeparator_) {
             const ThemeImage &separator =
@@ -624,7 +630,7 @@ void XCBMenu::update() {
             theme.paint(c, *theme.menu->separator,
                         absolute<YGNodeLayoutGetLeft>(item.self_.get()),
                         absolute<YGNodeLayoutGetTop>(item.self_.get()),
-                        width - *theme.menu->contentMargin->marginLeft -
+                        renderWidth - *theme.menu->contentMargin->marginLeft -
                             *theme.menu->contentMargin->marginRight,
                         (separator.isPattern() ? 2 : -1), /*alpha=*/1.0);
             continue;

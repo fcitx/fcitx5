@@ -334,8 +334,8 @@ public:
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
     const ThemeImage &loadAction(const ActionImageConfig &cfg);
 
-    void paint(cairo_t *c, const BackgroundImageConfig &cfg, int dx, int dy,
-               int width, int height, double alpha);
+    void paint(cairo_t *c, const BackgroundImageConfig &cfg, double dx,
+               double dy, double width, double height, double alpha);
 
     void paint(cairo_t *c, const ActionImageConfig &cfg, double alpha = 1.0);
 
