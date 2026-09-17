@@ -8,13 +8,14 @@
 #define _FCITX_UI_CLASSIC_THEME_H_
 
 #include <algorithm>
+#include <array>
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 #include <unordered_set>
-#include <variant>
 #include <vector>
 #include <cairo.h>
 #include "fcitx-config/configuration.h"
@@ -238,8 +239,19 @@ class Theme;
 
 class ThemeImage {
 public:
-    using CairoSurface = UniqueCPtr<cairo_surface_t, cairo_surface_destroy>;
+    using Pixmap = UniqueCPtr<cairo_surface_t, cairo_surface_destroy>;
     using CairoPattern = UniqueCPtr<cairo_pattern_t, cairo_pattern_destroy>;
+    enum class TilePosition {
+        TopLeft,
+        Top,
+        TopRight,
+        Left,
+        Center,
+        Right,
+        BottomLeft,
+        Bottom,
+        BottomRight,
+    };
     struct Svg {
         int width = 0;
         int height = 0;
@@ -250,6 +262,18 @@ public:
         int height = 0;
         int borderWidth = 0;
         CairoPattern pattern;
+    };
+    struct NineTiles {
+        struct Tile {
+            int width = 0;
+            int height = 0;
+            int sourceX = 0;
+            int sourceY = 0;
+            CairoPattern pattern;
+        };
+        int width = 0;
+        int height = 0;
+        std::array<Tile, 9> tiles;
     };
 
     ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
@@ -262,62 +286,28 @@ public:
     static void drawTextIcon(cairo_surface_t *surface, const std::string &label,
                              uint32_t size, const ClassicUIConfig &config);
 
-    auto height() const { return imageVariantHeight(image_); }
-    auto width() const { return imageVariantWidth(image_); }
+    auto height() const { return image_ ? image_->height : 0; }
+    auto width() const { return image_ ? image_->width : 0; }
 
     auto size() const { return size_; }
 
-    bool valid() const {
-        return !std::holds_alternative<std::monostate>(image_);
-    }
-    bool hasOverlay() const {
-        return !std::holds_alternative<std::monostate>(overlay_);
-    }
-    auto overlayWidth() const { return imageVariantWidth(overlay_); }
-    auto overlayHeight() const { return imageVariantHeight(overlay_); }
-    bool isPattern() const { return std::holds_alternative<Pattern>(image_); }
-    bool isSvg() const { return std::holds_alternative<Svg>(image_); }
-    void paintRegion(cairo_t *c, double sourceX, double sourceY,
-                     double sourceWidth, double sourceHeight, double destX,
-                     double destY, double destWidth, double destHeight,
-                     double alpha = 1.0, bool overlay = false) const;
+    bool valid() const { return image_.has_value(); }
+    bool hasOverlay() const { return overlay_.has_value(); }
+    auto overlayWidth() const { return overlay_ ? overlay_->width : 0; }
+    auto overlayHeight() const { return overlay_ ? overlay_->height : 0; }
+    bool isPattern() const { return isPattern_; }
+    void paintRegion(cairo_t *c, TilePosition tile, double destX, double destY,
+                     double destWidth, double destHeight, double alpha = 1.0,
+                     bool overlay = false) const;
 
 private:
     std::string currentText_;
     uint32_t size_ = 0;
     bool isImage_ = false;
 
-    using ImageVariant =
-        std::variant<std::monostate, Svg, Pattern, CairoSurface>;
-
-    static int imageVariantWidth(const ImageVariant &image) {
-        if (const auto *svg = std::get_if<Svg>(&image)) {
-            return svg->width;
-        }
-        if (const auto *pattern = std::get_if<Pattern>(&image)) {
-            return pattern->width;
-        }
-        if (const auto *surface = std::get_if<CairoSurface>(&image)) {
-            return cairo_image_surface_get_width(surface->get());
-        }
-        return 0;
-    }
-
-    static int imageVariantHeight(const ImageVariant &image) {
-        if (const auto *svg = std::get_if<Svg>(&image)) {
-            return svg->height;
-        }
-        if (const auto *pattern = std::get_if<Pattern>(&image)) {
-            return pattern->height;
-        }
-        if (const auto *surface = std::get_if<CairoSurface>(&image)) {
-            return cairo_image_surface_get_height(surface->get());
-        }
-        return 0;
-    }
-
-    ImageVariant image_;
-    ImageVariant overlay_;
+    std::optional<NineTiles> image_;
+    std::optional<NineTiles::Tile> overlay_;
+    bool isPattern_ = false;
 };
 
 class Theme : public ThemeConfig {
