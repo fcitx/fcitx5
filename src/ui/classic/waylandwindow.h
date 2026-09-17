@@ -26,8 +26,8 @@ namespace fcitx::classicui {
 
 class WaylandWindow : public Window, public TrackableObject<WaylandWindow> {
 public:
-    static inline constexpr unsigned int ScaleDominator = 120;
-    static inline constexpr double ScaleDominatorF = ScaleDominator;
+    static constexpr unsigned int ScaleDominator = 120;
+    static constexpr double ScaleDominatorF = ScaleDominator;
     WaylandWindow(WaylandUI *ui);
     ~WaylandWindow();
 

@@ -100,7 +100,7 @@ public:
     InputWindow(ClassicUI *parent);
     ~InputWindow() = default;
     std::pair<int, int> update(InputContext *inputContext);
-    void paint(cairo_t *cr, unsigned int width, unsigned int height);
+    void paint(cairo_t *cr, double width, double height);
     void hide();
     bool visible() const { return visible_; }
     bool hover(int x, int y);

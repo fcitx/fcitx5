@@ -341,9 +341,9 @@ constexpr double RoundEpsilon = 1e-3;
 double pixelCeil(double f) { return std::ceil(f - RoundEpsilon); }
 double pixelFloor(double f) { return std::floor(f + RoundEpsilon); }
 
-void paintTile(cairo_t *c, int x, int y, int width, int height, double alpha,
-               const ThemeImage &image, int marginLeft, int marginTop,
-               int marginRight, int marginBottom) {
+void paintTile(cairo_t *c, double x, double y, double width, double height,
+               double alpha, const ThemeImage &image, int marginLeft,
+               int marginTop, int marginRight, int marginBottom) {
 
     int resizeHeight = image.height() - marginTop - marginBottom;
     int resizeWidth = image.width() - marginLeft - marginRight;
@@ -374,11 +374,9 @@ void paintTile(cairo_t *c, int x, int y, int width, int height, double alpha,
                         static_cast<double>(image.height())};
 
     double gridX[] = {0.0, static_cast<double>(marginLeft),
-                      static_cast<double>(width - marginRight),
-                      static_cast<double>(width)};
+                      static_cast<double>(width - marginRight), width};
     double gridY[] = {0.0, static_cast<double>(marginTop),
-                      static_cast<double>(height - marginBottom),
-                      static_cast<double>(height)};
+                      static_cast<double>(height - marginBottom), height};
     for (double &gx : gridX) {
         gx += x;
     }
@@ -782,8 +780,8 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
     return result.first->second;
 }
 
-void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int dx, int dy,
-                  int width, int height, double alpha) {
+void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, double dx,
+                  double dy, double width, double height, double alpha) {
     const ThemeImage &image = loadBackground(cfg);
     auto marginTop = *cfg.margin->marginTop;
     auto marginBottom = *cfg.margin->marginBottom;

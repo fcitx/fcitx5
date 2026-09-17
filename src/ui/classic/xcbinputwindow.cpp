@@ -232,14 +232,11 @@ void XCBInputWindow::update(InputContext *inputContext) {
         }
     }
 
-    cairo_t *c = cairo_create(prerender());
     updatePosition(inputContext);
+    repaint();
     if (!oldVisible) {
         xcb_map_window(ui_->connection(), wid_);
     }
-    paint(c, width, height);
-    cairo_destroy(c);
-    render();
 }
 
 bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
@@ -301,7 +298,9 @@ void XCBInputWindow::repaint() {
     }
     if (auto *surface = prerender()) {
         cairo_t *c = cairo_create(surface);
-        paint(c, width(), height());
+        auto surfaceWidth = cairo_image_surface_get_width(surface);
+        auto surfaceHeight = cairo_image_surface_get_height(surface);
+        paint(c, surfaceWidth / scale_, surfaceHeight / scale_);
         cairo_destroy(c);
         render();
     }
