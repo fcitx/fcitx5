@@ -31,6 +31,19 @@ public:
     const KeyList &altTriggerKeys() const;
     const KeyList &activateKeys() const;
     const KeyList &deactivateKeys() const;
+
+    /**
+     * Consume Activate/Deactivate keys even when the state does not change.
+     *
+     * When enabled, pressing an activate key while the input method is
+     * already active (or a deactivate key while inactive) is consumed by
+     * fcitx instead of being forwarded to the application. Modifier only
+     * keys are not affected.
+     *
+     * @return whether to consume redundant activate/deactivate keys
+     * @since 5.1.22
+     */
+    bool consumeRedundantActivateKeys() const;
     const KeyList &enumerateForwardKeys() const;
     const KeyList &enumerateBackwardKeys() const;
     bool enumerateSkipFirst() const;
