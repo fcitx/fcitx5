@@ -159,6 +159,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         });
     ic_->activate().connect([this]() {
         WAYLANDIM_DEBUG() << "ACTIVATE";
+        setCapabilityFlagsWrapper(baseFlags);
         pendingActivate_ = true;
     });
     ic_->deactivate().connect([this]() {
