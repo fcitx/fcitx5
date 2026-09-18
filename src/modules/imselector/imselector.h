@@ -38,25 +38,32 @@ FCITX_CONFIGURATION(
         _("Trigger Key for only current input context"),
         {},
         KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
-    KeyListOptionWithAnnotation<ToolTipAnnotation> switchKey{
-        this,
-        "SwitchKey",
-        _("Hotkey for switching to the N-th input method"),
-        {},
-        KeyListConstrain(KeyConstrainFlag::AllowModifierLess),
-        {},
-        ToolTipAnnotation(
-            _("The n-th hotkey in the list selects the n-th input method."))};
-    KeyListOptionWithAnnotation<ToolTipAnnotation> switchKeyLocal{
-        this,
-        "SwitchKeyLocal",
-        _("Hotkey for switching to the N-th input "
-          "method for only current input context"),
-        {},
-        KeyListConstrain(KeyConstrainFlag::AllowModifierLess),
-        {},
-        ToolTipAnnotation(
-            _("The n-th hotkey in the list selects the n-th input method."))};);
+    KeyListOptionWithAnnotation<
+        ComposedAnnotation<OrderedAnnotation, ToolTipAnnotation>>
+        switchKey{this,
+                  "SwitchKey",
+                  _("Hotkey for switching to the N-th input method"),
+                  {},
+                  KeyListConstrain(KeyConstrainFlag::AllowModifierLess),
+                  {},
+                  ComposedAnnotation(
+                      OrderedAnnotation(),
+                      ToolTipAnnotation(_("The n-th hotkey in the list selects "
+                                          "the n-th input method.")))};
+    KeyListOptionWithAnnotation<
+        ComposedAnnotation<OrderedAnnotation, ToolTipAnnotation>>
+        switchKeyLocal{
+            this,
+            "SwitchKeyLocal",
+            _("Hotkey for switching to the N-th input "
+              "method for only current input context"),
+            {},
+            KeyListConstrain(KeyConstrainFlag::AllowModifierLess),
+            {},
+            ComposedAnnotation(
+                OrderedAnnotation(),
+                ToolTipAnnotation(_("The n-th hotkey in the list selects the "
+                                    "n-th input method.")))};);
 
 class IMSelector final : public AddonInstance {
 public:

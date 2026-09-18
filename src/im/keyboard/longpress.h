@@ -16,11 +16,11 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(LongPressEntryConfig,
-                    Option<std::string> key{this, "Key", _("Key")};
-                    Option<bool> enable{this, "Enable", _("Enable"), true};
-                    Option<std::vector<std::string>> candidates{
-                        this, "Candidates", _("Candidates")};)
+FCITX_CONFIGURATION(
+    LongPressEntryConfig, Option<std::string> key{this, "Key", _("Key")};
+    Option<bool> enable{this, "Enable", _("Enable"), true};
+    OptionWithAnnotation<std::vector<std::string>, OrderedAnnotation>
+        candidates{this, "Candidates", _("Candidates")};)
 
 FCITX_CONFIGURATION(LongPressConfig,
                     OptionWithAnnotation<std::vector<LongPressEntryConfig>,
