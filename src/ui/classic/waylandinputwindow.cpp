@@ -28,6 +28,7 @@
 #include "waylandwindow.h"
 #include "wl_compositor.h"
 #include "wl_region.h"
+#include "wl_subcompositor.h"
 #include "zwp_input_method_v2.h"
 #include "zwp_input_panel_v1.h"
 
@@ -149,12 +150,38 @@ void WaylandInputWindow::clearCandidateMenu() {
     candidateMenuHoveredIndex_ = -1;
 }
 
+namespace {
+
+bool createCandidateMenuSubsurface(
+    WaylandUI *ui, WaylandWindow *menuWindow, WaylandWindow *parentWindow,
+    std::unique_ptr<wayland::WlSubsurface> &subsurface) {
+    if (subsurface) {
+        return true;
+    }
+
+    auto subcompositor = ui->display()->getGlobal<wayland::WlSubcompositor>();
+    if (!subcompositor || !menuWindow->surface() || !parentWindow->surface()) {
+        return false;
+    }
+
+    subsurface.reset(subcompositor->getSubsurface(menuWindow->surface(),
+                                                  parentWindow->surface()));
+    if (!subsurface) {
+        return false;
+    }
+    subsurface->setDesync();
+    return true;
+}
+
+} // namespace
+
 /** Builds and shows the candidate action menu at the pointer position. */
 void WaylandInputWindow::showCandidateMenu(int x, int y) {
     auto dismiss = [this]() { clearCandidateMenu(); };
 
-    if (!candidateMenuSupported_ || !candidateMenuSurfaceV2_ ||
-        !candidateMenuWindow_->surface()) {
+    if (!createCandidateMenuSubsurface(ui_, candidateMenuWindow_.get(),
+                                       window_.get(),
+                                       candidateMenuSubsurface_)) {
         dismiss();
         return;
     }
@@ -172,9 +199,11 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     }
 
     const CandidateWord *candidate = nullptr;
+    Rect candidateRegion;
     for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
         if (candidateRegions_[idx].contains(x, y)) {
             candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
+            candidateRegion = candidateRegions_[idx];
             break;
         }
     }
@@ -257,9 +286,14 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     candidateMenuWidth_ = std::max(candidateMenuWidth_, 1);
     candidateMenuHeight_ = std::max(candidateMenuHeight_, 1);
 
-    // The compositor positions an input-popup surface near the active text
-    // input. Its local coordinate space starts at (0, 0), so no panel resize
-    // or client-side screen-edge calculation is needed here.
+    const int menuX =
+        std::clamp(candidateRegion.left(), 0,
+                   std::max(0, window_->width() - candidateMenuWidth_));
+    int menuY = candidateRegion.bottom();
+    if (menuY + candidateMenuHeight_ > window_->height()) {
+        menuY = candidateRegion.top() - candidateMenuHeight_;
+    }
+    candidateMenuSubsurface_->setPosition(menuX, menuY);
     candidateMenuRegion_.setPosition(0, 0).setSize(candidateMenuWidth_,
                                                    candidateMenuHeight_);
 
@@ -478,7 +512,6 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 /** Updates the input panel contents, surface, and candidate menu state. */
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     clearCandidateMenu();
-    candidateMenuSupported_ = false;
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
@@ -497,7 +530,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         repaintIC_.unwatch();
         panelSurface_.reset();
         panelSurfaceV2_.reset();
-        candidateMenuSurfaceV2_.reset();
+        candidateMenuSubsurface_.reset();
         blur_.reset();
         window_->destroyWindow();
         candidateMenuWindow_->destroyWindow();
@@ -513,8 +546,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         candidateMenuWindow_->createWindow();
     }
     if (ic->frontendName() == "wayland_v2") {
-        candidateMenuSupported_ = candidateMenuSurfaceV2_ != nullptr;
-        if (!panelSurfaceV2_ || !candidateMenuSurfaceV2_ || ic != v2IC_.get()) {
+        if (!panelSurfaceV2_ || ic != v2IC_.get()) {
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
                 CLASSICUI_ERROR()
@@ -533,15 +565,8 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             v2IC_ = ic->watch();
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
-            if (!candidateMenuSurfaceV2_) {
-                candidateMenuSurfaceV2_.reset(
-                    im->getInputPopupSurface(candidateMenuWindow_->surface()));
-            }
-            candidateMenuSupported_ = candidateMenuSurfaceV2_ != nullptr;
         }
     } else if (ic->frontendName() == "wayland") {
-        // zwp_input_panel_v1 cannot create a compositor-positioned popup.
-        // Keep the legacy panel unchanged instead of drawing a menu into it.
         auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
         if (!panel) {
             return;
