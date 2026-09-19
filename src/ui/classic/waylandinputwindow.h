@@ -16,6 +16,7 @@
 #include "ext_background_effect_manager_v1.h"
 #include "ext_background_effect_surface_v1.h"
 #include "inputwindow.h"
+#include "wl_subsurface.h"
 #include "zwp_input_panel_surface_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
@@ -58,9 +59,9 @@ private:
     TrackableObjectReference<InputContext> v2IC_;
     std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> panelSurfaceV2_;
     std::unique_ptr<WaylandWindow> window_;
-    // zwp_input_popup_surface_v2 gives the menu its own compositor-managed
-    // surface. The legacy input-panel protocol has no equivalent popup role.
-    std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> candidateMenuSurfaceV2_;
+    // A subsurface gives the menu an independent surface and lets us position
+    // it relative to the clicked candidate on both input-panel protocols.
+    std::unique_ptr<wayland::WlSubsurface> candidateMenuSubsurface_;
     std::unique_ptr<WaylandWindow> candidateMenuWindow_;
     TrackableObjectReference<InputContext> repaintIC_;
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
@@ -77,7 +78,6 @@ private:
     int candidateMenuItemHeight_ = 0;
     bool candidateMenuHasCheckable_ = false;
     int candidateMenuHoveredIndex_ = -1;
-    bool candidateMenuSupported_ = false;
     bool candidateMenuVisible_ = false;
 };
 
