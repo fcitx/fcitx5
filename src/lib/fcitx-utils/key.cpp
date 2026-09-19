@@ -15,6 +15,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include "casedata.h"
 #include "charutils.h"
 #include "i18n.h"
 #include "keydata.h"
@@ -490,6 +491,40 @@ bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 
 bool Key::isVirtual() const { return states_.test(KeyState::Virtual); }
 
+namespace {
+
+uint32_t caseUpperOf(uint32_t ucs) {
+    const auto &tab = case_pair_tab_by_lower();
+    auto it = std::lower_bound(
+        tab.begin(), tab.end(), ucs,
+        [](const auto &pair, uint32_t value) { return pair.lower < value; });
+    if (it != tab.end() && it->lower == ucs) {
+        return it->upper;
+    }
+    return 0;
+}
+
+bool caseIsUpper(uint32_t ucs) {
+    const auto &tab = case_pair_tab_by_upper();
+    auto it = std::lower_bound(
+        tab.begin(), tab.end(), ucs,
+        [](const auto &pair, uint32_t value) { return pair.upper < value; });
+    return it != tab.end() && it->upper == ucs;
+}
+
+bool isCasedLetter(KeySym sym) {
+    auto ucs = Key::keySymToUnicode(sym);
+    return ucs != 0 && (caseUpperOf(ucs) != 0 || caseIsUpper(ucs));
+}
+
+KeySym toUpperLetter(KeySym sym) {
+    auto ucs = Key::keySymToUnicode(sym);
+    auto upper = ucs ? caseUpperOf(ucs) : 0;
+    return upper ? Key::keySymFromUnicode(upper) : sym;
+}
+
+} // namespace
+
 Key Key::normalize() const {
     Key key(*this);
 
@@ -506,25 +541,25 @@ Key Key::normalize() const {
         key.states_ |= KeyState::Super;
     }
     if (key.states_) {
-        if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
-            key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
+        if (key.states_ != KeyState::Shift && isCasedLetter(key.sym_)) {
+            key.sym_ = toUpperLetter(key.sym_);
         }
         /*
          * alt shift 1 should be alt + !
          * shift+s should be S
          */
 
-        if (Key(key.sym_).isLAZ() || Key(key.sym_).isUAZ()) {
-            if (key.states_ == KeyState::Shift) {
-                key.states_ = 0;
-            }
-        } else {
-            if ((key.states_ & KeyState::Shift) &&
-                (((Key(key.sym_).isSimple() ||
-                   keySymToUnicode(key.sym_) != 0) &&
-                  key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return &&
-                  key.sym_ != FcitxKey_Tab) ||
-                 (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
+        if ((key.states_ & KeyState::Shift) && key.sym_ != FcitxKey_space &&
+            key.sym_ != FcitxKey_Return && key.sym_ != FcitxKey_Tab) {
+            const bool shiftIsOnlyModifier = (key.states_ == KeyState::Shift);
+            if (isCasedLetter(key.sym_)) {
+                if (shiftIsOnlyModifier) {
+                    key.states_ = 0;
+                }
+            } else if (Key(key.sym_).isSimple() ||
+                       (key.sym_ >= FcitxKey_KP_0 &&
+                        key.sym_ <= FcitxKey_KP_9) ||
+                       keySymToUnicode(key.sym_) != 0) {
                 key.states_ ^= KeyState::Shift;
             }
         }
