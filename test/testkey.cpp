@@ -86,6 +86,60 @@ int main() {
         fcitx::Key("Control+A").check(fcitx::Key("Control+a").normalize()));
     FCITX_ASSERT(fcitx::Key("Alt+exclam")
                      .check(fcitx::Key("Alt+Shift+exclam").normalize()));
+    // Shift stays when combined with another modifier, any script.
+    FCITX_ASSERT(fcitx::Key("Control+Shift+U")
+                     .check(fcitx::Key("Control+Shift+u").normalize()));
+    FCITX_ASSERT(fcitx::Key(FcitxKey_Cyrillic_GHE, fcitx::KeyState::Ctrl_Shift)
+                     .normalize()
+                     .check(fcitx::Key(FcitxKey_Cyrillic_GHE,
+                                       fcitx::KeyState::Ctrl_Shift)));
+    FCITX_ASSERT(fcitx::Key(FcitxKey_Cyrillic_GHE,
+                            fcitx::KeyStates({fcitx::KeyState::Ctrl,
+                                              fcitx::KeyState::Alt,
+                                              fcitx::KeyState::Shift}))
+                     .normalize()
+                     .states() ==
+                 fcitx::KeyStates({fcitx::KeyState::Ctrl, fcitx::KeyState::Alt,
+                                   fcitx::KeyState::Shift}));
+    FCITX_ASSERT(fcitx::Key(FcitxKey_Greek_ALPHA, fcitx::KeyState::Ctrl_Shift)
+                     .normalize()
+                     .states() == fcitx::KeyState::Ctrl_Shift);
+    // Same for a key code based key.
+    FCITX_ASSERT(
+        fcitx::Key(FcitxKey_Cyrillic_GHE, fcitx::KeyState::Ctrl_Shift, 33)
+            .normalize()
+            .states() == fcitx::KeyState::Ctrl_Shift);
+    // Shift alone is still removed, since the case is encoded in the sym.
+    FCITX_ASSERT(fcitx::Key(FcitxKey_Cyrillic_GHE, fcitx::KeyState::Shift)
+                     .normalize()
+                     .check(fcitx::Key(FcitxKey_Cyrillic_GHE)));
+    // Control+a -> Control+A generalizes beyond a-z/A-Z.
+    FCITX_ASSERT(
+        fcitx::Key(FcitxKey_Cyrillic_ghe, fcitx::KeyState::Ctrl)
+            .normalize()
+            .check(fcitx::Key(FcitxKey_Cyrillic_GHE, fcitx::KeyState::Ctrl)));
+    // Georgian, Cherokee: shift picks an unrelated letter, still drops.
+    FCITX_ASSERT(fcitx::Key(FcitxKey_Georgian_an, fcitx::KeyState::Ctrl_Shift)
+                     .normalize()
+                     .states() == fcitx::KeyState::Ctrl);
+    FCITX_ASSERT(fcitx::Key(fcitx::Key::keySymFromUnicode(0x13aa),
+                            fcitx::KeyState::Ctrl_Shift)
+                     .normalize()
+                     .states() == fcitx::KeyState::Ctrl);
+    // Same for the six extra syllables Unicode added inside that block.
+    FCITX_ASSERT(fcitx::Key(fcitx::Key::keySymFromUnicode(0x13f8),
+                            fcitx::KeyState::Ctrl_Shift)
+                     .normalize()
+                     .states() == fcitx::KeyState::Ctrl);
+    // Final sigma: same case pair as medial sigma, despite failing round-trip.
+    FCITX_ASSERT(
+        fcitx::Key(FcitxKey_Greek_finalsmallsigma, fcitx::KeyState::Ctrl_Shift)
+            .normalize()
+            .states() == fcitx::KeyState::Ctrl_Shift);
+    FCITX_ASSERT(
+        fcitx::Key(FcitxKey_Greek_finalsmallsigma, fcitx::KeyState::Shift)
+            .normalize()
+            .check(fcitx::Key(FcitxKey_Greek_finalsmallsigma)));
     FCITX_ASSERT(fcitx::Key("").sym() == FcitxKey_None);
     FCITX_ASSERT(fcitx::Key("-").sym() == FcitxKey_minus);
     FCITX_ASSERT(fcitx::Key("`").sym() == FcitxKey_grave);

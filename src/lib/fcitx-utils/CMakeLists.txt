@@ -68,6 +68,7 @@ list(APPEND FCITX_UTILS_SOURCES
     misc.cpp
     semver.cpp
     keydata.cpp
+    casedata.cpp
     event.cpp
     eventloopinterface.cpp
     environ.cpp
