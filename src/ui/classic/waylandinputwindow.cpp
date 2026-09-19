@@ -44,18 +44,16 @@ namespace fcitx::classicui {
 
 /** Initializes the Wayland input window and its event handlers. */
 WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
-    : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
+    : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()),
+      candidateMenuWindow_(ui->newWindow()) {
     menuContext_.reset(pango_font_map_create_context(fontMap_.get()));
     menuLayout_.reset(pango_layout_new(menuContext_.get()));
     window_->createWindow();
+    candidateMenuWindow_->createWindow();
     window_->repaint().connect([this]() {
         if (auto *ic = repaintIC_.get()) {
             if (ic->hasFocus()) {
-                if (candidateMenuVisible_) {
-                    repaint();
-                } else {
-                    update(ic);
-                }
+                update(ic);
             }
         }
     });
@@ -67,52 +65,25 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             if (button == BTN_RIGHT) {
                 showCandidateMenu(x, y);
             } else if (button == BTN_LEFT) {
-                if (candidateMenuVisible_) {
-                    clickCandidateMenu(x, y);
-                } else {
-                    click(x, y);
-                }
+                click(x, y);
             }
         });
     window_->hover().connect([this](int x, int y) {
-        bool needRepaint = false;
-        if (candidateMenuVisible_) {
-            needRepaint = hoverCandidateMenu(x, y);
-            if (!candidateMenuRegion_.contains(x, y)) {
-                needRepaint = hover(x, y) || needRepaint;
-            }
-        } else {
-            needRepaint = hover(x, y);
-        }
-        if (needRepaint) {
+        if (hover(x, y)) {
             repaint();
         }
     });
     window_->leave().connect([this]() {
-        bool needRepaint = hover(-1, -1);
-        if (candidateMenuHoveredIndex_ != -1) {
-            candidateMenuHoveredIndex_ = -1;
-            needRepaint = true;
-        }
-        if (needRepaint) {
+        if (hover(-1, -1)) {
             repaint();
         }
     });
-    window_->touchDown().connect([this](int x, int y) {
-        if (candidateMenuVisible_) {
-            clickCandidateMenu(x, y);
-        } else {
-            click(x, y);
-        }
-    });
+    window_->touchDown().connect([this](int x, int y) { click(x, y); });
     window_->touchUp().connect([](int, int) {
         // do nothing
     });
     window_->axis().connect([this](int, int, uint32_t axis, wl_fixed_t value) {
         if (axis != WL_POINTER_AXIS_VERTICAL_SCROLL) {
-            return;
-        }
-        if (candidateMenuVisible_) {
             return;
         }
         scroll_ += value;
@@ -131,45 +102,62 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
+
+    candidateMenuWindow_->repaint().connect(
+        [this]() { repaintCandidateMenu(); });
+    candidateMenuWindow_->click().connect(
+        [this](int x, int y, uint32_t button, uint32_t state) {
+            if (state != WL_POINTER_BUTTON_STATE_PRESSED) {
+                return;
+            }
+            if (button == BTN_LEFT) {
+                clickCandidateMenu(x, y);
+            } else if (button == BTN_RIGHT) {
+                clearCandidateMenu();
+            }
+        });
+    candidateMenuWindow_->hover().connect([this](int x, int y) {
+        if (hoverCandidateMenu(x, y)) {
+            repaintCandidateMenu();
+        }
+    });
+    candidateMenuWindow_->leave().connect([this]() {
+        if (candidateMenuVisible_) {
+            clearCandidateMenu();
+        }
+    });
+    candidateMenuWindow_->touchDown().connect(
+        [this](int x, int y) { clickCandidateMenu(x, y); });
+    candidateMenuWindow_->touchUp().connect([](int, int) {});
     initPanel();
 }
 
 /** Hides the candidate menu and discards its temporary state. */
 void WaylandInputWindow::clearCandidateMenu() {
     candidateMenuVisible_ = false;
+    if (candidateMenuWindow_) {
+        candidateMenuWindow_->hide();
+    }
     candidateMenuCandidate_ = nullptr;
     candidateMenuList_.reset();
     candidateMenuActions_.clear();
     candidateMenuRegions_.clear();
     candidateMenuRegion_ = Rect();
-    candidateMenuX_ = candidateMenuY_ = 0;
     candidateMenuWidth_ = candidateMenuHeight_ = 0;
     candidateMenuItemWidth_ = candidateMenuItemHeight_ = 0;
     candidateMenuHasCheckable_ = false;
     candidateMenuHoveredIndex_ = -1;
 }
 
-/** Restores the input panel surface after a candidate menu closes. */
-void WaylandInputWindow::restorePanelSize() {
-    if (!window_ || panelWidth_ <= 0 || panelHeight_ <= 0 ||
-        (window_->width() == panelWidth_ &&
-         window_->height() == panelHeight_)) {
-        return;
-    }
-    window_->resize(panelWidth_, panelHeight_);
-    updateBlur();
-}
-
 /** Builds and shows the candidate action menu at the pointer position. */
 void WaylandInputWindow::showCandidateMenu(int x, int y) {
-    auto dismiss = [this]() {
-        if (!candidateMenuVisible_) {
-            return;
-        }
-        clearCandidateMenu();
-        restorePanelSize();
-        repaint();
-    };
+    auto dismiss = [this]() { clearCandidateMenu(); };
+
+    if (!candidateMenuSupported_ || !candidateMenuSurfaceV2_ ||
+        !candidateMenuWindow_->surface()) {
+        dismiss();
+        return;
+    }
 
     auto *inputContext = inputContext_.get();
     if (!inputContext) {
@@ -269,17 +257,14 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     candidateMenuWidth_ = std::max(candidateMenuWidth_, 1);
     candidateMenuHeight_ = std::max(candidateMenuHeight_, 1);
 
-    const int panelWidth = panelWidth_ > 0 ? panelWidth_ : window_->width();
-    const int panelHeight = panelHeight_ > 0 ? panelHeight_ : window_->height();
-    candidateMenuX_ =
-        std::min(std::max(x, 0), std::max(0, panelWidth - candidateMenuWidth_));
-    candidateMenuY_ = std::min(std::max(y, 0),
-                               std::max(0, panelHeight - candidateMenuHeight_));
-    candidateMenuRegion_.setPosition(candidateMenuX_, candidateMenuY_)
-        .setSize(candidateMenuWidth_, candidateMenuHeight_);
+    // The compositor positions an input-popup surface near the active text
+    // input. Its local coordinate space starts at (0, 0), so no panel resize
+    // or client-side screen-edge calculation is needed here.
+    candidateMenuRegion_.setPosition(0, 0).setSize(candidateMenuWidth_,
+                                                   candidateMenuHeight_);
 
     candidateMenuRegions_.reserve(candidateMenuActions_.size());
-    int itemY = candidateMenuY_ + *contentMargin.marginTop;
+    int itemY = *contentMargin.marginTop;
     for (size_t i = 0; i < candidateMenuActions_.size(); i++) {
         const auto &action = candidateMenuActions_[i];
         const int itemHeight =
@@ -293,7 +278,7 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
                                   : candidateMenuItemWidth_;
         candidateMenuRegions_.push_back(
             Rect()
-                .setPosition(candidateMenuX_ + *contentMargin.marginLeft, itemY)
+                .setPosition(*contentMargin.marginLeft, itemY)
                 .setSize(std::max(itemWidth, 0), std::max(itemHeight, 0)));
         itemY += itemHeight;
         if (i + 1 < candidateMenuActions_.size()) {
@@ -303,15 +288,8 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
 
     candidateMenuVisible_ = true;
     candidateMenuHoveredIndex_ = -1;
-    const int width =
-        std::max(panelWidth, candidateMenuX_ + candidateMenuWidth_);
-    const int height =
-        std::max(panelHeight, candidateMenuY_ + candidateMenuHeight_);
-    if (window_->width() != width || window_->height() != height) {
-        window_->resize(width, height);
-        updateBlur();
-    }
-    repaint();
+    candidateMenuWindow_->resize(candidateMenuWidth_, candidateMenuHeight_);
+    repaintCandidateMenu();
 }
 
 /** Updates the candidate menu item under the pointer. */
@@ -351,8 +329,6 @@ void WaylandInputWindow::clickCandidateMenu(int x, int y) {
     }
     if (index < 0) {
         clearCandidateMenu();
-        restorePanelSize();
-        repaint();
         return;
     }
 
@@ -360,16 +336,14 @@ void WaylandInputWindow::clickCandidateMenu(int x, int y) {
     const auto *candidate = candidateMenuCandidate_;
     const int id = candidateMenuActions_[index].id();
     clearCandidateMenu();
-    restorePanelSize();
     if (candidateList && candidate) {
         if (auto *actionable = candidateList->toActionable()) {
             actionable->triggerAction(*candidate, id);
         }
     }
-    repaint();
 }
 
-/** Paints the candidate action menu over the input panel. */
+/** Paints the candidate action menu on its independent popup surface. */
 void WaylandInputWindow::paintCandidateMenu(cairo_t *cr) {
     if (!candidateMenuVisible_) {
         return;
@@ -379,8 +353,8 @@ void WaylandInputWindow::paintCandidateMenu(cairo_t *cr) {
     const auto &menu = *theme.menu;
     const auto &textMargin = *menu.textMargin;
     const auto &checkBox = theme.loadBackground(*menu.checkBox);
-    theme.paint(cr, *menu.background, candidateMenuX_, candidateMenuY_,
-                candidateMenuWidth_, candidateMenuHeight_, 1.0);
+    theme.paint(cr, *menu.background, 0, 0, candidateMenuWidth_,
+                candidateMenuHeight_, 1.0);
 
     for (size_t i = 0; i < candidateMenuActions_.size(); i++) {
         const auto &action = candidateMenuActions_[i];
@@ -419,6 +393,23 @@ void WaylandInputWindow::paintCandidateMenu(cairo_t *cr) {
         cairo_move_to(cr, textX, textY);
         pango_cairo_show_layout(cr, menuLayout_.get());
         cairo_restore(cr);
+    }
+}
+
+void WaylandInputWindow::repaintCandidateMenu() {
+    if (!candidateMenuVisible_ || !candidateMenuWindow_) {
+        return;
+    }
+    if (auto *surface = candidateMenuWindow_->prerender()) {
+        cairo_t *c = cairo_create(surface);
+        cairo_surface_set_device_scale(cairo_get_target(c),
+                                       candidateMenuWindow_->bufferScale() /
+                                           WaylandWindow::ScaleDominatorF,
+                                       candidateMenuWindow_->bufferScale() /
+                                           WaylandWindow::ScaleDominatorF);
+        paintCandidateMenu(c);
+        cairo_destroy(c);
+        candidateMenuWindow_->render();
     }
 }
 
@@ -476,7 +467,10 @@ void WaylandInputWindow::updateBlur() {
 }
 
 /** Updates the input window buffer scale. */
-void WaylandInputWindow::updateScale() { window_->updateScale(); }
+void WaylandInputWindow::updateScale() {
+    window_->updateScale();
+    candidateMenuWindow_->updateScale();
+}
 
 /** Releases the current Wayland input panel surface. */
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
@@ -484,6 +478,7 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 /** Updates the input panel contents, surface, and candidate menu state. */
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     clearCandidateMenu();
+    candidateMenuSupported_ = false;
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
@@ -502,8 +497,10 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         repaintIC_.unwatch();
         panelSurface_.reset();
         panelSurfaceV2_.reset();
+        candidateMenuSurfaceV2_.reset();
         blur_.reset();
         window_->destroyWindow();
+        candidateMenuWindow_->destroyWindow();
         return;
     }
 
@@ -512,8 +509,12 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     CLASSICUI_DEBUG()
         << "Wayland Input Window is visible, ensure surface is created.";
     initPanel();
+    if (!candidateMenuWindow_->surface()) {
+        candidateMenuWindow_->createWindow();
+    }
     if (ic->frontendName() == "wayland_v2") {
-        if (!panelSurfaceV2_ || ic != v2IC_.get()) {
+        candidateMenuSupported_ = candidateMenuSurfaceV2_ != nullptr;
+        if (!panelSurfaceV2_ || !candidateMenuSurfaceV2_ || ic != v2IC_.get()) {
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
                 CLASSICUI_ERROR()
@@ -532,8 +533,15 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             v2IC_ = ic->watch();
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
+            if (!candidateMenuSurfaceV2_) {
+                candidateMenuSurfaceV2_.reset(
+                    im->getInputPopupSurface(candidateMenuWindow_->surface()));
+            }
+            candidateMenuSupported_ = candidateMenuSurfaceV2_ != nullptr;
         }
     } else if (ic->frontendName() == "wayland") {
+        // zwp_input_panel_v1 cannot create a compositor-positioned popup.
+        // Keep the legacy panel unchanged instead of drawing a menu into it.
         auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
         if (!panel) {
             return;
@@ -553,9 +561,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         window_->resize(width, height);
         updateBlur();
     }
-    panelWidth_ = width;
-    panelHeight_ = height;
-
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
         cairo_surface_set_device_scale(
@@ -563,7 +568,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             window_->bufferScale() / WaylandWindow::ScaleDominatorF,
             window_->bufferScale() / WaylandWindow::ScaleDominatorF);
         paint(c, width, height);
-        paintCandidateMenu(c);
         cairo_destroy(c);
         window_->render();
     }
@@ -583,7 +587,6 @@ void WaylandInputWindow::repaint() {
             window_->bufferScale() / WaylandWindow::ScaleDominatorF,
             window_->bufferScale() / WaylandWindow::ScaleDominatorF);
         paint(c, window_->width(), window_->height());
-        paintCandidateMenu(c);
         cairo_destroy(c);
         window_->render();
     }
