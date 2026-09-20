@@ -110,10 +110,12 @@ bool UnicodeTempMode::triggerTempMode(const KeyEvent &keyEvent) {
     }
 
     UnicodeMode mode;
-    if (keyEvent.key().checkKeyList(unicode_->config().triggerKey.value())) {
+    if (keyEvent.checkKeyList(unicode_->config().triggerKey.value(),
+                              KeyEventMatchingMode::MatchAllNormalizedKeys)) {
         mode = UnicodeMode::Search;
-    } else if (keyEvent.key().checkKeyList(
-                   unicode_->config().directUnicodeKey.value())) {
+    } else if (keyEvent.checkKeyList(
+                   unicode_->config().directUnicodeKey.value(),
+                   KeyEventMatchingMode::MatchAllNormalizedKeys)) {
         mode = UnicodeMode::Direct;
     } else {
         return false;
@@ -164,7 +166,7 @@ bool UnicodeTempMode::handleSearch(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 unicode_->instance()->globalConfig().defaultPrevPage())) {
             auto *pageable = candidateList->toPageable();
             if (!pageable->hasPrev()) {
@@ -179,7 +181,7 @@ bool UnicodeTempMode::handleSearch(const KeyEvent &keyEvent) {
             }
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 unicode_->instance()->globalConfig().defaultNextPage())) {
             candidateList->toPageable()->next();
             inputContext->updateUserInterface(
@@ -187,7 +189,7 @@ bool UnicodeTempMode::handleSearch(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 unicode_->instance()->globalConfig().defaultPrevCandidate())) {
             candidateList->toCursorMovable()->prevCandidate();
             inputContext->updateUserInterface(
@@ -195,7 +197,7 @@ bool UnicodeTempMode::handleSearch(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 unicode_->instance()->globalConfig().defaultNextCandidate())) {
             candidateList->toCursorMovable()->nextCandidate();
             inputContext->updateUserInterface(
@@ -203,8 +205,8 @@ bool UnicodeTempMode::handleSearch(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().check(FcitxKey_Return) ||
-            keyEvent.key().check(FcitxKey_KP_Enter)) {
+        if (keyEvent.check(Key(FcitxKey_Return)) ||
+            keyEvent.check(Key(FcitxKey_KP_Enter))) {
             if (!candidateList->empty() && candidateList->cursorIndex() >= 0) {
                 candidateList->candidate(candidateList->cursorIndex())
                     .select(inputContext);

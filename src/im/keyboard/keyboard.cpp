@@ -772,9 +772,8 @@ bool KeyboardEngineState::handleLongPress(const KeyEvent &event) {
 bool KeyboardEngineState::handleSpellModeTrigger(const InputMethodEntry &entry,
                                                  const KeyEvent &event) {
     // check the spell trigger key
-    if ((event.key().checkKeyList(engine_->config().hintTrigger.value()) ||
-         event.origKey().normalize().checkKeyList(
-             engine_->config().hintTrigger.value())) &&
+    if (event.checkKeyList(engine_->config().hintTrigger.value(),
+                           KeyEventMatchingMode::MatchAllNormalizedKeys) &&
         engine_->supportHint(entry.languageCode())) {
         enableWordHint_ = !enableWordHint_;
         oneTimeEnableWordHint_ = false;
@@ -784,10 +783,8 @@ bool KeyboardEngineState::handleSpellModeTrigger(const InputMethodEntry &entry,
     }
 
     // check the spell trigger key
-    if ((event.key().checkKeyList(
-             engine_->config().oneTimeHintTrigger.value()) ||
-         event.origKey().normalize().checkKeyList(
-             engine_->config().oneTimeHintTrigger.value())) &&
+    if (event.checkKeyList(engine_->config().oneTimeHintTrigger.value(),
+                           KeyEventMatchingMode::MatchAllNormalizedKeys) &&
         engine_->supportHint(entry.languageCode())) {
         bool oldOneTime = oneTimeEnableWordHint_;
         enableWordHint_ = false;
@@ -815,11 +812,11 @@ bool KeyboardEngineState::handleCandidateSelection(
 
     auto *movable = candList->toCursorMovable();
     if (movable) {
-        if (event.key().checkKeyList(*engine_->config().nextCandidate)) {
+        if (event.checkKeyList(*engine_->config().nextCandidate)) {
             movable->nextCandidate();
             return true;
         }
-        if (event.key().checkKeyList(*engine_->config().prevCandidate)) {
+        if (event.checkKeyList(*engine_->config().prevCandidate)) {
             movable->prevCandidate();
             return true;
         }
