@@ -884,8 +884,9 @@ Instance::Instance(int argc, char **argv) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             if (!keyEvent.isRelease() &&
-                keyEvent.key().checkKeyList(
-                    d->globalConfig_.togglePreeditKeys())) {
+                keyEvent.checkKeyList(
+                    d->globalConfig_.togglePreeditKeys(),
+                    KeyEventMatchingMode::MatchAllNormalizedKeys)) {
                 // Clear client preedit on disable.
                 ic->reset();
                 ic->setEnablePreedit(!ic->isPreeditEnabled());

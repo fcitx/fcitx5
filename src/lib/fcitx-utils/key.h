@@ -217,8 +217,13 @@ public:
         return result;
     }
 
-    /// Check the current key against a key list.
-    /// \see fcitx::Key::check
+    /**
+     * Check the current key against a key list.
+     *
+     * Prefer KeyEvent::checkKeyList for key event.
+     * @see fcitx::Key::check
+     * @see fcitx::KeyEvent::checkKeyList
+     */
     template <typename Container>
     bool checkKeyList(const Container &c) const {
         return std::ranges::find_if(c, [this](const Key &toCheck) {

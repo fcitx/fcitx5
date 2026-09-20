@@ -33,7 +33,8 @@ bool ClipboardTempMode::triggerTempMode(const KeyEvent &keyEvent) {
         return false;
     }
 
-    if (keyEvent.key().checkKeyList(*clipboard_->config().triggerKey)) {
+    if (keyEvent.checkKeyList(*clipboard_->config().triggerKey,
+                              KeyEventMatchingMode::MatchAllNormalizedKeys)) {
         property(keyEvent.inputContext())->setActive(true);
         clipboard_->updateUI(keyEvent.inputContext());
         return true;
@@ -66,7 +67,7 @@ bool ClipboardTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 clipboard_->instance()->globalConfig().defaultPrevPage())) {
             auto *pageable = candidateList->toPageable();
             if (!pageable->hasPrev()) {
@@ -81,7 +82,7 @@ bool ClipboardTempMode::keyEvent(const KeyEvent &keyEvent) {
             }
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 clipboard_->instance()->globalConfig().defaultNextPage())) {
             candidateList->toPageable()->next();
             inputContext->updateUserInterface(
@@ -89,18 +90,18 @@ bool ClipboardTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(clipboard_->instance()
-                                            ->globalConfig()
-                                            .defaultPrevCandidate())) {
+        if (keyEvent.checkKeyList(clipboard_->instance()
+                                      ->globalConfig()
+                                      .defaultPrevCandidate())) {
             candidateList->toCursorMovable()->prevCandidate();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(clipboard_->instance()
-                                            ->globalConfig()
-                                            .defaultNextCandidate())) {
+        if (keyEvent.checkKeyList(clipboard_->instance()
+                                      ->globalConfig()
+                                      .defaultNextCandidate())) {
             candidateList->toCursorMovable()->nextCandidate();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);
