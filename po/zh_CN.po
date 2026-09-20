@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-05-20 20:24+0000\n"
+"POT-Creation-Date: 2026-09-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Xuetian Weng <wengxt@gmail.com>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -155,11 +155,11 @@ msgstr "已暂时启用补全。"
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:485
+#: src/lib/fcitx/instance.cpp:718 src/lib/fcitx/instance.cpp:897
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
-#: src/modules/notificationitem/notificationitem.cpp:285
+#: src/modules/notificationitem/notificationitem.cpp:286
 #: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -170,315 +170,315 @@ msgstr "输入法"
 msgid "Completion"
 msgstr "补全"
 
-#: src/ui/classic/theme.h:41
+#: src/ui/classic/theme.h:45
 msgid "Top Left"
 msgstr "左上"
 
-#: src/ui/classic/theme.h:41
+#: src/ui/classic/theme.h:45
 msgid "Top Center"
 msgstr "顶部居中"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:46
 msgid "Top Right"
 msgstr "右上"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:46
 msgid "Center Left"
 msgstr "左侧居中"
 
-#: src/ui/classic/theme.h:43 src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:47 src/ui/classic/theme.h:59
 msgid "Center"
 msgstr "居中"
 
-#: src/ui/classic/theme.h:43
+#: src/ui/classic/theme.h:47
 msgid "Center Right"
 msgstr "右侧居中"
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:48
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:48
 msgid "Bottom Center"
 msgstr "底部居中"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:49
 msgid "Bottom Right"
 msgstr "右下"
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:58
 msgid "Top"
 msgstr "顶部"
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:59
 msgid "First Candidate"
 msgstr "第一候选词"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:60
 msgid "Last Candidate"
 msgstr "上一个候选词"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:60
 msgid "Bottom"
 msgstr "按钮"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:75
 msgid "Input Panel Background"
 msgstr "输入框背景"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:75
 msgid "Input Panel Border"
 msgstr "输入框边框"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Highlight Candidate Background"
 msgstr "输入框高亮候选词背景"
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight Candidate Border"
 msgstr "输入框高亮候选词边框"
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight"
 msgstr "输入框高亮"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:78
 msgid "Menu Background"
 msgstr "菜单背景"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:78
 msgid "Menu Border"
 msgstr "菜单边框"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:79
 msgid "Menu Selected Item Background"
 msgstr "菜单选中项背景"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:79
 msgid "Menu Selected Item Border"
 msgstr "菜单选中项边框"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:80
 msgid "Menu Separator"
 msgstr "菜单分隔符"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:84
 msgid "Margin Left"
 msgstr "左侧边距"
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:86
 msgid "Margin Right"
 msgstr "右侧边距"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:88
 msgid "Margin Top"
 msgstr "顶部边距"
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:90
 msgid "Margin Bottom"
 msgstr "底部边距"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:95
 msgid "Background Image"
 msgstr "背景图片"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:99
 msgid "Color"
 msgstr "颜色"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:111
 msgid "This option is only effective if image is not set."
 msgstr "此选项仅在图片没有设置时生效。"
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:107
 msgid "Border Color"
 msgstr "边框颜色"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:115
 msgid "Border width"
 msgstr "边框宽度"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:119
 msgid "This value should be less than any of margin value."
 msgstr "这个值应该小于任何边距。"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:120
 msgid "Overlay Image"
 msgstr "覆盖图片"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:122
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:123
 msgid "Overlay X offset"
 msgstr "覆盖图片 X 偏移"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:124
 msgid "Overlay Y offset"
 msgstr "覆盖图片 Y 偏移"
 
-#: src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:126
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:128
 msgid "Margin"
 msgstr "边距"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:130
 msgid "Overlay Clip Margin"
 msgstr "覆盖图片裁剪边界"
 
-#: src/ui/classic/theme.h:132
+#: src/ui/classic/theme.h:136
 msgid "Highlight Click Margin"
 msgstr "高亮点击边距"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:139
 msgid "Image"
 msgstr "图片"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:141
 msgid "Click Margin"
 msgstr "点击区域边距"
 
-#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:145 src/ui/classic/theme.h:197
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:148
 msgid "Highlight text color"
 msgstr "高亮文字颜色"
 
-#: src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:150
 msgid "Highlight Background color"
 msgstr "高亮背景颜色"
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:153
 msgid "Highlight Candidate Text Color"
 msgstr "高亮候选词文本颜色"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:156
 msgid "Candidate Label Text Size Factor"
 msgstr "候选词标签文本大小系数"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:159
 msgid "Candidate Label Text Color"
 msgstr "候选词标签文本颜色"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:162
 msgid "Highlight Candidate Label Text Color"
 msgstr "高亮候选词标签文本颜色"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:164
 msgid "Candidate Comment Text Size Factor"
 msgstr "候选词注释文本大小系数"
 
-#: src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:167
 msgid "Candidate Comment Text Color"
 msgstr "候选词注释文本颜色"
 
-#: src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:170
 msgid "Highlight Candidate Comment Text Color"
 msgstr "高亮候选词注释文本颜色"
 
-#: src/ui/classic/theme.h:167
+#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:203
 msgid "Enable Blur on KWin"
 msgstr "KWin 下启用模糊"
 
-#: src/ui/classic/theme.h:169
+#: src/ui/classic/theme.h:173 src/ui/classic/theme.h:205
 msgid "Blur mask"
 msgstr "模糊遮罩"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
 msgid "Blur Margin"
 msgstr "模糊区域边距"
 
-#: src/ui/classic/theme.h:173
+#: src/ui/classic/theme.h:177
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:181
 msgid "Page button vertical alignment"
 msgstr "页面按钮垂直对齐"
 
-#: src/ui/classic/theme.h:180 src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:182 src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+#: src/ui/classic/theme.h:188 src/ui/classic/theme.h:216
 msgid "Margin around all content"
 msgstr "内容周围边界"
 
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+#: src/ui/classic/theme.h:190 src/ui/classic/theme.h:218
 msgid "Margin around text"
 msgstr "文本周围边距"
 
-#: src/ui/classic/theme.h:187
+#: src/ui/classic/theme.h:191
 msgid "Prev Page Button"
 msgstr "上一页按钮"
 
-#: src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:192
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/ui/classic/theme.h:190
+#: src/ui/classic/theme.h:194
 msgid "Shadow Margin"
 msgstr "阴影边距"
 
-#: src/ui/classic/theme.h:196
+#: src/ui/classic/theme.h:200
 msgid "Selected Item text color"
 msgstr "选中项文本颜色"
 
-#: src/ui/classic/theme.h:198
+#: src/ui/classic/theme.h:202
 msgid "Spacing"
 msgstr "间隔"
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:212
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:205
+#: src/ui/classic/theme.h:213
 msgid "Check box"
 msgstr "复选框"
 
-#: src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:214
 msgid "Sub Menu"
 msgstr "子菜单"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:221
 msgid "Name"
 msgstr "名称"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:222
 msgid "Version"
 msgstr "版本"
 
-#: src/ui/classic/theme.h:215
+#: src/ui/classic/theme.h:223
 msgid "Author"
 msgstr "作者"
 
-#: src/ui/classic/theme.h:217
+#: src/ui/classic/theme.h:225
 msgid "Description"
 msgstr "描述"
 
-#: src/ui/classic/theme.h:221
+#: src/ui/classic/theme.h:229
 msgid "Metadata"
 msgstr "元数据"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:231
 msgid "Input Panel"
 msgstr "输入面板"
 
-#: src/ui/classic/theme.h:224
+#: src/ui/classic/theme.h:232
 msgid "Menu"
 msgstr "菜单"
 
-#: src/ui/classic/theme.h:226
+#: src/ui/classic/theme.h:234
 msgid "Accent Colors"
 msgstr "重点色"
 
@@ -612,63 +612,63 @@ msgstr "此选项需要 Wayland 混成器 (Wayland compositor) 支持。"
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (实验性)"
 
-#: src/ui/kimpanel/kimpanel.cpp:430
+#: src/ui/kimpanel/kimpanel.cpp:438
 msgid "Not available"
 msgstr "不可用"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
+#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:392
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "默认"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:394
 #, c++-format
 msgid "Group {}"
 msgstr "分组 {}"
 
-#: src/lib/fcitx/instance.cpp:431
+#: src/lib/fcitx/instance.cpp:440
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: src/lib/fcitx/instance.cpp:434
+#: src/lib/fcitx/instance.cpp:443
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:436
+#: src/lib/fcitx/instance.cpp:445
 msgid "(Not available)"
 msgstr "(不可用)"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:449
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
+#: src/lib/fcitx/instance.cpp:486 src/lib/fcitx/instance.cpp:719
 #: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "切换分组"
 
-#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:487 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:705
+#: src/lib/fcitx/instance.cpp:720
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:877
+#: src/lib/fcitx/instance.cpp:897
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:878
+#: src/lib/fcitx/instance.cpp:898
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
-#: src/lib/fcitx/instance.cpp:879
+#: src/lib/fcitx/instance.cpp:899
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
@@ -680,7 +680,7 @@ msgstr "所有"
 msgid "Program"
 msgstr "程序"
 
-#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:39
 msgid "No"
 msgstr "否"
 
@@ -710,10 +710,22 @@ msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
 #: src/lib/fcitx/globalconfig.cpp:78
+msgid "Consume redundant Activate/Deactivate key"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid ""
+"When the input method is already in the state the key requests, pressing an "
+"Activate/Deactivate key changes nothing; consume the key event in that case "
+"instead of forwarding it to the application. Modifier only keys are never "
+"consumed."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"
 msgstr "临时切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:83
+#: src/lib/fcitx/globalconfig.cpp:95
 msgid ""
 "This key can only be used if current state is active, or is deactivated with "
 "this key. For example, you have two input methods: English as the inactive "
@@ -729,31 +741,31 @@ msgstr ""
 "触发任何动作。这个快捷键可以被配置为一些简单的单个修饰键，例如 Shift，从而只"
 "需要一个按键就可以触发，但是并不会在从未激活输入法的状态下误触发。"
 
-#: src/lib/fcitx/globalconfig.cpp:95
+#: src/lib/fcitx/globalconfig.cpp:107
 msgid "Enumerate Input Method Forward"
 msgstr "向前切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:102
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Enumerate Input Method Backward"
 msgstr "向后切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:108
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Skip first input method while enumerating"
 msgstr "轮换输入法时跳过第一个输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:131
 msgid "Enumerate Input Method Group Backward"
 msgstr "向后切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:128
+#: src/lib/fcitx/globalconfig.cpp:140
 msgid "Fallback Previous page"
 msgstr "缺省上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:131 src/lib/fcitx/globalconfig.cpp:144
+#: src/lib/fcitx/globalconfig.cpp:143 src/lib/fcitx/globalconfig.cpp:156
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -761,27 +773,27 @@ msgstr ""
 "输入法也许在自身配置中有不同的设置。 这个选项主要用于模块例如剪贴板和快速输"
 "入。"
 
-#: src/lib/fcitx/globalconfig.cpp:140
+#: src/lib/fcitx/globalconfig.cpp:152
 msgid "Fallback Next page"
 msgstr "缺省下一页"
 
-#: src/lib/fcitx/globalconfig.cpp:150
+#: src/lib/fcitx/globalconfig.cpp:162
 msgid "Fallback Previous Candidate"
 msgstr "缺省前一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:156
+#: src/lib/fcitx/globalconfig.cpp:168
 msgid "Fallback Next Candidate"
 msgstr "缺省后一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:161
+#: src/lib/fcitx/globalconfig.cpp:173
 msgid "Toggle embedded preedit"
 msgstr "切换是否使用嵌入预编辑"
 
-#: src/lib/fcitx/globalconfig.cpp:168
+#: src/lib/fcitx/globalconfig.cpp:180
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
 msgstr "触发修饰键快捷键的时限 (毫秒)"
 
-#: src/lib/fcitx/globalconfig.cpp:174
+#: src/lib/fcitx/globalconfig.cpp:186
 msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
@@ -789,47 +801,47 @@ msgstr ""
 "当使用只有修饰键的快捷键时，对应动作只会在修饰键在时限内松开时触发。-1 表示没"
 "有时限。"
 
-#: src/lib/fcitx/globalconfig.cpp:181
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Activate input method by default"
 msgstr "默认激活输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:185
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid "Reset state on Focus In"
 msgstr "重新聚焦时重置状态"
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:201
 msgid "Share Input State"
 msgstr "共享输入状态"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:205
 msgid "Show preedit in application"
 msgstr "在程序中显示预编辑文本"
 
-#: src/lib/fcitx/globalconfig.cpp:197
+#: src/lib/fcitx/globalconfig.cpp:209
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:200
+#: src/lib/fcitx/globalconfig.cpp:212
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Show compact input method information"
 msgstr "显示紧凑的输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:206
+#: src/lib/fcitx/globalconfig.cpp:218
 msgid "Show first input method information"
 msgstr "显示第一个输入法的信息"
 
-#: src/lib/fcitx/globalconfig.cpp:208
+#: src/lib/fcitx/globalconfig.cpp:220
 msgid "Default Candidates per page"
 msgstr "缺省每页候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:215
+#: src/lib/fcitx/globalconfig.cpp:227
 msgid "Override XKB Option"
 msgstr "覆盖 XKB 选项"
 
-#: src/lib/fcitx/globalconfig.cpp:219
+#: src/lib/fcitx/globalconfig.cpp:231
 msgid ""
 "Override the XKB option from display server. It will not affect the XKB "
 "option send to display, but just the XKB options for custom XKB layout. This "
@@ -839,33 +851,33 @@ msgstr ""
 "覆盖来自显示服务器的 XKB 选项。它不会影响发送给显示服务的 XKB 选项，仅会影响"
 "自定义的 XKB 布局"
 
-#: src/lib/fcitx/globalconfig.cpp:225
+#: src/lib/fcitx/globalconfig.cpp:237
 msgid "Custom XKB Option"
 msgstr "自定义 XKB 选项"
 
-#: src/lib/fcitx/globalconfig.cpp:235
+#: src/lib/fcitx/globalconfig.cpp:247
 msgid "Allow input method in the password field"
 msgstr "允许在密码框中使用输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:238
+#: src/lib/fcitx/globalconfig.cpp:250
 msgid "Show preedit text when typing password"
 msgstr "输入密码时显示预编辑文本"
 
-#: src/lib/fcitx/globalconfig.cpp:242
+#: src/lib/fcitx/globalconfig.cpp:254
 msgid "Interval of saving user data in minutes"
 msgstr "保存用户数据的时间间隔（以分钟为单位）"
 
-#: src/lib/fcitx/globalconfig.cpp:246
+#: src/lib/fcitx/globalconfig.cpp:258
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr "如果值为 0，那么用户数据仅会在 fctix 退出（比如您登出用户）时保存"
 
-#: src/lib/fcitx/globalconfig.cpp:250
+#: src/lib/fcitx/globalconfig.cpp:262
 msgid "Hotkey"
 msgstr "快捷键"
 
-#: src/lib/fcitx/globalconfig.cpp:252
+#: src/lib/fcitx/globalconfig.cpp:264
 msgid "Behavior"
 msgstr "行为"
 
@@ -2110,19 +2122,19 @@ msgstr ""
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 风格 (需要重启)"
 
-#: src/modules/wayland/waylandmodule.h:45
+#: src/modules/wayland/waylandmodule.h:46
 msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5+ 和 GNOME)"
 
-#: src/modules/wayland/waylandmodule.cpp:657
+#: src/modules/wayland/waylandmodule.cpp:693
 msgid "Fcitx"
 msgstr "Fcitx"
 
-#: src/modules/wayland/waylandmodule.cpp:657
+#: src/modules/wayland/waylandmodule.cpp:693
 msgid "Wayland Diagnose"
 msgstr "Wayland 诊断"
 
-#: src/modules/wayland/waylandmodule.cpp:680
+#: src/modules/wayland/waylandmodule.cpp:716
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -2138,7 +2150,7 @@ msgstr ""
 "imsettings，或者 Debian/Ubuntu 上的 im-config。更多信息请参见 https://fcitx-"
 "im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:695
+#: src/modules/wayland/waylandmodule.cpp:731
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -2149,7 +2161,7 @@ msgstr ""
 "作。推荐不设置 GTK_IM_MODULE 和 QT_IM_MODULE 从而使用 Wayland 输入法前端。更"
 "多信息请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:710
+#: src/modules/wayland/waylandmodule.cpp:746
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -2160,7 +2172,7 @@ msgstr ""
 "作。推荐使用 Wayland 输入法前端。更多信息请参见 https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:722
+#: src/modules/wayland/waylandmodule.cpp:758
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2172,7 +2184,7 @@ msgstr ""
 "extension/261/kimpanel/ 否则您可能无法在 GNOME Shell 的活动界面看到输入法窗"
 "口。更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 
-#: src/modules/wayland/waylandmodule.cpp:741
+#: src/modules/wayland/waylandmodule.cpp:779
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -2181,7 +2193,7 @@ msgstr ""
 "检测到设置了 GTK_IM_MODULE，并且 Wayland 输入法前端可以正常工作。推荐取消设"
 "置 GTK_IM_MODULE 以使用 Wayland 输入法前端。"
 
-#: src/modules/wayland/waylandmodule.cpp:760
+#: src/modules/wayland/waylandmodule.cpp:798
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2190,41 +2202,41 @@ msgstr ""
 "当前桌面不支持由 Fcitx 将键盘布局配置发送给 wayland 混成器。您仍可以通过将布"
 "局作为输入法添加到输入法分组来使用 Fcitx 内部的布局转换。"
 
-#: src/modules/wayland/waylandmodule.cpp:777
+#: src/modules/wayland/waylandmodule.cpp:815
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
-#: src/modules/imselector/imselector.cpp:256
-msgid "Select local input method:"
-msgstr "选择局部输入法："
-
-#: src/modules/imselector/imselector.cpp:257
-msgid "Select input method:"
-msgstr "选择输入法："
-
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:32
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:50
 msgid "Trigger Key"
 msgstr "触发键"
 
-#: src/modules/imselector/imselector.h:31
+#: src/modules/imselector/imselector.h:38
 msgid "Trigger Key for only current input context"
 msgstr "当前输入上下文的触发键"
 
-#: src/modules/imselector/imselector.h:37
+#: src/modules/imselector/imselector.h:44
 msgid "Hotkey for switching to the N-th input method"
 msgstr "切换到当前输入法到第...个输入法的按键"
 
-#: src/modules/imselector/imselector.h:42
-#: src/modules/imselector/imselector.h:52
+#: src/modules/imselector/imselector.h:49
+#: src/modules/imselector/imselector.h:59
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 
-#: src/modules/imselector/imselector.h:46
+#: src/modules/imselector/imselector.h:53
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "切换到当前局部输入法到第...个输入法的按键"
+
+#: src/modules/imselector/imselectortempmode.cpp:196
+msgid "Select local input method:"
+msgstr "选择局部输入法："
+
+#: src/modules/imselector/imselectortempmode.cpp:197
+msgid "Select input method:"
+msgstr "选择输入法："
 
 #: src/modules/notifications/notifications.cpp:230
 msgid "Do not show again"
@@ -2233,6 +2245,10 @@ msgstr "不要再显示"
 #: src/modules/notifications/notifications.h:35
 msgid "Hidden Notifications"
 msgstr "隐藏通知"
+
+#: src/modules/quickphrase/quickphrasetempmode.cpp:416
+msgid "Quick Phrase: "
+msgstr "快速输入: "
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Enable Spell check"
@@ -2245,10 +2261,6 @@ msgstr "备选拼写检查语言"
 #: src/modules/quickphrase/quickphrase.h:49
 msgid "Editor"
 msgstr "编辑器"
-
-#: src/modules/quickphrase/quickphrase.cpp:509
-msgid "Quick Phrase: "
-msgstr "快速输入: "
 
 #: src/modules/spell/spell.h:23
 msgid "Presage"
@@ -2266,60 +2278,60 @@ msgstr "Enchant"
 msgid "Backends"
 msgstr "后端"
 
-#: src/modules/unicode/charselectdata.cpp:199
+#: src/modules/unicode/charselectdata.cpp:201
 #, c++-format
 msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
 msgstr "中日韩统一表意文字-{0:X}"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:217
 #, c++-format
 msgid "HANGUL SYLLABLE {0}{1}{2}"
 msgstr "韩文音节 {0}{1}{2}"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:220
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Private Use High Surrogate>"
 msgstr "<专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:222
+#: src/modules/unicode/charselectdata.cpp:224
 msgid "<Low Surrogate>"
 msgstr "<低半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:224
+#: src/modules/unicode/charselectdata.cpp:226
 msgid "<Private Use>"
 msgstr "<专用区>"
 
-#: src/modules/unicode/charselectdata.cpp:227
+#: src/modules/unicode/charselectdata.cpp:229
 #, c++-format
 msgid "TANGUT IDEOGRAPH-{0:X}"
 msgstr "西夏文表意文字-{0:X}"
 
-#: src/modules/unicode/charselectdata.cpp:230
+#: src/modules/unicode/charselectdata.cpp:232
 msgid "<Plane 15 Private Use>"
 msgstr "<15 号平面专用区> "
 
-#: src/modules/unicode/charselectdata.cpp:232
+#: src/modules/unicode/charselectdata.cpp:234
 msgid "<Plane 16 Private Use>"
 msgstr "<16 号平面专用区> "
 
-#: src/modules/unicode/charselectdata.cpp:262
+#: src/modules/unicode/charselectdata.cpp:264
 msgid "<not assigned>"
 msgstr "<未指派>"
-
-#: src/modules/unicode/unicode.cpp:491
-msgid "Unicode: "
-msgstr "Unicode："
-
-#: src/modules/unicode/unicode.cpp:493
-msgid "(Type to search unicode by code or description)"
-msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
 #: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
 msgstr "使用十六进制数字输入 Unicode 字符"
+
+#: src/modules/unicode/unicodetempmode.cpp:410
+msgid "Unicode: "
+msgstr "Unicode："
+
+#: src/modules/unicode/unicodetempmode.cpp:412
+msgid "(Type to search unicode by code or description)"
+msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
 #: src/modules/clipboard/clipboard.h:54
 msgid "Paste Primary"
@@ -2352,41 +2364,41 @@ msgstr "自动清除密码的秒数"
 msgid "0 means never clear password."
 msgstr "0 表示永不清除密码。"
 
-#: src/modules/clipboard/clipboard.cpp:144
+#: src/modules/clipboard/clipboard.cpp:130
 msgid "<Password>"
 msgstr "<密码>"
 
-#: src/modules/clipboard/clipboard.cpp:397
+#: src/modules/clipboard/clipboard.cpp:257
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "剪贴板 (按退格/删除键清空历史): "
 
-#: src/modules/clipboard/clipboard.cpp:399
+#: src/modules/clipboard/clipboard.cpp:259
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
-#: src/modules/xcb/xcbmodule.h:37
+#: src/modules/xcb/xcbmodule.h:38
 msgid "Auto"
 msgstr "自动"
 
-#: src/modules/xcb/xcbmodule.h:38
+#: src/modules/xcb/xcbmodule.h:39
 msgid "Yes"
 msgstr "是"
 
-#: src/modules/xcb/xcbmodule.h:45
+#: src/modules/xcb/xcbmodule.h:46
 msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
 msgstr "允许按需启动 XWayland 的混成器的 XWayland 自动终止"
 
-#: src/modules/xcb/xcbmodule.h:59
+#: src/modules/xcb/xcbmodule.h:60
 msgid "Allow Overriding System XKB Settings"
 msgstr "允许重写系统 XKB 设置"
 
-#: src/modules/xcb/xcbmodule.h:63
+#: src/modules/xcb/xcbmodule.h:64
 msgid "Always set layout to be only group layout"
 msgstr "总是设置布局为只有分组布局"
 
-#: src/modules/xcb/xcbmodule.h:69
+#: src/modules/xcb/xcbmodule.h:70
 msgid "Set client disconnect mode to terminate (Need Restart)"
 msgstr "设置客户端断开连接模式为终止 (需要重启生效)"
 

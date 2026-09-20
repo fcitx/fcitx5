@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-03 20:24+0000\n"
+"POT-Creation-Date: 2026-09-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/fcitx/teams/12005/sv/)\n"
@@ -154,8 +154,8 @@ msgstr "Komplettering är tillfälligt aktiverad."
 msgid "Completion is enabled."
 msgstr "Komplettering är aktiverad."
 
-#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:483
-#: src/lib/fcitx/instance.cpp:716 src/lib/fcitx/instance.cpp:894
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:485
+#: src/lib/fcitx/instance.cpp:718 src/lib/fcitx/instance.cpp:897
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/notificationitem/notificationitem.cpp:286
@@ -646,30 +646,30 @@ msgstr "(inte tillgänglig)"
 msgid "Group {0}: {1}"
 msgstr "Grupp {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:484 src/lib/fcitx/instance.cpp:717
+#: src/lib/fcitx/instance.cpp:486 src/lib/fcitx/instance.cpp:719
 #: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "Byt grupp"
 
-#: src/lib/fcitx/instance.cpp:485 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:487 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Byt grupp till {0}"
 
-#: src/lib/fcitx/instance.cpp:718
+#: src/lib/fcitx/instance.cpp:720
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Bytte grupp till {0}"
 
-#: src/lib/fcitx/instance.cpp:894
+#: src/lib/fcitx/instance.cpp:897
 msgid "Preedit"
 msgstr "Förredigering"
 
-#: src/lib/fcitx/instance.cpp:895
+#: src/lib/fcitx/instance.cpp:898
 msgid "Preedit enabled"
 msgstr "Förredigering aktiverad"
 
-#: src/lib/fcitx/instance.cpp:896
+#: src/lib/fcitx/instance.cpp:899
 msgid "Preedit disabled"
 msgstr "Förredigering inaktiverad"
 
@@ -681,7 +681,7 @@ msgstr "Alla"
 msgid "Program"
 msgstr "Program"
 
-#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:39
 msgid "No"
 msgstr "Nej"
 
@@ -713,10 +713,22 @@ msgid "Deactivate Input Method"
 msgstr "Inaktivera inmatningsmetod"
 
 #: src/lib/fcitx/globalconfig.cpp:78
+msgid "Consume redundant Activate/Deactivate key"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid ""
+"When the input method is already in the state the key requests, pressing an "
+"Activate/Deactivate key changes nothing; consume the key event in that case "
+"instead of forwarding it to the application. Modifier only keys are never "
+"consumed."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"
 msgstr "Växla inmatningsmetod tillfälligt"
 
-#: src/lib/fcitx/globalconfig.cpp:83
+#: src/lib/fcitx/globalconfig.cpp:95
 msgid ""
 "This key can only be used if current state is active, or is deactivated with "
 "this key. For example, you have two input methods: English as the inactive "
@@ -735,31 +747,31 @@ msgstr ""
 "exempelvis Skift, så att den används med ett enda tangenttryck utan att "
 "utlösas av misstag om inmatningsmetoden aldrig aktiveras."
 
-#: src/lib/fcitx/globalconfig.cpp:95
+#: src/lib/fcitx/globalconfig.cpp:107
 msgid "Enumerate Input Method Forward"
 msgstr "Bläddra framåt bland inmatningsmetoder"
 
-#: src/lib/fcitx/globalconfig.cpp:102
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Enumerate Input Method Backward"
 msgstr "Bläddra bakåt bland inmatningsmetoder"
 
-#: src/lib/fcitx/globalconfig.cpp:108
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Skip first input method while enumerating"
 msgstr "Hoppa över den första inmatningsmetoden vid bläddring"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Enumerate Input Method Group Forward"
 msgstr "Bläddra framåt bland grupper av inmatningsmetoder"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:131
 msgid "Enumerate Input Method Group Backward"
 msgstr "Bläddra bakåt bland grupper av inmatningsmetoder"
 
-#: src/lib/fcitx/globalconfig.cpp:128
+#: src/lib/fcitx/globalconfig.cpp:140
 msgid "Fallback Previous page"
 msgstr "Reserv: föregående sida"
 
-#: src/lib/fcitx/globalconfig.cpp:131 src/lib/fcitx/globalconfig.cpp:144
+#: src/lib/fcitx/globalconfig.cpp:143 src/lib/fcitx/globalconfig.cpp:156
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -767,28 +779,28 @@ msgstr ""
 "Inmatningsmetoder kan ha olika inställningar i sin egen konfiguration. Detta "
 "används ofta av moduler som urklipp och snabbfraser."
 
-#: src/lib/fcitx/globalconfig.cpp:140
+#: src/lib/fcitx/globalconfig.cpp:152
 msgid "Fallback Next page"
 msgstr "Reserv: nästa sida"
 
-#: src/lib/fcitx/globalconfig.cpp:150
+#: src/lib/fcitx/globalconfig.cpp:162
 msgid "Fallback Previous Candidate"
 msgstr "Reserv: föregående kandidat"
 
-#: src/lib/fcitx/globalconfig.cpp:156
+#: src/lib/fcitx/globalconfig.cpp:168
 msgid "Fallback Next Candidate"
 msgstr "Reserv: nästa kandidat"
 
-#: src/lib/fcitx/globalconfig.cpp:161
+#: src/lib/fcitx/globalconfig.cpp:173
 msgid "Toggle embedded preedit"
 msgstr "Växla inbäddad förredigering"
 
-#: src/lib/fcitx/globalconfig.cpp:168
+#: src/lib/fcitx/globalconfig.cpp:180
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
 msgstr ""
 "Tidsgräns i millisekunder för att utlösa genvägar med modifieringstangenter"
 
-#: src/lib/fcitx/globalconfig.cpp:174
+#: src/lib/fcitx/globalconfig.cpp:186
 msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
@@ -797,47 +809,47 @@ msgstr ""
 "utlösas bara om modifieringstangenten släpps inom tidsgränsen. -1 innebär "
 "att det inte finns någon gräns."
 
-#: src/lib/fcitx/globalconfig.cpp:181
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Activate input method by default"
 msgstr "Aktivera inmatningsmetod som standard"
 
-#: src/lib/fcitx/globalconfig.cpp:185
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid "Reset state on Focus In"
 msgstr "Återställ tillstånd när fokus tas emot"
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:201
 msgid "Share Input State"
 msgstr "Dela inmatningstillstånd"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:205
 msgid "Show preedit in application"
 msgstr "Visa förredigering i programmet"
 
-#: src/lib/fcitx/globalconfig.cpp:197
+#: src/lib/fcitx/globalconfig.cpp:209
 msgid "Show Input Method Information when switch input method"
 msgstr "Visa information om inmatningsmetoden vid byte av inmatningsmetod"
 
-#: src/lib/fcitx/globalconfig.cpp:200
+#: src/lib/fcitx/globalconfig.cpp:212
 msgid "Show Input Method Information when changing focus"
 msgstr "Visa information om inmatningsmetoden när fokus ändras"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Show compact input method information"
 msgstr "Visa kompakt information om inmatningsmetoden"
 
-#: src/lib/fcitx/globalconfig.cpp:206
+#: src/lib/fcitx/globalconfig.cpp:218
 msgid "Show first input method information"
 msgstr "Visa information om den första inmatningsmetoden"
 
-#: src/lib/fcitx/globalconfig.cpp:208
+#: src/lib/fcitx/globalconfig.cpp:220
 msgid "Default Candidates per page"
 msgstr "Standardantal kandidater per sida"
 
-#: src/lib/fcitx/globalconfig.cpp:215
+#: src/lib/fcitx/globalconfig.cpp:227
 msgid "Override XKB Option"
 msgstr "Åsidosätt XKB-alternativ"
 
-#: src/lib/fcitx/globalconfig.cpp:219
+#: src/lib/fcitx/globalconfig.cpp:231
 msgid ""
 "Override the XKB option from display server. It will not affect the XKB "
 "option send to display, but just the XKB options for custom XKB layout. This "
@@ -849,23 +861,23 @@ msgstr ""
 "den anpassade XKB-layouten. Detta är en reservlösning när det inte går att "
 "hämta aktuellt XKB-alternativ från Wayland-kompositorn."
 
-#: src/lib/fcitx/globalconfig.cpp:225
+#: src/lib/fcitx/globalconfig.cpp:237
 msgid "Custom XKB Option"
 msgstr "Anpassat XKB-alternativ"
 
-#: src/lib/fcitx/globalconfig.cpp:235
+#: src/lib/fcitx/globalconfig.cpp:247
 msgid "Allow input method in the password field"
 msgstr "Tillåt inmatningsmetod i lösenordsfältet"
 
-#: src/lib/fcitx/globalconfig.cpp:238
+#: src/lib/fcitx/globalconfig.cpp:250
 msgid "Show preedit text when typing password"
 msgstr "Visa förredigeringstext när lösenord skrivs"
 
-#: src/lib/fcitx/globalconfig.cpp:242
+#: src/lib/fcitx/globalconfig.cpp:254
 msgid "Interval of saving user data in minutes"
 msgstr "Intervall för att spara användardata i minuter"
 
-#: src/lib/fcitx/globalconfig.cpp:246
+#: src/lib/fcitx/globalconfig.cpp:258
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -873,11 +885,11 @@ msgstr ""
 "Om värdet är 0 kan användardata bara sparas när Fcitx avslutas, exempelvis "
 "vid utloggning."
 
-#: src/lib/fcitx/globalconfig.cpp:250
+#: src/lib/fcitx/globalconfig.cpp:262
 msgid "Hotkey"
 msgstr "Snabbtangent"
 
-#: src/lib/fcitx/globalconfig.cpp:252
+#: src/lib/fcitx/globalconfig.cpp:264
 msgid "Behavior"
 msgstr "Beteende"
 
@@ -2125,21 +2137,21 @@ msgstr ""
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Använd On The Spot-stil (kräver omstart)"
 
-#: src/modules/wayland/waylandmodule.h:45
+#: src/modules/wayland/waylandmodule.h:46
 msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr ""
 "Tillåt åsidosättning av systemets XKB-inställningar (stöd finns endast i "
 "KDE5+ och GNOME)"
 
-#: src/modules/wayland/waylandmodule.cpp:660
+#: src/modules/wayland/waylandmodule.cpp:693
 msgid "Fcitx"
 msgstr "Fcitx"
 
-#: src/modules/wayland/waylandmodule.cpp:660
+#: src/modules/wayland/waylandmodule.cpp:693
 msgid "Wayland Diagnose"
 msgstr "Wayland-diagnostik"
 
-#: src/modules/wayland/waylandmodule.cpp:683
+#: src/modules/wayland/waylandmodule.cpp:716
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -2157,7 +2169,7 @@ msgstr ""
 "Ubuntu. Mer information finns på https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:698
+#: src/modules/wayland/waylandmodule.cpp:731
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -2170,7 +2182,7 @@ msgstr ""
 "inmatningsmetodsgränssnitt i stället. Mer information finns på https://fcitx-"
 "im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:713
+#: src/modules/wayland/waylandmodule.cpp:746
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -2182,7 +2194,7 @@ msgstr ""
 "Waylands inmatningsmetodsgränssnitt. Mer information finns på https://fcitx-"
 "im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:725
+#: src/modules/wayland/waylandmodule.cpp:758
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2196,7 +2208,7 @@ msgstr ""
 "visas när du skriver i aktivitetsöversiktens sökruta i GNOME Shell. Mer "
 "information finns på https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 
-#: src/modules/wayland/waylandmodule.cpp:746
+#: src/modules/wayland/waylandmodule.cpp:779
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -2206,7 +2218,7 @@ msgstr ""
 "Vi rekommenderar att du avaktiverar GTK_IM_MODULE och använder Waylands "
 "inmatningsmetodsgränssnitt i stället."
 
-#: src/modules/wayland/waylandmodule.cpp:765
+#: src/modules/wayland/waylandmodule.cpp:798
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2217,7 +2229,7 @@ msgstr ""
 "fortfarande använda Fcitx interna layoutkonvertering genom att lägga till "
 "layouten som inmatningsmetod i gruppen för inmatningsmetoder."
 
-#: src/modules/wayland/waylandmodule.cpp:782
+#: src/modules/wayland/waylandmodule.cpp:815
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Mer information finns på https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
@@ -2248,11 +2260,11 @@ msgstr ""
 "Snabbtangent för att växla till den n:te inmatningsmetoden endast för "
 "aktuellt inmatningssammanhang"
 
-#: src/modules/imselector/imselectortempmode.cpp:194
+#: src/modules/imselector/imselectortempmode.cpp:196
 msgid "Select local input method:"
 msgstr "Välj lokal inmatningsmetod:"
 
-#: src/modules/imselector/imselectortempmode.cpp:195
+#: src/modules/imselector/imselectortempmode.cpp:197
 msgid "Select input method:"
 msgstr "Välj inmatningsmetod:"
 
@@ -2343,11 +2355,11 @@ msgstr "<ej tilldelad>"
 msgid "Type unicode in Hex number"
 msgstr "Ange Unicode som hexadecimalt tal"
 
-#: src/modules/unicode/unicodetempmode.cpp:408
+#: src/modules/unicode/unicodetempmode.cpp:410
 msgid "Unicode: "
 msgstr "Unicode: "
 
-#: src/modules/unicode/unicodetempmode.cpp:410
+#: src/modules/unicode/unicodetempmode.cpp:412
 msgid "(Type to search unicode by code or description)"
 msgstr "(Skriv för att söka efter Unicode via kod eller beskrivning)"
 
@@ -2389,23 +2401,23 @@ msgstr "0 innebär att lösenordet aldrig rensas."
 msgid "<Password>"
 msgstr "<Lösenord>"
 
-#: src/modules/clipboard/clipboard.cpp:256
+#: src/modules/clipboard/clipboard.cpp:257
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "Urklipp (tryck på Backsteg/Delete för att rensa historiken):"
 
-#: src/modules/clipboard/clipboard.cpp:258
+#: src/modules/clipboard/clipboard.cpp:259
 msgid "No clipboard history."
 msgstr "Ingen urklippshistorik."
 
-#: src/modules/xcb/xcbmodule.h:37
+#: src/modules/xcb/xcbmodule.h:38
 msgid "Auto"
 msgstr "Automatiskt"
 
-#: src/modules/xcb/xcbmodule.h:38
+#: src/modules/xcb/xcbmodule.h:39
 msgid "Yes"
 msgstr "Ja"
 
-#: src/modules/xcb/xcbmodule.h:45
+#: src/modules/xcb/xcbmodule.h:46
 msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
@@ -2413,15 +2425,15 @@ msgstr ""
 "Detta gör att XWayland kan avslutas automatiskt i fönsterhanterare som "
 "startar XWayland vid behov."
 
-#: src/modules/xcb/xcbmodule.h:59
+#: src/modules/xcb/xcbmodule.h:60
 msgid "Allow Overriding System XKB Settings"
 msgstr "Tillåt åsidosättning av systemets XKB-inställningar"
 
-#: src/modules/xcb/xcbmodule.h:63
+#: src/modules/xcb/xcbmodule.h:64
 msgid "Always set layout to be only group layout"
 msgstr "Ange alltid layout till endast grupplayout"
 
-#: src/modules/xcb/xcbmodule.h:69
+#: src/modules/xcb/xcbmodule.h:70
 msgid "Set client disconnect mode to terminate (Need Restart)"
 msgstr "Ange frånkopplingsläge för klient till avsluta (kräver omstart)"
 
