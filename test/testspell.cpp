@@ -25,7 +25,7 @@ FCITX_DEFINE_STATIC_ADDON_REGISTRY(staticAddon);
 FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
-    dispatcher->schedule([instance]() {
+    dispatcher->dispatch([instance]() {
         auto *spell = instance->addonManager().addon("spell", true);
         FCITX_ASSERT(spell);
         InputMethodGroup group("Test");
@@ -36,7 +36,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         instance->inputMethodManager().setGroup(group);
         instance->inputMethodManager().setCurrentGroup("Test");
     });
-    dispatcher->schedule([dispatcher, instance]() {
+    dispatcher->dispatch([dispatcher, instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("apple-green");
         auto uuid =
@@ -59,7 +59,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("n"), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Alt+1"), false);
 
-        dispatcher->schedule([dispatcher, instance]() {
+        dispatcher->dispatch([dispatcher, instance]() {
             dispatcher->detach();
             instance->exit();
         });

@@ -26,7 +26,7 @@ using namespace fcitx;
 std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>> handle;
 
 void testInit(Instance *instance) {
-    instance->eventDispatcher().schedule([instance]() {
+    instance->eventDispatcher().dispatch([instance]() {
         auto *quickphrase = instance->addonManager().addon("quickphrase", true);
         handle = quickphrase->call<IQuickPhrase::addProvider>(
             [](InputContext *, const std::string &text,
@@ -43,7 +43,7 @@ void testInit(Instance *instance) {
 }
 
 void testBasic(Instance *instance) {
-    instance->eventDispatcher().schedule([instance]() {
+    instance->eventDispatcher().dispatch([instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         for (const auto *expectation :
              {"TEST", "abc", "abcd", "DEF", "abcd", "DEF1", "test1", "CALLBACK",
@@ -166,7 +166,7 @@ void testBasic(Instance *instance) {
 }
 
 void testProviderV2(Instance *instance) {
-    instance->eventDispatcher().schedule([instance]() {
+    instance->eventDispatcher().dispatch([instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("PROVIDERV2");
         auto uuid =
@@ -196,7 +196,7 @@ void testProviderV2(Instance *instance) {
 }
 
 void testRestoreCallback(Instance *instance) {
-    instance->eventDispatcher().schedule([instance]() {
+    instance->eventDispatcher().dispatch([instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         auto uuid =
             testfrontend->call<ITestFrontend::createInputContext>("testapp");
@@ -232,7 +232,7 @@ int main() {
     testBasic(&instance);
     testProviderV2(&instance);
     testRestoreCallback(&instance);
-    instance.eventDispatcher().schedule([&instance]() {
+    instance.eventDispatcher().dispatch([&instance]() {
         handle.reset();
         instance.exit();
     });
