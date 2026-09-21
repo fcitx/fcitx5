@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-20 20:24+0000\n"
+"POT-Creation-Date: 2026-09-21 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2026\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -508,47 +508,47 @@ msgstr "Перезапустить"
 msgid "Exit"
 msgstr "Выход"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:117
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:130
 msgid "Vertical Candidate List"
 msgstr "Вертикальный список слов-кандидатов"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:132
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:136
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:138
 msgid "Menu Font"
 msgstr "Шрифт меню"
 
-#: src/ui/classic/classicui.h:131
+#: src/ui/classic/classicui.h:140
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:142
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:136
+#: src/ui/classic/classicui.h:145
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
-#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:146 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:151
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:155
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -557,11 +557,11 @@ msgstr ""
 "для значка предпочтительного текста установлено значение true, этот параметр "
 "будет игнорироваться."
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:162
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:166
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -571,37 +571,37 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/ui/classic/classicui.h:162
+#: src/ui/classic/classicui.h:171
 msgid "Theme"
 msgstr "Тема"
 
-#: src/ui/classic/classicui.h:165
+#: src/ui/classic/classicui.h:174
 msgid "Dark Theme"
 msgstr "Тёмная тема"
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:176
 msgid "Follow system light/dark color scheme"
 msgstr "Следовать системной светлой/темной цветовой схеме"
 
-#: src/ui/classic/classicui.h:171
+#: src/ui/classic/classicui.h:180
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 "Следовать цветовому акценту системы, если он поддерживается темой и рабочим "
 "столом"
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:185
 msgid "Use Per Screen DPI on X11"
 msgstr "Использовать DPI для каждого экрана на X11"
 
-#: src/ui/classic/classicui.h:180
+#: src/ui/classic/classicui.h:189
 msgid "This option will be always disabled on XWayland."
 msgstr "Этот параметр всегда будет отключен в XWayland."
 
-#: src/ui/classic/classicui.h:185
+#: src/ui/classic/classicui.h:194
 msgid "Force font DPI on Wayland"
 msgstr "Принудительное изменение DPI шрифта на Wayland"
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:198
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -611,11 +611,11 @@ msgstr ""
 "масштабирования экрана. Эта опция позволяет переопределить DPI шрифта. Если "
 "значение равно 0, это означает, что эта опция отключена."
 
-#: src/ui/classic/classicui.h:197
+#: src/ui/classic/classicui.h:206
 msgid "Enable fractional scale under Wayland"
 msgstr "Включить дробную шкалу в Wayland"
 
-#: src/ui/classic/classicui.h:201
+#: src/ui/classic/classicui.h:210
 msgid "This option require support from wayland compositor."
 msgstr "Для этого параметра требуется поддержка wayland compositor."
 
@@ -724,7 +724,7 @@ msgstr "Деактивация метода ввода"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Consume redundant Activate/Deactivate key"
-msgstr ""
+msgstr "Использовать резервную клавишу Активации/Деактивации"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid ""
@@ -733,6 +733,10 @@ msgid ""
 "instead of forwarding it to the application. Modifier only keys are never "
 "consumed."
 msgstr ""
+"Если метод ввода уже находится в состоянии, запрашиваемом клавишей, нажатие "
+"клавиши Активировать/Деактивировать ничего не меняет. В этом случае следует "
+"обработать событие нажатия клавиши, а не пересылать его в приложение. "
+"Клавиши-модификаторы никогда не обрабатываются."
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"
