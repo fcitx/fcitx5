@@ -8,6 +8,7 @@
 #define _FCITX_UI_CLASSIC_CLASSICUI_H_
 
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <string>
@@ -66,8 +67,16 @@ private:
     const std::string name_;
 };
 
-struct NotEmpty {
-    bool check(const std::string &value) { return !value.empty(); }
+struct ThemeNameConstrain {
+    using Type = std::string;
+
+    bool check(const std::string &value) const {
+        const auto path = std::filesystem::path(value);
+        return !value.empty() && path.is_relative() &&
+               !path.has_parent_path() && path.filename() == path &&
+               path.filename() != "." && path.filename() != "..";
+    }
+
     void dumpDescription(RawConfig & /*unused*/) const {}
 };
 
@@ -157,10 +166,10 @@ FCITX_CONFIGURATION(
             {_("For example, display character with Chinese variant when using "
                "Pinyin and Japanese variant when using Anthy. The font "
                "configuration needs to support this to use this feature.")}};
-    Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
+    Option<std::string, ThemeNameConstrain, DefaultMarshaller<std::string>,
            ThemeAnnotation>
         theme{this, "Theme", _("Theme"), "default"};
-    Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
+    Option<std::string, ThemeNameConstrain, DefaultMarshaller<std::string>,
            ThemeAnnotation>
         themeDark{this, "DarkTheme", _("Dark Theme"), "default-dark"};
     Option<bool> useDarkTheme{this, "UseDarkTheme",

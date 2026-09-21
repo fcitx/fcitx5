@@ -484,7 +484,7 @@ ClassicUI::getSubConfig(const std::string &path) const {
     }
 
     auto name = path.substr(6);
-    if (name.empty()) {
+    if (!ThemeNameConstrain{}.check(name)) {
         return nullptr;
     }
 
@@ -498,7 +498,7 @@ void ClassicUI::setSubConfig(const std::string &path,
         return;
     }
     auto name = path.substr(6);
-    if (name.empty()) {
+    if (!ThemeNameConstrain{}.check(name)) {
         return;
     }
 
