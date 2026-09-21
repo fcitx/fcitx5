@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 #include <cairo.h>
+#include <format>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 #include <gio/gunixinputstream.h>
@@ -389,22 +390,65 @@ createImage(cairo_pattern_t *source, int width, int height, int marginLeft = 0,
 
 std::optional<ThemeImage::NineTiles>
 createImage(ThemeImage::Pixmap pixmap, int marginLeft = 0, int marginTop = 0,
-            int marginRight = 0, int marginBottom = 0) {
+            int marginRight = 0, int marginBottom = 0, int scale = 1) {
     if (!pixmap) {
         return std::nullopt;
     }
-    int width = cairo_image_surface_get_width(pixmap.get());
-    int height = cairo_image_surface_get_height(pixmap.get());
+    int sourceWidth = cairo_image_surface_get_width(pixmap.get());
+    int sourceHeight = cairo_image_surface_get_height(pixmap.get());
+    if (sourceWidth % scale || sourceHeight % scale) {
+        return std::nullopt;
+    }
+    int width = sourceWidth / scale;
+    int height = sourceHeight / scale;
     return createImage(
         width, height, marginLeft, marginTop, marginRight, marginBottom, false,
-        [surface = pixmap.get()](int x, int y, int tileWidth, int tileHeight) {
+        [surface = pixmap.get(), scale](int x, int y, int tileWidth,
+                                        int tileHeight) {
             ThemeImage::Pixmap tile(cairo_surface_create_for_rectangle(
-                surface, x, y, tileWidth, tileHeight));
+                surface, x * scale, y * scale, tileWidth * scale,
+                tileHeight * scale));
             ThemeImage::CairoPattern pattern(
                 cairo_pattern_create_for_surface(tile.get()));
+            cairo_matrix_t matrix;
+            cairo_matrix_init_scale(&matrix, scale, scale);
+            cairo_pattern_set_matrix(pattern.get(), &matrix);
             cairo_pattern_set_extend(pattern.get(), CAIRO_EXTEND_PAD);
             return pattern;
         });
+}
+
+std::filesystem::path scaledImagePath(const std::filesystem::path &path,
+                                      int scale) {
+    return path.parent_path() / std::format("{}@{}x{}", path.stem().string(),
+                                            scale, path.extension().string());
+}
+
+template <typename Image, typename Load>
+void loadScaledImages(std::map<int, Image> &images,
+                      const std::filesystem::path &path, int supportedScale,
+                      int width, int height, Load load) {
+    for (int scale = 2; scale <= supportedScale; scale++) {
+        auto scaledPath = scaledImagePath(path, scale);
+        auto file = StandardPaths::openPath(scaledPath);
+        if (auto image = load(scale, file, scaledPath)) {
+            if (image->width == width && image->height == height) {
+                images.emplace(scale, std::move(*image));
+            }
+        }
+    }
+}
+
+template <typename Image>
+const Image *findScaledImage(const std::map<int, Image> &images, int scale) {
+    if (scale == 1) {
+        return nullptr;
+    }
+    auto iter = images.lower_bound(scale);
+    if (iter != images.end()) {
+        return &iter->second;
+    }
+    return images.empty() ? nullptr : &images.rbegin()->second;
 }
 
 void paintTile(cairo_t *c, double x, double y, double width, double height,
@@ -583,6 +627,16 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                     *cfg.margin->marginTop, *cfg.margin->marginRight,
                     *cfg.margin->marginBottom)) {
                 image_ = std::move(*image);
+                loadScaledImages(
+                    scaledImages_, imagePath, *theme.supportedScale,
+                    image_->width, image_->height,
+                    [&cfg](int scale, UnixFD &file,
+                           const std::filesystem::path &path) {
+                        return createImage(
+                            loadPixmap(file, path), *cfg.margin->marginLeft,
+                            *cfg.margin->marginTop, *cfg.margin->marginRight,
+                            *cfg.margin->marginBottom, scale);
+                    });
             }
         }
     }
@@ -605,6 +659,17 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
         } else if (auto overlay =
                        createImage(loadPixmap(imageFile, imagePath))) {
             overlay_ = std::move(overlay->tiles[4]);
+            loadScaledImages(
+                scaledOverlays_, imagePath, *theme.supportedScale,
+                overlay_->width, overlay_->height,
+                [](int scale, UnixFD &file, const std::filesystem::path &path) {
+                    if (auto image = createImage(loadPixmap(file, path), 0, 0,
+                                                 0, 0, scale)) {
+                        return std::optional<NineTiles::Tile>(
+                            std::move(image->tiles[4]));
+                    }
+                    return std::optional<NineTiles::Tile>();
+                });
         }
     }
 
@@ -692,6 +757,14 @@ ThemeImage::ThemeImage(const Theme &theme, const ActionImageConfig &cfg) {
         } else {
             if (auto image = createImage(loadPixmap(imageFile, imagePath))) {
                 image_ = std::move(*image);
+                loadScaledImages(scaledImages_, imagePath,
+                                 *theme.supportedScale, image_->width,
+                                 image_->height,
+                                 [](int scale, UnixFD &file,
+                                    const std::filesystem::path &path) {
+                                     return createImage(loadPixmap(file, path),
+                                                        0, 0, 0, 0, scale);
+                                 });
             }
         }
     }
@@ -751,18 +824,36 @@ void ThemeImage::paintRegion(cairo_t *c, TilePosition tile, double destX,
     if ((overlay && !overlay_) || (!overlay && !image_)) {
         return;
     }
-    const auto &source =
-        overlay ? *overlay_ : image_->tiles[static_cast<std::size_t>(tile)];
-    if (!source.pattern) {
+    const auto scale = [&]() {
+        double xScale;
+        double yScale;
+        cairo_surface_get_device_scale(cairo_get_target(c), &xScale, &yScale);
+        return static_cast<int>(std::ceil(std::max(xScale, yScale)));
+    }();
+    const NineTiles::Tile *source = nullptr;
+    if (overlay) {
+        if (auto scaledOverlay = findScaledImage(scaledOverlays_, scale)) {
+            source = scaledOverlay;
+        } else {
+            source = &*overlay_;
+        }
+    } else {
+        if (auto scaledImage = findScaledImage(scaledImages_, scale)) {
+            source = &scaledImage->tiles[static_cast<std::size_t>(tile)];
+        } else {
+            source = &image_->tiles[static_cast<std::size_t>(tile)];
+        }
+    }
+    if (!source->pattern) {
         return;
     }
     cairo_save(c);
     cairo_rectangle(c, destX, destY, destWidth, destHeight);
     cairo_clip(c);
     cairo_translate(c, destX, destY);
-    cairo_scale(c, destWidth / source.width, destHeight / source.height);
-    cairo_translate(c, -source.sourceX, -source.sourceY);
-    cairo_set_source(c, source.pattern.get());
+    cairo_scale(c, destWidth / source->width, destHeight / source->height);
+    cairo_translate(c, -source->sourceX, -source->sourceY);
+    cairo_set_source(c, source->pattern.get());
     cairo_paint_with_alpha(c, alpha);
     cairo_restore(c);
 }

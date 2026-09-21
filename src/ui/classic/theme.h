@@ -11,6 +11,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <map>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -224,14 +225,16 @@ FCITX_CONFIGURATION(ThemeMetadata,
                     Option<I18NString> description{this, "Description",
                                                    _("Description")};)
 
-FCITX_CONFIGURATION(ThemeConfig,
-                    HiddenOption<ThemeMetadata> metadata{this, "Metadata",
-                                                         _("Metadata")};
-                    Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
-                                                             _("Input Panel")};
-                    Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};
-                    Option<std::vector<ColorField>> accentColor{
-                        this, "AccentColorField", _("Accent Colors")};);
+FCITX_CONFIGURATION(
+    ThemeConfig,
+    HiddenOption<ThemeMetadata> metadata{this, "Metadata", _("Metadata")};
+    Option<int, IntConstrain> supportedScale{
+        this, "SupportedScale", _("Supported image scale"), 1, IntConstrain(1)};
+    Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
+                                             _("Input Panel")};
+    Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};
+    Option<std::vector<ColorField>> accentColor{this, "AccentColorField",
+                                                _("Accent Colors")};);
 
 class ClassicUI;
 class ClassicUIConfig;
@@ -307,6 +310,8 @@ private:
 
     std::optional<NineTiles> image_;
     std::optional<NineTiles::Tile> overlay_;
+    std::map<int, NineTiles> scaledImages_;
+    std::map<int, NineTiles::Tile> scaledOverlays_;
     bool isPattern_ = false;
 };
 
