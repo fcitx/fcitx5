@@ -228,8 +228,9 @@ FCITX_CONFIGURATION(ThemeMetadata,
 FCITX_CONFIGURATION(
     ThemeConfig,
     HiddenOption<ThemeMetadata> metadata{this, "Metadata", _("Metadata")};
-    Option<int, IntConstrain> supportedScale{
-        this, "SupportedScale", _("Supported image scale"), 1, IntConstrain(1)};
+    Option<int, IntConstrain> supportedScale{this, "SupportedScale",
+                                             _("Supported image scale"), 1,
+                                             IntConstrain(1, 10)};
     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
                                              _("Input Panel")};
     Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};
