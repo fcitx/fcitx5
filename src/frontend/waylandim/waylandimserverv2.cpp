@@ -244,6 +244,16 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 updateSurroundingTextWrapper();
             }
         }
+        // Chromium queues text-input-v3 state until it receives a done for its
+        // latest commit. With a forwarding-only input method, no preedit or
+        // commit-string update may otherwise reach the compositor to release
+        // that queue. Publish our current preedit, including an empty one, so
+        // surrounding text and cursor updates can continue to arrive.
+        // Do not send a second commit if a focus callback already sent one for
+        // this serial, or publish state after deactivation.
+        if (realFocus() && lastCommitSerial_ != serial_) {
+            updatePreeditDelegate(delegatedInputContext());
+        }
     });
     ic_->contentType().connect([this](uint32_t hint, uint32_t purpose) {
         WAYLANDIM_DEBUG() << "contentTypeCallback:" << hint << purpose;
@@ -692,7 +702,7 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) {
         ic_->setPreeditString(preedit.toString().data(), cursorStart,
                               cursorEnd);
     }
-    ic_->commit(serial_);
+    commitState();
 }
 
 void WaylandIMInputContextV2::deleteSurroundingTextDelegate(InputContext *ic,
@@ -727,7 +737,7 @@ void WaylandIMInputContextV2::deleteSurroundingTextDelegate(InputContext *ic,
     auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
     ic_->deleteSurroundingText(cursorBytes - startBytes,
                                startBytes + sizeBytes - cursorBytes);
-    ic_->commit(serial_);
+    commitState();
 }
 
 int32_t WaylandIMInputContextV2::repeatRate() const {

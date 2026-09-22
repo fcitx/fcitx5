@@ -106,7 +106,7 @@ protected:
 
         WaylandIMServerBase::commitStringWrapper(text, [this](const char *str) {
             ic_->commitString(str);
-            ic_->commit(serial_);
+            commitState();
         });
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
@@ -117,6 +117,11 @@ protected:
     void updatePreeditDelegate(InputContext *ic) override;
 
 private:
+    void commitState() {
+        ic_->commit(serial_);
+        lastCommitSerial_ = serial_;
+    }
+
     void repeat();
     void surroundingTextCallback(const char *text, uint32_t cursor,
                                  uint32_t anchor);
@@ -149,6 +154,7 @@ private:
     bool vkReady_ = false;
 
     uint32_t serial_ = 0;
+    uint32_t lastCommitSerial_ = 0;
     uint32_t time_ = 0;
 
     uint32_t repeatKey_ = 0;
