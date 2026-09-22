@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-20 20:24+0000\n"
+"POT-Creation-Date: 2026-09-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/fcitx/teams/12005/sv/)\n"
@@ -169,315 +169,319 @@ msgstr "Inmatningsmetod"
 msgid "Completion"
 msgstr "Komplettering"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Left"
 msgstr "Överst till vänster"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Center"
 msgstr "Överst i mitten"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Top Right"
 msgstr "Överst till höger"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Center Left"
 msgstr "Vänster i mitten"
 
-#: src/ui/classic/theme.h:47 src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:48 src/ui/classic/theme.h:60
 msgid "Center"
 msgstr "Mitten"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:48
 msgid "Center Right"
 msgstr "Höger i mitten"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Left"
 msgstr "Nederst till vänster"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Center"
 msgstr "Nederst i mitten"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Bottom Right"
 msgstr "Nederst till höger"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Top"
 msgstr "Överst"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:60
 msgid "First Candidate"
 msgstr "Första kandidaten"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Last Candidate"
 msgstr "Sista kandidaten"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Bottom"
 msgstr "Nederst"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Background"
 msgstr "Bakgrund för inmatningspanelen"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Border"
 msgstr "Kant för inmatningspanelen"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight Candidate Background"
 msgstr "Bakgrund för markerad kandidat i inmatningspanelen"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight Candidate Border"
 msgstr "Kant för markerad kandidat i inmatningspanelen"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight"
 msgstr "Markering i inmatningspanelen"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Background"
 msgstr "Menybakgrund"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Border"
 msgstr "Menykanter"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Background"
 msgstr "Bakgrund för markerat menyobjekt"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Border"
 msgstr "Kant för markerat menyobjekt"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Menu Separator"
 msgstr "Menyavgränsare"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Margin Left"
 msgstr "Vänstermarginal"
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:87
 msgid "Margin Right"
 msgstr "Högermarginal"
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Margin Top"
 msgstr "Övermarginal"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Margin Bottom"
 msgstr "Undermarginal"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Background Image"
 msgstr "Bakgrundsbild"
 
-#: src/ui/classic/theme.h:99
+#: src/ui/classic/theme.h:100
 msgid "Color"
 msgstr "Färg"
 
-#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
 msgid "This option is only effective if image is not set."
 msgstr "Det här alternativet fungerar bara om ingen bild har angetts."
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Border Color"
 msgstr "Kantfärg"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Border width"
 msgstr "Kantbredd"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:120
 msgid "This value should be less than any of margin value."
 msgstr "Det här värdet ska vara mindre än varje marginalvärde."
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:121
 msgid "Overlay Image"
 msgstr "Överlagringsbild"
 
-#: src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:123
 msgid "Overlay position"
 msgstr "Överlagringsposition"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:124
 msgid "Overlay X offset"
 msgstr "X-förskjutning för överlagring"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:125
 msgid "Overlay Y offset"
 msgstr "Y-förskjutning för överlagring"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Hide overlay if size does not fit"
 msgstr "Dölj överlagring om storleken inte passar"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Margin"
 msgstr "Marginal"
 
-#: src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:131
 msgid "Overlay Clip Margin"
 msgstr "Klippmarginal för överlagring"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Highlight Click Margin"
 msgstr "Klickmarginal för markering"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "Image"
 msgstr "Bild"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Click Margin"
 msgstr "Klickmarginal"
 
-#: src/ui/classic/theme.h:145 src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
 msgid "Normal text color"
 msgstr "Färg för vanlig text"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:149
 msgid "Highlight text color"
 msgstr "Färg för markerad text"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Highlight Background color"
 msgstr "Bakgrundsfärg för markering"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Highlight Candidate Text Color"
 msgstr "Textfärg för markerad kandidat"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:157
 msgid "Candidate Label Text Size Factor"
 msgstr "Faktor för kandidatetikettens textstorlek"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Candidate Label Text Color"
 msgstr "Textfärg för kandidatetikett"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Highlight Candidate Label Text Color"
 msgstr "Textfärg för markerad kandidatetikett"
 
-#: src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:165
 msgid "Candidate Comment Text Size Factor"
 msgstr "Faktor för kandidatkommentarens textstorlek"
 
-#: src/ui/classic/theme.h:167
+#: src/ui/classic/theme.h:168
 msgid "Candidate Comment Text Color"
 msgstr "Textfärg för kandidatkommentar"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:171
 msgid "Highlight Candidate Comment Text Color"
 msgstr "Textfärg för markerad kandidatkommentar"
 
-#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:203
+#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
 msgid "Enable Blur on KWin"
 msgstr "Aktivera oskärpa i KWin"
 
-#: src/ui/classic/theme.h:173 src/ui/classic/theme.h:205
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
 msgid "Blur mask"
 msgstr "Oskärpemask"
 
-#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
 msgid "Blur Margin"
 msgstr "Oskärpemarginal"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:178
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Använd hela den horisontella ytan för markering i en lodrät lista"
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:182
 msgid "Page button vertical alignment"
 msgstr "Lodrät justering av sidknapp"
 
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
 msgid "Background"
 msgstr "Bakgrund"
 
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
 msgid "Highlight Background"
 msgstr "Markeringsbakgrund"
 
-#: src/ui/classic/theme.h:188 src/ui/classic/theme.h:216
+#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
 msgid "Margin around all content"
 msgstr "Marginal runt allt innehåll"
 
-#: src/ui/classic/theme.h:190 src/ui/classic/theme.h:218
+#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
 msgid "Margin around text"
 msgstr "Marginal runt text"
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:192
 msgid "Prev Page Button"
 msgstr "Knapp för föregående sida"
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:193
 msgid "Next Page Button"
 msgstr "Knapp för nästa sida"
 
-#: src/ui/classic/theme.h:194
+#: src/ui/classic/theme.h:195
 msgid "Shadow Margin"
 msgstr "Skuggmarginal"
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:201
 msgid "Selected Item text color"
 msgstr "Textfärg för valt objekt"
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:203
 msgid "Spacing"
 msgstr "Mellanrum"
 
-#: src/ui/classic/theme.h:212
+#: src/ui/classic/theme.h:213
 msgid "Separator Background"
 msgstr "Avgränsarens bakgrund"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:214
 msgid "Check box"
 msgstr "Kryssruta"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:215
 msgid "Sub Menu"
 msgstr "Undermeny"
 
-#: src/ui/classic/theme.h:221
+#: src/ui/classic/theme.h:222
 msgid "Name"
 msgstr "Namn"
 
-#: src/ui/classic/theme.h:222
+#: src/ui/classic/theme.h:223
 msgid "Version"
 msgstr "Version"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:224
 msgid "Author"
 msgstr "Upphovsperson"
 
-#: src/ui/classic/theme.h:225
+#: src/ui/classic/theme.h:226
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/ui/classic/theme.h:229
+#: src/ui/classic/theme.h:230
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/ui/classic/theme.h:231
+#: src/ui/classic/theme.h:232
+msgid "Supported image scale"
+msgstr ""
+
+#: src/ui/classic/theme.h:235
 msgid "Input Panel"
 msgstr "Inmatningspanel"
 
-#: src/ui/classic/theme.h:232
+#: src/ui/classic/theme.h:236
 msgid "Menu"
 msgstr "Meny"
 
-#: src/ui/classic/theme.h:234
+#: src/ui/classic/theme.h:238
 msgid "Accent Colors"
 msgstr "Accentfärger"
 
@@ -501,47 +505,47 @@ msgstr "Starta om"
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:117
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Det här fungerar bara när systemfältsikonen använder xembed."
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:130
 msgid "Vertical Candidate List"
 msgstr "Lodrät kandidatlista"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:132
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Använd mushjulet för att gå till föregående eller nästa sida"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:136
 msgid "Font"
 msgstr "Typsnitt"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:138
 msgid "Menu Font"
 msgstr "Menytypsnitt"
 
-#: src/ui/classic/classicui.h:131
+#: src/ui/classic/classicui.h:140
 msgid "Tray Font"
 msgstr "Typsnitt för systemfält"
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:142
 msgid "Tray Label Outline Color"
 msgstr "Konturfärg för systemfältsetikett"
 
-#: src/ui/classic/classicui.h:136
+#: src/ui/classic/classicui.h:145
 msgid "Tray Label Text Color"
 msgstr "Textfärg för systemfältsetikett"
 
-#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:146 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "Föredra textikon"
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:151
 msgid "Show Layout Name In Icon"
 msgstr "Visa layoutnamn i ikonen"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:155
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -549,11 +553,11 @@ msgstr ""
 "Visa layoutnamnet i ikonen om fler än en layout är aktiv. Om Föredra "
 "textikon är aktiverat ignoreras det här alternativet."
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:162
 msgid "Use input method language to display text"
 msgstr "Använd inmatningsmetodens språk för att visa text"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:166
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -563,35 +567,35 @@ msgstr ""
 "japansk variant när Anthy används. Typsnittsinställningarna måste ha stöd "
 "för detta för att funktionen ska kunna användas."
 
-#: src/ui/classic/classicui.h:162
+#: src/ui/classic/classicui.h:171
 msgid "Theme"
 msgstr "Tema"
 
-#: src/ui/classic/classicui.h:165
+#: src/ui/classic/classicui.h:174
 msgid "Dark Theme"
 msgstr "Mörkt tema"
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:176
 msgid "Follow system light/dark color scheme"
 msgstr "Följ systemets ljusa/mörka färgschema"
 
-#: src/ui/classic/classicui.h:171
+#: src/ui/classic/classicui.h:180
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr "Följ systemets accentfärg om temat och skrivbordet har stöd för det"
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:185
 msgid "Use Per Screen DPI on X11"
 msgstr "Använd DPI per skärm på X11"
 
-#: src/ui/classic/classicui.h:180
+#: src/ui/classic/classicui.h:189
 msgid "This option will be always disabled on XWayland."
 msgstr "Det här alternativet är alltid inaktiverat på XWayland."
 
-#: src/ui/classic/classicui.h:185
+#: src/ui/classic/classicui.h:194
 msgid "Force font DPI on Wayland"
 msgstr "Tvinga typsnitts-DPI på Wayland"
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:198
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -601,11 +605,11 @@ msgstr ""
 "skalfaktor. Med det här alternativet kan du åsidosätta typsnitts-DPI. Värdet "
 "0 innebär att alternativet är inaktiverat."
 
-#: src/ui/classic/classicui.h:197
+#: src/ui/classic/classicui.h:206
 msgid "Enable fractional scale under Wayland"
 msgstr "Aktivera fraktionell skalning i Wayland"
 
-#: src/ui/classic/classicui.h:201
+#: src/ui/classic/classicui.h:210
 msgid "This option require support from wayland compositor."
 msgstr "Det här alternativet kräver stöd från Wayland-kompositorn."
 

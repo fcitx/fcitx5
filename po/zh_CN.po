@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-20 20:24+0000\n"
+"POT-Creation-Date: 2026-09-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Xuetian Weng <wengxt@gmail.com>, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -170,315 +170,319 @@ msgstr "输入法"
 msgid "Completion"
 msgstr "补全"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Left"
 msgstr "左上"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Center"
 msgstr "顶部居中"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Top Right"
 msgstr "右上"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Center Left"
 msgstr "左侧居中"
 
-#: src/ui/classic/theme.h:47 src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:48 src/ui/classic/theme.h:60
 msgid "Center"
 msgstr "居中"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:48
 msgid "Center Right"
 msgstr "右侧居中"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Center"
 msgstr "底部居中"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Bottom Right"
 msgstr "右下"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Top"
 msgstr "顶部"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:60
 msgid "First Candidate"
 msgstr "第一候选词"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Last Candidate"
 msgstr "上一个候选词"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Bottom"
 msgstr "按钮"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Background"
 msgstr "输入框背景"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Border"
 msgstr "输入框边框"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight Candidate Background"
 msgstr "输入框高亮候选词背景"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight Candidate Border"
 msgstr "输入框高亮候选词边框"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight"
 msgstr "输入框高亮"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Background"
 msgstr "菜单背景"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Border"
 msgstr "菜单边框"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Background"
 msgstr "菜单选中项背景"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Border"
 msgstr "菜单选中项边框"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Menu Separator"
 msgstr "菜单分隔符"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Margin Left"
 msgstr "左侧边距"
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:87
 msgid "Margin Right"
 msgstr "右侧边距"
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Margin Top"
 msgstr "顶部边距"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Margin Bottom"
 msgstr "底部边距"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Background Image"
 msgstr "背景图片"
 
-#: src/ui/classic/theme.h:99
+#: src/ui/classic/theme.h:100
 msgid "Color"
 msgstr "颜色"
 
-#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
 msgid "This option is only effective if image is not set."
 msgstr "此选项仅在图片没有设置时生效。"
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Border Color"
 msgstr "边框颜色"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Border width"
 msgstr "边框宽度"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:120
 msgid "This value should be less than any of margin value."
 msgstr "这个值应该小于任何边距。"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:121
 msgid "Overlay Image"
 msgstr "覆盖图片"
 
-#: src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:123
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:124
 msgid "Overlay X offset"
 msgstr "覆盖图片 X 偏移"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:125
 msgid "Overlay Y offset"
 msgstr "覆盖图片 Y 偏移"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Margin"
 msgstr "边距"
 
-#: src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:131
 msgid "Overlay Clip Margin"
 msgstr "覆盖图片裁剪边界"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Highlight Click Margin"
 msgstr "高亮点击边距"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "Image"
 msgstr "图片"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Click Margin"
 msgstr "点击区域边距"
 
-#: src/ui/classic/theme.h:145 src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:149
 msgid "Highlight text color"
 msgstr "高亮文字颜色"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Highlight Background color"
 msgstr "高亮背景颜色"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Highlight Candidate Text Color"
 msgstr "高亮候选词文本颜色"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:157
 msgid "Candidate Label Text Size Factor"
 msgstr "候选词标签文本大小系数"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Candidate Label Text Color"
 msgstr "候选词标签文本颜色"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Highlight Candidate Label Text Color"
 msgstr "高亮候选词标签文本颜色"
 
-#: src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:165
 msgid "Candidate Comment Text Size Factor"
 msgstr "候选词注释文本大小系数"
 
-#: src/ui/classic/theme.h:167
+#: src/ui/classic/theme.h:168
 msgid "Candidate Comment Text Color"
 msgstr "候选词注释文本颜色"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:171
 msgid "Highlight Candidate Comment Text Color"
 msgstr "高亮候选词注释文本颜色"
 
-#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:203
+#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
 msgid "Enable Blur on KWin"
 msgstr "KWin 下启用模糊"
 
-#: src/ui/classic/theme.h:173 src/ui/classic/theme.h:205
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
 msgid "Blur mask"
 msgstr "模糊遮罩"
 
-#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
 msgid "Blur Margin"
 msgstr "模糊区域边距"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:178
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:182
 msgid "Page button vertical alignment"
 msgstr "页面按钮垂直对齐"
 
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:188 src/ui/classic/theme.h:216
+#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
 msgid "Margin around all content"
 msgstr "内容周围边界"
 
-#: src/ui/classic/theme.h:190 src/ui/classic/theme.h:218
+#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
 msgid "Margin around text"
 msgstr "文本周围边距"
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:192
 msgid "Prev Page Button"
 msgstr "上一页按钮"
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:193
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/ui/classic/theme.h:194
+#: src/ui/classic/theme.h:195
 msgid "Shadow Margin"
 msgstr "阴影边距"
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:201
 msgid "Selected Item text color"
 msgstr "选中项文本颜色"
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:203
 msgid "Spacing"
 msgstr "间隔"
 
-#: src/ui/classic/theme.h:212
+#: src/ui/classic/theme.h:213
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:214
 msgid "Check box"
 msgstr "复选框"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:215
 msgid "Sub Menu"
 msgstr "子菜单"
 
-#: src/ui/classic/theme.h:221
+#: src/ui/classic/theme.h:222
 msgid "Name"
 msgstr "名称"
 
-#: src/ui/classic/theme.h:222
+#: src/ui/classic/theme.h:223
 msgid "Version"
 msgstr "版本"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:224
 msgid "Author"
 msgstr "作者"
 
-#: src/ui/classic/theme.h:225
+#: src/ui/classic/theme.h:226
 msgid "Description"
 msgstr "描述"
 
-#: src/ui/classic/theme.h:229
+#: src/ui/classic/theme.h:230
 msgid "Metadata"
 msgstr "元数据"
 
-#: src/ui/classic/theme.h:231
+#: src/ui/classic/theme.h:232
+msgid "Supported image scale"
+msgstr ""
+
+#: src/ui/classic/theme.h:235
 msgid "Input Panel"
 msgstr "输入面板"
 
-#: src/ui/classic/theme.h:232
+#: src/ui/classic/theme.h:236
 msgid "Menu"
 msgstr "菜单"
 
-#: src/ui/classic/theme.h:234
+#: src/ui/classic/theme.h:238
 msgid "Accent Colors"
 msgstr "重点色"
 
@@ -502,47 +506,47 @@ msgstr "重新启动"
 msgid "Exit"
 msgstr "退出"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:117
 msgid "This is only effective when the tray icon is xembed."
 msgstr "这只在托盘为 xembed 时有效。"
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:130
 msgid "Vertical Candidate List"
 msgstr "垂直候选列表"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:132
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:136
 msgid "Font"
 msgstr "字体"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:138
 msgid "Menu Font"
 msgstr "菜单字体"
 
-#: src/ui/classic/classicui.h:131
+#: src/ui/classic/classicui.h:140
 msgid "Tray Font"
 msgstr "托盘字体"
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:142
 msgid "Tray Label Outline Color"
 msgstr "托盘标签轮廓颜色"
 
-#: src/ui/classic/classicui.h:136
+#: src/ui/classic/classicui.h:145
 msgid "Tray Label Text Color"
 msgstr "托盘标签文本颜色"
 
-#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:146 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "优先使用文字图标"
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:151
 msgid "Show Layout Name In Icon"
 msgstr "在图标中显示布局名称"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:155
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -550,11 +554,11 @@ msgstr ""
 "如果有超过一个活动布局，则在图标中显示布局名称。如果优先使用文字图标已启用，"
 "这个选项将会被忽略"
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:162
 msgid "Use input method language to display text"
 msgstr "使用输入法的语言来显示文字"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:166
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -563,35 +567,35 @@ msgstr ""
 "例如，用拼音时显示中文的异体字，用 Anthy 时显示日语的异体字。字体配置需要支持"
 "这个功能。"
 
-#: src/ui/classic/classicui.h:162
+#: src/ui/classic/classicui.h:171
 msgid "Theme"
 msgstr "主题"
 
-#: src/ui/classic/classicui.h:165
+#: src/ui/classic/classicui.h:174
 msgid "Dark Theme"
 msgstr "深色主题"
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:176
 msgid "Follow system light/dark color scheme"
 msgstr "跟随系统浅色/深色设置"
 
-#: src/ui/classic/classicui.h:171
+#: src/ui/classic/classicui.h:180
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr "当被主题和桌面支持时使用系统的重点色"
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:185
 msgid "Use Per Screen DPI on X11"
 msgstr "在 X11 上针对不同屏幕使用单独的 DPI"
 
-#: src/ui/classic/classicui.h:180
+#: src/ui/classic/classicui.h:189
 msgid "This option will be always disabled on XWayland."
 msgstr "在 XWayland 上，此选项将始终被禁用。"
 
-#: src/ui/classic/classicui.h:185
+#: src/ui/classic/classicui.h:194
 msgid "Force font DPI on Wayland"
 msgstr "固定 Wayland 的字体 DPI"
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:198
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -600,11 +604,11 @@ msgstr ""
 "通常 Wayland 使用 96 作为字体 DPI，同时和屏幕的缩放倍数组合调整文字大小。这个"
 "选项允许你覆盖字体的 DPI。如果设置为 0，这个选项将被禁用。"
 
-#: src/ui/classic/classicui.h:197
+#: src/ui/classic/classicui.h:206
 msgid "Enable fractional scale under Wayland"
 msgstr "在 Wayland 下启用分数缩放"
 
-#: src/ui/classic/classicui.h:201
+#: src/ui/classic/classicui.h:210
 msgid "This option require support from wayland compositor."
 msgstr "此选项需要 Wayland 混成器 (Wayland compositor) 支持。"
 
@@ -711,7 +715,7 @@ msgstr "取消激活输入法"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Consume redundant Activate/Deactivate key"
-msgstr ""
+msgstr "忽略重复的激活/取消激活键"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid ""
@@ -720,6 +724,8 @@ msgid ""
 "instead of forwarding it to the application. Modifier only keys are never "
 "consumed."
 msgstr ""
+"当输入法已经在按键请求的模式时，按下激活/取消激活不进行任何操作并且按键将被忽"
+"略并不会被发送给应用程序。对应快捷键仅为修饰键时将不会忽略。"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"

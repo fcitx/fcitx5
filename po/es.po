@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-20 20:22+0000\n"
+"POT-Creation-Date: 2026-09-22 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -164,315 +164,319 @@ msgstr ""
 msgid "Completion"
 msgstr ""
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Top Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Center Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:47 src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:48 src/ui/classic/theme.h:60
 msgid "Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:48
 msgid "Center Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Bottom Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:60
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Last Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight Candidate Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight Candidate Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight"
 msgstr ""
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Menu Separator"
 msgstr ""
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Margin Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:87
 msgid "Margin Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Margin Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Background Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:99
+#: src/ui/classic/theme.h:100
 msgid "Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
 msgid "This option is only effective if image is not set."
 msgstr ""
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Border Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Border width"
 msgstr ""
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:120
 msgid "This value should be less than any of margin value."
 msgstr ""
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:121
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:123
 msgid "Overlay position"
 msgstr ""
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:124
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:125
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:131
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:145 src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
 msgid "Normal text color"
 msgstr ""
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:149
 msgid "Highlight text color"
 msgstr ""
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Highlight Candidate Text Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:157
 msgid "Candidate Label Text Size Factor"
 msgstr ""
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Candidate Label Text Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Highlight Candidate Label Text Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:165
 msgid "Candidate Comment Text Size Factor"
 msgstr ""
 
-#: src/ui/classic/theme.h:167
+#: src/ui/classic/theme.h:168
 msgid "Candidate Comment Text Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:171
 msgid "Highlight Candidate Comment Text Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:203
+#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
 msgid "Enable Blur on KWin"
 msgstr ""
 
-#: src/ui/classic/theme.h:173 src/ui/classic/theme.h:205
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
 msgid "Blur mask"
 msgstr ""
 
-#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
 msgid "Blur Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:178
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:182
 msgid "Page button vertical alignment"
 msgstr ""
 
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
 msgid "Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:188 src/ui/classic/theme.h:216
+#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:190 src/ui/classic/theme.h:218
+#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
 msgid "Margin around text"
 msgstr ""
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:192
 msgid "Prev Page Button"
 msgstr ""
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:193
 msgid "Next Page Button"
 msgstr ""
 
-#: src/ui/classic/theme.h:194
+#: src/ui/classic/theme.h:195
 msgid "Shadow Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:201
 msgid "Selected Item text color"
 msgstr ""
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:203
 msgid "Spacing"
 msgstr ""
 
-#: src/ui/classic/theme.h:212
+#: src/ui/classic/theme.h:213
 msgid "Separator Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:214
 msgid "Check box"
 msgstr ""
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:215
 msgid "Sub Menu"
 msgstr ""
 
-#: src/ui/classic/theme.h:221
+#: src/ui/classic/theme.h:222
 msgid "Name"
 msgstr ""
 
-#: src/ui/classic/theme.h:222
+#: src/ui/classic/theme.h:223
 msgid "Version"
 msgstr ""
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:224
 msgid "Author"
 msgstr ""
 
-#: src/ui/classic/theme.h:225
+#: src/ui/classic/theme.h:226
 msgid "Description"
 msgstr ""
 
-#: src/ui/classic/theme.h:229
+#: src/ui/classic/theme.h:230
 msgid "Metadata"
 msgstr ""
 
-#: src/ui/classic/theme.h:231
+#: src/ui/classic/theme.h:232
+msgid "Supported image scale"
+msgstr ""
+
+#: src/ui/classic/theme.h:235
 msgid "Input Panel"
 msgstr ""
 
-#: src/ui/classic/theme.h:232
+#: src/ui/classic/theme.h:236
 msgid "Menu"
 msgstr ""
 
-#: src/ui/classic/theme.h:234
+#: src/ui/classic/theme.h:238
 msgid "Accent Colors"
 msgstr ""
 
@@ -496,103 +500,103 @@ msgstr ""
 msgid "Exit"
 msgstr "Salir"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:117
 msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:130
 msgid "Vertical Candidate List"
 msgstr ""
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:132
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:136
 msgid "Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:138
 msgid "Menu Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:131
+#: src/ui/classic/classicui.h:140
 msgid "Tray Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:142
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:136
+#: src/ui/classic/classicui.h:145
 msgid "Tray Label Text Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:146 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr ""
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:151
 msgid "Show Layout Name In Icon"
 msgstr ""
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:155
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
 msgstr ""
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:162
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:166
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
 
-#: src/ui/classic/classicui.h:162
+#: src/ui/classic/classicui.h:171
 msgid "Theme"
 msgstr ""
 
-#: src/ui/classic/classicui.h:165
+#: src/ui/classic/classicui.h:174
 msgid "Dark Theme"
 msgstr ""
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:176
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
-#: src/ui/classic/classicui.h:171
+#: src/ui/classic/classicui.h:180
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:185
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
-#: src/ui/classic/classicui.h:180
+#: src/ui/classic/classicui.h:189
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:185
+#: src/ui/classic/classicui.h:194
 msgid "Force font DPI on Wayland"
 msgstr ""
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:198
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
 
-#: src/ui/classic/classicui.h:197
+#: src/ui/classic/classicui.h:206
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
-#: src/ui/classic/classicui.h:201
+#: src/ui/classic/classicui.h:210
 msgid "This option require support from wayland compositor."
 msgstr ""
 

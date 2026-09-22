@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-21 20:24+0000\n"
+"POT-Creation-Date: 2026-09-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2026\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -173,318 +173,322 @@ msgstr "Метод ввода"
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Left"
 msgstr "Top Left"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top Center"
 msgstr "Top Center"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Top Right"
 msgstr "Top Right"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "Center Left"
 msgstr "Center Left"
 
-#: src/ui/classic/theme.h:47 src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:48 src/ui/classic/theme.h:60
 msgid "Center"
 msgstr "Center"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:48
 msgid "Center Right"
 msgstr "Center Right"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:49
 msgid "Bottom Center"
 msgstr "Bottom Center"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Top"
 msgstr "Top"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:60
 msgid "First Candidate"
 msgstr "Первое слово-кандидат"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Last Candidate"
 msgstr "Последнее слово-кандидат"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Bottom"
 msgstr "Bottom"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Background"
 msgstr "Фон поля ввода"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Border"
 msgstr "Граница поля ввода"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight Candidate Background"
 msgstr "В поле ввода выделен фон слова-кандидата"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight Candidate Border"
 msgstr "Выделение границы слова-кандидата в поле ввода"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight"
 msgstr "Поле ввода выделено"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Background"
 msgstr "Фон меню"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Menu Border"
 msgstr "Граница меню"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Background"
 msgstr "Фон выбранного пункта меню"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Border"
 msgstr "Граница выбранного пункта меню"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Menu Separator"
 msgstr "Разделитель меню"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Margin Left"
 msgstr "Поле слева"
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:87
 msgid "Margin Right"
 msgstr "Поле справа"
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Margin Top"
 msgstr "Поле сверху"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Margin Bottom"
 msgstr "Поле внизу"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Background Image"
 msgstr "Фоновое изображение"
 
-#: src/ui/classic/theme.h:99
+#: src/ui/classic/theme.h:100
 msgid "Color"
 msgstr "Цвет"
 
-#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
 msgid "This option is only effective if image is not set."
 msgstr ""
 "Этот параметр эффективен только в том случае, если имидж не установлен."
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Border Color"
 msgstr "Цвет границы"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Border width"
 msgstr "Ширина рамки"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:120
 msgid "This value should be less than any of margin value."
 msgstr "Это значение должно быть меньше любого значения разницы."
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:121
 msgid "Overlay Image"
 msgstr "Наложенное изображение"
 
-#: src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:123
 msgid "Overlay position"
 msgstr "Позиция наложения"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:124
 msgid "Overlay X offset"
 msgstr "Смещение X"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:125
 msgid "Overlay Y offset"
 msgstr "Смещение Y"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Margin"
 msgstr "Поле"
 
-#: src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:131
 msgid "Overlay Clip Margin"
 msgstr "Наложение поля клипа"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Highlight Click Margin"
 msgstr "Выделить поле клика"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "Image"
 msgstr "Изображение"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Click Margin"
 msgstr "Нажмите на Поле"
 
-#: src/ui/classic/theme.h:145 src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:149
 msgid "Highlight text color"
 msgstr "Выделить цветом текст"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Highlight Background color"
 msgstr "Цвет фона выделения"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Highlight Candidate Text Color"
 msgstr "Выделить текст кандидата цветом"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:157
 msgid "Candidate Label Text Size Factor"
 msgstr "Коэффициент размера текста метки кандидата"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Candidate Label Text Color"
 msgstr "Цвет текста метки кандидата"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Highlight Candidate Label Text Color"
 msgstr "Цвет текста метки кандидата для выделения"
 
-#: src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:165
 msgid "Candidate Comment Text Size Factor"
 msgstr "Коэффициент размера текста комментария кандидата"
 
-#: src/ui/classic/theme.h:167
+#: src/ui/classic/theme.h:168
 msgid "Candidate Comment Text Color"
 msgstr "Цвет текста комментария кандидата"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:171
 msgid "Highlight Candidate Comment Text Color"
 msgstr "Выделить текст комментария кандидата цветом"
 
-#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:203
+#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
 msgid "Enable Blur on KWin"
 msgstr "Включить размытие на KWin"
 
-#: src/ui/classic/theme.h:173 src/ui/classic/theme.h:205
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
 msgid "Blur mask"
 msgstr "Размытая маска"
 
-#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
 msgid "Blur Margin"
 msgstr "Размытый Край"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:178
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 "Используйте все горизонтальное пространство для выделения, когда это "
 "вертикальный список"
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:182
 msgid "Page button vertical alignment"
 msgstr "Выравнивание кнопки страницы по вертикали"
 
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
 msgid "Background"
 msgstr "Фон"
 
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
 msgid "Highlight Background"
 msgstr "Выделить фон"
 
-#: src/ui/classic/theme.h:188 src/ui/classic/theme.h:216
+#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
 msgid "Margin around all content"
 msgstr "Поля вокруг всего содержимого"
 
-#: src/ui/classic/theme.h:190 src/ui/classic/theme.h:218
+#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
 msgid "Margin around text"
 msgstr "Поле вокруг текста"
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:192
 msgid "Prev Page Button"
 msgstr "Кнопка предыдущей страницы"
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:193
 msgid "Next Page Button"
 msgstr "Кнопка следующей страницы"
 
-#: src/ui/classic/theme.h:194
+#: src/ui/classic/theme.h:195
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:201
 msgid "Selected Item text color"
 msgstr "Цвет текста выбранного элемента"
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:203
 msgid "Spacing"
 msgstr "Расстояние"
 
-#: src/ui/classic/theme.h:212
+#: src/ui/classic/theme.h:213
 msgid "Separator Background"
 msgstr "Фон разделителя"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:214
 msgid "Check box"
 msgstr "Флажок"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:215
 msgid "Sub Menu"
 msgstr "Подменю"
 
-#: src/ui/classic/theme.h:221
+#: src/ui/classic/theme.h:222
 msgid "Name"
 msgstr "Имя"
 
-#: src/ui/classic/theme.h:222
+#: src/ui/classic/theme.h:223
 msgid "Version"
 msgstr "Версия"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:224
 msgid "Author"
 msgstr "Автор"
 
-#: src/ui/classic/theme.h:225
+#: src/ui/classic/theme.h:226
 msgid "Description"
 msgstr "Описание"
 
-#: src/ui/classic/theme.h:229
+#: src/ui/classic/theme.h:230
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: src/ui/classic/theme.h:231
+#: src/ui/classic/theme.h:232
+msgid "Supported image scale"
+msgstr ""
+
+#: src/ui/classic/theme.h:235
 msgid "Input Panel"
 msgstr "Поле ввода"
 
-#: src/ui/classic/theme.h:232
+#: src/ui/classic/theme.h:236
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/classic/theme.h:234
+#: src/ui/classic/theme.h:238
 msgid "Accent Colors"
 msgstr "Акцентные цвета"
 
