@@ -205,6 +205,16 @@ public:
     void updatePreedit();
 
     /**
+     * Notifies client about changes in clientPreedit
+     *
+     * @param forceUpdate force update even if preedit's emptiness is not
+     * changed.
+     * @see InputPanel::clientPreedit
+     * @since 5.1.23
+     */
+    void updatePreedit(bool forceUpdate);
+
+    /**
      * Notifies UI about changes in user interface.
      *
      * @param component The components of UI that need to be updated.
