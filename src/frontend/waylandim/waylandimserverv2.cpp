@@ -244,6 +244,16 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 updateSurroundingTextWrapper();
             }
         }
+        // force some update in response to done.
+        // Some zwp_input_method_v2 implementation wants to synchronize the
+        // text_input_v3 commit/done with the zwp_input_method_v2 commit/done.
+        // So we need to do some no-op commit to trigger the done. This is a
+        // workaround for those implementation.
+        if (realFocus()) {
+            if (auto *focusedIC = delegatedInputContext()) {
+                focusedIC->updatePreedit(/*forceUpdate=*/true);
+            }
+        }
     });
     ic_->contentType().connect([this](uint32_t hint, uint32_t purpose) {
         WAYLANDIM_DEBUG() << "contentTypeCallback:" << hint << purpose;
