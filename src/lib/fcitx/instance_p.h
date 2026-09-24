@@ -193,6 +193,8 @@ public:
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, KeyEventResult);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CheckUpdate);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, XkbStateMaskChanged);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, AboutToExit);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, Exit);
 
     FactoryFor<InputState> inputStateFactory_{
         [this](InputContext &ic) { return new InputState(this, &ic); }};

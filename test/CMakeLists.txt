@@ -119,6 +119,7 @@ set(FCITX_CORE_TEST
     testicontheme
     testtext
     testinstance
+    testkeyevent
     testtempmode)
 
 foreach(TESTCASE ${FCITX_CORE_TEST})

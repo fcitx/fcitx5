@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-05-20 20:24+0000\n"
+"POT-Creation-Date: 2026-09-24 02:31+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2026\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -158,11 +158,11 @@ msgstr "완성이 일시적으로 활성화되었습니다."
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:474
-#: src/lib/fcitx/instance.cpp:703 src/lib/fcitx/instance.cpp:877
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:485
+#: src/lib/fcitx/instance.cpp:718 src/lib/fcitx/instance.cpp:897
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
-#: src/modules/notificationitem/notificationitem.cpp:285
+#: src/modules/notificationitem/notificationitem.cpp:286
 #: src/modules/xcb/xcbconnection.cpp:563 data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/fcitx5-wayland-launcher.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -173,315 +173,319 @@ msgstr "입력기"
 msgid "Completion"
 msgstr "완성"
 
-#: src/ui/classic/theme.h:41
+#: src/ui/classic/theme.h:46
 msgid "Top Left"
 msgstr "왼쪽 상단"
 
-#: src/ui/classic/theme.h:41
+#: src/ui/classic/theme.h:46
 msgid "Top Center"
 msgstr "상단 중앙"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:47
 msgid "Top Right"
 msgstr "오른쪽 상단"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:47
 msgid "Center Left"
 msgstr "왼쪽 중앙"
 
-#: src/ui/classic/theme.h:43 src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:48 src/ui/classic/theme.h:60
 msgid "Center"
 msgstr "중앙"
 
-#: src/ui/classic/theme.h:43
+#: src/ui/classic/theme.h:48
 msgid "Center Right"
 msgstr "오른쪽 중앙"
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:49
 msgid "Bottom Left"
 msgstr "왼쪽 하단"
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:49
 msgid "Bottom Center"
 msgstr "하단 중앙"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:50
 msgid "Bottom Right"
 msgstr "오른쪽 하단"
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:59
 msgid "Top"
 msgstr "위쪽"
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:60
 msgid "First Candidate"
 msgstr "첫 번째 후보"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:61
 msgid "Last Candidate"
 msgstr "마지막 후보"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:61
 msgid "Bottom"
 msgstr "아래쪽"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Background"
 msgstr "입력 패널 배경"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:76
 msgid "Input Panel Border"
 msgstr "입력 패널 테두리"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:77
 msgid "Input Panel Highlight Candidate Background"
 msgstr "입력 패널 강조 후보 배경"
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight Candidate Border"
 msgstr "입력 패널 강조 후보 테두리"
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:78
 msgid "Input Panel Highlight"
 msgstr "입력 패널 강조 색상"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:79
 msgid "Menu Background"
 msgstr "메뉴 배경"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:79
 msgid "Menu Border"
 msgstr "메뉴 테두리"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Background"
 msgstr "메뉴 선택 항목 배경"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:80
 msgid "Menu Selected Item Border"
 msgstr "메뉴 선택 항목 테두리"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:81
 msgid "Menu Separator"
 msgstr "메뉴 구분선"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:85
 msgid "Margin Left"
 msgstr "왼쪽 여백"
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:87
 msgid "Margin Right"
 msgstr "오른쪽 여백"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:89
 msgid "Margin Top"
 msgstr "상단 여백"
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:91
 msgid "Margin Bottom"
 msgstr "하단 여백"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:96
 msgid "Background Image"
 msgstr "배경 이미지"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:100
 msgid "Color"
 msgstr "색상"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
 msgid "This option is only effective if image is not set."
 msgstr "이 옵션은 이미지가 설정되지 않은 경우에만 유효합니다."
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:108
 msgid "Border Color"
 msgstr "테두리 색상"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:116
 msgid "Border width"
 msgstr "테두리 너비"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:120
 msgid "This value should be less than any of margin value."
 msgstr "이 값은 여백 값보다 작아야 합니다."
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:121
 msgid "Overlay Image"
 msgstr "오버레이 이미지"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:123
 msgid "Overlay position"
 msgstr "오버레이 위치"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:124
 msgid "Overlay X offset"
 msgstr "오버레이 X 오프셋"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:125
 msgid "Overlay Y offset"
 msgstr "오버레이 Y 오프셋"
 
-#: src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:127
 msgid "Hide overlay if size does not fit"
 msgstr "크기가 맞지 않으면 오버레이 숨기기"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:129
 msgid "Margin"
 msgstr "여백"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:131
 msgid "Overlay Clip Margin"
 msgstr "오버레이 클립 여백"
 
-#: src/ui/classic/theme.h:132
+#: src/ui/classic/theme.h:137
 msgid "Highlight Click Margin"
 msgstr "클릭 여백 강조표시"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:140
 msgid "Image"
 msgstr "이미지"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:142
 msgid "Click Margin"
 msgstr "여백 클릭"
 
-#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
 msgid "Normal text color"
 msgstr "일반 텍스트 색상"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:149
 msgid "Highlight text color"
 msgstr "텍스트 색상 강조표시"
 
-#: src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:151
 msgid "Highlight Background color"
 msgstr "배경 색상 강조표시"
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:154
 msgid "Highlight Candidate Text Color"
 msgstr "강조 후보 텍스트 색상"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:157
 msgid "Candidate Label Text Size Factor"
 msgstr "후보 레이블 텍스트 크기 배율"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:160
 msgid "Candidate Label Text Color"
 msgstr "후보 레이블 텍스트 색상"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:163
 msgid "Highlight Candidate Label Text Color"
 msgstr "강조 후보 레이블 텍스트 색상"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:165
 msgid "Candidate Comment Text Size Factor"
 msgstr "후보 설명 텍스트 크기 배율"
 
-#: src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:168
 msgid "Candidate Comment Text Color"
 msgstr "후보 설명 텍스트 색상"
 
-#: src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:171
 msgid "Highlight Candidate Comment Text Color"
 msgstr "강조 후보 설명 텍스트 색상"
 
-#: src/ui/classic/theme.h:167
+#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
 msgid "Enable Blur on KWin"
 msgstr "KWin에서 블러 활성화"
 
-#: src/ui/classic/theme.h:169
+#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
 msgid "Blur mask"
 msgstr "블러 마스크"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
 msgid "Blur Margin"
 msgstr "블러 여백"
 
-#: src/ui/classic/theme.h:173
+#: src/ui/classic/theme.h:178
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "세로 목록 일 때 강조 표시에 모든 가로 공간 사용"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:182
 msgid "Page button vertical alignment"
 msgstr "페이지 버튼 수직 정렬"
 
-#: src/ui/classic/theme.h:180 src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
 msgid "Background"
 msgstr "배경"
 
-#: src/ui/classic/theme.h:182 src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
 msgid "Highlight Background"
 msgstr "배경 강조표시"
 
-#: src/ui/classic/theme.h:184 src/ui/classic/theme.h:208
+#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
 msgid "Margin around all content"
 msgstr "모든 콘텐츠 주변의 여백"
 
-#: src/ui/classic/theme.h:186 src/ui/classic/theme.h:210
+#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
 msgid "Margin around text"
 msgstr "텍스트 주변 여백"
 
-#: src/ui/classic/theme.h:187
+#: src/ui/classic/theme.h:192
 msgid "Prev Page Button"
 msgstr "이전 페이지 버튼"
 
-#: src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:193
 msgid "Next Page Button"
 msgstr "다음 페이지 버튼"
 
-#: src/ui/classic/theme.h:190
+#: src/ui/classic/theme.h:195
 msgid "Shadow Margin"
 msgstr "그림자 여백"
 
-#: src/ui/classic/theme.h:196
+#: src/ui/classic/theme.h:201
 msgid "Selected Item text color"
 msgstr "선택 항목 텍스트 색상"
 
-#: src/ui/classic/theme.h:198
+#: src/ui/classic/theme.h:203
 msgid "Spacing"
 msgstr "간격"
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:213
 msgid "Separator Background"
 msgstr "구분자 배경"
 
-#: src/ui/classic/theme.h:205
+#: src/ui/classic/theme.h:214
 msgid "Check box"
 msgstr "체크 박스"
 
-#: src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:215
 msgid "Sub Menu"
 msgstr "하위 메뉴"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:222
 msgid "Name"
 msgstr "이름"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:223
 msgid "Version"
 msgstr "버전"
 
-#: src/ui/classic/theme.h:215
+#: src/ui/classic/theme.h:224
 msgid "Author"
 msgstr "작성자"
 
-#: src/ui/classic/theme.h:217
+#: src/ui/classic/theme.h:226
 msgid "Description"
 msgstr "설명"
 
-#: src/ui/classic/theme.h:221
+#: src/ui/classic/theme.h:230
 msgid "Metadata"
 msgstr "메타데이터"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:232
+msgid "Supported image scale"
+msgstr ""
+
+#: src/ui/classic/theme.h:235
 msgid "Input Panel"
 msgstr "입력 패널"
 
-#: src/ui/classic/theme.h:224
+#: src/ui/classic/theme.h:236
 msgid "Menu"
 msgstr "메뉴"
 
-#: src/ui/classic/theme.h:226
+#: src/ui/classic/theme.h:238
 msgid "Accent Colors"
 msgstr "강조 색상"
 
@@ -505,47 +509,47 @@ msgstr "재시작"
 msgid "Exit"
 msgstr "나가기"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:117
 msgid "This is only effective when the tray icon is xembed."
 msgstr "트레이 아이콘이 xembed인 경우에만 유효합니다."
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:130
 msgid "Vertical Candidate List"
 msgstr "세로 후보 목록"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:132
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:136
 msgid "Font"
 msgstr "글꼴"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:138
 msgid "Menu Font"
 msgstr "메뉴 글꼴"
 
-#: src/ui/classic/classicui.h:131
+#: src/ui/classic/classicui.h:140
 msgid "Tray Font"
 msgstr "트레이 글꼴"
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:142
 msgid "Tray Label Outline Color"
 msgstr "트레이 라벨 윤곽선 색상"
 
-#: src/ui/classic/classicui.h:136
+#: src/ui/classic/classicui.h:145
 msgid "Tray Label Text Color"
 msgstr "트레이 레이블 텍스트 색상"
 
-#: src/ui/classic/classicui.h:137 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:146 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "텍스트 아이콘 선호"
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:151
 msgid "Show Layout Name In Icon"
 msgstr "아이콘에 자판 배열 이름 표시"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:155
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -553,11 +557,11 @@ msgstr ""
 "활성 자판 배열이 두 개 이상이면 아이콘에 자판 배열 이름을 표시합니다. 텍스트 "
 "아이콘 선호가 참으로 설정되어 있으면 이 옵션은 무시됩니다."
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:162
 msgid "Use input method language to display text"
 msgstr "텍스트 표시 시 입력기 언어 사용"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:166
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -566,35 +570,35 @@ msgstr ""
 "예를 들어 Pinyin 사용 시 중국어 변형 문자를, Anthy 사용 시 일본어 변형 문자"
 "를 표시합니다. 이 기능을 사용하려면 글꼴 설정이 이를 지원해야 합니다."
 
-#: src/ui/classic/classicui.h:162
+#: src/ui/classic/classicui.h:171
 msgid "Theme"
 msgstr "테마"
 
-#: src/ui/classic/classicui.h:165
+#: src/ui/classic/classicui.h:174
 msgid "Dark Theme"
 msgstr "어두운 테마"
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:176
 msgid "Follow system light/dark color scheme"
 msgstr "시스템 밝기/어두운 색 구성표 따르기"
 
-#: src/ui/classic/classicui.h:171
+#: src/ui/classic/classicui.h:180
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr "테마와 데스크톱이 지원하면 시스템 강조 색상 따르기"
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:185
 msgid "Use Per Screen DPI on X11"
 msgstr "X11에서 화면별 DPI 사용"
 
-#: src/ui/classic/classicui.h:180
+#: src/ui/classic/classicui.h:189
 msgid "This option will be always disabled on XWayland."
 msgstr "이 옵션은 XWayland에서는 항상 비활성화됩니다."
 
-#: src/ui/classic/classicui.h:185
+#: src/ui/classic/classicui.h:194
 msgid "Force font DPI on Wayland"
 msgstr "Wayland에서 글꼴 DPI 강제 지정"
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:198
 msgid ""
 "Normally Wayland uses 96 as font DPI in combination with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -604,11 +608,11 @@ msgstr ""
 "사용하면 글꼴 DPI를 재정의할 수 있습니다. 값이 0이면 이 옵션이 비활성화됩니"
 "다."
 
-#: src/ui/classic/classicui.h:197
+#: src/ui/classic/classicui.h:206
 msgid "Enable fractional scale under Wayland"
 msgstr "Wayland에서 분수 배율 활성화"
 
-#: src/ui/classic/classicui.h:201
+#: src/ui/classic/classicui.h:210
 msgid "This option require support from wayland compositor."
 msgstr "이 옵션은 Wayland 컴포지터의 지원이 필요합니다."
 
@@ -616,63 +620,63 @@ msgstr "이 옵션은 Wayland 컴포지터의 지원이 필요합니다."
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE 플라즈마 (실험용)"
 
-#: src/ui/kimpanel/kimpanel.cpp:430
+#: src/ui/kimpanel/kimpanel.cpp:438
 msgid "Not available"
 msgstr "사용할 수 없음"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:383
+#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:392
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "기본값"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:394
 #, c++-format
 msgid "Group {}"
 msgstr "그룹 {}"
 
-#: src/lib/fcitx/instance.cpp:431
+#: src/lib/fcitx/instance.cpp:440
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: src/lib/fcitx/instance.cpp:434
+#: src/lib/fcitx/instance.cpp:443
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:436
+#: src/lib/fcitx/instance.cpp:445
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:449
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:475 src/lib/fcitx/instance.cpp:704
+#: src/lib/fcitx/instance.cpp:486 src/lib/fcitx/instance.cpp:719
 #: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:476 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:487 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:705
+#: src/lib/fcitx/instance.cpp:720
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
-#: src/lib/fcitx/instance.cpp:877
+#: src/lib/fcitx/instance.cpp:897
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:878
+#: src/lib/fcitx/instance.cpp:898
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
-#: src/lib/fcitx/instance.cpp:879
+#: src/lib/fcitx/instance.cpp:899
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
@@ -684,7 +688,7 @@ msgstr "모두"
 msgid "Program"
 msgstr "프로그램"
 
-#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:38
+#: src/lib/fcitx/globalconfig.cpp:37 src/modules/xcb/xcbmodule.h:39
 msgid "No"
 msgstr "아니오"
 
@@ -715,10 +719,22 @@ msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
 #: src/lib/fcitx/globalconfig.cpp:78
+msgid "Consume redundant Activate/Deactivate key"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid ""
+"When the input method is already in the state the key requests, pressing an "
+"Activate/Deactivate key changes nothing; consume the key event in that case "
+"instead of forwarding it to the application. Modifier only keys are never "
+"consumed."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"
 msgstr "임시 입력기 전환"
 
-#: src/lib/fcitx/globalconfig.cpp:83
+#: src/lib/fcitx/globalconfig.cpp:95
 msgid ""
 "This key can only be used if current state is active, or is deactivated with "
 "this key. For example, you have two input methods: English as the inactive "
@@ -735,31 +751,31 @@ msgstr ""
 "Shift처럼 단일 보조 키 하나로 설정할 수 있으므로 한 번만 눌러도 사용할 수 있"
 "지만, 입력기를 전혀 활성화하지 않았다면 실수로 동작하지는 않습니다."
 
-#: src/lib/fcitx/globalconfig.cpp:95
+#: src/lib/fcitx/globalconfig.cpp:107
 msgid "Enumerate Input Method Forward"
 msgstr "입력기 전환"
 
-#: src/lib/fcitx/globalconfig.cpp:102
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Enumerate Input Method Backward"
 msgstr "입력기 역순으로 전환"
 
-#: src/lib/fcitx/globalconfig.cpp:108
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Skip first input method while enumerating"
 msgstr "열거하는 동안 첫 번째 입력기 건너뛰기"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Enumerate Input Method Group Forward"
 msgstr "입력기 그룹 전환"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:131
 msgid "Enumerate Input Method Group Backward"
 msgstr "입력기 그룹 역순으로 전환"
 
-#: src/lib/fcitx/globalconfig.cpp:128
+#: src/lib/fcitx/globalconfig.cpp:140
 msgid "Fallback Previous page"
 msgstr "대체 이전 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:131 src/lib/fcitx/globalconfig.cpp:144
+#: src/lib/fcitx/globalconfig.cpp:143 src/lib/fcitx/globalconfig.cpp:156
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -767,27 +783,27 @@ msgstr ""
 "입력기가 별도의 구성을 가질 수 있습니다. 클립보드나 상용구와 같은 모듈에서 일"
 "반적으로 사용됩니다."
 
-#: src/lib/fcitx/globalconfig.cpp:140
+#: src/lib/fcitx/globalconfig.cpp:152
 msgid "Fallback Next page"
 msgstr "대체 다음 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:150
+#: src/lib/fcitx/globalconfig.cpp:162
 msgid "Fallback Previous Candidate"
 msgstr "대체 이전 후보"
 
-#: src/lib/fcitx/globalconfig.cpp:156
+#: src/lib/fcitx/globalconfig.cpp:168
 msgid "Fallback Next Candidate"
 msgstr "대체 다음 후보"
 
-#: src/lib/fcitx/globalconfig.cpp:161
+#: src/lib/fcitx/globalconfig.cpp:173
 msgid "Toggle embedded preedit"
 msgstr "내장된 사전편집 전환"
 
-#: src/lib/fcitx/globalconfig.cpp:168
+#: src/lib/fcitx/globalconfig.cpp:180
 msgid "Time limit in milliseconds for triggering modifier key shortcuts"
 msgstr "보조 키 단축키 트리거 시간 제한(밀리초)"
 
-#: src/lib/fcitx/globalconfig.cpp:174
+#: src/lib/fcitx/globalconfig.cpp:186
 msgid ""
 "When using modifier only hotkey, the action may only be triggered if the "
 "modifier key is released within the timeout. -1 means there is no limit."
@@ -795,47 +811,47 @@ msgstr ""
 "보조 키만 사용하는 단축키를 사용할 때는 시간 제한 내에 보조 키를 놓아야 동작"
 "이 실행될 수 있습니다. -1은 제한이 없음을 의미합니다."
 
-#: src/lib/fcitx/globalconfig.cpp:181
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Activate input method by default"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:185
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid "Reset state on Focus In"
 msgstr "포커스를 얻을 때 상태 초기화"
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:201
 msgid "Share Input State"
 msgstr "입력 상태 공유"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:205
 msgid "Show preedit in application"
 msgstr "응용프로그램에서 사전편집 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:197
+#: src/lib/fcitx/globalconfig.cpp:209
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경시 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:200
+#: src/lib/fcitx/globalconfig.cpp:212
 msgid "Show Input Method Information when changing focus"
 msgstr "포커스를 변경할 때 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Show compact input method information"
 msgstr "간결한 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:206
+#: src/lib/fcitx/globalconfig.cpp:218
 msgid "Show first input method information"
 msgstr "첫 번째 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:208
+#: src/lib/fcitx/globalconfig.cpp:220
 msgid "Default Candidates per page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:215
+#: src/lib/fcitx/globalconfig.cpp:227
 msgid "Override XKB Option"
 msgstr "XKB 옵션 재정의"
 
-#: src/lib/fcitx/globalconfig.cpp:219
+#: src/lib/fcitx/globalconfig.cpp:231
 msgid ""
 "Override the XKB option from display server. It will not affect the XKB "
 "option send to display, but just the XKB options for custom XKB layout. This "
@@ -843,23 +859,23 @@ msgid ""
 "Wayland Compositor."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:225
+#: src/lib/fcitx/globalconfig.cpp:237
 msgid "Custom XKB Option"
 msgstr "사용자 지정 XKB 옵션"
 
-#: src/lib/fcitx/globalconfig.cpp:235
+#: src/lib/fcitx/globalconfig.cpp:247
 msgid "Allow input method in the password field"
 msgstr "비밀번호 입력란에서 입력기 허용"
 
-#: src/lib/fcitx/globalconfig.cpp:238
+#: src/lib/fcitx/globalconfig.cpp:250
 msgid "Show preedit text when typing password"
 msgstr "비밀번호 입력 시 사전편집 텍스트 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:242
+#: src/lib/fcitx/globalconfig.cpp:254
 msgid "Interval of saving user data in minutes"
 msgstr "사용자 데이터 저장 간격(분)"
 
-#: src/lib/fcitx/globalconfig.cpp:246
+#: src/lib/fcitx/globalconfig.cpp:258
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -867,11 +883,11 @@ msgstr ""
 "값이 0이면 사용자 데이터는 Fcitx가 종료될 때만(예: 로그아웃) 저장될 수 있습니"
 "다."
 
-#: src/lib/fcitx/globalconfig.cpp:250
+#: src/lib/fcitx/globalconfig.cpp:262
 msgid "Hotkey"
 msgstr "단축키"
 
-#: src/lib/fcitx/globalconfig.cpp:252
+#: src/lib/fcitx/globalconfig.cpp:264
 msgid "Behavior"
 msgstr "동작방식"
 
@@ -2116,19 +2132,19 @@ msgstr ""
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 
-#: src/modules/wayland/waylandmodule.h:45
+#: src/modules/wayland/waylandmodule.h:46
 msgid "Allow Overriding System XKB Settings (Only support KDE5+ and GNOME)"
 msgstr "시스템 XKB 설정 재정의 허용 (KDE5+ 및 GNOME만 지원)"
 
-#: src/modules/wayland/waylandmodule.cpp:657
+#: src/modules/wayland/waylandmodule.cpp:693
 msgid "Fcitx"
 msgstr "Fcitx"
 
-#: src/modules/wayland/waylandmodule.cpp:657
+#: src/modules/wayland/waylandmodule.cpp:693
 msgid "Wayland Diagnose"
 msgstr "Wayland 진단"
 
-#: src/modules/wayland/waylandmodule.cpp:680
+#: src/modules/wayland/waylandmodule.cpp:716
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -2139,7 +2155,7 @@ msgid ""
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:695
+#: src/modules/wayland/waylandmodule.cpp:731
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -2151,7 +2167,7 @@ msgstr ""
 "Wayland 입력기 프론트엔드를 사용하는 것을 권장합니다. 자세한 내용은 https://"
 "fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma 를 참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:710
+#: src/modules/wayland/waylandmodule.cpp:746
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to use Wayland input method frontend. "
@@ -2163,7 +2179,7 @@ msgstr ""
 "세한 내용은 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma 를 "
 "참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:722
+#: src/modules/wayland/waylandmodule.cpp:758
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2177,7 +2193,7 @@ msgstr ""
 "니다. 자세한 내용은 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME "
 "을 참조하십시오."
 
-#: src/modules/wayland/waylandmodule.cpp:741
+#: src/modules/wayland/waylandmodule.cpp:779
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -2187,7 +2203,7 @@ msgstr ""
 "다. GTK_IM_MODULE 설정을 해제하고 대신 Wayland 입력기 프론트엔드를 사용하는 "
 "것을 권장합니다."
 
-#: src/modules/wayland/waylandmodule.cpp:760
+#: src/modules/wayland/waylandmodule.cpp:798
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2197,43 +2213,43 @@ msgstr ""
 "능이 아직 지원되지 않습니다. 대신 자판 배열을 입력기 그룹에 입력기로 추가해 "
 "Fcitx 내부 자판 배열 변환을 계속 사용할 수 있습니다."
 
-#: src/modules/wayland/waylandmodule.cpp:777
+#: src/modules/wayland/waylandmodule.cpp:815
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "자세한 내용은 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland 를 참조하십"
 "시오."
 
-#: src/modules/imselector/imselector.cpp:256
-msgid "Select local input method:"
-msgstr "로컬 입력기 선택:"
-
-#: src/modules/imselector/imselector.cpp:257
-msgid "Select input method:"
-msgstr "입력기 선택:"
-
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:32
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:50
 msgid "Trigger Key"
 msgstr "트리거 키"
 
-#: src/modules/imselector/imselector.h:31
+#: src/modules/imselector/imselector.h:38
 msgid "Trigger Key for only current input context"
 msgstr "현재 입력 컨텍스트에 대한 트리거 키"
 
-#: src/modules/imselector/imselector.h:37
+#: src/modules/imselector/imselector.h:44
 msgid "Hotkey for switching to the N-th input method"
 msgstr "N번째 입력기로 전환하기 위한 단축키"
 
-#: src/modules/imselector/imselector.h:42
-#: src/modules/imselector/imselector.h:52
+#: src/modules/imselector/imselector.h:49
+#: src/modules/imselector/imselector.h:59
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "목록의 n번째 단축키는 n번째 입력기를 선택합니다."
 
-#: src/modules/imselector/imselector.h:46
+#: src/modules/imselector/imselector.h:53
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "현재 입력 컨텍스트에 대해서만 N번째 입력기로 전환하기 위한 단축키"
+
+#: src/modules/imselector/imselectortempmode.cpp:196
+msgid "Select local input method:"
+msgstr "로컬 입력기 선택:"
+
+#: src/modules/imselector/imselectortempmode.cpp:197
+msgid "Select input method:"
+msgstr "입력기 선택:"
 
 #: src/modules/notifications/notifications.cpp:230
 msgid "Do not show again"
@@ -2242,6 +2258,10 @@ msgstr "다시 표시 안함"
 #: src/modules/notifications/notifications.h:35
 msgid "Hidden Notifications"
 msgstr "숨은 알림"
+
+#: src/modules/quickphrase/quickphrasetempmode.cpp:416
+msgid "Quick Phrase: "
+msgstr "상용구:"
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Enable Spell check"
@@ -2254,10 +2274,6 @@ msgstr "예비 맞춤법 검사 언어"
 #: src/modules/quickphrase/quickphrase.h:49
 msgid "Editor"
 msgstr "편집기"
-
-#: src/modules/quickphrase/quickphrase.cpp:509
-msgid "Quick Phrase: "
-msgstr "상용구:"
 
 #: src/modules/spell/spell.h:23
 msgid "Presage"
@@ -2275,60 +2291,60 @@ msgstr "인챈트"
 msgid "Backends"
 msgstr "백엔드"
 
-#: src/modules/unicode/charselectdata.cpp:199
+#: src/modules/unicode/charselectdata.cpp:201
 #, c++-format
 msgid "CJK UNIFIED IDEOGRAPH-{0:X}"
 msgstr "CJK 통합 한자-{0:X}"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:217
 #, c++-format
 msgid "HANGUL SYLLABLE {0}{1}{2}"
 msgstr "한글 음절 {0}{1}{2}"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:220
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:222
+#: src/modules/unicode/charselectdata.cpp:224
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:224
+#: src/modules/unicode/charselectdata.cpp:226
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:227
+#: src/modules/unicode/charselectdata.cpp:229
 #, c++-format
 msgid "TANGUT IDEOGRAPH-{0:X}"
 msgstr "탕구트 표의문자-{0:X}"
 
-#: src/modules/unicode/charselectdata.cpp:230
+#: src/modules/unicode/charselectdata.cpp:232
 msgid "<Plane 15 Private Use>"
 msgstr "<평면 15 사용자 지정 영역>"
 
-#: src/modules/unicode/charselectdata.cpp:232
+#: src/modules/unicode/charselectdata.cpp:234
 msgid "<Plane 16 Private Use>"
 msgstr "<평면 16 사용자 지정 영역>"
 
-#: src/modules/unicode/charselectdata.cpp:262
+#: src/modules/unicode/charselectdata.cpp:264
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
-
-#: src/modules/unicode/unicode.cpp:491
-msgid "Unicode: "
-msgstr "유니코드:"
-
-#: src/modules/unicode/unicode.cpp:493
-msgid "(Type to search unicode by code or description)"
-msgstr "(코드 또는 설명으로 유니코드를 검색하는 유형)"
 
 #: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
 msgstr "16진수로 유니코드 입력"
+
+#: src/modules/unicode/unicodetempmode.cpp:410
+msgid "Unicode: "
+msgstr "유니코드:"
+
+#: src/modules/unicode/unicodetempmode.cpp:412
+msgid "(Type to search unicode by code or description)"
+msgstr "(코드 또는 설명으로 유니코드를 검색하는 유형)"
 
 #: src/modules/clipboard/clipboard.h:54
 msgid "Paste Primary"
@@ -2363,27 +2379,27 @@ msgstr "비밀번호를 지우기 전까지의 시간(초)"
 msgid "0 means never clear password."
 msgstr "0이면 비밀번호를 지우지 않습니다."
 
-#: src/modules/clipboard/clipboard.cpp:144
+#: src/modules/clipboard/clipboard.cpp:130
 msgid "<Password>"
 msgstr "<비밀번호>"
 
-#: src/modules/clipboard/clipboard.cpp:397
+#: src/modules/clipboard/clipboard.cpp:257
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "클립보드(기록을 지우려면 BackSpace/Delete 키 누르기):"
 
-#: src/modules/clipboard/clipboard.cpp:399
+#: src/modules/clipboard/clipboard.cpp:259
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
-#: src/modules/xcb/xcbmodule.h:37
+#: src/modules/xcb/xcbmodule.h:38
 msgid "Auto"
 msgstr "자동"
 
-#: src/modules/xcb/xcbmodule.h:38
+#: src/modules/xcb/xcbmodule.h:39
 msgid "Yes"
 msgstr "예"
 
-#: src/modules/xcb/xcbmodule.h:45
+#: src/modules/xcb/xcbmodule.h:46
 msgid ""
 "This allows XWayland to automatically terminate on compositors that launch "
 "XWayland on demand."
@@ -2391,15 +2407,15 @@ msgstr ""
 "수요 시 XWayland를 실행하는 컴포지터에서 XWayland가 자동으로 종료되도록 허용"
 "합니다."
 
-#: src/modules/xcb/xcbmodule.h:59
+#: src/modules/xcb/xcbmodule.h:60
 msgid "Allow Overriding System XKB Settings"
 msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
-#: src/modules/xcb/xcbmodule.h:63
+#: src/modules/xcb/xcbmodule.h:64
 msgid "Always set layout to be only group layout"
 msgstr "항상 자판을 그룹 자판으로만 지정"
 
-#: src/modules/xcb/xcbmodule.h:69
+#: src/modules/xcb/xcbmodule.h:70
 msgid "Set client disconnect mode to terminate (Need Restart)"
 msgstr "클라이언트 연결 해제 모드를 종료로 설정 (재시작 필요)"
 

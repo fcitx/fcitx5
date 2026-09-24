@@ -457,7 +457,8 @@ bool InstancePrivate::canActivate(InputContext *ic) {
         return false;
     }
     auto *inputState = ic->propertyFor(&inputStateFactory_);
-    return !inputState->isActive();
+    return (!inputState->isActive()) ||
+           globalConfig_.consumeRedundantActivateKeys();
 }
 
 bool InstancePrivate::canDeactivate(InputContext *ic) {
@@ -466,7 +467,8 @@ bool InstancePrivate::canDeactivate(InputContext *ic) {
         return false;
     }
     auto *inputState = ic->propertyFor(&inputStateFactory_);
-    return inputState->isActive();
+    return inputState->isActive() ||
+           globalConfig_.consumeRedundantActivateKeys();
 }
 
 void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
@@ -884,8 +886,9 @@ Instance::Instance(int argc, char **argv) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             if (!keyEvent.isRelease() &&
-                keyEvent.key().checkKeyList(
-                    d->globalConfig_.togglePreeditKeys())) {
+                keyEvent.checkKeyList(
+                    d->globalConfig_.togglePreeditKeys(),
+                    KeyEventMatchingMode::MatchAllNormalizedKeys)) {
                 // Clear client preedit on disable.
                 ic->reset();
                 ic->setEnablePreedit(!ic->isPreeditEnabled());
@@ -1491,8 +1494,10 @@ void Instance::initialize() {
 #endif
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
-        FCITX_DEBUG() << "Running save...";
+        emit<Instance::AboutToExit>();
+        FCITX_INFO() << "Save before exiting...";
         save();
+        emit<Instance::Exit>();
         return false;
     });
     d->notifications_ = d->addonManager_.addon("notifications", true);

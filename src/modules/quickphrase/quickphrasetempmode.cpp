@@ -85,8 +85,8 @@ QuickPhraseTempMode::QuickPhraseTempMode(QuickPhrase *quickPhrase)
 
 bool QuickPhraseTempMode::triggerTempMode(const KeyEvent &keyEvent) {
     if (keyEvent.isRelease() ||
-        !keyEvent.key().checkKeyList(
-            quickPhrase_->config().triggerKey.value())) {
+        !keyEvent.checkKeyList(quickPhrase_->config().triggerKey.value(),
+                               KeyEventMatchingMode::MatchAllNormalizedKeys)) {
         return false;
     }
     trigger(keyEvent.inputContext(), "", "", "", "", Key(FcitxKey_None));
@@ -113,7 +113,7 @@ bool QuickPhraseTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().check(FcitxKey_space) && !candidateList->empty()) {
+        if (keyEvent.check(Key(FcitxKey_space)) && !candidateList->empty()) {
             if (candidateList->cursorIndex() >= 0) {
                 candidateList->candidate(candidateList->cursorIndex())
                     .select(inputContext);
@@ -121,7 +121,7 @@ bool QuickPhraseTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 quickPhrase_->instance()->globalConfig().defaultPrevPage())) {
             auto *pageable = candidateList->toPageable();
             if (!pageable->hasPrev()) {
@@ -136,7 +136,7 @@ bool QuickPhraseTempMode::keyEvent(const KeyEvent &keyEvent) {
             }
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 quickPhrase_->instance()->globalConfig().defaultNextPage())) {
             auto *pageable = candidateList->toPageable();
             if (!pageable->hasNext()) {
@@ -152,9 +152,9 @@ bool QuickPhraseTempMode::keyEvent(const KeyEvent &keyEvent) {
         }
 
         if (!candidateList->empty() &&
-            keyEvent.key().checkKeyList(quickPhrase_->instance()
-                                            ->globalConfig()
-                                            .defaultPrevCandidate())) {
+            keyEvent.checkKeyList(quickPhrase_->instance()
+                                      ->globalConfig()
+                                      .defaultPrevCandidate())) {
             candidateList->toCursorMovable()->prevCandidate();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);
@@ -162,9 +162,9 @@ bool QuickPhraseTempMode::keyEvent(const KeyEvent &keyEvent) {
         }
 
         if (!candidateList->empty() &&
-            keyEvent.key().checkKeyList(quickPhrase_->instance()
-                                            ->globalConfig()
-                                            .defaultNextCandidate())) {
+            keyEvent.checkKeyList(quickPhrase_->instance()
+                                      ->globalConfig()
+                                      .defaultNextCandidate())) {
             candidateList->toCursorMovable()->nextCandidate();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);

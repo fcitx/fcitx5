@@ -514,7 +514,7 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     return {width, height};
 }
 
-void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
+void InputWindow::paint(cairo_t *cr, double width, double height) {
     auto &theme = parent_->theme();
     cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
     cairo_paint(cr);

@@ -191,8 +191,9 @@ Clipboard::Clipboard(Instance *instance) : instance_(instance) {
         instance_->watchEvent<EventType::InputContextKeyEvent>(
             EventWatcherPhase::Default, [this](KeyEvent &keyEvent) {
                 if (!keyEvent.isRelease() &&
-                    keyEvent.key().checkKeyList(
-                        config_.pastePrimaryKey.value())) {
+                    keyEvent.checkKeyList(
+                        config_.pastePrimaryKey.value(),
+                        KeyEventMatchingMode::MatchAllNormalizedKeys)) {
                     keyEvent.inputContext()->commitString(
                         primary(keyEvent.inputContext()));
                     keyEvent.filterAndAccept();

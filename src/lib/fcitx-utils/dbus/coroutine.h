@@ -70,12 +70,12 @@ public:
                                   reply_.errorMessage().c_str());
         }
         if (reply_.signature() !=
-            DBusSignatureTraits<ReturnTypes...>::signature::str()) {
+            DBusSignatureTraits<std::tuple<ReturnTypes...>>::signature::str()) {
             throw MethodReturnTypeMismatch();
         }
 
         MetaStringToDBusTupleType<
-            typename DBusSignatureTraits<ReturnTypes...>::signature>
+            typename DBusSignatureTraits<std::tuple<ReturnTypes...>>::signature>
             ret;
         reply_ >> ret;
         return ret;

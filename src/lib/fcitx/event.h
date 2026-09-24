@@ -13,11 +13,12 @@
 #include <string>
 #include <utility>
 #include <fcitx-utils/capabilityflags.h>
+#include <fcitx-utils/flags.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/fcitxcore_export.h>
 #include <fcitx/userinterface.h>
-#include "fcitx/inputmethodgroup.h"
+#include <span>
 
 /// \addtogroup FcitxCore
 /// \{
@@ -280,6 +281,45 @@ protected:
     InputContext *ic_;
 };
 
+/**
+ * Key event matching mode.
+ * @since 5.1.23
+ */
+enum class KeyEventMatchingMode {
+    /**
+     * Match the normalized key event.
+     *
+     * This is the default matching mode.
+     * If the matching key using key code, the raw key will be used to avoid
+     * missing the key states.
+     */
+    MatchNormalizedKey = (1 << 0),
+    /**
+     * Match the original key event.
+     *
+     * This is the key event before any layout conversion.
+     */
+    MatchOrigKey = (1 << 1),
+    /**
+     * Match the original key event before layout conversion, after
+     * normalization.
+     *
+     * This can be used to match key with system layout.
+     * Similar to MatchNormalizedKey, the key code mode matching will be using
+     * the unnormalized orig key.
+     */
+    MatchNormalizedOrigKey = (1 << 2),
+    /**
+     * Match the raw key event.
+     *
+     * This is the key event after layout conversion before normalization.
+     */
+    MatchRawKey = (1 << 3),
+    MatchAllNormalizedKeys = MatchNormalizedKey | MatchNormalizedOrigKey,
+};
+
+using KeyEventMatchingModes = Flags<KeyEventMatchingMode>;
+
 class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
     KeyEventBase(EventType type, InputContext *context, Key rawKey,
@@ -359,6 +399,33 @@ public:
      * @since 5.1.2
      */
     bool isVirtual() const { return origKey_.isVirtual(); }
+
+    /**
+     * Check if the key event matches the given key according to the specified
+     * mode.
+     *
+     * @param key The key to check against.
+     * @param mode The matching mode.
+     * @return bool True if the key event matches, false otherwise.
+     * @since 5.1.23
+     */
+    bool check(const Key &key,
+               KeyEventMatchingModes mode =
+                   KeyEventMatchingMode::MatchNormalizedKey) const;
+
+    /**
+     * Check if the key event matches any key in the given list according to the
+     * specified mode.
+     *
+     * @param keys The list of keys to check against.
+     * @param mode The matching mode.
+     * @return bool True if the key event matches any key in the list, false
+     * otherwise.
+     * @since 5.1.23
+     */
+    bool checkKeyList(std::span<const Key> keys,
+                      KeyEventMatchingModes mode =
+                          KeyEventMatchingMode::MatchNormalizedKey) const;
 
 protected:
     Key key_, origKey_, rawKey_;

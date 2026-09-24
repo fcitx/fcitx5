@@ -70,10 +70,12 @@ bool IMSelectorTempMode::triggerTempMode(const KeyEvent &keyEvent) {
     }
 
     bool local;
-    if (keyEvent.key().checkKeyList(imSelector_->config().triggerKey.value())) {
+    if (keyEvent.checkKeyList(imSelector_->config().triggerKey.value(),
+                              KeyEventMatchingMode::MatchAllNormalizedKeys)) {
         local = false;
-    } else if (keyEvent.key().checkKeyList(
-                   imSelector_->config().triggerKeyLocal.value())) {
+    } else if (keyEvent.checkKeyList(
+                   imSelector_->config().triggerKeyLocal.value(),
+                   KeyEventMatchingMode::MatchAllNormalizedKeys)) {
         local = true;
     } else {
         return false;
@@ -110,7 +112,7 @@ bool IMSelectorTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 imSelector_->instance()->globalConfig().defaultPrevPage())) {
             candidateList->toPageable()->prev();
             inputContext->updateUserInterface(
@@ -118,7 +120,7 @@ bool IMSelectorTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(
+        if (keyEvent.checkKeyList(
                 imSelector_->instance()->globalConfig().defaultNextPage())) {
             candidateList->toPageable()->next();
             inputContext->updateUserInterface(
@@ -126,18 +128,18 @@ bool IMSelectorTempMode::keyEvent(const KeyEvent &keyEvent) {
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(imSelector_->instance()
-                                            ->globalConfig()
-                                            .defaultPrevCandidate())) {
+        if (keyEvent.checkKeyList(imSelector_->instance()
+                                      ->globalConfig()
+                                      .defaultPrevCandidate())) {
             candidateList->toCursorMovable()->prevCandidate();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);
             return true;
         }
 
-        if (keyEvent.key().checkKeyList(imSelector_->instance()
-                                            ->globalConfig()
-                                            .defaultNextCandidate())) {
+        if (keyEvent.checkKeyList(imSelector_->instance()
+                                      ->globalConfig()
+                                      .defaultNextCandidate())) {
             candidateList->toCursorMovable()->nextCandidate();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);

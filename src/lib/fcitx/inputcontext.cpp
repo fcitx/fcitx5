@@ -470,19 +470,21 @@ void InputContext::forwardKey(const Key &rawKey, bool isRelease, int time) {
     d->pushEvent<ForwardKeyEvent>(this, rawKey, isRelease, time);
 }
 
-void InputContext::updatePreedit() {
+void InputContext::updatePreedit(bool forceUpdate) {
     FCITX_D();
     if (!capabilityFlags().test(CapabilityFlag::Preedit)) {
         return;
     }
 
     const bool preeditIsEmpty = inputPanel().clientPreedit().empty();
-    if (preeditIsEmpty && d->lastPreeditUpdateIsEmpty_) {
+    if (!forceUpdate && preeditIsEmpty && d->lastPreeditUpdateIsEmpty_) {
         return;
     }
     d->lastPreeditUpdateIsEmpty_ = preeditIsEmpty;
     d->pushEvent<UpdatePreeditEvent>(this);
 }
+
+void InputContext::updatePreedit() { updatePreedit(false); }
 
 void InputContext::updateUserInterface(UserInterfaceComponent component,
                                        bool immediate) {
