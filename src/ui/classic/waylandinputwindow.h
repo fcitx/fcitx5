@@ -71,7 +71,6 @@ private:
     const CandidateWord *candidateMenuCandidate_ = nullptr;
     std::vector<CandidateAction> candidateMenuActions_;
     std::vector<Rect> candidateMenuRegions_;
-    Rect candidateMenuRegion_;
     int candidateMenuWidth_ = 0;
     int candidateMenuHeight_ = 0;
     int candidateMenuItemWidth_ = 0;
