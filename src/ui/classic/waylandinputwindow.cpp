@@ -143,7 +143,6 @@ void WaylandInputWindow::clearCandidateMenu() {
     candidateMenuList_.reset();
     candidateMenuActions_.clear();
     candidateMenuRegions_.clear();
-    candidateMenuRegion_ = Rect();
     candidateMenuWidth_ = candidateMenuHeight_ = 0;
     candidateMenuItemWidth_ = candidateMenuItemHeight_ = 0;
     candidateMenuHasCheckable_ = false;
@@ -179,13 +178,6 @@ bool createCandidateMenuSubsurface(
 void WaylandInputWindow::showCandidateMenu(int x, int y) {
     auto dismiss = [this]() { clearCandidateMenu(); };
 
-    if (!createCandidateMenuSubsurface(ui_, candidateMenuWindow_.get(),
-                                       window_.get(),
-                                       candidateMenuSubsurface_)) {
-        dismiss();
-        return;
-    }
-
     auto *inputContext = inputContext_.get();
     if (!inputContext) {
         dismiss();
@@ -218,6 +210,13 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     if (actions.empty() ||
         std::ranges::all_of(actions, &CandidateAction::isSeparator) ||
         !menuContext_ || !menuLayout_) {
+        dismiss();
+        return;
+    }
+
+    if (!createCandidateMenuSubsurface(ui_, candidateMenuWindow_.get(),
+                                       window_.get(),
+                                       candidateMenuSubsurface_)) {
         dismiss();
         return;
     }
@@ -294,8 +293,6 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
         menuY = candidateRegion.top() - candidateMenuHeight_;
     }
     candidateMenuSubsurface_->setPosition(menuX, menuY);
-    candidateMenuRegion_.setPosition(0, 0).setSize(candidateMenuWidth_,
-                                                   candidateMenuHeight_);
 
     candidateMenuRegions_.reserve(candidateMenuActions_.size());
     int itemY = *contentMargin.marginTop;
@@ -324,6 +321,10 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     candidateMenuHoveredIndex_ = -1;
     candidateMenuWindow_->resize(candidateMenuWidth_, candidateMenuHeight_);
     repaintCandidateMenu();
+    // Adding a subsurface and changing its position are double-buffered on
+    // the parent. Committing only the menu surface leaves it unmapped at the
+    // requested position until the input panel happens to repaint.
+    window_->surface()->commit();
 }
 
 /** Updates the candidate menu item under the pointer. */
@@ -507,7 +508,10 @@ void WaylandInputWindow::updateScale() {
 }
 
 /** Releases the current Wayland input panel surface. */
-void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
+void WaylandInputWindow::resetPanel() {
+    clearCandidateMenu();
+    panelSurface_.reset();
+}
 
 /** Updates the input panel contents, surface, and candidate menu state. */
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
@@ -547,6 +551,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     }
     if (ic->frontendName() == "wayland_v2") {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
+            candidateMenuSubsurface_.reset();
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
                 CLASSICUI_ERROR()
