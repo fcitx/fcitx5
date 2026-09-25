@@ -61,9 +61,19 @@ FCITX_CONFIGURATION(
         "EnumVectorOption",
         "Enum Vector Option",
         {my::TestEnum::EnumA, my::TestEnum::EnumB}};
-    fcitx::Option<std::vector<std::string>> stringVectorValue{
-        this, "StringVectorOption", "String Option",
-        std::vector<std::string>({"ABC", "CDE"})};
+    fcitx::OptionWithAnnotation<
+        std::vector<std::string>,
+        fcitx::ComposedAnnotation<fcitx::OrderedAnnotation,
+                                  fcitx::ToolTipAnnotation>>
+        stringVectorValue{this,
+                          "StringVectorOption",
+                          "String Option",
+                          std::vector<std::string>({"ABC", "CDE"}),
+                          {},
+                          {},
+                          fcitx::ComposedAnnotation(
+                              fcitx::OrderedAnnotation(),
+                              fcitx::ToolTipAnnotation("List tooltip"))};
     fcitx::Option<std::vector<int>, fcitx::ListConstrain<fcitx::IntConstrain>>
         intVector{
             this, "IntVectorOption", "Int Vector", std::vector<int>{0},
