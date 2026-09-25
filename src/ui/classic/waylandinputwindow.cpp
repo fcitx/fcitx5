@@ -324,8 +324,8 @@ void WaylandInputWindow::positionCandidateMenu() {
         return;
     }
     const auto position = candidateMenuPosition(
-        candidateMenuAnchor_, window_->width(), candidateMenuWidth_,
-        candidateMenuHeight_, textInputRectangle_);
+        candidateMenuAnchor_, window_->width(), window_->height(),
+        candidateMenuWidth_, candidateMenuHeight_, textInputRectangle_);
     candidateMenuSubsurface_->setPosition(position.left(), position.top());
     // Subsurface position changes are double-buffered on the parent.
     window_->surface()->commit();
@@ -387,6 +387,10 @@ void WaylandInputWindow::paintCandidateMenu(cairo_t *cr) {
     if (!candidateMenuVisible_) {
         return;
     }
+
+    cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+    cairo_paint(cr);
+    cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
 
     auto &theme = ui_->parent()->theme();
     const auto &menu = *theme.menu;
