@@ -136,10 +136,10 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
 
 /** Hides the candidate menu and discards its temporary state. */
 void WaylandInputWindow::clearCandidateMenu() {
-    candidateMenuVisible_ = false;
-    if (candidateMenuWindow_) {
+    if (candidateMenuVisible_ && candidateMenuWindow_) {
         candidateMenuWindow_->hide();
     }
+    candidateMenuVisible_ = false;
     candidateMenuCandidate_ = nullptr;
     candidateMenuList_.reset();
     candidateMenuActions_.clear();
