@@ -16,7 +16,8 @@ namespace fcitx::classicui {
 // compositor. It reveals which side of the caret the compositor chose for
 // the panel without requiring the panel's unavailable screen position.
 inline Rect candidateMenuPosition(const Rect &candidate, int panelWidth,
-                                  int menuWidth, int menuHeight,
+                                  int panelHeight, int menuWidth,
+                                  int menuHeight,
                                   const std::optional<Rect> &inputRect) {
     int x =
         std::clamp(candidate.left(), 0, std::max(0, panelWidth - menuWidth));
@@ -24,11 +25,11 @@ inline Rect candidateMenuPosition(const Rect &candidate, int panelWidth,
         x = std::min(x, panelWidth - menuWidth);
     }
 
-    // Legacy input panels do not provide the input rectangle; keep the
-    // existing above-panel placement for them.
-    const int y = inputRect && inputRect->bottom() <= 0
-                      ? candidate.bottom()
-                      : candidate.top() - menuHeight;
+    // Default to below the entire candidate panel, including on legacy
+    // input panels, so the menu does not cover the text being entered. If
+    // the v2 compositor placed the panel above the text, open above it.
+    const int y = inputRect && inputRect->top() >= panelHeight ? -menuHeight
+                                                               : panelHeight;
     return Rect().setPosition(x, y).setSize(menuWidth, menuHeight);
 }
 

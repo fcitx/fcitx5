@@ -136,6 +136,13 @@ if (WAYLAND_FOUND)
     add_test(NAME testcandidatemenuplacement COMMAND testcandidatemenuplacement)
 endif()
 
+if (ENABLE_X11 OR WAYLAND_FOUND)
+    add_executable(testcandidatemenutheme testcandidatemenutheme.cpp)
+    target_include_directories(testcandidatemenutheme PRIVATE ../src/ui/classic)
+    target_link_libraries(testcandidatemenutheme Fcitx5::Core PkgConfig::Cairo ${YOGA_TARGET})
+    add_test(NAME testcandidatemenutheme COMMAND testcandidatemenutheme)
+endif()
+
 add_dependencies(testaddon dummyaddon)
 add_dependencies(testinstance copy-addon testfrontend testim)
 add_dependencies(testinputcontext copy-addon testfrontend testim)
