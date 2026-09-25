@@ -19,6 +19,7 @@
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
+#include "candidatemenuplacement.h"
 #include "common.h"
 #include "ext_background_effect_manager_v1.h"
 #include "inputwindow.h"
@@ -285,14 +286,7 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     candidateMenuWidth_ = std::max(candidateMenuWidth_, 1);
     candidateMenuHeight_ = std::max(candidateMenuHeight_, 1);
 
-    const int menuX =
-        std::clamp(candidateRegion.left(), 0,
-                   std::max(0, window_->width() - candidateMenuWidth_));
-    int menuY = candidateRegion.bottom();
-    if (menuY + candidateMenuHeight_ > window_->height()) {
-        menuY = candidateRegion.top() - candidateMenuHeight_;
-    }
-    candidateMenuSubsurface_->setPosition(menuX, menuY);
+    candidateMenuAnchor_ = candidateRegion;
 
     candidateMenuRegions_.reserve(candidateMenuActions_.size());
     int itemY = *contentMargin.marginTop;
@@ -321,9 +315,19 @@ void WaylandInputWindow::showCandidateMenu(int x, int y) {
     candidateMenuHoveredIndex_ = -1;
     candidateMenuWindow_->resize(candidateMenuWidth_, candidateMenuHeight_);
     repaintCandidateMenu();
-    // Adding a subsurface and changing its position are double-buffered on
-    // the parent. Committing only the menu surface leaves it unmapped at the
-    // requested position until the input panel happens to repaint.
+    positionCandidateMenu();
+}
+
+void WaylandInputWindow::positionCandidateMenu() {
+    if (!candidateMenuVisible_ || !candidateMenuSubsurface_ ||
+        !window_->surface()) {
+        return;
+    }
+    const auto position = candidateMenuPosition(
+        candidateMenuAnchor_, window_->width(), candidateMenuWidth_,
+        candidateMenuHeight_, textInputRectangle_);
+    candidateMenuSubsurface_->setPosition(position.left(), position.top());
+    // Subsurface position changes are double-buffered on the parent.
     window_->surface()->commit();
 }
 
@@ -534,6 +538,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         repaintIC_.unwatch();
         panelSurface_.reset();
         panelSurfaceV2_.reset();
+        textInputRectangle_.reset();
         candidateMenuSubsurface_.reset();
         blur_.reset();
         window_->destroyWindow();
@@ -552,6 +557,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     if (ic->frontendName() == "wayland_v2") {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
             candidateMenuSubsurface_.reset();
+            textInputRectangle_.reset();
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
                 CLASSICUI_ERROR()
@@ -570,8 +576,17 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             v2IC_ = ic->watch();
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
+            if (panelSurfaceV2_) {
+                panelSurfaceV2_->textInputRectangle().connect(
+                    [this](int x, int y, int width, int height) {
+                        textInputRectangle_ =
+                            Rect().setPosition(x, y).setSize(width, height);
+                        positionCandidateMenu();
+                    });
+            }
         }
     } else if (ic->frontendName() == "wayland") {
+        textInputRectangle_.reset();
         auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
         if (!panel) {
             return;

@@ -129,6 +129,13 @@ foreach(TESTCASE ${FCITX_CORE_TEST})
              COMMAND ${TESTCASE} ${${TESTCASE}_ARGS})
 endforeach()
 
+if (WAYLAND_FOUND)
+    add_executable(testcandidatemenuplacement testcandidatemenuplacement.cpp)
+    target_include_directories(testcandidatemenuplacement PRIVATE ../src/ui/classic)
+    target_link_libraries(testcandidatemenuplacement Fcitx5::Utils)
+    add_test(NAME testcandidatemenuplacement COMMAND testcandidatemenuplacement)
+endif()
+
 add_dependencies(testaddon dummyaddon)
 add_dependencies(testinstance copy-addon testfrontend testim)
 add_dependencies(testinputcontext copy-addon testfrontend testim)

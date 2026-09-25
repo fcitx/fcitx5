@@ -9,6 +9,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <vector>
 #include <wayland-util.h>
 #include "fcitx-utils/trackableobject.h"
@@ -49,6 +50,7 @@ private:
     /// Paint the candidate action menu on its independent popup surface.
     void paintCandidateMenu(cairo_t *cr);
     void repaintCandidateMenu();
+    void positionCandidateMenu();
     void updateBlur();
 
     WaylandUI *ui_;
@@ -58,6 +60,7 @@ private:
     std::unique_ptr<wayland::ZwpInputPanelSurfaceV1> panelSurface_;
     TrackableObjectReference<InputContext> v2IC_;
     std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> panelSurfaceV2_;
+    std::optional<Rect> textInputRectangle_;
     std::unique_ptr<WaylandWindow> window_;
     // A subsurface gives the menu an independent surface and lets us position
     // it relative to the clicked candidate on both input-panel protocols.
@@ -71,6 +74,7 @@ private:
     const CandidateWord *candidateMenuCandidate_ = nullptr;
     std::vector<CandidateAction> candidateMenuActions_;
     std::vector<Rect> candidateMenuRegions_;
+    Rect candidateMenuAnchor_;
     int candidateMenuWidth_ = 0;
     int candidateMenuHeight_ = 0;
     int candidateMenuItemWidth_ = 0;
