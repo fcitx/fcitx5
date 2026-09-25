@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-24 02:31+0000\n"
+"POT-Creation-Date: 2026-09-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2026\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -474,7 +474,7 @@ msgstr "メタデータ"
 
 #: src/ui/classic/theme.h:232
 msgid "Supported image scale"
-msgstr ""
+msgstr "サポートされている画像スケール"
 
 #: src/ui/classic/theme.h:235
 msgid "Input Panel"
@@ -722,7 +722,7 @@ msgstr "入力メソッドをオフにする"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Consume redundant Activate/Deactivate key"
-msgstr ""
+msgstr "冗長な有効化/無効化キーを消費する"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid ""
@@ -731,6 +731,9 @@ msgid ""
 "instead of forwarding it to the application. Modifier only keys are never "
 "consumed."
 msgstr ""
+"入力メソッドが既にキーを要求する状態にある場合、アクティブ化/非アクティブ化"
+"キーを押しても何も変わりません。その場合は、キーイベントをアプリケーションに"
+"転送するのではなく、消費します。修飾キーのみの場合は、消費されません。"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"
