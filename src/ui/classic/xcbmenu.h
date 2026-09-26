@@ -92,6 +92,12 @@ public:
 
     bool childHasMouse() const;
 
+    bool hasPendingActivation() const {
+        return static_cast<bool>(activateTimer_);
+    }
+    auto &activationFinished() { return activationFinished_; }
+    auto &hidden() { return hidden_; }
+
 private:
     void handleButtonPress(int eventX, int eventY);
     void handleMotionNotify(int eventX, int eventY);
@@ -127,6 +133,8 @@ private:
     int hoveredIndex_ = -1;
     xcb_atom_t atomBlur_;
     std::unique_ptr<EventSourceTime> activateTimer_;
+    Signal<void()> activationFinished_;
+    Signal<void()> hidden_;
 };
 
 class MenuPool {

@@ -216,6 +216,7 @@ void XCBMenu::handleButtonPress(int eventX, int eventY) {
                     }
                 }
                 activateTimer_.reset();
+                activationFinished_();
                 return true;
             });
         break;
@@ -245,6 +246,7 @@ void XCBMenu::hide() {
     if (ui_->pointerGrabber() == this) {
         ui_->ungrabPointer();
     }
+    hidden_();
 }
 
 void XCBMenu::hideParents() {

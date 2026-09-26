@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstdint>
+#include <utility>
 #include <vector>
 #include <cairo.h>
 #include <xcb/xcb.h>
@@ -37,13 +38,32 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
 
 /** Hides the candidate menu and unregisters its temporary actions. */
 void XCBInputWindow::clearCandidateMenu() {
+    bool pendingActivation = false;
     if (candidateMenuWindow_) {
-        candidateMenuWindow_->hideAll();
-        candidateMenuWindow_ = nullptr;
+        pendingActivation = candidateMenuWindow_->hasPendingActivation();
+        if (pendingActivation && !candidateMenuActivation_.connected()) {
+            candidateMenuActivation_ =
+                candidateMenuWindow_->activationFinished().connect([this]() {
+                    auto &uiManager =
+                        ui_->parent()->instance()->userInterfaceManager();
+                    for (auto &action : pendingCandidateActions_) {
+                        uiManager.unregisterAction(&action);
+                    }
+                    pendingCandidateActions_.clear();
+                });
+        }
+        candidateMenuHidden_.disconnect();
+        auto *window = std::exchange(candidateMenuWindow_, nullptr);
+        window->hideAll();
     }
 
     for (auto *action : candidateMenu_.actions()) {
         candidateMenu_.removeAction(action);
+    }
+
+    if (pendingActivation) {
+        pendingCandidateActions_.splice(pendingCandidateActions_.end(),
+                                        candidateActions_);
     }
 
     auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
@@ -120,6 +140,8 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
 
     candidateMenuWindow_ =
         candidateMenuPool_.requestMenu(ui_, &candidateMenu_, nullptr);
+    candidateMenuHidden_ = candidateMenuWindow_->hidden().connect(
+        [this]() { clearCandidateMenu(); });
     candidateMenuWindow_->show(Rect().setPosition(rootX, rootY).setSize(1, 1),
                                ConstrainAdjustment::Flip);
     return true;
