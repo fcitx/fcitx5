@@ -50,7 +50,10 @@ private:
     MenuPool candidateMenuPool_;
     Menu candidateMenu_;
     std::list<SimpleAction> candidateActions_;
+    std::list<SimpleAction> pendingCandidateActions_;
     XCBMenu *candidateMenuWindow_ = nullptr;
+    ScopedConnection candidateMenuActivation_;
+    ScopedConnection candidateMenuHidden_;
 };
 
 } // namespace fcitx::classicui
