@@ -1034,6 +1034,7 @@ void Theme::reset() {
 void Theme::load(std::string_view name) {
     reset();
     isSystemTheme_ = isSystemThemeName(name);
+    bool hasMenuStyle = false;
     ThemeConfig config;
     copyHelper(config);
     // Reset the default value to state.
@@ -1045,6 +1046,7 @@ void Theme::load(std::string_view name) {
         themeConfigFile.isValid()) {
         RawConfig themeConfig;
         readFromIni(themeConfig, themeConfigFile.fd());
+        hasMenuStyle = themeConfig.get("Menu") != nullptr;
         Configuration::load(themeConfig, true);
     } else {
         // No sys file, reset default value.
@@ -1063,9 +1065,11 @@ void Theme::load(std::string_view name) {
             // Has user file, load user file data.
             RawConfig themeConfig;
             readFromIni(themeConfig, themeConfigFile.fd());
+            hasMenuStyle |= themeConfig.get("Menu") != nullptr;
             Configuration::load(themeConfig, true);
         }
     }
+    inheritMenuStyle(*this, hasMenuStyle);
     name_ = name;
     maskConfig_ = *inputPanel->background;
     maskConfig_.overlay.setValue("");
@@ -1081,6 +1085,7 @@ void Theme::load(std::string_view name, const RawConfig &rawConfig) {
     reset();
     isSystemTheme_ = isSystemThemeName(name);
     Configuration::load(rawConfig, true);
+    inheritMenuStyle(*this, rawConfig.get("Menu") != nullptr);
     name_ = name;
 }
 
