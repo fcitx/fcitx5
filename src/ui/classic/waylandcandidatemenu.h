@@ -16,6 +16,8 @@
 #include "fcitx-utils/rect.h"
 #include "fcitx/candidatelist.h"
 #include "common.h"
+#include "ext_background_effect_manager_v1.h"
+#include "ext_background_effect_surface_v1.h"
 #include "wl_subsurface.h"
 
 namespace fcitx {
@@ -41,11 +43,15 @@ public:
     void destroyWindow();
     void updateScale();
     void setFontDPI(int dpi);
+    void setBlurManager(
+        std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur);
 
 private:
     bool createSubsurface();
     bool hover(int x, int y);
     void click(int x, int y);
+    Rect highlightRegion(const Rect &region) const;
+    void updateBlur();
     void paint(cairo_t *cr);
     void repaint();
 
@@ -53,6 +59,8 @@ private:
     WaylandWindow *parentWindow_;
     std::unique_ptr<WaylandWindow> window_;
     std::unique_ptr<wayland::WlSubsurface> subsurface_;
+    std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
+    std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
     GObjectUniquePtr<PangoFontMap> fontMap_;
     double fontMapDefaultDPI_ = 96.0;
     GObjectUniquePtr<PangoContext> context_;
