@@ -116,9 +116,9 @@ void WaylandCandidateMenu::updateBlur() {
     if (menu.blurMask->empty()) {
         region->add(rect.left(), rect.top(), rect.width(), rect.height());
     } else {
-        for (const auto &maskRect : theme.mask(theme.menuBlurMaskConfig(),
-                                               window_->width(),
-                                               window_->height())) {
+        for (const auto &maskRect :
+             theme.mask(theme.menuBlurMaskConfig(), window_->width(),
+                        window_->height())) {
             region->add(maskRect.left(), maskRect.top(), maskRect.width(),
                         maskRect.height());
         }
@@ -142,8 +142,8 @@ bool WaylandCandidateMenu::createSubsurface() {
     if (!subcompositor || !window_->surface() || !parentWindow_->surface()) {
         return false;
     }
-    subsurface_.reset(subcompositor->getSubsurface(
-        window_->surface(), parentWindow_->surface()));
+    subsurface_.reset(subcompositor->getSubsurface(window_->surface(),
+                                                   parentWindow_->surface()));
     if (!subsurface_) {
         return false;
     }
@@ -168,9 +168,10 @@ void WaylandCandidateMenu::clear() {
 }
 
 /** Builds and shows the candidate action menu at the pointer position. */
-void WaylandCandidateMenu::show(
-    InputContext *inputContext, const std::vector<Rect> &candidateRegions,
-    int x, int y, const std::optional<Rect> &textInputRectangle) {
+void WaylandCandidateMenu::show(InputContext *inputContext,
+                                const std::vector<Rect> &candidateRegions,
+                                int x, int y,
+                                const std::optional<Rect> &textInputRectangle) {
     if (!inputContext) {
         clear();
         return;
@@ -232,8 +233,8 @@ void WaylandCandidateMenu::show(
     int maxTextWidth = 0;
     int maxTextHeight = 0;
     for (const auto &action : actions_) {
-        hasCheckable_ = hasCheckable_ ||
-                        (action.isCheckable() && !action.isSeparator());
+        hasCheckable_ =
+            hasCheckable_ || (action.isCheckable() && !action.isSeparator());
         if (action.isSeparator()) {
             continue;
         }
@@ -252,12 +253,13 @@ void WaylandCandidateMenu::show(
         maxItemWidth += checkBox.width();
         maxItemHeight = std::max(maxItemHeight, checkBox.height());
     }
-    itemWidth_ = maxItemWidth + *textMargin.marginLeft + *textMargin.marginRight;
+    itemWidth_ =
+        maxItemWidth + *textMargin.marginLeft + *textMargin.marginRight;
     itemHeight_ =
         maxItemHeight + *textMargin.marginTop + *textMargin.marginBottom;
 
-    width_ = *contentMargin.marginLeft + itemWidth_ +
-             *contentMargin.marginRight;
+    width_ =
+        *contentMargin.marginLeft + itemWidth_ + *contentMargin.marginRight;
     height_ = *contentMargin.marginTop + *contentMargin.marginBottom;
     for (const auto &action : actions_) {
         height_ += action.isSeparator()
@@ -306,9 +308,9 @@ void WaylandCandidateMenu::position(
     if (!visible_ || !subsurface_ || !parentWindow_->surface()) {
         return;
     }
-    const auto position = candidateMenuPosition(
-        anchor_, parentWindow_->width(), parentWindow_->height(), width_,
-        height_, textInputRectangle);
+    const auto position = candidateMenuPosition(anchor_, parentWindow_->width(),
+                                                parentWindow_->height(), width_,
+                                                height_, textInputRectangle);
     subsurface_->setPosition(position.left(), position.top());
     // Subsurface position changes are double-buffered on the parent.
     parentWindow_->surface()->commit();
@@ -421,10 +423,9 @@ void WaylandCandidateMenu::paint(cairo_t *cr) {
         const int textY = region.top() + (region.height() - textHeight) / 2;
 
         cairo_save(cr);
-        cairoSetSourceColor(cr,
-                            hoveredIndex_ == static_cast<int>(i)
-                                ? theme.menuSelectedItemText()
-                                : theme.menuText());
+        cairoSetSourceColor(cr, hoveredIndex_ == static_cast<int>(i)
+                                    ? theme.menuSelectedItemText()
+                                    : theme.menuText());
         cairo_move_to(cr, textX, textY);
         pango_cairo_show_layout(cr, layout_.get());
         cairo_restore(cr);
@@ -437,11 +438,10 @@ void WaylandCandidateMenu::repaint() {
     }
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
-        cairo_surface_set_device_scale(cairo_get_target(c),
-                                       window_->bufferScale() /
-                                           WaylandWindow::ScaleDominatorF,
-                                       window_->bufferScale() /
-                                           WaylandWindow::ScaleDominatorF);
+        cairo_surface_set_device_scale(
+            cairo_get_target(c),
+            window_->bufferScale() / WaylandWindow::ScaleDominatorF,
+            window_->bufferScale() / WaylandWindow::ScaleDominatorF);
         paint(c);
         cairo_destroy(c);
         window_->render();
