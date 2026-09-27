@@ -43,8 +43,8 @@ public:
     void destroyWindow();
     void updateScale();
     void setFontDPI(int dpi);
-    void setBlurManager(
-        std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur);
+    void
+    setBlurManager(std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur);
 
 private:
     bool createSubsurface();
