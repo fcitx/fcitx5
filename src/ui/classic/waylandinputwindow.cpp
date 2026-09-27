@@ -119,6 +119,7 @@ void WaylandInputWindow::setBlurManager(
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur) {
     blurManager_ = std::move(blur);
     updateBlur();
+    candidateMenu_->setBlurManager(blurManager_);
 }
 
 /** Updates the compositor blur region for the current panel size. */
