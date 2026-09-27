@@ -86,9 +86,11 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
     }
 
     const CandidateWord *candidate = nullptr;
+    size_t candidateIndex = 0;
     for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
         if (candidateRegions_[idx].contains(x, y)) {
             candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
+            candidateIndex = idx;
             break;
         }
     }
@@ -118,7 +120,11 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
 
         const auto id = candidateAction.id();
         action.connect<SimpleAction::Activated>(
-            [candidateList, candidate, id](InputContext *) {
+            [candidateList, candidate, candidateIndex, id](InputContext *) {
+                if (nthCandidateIgnorePlaceholder(*candidateList,
+                                                  candidateIndex) != candidate) {
+                    return;
+                }
                 if (auto *actionable = candidateList->toActionable()) {
                     actionable->triggerAction(*candidate, id);
                 }
