@@ -261,6 +261,27 @@ inline void inheritMenuStyle(ThemeConfig &theme, bool hasMenuStyle) {
     separator.color.setValue(separatorColor);
     menu.separator.setValue(separator);
     theme.menu.setValue(menu);
+
+    auto accents = *theme.accentColor;
+    for (auto field : *theme.accentColor) {
+        switch (field) {
+        case ColorField::InputPanel_Background:
+            accents.push_back(ColorField::Menu_Background);
+            break;
+        case ColorField::InputPanel_Border:
+            accents.push_back(ColorField::Menu_Border);
+            break;
+        case ColorField::InputPanel_HighlightCandidateBackground:
+            accents.push_back(ColorField::Menu_SelectedItemBackground);
+            break;
+        case ColorField::InputPanel_HighlightCandidateBorder:
+            accents.push_back(ColorField::Menu_SelectedItemBorder);
+            break;
+        default:
+            break;
+        }
+    }
+    theme.accentColor.setValue(std::move(accents));
 }
 
 class ClassicUI;

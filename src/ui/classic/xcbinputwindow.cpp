@@ -106,6 +106,10 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
         return false;
     }
 
+    auto *menuWindow = candidateMenuPool_.requestMenu(ui_, &candidateMenu_, nullptr);
+    if (menuWindow->hasPendingActivation()) {
+        return false;
+    }
     clearCandidateMenu();
     auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
     auto inputContextRef = inputContext->watch();
@@ -149,8 +153,7 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
         return false;
     }
 
-    candidateMenuWindow_ =
-        candidateMenuPool_.requestMenu(ui_, &candidateMenu_, nullptr);
+    candidateMenuWindow_ = menuWindow;
     candidateMenuHidden_ = candidateMenuWindow_->hidden().connect(
         [this]() { clearCandidateMenu(); });
     candidateMenuWindow_->show(Rect().setPosition(rootX, rootY).setSize(1, 1),
