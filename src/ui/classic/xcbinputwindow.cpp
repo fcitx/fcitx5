@@ -120,20 +120,20 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
         action.setSeparator(candidateAction.isSeparator());
 
         const auto id = candidateAction.id();
-        action.connect<SimpleAction::Activated>(
-            [inputContextRef, candidateList, candidate, candidateIndex,
-             id](InputContext *) {
-                auto *context = inputContextRef.get();
-                if (!context ||
-                    context->inputPanel().candidateList() != candidateList ||
-                    nthCandidateIgnorePlaceholder(*candidateList,
-                                                  candidateIndex) != candidate) {
-                    return;
-                }
-                if (auto *actionable = candidateList->toActionable()) {
-                    actionable->triggerAction(*candidate, id);
-                }
-            });
+        action.connect<SimpleAction::Activated>([inputContextRef, candidateList,
+                                                 candidate, candidateIndex,
+                                                 id](InputContext *) {
+            auto *context = inputContextRef.get();
+            if (!context ||
+                context->inputPanel().candidateList() != candidateList ||
+                nthCandidateIgnorePlaceholder(*candidateList, candidateIndex) !=
+                    candidate) {
+                return;
+            }
+            if (auto *actionable = candidateList->toActionable()) {
+                actionable->triggerAction(*candidate, id);
+            }
+        });
 
         if (!uiManager.registerAction(&action)) {
             candidateActions_.pop_back();
