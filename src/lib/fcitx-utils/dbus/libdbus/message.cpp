@@ -389,7 +389,8 @@ Message &Message::operator>>(ObjectPath &o) {
     }
     FCITX_D();
     char *p = nullptr;
-    if (dbus_message_iter_get_arg_type(d->iterator()) == DBUS_TYPE_OBJECT_PATH) {
+    if (dbus_message_iter_get_arg_type(d->iterator()) ==
+        DBUS_TYPE_OBJECT_PATH) {
         dbus_message_iter_get_basic(d->iterator(), &p);
         o = ObjectPath(p);
         dbus_message_iter_next(d->iterator());
