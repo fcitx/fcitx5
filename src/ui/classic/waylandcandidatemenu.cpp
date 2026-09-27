@@ -14,9 +14,12 @@
 #include "fcitx/inputcontext.h"
 #include "candidatemenuplacement.h"
 #include "common.h"
+#include "ext_background_effect_manager_v1.h"
 #include "theme.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
+#include "wl_compositor.h"
+#include "wl_region.h"
 #include "wl_subcompositor.h"
 
 #ifdef __linux__
@@ -74,13 +77,54 @@ void WaylandCandidateMenu::setFontDPI(int dpi) {
 void WaylandCandidateMenu::createWindow() {
     if (!window_->surface()) {
         window_->createWindow();
+        updateBlur();
     }
 }
 
 void WaylandCandidateMenu::destroyWindow() {
     clear();
+    blur_.reset();
     subsurface_.reset();
     window_->destroyWindow();
+}
+
+void WaylandCandidateMenu::setBlurManager(
+    std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur) {
+    blurManager_ = std::move(blur);
+    updateBlur();
+}
+
+void WaylandCandidateMenu::updateBlur() {
+    blur_.reset();
+    if (!blurManager_ || !window_->surface()) {
+        return;
+    }
+
+    auto &theme = ui_->parent()->theme();
+    const auto &menu = *theme.menu;
+    Rect rect(0, 0, window_->width(), window_->height());
+    shrink(rect, *menu.blurMargin);
+    if (!*menu.enableBlur || rect.isEmpty()) {
+        return;
+    }
+
+    auto compositor = ui_->display()->getGlobal<wayland::WlCompositor>();
+    if (!compositor) {
+        return;
+    }
+    std::unique_ptr<wayland::WlRegion> region(compositor->createRegion());
+    if (menu.blurMask->empty()) {
+        region->add(rect.left(), rect.top(), rect.width(), rect.height());
+    } else {
+        for (const auto &maskRect : theme.mask(theme.menuBlurMaskConfig(),
+                                               window_->width(),
+                                               window_->height())) {
+            region->add(maskRect.left(), maskRect.top(), maskRect.width(),
+                        maskRect.height());
+        }
+    }
+    blur_.reset(blurManager_->getBackgroundEffect(window_->surface()));
+    blur_->setBlurRegion(region.get());
 }
 
 void WaylandCandidateMenu::resetSubsurface() {
@@ -252,6 +296,7 @@ void WaylandCandidateMenu::show(
     visible_ = true;
     hoveredIndex_ = -1;
     window_->resize(width_, height_);
+    updateBlur();
     repaint();
     position(textInputRectangle);
 }
@@ -269,6 +314,15 @@ void WaylandCandidateMenu::position(
     parentWindow_->surface()->commit();
 }
 
+Rect WaylandCandidateMenu::highlightRegion(const Rect &region) const {
+    const auto &margin = *ui_->parent()->theme().menu->highlight->margin;
+    return Rect()
+        .setPosition(region.left() - *margin.marginLeft,
+                     region.top() - *margin.marginTop)
+        .setSize(region.width() + *margin.marginLeft + *margin.marginRight,
+                 region.height() + *margin.marginTop + *margin.marginBottom);
+}
+
 /** Updates the candidate menu item under the pointer. */
 bool WaylandCandidateMenu::hover(int x, int y) {
     if (!visible_) {
@@ -277,7 +331,8 @@ bool WaylandCandidateMenu::hover(int x, int y) {
 
     int index = -1;
     for (size_t i = 0; i < actions_.size(); i++) {
-        if (!actions_[i].isSeparator() && regions_[i].contains(x, y)) {
+        if (!actions_[i].isSeparator() &&
+            highlightRegion(regions_[i]).contains(x, y)) {
             index = static_cast<int>(i);
             break;
         }
@@ -297,7 +352,8 @@ void WaylandCandidateMenu::click(int x, int y) {
 
     int index = -1;
     for (size_t i = 0; i < actions_.size(); i++) {
-        if (!actions_[i].isSeparator() && regions_[i].contains(x, y)) {
+        if (!actions_[i].isSeparator() &&
+            highlightRegion(regions_[i]).contains(x, y)) {
             index = static_cast<int>(i);
             break;
         }
@@ -344,8 +400,9 @@ void WaylandCandidateMenu::paint(cairo_t *cr) {
         }
 
         if (hoveredIndex_ == static_cast<int>(i)) {
-            theme.paint(cr, *menu.highlight, region.left(), region.top(),
-                        region.width(), region.height(), 1.0);
+            const auto highlight = highlightRegion(region);
+            theme.paint(cr, *menu.highlight, highlight.left(), highlight.top(),
+                        highlight.width(), highlight.height(), 1.0);
         }
 
         if (action.isChecked()) {
