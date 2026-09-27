@@ -72,6 +72,31 @@ enum class ColorField {
     Menu_SelectedItemBorder,
     Menu_Separator,
 };
+
+template <typename T>
+struct OptionalFallbackMarshaller
+    : private DefaultMarshaller<std::optional<T>> {
+    using ParentMarshaller = DefaultMarshaller<std::optional<T>>;
+
+    void marshall(RawConfig &config, const std::optional<T> &value) const {
+        ParentMarshaller::marshall(config, value);
+        // Also clear legacy value.
+        config.setValue("");
+    }
+    bool unmarshall(std::optional<T> &value, const RawConfig &config,
+                    bool partial) const {
+        if (auto valueConfig = config.get("Value")) {
+            return ParentMarshaller::unmarshall(value, config, partial);
+        }
+        if (!config.value().empty()) {
+            value.emplace();
+            return unmarshallOption(*value, config, partial);
+        }
+        value.reset();
+        return true;
+    }
+};
+
 FCITX_CONFIG_ENUM_NAME_WITH_I18N(
     ColorField, N_("Input Panel Background"), N_("Input Panel Border"),
     N_("Input Panel Highlight Candidate Background"),
@@ -228,9 +253,10 @@ FCITX_CONFIGURATION(ThemeMetadata,
 FCITX_CONFIGURATION(
     ThemeConfig,
     HiddenOption<ThemeMetadata> metadata{this, "Metadata", _("Metadata")};
-    Option<int, IntConstrain> supportedScale{this, "SupportedScale",
-                                             _("Supported image scale"), 1,
-                                             IntConstrain(1, 10)};
+    Option<std::optional<int>, OptionalConstrain<IntConstrain>,
+           OptionalFallbackMarshaller<int>>
+        supportedScale{this, "SupportedScale", _("Supported image scale"),
+                       std::nullopt, IntConstrain(1, 10)};
     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
                                              _("Input Panel")};
     Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};

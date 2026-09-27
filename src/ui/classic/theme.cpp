@@ -628,7 +628,7 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                     *cfg.margin->marginBottom)) {
                 image_ = std::move(*image);
                 loadScaledImages(
-                    scaledImages_, imagePath, *theme.supportedScale,
+                    scaledImages_, imagePath, theme.supportedScale->value_or(1),
                     image_->width, image_->height,
                     [&cfg](int scale, UnixFD &file,
                            const std::filesystem::path &path) {
@@ -660,7 +660,7 @@ ThemeImage::ThemeImage(const Theme &theme, const BackgroundImageConfig &cfg,
                        createImage(loadPixmap(imageFile, imagePath))) {
             overlay_ = std::move(overlay->tiles[4]);
             loadScaledImages(
-                scaledOverlays_, imagePath, *theme.supportedScale,
+                scaledOverlays_, imagePath, theme.supportedScale->value_or(1),
                 overlay_->width, overlay_->height,
                 [](int scale, UnixFD &file, const std::filesystem::path &path) {
                     if (auto image = createImage(loadPixmap(file, path), 0, 0,
@@ -758,8 +758,8 @@ ThemeImage::ThemeImage(const Theme &theme, const ActionImageConfig &cfg) {
             if (auto image = createImage(loadPixmap(imageFile, imagePath))) {
                 image_ = std::move(*image);
                 loadScaledImages(scaledImages_, imagePath,
-                                 *theme.supportedScale, image_->width,
-                                 image_->height,
+                                 theme.supportedScale->value_or(1),
+                                 image_->width, image_->height,
                                  [](int scale, UnixFD &file,
                                     const std::filesystem::path &path) {
                                      return createImage(loadPixmap(file, path),
