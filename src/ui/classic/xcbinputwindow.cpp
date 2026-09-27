@@ -108,6 +108,7 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
 
     clearCandidateMenu();
     auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    auto inputContextRef = inputContext->watch();
     bool hasRegisteredAction = false;
     for (const auto &candidateAction : actions) {
         candidateActions_.emplace_back();
@@ -120,8 +121,12 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
 
         const auto id = candidateAction.id();
         action.connect<SimpleAction::Activated>(
-            [candidateList, candidate, candidateIndex, id](InputContext *) {
-                if (nthCandidateIgnorePlaceholder(*candidateList,
+            [inputContextRef, candidateList, candidate, candidateIndex,
+             id](InputContext *) {
+                auto *context = inputContextRef.get();
+                if (!context ||
+                    context->inputPanel().candidateList() != candidateList ||
+                    nthCandidateIgnorePlaceholder(*candidateList,
                                                   candidateIndex) != candidate) {
                     return;
                 }
