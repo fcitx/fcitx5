@@ -74,7 +74,8 @@ void CandidateMenuLayout::update(const Style &style,
                              Rect(), Rect(), true});
         } else {
             const int rowTop = top - style.text.top;
-            const int rowHeight = itemHeight + style.text.top + style.text.bottom;
+            const int rowHeight =
+                itemHeight + style.text.top + style.text.bottom;
             rows_.push_back(
                 {Rect()
                      .setPosition(left - style.text.left, rowTop)
@@ -86,7 +87,8 @@ void CandidateMenuLayout::update(const Style &style,
                      .setSize(style.checkWidth, style.checkHeight),
                  Rect()
                      .setPosition(left + style.checkWidth,
-                                  rowTop + (rowHeight - items[i].textHeight) / 2)
+                                  rowTop +
+                                      (rowHeight - items[i].textHeight) / 2)
                      .setSize(items[i].textWidth, items[i].textHeight),
                  false});
         }
@@ -99,8 +101,7 @@ int CandidateMenuLayout::indexAt(int x, int y) const {
     }
     for (size_t i = 0; i < rows_.size(); i++) {
         const auto &region = rows_[i].region;
-        if (!rows_[i].separator &&
-            x >= region.left() - highlight_.left &&
+        if (!rows_[i].separator && x >= region.left() - highlight_.left &&
             x < region.right() + highlight_.right &&
             y >= region.top() - highlight_.top &&
             y < region.bottom() + highlight_.bottom) {
