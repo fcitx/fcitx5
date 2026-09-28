@@ -10,7 +10,6 @@
 #include <algorithm>
 #include <climits>
 #include <cstdint>
-#include <utility>
 #include <vector>
 #include <cairo.h>
 #include <xcb/xcb.h>
@@ -18,10 +17,8 @@
 #include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>
 #include <xcb/xproto.h>
-#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
-#include "fcitx/userinterfacemanager.h"
 #include "inputwindow.h"
 #include "theme.h"
 #include "xcb_public.h"
@@ -36,129 +33,20 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
           ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
-/** Hides the candidate menu and unregisters its temporary actions. */
+/** Hides the candidate-specific popup, leaving status-area menus untouched. */
 void XCBInputWindow::clearCandidateMenu() {
-    bool pendingActivation = false;
-    if (candidateMenuWindow_) {
-        pendingActivation = candidateMenuWindow_->hasPendingActivation();
-        if (pendingActivation && !candidateMenuActivation_.connected()) {
-            candidateMenuActivation_ =
-                candidateMenuWindow_->activationFinished().connect([this]() {
-                    auto &uiManager =
-                        ui_->parent()->instance()->userInterfaceManager();
-                    for (auto &action : pendingCandidateActions_) {
-                        uiManager.unregisterAction(&action);
-                    }
-                    pendingCandidateActions_.clear();
-                });
-        }
-        candidateMenuHidden_.disconnect();
-        auto *window = std::exchange(candidateMenuWindow_, nullptr);
-        window->hideAll();
+    if (candidateMenu_) {
+        candidateMenu_->hide();
     }
-
-    for (auto *action : candidateMenu_.actions()) {
-        candidateMenu_.removeAction(action);
-    }
-
-    if (pendingActivation) {
-        pendingCandidateActions_.splice(pendingCandidateActions_.end(),
-                                        candidateActions_);
-    }
-
-    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
-    for (auto &action : candidateActions_) {
-        uiManager.unregisterAction(&action);
-    }
-    candidateActions_.clear();
 }
 
 /** Shows the actions for the candidate under the pointer. */
 bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
-    auto *inputContext = inputContext_.get();
-    if (!inputContext) {
-        return false;
+    if (!candidateMenu_) {
+        candidateMenu_ = std::make_unique<XCBCandidateMenu>(ui_);
     }
-
-    const auto candidateList = inputContext->inputPanel().candidateList();
-    if (!candidateList) {
-        return false;
-    }
-
-    const CandidateWord *candidate = nullptr;
-    size_t candidateIndex = 0;
-    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-        if (candidateRegions_[idx].contains(x, y)) {
-            candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
-            candidateIndex = idx;
-            break;
-        }
-    }
-
-    auto *actionable = candidateList->toActionable();
-    if (!candidate || !actionable || !actionable->hasAction(*candidate)) {
-        return false;
-    }
-
-    const auto actions = actionable->candidateActions(*candidate);
-    if (actions.empty() ||
-        std::ranges::all_of(actions, &CandidateAction::isSeparator)) {
-        return false;
-    }
-
-    auto *menuWindow = candidateMenuPool_.requestMenu(ui_, &candidateMenu_, nullptr);
-    if (menuWindow->hasPendingActivation()) {
-        return false;
-    }
-    clearCandidateMenu();
-    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
-    auto inputContextRef = inputContext->watch();
-    bool hasRegisteredAction = false;
-    for (const auto &candidateAction : actions) {
-        candidateActions_.emplace_back();
-        auto &action = candidateActions_.back();
-        action.setShortText(candidateAction.text());
-        action.setIcon(candidateAction.icon());
-        action.setCheckable(candidateAction.isCheckable());
-        action.setChecked(candidateAction.isChecked());
-        action.setSeparator(candidateAction.isSeparator());
-
-        const auto id = candidateAction.id();
-        action.connect<SimpleAction::Activated>([inputContextRef, candidateList,
-                                                 candidate, candidateIndex,
-                                                 id](InputContext *) {
-            auto *context = inputContextRef.get();
-            if (!context ||
-                context->inputPanel().candidateList() != candidateList ||
-                nthCandidateIgnorePlaceholder(*candidateList, candidateIndex) !=
-                    candidate) {
-                return;
-            }
-            if (auto *actionable = candidateList->toActionable()) {
-                actionable->triggerAction(*candidate, id);
-            }
-        });
-
-        if (!uiManager.registerAction(&action)) {
-            candidateActions_.pop_back();
-            continue;
-        }
-        candidateMenu_.addAction(&action);
-        hasRegisteredAction =
-            hasRegisteredAction || !candidateAction.isSeparator();
-    }
-
-    if (!hasRegisteredAction) {
-        clearCandidateMenu();
-        return false;
-    }
-
-    candidateMenuWindow_ = menuWindow;
-    candidateMenuHidden_ = candidateMenuWindow_->hidden().connect(
-        [this]() { clearCandidateMenu(); });
-    candidateMenuWindow_->show(Rect().setPosition(rootX, rootY).setSize(1, 1),
-                               ConstrainAdjustment::Flip);
-    return true;
+    return candidateMenu_->show(inputContext_.get(), candidateRegions_, x, y,
+                                rootX, rootY);
 }
 
 /** Applies X11 properties and event masks after window creation. */
