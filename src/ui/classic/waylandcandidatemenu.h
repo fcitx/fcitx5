@@ -9,13 +9,8 @@
 #include <memory>
 #include <optional>
 #include <vector>
-#include <cairo.h>
-#include <pango/pango-context.h>
-#include <pango/pango-fontmap.h>
-#include <pango/pango-layout.h>
 #include "fcitx-utils/rect.h"
-#include "fcitx/candidatelist.h"
-#include "common.h"
+#include "candidatemenu.h"
 #include "ext_background_effect_manager_v1.h"
 #include "ext_background_effect_surface_v1.h"
 #include "wl_subsurface.h"
@@ -50,9 +45,7 @@ private:
     bool createSubsurface();
     bool hover(int x, int y);
     void click(int x, int y);
-    Rect highlightRegion(const Rect &region) const;
     void updateBlur();
-    void paint(cairo_t *cr);
     void repaint();
 
     WaylandUI *ui_;
@@ -61,22 +54,7 @@ private:
     std::unique_ptr<wayland::WlSubsurface> subsurface_;
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
-    GObjectUniquePtr<PangoFontMap> fontMap_;
-    double fontMapDefaultDPI_ = 96.0;
-    GObjectUniquePtr<PangoContext> context_;
-    GObjectUniquePtr<PangoLayout> layout_;
-
-    std::shared_ptr<CandidateList> candidateList_;
-    const CandidateWord *candidate_ = nullptr;
-    std::vector<CandidateAction> actions_;
-    std::vector<Rect> regions_;
-    Rect anchor_;
-    int width_ = 0;
-    int height_ = 0;
-    int itemWidth_ = 0;
-    int itemHeight_ = 0;
-    bool hasCheckable_ = false;
-    int hoveredIndex_ = -1;
+    CandidateMenu menu_;
     bool visible_ = false;
 };
 
