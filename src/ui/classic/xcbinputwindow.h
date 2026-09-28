@@ -7,15 +7,13 @@
 #ifndef _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 
-#include <list>
+#include <memory>
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 #include "fcitx-utils/rect.h"
-#include "fcitx/action.h"
 #include "fcitx/inputcontext.h"
-#include "fcitx/menu.h"
 #include "inputwindow.h"
-#include "xcbmenu.h"
+#include "xcbcandidatemenu.h"
 #include "xcbui.h"
 #include "xcbwindow.h"
 
@@ -47,13 +45,7 @@ private:
 
     xcb_atom_t atomBlur_;
 
-    MenuPool candidateMenuPool_;
-    Menu candidateMenu_;
-    std::list<SimpleAction> candidateActions_;
-    std::list<SimpleAction> pendingCandidateActions_;
-    XCBMenu *candidateMenuWindow_ = nullptr;
-    ScopedConnection candidateMenuActivation_;
-    ScopedConnection candidateMenuHidden_;
+    std::unique_ptr<XCBCandidateMenu> candidateMenu_;
 };
 
 } // namespace fcitx::classicui
