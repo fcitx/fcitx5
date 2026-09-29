@@ -13,6 +13,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -100,6 +101,40 @@ struct ListDisplayOptionAnnotation {
 
 private:
     std::string option_;
+};
+
+/// Annotation to indicate that the order of elements in a list is meaningful.
+struct OrderedAnnotation {
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
+    void dumpDescription(RawConfig &config) const {
+        config.setValueByPath("Ordered", "True");
+    }
+};
+
+/**
+ * Combine multiple annotations into one by composition. The annotations are
+ * kept independent of each other; each one only contributes its own
+ * description markers.
+ */
+template <typename... Annotations>
+struct ComposedAnnotation {
+    ComposedAnnotation() = default;
+    ComposedAnnotation(Annotations... annotations)
+        : annotations_(std::move(annotations)...) {}
+
+    bool skipDescription() {
+        return (std::get<Annotations>(annotations_).skipDescription() || ...);
+    }
+    bool skipSave() {
+        return (std::get<Annotations>(annotations_).skipSave() || ...);
+    }
+    void dumpDescription(RawConfig &config) const {
+        (std::get<Annotations>(annotations_).dumpDescription(config), ...);
+    }
+
+private:
+    std::tuple<Annotations...> annotations_;
 };
 
 /**
