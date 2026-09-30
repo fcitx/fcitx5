@@ -83,7 +83,7 @@ public:
             // If dispatcher is not attached, the schedule will do nothing.
             // But after attach, reader thread will check terminate_
             // So it won't stuck forever.
-            dispatcherToWorker_.schedule([this]() {
+            dispatcherToWorker_.dispatch([this]() {
                 if (auto *loop = dispatcherToWorker_.eventLoop()) {
                     loop->exit();
                 }

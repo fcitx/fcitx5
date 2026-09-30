@@ -71,7 +71,7 @@ public:
 
     void createICCallback(xcb_xic_t ic) {
         ic_ = ic;
-        dispatcher_->schedule([this] {
+        dispatcher_->dispatch([this] {
             bool found = false;
             instance_->inputContextManager().foreach(
                 [&found](InputContext *ic) {
@@ -102,7 +102,7 @@ public:
     }
 
     void scheduleEvent() {
-        dispatcher_->schedule([this]() {
+        dispatcher_->dispatch([this]() {
             auto *xim = instance_->addonManager().addon("xim", true);
             FCITX_ASSERT(xim);
             std::lock_guard<std::mutex> lck(mtx);
@@ -139,7 +139,7 @@ public:
         }
 
         xcb_xim_close(im.get());
-        dispatcher_->schedule([this]() { instance_->exit(); });
+        dispatcher_->dispatch([this]() { instance_->exit(); });
     }
 
 private:
