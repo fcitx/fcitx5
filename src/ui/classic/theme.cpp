@@ -1007,6 +1007,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, double dx,
     }
 
     cairo_save(c);
+    cairo_translate(c, dx, dy);
     cairo_set_operator(c, CAIRO_OPERATOR_OVER);
     cairo_rectangle(c, finalRect.left(), finalRect.top(), finalRect.width(),
                     finalRect.height());
