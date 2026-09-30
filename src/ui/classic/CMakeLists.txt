@@ -7,7 +7,7 @@ set(CLASSICUI_LIBS)
 if (WAYLAND_FOUND)
     set(CLASSICUI_SRCS ${CLASSICUI_SRCS}
         waylandui.cpp waylandwindow.cpp waylandshmwindow.cpp
-        waylandpointer.cpp buffer.cpp waylandinputwindow.cpp
+        waylandpointer.cpp buffer.cpp waylandinputwindow.cpp waylandcandidatemenu.cpp
         waylandcursor.cpp waylandcursortheme.cpp)
     set(CLASSICUI_LIBS ${CLASSICUI_LIBS}
         Fcitx5::Module::Wayland Fcitx5::Module::WaylandIM Wayland::Client Fcitx5::Wayland::Core
@@ -21,7 +21,8 @@ endif()
 
 if (ENABLE_X11)
     set(CLASSICUI_SRCS ${CLASSICUI_SRCS}
-        xcbui.cpp xcbwindow.cpp xcbtraywindow.cpp xcbinputwindow.cpp xcbmenu.cpp)
+        xcbui.cpp xcbwindow.cpp xcbtraywindow.cpp xcbinputwindow.cpp
+        xcbcandidatemenu.cpp xcbmenu.cpp)
     set(CLASSICUI_LIBS ${CLASSICUI_LIBS} PkgConfig::CairoXCB Fcitx5::Module::XCB
         XCB::AUX XCB::ICCCM XCB::XINERAMA XCB::RANDR XCB::EWMH)
 endif()
@@ -32,7 +33,8 @@ if (ENABLE_DBUS)
 endif()
 
 add_fcitx5_addon(classicui
-    classicui.cpp window.cpp theme.cpp inputwindow.cpp plasmathemewatchdog.cpp colorhelper.cpp ${CLASSICUI_SRCS}
+    classicui.cpp window.cpp theme.cpp inputwindow.cpp candidatemenu.cpp candidatemenulayout.cpp
+    plasmathemewatchdog.cpp colorhelper.cpp ${CLASSICUI_SRCS}
     )
 
 if (ENABLE_X11)
