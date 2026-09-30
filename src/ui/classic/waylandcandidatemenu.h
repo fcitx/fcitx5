@@ -32,6 +32,7 @@ public:
               const std::vector<Rect> &candidateRegions, int x, int y,
               const std::optional<Rect> &textInputRectangle);
     void clear();
+    bool visible() const { return visible_; }
     void position(const std::optional<Rect> &textInputRectangle);
     void resetSubsurface();
     void createWindow();

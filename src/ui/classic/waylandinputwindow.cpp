@@ -12,7 +12,6 @@
 #include <utility>
 #include <vector>
 #include <cairo.h>
-#include <pango/pangocairo.h>
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
 #include "common.h"
@@ -39,7 +38,6 @@
 
 namespace fcitx::classicui {
 
-/** Initializes the Wayland input window and its event handlers. */
 WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
     window_->createWindow();
@@ -57,9 +55,14 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
                 return;
             }
             if (button == BTN_RIGHT) {
-                candidateMenu_->show(inputContext_.get(), candidateRegions_, x,
-                                     y, textInputRectangle_);
+                if (candidateMenu_->visible()) {
+                    candidateMenu_->clear();
+                } else {
+                    candidateMenu_->show(inputContext_.get(), candidateRegions_,
+                                         x, y, textInputRectangle_);
+                }
             } else if (button == BTN_LEFT) {
+                candidateMenu_->clear();
                 click(x, y);
             }
         });
@@ -73,7 +76,10 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
-    window_->touchDown().connect([this](int x, int y) { click(x, y); });
+    window_->touchDown().connect([this](int x, int y) {
+        candidateMenu_->clear();
+        click(x, y);
+    });
     window_->touchUp().connect([](int, int) {
         // do nothing
     });
@@ -103,7 +109,6 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
 
 WaylandInputWindow::~WaylandInputWindow() = default;
 
-/** Creates the Wayland input panel surface when necessary. */
 void WaylandInputWindow::initPanel() {
     if (!window_->surface()) {
         window_->createWindow();
@@ -114,7 +119,6 @@ void WaylandInputWindow::initPanel() {
     candidateMenu_->setFontDPI(*parent_->config().forceWaylandDPI);
 }
 
-/** Sets the compositor background-effect manager for the input panel. */
 void WaylandInputWindow::setBlurManager(
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur) {
     blurManager_ = std::move(blur);
@@ -122,7 +126,6 @@ void WaylandInputWindow::setBlurManager(
     candidateMenu_->setBlurManager(blurManager_);
 }
 
-/** Updates the compositor blur region for the current panel size. */
 void WaylandInputWindow::updateBlur() {
     if (!window_->surface()) {
         return;
@@ -158,19 +161,16 @@ void WaylandInputWindow::updateBlur() {
     blur_->setBlurRegion(region.get());
 }
 
-/** Updates the input window buffer scale. */
 void WaylandInputWindow::updateScale() {
     window_->updateScale();
     candidateMenu_->updateScale();
 }
 
-/** Releases the current Wayland input panel surface. */
 void WaylandInputWindow::resetPanel() {
     candidateMenu_->clear();
     panelSurface_.reset();
 }
 
-/** Updates the input panel contents, surface, and candidate menu state. */
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     candidateMenu_->clear();
     const auto oldVisible = visible();
@@ -260,7 +260,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     repaintIC_ = ic->watch();
 }
 
-/** Repaints the visible Wayland input window. */
 void WaylandInputWindow::repaint() {
     if (!visible()) {
         return;

@@ -142,11 +142,6 @@ if (ENABLE_X11 OR WAYLAND_FOUND)
     target_include_directories(testcandidatemenulayout PRIVATE ../src/ui/classic)
     target_link_libraries(testcandidatemenulayout Fcitx5::Utils ${YOGA_TARGET})
     add_test(NAME testcandidatemenulayout COMMAND testcandidatemenulayout)
-
-    add_executable(testcandidatemenutheme testcandidatemenutheme.cpp)
-    target_include_directories(testcandidatemenutheme PRIVATE ../src/ui/classic)
-    target_link_libraries(testcandidatemenutheme Fcitx5::Core PkgConfig::Cairo PkgConfig::GioUnix ${YOGA_TARGET})
-    add_test(NAME testcandidatemenutheme COMMAND testcandidatemenutheme)
 endif()
 
 add_dependencies(testaddon dummyaddon)

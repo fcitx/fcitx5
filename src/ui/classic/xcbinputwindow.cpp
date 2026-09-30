@@ -27,20 +27,17 @@
 
 namespace fcitx::classicui {
 
-/** Initializes the X11 input window and its candidate menu state. */
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
           ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
-/** Hides the candidate-specific popup, leaving status-area menus untouched. */
 void XCBInputWindow::clearCandidateMenu() {
     if (candidateMenu_) {
         candidateMenu_->hide();
     }
 }
 
-/** Shows the actions for the candidate under the pointer. */
 bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
     if (!candidateMenu_) {
         candidateMenu_ = std::make_unique<XCBCandidateMenu>(ui_);
@@ -49,7 +46,6 @@ bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
                                 rootX, rootY);
 }
 
-/** Applies X11 properties and event masks after window creation. */
 void XCBInputWindow::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_COMBO &&
         ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
@@ -73,7 +69,6 @@ void XCBInputWindow::postCreateWindow() {
             XCB_EVENT_MASK_LEAVE_WINDOW);
 }
 
-/** Finds the screen nearest to the input cursor. */
 const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
     const Rect *closestScreen = nullptr;
 
@@ -90,7 +85,6 @@ const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
     return closestScreen;
 }
 
-/** Calculates an input window x-coordinate constrained to a screen. */
 int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
                                        const Rect *closestScreen) const {
     // TODO: RTL support.
@@ -121,7 +115,6 @@ int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
     return x;
 }
 
-/** Calculates an input window y-coordinate constrained to a screen. */
 int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
                                        const Rect *closestScreen) const {
     // TODO: RTL support.
@@ -171,7 +164,6 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
     return y;
 }
 
-/** Positions the input window relative to the cursor. */
 void XCBInputWindow::updatePosition(InputContext *inputContext) {
     if (!visible()) {
         return;
@@ -189,14 +181,12 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
                              &wc);
 }
 
-/** Updates the window scale for the cursor's display. */
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
     auto dpi = ui_->dpiByPosition(inputContext->cursorRect().left(),
                                   inputContext->cursorRect().top());
     setScale(scaleForDPI(dpi));
 }
 
-/** Updates the input panel contents and visibility. */
 void XCBInputWindow::update(InputContext *inputContext) {
     clearCandidateMenu();
     if (!wid_) {
@@ -264,7 +254,6 @@ void XCBInputWindow::update(InputContext *inputContext) {
     }
 }
 
-/** Handles X11 events for the input window. */
 bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
     switch (response_type) {
@@ -282,10 +271,15 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             break;
         }
         if (buttonPress->detail == XCB_BUTTON_INDEX_3) {
-            showCandidateMenu(logicalFromPhysical(buttonPress->event_x),
-                              logicalFromPhysical(buttonPress->event_y),
-                              buttonPress->root_x, buttonPress->root_y);
+            if (candidateMenu_ && candidateMenu_->visible()) {
+                clearCandidateMenu();
+            } else {
+                showCandidateMenu(logicalFromPhysical(buttonPress->event_x),
+                                  logicalFromPhysical(buttonPress->event_y),
+                                  buttonPress->root_x, buttonPress->root_y);
+            }
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
+            clearCandidateMenu();
             click(logicalFromPhysical(buttonPress->event_x),
                   logicalFromPhysical(buttonPress->event_y));
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_4) {
@@ -322,7 +316,6 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     return false;
 }
 
-/** Repaints the visible input window. */
 void XCBInputWindow::repaint() {
     if (!visible()) {
         return;

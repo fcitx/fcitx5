@@ -237,53 +237,6 @@ FCITX_CONFIGURATION(
     Option<std::vector<ColorField>> accentColor{this, "AccentColorField",
                                                 _("Accent Colors")};);
 
-// Older themes often style only the input panel. Keep their menus consistent
-// with that panel while preserving the menu appearance of themes that define
-// it.
-inline void inheritMenuStyle(ThemeConfig &theme, bool hasMenuStyle) {
-    if (hasMenuStyle) {
-        return;
-    }
-    auto menu = *theme.menu;
-    menu.normalColor.setValue(*theme.inputPanel->normalColor);
-    menu.highlightTextColor.setValue(
-        *theme.inputPanel->highlightCandidateColor);
-    menu.background.setValue(*theme.inputPanel->background);
-    menu.highlight.setValue(*theme.inputPanel->highlight);
-    menu.contentMargin.setValue(*theme.inputPanel->contentMargin);
-    menu.textMargin.setValue(*theme.inputPanel->textMargin);
-    menu.enableBlur.setValue(*theme.inputPanel->enableBlur);
-    menu.blurMask.setValue(*theme.inputPanel->blurMask);
-    menu.blurMargin.setValue(*theme.inputPanel->blurMargin);
-    auto separator = *menu.separator;
-    auto separatorColor = *theme.inputPanel->normalColor;
-    separatorColor.setAlphaF(0.25F);
-    separator.color.setValue(separatorColor);
-    menu.separator.setValue(separator);
-    theme.menu.setValue(menu);
-
-    auto accents = *theme.accentColor;
-    for (auto field : *theme.accentColor) {
-        switch (field) {
-        case ColorField::InputPanel_Background:
-            accents.push_back(ColorField::Menu_Background);
-            break;
-        case ColorField::InputPanel_Border:
-            accents.push_back(ColorField::Menu_Border);
-            break;
-        case ColorField::InputPanel_HighlightCandidateBackground:
-            accents.push_back(ColorField::Menu_SelectedItemBackground);
-            break;
-        case ColorField::InputPanel_HighlightCandidateBorder:
-            accents.push_back(ColorField::Menu_SelectedItemBorder);
-            break;
-        default:
-            break;
-        }
-    }
-    theme.accentColor.setValue(std::move(accents));
-}
-
 class ClassicUI;
 class ClassicUIConfig;
 class Theme;

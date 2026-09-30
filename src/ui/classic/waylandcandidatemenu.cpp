@@ -51,8 +51,8 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
         }
     });
     window_->leave().connect([this]() {
-        if (visible_) {
-            clear();
+        if (hover(-1, -1)) {
+            repaint();
         }
     });
     window_->touchDown().connect([this](int x, int y) { click(x, y); });
@@ -138,7 +138,6 @@ bool WaylandCandidateMenu::createSubsurface() {
     return true;
 }
 
-/** Hides the candidate menu and discards its temporary state. */
 void WaylandCandidateMenu::clear() {
     if (visible_ && window_) {
         window_->hide();
@@ -147,7 +146,6 @@ void WaylandCandidateMenu::clear() {
     menu_.clear();
 }
 
-/** Shows the shared candidate menu on the Wayland subsurface. */
 void WaylandCandidateMenu::show(InputContext *inputContext,
                                 const std::vector<Rect> &candidateRegions,
                                 int x, int y,
@@ -180,12 +178,10 @@ void WaylandCandidateMenu::position(
     parentWindow_->surface()->commit();
 }
 
-/** Updates the candidate action under the pointer. */
 bool WaylandCandidateMenu::hover(int x, int y) {
     return visible_ && menu_.hover(x, y);
 }
 
-/** Activates or dismisses the selected candidate action. */
 void WaylandCandidateMenu::click(int x, int y) {
     if (!visible_) {
         return;

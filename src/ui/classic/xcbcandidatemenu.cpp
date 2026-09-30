@@ -31,9 +31,6 @@ XCBCandidateMenu::XCBCandidateMenu(XCBUI *ui)
 bool XCBCandidateMenu::show(InputContext *inputContext,
                             const std::vector<Rect> &regions, int x, int y,
                             int rootX, int rootY) {
-    if (activationTimer_) {
-        return false;
-    }
     hide();
     ui_->fontOption().setupPangoContext(menu_.fontContext());
     if (!menu_.show(inputContext, regions, x, y)) {
@@ -116,7 +113,7 @@ bool XCBCandidateMenu::filterEvent(xcb_generic_event_t *event) {
     }
     case XCB_BUTTON_PRESS: {
         auto *button = reinterpret_cast<xcb_button_press_event_t *>(event);
-        if (button->event != wid_) {
+        if (button->event != wid_ || !visible_) {
             break;
         }
         auto selection =
@@ -126,17 +123,7 @@ bool XCBCandidateMenu::filterEvent(xcb_generic_event_t *event) {
                 : std::nullopt;
         hide();
         if (selection) {
-            activationTimer_ =
-                ui_->parent()->instance()->eventLoop().addTimeEvent(
-                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-                    [that = watch(), selection = *selection](EventSourceTime *,
-                                                             uint64_t) {
-                        if (auto *window = that.get()) {
-                            selection.activate();
-                            window->activationTimer_.reset();
-                        }
-                        return true;
-                    });
+            selection->activate();
         }
         return true;
     }

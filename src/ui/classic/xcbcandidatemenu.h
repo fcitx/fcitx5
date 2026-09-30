@@ -6,23 +6,20 @@
 #ifndef _FCITX_UI_CLASSIC_XCBCANDIDATEMENU_H_
 #define _FCITX_UI_CLASSIC_XCBCANDIDATEMENU_H_
 
-#include <memory>
 #include <vector>
 #include <xcb/xcb.h>
-#include "fcitx-utils/eventloopinterface.h"
-#include "fcitx-utils/trackableobject.h"
 #include "candidatemenu.h"
 #include "xcbwindow.h"
 
 namespace fcitx::classicui {
 
-class XCBCandidateMenu : public XCBWindow,
-                         public TrackableObject<XCBCandidateMenu> {
+class XCBCandidateMenu : public XCBWindow {
 public:
     explicit XCBCandidateMenu(XCBUI *ui);
     bool show(InputContext *inputContext, const std::vector<Rect> &regions,
               int x, int y, int rootX, int rootY);
     void hide();
+    bool visible() const { return visible_; }
     bool filterEvent(xcb_generic_event_t *event) override;
     void postCreateWindow() override;
 
@@ -32,7 +29,6 @@ private:
 
     CandidateMenu menu_;
     xcb_atom_t atomBlur_;
-    std::unique_ptr<EventSourceTime> activationTimer_;
     bool visible_ = false;
 };
 
