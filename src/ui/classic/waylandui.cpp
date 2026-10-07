@@ -20,6 +20,7 @@
 #include "wl_compositor.h"
 #include "wl_seat.h"
 #include "wl_shm.h"
+#include "wl_subcompositor.h"
 #include "wp_fractional_scale_manager_v1.h"
 #include "wp_viewporter.h"
 #include "zwp_input_panel_v1.h"
@@ -34,6 +35,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();
+    display_->requestGlobals<wayland::WlSubcompositor>();
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
     display_->requestGlobals<wayland::ExtBackgroundEffectManagerV1>();
     display_->requestGlobals<wayland::WpFractionalScaleManagerV1>();

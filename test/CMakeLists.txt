@@ -129,6 +129,21 @@ foreach(TESTCASE ${FCITX_CORE_TEST})
              COMMAND ${TESTCASE} ${${TESTCASE}_ARGS})
 endforeach()
 
+if (WAYLAND_FOUND)
+    add_executable(testcandidatemenuplacement testcandidatemenuplacement.cpp)
+    target_include_directories(testcandidatemenuplacement PRIVATE ../src/ui/classic)
+    target_link_libraries(testcandidatemenuplacement Fcitx5::Utils)
+    add_test(NAME testcandidatemenuplacement COMMAND testcandidatemenuplacement)
+endif()
+
+if (ENABLE_X11 OR WAYLAND_FOUND)
+    add_executable(testcandidatemenulayout testcandidatemenulayout.cpp
+        ../src/ui/classic/candidatemenulayout.cpp)
+    target_include_directories(testcandidatemenulayout PRIVATE ../src/ui/classic)
+    target_link_libraries(testcandidatemenulayout Fcitx5::Utils ${YOGA_TARGET})
+    add_test(NAME testcandidatemenulayout COMMAND testcandidatemenulayout)
+endif()
+
 add_dependencies(testaddon dummyaddon)
 add_dependencies(testinstance copy-addon testfrontend testim)
 add_dependencies(testinputcontext copy-addon testfrontend testim)

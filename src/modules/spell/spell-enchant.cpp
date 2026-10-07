@@ -82,7 +82,7 @@ auto foreachLanguage(const std::string &lang, const std::string &systemLanguage,
             {"fr", {"fr_FR"}}, {"hu", {"hu_HU"}}, {"it", {"it_IT"}},
             {"it", {"nl_NL"}}, {"pl", {"pl_PL"}}, {"ro", {"ro_RO"}},
             {"ru", {"ru_UR"}}, {"es", {"es_ES"}},
-        };
+    };
 
     std::vector<std::string> langList;
     if (systemLanguage.starts_with(stringutils::concat(lang, "_")) &&

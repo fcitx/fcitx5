@@ -135,7 +135,7 @@ void setupDefaultLongPressConfig(LongPressConfig &config) {
             // Currency
             //
             {"$", {"¢", "€", "£", "¥", "₹", "₽", "₺", "₩", "₱", "₿"}},
-        };
+    };
     {
         auto *value = config.entries.mutableValue();
         for (const auto &[key, candidates] : data) {
