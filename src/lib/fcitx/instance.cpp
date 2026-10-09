@@ -148,6 +148,29 @@ bool shouldSwitchIM(const CapabilityFlags &oldFlags,
            isInputMethodDisabled(newFlags, allowInputMethodForPassword);
 }
 
+// While key state in most case is same as xkb state, we'd still prefer to
+// sanitize the key state because there are private bits.
+uint32_t keyStatesToXkbMask(KeyStates states) {
+    // Remove fcitx private bits.
+    states = states.unset(KeyState::Repeat);
+    states = states.unset(KeyState::Virtual);
+    // legacy im module mask.
+    states = states.unset(KeyState::HandledMask);
+    states = states.unset(KeyState::IgnoredMask);
+    // Convert Gtk virtual mask to actual mask.
+    if (states.test(KeyState::Super2)) {
+        states = states | KeyState::Super;
+        states = states.unset(KeyState::Super2);
+    }
+    if (states.test(KeyState::Hyper2)) {
+        states = states | KeyState::Hyper;
+        states = states.unset(KeyState::Hyper2);
+    }
+    // Unset XCB button mask. XCB_BUTTON_MASK_1..5
+    states = states.unset(KeyStates(0x1F00U));
+    return static_cast<uint32_t>(states);
+}
+
 } // namespace
 
 void InstanceArgument::printUsage() const {
@@ -938,6 +961,30 @@ Instance::Instance(int argc, char **argv) {
                         << depressed << " " << latched << " " << locked;
                     xkb_state_update_mask(xkbState, depressed, latched, locked,
                                           0, 0, 0);
+                } else {
+                    auto latched = xkb_state_serialize_mods(
+                        xkbState, XKB_STATE_MODS_LATCHED);
+                    // Use mask from key if there is no global xkb state.
+                    uint32_t mask =
+                        keyStatesToXkbMask(keyEvent.origKey().states());
+                    if (KeyStates(mask)
+                            .unset(KeyState::CapsLock)
+                            .unset(KeyState::NumLock) == 0) {
+                        inputState->setModsAllReleased();
+                    }
+                    uint32_t depressed;
+                    if (inputState->isModsAllReleased()) {
+                        depressed = xkb_state_serialize_mods(
+                            xkbState, XKB_STATE_MODS_DEPRESSED);
+                    } else {
+                        depressed = mask;
+                    }
+                    FCITX_KEYTRACE()
+                        << "Update mask to customXkbState from key orig mask: "
+                        << static_cast<uint32_t>(keyEvent.origKey().states())
+                        << " xkb mask: " << mask;
+                    xkb_state_update_mask(xkbState, depressed, latched, 0, 0, 0,
+                                          0);
                 }
                 const uint32_t effective = xkb_state_serialize_mods(
                     xkbState, XKB_STATE_MODS_EFFECTIVE);
