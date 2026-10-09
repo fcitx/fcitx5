@@ -205,7 +205,7 @@ StandardPathsPrivate::fcitxPath(const char *path,
                 "libdatadir", FCITX_INSTALL_LIBDATADIR),
             std::make_pair<std::string, std::filesystem::path>(
                 "libexecdir", FCITX_INSTALL_LIBEXECDIR),
-        };
+    };
 
     if (const auto *p = findValue(pathMap, path)) {
         return *p / subPath;
