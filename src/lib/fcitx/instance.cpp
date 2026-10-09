@@ -967,15 +967,22 @@ Instance::Instance(int argc, char **argv) {
                     // Use mask from key if there is no global xkb state.
                     uint32_t mask =
                         keyStatesToXkbMask(keyEvent.origKey().states());
+                    // We just assume caps lock and num lock are lock mask to
+                    // exclude for all mods released, this should be good enough
+                    // for most of the case.
                     if (KeyStates(mask)
                             .unset(KeyState::CapsLock)
                             .unset(KeyState::NumLock) == 0) {
                         inputState->setModsAllReleased();
                     }
+                    KeyStates inferredLock(mask);
+                    inferredLock &=
+                        KeyStates{KeyState::CapsLock, KeyState::NumLock};
                     uint32_t depressed;
                     if (inputState->isModsAllReleased()) {
                         depressed = xkb_state_serialize_mods(
-                            xkbState, XKB_STATE_MODS_DEPRESSED);
+                                        xkbState, XKB_STATE_MODS_DEPRESSED) |
+                                    static_cast<uint32_t>(inferredLock);
                     } else {
                         depressed = mask;
                     }
