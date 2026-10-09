@@ -4,7 +4,7 @@ target_link_libraries(dummyaddon Fcitx5::Core)
 add_fcitx5_addon(dummyaddondeps dummyaddondeps.cpp)
 target_link_libraries(dummyaddondeps Fcitx5::Utils)
 
-set(COPY_ADDON_DEPENDS unicode.conf.in-fmt quickphrase.conf.in-fmt xcb.conf.in-fmt spell.conf.in-fmt)
+set(COPY_ADDON_DEPENDS unicode.conf.in-fmt quickphrase.conf.in-fmt xcb.conf.in-fmt spell.conf.in-fmt imselector.conf.in-fmt)
 
 if (ENABLE_KEYBOARD)
     list(APPEND COPY_ADDON_DEPENDS keyboard.conf.in-fmt)
@@ -15,6 +15,7 @@ if (ENABLE_X11)
 endif()
 
 add_custom_target(copy-addon DEPENDS ${COPY_ADDON_DEPENDS})
+add_custom_command(TARGET copy-addon POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/src/modules/imselector/imselector.conf ${CMAKE_CURRENT_BINARY_DIR}/imselector.conf)
 add_custom_command(TARGET copy-addon POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/src/modules/unicode/unicode.conf ${CMAKE_CURRENT_BINARY_DIR}/unicode.conf)
 add_custom_command(TARGET copy-addon POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/src/modules/quickphrase/quickphrase.conf ${CMAKE_CURRENT_BINARY_DIR}/quickphrase.conf)
 add_custom_command(TARGET copy-addon POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/src/modules/xcb/xcb.conf ${CMAKE_CURRENT_BINARY_DIR}/xcb.conf)

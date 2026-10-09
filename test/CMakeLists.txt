@@ -135,6 +135,12 @@ add_dependencies(testinputcontext copy-addon testfrontend testim)
 add_dependencies(testtempmode copy-addon testfrontend testim)
 
 if (ENABLE_KEYBOARD)
+    add_executable(testimselector testimselector.cpp)
+    target_compile_definitions(testimselector PRIVATE TEST_DATA_DIR="${CMAKE_CURRENT_BINARY_DIR}")
+    target_link_libraries(testimselector Fcitx5::Core Fcitx5::Module::TestFrontend keyboard)
+    add_dependencies(testimselector copy-addon imselector imselector.conf.in-fmt testfrontend testim)
+    add_test(NAME testimselector COMMAND testimselector)
+
     add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp ../src/im/keyboard/xmlparser.cpp)
     target_compile_definitions(testxkbrules PRIVATE "-D_TEST_XKBRULES")
     target_include_directories(testxkbrules PRIVATE ../src)

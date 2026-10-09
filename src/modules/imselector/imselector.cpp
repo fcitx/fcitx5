@@ -5,6 +5,8 @@
  *
  */
 #include "imselector.h"
+#include <algorithm>
+#include <iterator>
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodentry.h"
@@ -20,17 +22,20 @@ IMSelector::IMSelector(Instance *instance)
         instance_->watchEvent<EventType::InputContextKeyEvent>(
             EventWatcherPhase::PreInputMethod, [this](KeyEvent &keyEvent) {
                 auto *inputContext = keyEvent.inputContext();
-                if (int index =
-                        keyEvent.key().keyListIndex(config_.switchKey.value());
-                    index >= 0 &&
-                    selectInputMethod(inputContext, index, /*local=*/false)) {
-                    keyEvent.filterAndAccept();
-                    return;
-                }
-                if (int index = keyEvent.key().keyListIndex(
-                        config_.switchKeyLocal.value());
-                    index >= 0 &&
-                    selectInputMethod(inputContext, index, /*local=*/true)) {
+                auto selectByHotkey = [&](const KeyList &keys, bool local) {
+                    auto iter = std::ranges::find_if(keys, [&](const Key &key) {
+                        return keyEvent.check(
+                            key, KeyEventMatchingMode::MatchAllNormalizedKeys);
+                    });
+                    return iter != keys.end() &&
+                           selectInputMethod(inputContext,
+                                             std::distance(keys.begin(), iter),
+                                             local);
+                };
+                if (selectByHotkey(config_.switchKey.value(),
+                                   /*local=*/false) ||
+                    selectByHotkey(config_.switchKeyLocal.value(),
+                                   /*local=*/true)) {
                     keyEvent.filterAndAccept();
                     return;
                 }
