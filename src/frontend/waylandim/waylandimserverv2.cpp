@@ -298,9 +298,27 @@ void WaylandIMInputContextV2::repeat() {
         ic,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
-    sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_RELEASED);
-    if (!ic->keyEvent(event)) {
+    // The client already repeats a key held on the virtual keyboard. Keep
+    // processing repeats in the input method, but do not restart that client
+    // hold for an unhandled repeat. Retire it if the input method takes over
+    // or the unhandled key is now delivered as committed text.
+    const bool handled = ic->keyEvent(event);
+    if ((handled || server_->mayCommitAsText(event.rawKey(),
+                                             WL_KEYBOARD_KEY_STATE_PRESSED)) &&
+        pressedVKKey_.count(repeatKey_)) {
+        sendKeyToVK(repeatTime_, event.rawKey(),
+                    WL_KEYBOARD_KEY_STATE_RELEASED);
+    }
+    if (!handled && !pressedVKKey_.count(repeatKey_)) {
+        // There is no client hold to continue: the initial press may have
+        // been consumed, or the input method may have taken over. Keep these
+        // repeats producer-owned instead of restarting the client's initial
+        // repeat delay with a new held press.
         sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_PRESSED);
+        if (pressedVKKey_.count(repeatKey_)) {
+            sendKeyToVK(repeatTime_, event.rawKey(),
+                        WL_KEYBOARD_KEY_STATE_RELEASED);
+        }
     }
     uint64_t interval = 1000000 / rate;
     timeEvent_->setTime(timeEvent_->time() + interval);
@@ -540,6 +558,10 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
         sendKeyToVK(time, event.rawKey(),
                     event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                       : WL_KEYBOARD_KEY_STATE_PRESSED);
+    } else if (event.isRelease() && pressedVKKey_.count(key)) {
+        // An input method may consume the real release after an unhandled
+        // press. The client must still stop repeating its held key.
+        sendKeyToVK(time, event.rawKey(), WL_KEYBOARD_KEY_STATE_RELEASED);
     }
 
     // This means our engine is being too slow, this is usually transient (e.g.
@@ -647,6 +669,11 @@ void WaylandIMInputContextV2::forwardKeyDelegate(InputContext * /*ic*/,
 
     Key keyWithCode(key.rawKey().sym(), key.rawKey().states(), code);
 
+    // Explicit forwarding is a distinct tap, including when the same key is
+    // already held by the client. Retire that hold before another press.
+    if (!key.isRelease() && pressedVKKey_.count(code - 8)) {
+        sendKeyToVK(time_, keyWithCode, WL_KEYBOARD_KEY_STATE_RELEASED);
+    }
     sendKeyToVK(time_, keyWithCode,
                 key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                 : WL_KEYBOARD_KEY_STATE_PRESSED);
