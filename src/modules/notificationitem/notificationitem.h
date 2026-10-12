@@ -43,6 +43,7 @@ public:
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
     watch(NotificationItemCallback callback);
     FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(imselector, instance_->addonManager());
     DBusMenu *menu() { return menu_.get(); }
 
 private:

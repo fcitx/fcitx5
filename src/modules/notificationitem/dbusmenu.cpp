@@ -32,6 +32,7 @@
 #include "fcitx/menu.h"
 #include "fcitx/misc_p.h"
 #include "fcitx/userinterfacemanager.h"
+#include "imselector_public.h"
 #include "notificationitem.h"
 #include "qtkeyname.h"
 
@@ -101,6 +102,8 @@ std::optional<std::vector<std::string>> dbusMenuShortcut(const Key &key) {
         } else {
             result.emplace_back(utf8::UCS4ToUTF8(code));
         }
+    } else if (auto name = Key::keySymToString(key.sym()); !name.empty()) {
+        result.emplace_back(std::move(name));
     }
     return result.empty() ? std::nullopt
                           : std::make_optional(std::move(result));
@@ -368,6 +371,17 @@ void DBusMenu::fillLayoutProperties(
                 (ic && parent_->instance()->inputMethodEntry(ic) == entry)
                     ? 1
                     : 0));
+        if (auto *imselector = parent_->imselector()) {
+            const auto switchKeys = imselector->call<IIMSelector::switchKey>();
+            if (idx < switchKeys.size()) {
+                if (auto shortcut = dbusMenuShortcut(switchKeys[idx])) {
+                    appendProperty(
+                        properties, propertyNames, "shortcut",
+                        dbus::Variant(std::vector<std::vector<std::string>>{
+                            std::move(*shortcut)}));
+                }
+            }
+        }
     } else if (id >= BII_InputMethodGroupStart &&
                id <= BII_InputMethodGroupEnd) {
         size_t idx = id - BII_InputMethodGroupStart;
