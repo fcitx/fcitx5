@@ -7,14 +7,15 @@
 # rocka, 2023
 # Yiyu Liu, 2025
 # Xuetian Weng <wengxt@gmail.com>, 2026
+# Qijia Liu, 2026
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-25 20:24+0000\n"
+"POT-Creation-Date: 2026-10-12 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>, 2026\n"
+"Last-Translator: Qijia Liu, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -155,8 +156,8 @@ msgstr "已暂时启用补全。"
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:485
-#: src/lib/fcitx/instance.cpp:718 src/lib/fcitx/instance.cpp:897
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:507
+#: src/lib/fcitx/instance.cpp:740 src/lib/fcitx/instance.cpp:919
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/notificationitem/notificationitem.cpp:286
@@ -222,287 +223,287 @@ msgstr "上一个候选词"
 msgid "Bottom"
 msgstr "按钮"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:101
 msgid "Input Panel Background"
 msgstr "输入框背景"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:101
 msgid "Input Panel Border"
 msgstr "输入框边框"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:102
 msgid "Input Panel Highlight Candidate Background"
 msgstr "输入框高亮候选词背景"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:103
 msgid "Input Panel Highlight Candidate Border"
 msgstr "输入框高亮候选词边框"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:103
 msgid "Input Panel Highlight"
 msgstr "输入框高亮"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:104
 msgid "Menu Background"
 msgstr "菜单背景"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:104
 msgid "Menu Border"
 msgstr "菜单边框"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:105
 msgid "Menu Selected Item Background"
 msgstr "菜单选中项背景"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:105
 msgid "Menu Selected Item Border"
 msgstr "菜单选中项边框"
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:106
 msgid "Menu Separator"
 msgstr "菜单分隔符"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:110
 msgid "Margin Left"
 msgstr "左侧边距"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:112
 msgid "Margin Right"
 msgstr "右侧边距"
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:114
 msgid "Margin Top"
 msgstr "顶部边距"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:116
 msgid "Margin Bottom"
 msgstr "底部边距"
 
-#: src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:121
 msgid "Background Image"
 msgstr "背景图片"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:125
 msgid "Color"
 msgstr "颜色"
 
-#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:129 src/ui/classic/theme.h:137
 msgid "This option is only effective if image is not set."
 msgstr "此选项仅在图片没有设置时生效。"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:133
 msgid "Border Color"
 msgstr "边框颜色"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:141
 msgid "Border width"
 msgstr "边框宽度"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:145
 msgid "This value should be less than any of margin value."
 msgstr "这个值应该小于任何边距。"
 
-#: src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:146
 msgid "Overlay Image"
 msgstr "覆盖图片"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:148
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:149
 msgid "Overlay X offset"
 msgstr "覆盖图片 X 偏移"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:150
 msgid "Overlay Y offset"
 msgstr "覆盖图片 Y 偏移"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:152
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:154
 msgid "Margin"
 msgstr "边距"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:156
 msgid "Overlay Clip Margin"
 msgstr "覆盖图片裁剪边界"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:162
 msgid "Highlight Click Margin"
 msgstr "高亮点击边距"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:165
 msgid "Image"
 msgstr "图片"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:167
 msgid "Click Margin"
 msgstr "点击区域边距"
 
-#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
+#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:223
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:174
 msgid "Highlight text color"
 msgstr "高亮文字颜色"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:176
 msgid "Highlight Background color"
 msgstr "高亮背景颜色"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:179
 msgid "Highlight Candidate Text Color"
 msgstr "高亮候选词文本颜色"
 
-#: src/ui/classic/theme.h:157
+#: src/ui/classic/theme.h:182
 msgid "Candidate Label Text Size Factor"
 msgstr "候选词标签文本大小系数"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:185
 msgid "Candidate Label Text Color"
 msgstr "候选词标签文本颜色"
 
-#: src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:188
 msgid "Highlight Candidate Label Text Color"
 msgstr "高亮候选词标签文本颜色"
 
-#: src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:190
 msgid "Candidate Comment Text Size Factor"
 msgstr "候选词注释文本大小系数"
 
-#: src/ui/classic/theme.h:168
+#: src/ui/classic/theme.h:193
 msgid "Candidate Comment Text Color"
 msgstr "候选词注释文本颜色"
 
-#: src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:196
 msgid "Highlight Candidate Comment Text Color"
 msgstr "高亮候选词注释文本颜色"
 
-#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:197 src/ui/classic/theme.h:229
 msgid "Enable Blur on KWin"
 msgstr "KWin 下启用模糊"
 
-#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:199 src/ui/classic/theme.h:231
 msgid "Blur mask"
 msgstr "模糊遮罩"
 
-#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
+#: src/ui/classic/theme.h:200 src/ui/classic/theme.h:232
 msgid "Blur Margin"
 msgstr "模糊区域边距"
 
-#: src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:203
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
-#: src/ui/classic/theme.h:182
+#: src/ui/classic/theme.h:207
 msgid "Page button vertical alignment"
 msgstr "页面按钮垂直对齐"
 
-#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
+#: src/ui/classic/theme.h:210 src/ui/classic/theme.h:234
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
+#: src/ui/classic/theme.h:212 src/ui/classic/theme.h:236
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
+#: src/ui/classic/theme.h:214 src/ui/classic/theme.h:242
 msgid "Margin around all content"
 msgstr "内容周围边界"
 
-#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
+#: src/ui/classic/theme.h:216 src/ui/classic/theme.h:244
 msgid "Margin around text"
 msgstr "文本周围边距"
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:217
 msgid "Prev Page Button"
 msgstr "上一页按钮"
 
-#: src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:218
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/ui/classic/theme.h:195
+#: src/ui/classic/theme.h:220
 msgid "Shadow Margin"
 msgstr "阴影边距"
 
-#: src/ui/classic/theme.h:201
+#: src/ui/classic/theme.h:226
 msgid "Selected Item text color"
 msgstr "选中项文本颜色"
 
-#: src/ui/classic/theme.h:203
+#: src/ui/classic/theme.h:228
 msgid "Spacing"
 msgstr "间隔"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:238
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:239
 msgid "Check box"
 msgstr "复选框"
 
-#: src/ui/classic/theme.h:215
+#: src/ui/classic/theme.h:240
 msgid "Sub Menu"
 msgstr "子菜单"
 
-#: src/ui/classic/theme.h:222
+#: src/ui/classic/theme.h:247
 msgid "Name"
 msgstr "名称"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:248
 msgid "Version"
 msgstr "版本"
 
-#: src/ui/classic/theme.h:224
+#: src/ui/classic/theme.h:249
 msgid "Author"
 msgstr "作者"
 
-#: src/ui/classic/theme.h:226
+#: src/ui/classic/theme.h:251
 msgid "Description"
 msgstr "描述"
 
-#: src/ui/classic/theme.h:230
+#: src/ui/classic/theme.h:255
 msgid "Metadata"
 msgstr "元数据"
 
-#: src/ui/classic/theme.h:232
+#: src/ui/classic/theme.h:258
 msgid "Supported image scale"
 msgstr "支持的图片缩放比"
 
-#: src/ui/classic/theme.h:235
+#: src/ui/classic/theme.h:261
 msgid "Input Panel"
 msgstr "输入面板"
 
-#: src/ui/classic/theme.h:236
+#: src/ui/classic/theme.h:262
 msgid "Menu"
 msgstr "菜单"
 
-#: src/ui/classic/theme.h:238
+#: src/ui/classic/theme.h:264
 msgid "Accent Colors"
 msgstr "重点色"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:315
 msgid "Group"
 msgstr "分组"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:254
+#: src/modules/notificationitem/dbusmenu.cpp:325
 msgid "Input Method Settings"
 msgstr "输入法设置"
 
 #: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:262
+#: src/modules/notificationitem/dbusmenu.cpp:333
 msgid "Restart"
 msgstr "重新启动"
 
 #: src/ui/classic/xcbtraywindow.cpp:57
-#: src/modules/notificationitem/dbusmenu.cpp:268
+#: src/modules/notificationitem/dbusmenu.cpp:339
 msgid "Exit"
 msgstr "退出"
 
@@ -620,59 +621,59 @@ msgstr "KDE Plasma (实验性)"
 msgid "Not available"
 msgstr "不可用"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:414
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "默认"
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:416
 #, c++-format
 msgid "Group {}"
 msgstr "分组 {}"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:462
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: src/lib/fcitx/instance.cpp:443
+#: src/lib/fcitx/instance.cpp:465
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:445
+#: src/lib/fcitx/instance.cpp:467
 msgid "(Not available)"
 msgstr "(不可用)"
 
-#: src/lib/fcitx/instance.cpp:449
+#: src/lib/fcitx/instance.cpp:471
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:486 src/lib/fcitx/instance.cpp:719
+#: src/lib/fcitx/instance.cpp:508 src/lib/fcitx/instance.cpp:741
 #: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "切换分组"
 
-#: src/lib/fcitx/instance.cpp:487 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:509 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:720
+#: src/lib/fcitx/instance.cpp:742
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:897
+#: src/lib/fcitx/instance.cpp:919
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:898
+#: src/lib/fcitx/instance.cpp:920
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
-#: src/lib/fcitx/instance.cpp:899
+#: src/lib/fcitx/instance.cpp:921
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
@@ -2212,29 +2213,29 @@ msgstr ""
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
-#: src/modules/imselector/imselector.h:32
+#: src/modules/imselector/imselector.h:33
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:50
 msgid "Trigger Key"
 msgstr "触发键"
 
-#: src/modules/imselector/imselector.h:38
+#: src/modules/imselector/imselector.h:39
 msgid "Trigger Key for only current input context"
 msgstr "当前输入上下文的触发键"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:45
 msgid "Hotkey for switching to the N-th input method"
-msgstr "切换到当前输入法到第...个输入法的按键"
+msgstr "切换到第...个输入法的按键"
 
-#: src/modules/imselector/imselector.h:49
-#: src/modules/imselector/imselector.h:59
+#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:60
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 
-#: src/modules/imselector/imselector.h:53
+#: src/modules/imselector/imselector.h:54
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
-msgstr "切换到当前局部输入法到第...个输入法的按键"
+msgstr "局部切换到第...个输入法的按键"
 
 #: src/modules/imselector/imselectortempmode.cpp:196
 msgid "Select local input method:"
