@@ -20,6 +20,7 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
+#include "imselector_public.h"
 #include "imselectortempmode.h"
 
 namespace fcitx {
@@ -65,6 +66,7 @@ public:
     const IMSelectorConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
     const KeyList &selectionKeys() const { return selectionKeys_; }
+    KeyList switchKey() const { return config_.switchKey.value(); }
 
     void reset(InputContext *inputContext);
     bool selectInputMethod(InputContext *inputContext, size_t index,
@@ -77,6 +79,8 @@ public:
     void reloadConfig() override;
 
 private:
+    FCITX_ADDON_EXPORT_FUNCTION(IMSelector, switchKey);
+
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
         eventHandlers_;
     Instance *instance_;
