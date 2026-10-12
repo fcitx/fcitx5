@@ -34,7 +34,6 @@
 #include "fcitx-config/option.h"
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/cutf8.h"
-#include "fcitx-utils/environ.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
