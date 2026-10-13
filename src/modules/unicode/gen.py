@@ -37,43 +37,42 @@
 # 32    unihan strings begin
 # 36    unihan offsets begin
 #
-# The string parts always contain all strings in a row, followed by a 0x00 byte.
-# There is one exception: The data for seeAlso in details is only 2 bytes (as is always is _one_
-# unicode character) and _not_ followed by a 0x00 byte.
+# The string parts contain strings followed by a 0x00 byte. The See Also data
+# in details is stored in the same area as consecutive uint32 code points
+# without 0x00 terminators.
 #
-# The offset parts contain entries with a fixed length. Unicode characters are always uint16 and offsets uint32.
-# Offsets are positions in the data file.
+# The offset parts contain entries with a fixed length. Unicode code points and
+# offsets are uint32. Offsets are positions in the data file.
 #
 # names_offsets:
-# each entry 6 bytes
-# 16bit: unicode
+# each entry 8 bytes
+# 32bit: unicode
 # 32bit: offset to name in names_strings
 #
 # names_strings:
 # the first byte is the category (same values as QChar::Category),
 # directly followed by the character name (terminated by 0x00)
 #
-# nameslist_offsets:
-# char, alias, alias_count, note, note_count, approxEquiv, approxEquiv_coutn, equiv, equiv_count, seeAlso, seeAlso_count
-# 16    32     8            32    8           32           8                  32     8            32       8
-# => each entry 27 bytes
+# details_offsets:
+# char, alias, alias_count, note, note_count, approxEquiv, approxEquiv_count, equiv, equiv_count, seeAlso, seeAlso_count
+# 32    32     8            32    8           32           8                  32     8            32       8
+# => each entry 29 bytes
 #
 # blocks_offsets:
-# each entry 4 bytes
-# 16bit: start unicode
-# 16bit: end unicode
+# each entry 8 bytes
+# 32bit: start unicode
+# 32bit: end unicode
 # Note that there is no string offset.
 #
 # section_offsets:
-# each entry 4 bytes
-# 16bit: section offset
-# 16bit: block offset
-# Note that these offsets are _not_ positions in the data file but indexes.
-# For example 0x0403 means the fourth section includes the third block.
+# each entry 8 bytes
+# 32bit: section index
+# 32bit: block index
+# These values are indexes, not positions in the data file.
 #
 # unihan_offsets:
-# each entry 30 bytes
-# 16bit: unicode
+# each entry 32 bytes
+# 32bit: unicode
 # 32bit: offset to unihan_strings for Definition
 # 32bit: offset to unihan_strings for Cantonese
 # 32bit: offset to unihan_strings for Mandarin
