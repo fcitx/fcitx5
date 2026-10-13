@@ -18,6 +18,7 @@
 #include "ext_background_effect_manager_v1.h"
 #include "inputwindow.h"
 #include "theme.h"
+#include "waylandcandidatemenu.h"
 #include "waylandim_public.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
@@ -32,6 +33,7 @@
 #include <dev/evdev/input-event-codes.h>
 #else
 #define BTN_LEFT 0x110
+#define BTN_RIGHT 0x111
 #endif
 
 namespace fcitx::classicui {
@@ -39,19 +41,31 @@ namespace fcitx::classicui {
 WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
     window_->createWindow();
+    candidateMenu_ = std::make_unique<WaylandCandidateMenu>(ui_, window_.get());
     window_->repaint().connect([this]() {
         if (auto *ic = repaintIC_.get()) {
             if (ic->hasFocus()) {
-                update(ic);
+                repaint();
             }
         }
     });
-    window_->click().connect([this](int x, int y, uint32_t button,
-                                    uint32_t state) {
-        if (state == WL_POINTER_BUTTON_STATE_PRESSED && button == BTN_LEFT) {
-            click(x, y);
-        }
-    });
+    window_->click().connect(
+        [this](int x, int y, uint32_t button, uint32_t state) {
+            if (state != WL_POINTER_BUTTON_STATE_PRESSED) {
+                return;
+            }
+            if (button == BTN_RIGHT) {
+                if (candidateMenu_->visible()) {
+                    candidateMenu_->clear();
+                } else {
+                    candidateMenu_->show(inputContext_.get(), candidateRegions_,
+                                         x, y, textInputRectangle_);
+                }
+            } else if (button == BTN_LEFT) {
+                candidateMenu_->clear();
+                click(x, y);
+            }
+        });
     window_->hover().connect([this](int x, int y) {
         if (hover(x, y)) {
             repaint();
@@ -62,7 +76,10 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
-    window_->touchDown().connect([this](int x, int y) { click(x, y); });
+    window_->touchDown().connect([this](int x, int y) {
+        candidateMenu_->clear();
+        click(x, y);
+    });
     window_->touchUp().connect([](int, int) {
         // do nothing
     });
@@ -86,8 +103,11 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
+
     initPanel();
 }
+
+WaylandInputWindow::~WaylandInputWindow() = default;
 
 void WaylandInputWindow::initPanel() {
     if (!window_->surface()) {
@@ -96,12 +116,14 @@ void WaylandInputWindow::initPanel() {
     }
 
     setFontDPI(*parent_->config().forceWaylandDPI);
+    candidateMenu_->setFontDPI(*parent_->config().forceWaylandDPI);
 }
 
 void WaylandInputWindow::setBlurManager(
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur) {
     blurManager_ = std::move(blur);
     updateBlur();
+    candidateMenu_->setBlurManager(blurManager_);
 }
 
 void WaylandInputWindow::updateBlur() {
@@ -139,11 +161,18 @@ void WaylandInputWindow::updateBlur() {
     blur_->setBlurRegion(region.get());
 }
 
-void WaylandInputWindow::updateScale() { window_->updateScale(); }
+void WaylandInputWindow::updateScale() {
+    window_->updateScale();
+    candidateMenu_->updateScale();
+}
 
-void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
+void WaylandInputWindow::resetPanel() {
+    candidateMenu_->clear();
+    panelSurface_.reset();
+}
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
+    candidateMenu_->clear();
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
@@ -162,7 +191,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         repaintIC_.unwatch();
         panelSurface_.reset();
         panelSurfaceV2_.reset();
+        textInputRectangle_.reset();
         blur_.reset();
+        candidateMenu_->destroyWindow();
         window_->destroyWindow();
         return;
     }
@@ -172,8 +203,11 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     CLASSICUI_DEBUG()
         << "Wayland Input Window is visible, ensure surface is created.";
     initPanel();
+    candidateMenu_->createWindow();
     if (ic->frontendName() == "wayland_v2") {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
+            candidateMenu_->resetSubsurface();
+            textInputRectangle_.reset();
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
                 CLASSICUI_ERROR()
@@ -192,8 +226,17 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             v2IC_ = ic->watch();
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
+            if (panelSurfaceV2_) {
+                panelSurfaceV2_->textInputRectangle().connect(
+                    [this](int x, int y, int width, int height) {
+                        textInputRectangle_ =
+                            Rect().setPosition(x, y).setSize(width, height);
+                        candidateMenu_->position(textInputRectangle_);
+                    });
+            }
         }
     } else if (ic->frontendName() == "wayland") {
+        textInputRectangle_.reset();
         auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
         if (!panel) {
             return;
@@ -213,7 +256,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         window_->resize(width, height);
         updateBlur();
     }
-
     repaint();
     repaintIC_ = ic->watch();
 }
