@@ -102,7 +102,7 @@ void WaylandEventReader::quit() {
         condition_.notify_one();
     }
     // Allow quit to be called from both main thread and reader thread.
-    dispatcherToWorker_.schedule([dispatcher = &dispatcherToWorker_]() {
+    dispatcherToWorker_.dispatch([dispatcher = &dispatcherToWorker_]() {
         dispatcher->eventLoop()->exit();
     });
 

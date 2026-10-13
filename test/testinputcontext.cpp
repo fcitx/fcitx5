@@ -306,7 +306,7 @@ void test_event_blocking() {
 }
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
-    dispatcher->schedule([dispatcher, instance]() {
+    dispatcher->dispatch([dispatcher, instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         auto uuid =
             testfrontend->call<ITestFrontend::createInputContext>("testapp");
@@ -337,7 +337,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
             FCITX_ASSERT(customUICallbackCalled);
         }
 
-        dispatcher->schedule([dispatcher, instance]() {
+        dispatcher->dispatch([dispatcher, instance]() {
             dispatcher->detach();
             instance->exit();
         });

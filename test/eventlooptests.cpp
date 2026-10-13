@@ -168,7 +168,7 @@ void test_post_io() {
     dispatcher.attach(&e);
     std::thread thread([&dispatcher, &ready]() {
         sleep(2);
-        dispatcher.schedule([&ready]() {
+        dispatcher.dispatch([&ready]() {
             FCITX_INFO() << "DISPATCHER";
             ready = true;
         });

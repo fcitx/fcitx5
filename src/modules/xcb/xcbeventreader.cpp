@@ -37,7 +37,7 @@ XCBEventReader::XCBEventReader(XCBConnection *conn)
 
 XCBEventReader::~XCBEventReader() {
     if (thread_->joinable()) {
-        dispatcherToWorker_.schedule([dispatcher = &dispatcherToWorker_]() {
+        dispatcherToWorker_.dispatch([dispatcher = &dispatcherToWorker_]() {
             dispatcher->eventLoop()->exit();
         });
         thread_->join();
@@ -88,7 +88,7 @@ bool XCBEventReader::onIOEvent(IOEventFlags flags) {
 }
 
 void XCBEventReader::wakeUp() {
-    dispatcherToWorker_.schedule([this]() { onIOEvent(IOEventFlags{}); });
+    dispatcherToWorker_.dispatch([this]() { onIOEvent(IOEventFlags{}); });
 }
 
 void XCBEventReader::run() {

@@ -54,8 +54,27 @@ public:
      * loop.
      *
      * @param functor functor to be called.
+     * @deprecated Use dispatch instead.
      */
-    void schedule(std::function<void()> functor);
+    FCITXUTILS_DEPRECATED void schedule(std::function<void()> functor);
+
+    /**
+     * A thread-safe function to schedule a functor to be call from event loop.
+     *
+     * If functor is null, it will simply wake up event loop. Passing null can
+     * be useful if you want to implement your own event loop and wake up event
+     * loop.
+     *
+     * @param functor functor to be called.
+     * @since 5.1.22
+     */
+    void dispatch(std::move_only_function<void()> functor);
+
+    template <typename T, typename Functor>
+    void scheduleWithContext(TrackableObjectReference<T> context,
+                             Functor &&functor) {
+        dispatchWithContext(std::move(context), std::forward<Functor>(functor));
+    }
 
     /**
      * A helper function that allows to only invoke certain function if the
@@ -67,21 +86,21 @@ public:
      * @param context the context object.
      * @param functor function to be scheduled
      *
-     * @since 5.1.8
+     * @since 5.1.22
      */
-    template <typename T>
-    void scheduleWithContext(TrackableObjectReference<T> context,
-                             std::function<void()> functor) {
+    template <typename T, typename Functor>
+    void dispatchWithContext(TrackableObjectReference<T> context,
+                             Functor &&functor) {
         if (!context.isValid()) {
             return;
         }
 
-        schedule(
-            [context = std::move(context), functor = std::move(functor)]() {
-                if (context.isValid()) {
-                    functor();
-                }
-            });
+        dispatch([context = std::move(context),
+                  functor = std::forward<Functor>(functor)]() mutable {
+            if (context.isValid()) {
+                functor();
+            }
+        });
     }
 
     /**
