@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2026-09-25 20:24+0000\n"
+"POT-Creation-Date: 2026-10-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/fcitx/teams/12005/sv/)\n"
@@ -154,8 +154,8 @@ msgstr "Komplettering är tillfälligt aktiverad."
 msgid "Completion is enabled."
 msgstr "Komplettering är aktiverad."
 
-#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:485
-#: src/lib/fcitx/instance.cpp:718 src/lib/fcitx/instance.cpp:897
+#: src/im/keyboard/keyboard.cpp:725 src/lib/fcitx/instance.cpp:507
+#: src/lib/fcitx/instance.cpp:740 src/lib/fcitx/instance.cpp:919
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/notificationitem/notificationitem.cpp:286
@@ -221,287 +221,287 @@ msgstr "Sista kandidaten"
 msgid "Bottom"
 msgstr "Nederst"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:101
 msgid "Input Panel Background"
 msgstr "Bakgrund för inmatningspanelen"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:101
 msgid "Input Panel Border"
 msgstr "Kant för inmatningspanelen"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:102
 msgid "Input Panel Highlight Candidate Background"
 msgstr "Bakgrund för markerad kandidat i inmatningspanelen"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:103
 msgid "Input Panel Highlight Candidate Border"
 msgstr "Kant för markerad kandidat i inmatningspanelen"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:103
 msgid "Input Panel Highlight"
 msgstr "Markering i inmatningspanelen"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:104
 msgid "Menu Background"
 msgstr "Menybakgrund"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:104
 msgid "Menu Border"
 msgstr "Menykanter"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:105
 msgid "Menu Selected Item Background"
 msgstr "Bakgrund för markerat menyobjekt"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:105
 msgid "Menu Selected Item Border"
 msgstr "Kant för markerat menyobjekt"
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:106
 msgid "Menu Separator"
 msgstr "Menyavgränsare"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:110
 msgid "Margin Left"
 msgstr "Vänstermarginal"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:112
 msgid "Margin Right"
 msgstr "Högermarginal"
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:114
 msgid "Margin Top"
 msgstr "Övermarginal"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:116
 msgid "Margin Bottom"
 msgstr "Undermarginal"
 
-#: src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:121
 msgid "Background Image"
 msgstr "Bakgrundsbild"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:125
 msgid "Color"
 msgstr "Färg"
 
-#: src/ui/classic/theme.h:104 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:129 src/ui/classic/theme.h:137
 msgid "This option is only effective if image is not set."
 msgstr "Det här alternativet fungerar bara om ingen bild har angetts."
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:133
 msgid "Border Color"
 msgstr "Kantfärg"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:141
 msgid "Border width"
 msgstr "Kantbredd"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:145
 msgid "This value should be less than any of margin value."
 msgstr "Det här värdet ska vara mindre än varje marginalvärde."
 
-#: src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:146
 msgid "Overlay Image"
 msgstr "Överlagringsbild"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:148
 msgid "Overlay position"
 msgstr "Överlagringsposition"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:149
 msgid "Overlay X offset"
 msgstr "X-förskjutning för överlagring"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:150
 msgid "Overlay Y offset"
 msgstr "Y-förskjutning för överlagring"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:152
 msgid "Hide overlay if size does not fit"
 msgstr "Dölj överlagring om storleken inte passar"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:154
 msgid "Margin"
 msgstr "Marginal"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:156
 msgid "Overlay Clip Margin"
 msgstr "Klippmarginal för överlagring"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:162
 msgid "Highlight Click Margin"
 msgstr "Klickmarginal för markering"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:165
 msgid "Image"
 msgstr "Bild"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:167
 msgid "Click Margin"
 msgstr "Klickmarginal"
 
-#: src/ui/classic/theme.h:146 src/ui/classic/theme.h:198
+#: src/ui/classic/theme.h:171 src/ui/classic/theme.h:223
 msgid "Normal text color"
 msgstr "Färg för vanlig text"
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:174
 msgid "Highlight text color"
 msgstr "Färg för markerad text"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:176
 msgid "Highlight Background color"
 msgstr "Bakgrundsfärg för markering"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:179
 msgid "Highlight Candidate Text Color"
 msgstr "Textfärg för markerad kandidat"
 
-#: src/ui/classic/theme.h:157
+#: src/ui/classic/theme.h:182
 msgid "Candidate Label Text Size Factor"
 msgstr "Faktor för kandidatetikettens textstorlek"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:185
 msgid "Candidate Label Text Color"
 msgstr "Textfärg för kandidatetikett"
 
-#: src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:188
 msgid "Highlight Candidate Label Text Color"
 msgstr "Textfärg för markerad kandidatetikett"
 
-#: src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:190
 msgid "Candidate Comment Text Size Factor"
 msgstr "Faktor för kandidatkommentarens textstorlek"
 
-#: src/ui/classic/theme.h:168
+#: src/ui/classic/theme.h:193
 msgid "Candidate Comment Text Color"
 msgstr "Textfärg för kandidatkommentar"
 
-#: src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:196
 msgid "Highlight Candidate Comment Text Color"
 msgstr "Textfärg för markerad kandidatkommentar"
 
-#: src/ui/classic/theme.h:172 src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:197 src/ui/classic/theme.h:229
 msgid "Enable Blur on KWin"
 msgstr "Aktivera oskärpa i KWin"
 
-#: src/ui/classic/theme.h:174 src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:199 src/ui/classic/theme.h:231
 msgid "Blur mask"
 msgstr "Oskärpemask"
 
-#: src/ui/classic/theme.h:175 src/ui/classic/theme.h:207
+#: src/ui/classic/theme.h:200 src/ui/classic/theme.h:232
 msgid "Blur Margin"
 msgstr "Oskärpemarginal"
 
-#: src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:203
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Använd hela den horisontella ytan för markering i en lodrät lista"
 
-#: src/ui/classic/theme.h:182
+#: src/ui/classic/theme.h:207
 msgid "Page button vertical alignment"
 msgstr "Lodrät justering av sidknapp"
 
-#: src/ui/classic/theme.h:185 src/ui/classic/theme.h:209
+#: src/ui/classic/theme.h:210 src/ui/classic/theme.h:234
 msgid "Background"
 msgstr "Bakgrund"
 
-#: src/ui/classic/theme.h:187 src/ui/classic/theme.h:211
+#: src/ui/classic/theme.h:212 src/ui/classic/theme.h:236
 msgid "Highlight Background"
 msgstr "Markeringsbakgrund"
 
-#: src/ui/classic/theme.h:189 src/ui/classic/theme.h:217
+#: src/ui/classic/theme.h:214 src/ui/classic/theme.h:242
 msgid "Margin around all content"
 msgstr "Marginal runt allt innehåll"
 
-#: src/ui/classic/theme.h:191 src/ui/classic/theme.h:219
+#: src/ui/classic/theme.h:216 src/ui/classic/theme.h:244
 msgid "Margin around text"
 msgstr "Marginal runt text"
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:217
 msgid "Prev Page Button"
 msgstr "Knapp för föregående sida"
 
-#: src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:218
 msgid "Next Page Button"
 msgstr "Knapp för nästa sida"
 
-#: src/ui/classic/theme.h:195
+#: src/ui/classic/theme.h:220
 msgid "Shadow Margin"
 msgstr "Skuggmarginal"
 
-#: src/ui/classic/theme.h:201
+#: src/ui/classic/theme.h:226
 msgid "Selected Item text color"
 msgstr "Textfärg för valt objekt"
 
-#: src/ui/classic/theme.h:203
+#: src/ui/classic/theme.h:228
 msgid "Spacing"
 msgstr "Mellanrum"
 
-#: src/ui/classic/theme.h:213
+#: src/ui/classic/theme.h:238
 msgid "Separator Background"
 msgstr "Avgränsarens bakgrund"
 
-#: src/ui/classic/theme.h:214
+#: src/ui/classic/theme.h:239
 msgid "Check box"
 msgstr "Kryssruta"
 
-#: src/ui/classic/theme.h:215
+#: src/ui/classic/theme.h:240
 msgid "Sub Menu"
 msgstr "Undermeny"
 
-#: src/ui/classic/theme.h:222
+#: src/ui/classic/theme.h:247
 msgid "Name"
 msgstr "Namn"
 
-#: src/ui/classic/theme.h:223
+#: src/ui/classic/theme.h:248
 msgid "Version"
 msgstr "Version"
 
-#: src/ui/classic/theme.h:224
+#: src/ui/classic/theme.h:249
 msgid "Author"
 msgstr "Upphovsperson"
 
-#: src/ui/classic/theme.h:226
+#: src/ui/classic/theme.h:251
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/ui/classic/theme.h:230
+#: src/ui/classic/theme.h:255
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/ui/classic/theme.h:232
+#: src/ui/classic/theme.h:258
 msgid "Supported image scale"
-msgstr ""
+msgstr "Bildskalning som stöds"
 
-#: src/ui/classic/theme.h:235
+#: src/ui/classic/theme.h:261
 msgid "Input Panel"
 msgstr "Inmatningspanel"
 
-#: src/ui/classic/theme.h:236
+#: src/ui/classic/theme.h:262
 msgid "Menu"
 msgstr "Meny"
 
-#: src/ui/classic/theme.h:238
+#: src/ui/classic/theme.h:264
 msgid "Accent Colors"
 msgstr "Accentfärger"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:315
 msgid "Group"
 msgstr "Grupp"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:254
+#: src/modules/notificationitem/dbusmenu.cpp:325
 msgid "Input Method Settings"
 msgstr "Inställningar för inmatningsmetod"
 
 #: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:262
+#: src/modules/notificationitem/dbusmenu.cpp:333
 msgid "Restart"
 msgstr "Starta om"
 
 #: src/ui/classic/xcbtraywindow.cpp:57
-#: src/modules/notificationitem/dbusmenu.cpp:268
+#: src/modules/notificationitem/dbusmenu.cpp:339
 msgid "Exit"
 msgstr "Avsluta"
 
@@ -621,59 +621,59 @@ msgstr "KDE Plasma (experimentellt)"
 msgid "Not available"
 msgstr "Inte tillgänglig"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/inputmethodmanager.cpp:156 src/lib/fcitx/instance.cpp:414
 #: src/ui/classic/themes/default/theme.conf.in:2
 msgid "Default"
 msgstr "Standard"
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:416
 #, c++-format
 msgid "Group {}"
 msgstr "Grupp {}"
 
-#: src/lib/fcitx/instance.cpp:440
+#: src/lib/fcitx/instance.cpp:462
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
 
-#: src/lib/fcitx/instance.cpp:443
+#: src/lib/fcitx/instance.cpp:465
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (inte tillgänglig)"
 
-#: src/lib/fcitx/instance.cpp:445
+#: src/lib/fcitx/instance.cpp:467
 msgid "(Not available)"
 msgstr "(inte tillgänglig)"
 
-#: src/lib/fcitx/instance.cpp:449
+#: src/lib/fcitx/instance.cpp:471
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Grupp {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:486 src/lib/fcitx/instance.cpp:719
+#: src/lib/fcitx/instance.cpp:508 src/lib/fcitx/instance.cpp:741
 #: src/modules/xcb/xcbconnection.cpp:564
 msgid "Switch group"
 msgstr "Byt grupp"
 
-#: src/lib/fcitx/instance.cpp:487 src/modules/xcb/xcbconnection.cpp:565
+#: src/lib/fcitx/instance.cpp:509 src/modules/xcb/xcbconnection.cpp:565
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Byt grupp till {0}"
 
-#: src/lib/fcitx/instance.cpp:720
+#: src/lib/fcitx/instance.cpp:742
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Bytte grupp till {0}"
 
-#: src/lib/fcitx/instance.cpp:897
+#: src/lib/fcitx/instance.cpp:919
 msgid "Preedit"
 msgstr "Förredigering"
 
-#: src/lib/fcitx/instance.cpp:898
+#: src/lib/fcitx/instance.cpp:920
 msgid "Preedit enabled"
 msgstr "Förredigering aktiverad"
 
-#: src/lib/fcitx/instance.cpp:899
+#: src/lib/fcitx/instance.cpp:921
 msgid "Preedit disabled"
 msgstr "Förredigering inaktiverad"
 
@@ -718,7 +718,7 @@ msgstr "Inaktivera inmatningsmetod"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Consume redundant Activate/Deactivate key"
-msgstr ""
+msgstr "Fånga upp överflödig aktiverings- eller inaktiveringstangent"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid ""
@@ -727,6 +727,10 @@ msgid ""
 "instead of forwarding it to the application. Modifier only keys are never "
 "consumed."
 msgstr ""
+"När inmatningsmetoden redan är i det tillstånd som tangenten begär ändras "
+"inget när du trycker på en aktiverings- eller inaktiveringstangent. Fånga då "
+"upp tangenthändelsen i stället för att skicka den vidare till programmet. "
+"Tangenter som bara är modifierare fångas aldrig upp."
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Temporarily Toggle Input Method"
@@ -2238,26 +2242,26 @@ msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Mer information finns på https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
-#: src/modules/imselector/imselector.h:32
+#: src/modules/imselector/imselector.h:33
 #: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:50
 msgid "Trigger Key"
 msgstr "Aktiveringstangent"
 
-#: src/modules/imselector/imselector.h:38
+#: src/modules/imselector/imselector.h:39
 msgid "Trigger Key for only current input context"
 msgstr "Aktiveringstangent endast för aktuellt inmatningssammanhang"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:45
 msgid "Hotkey for switching to the N-th input method"
 msgstr "Snabbtangent för att växla till den n:te inmatningsmetoden"
 
-#: src/modules/imselector/imselector.h:49
-#: src/modules/imselector/imselector.h:59
+#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:60
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "Den n:te snabbtangenten i listan väljer den n:te inmatningsmetoden."
 
-#: src/modules/imselector/imselector.h:53
+#: src/modules/imselector/imselector.h:54
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
