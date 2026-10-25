@@ -26,6 +26,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("🍏");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("’");
+        testfrontend->call<ITestFrontend::pushCommitExpectation>(" ");
         auto uuid =
             testfrontend->call<ITestFrontend::createInputContext>("testapp");
         testfrontend->call<ITestFrontend::keyEvent>(
@@ -68,6 +69,17 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
             uuid, Key(FcitxKey_BackSpace), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("9"), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("space"), false);
+
+        // U+2422 is the sixth See Also entry for U+0020 SPACE. This verifies
+        // that entries beyond those reachable with a two-byte stride are
+        // indexed.
+        testfrontend->call<ITestFrontend::keyEvent>(
+            uuid, Key("Control+Alt+Shift+u"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("4"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Alt+2"), false);
 
         dispatcher->schedule([dispatcher, instance]() {
             dispatcher->detach();

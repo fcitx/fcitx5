@@ -445,9 +445,9 @@ std::vector<uint32_t> CharSelectData::seeAlso(uint32_t unicode) const {
 
     int i;
     for (i = 0; i < count; i++) {
-        uint32_t c = FromLittleEndian16(data + offset);
+        uint32_t c = FromLittleEndian32(data + offset);
         seeAlso.push_back(c);
-        offset += 2;
+        offset += sizeof(uint32_t);
     }
 
     return seeAlso;
@@ -554,10 +554,10 @@ void CharSelectData::createIndex() {
             FromLittleEndian32(data + detailsOffsetBegin + (pos * 29) + 24);
 
         for (ptrdiff_t j = 0; j < seeAlsoCount; j++) {
-            uint32_t seeAlso = FromLittleEndian16(data + seeAlsoOffset);
+            uint32_t seeAlso = FromLittleEndian32(data + seeAlsoOffset);
             auto code = FormatCode(seeAlso, 4, "");
             appendToIndex(unicode, code);
-            equivOffset += strlen(data + equivOffset) + 1;
+            seeAlsoOffset += sizeof(uint32_t);
         }
     }
 
