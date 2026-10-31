@@ -473,7 +473,7 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     auto &theme = parent_->theme();
     auto *fontDesc =
-        pango_font_description_from_string(parent_->config().font->c_str());
+        pango_font_description_from_string(parent_->font().c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
     pango_layout_context_changed(upperLayout_.get());
     pango_layout_context_changed(lowerLayout_.get());

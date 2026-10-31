@@ -481,7 +481,7 @@ void XCBMenu::update() {
     items_.erase(items_.begin() + actions.size(), items_.end());
     auto &theme = ui_->parent()->theme();
     auto *fontDesc = pango_font_description_from_string(
-        ui_->parent()->config().menuFont->c_str());
+        ui_->parent()->menuFont().c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
     pango_font_description_free(fontDesc);
     ui_->fontOption().setupPangoContext(context_.get());
