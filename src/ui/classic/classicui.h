@@ -179,6 +179,10 @@ FCITX_CONFIGURATION(
         this, "UseAccentColor",
         _("Follow system accent color if it is supported by theme and desktop"),
         true};
+    Option<bool> useDesktopFont{
+        this, "UseDesktopFont",
+        _("Follow desktop font configuration if it is provided by desktop"),
+        false};
     OptionWithAnnotation<bool, ToolTipAnnotation> perScreenDPI{
         this,
         "PerScreenDPI",
@@ -230,6 +234,12 @@ public:
                       const RawConfig &config) override;
     auto &config() const { return config_; }
     Theme &theme() { return theme_; }
+    // Effective font for the candidate window and the menu. When
+    // UseDesktopFont is enabled and the desktop reports its font
+    // configuration, the desktop font takes precedence over the
+    // configured one.
+    std::string font() const;
+    std::string menuFont() const;
     void suspend() override;
     void resume() override;
     bool suspended() const { return suspended_; }
@@ -253,6 +263,7 @@ private:
     UIInterface *uiForInputContext(InputContext *inputContext);
     UIInterface *uiForDisplay(const std::string &display);
     void reloadTheme();
+    std::string effectiveFont(const std::string &configuredFont) const;
 
 #ifdef ENABLE_X11
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
@@ -272,6 +283,8 @@ private:
     std::unique_ptr<PortalSettingMonitor> settingMonitor_;
     std::unique_ptr<PortalSettingEntry> darkModeEntry_;
     std::unique_ptr<PortalSettingEntry> accentColorEntry_;
+    std::unique_ptr<PortalSettingEntry> desktopFontEntry_;
+    std::unique_ptr<PortalSettingEntry> textScalingFactorEntry_;
 #endif
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
@@ -289,6 +302,8 @@ private:
     bool suspended_ = true;
     bool isDark_ = false;
     std::optional<Color> accentColor_ = std::nullopt;
+    std::string desktopFont_;
+    double textScalingFactor_ = 1.0;
 
     std::unique_ptr<EventSource> deferedEnableTray_;
     std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;
