@@ -169,24 +169,25 @@ public:
         if (!inputContext.program().empty()) {
             programMap_[inputContext.program()].insert(&inputContext);
         }
-        for (auto &p : propertyFactories_) {
+        for (auto *factory : propertyFactoriesSlots_) {
             inputContext.d_func()->registerProperty(
-                p.second->slot_, p.second->q_func()->create(inputContext));
+                factory->slot_, factory->q_func()->create(inputContext));
         }
-        for (auto &p : propertyFactories_) {
-            auto *property = inputContext.d_func()->property(p.second->slot_);
+        for (auto *factory : propertyFactoriesSlots_) {
+            auto *property = inputContext.d_func()->property(factory->slot_);
             if (property->needCopy() &&
                 (propertyPropagatePolicy_ == PropertyPropagatePolicy::All ||
                  (!inputContext.program().empty() &&
                   propertyPropagatePolicy_ ==
                       PropertyPropagatePolicy::Program))) {
-                auto copyProperty = [&p, &inputContext,
+                auto copyProperty = [factory, &inputContext,
                                      &property](auto &container) {
                     for (auto &dstInputContext : container) {
                         if (toInputContextPointer(dstInputContext) !=
                             &inputContext) {
                             toInputContextPointer(dstInputContext)
-                                ->d_func()->property(p.second->slot_)
+                                ->d_func()
+                                ->property(factory->slot_)
                                 ->copyTo(property);
                             break;
                         }
