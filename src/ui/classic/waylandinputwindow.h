@@ -8,6 +8,7 @@
 #define _FCITX_UI_CLASSIC_WAYLANDINPUTWINDOW_H_
 
 #include <memory>
+#include <optional>
 #include <wayland-util.h>
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/inputcontext.h"
@@ -21,10 +22,12 @@ namespace fcitx::classicui {
 
 class WaylandUI;
 class WaylandWindow;
+class WaylandCandidateMenu;
 
 class WaylandInputWindow : public InputWindow {
 public:
     WaylandInputWindow(WaylandUI *ui);
+    ~WaylandInputWindow();
 
     void initPanel();
     void resetPanel();
@@ -42,7 +45,9 @@ private:
     std::unique_ptr<wayland::ZwpInputPanelSurfaceV1> panelSurface_;
     TrackableObjectReference<InputContext> v2IC_;
     std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> panelSurfaceV2_;
+    std::optional<Rect> textInputRectangle_;
     std::unique_ptr<WaylandWindow> window_;
+    std::unique_ptr<WaylandCandidateMenu> candidateMenu_;
     TrackableObjectReference<InputContext> repaintIC_;
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
