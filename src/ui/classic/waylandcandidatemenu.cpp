@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */
 #include "waylandcandidatemenu.h"
+#include <algorithm>
 #include <cstdint>
 #include <memory>
 #include <utility>
@@ -32,6 +33,11 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
                                            WaylandWindow *parentWindow)
     : ui_(ui), parentWindow_(parentWindow), window_(ui->newWindow()),
       menu_(ui->parent()) {
+    outputSizeConn_ = parentWindow_->outputSizeChanged().connect([this]() {
+        if (visible_) {
+            clear();
+        }
+    });
     createWindow();
     window_->repaint().connect([this]() { repaint(); });
     window_->click().connect(
@@ -43,6 +49,26 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
                 click(x, y);
             } else if (button == BTN_RIGHT) {
                 clear();
+            }
+        });
+    window_->axis().connect(
+        [this](int x, int y, uint32_t axis, wl_fixed_t value) {
+            if (!visible_ || axis != WL_POINTER_AXIS_VERTICAL_SCROLL) {
+                return;
+            }
+            scroll_ += value;
+            bool changed = false;
+            while (scroll_ >= 2560) {
+                scroll_ -= 2560;
+                changed |= menu_.scroll(10);
+            }
+            while (scroll_ <= -2560) {
+                scroll_ += 2560;
+                changed |= menu_.scroll(-10);
+            }
+            if (changed) {
+                menu_.hover(x, y);
+                repaint();
             }
         });
     window_->hover().connect([this](int x, int y) {
@@ -143,17 +169,30 @@ void WaylandCandidateMenu::clear() {
         window_->hide();
     }
     visible_ = false;
+    scroll_ = 0;
     menu_.clear();
 }
 
 void WaylandCandidateMenu::show(InputContext *inputContext,
                                 const std::vector<Rect> &candidateRegions,
-                                int x, int y,
-                                const std::optional<Rect> &textInputRectangle) {
+                                int x, int y) {
     clear();
-    if (!menu_.show(inputContext, candidateRegions, x, y)) {
+    const Rect anchor = Rect().setPosition(x, y).setSize(1, 1);
+    int maxWidth = candidateMenuAvailableWidth(x, parentWindow_->width());
+    if (const int outputWidth = parentWindow_->outputWidth(); outputWidth > 0) {
+        maxWidth = std::min(maxWidth, outputWidth);
+    }
+    maxWidth = std::max(1, maxWidth);
+    if (!menu_.show(inputContext, candidateRegions, x, y, maxWidth)) {
         return;
     }
+    positionAnchor_ = anchor;
+    int maxHeight = candidateMenuAvailableHeight(y, parentWindow_->height());
+    if (const int outputHeight = parentWindow_->outputHeight();
+        outputHeight > 0) {
+        maxHeight = std::min(maxHeight, outputHeight);
+    }
+    menu_.setMaximumHeight(std::max(1, maxHeight));
     if (!createSubsurface()) {
         clear();
         return;
@@ -162,17 +201,16 @@ void WaylandCandidateMenu::show(InputContext *inputContext,
     window_->resize(menu_.width(), menu_.height());
     updateBlur();
     repaint();
-    position(textInputRectangle);
+    position();
 }
 
-void WaylandCandidateMenu::position(
-    const std::optional<Rect> &textInputRectangle) {
+void WaylandCandidateMenu::position() {
     if (!visible_ || !subsurface_ || !parentWindow_->surface()) {
         return;
     }
     const auto position = candidateMenuPosition(
-        menu_.anchor(), parentWindow_->width(), parentWindow_->height(),
-        menu_.width(), menu_.height(), textInputRectangle);
+        positionAnchor_, parentWindow_->width(), parentWindow_->height(),
+        menu_.width(), menu_.height());
     subsurface_->setPosition(position.left(), position.top());
     // Subsurface position changes are double-buffered on the parent.
     parentWindow_->surface()->commit();

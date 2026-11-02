@@ -11,39 +11,21 @@ using namespace fcitx;
 using namespace fcitx::classicui;
 
 int main() {
-    const Rect candidate(40, 8, 100, 36);
+    const Rect clickedPoint(155, 180, 156, 181);
+    const auto menu = candidateMenuPosition(clickedPoint, 320, 200, 150, 170);
+    FCITX_ASSERT(candidateMenuAvailableWidth(clickedPoint.left(), 320) == 165);
+    FCITX_ASSERT(candidateMenuAvailableHeight(clickedPoint.top(), 200) == 180);
+    FCITX_ASSERT(menu.left() == 155);
+    FCITX_ASSERT(menu.top() == 10);
+    FCITX_ASSERT(menu.right() <= 320);
+    FCITX_ASSERT(menu.bottom() == clickedPoint.top());
 
-    // Legacy input panels have no compositor placement hint. The menu should
-    // open below the candidate bar instead of covering the text being typed.
-    auto menu =
-        candidateMenuPosition(candidate, 160, 40, 110, 120, std::nullopt);
-    FCITX_ASSERT(menu.top() == 40);
-
-    // The compositor has placed the input area above this popup. There is
-    // room below the candidate bar, regardless of the bar's own height.
-    const Rect inputAbove(40, -22, 56, -2);
-    menu = candidateMenuPosition(candidate, 160, 40, 110, 120, inputAbove);
-    FCITX_ASSERT(menu.top() == 40);
-
-    // When KWin flips the input popup above the caret, use that same side.
-    const Rect inputBelow(40, 50, 56, 70);
-    menu = candidateMenuPosition(candidate, 160, 40, 110, 120, inputBelow);
-    FCITX_ASSERT(menu.bottom() == 0);
-
-    // A menu opened from a lower row of a vertical candidate list must not
-    // cover the other candidates when the compositor places it above.
-    const Rect lowerCandidate(40, 60, 100, 84);
-    const Rect inputFarBelow(40, 110, 56, 130);
-    menu = candidateMenuPosition(lowerCandidate, 160, 100, 110, 120,
-                                 inputFarBelow);
-    FCITX_ASSERT(menu.bottom() == 0);
-
-    // The text area to the right of the panel indicates that the compositor
-    // shifted the panel left at the screen edge. Keep the menu's right edge
-    // within the panel even if the menu is wider than the panel.
-    const Rect inputRight(165, 8, 181, 28);
-    menu = candidateMenuPosition(candidate, 160, 40, 220, 80, inputRight);
-    FCITX_ASSERT(menu.right() == 160);
+    // Flip left when the menu would cross the screen's right edge, then clamp
+    // it to the screen when the full menu still fits.
+    const Rect screen(0, 0, 1920, 1080);
+    FCITX_ASSERT(candidateMenuPositionX(600, 1400, screen) == 0);
+    FCITX_ASSERT(candidateMenuPositionY(400, 700, screen) == 0);
+    FCITX_ASSERT(candidateMenuPositionY(1000, 700, screen) == 300);
 
     return 0;
 }

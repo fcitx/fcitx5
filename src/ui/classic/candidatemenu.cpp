@@ -27,6 +27,14 @@ void CandidateMenu::setFontDPI(int dpi) {
     pango_cairo_context_set_resolution(context_.get(), dpi);
 }
 
+void CandidateMenu::setMaximumHeight(int height) {
+    layoutGeometry_.setMaximumHeight(height);
+}
+
+bool CandidateMenu::scroll(int offset) {
+    return layoutGeometry_.scroll(offset);
+}
+
 void CandidateMenu::clear() {
     visible_ = false;
     inputContext_ = {};
@@ -38,7 +46,7 @@ void CandidateMenu::clear() {
 
 bool CandidateMenu::show(InputContext *inputContext,
                          const std::vector<Rect> &candidateRegions, int x,
-                         int y) {
+                         int y, int maximumWidth) {
     clear();
     if (!inputContext || !context_ || !layout_) {
         return false;
@@ -49,12 +57,10 @@ bool CandidateMenu::show(InputContext *inputContext,
     }
 
     const CandidateWord *candidate = nullptr;
-    Rect anchor;
     size_t candidateIndex = 0;
     for (size_t idx = 0; idx < candidateRegions.size(); idx++) {
         if (candidateRegions[idx].contains(x, y)) {
             candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
-            anchor = candidateRegions[idx];
             candidateIndex = idx;
             break;
         }
@@ -83,6 +89,9 @@ bool CandidateMenu::show(InputContext *inputContext,
     pango_layout_set_font_description(layout_.get(), fontDescription);
     pango_font_description_free(fontDescription);
     pango_layout_context_changed(layout_.get());
+    pango_layout_set_width(layout_.get(), -1);
+    pango_layout_set_ellipsize(layout_.get(), PANGO_ELLIPSIZE_NONE);
+    pango_layout_set_single_paragraph_mode(layout_.get(), true);
 
     CandidateMenuLayout::Style style;
     style.content = {*content.marginLeft, *content.marginRight,
@@ -99,6 +108,7 @@ bool CandidateMenu::show(InputContext *inputContext,
         style.checkWidth = checkBox.width();
         style.checkHeight = checkBox.height();
     }
+    style.maxWidth = maximumWidth;
 
     std::vector<CandidateMenuLayout::Item> items;
     items.reserve(actions.size());
@@ -117,7 +127,6 @@ bool CandidateMenu::show(InputContext *inputContext,
     candidateList_ = std::move(candidateList);
     candidate_ = candidate;
     candidateIndex_ = candidateIndex;
-    anchor_ = anchor;
     actions_ = std::move(actions);
     visible_ = true;
     return true;
@@ -180,6 +189,10 @@ void CandidateMenu::paint(cairo_t *cr) {
     auto &theme = parent_->theme();
     const auto &menu = *theme.menu;
     theme.paint(cr, *menu.background, 0, 0, width(), height(), 1.0);
+    cairo_save(cr);
+    cairo_rectangle(cr, 0, 0, width(), height());
+    cairo_clip(cr);
+    cairo_translate(cr, 0, -layoutGeometry_.scrollOffset());
     for (size_t i = 0; i < actions_.size(); i++) {
         const auto &action = actions_[i];
         const auto &row = layoutGeometry_.row(i);
@@ -200,6 +213,8 @@ void CandidateMenu::paint(cairo_t *cr) {
         }
         pango_layout_set_text(layout_.get(), action.text().c_str(),
                               action.text().size());
+        pango_layout_set_width(layout_.get(), row.text.width() * PANGO_SCALE);
+        pango_layout_set_ellipsize(layout_.get(), PANGO_ELLIPSIZE_END);
         cairo_save(cr);
         cairoSetSourceColor(cr, hoveredIndex_ == static_cast<int>(i)
                                     ? theme.menuSelectedItemText()
@@ -208,6 +223,9 @@ void CandidateMenu::paint(cairo_t *cr) {
         pango_cairo_show_layout(cr, layout_.get());
         cairo_restore(cr);
     }
+    pango_layout_set_width(layout_.get(), -1);
+    pango_layout_set_ellipsize(layout_.get(), PANGO_ELLIPSIZE_NONE);
+    cairo_restore(cr);
 }
 
 } // namespace fcitx::classicui

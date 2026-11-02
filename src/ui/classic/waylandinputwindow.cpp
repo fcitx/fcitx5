@@ -59,7 +59,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
                     candidateMenu_->clear();
                 } else {
                     candidateMenu_->show(inputContext_.get(), candidateRegions_,
-                                         x, y, textInputRectangle_);
+                                         x, y);
                 }
             } else if (button == BTN_LEFT) {
                 candidateMenu_->clear();
@@ -191,7 +191,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         repaintIC_.unwatch();
         panelSurface_.reset();
         panelSurfaceV2_.reset();
-        textInputRectangle_.reset();
         blur_.reset();
         candidateMenu_->destroyWindow();
         window_->destroyWindow();
@@ -207,7 +206,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     if (ic->frontendName() == "wayland_v2") {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
             candidateMenu_->resetSubsurface();
-            textInputRectangle_.reset();
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
                 CLASSICUI_ERROR()
@@ -226,17 +224,8 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             v2IC_ = ic->watch();
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
-            if (panelSurfaceV2_) {
-                panelSurfaceV2_->textInputRectangle().connect(
-                    [this](int x, int y, int width, int height) {
-                        textInputRectangle_ =
-                            Rect().setPosition(x, y).setSize(width, height);
-                        candidateMenu_->position(textInputRectangle_);
-                    });
-            }
         }
     } else if (ic->frontendName() == "wayland") {
-        textInputRectangle_.reset();
         auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
         if (!panel) {
             return;

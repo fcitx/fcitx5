@@ -7,29 +7,49 @@
 #define _FCITX_UI_CLASSIC_CANDIDATEMENUPLACEMENT_H_
 
 #include <algorithm>
-#include <optional>
 #include "fcitx-utils/rect.h"
 
 namespace fcitx::classicui {
 
-// The input rectangle is given in input-popup-local coordinates by the v2
-// compositor. It reveals which side of the caret the compositor chose for
-// the panel without requiring the panel's unavailable screen position.
-inline Rect candidateMenuPosition(const Rect &candidate, int panelWidth,
-                                  int panelHeight, int menuWidth,
-                                  int menuHeight,
-                                  const std::optional<Rect> &inputRect) {
-    int x =
-        std::clamp(candidate.left(), 0, std::max(0, panelWidth - menuWidth));
-    if (inputRect && inputRect->left() >= panelWidth) {
-        x = std::min(x, panelWidth - menuWidth);
+inline int candidateMenuPositionX(int cursorX, int menuWidth,
+                                  const Rect &screen) {
+    int x = cursorX + 1;
+    if (x + menuWidth > screen.right()) {
+        x = cursorX - menuWidth;
     }
+    return std::clamp(x, screen.left(),
+                      std::max(screen.left(), screen.right() - menuWidth));
+}
 
-    // Default to below the entire candidate panel, including on legacy
-    // input panels, so the menu does not cover the text being entered. If
-    // the v2 compositor placed the panel above the text, open above it.
-    const int y = inputRect && inputRect->top() >= panelHeight ? -menuHeight
-                                                               : panelHeight;
+inline int candidateMenuPositionY(int cursorY, int menuHeight,
+                                  const Rect &screen) {
+    int y = cursorY;
+    if (y + menuHeight > screen.bottom()) {
+        y = cursorY - menuHeight;
+    }
+    return std::clamp(y, screen.top(),
+                      std::max(screen.top(), screen.bottom() - menuHeight));
+}
+
+inline int candidateMenuAvailableWidth(int x, int panelWidth) {
+    return std::max(x, panelWidth - x);
+}
+
+inline int candidateMenuAvailableHeight(int y, int panelHeight) {
+    return std::max(y, panelHeight - y);
+}
+
+// Keep the menu inside the visible input panel. Wayland does not expose the
+// panel's absolute screen position, so this is the available placement area.
+inline Rect candidateMenuPosition(const Rect &anchor, int panelWidth,
+                                  int panelHeight, int menuWidth,
+                                  int menuHeight) {
+    const int x = anchor.left() > panelWidth - anchor.left()
+                      ? anchor.left() - menuWidth
+                      : anchor.left();
+    const int y = anchor.top() > panelHeight - anchor.top()
+                      ? anchor.top() - menuHeight
+                      : anchor.top();
     return Rect().setPosition(x, y).setSize(menuWidth, menuHeight);
 }
 
