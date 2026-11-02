@@ -16,6 +16,7 @@
 #include <xcb/xproto.h>
 #include "fcitx-utils/rect.h"
 #include "fcitx/inputcontext.h"
+#include "candidatemenuplacement.h"
 #include "classicui.h"
 #include "theme.h"
 #include "xcb_public.h"
@@ -32,21 +33,6 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
                             const std::vector<Rect> &regions, int x, int y,
                             int rootX, int rootY) {
     hide();
-    ui_->fontOption().setupPangoContext(menu_.fontContext());
-    if (!menu_.show(inputContext, regions, x, y)) {
-        return false;
-    }
-    if (wid_ && vid_ != ui_->visualId()) {
-        destroyWindow();
-    }
-    if (!wid_) {
-        createWindow(ui_->visualId());
-    }
-    setScale(scaleForDPI(ui_->dpiByPosition(rootX, rootY)));
-    resize(menu_.width(), menu_.height());
-    updateBlur();
-    repaint();
-
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
     for (const auto &[screen, unused] : ui_->screenRects()) {
@@ -56,16 +42,33 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
             closestScreen = &screen;
         }
     }
+    const double scale = scaleForDPI(ui_->dpiByPosition(rootX, rootY));
+    const int maximumWidth =
+        closestScreen ? static_cast<int>(closestScreen->width() / scale) : 0;
+    ui_->fontOption().setupPangoContext(menu_.fontContext());
+    if (!menu_.show(inputContext, regions, x, y, maximumWidth)) {
+        return false;
+    }
+    if (wid_ && vid_ != ui_->visualId()) {
+        destroyWindow();
+    }
+    if (!wid_) {
+        createWindow(ui_->visualId());
+    }
+    setScale(scale);
+    if (closestScreen) {
+        menu_.setMaximumHeight(std::max(
+            1, static_cast<int>(logicalFromPhysical(closestScreen->height()))));
+    }
+    resize(menu_.width(), menu_.height());
+    updateBlur();
+    repaint();
+
     int menuX = rootX + 1;
     int menuY = rootY;
     if (closestScreen) {
-        if (menuX + physicalWidth_ > closestScreen->right()) {
-            menuX = rootX - physicalWidth_;
-        }
-        if (menuY + physicalHeight_ > closestScreen->bottom()) {
-            menuY = rootY - physicalHeight_;
-        }
-        menuY = std::max(menuY, closestScreen->top());
+        menuX = candidateMenuPositionX(rootX, physicalWidth_, *closestScreen);
+        menuY = candidateMenuPositionY(rootY, physicalHeight_, *closestScreen);
     }
     xcb_params_configure_window_t config;
     config.x = menuX;
@@ -115,6 +118,18 @@ bool XCBCandidateMenu::filterEvent(xcb_generic_event_t *event) {
         auto *button = reinterpret_cast<xcb_button_press_event_t *>(event);
         if (button->event != wid_ || !visible_) {
             break;
+        }
+        if (button->detail == XCB_BUTTON_INDEX_4 ||
+            button->detail == XCB_BUTTON_INDEX_5) {
+            constexpr int scrollStep = 40;
+            const int offset =
+                button->detail == XCB_BUTTON_INDEX_4 ? -scrollStep : scrollStep;
+            if (menu_.scroll(offset)) {
+                menu_.hover(logicalFromPhysical(button->event_x),
+                            logicalFromPhysical(button->event_y));
+                repaint();
+            }
+            return true;
         }
         auto selection =
             button->detail == XCB_BUTTON_INDEX_1

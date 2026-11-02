@@ -37,7 +37,15 @@ void CandidateMenuLayout::update(const Style &style,
             maxTextHeight = std::max(maxTextHeight, item.textHeight);
         }
     }
-    const int itemWidth = maxTextWidth + style.checkWidth;
+    int checkWidth = style.checkWidth;
+    if (style.maxWidth > 0) {
+        const int maxItemWidth = std::max(
+            0, style.maxWidth - style.content.left - style.content.right -
+                   style.text.left - style.text.right);
+        checkWidth = std::min(checkWidth, maxItemWidth);
+        maxTextWidth = std::min(maxTextWidth, maxItemWidth - checkWidth);
+    }
+    const int itemWidth = maxTextWidth + checkWidth;
     const int itemHeight = std::max(maxTextHeight, style.checkHeight);
     itemNodes_.reserve(items.size());
     rows_.reserve(items.size());
@@ -62,6 +70,8 @@ void CandidateMenuLayout::update(const Style &style,
                           YGDirectionLTR);
     width_ = static_cast<int>(YGNodeLayoutGetWidth(rootNode_.get()));
     height_ = static_cast<int>(YGNodeLayoutGetHeight(rootNode_.get()));
+    viewportHeight_ = height_;
+    scrollOffset_ = 0;
 
     for (size_t i = 0; i < items.size(); i++) {
         auto *node = itemNodes_[i].get();
@@ -84,21 +94,38 @@ void CandidateMenuLayout::update(const Style &style,
                  Rect()
                      .setPosition(left,
                                   rowTop + (rowHeight - style.checkHeight) / 2)
-                     .setSize(style.checkWidth, style.checkHeight),
+                     .setSize(checkWidth, style.checkHeight),
                  Rect()
-                     .setPosition(left + style.checkWidth,
+                     .setPosition(left + checkWidth,
                                   rowTop +
                                       (rowHeight - items[i].textHeight) / 2)
-                     .setSize(items[i].textWidth, items[i].textHeight),
+                     .setSize(std::min(items[i].textWidth, maxTextWidth),
+                              items[i].textHeight),
                  false});
         }
     }
 }
 
+void CandidateMenuLayout::setMaximumHeight(int height) {
+    viewportHeight_ = height > 0 ? std::min(height_, height) : height_;
+    scrollOffset_ = std::clamp(scrollOffset_, 0, height_ - viewportHeight_);
+}
+
+bool CandidateMenuLayout::scroll(int offset) {
+    const int newOffset =
+        std::clamp(scrollOffset_ + offset, 0, height_ - viewportHeight_);
+    if (newOffset == scrollOffset_) {
+        return false;
+    }
+    scrollOffset_ = newOffset;
+    return true;
+}
+
 int CandidateMenuLayout::indexAt(int x, int y) const {
-    if (x < 0 || x >= width_ || y < 0 || y >= height_) {
+    if (x < 0 || x >= width_ || y < 0 || y >= viewportHeight_) {
         return -1;
     }
+    y += scrollOffset_;
     for (size_t i = 0; i < rows_.size(); i++) {
         const auto &region = rows_[i].region;
         if (!rows_[i].separator && x >= region.left() - highlight_.left &&

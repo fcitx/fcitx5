@@ -63,5 +63,31 @@ int main() {
                  row.region.top() + (row.region.height() - 8) / 2);
     FCITX_ASSERT(row.text.top() ==
                  row.region.top() + (row.region.height() - 10) / 2);
+
+    style = {};
+    layout.update(style, {{20, 10, false}, {20, 10, false}, {20, 10, false}});
+    layout.setMaximumHeight(20);
+    FCITX_ASSERT(layout.height() == 20);
+    FCITX_ASSERT(layout.indexAt(1, 15) == 1);
+    FCITX_ASSERT(layout.scroll(10));
+    FCITX_ASSERT(layout.scrollOffset() == 10);
+    FCITX_ASSERT(layout.indexAt(1, 15) == 2);
+    FCITX_ASSERT(!layout.scroll(10));
+    FCITX_ASSERT(layout.scroll(-10));
+    FCITX_ASSERT(layout.scrollOffset() == 0);
+
+    style = {};
+    layout.update(style, {{20, 10, false}, {20, 10, false}, {20, 10, false}});
+    layout.setMaximumHeight(100);
+    FCITX_ASSERT(layout.height() == 30);
+    FCITX_ASSERT(!layout.scroll(10));
+
+    style = {};
+    style.checkWidth = 8;
+    style.maxWidth = 30;
+    layout.update(style, {{100, 10, false}, {5, 10, false}});
+    FCITX_ASSERT(layout.width() == 30);
+    FCITX_ASSERT(layout.row(0).text.width() == 22);
+    FCITX_ASSERT(layout.row(1).text.width() == 5);
     return 0;
 }

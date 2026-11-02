@@ -6,10 +6,11 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDCANDIDATEMENU_H_
 #define _FCITX_UI_CLASSIC_WAYLANDCANDIDATEMENU_H_
 
+#include <cstdint>
 #include <memory>
-#include <optional>
 #include <vector>
 #include "fcitx-utils/rect.h"
+#include "fcitx-utils/signals.h"
 #include "candidatemenu.h"
 #include "ext_background_effect_manager_v1.h"
 #include "ext_background_effect_surface_v1.h"
@@ -29,11 +30,10 @@ public:
     WaylandCandidateMenu(WaylandUI *ui, WaylandWindow *parentWindow);
 
     void show(InputContext *inputContext,
-              const std::vector<Rect> &candidateRegions, int x, int y,
-              const std::optional<Rect> &textInputRectangle);
+              const std::vector<Rect> &candidateRegions, int x, int y);
     void clear();
     bool visible() const { return visible_; }
-    void position(const std::optional<Rect> &textInputRectangle);
+    void position();
     void resetSubsurface();
     void createWindow();
     void destroyWindow();
@@ -53,9 +53,12 @@ private:
     WaylandWindow *parentWindow_;
     std::unique_ptr<WaylandWindow> window_;
     std::unique_ptr<wayland::WlSubsurface> subsurface_;
+    fcitx::ScopedConnection outputSizeConn_;
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
     CandidateMenu menu_;
+    Rect positionAnchor_;
+    int32_t scroll_ = 0;
     bool visible_ = false;
 };
 
