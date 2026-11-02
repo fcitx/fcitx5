@@ -6,7 +6,9 @@
  */
 
 #include "waylandwindow.h"
+#include <algorithm>
 #include <cstdint>
+#include <utility>
 #include "fcitx-utils/eventloopinterface.h"
 #include "waylandui.h"
 #include "wl_compositor.h"
@@ -31,20 +33,88 @@ void WaylandWindow::createWindow() {
     updateScale();
 
     enterConn_ = surface_->enter().connect([this](wayland::WlOutput *output) {
-        const auto *info = ui_->display()->outputInformation(output);
-        if (!info) {
-            return;
+        auto iter =
+            std::find(enteredOutputs_.begin(), enteredOutputs_.end(), output);
+        if (iter == enteredOutputs_.end()) {
+            enteredOutputs_.push_back(output);
         }
-        if (setScaleAndTransform(info->scale(), info->transform())) {
-            scheduleRepaint();
+        setCurrentOutput(output);
+    });
+    leaveConn_ = surface_->leave().connect([this](wayland::WlOutput *output) {
+        auto iter =
+            std::find(enteredOutputs_.begin(), enteredOutputs_.end(), output);
+        if (iter != enteredOutputs_.end()) {
+            enteredOutputs_.erase(iter);
+        }
+        if (currentOutput_ == output) {
+            setCurrentOutput(enteredOutputs_.empty() ? nullptr
+                                                     : enteredOutputs_.back());
         }
     });
 }
 
+void WaylandWindow::setCurrentOutput(wayland::WlOutput *output) {
+    outputDoneConn_.disconnect();
+    outputGeometryConn_.disconnect();
+    outputModeConn_.disconnect();
+    outputScaleConn_.disconnect();
+    currentOutput_ = output;
+    if (!output) {
+        setOutputSize(0, 0);
+        return;
+    }
+
+    if (output->actualVersion() >= 2) {
+        outputDoneConn_ = output->done().connect(
+            [this, output]() { updateOutputInformation(output); });
+    } else {
+        auto update = [this, output](auto...) {
+            updateOutputInformation(output);
+        };
+        outputGeometryConn_ = output->geometry().connect(update);
+        outputModeConn_ = output->mode().connect(update);
+        outputScaleConn_ = output->scale().connect(update);
+    }
+    updateOutputInformation(output);
+}
+
+void WaylandWindow::updateOutputInformation(wayland::WlOutput *output) {
+    const auto *info = ui_->display()->outputInformation(output);
+    if (!info) {
+        setOutputSize(0, 0);
+        return;
+    }
+    int width = info->width();
+    int height = info->height();
+    if (info->transform() == WL_OUTPUT_TRANSFORM_90 ||
+        info->transform() == WL_OUTPUT_TRANSFORM_270 ||
+        info->transform() == WL_OUTPUT_TRANSFORM_FLIPPED_90 ||
+        info->transform() == WL_OUTPUT_TRANSFORM_FLIPPED_270) {
+        std::swap(width, height);
+    }
+    const int scale = std::max(1, info->scale());
+    setOutputSize(width / scale, height / scale);
+    if (setScaleAndTransform(scale, info->transform())) {
+        scheduleRepaint();
+    }
+}
+
+void WaylandWindow::setOutputSize(int width, int height) {
+    if (outputWidth_ == width && outputHeight_ == height) {
+        return;
+    }
+    outputWidth_ = width;
+    outputHeight_ = height;
+    outputSizeChanged_();
+}
+
 void WaylandWindow::destroyWindow() {
     resetFractionalScale();
-    surface_.reset();
     enterConn_.disconnect();
+    leaveConn_.disconnect();
+    enteredOutputs_.clear();
+    setCurrentOutput(nullptr);
+    surface_.reset();
 }
 
 void WaylandWindow::resetFractionalScale() {

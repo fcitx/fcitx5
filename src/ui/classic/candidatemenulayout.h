@@ -31,6 +31,7 @@ public:
         int checkWidth = 0;
         int checkHeight = 0;
         int separatorHeight = 0;
+        int maxWidth = 0;
     };
 
     struct Item {
@@ -48,8 +49,11 @@ public:
 
     CandidateMenuLayout();
     void update(const Style &style, const std::vector<Item> &items);
+    void setMaximumHeight(int height);
+    bool scroll(int offset);
     int width() const { return width_; }
-    int height() const { return height_; }
+    int height() const { return viewportHeight_; }
+    int scrollOffset() const { return scrollOffset_; }
     const Row &row(size_t index) const { return rows_.at(index); }
     int indexAt(int x, int y) const;
 
@@ -60,6 +64,8 @@ private:
     UniqueCPtr<YGNode, YGNodeFree> rootNode_;
     int width_ = 0;
     int height_ = 0;
+    int viewportHeight_ = 0;
+    int scrollOffset_ = 0;
 };
 
 } // namespace fcitx::classicui

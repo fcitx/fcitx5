@@ -44,9 +44,12 @@ public:
 
     explicit CandidateMenu(ClassicUI *parent);
     void setFontDPI(int dpi);
+    void setMaximumHeight(int height);
+    bool scroll(int offset);
     PangoContext *fontContext() const { return context_.get(); }
     bool show(InputContext *inputContext,
-              const std::vector<Rect> &candidateRegions, int x, int y);
+              const std::vector<Rect> &candidateRegions, int x, int y,
+              int maximumWidth = 0);
     void clear();
     bool hover(int x, int y);
     std::optional<Selection> selectionAt(int x, int y) const;
@@ -55,7 +58,6 @@ public:
     bool visible() const { return visible_; }
     int width() const { return layoutGeometry_.width(); }
     int height() const { return layoutGeometry_.height(); }
-    const Rect &anchor() const { return anchor_; }
 
 private:
     Rect highlightRegion(const Rect &region) const;
@@ -71,7 +73,6 @@ private:
     const CandidateWord *candidate_ = nullptr;
     size_t candidateIndex_ = 0;
     std::vector<CandidateAction> actions_;
-    Rect anchor_;
     int hoveredIndex_ = -1;
     bool visible_ = false;
 };
