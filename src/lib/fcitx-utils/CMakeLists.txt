@@ -71,6 +71,7 @@ list(APPEND FCITX_UTILS_SOURCES
     eventloopinterface.cpp
     environ.cpp
     fdstreambuf.cpp
+    mappedbuffer.cpp
     standardpaths.cpp
     )
 
@@ -119,6 +120,7 @@ set(FCITX_UTILS_HEADERS
     semver.h
     environ.h
     fdstreambuf.h
+    mappedbuffer.h
     standardpaths.h
     # Experimental for now.
     # coroutine.h

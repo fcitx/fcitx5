@@ -29,6 +29,7 @@ set(FCITX_UTILS_TEST
     testsemver
     testenviron
     testfdstreambuf
+    testmappedbuffer
     testcoroutine)
 
 if (WIN32)
@@ -50,6 +51,7 @@ endif()
 set(testdbus_LIBS Pthread::Pthread)
 set(testeventdispatcher_LIBS Pthread::Pthread)
 set(testevent_LIBS eventlooptests)
+set(testmappedbuffer_LIBS Pthread::Pthread)
 
 if (NOT WIN32)
 list(APPEND FCITX_UTILS_TEST testcustomeventloop)
