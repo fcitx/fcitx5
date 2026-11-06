@@ -182,26 +182,42 @@ Coroutine<void> checkMenu(Instance &instance, dbus::Bus &bus,
         auto *replacementIc =
             instance.inputContextManager().findByUUID(replacement);
         FCITX_ASSERT(replacementIc);
-        replacementIc->focusIn();
-        replacementIc->statusArea().addAction(StatusGroup::InputMethod,
+        replacementIc->statusArea().addAction(StatusGroup::AfterInputMethod,
                                               &action);
-        replacementIc->updateUserInterface(UserInterfaceComponent::StatusArea,
-                                           true);
+        // These actions survive input-method activation. Drain their initial
+        // status update while the context is still unfocused.
+        FCITX_ASSERT(
+            !hasLabel(co_await getLayout(bus, service), "Context action"));
+        const int beforeNewContext = updates;
+        // A focus event must invalidate the cached empty layout even before
+        // a later status-area flush can send an unconditional update.
+        replacementIc->focusIn();
         FCITX_ASSERT(
             hasLabel(co_await getLayout(bus, service), "Context action"));
+        FCITX_ASSERT(updates > beforeNewContext)
+            << "Missing LayoutUpdated for a new fallback context after pin "
+               "expiry";
+        const int beforeStatusChange = updates;
+        action.setShortText("Updated context action");
+        replacementIc->updateUserInterface(UserInterfaceComponent::StatusArea,
+                                           true);
+        FCITX_ASSERT(hasLabel(co_await getLayout(bus, service),
+                              "Updated context action"));
+        FCITX_ASSERT(updates > beforeStatusChange)
+            << "Missing LayoutUpdated for fallback context status changes";
         const int beforeBackground = updates;
         auto background =
             frontend->call<ITestFrontend::createInputContext>("background");
         frontend->call<ITestFrontend::destroyInputContext>(background);
         co_await DispatchBarrier{instance.eventDispatcher()};
-        FCITX_ASSERT(
-            hasLabel(co_await getLayout(bus, service), "Context action"));
+        FCITX_ASSERT(hasLabel(co_await getLayout(bus, service),
+                              "Updated context action"));
         FCITX_ASSERT(updates == beforeBackground);
         const int beforeReplacement = updates;
         frontend->call<ITestFrontend::destroyInputContext>(replacement);
         co_await DispatchBarrier{instance.eventDispatcher()};
-        FCITX_ASSERT(
-            !hasLabel(co_await getLayout(bus, service), "Context action"));
+        FCITX_ASSERT(!hasLabel(co_await getLayout(bus, service),
+                               "Updated context action"));
         FCITX_ASSERT(updates > beforeReplacement);
     }
     passed = true;
