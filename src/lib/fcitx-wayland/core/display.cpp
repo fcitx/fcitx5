@@ -74,7 +74,7 @@ Display::Display(wl_display *display) : display_(display) {
         }
     });
 
-    requestGlobals<wayland::WlOutput>();
+    requestGlobalsWithMinimalVersion<wayland::WlOutput>(2);
     globalCreatedSignal_.connect([this](const std::string &interface,
                                         const std::shared_ptr<void> &data) {
         if (interface != wayland::WlOutput::interface) {

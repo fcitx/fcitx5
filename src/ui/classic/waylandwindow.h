@@ -76,9 +76,6 @@ protected:
     fcitx::ScopedConnection enterConn_;
     fcitx::ScopedConnection leaveConn_;
     fcitx::ScopedConnection outputDoneConn_;
-    fcitx::ScopedConnection outputGeometryConn_;
-    fcitx::ScopedConnection outputModeConn_;
-    fcitx::ScopedConnection outputScaleConn_;
     wayland::WlOutput *currentOutput_ = nullptr;
     std::vector<wayland::WlOutput *> enteredOutputs_;
     Signal<void()> repaint_;
