@@ -30,18 +30,12 @@ namespace fcitx::classicui {
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
-          ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
+          ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)),
+      candidateMenu_(std::make_unique<XCBCandidateMenu>(ui)) {}
 
-void XCBInputWindow::clearCandidateMenu() {
-    if (candidateMenu_) {
-        candidateMenu_->hide();
-    }
-}
+void XCBInputWindow::clearCandidateMenu() { candidateMenu_->hide(); }
 
 bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
-    if (!candidateMenu_) {
-        candidateMenu_ = std::make_unique<XCBCandidateMenu>(ui_);
-    }
     return candidateMenu_->show(inputContext_.get(), candidateRegions_, x, y,
                                 rootX, rootY);
 }
@@ -271,7 +265,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             break;
         }
         if (buttonPress->detail == XCB_BUTTON_INDEX_3) {
-            if (candidateMenu_ && candidateMenu_->visible()) {
+            if (candidateMenu_->visible()) {
                 clearCandidateMenu();
             } else {
                 showCandidateMenu(logicalFromPhysical(buttonPress->event_x),

@@ -33,6 +33,8 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
                                            WaylandWindow *parentWindow)
     : ui_(ui), parentWindow_(parentWindow), window_(ui->newWindow()),
       menu_(ui->parent()) {
+    // The menu is sized against the current output in show(); dismiss it when
+    // those bounds change so it cannot remain oversized on the new output.
     outputSizeConn_ = parentWindow_->outputSizeChanged().connect([this]() {
         if (visible_) {
             clear();
@@ -81,8 +83,12 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
             repaint();
         }
     });
-    window_->touchDown().connect([this](int x, int y) { click(x, y); });
-    window_->touchUp().connect([](int, int) {});
+    window_->touchDown().connect([this](int x, int y) {
+        if (hover(x, y)) {
+            repaint();
+        }
+    });
+    window_->touchUp().connect([this](int x, int y) { click(x, y); });
 }
 
 void WaylandCandidateMenu::setFontDPI(int dpi) { menu_.setFontDPI(dpi); }

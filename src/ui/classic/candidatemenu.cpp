@@ -39,7 +39,6 @@ void CandidateMenu::clear() {
     visible_ = false;
     inputContext_ = {};
     candidateList_.reset();
-    candidate_ = nullptr;
     actions_.clear();
     hoveredIndex_ = -1;
 }
@@ -125,7 +124,6 @@ bool CandidateMenu::show(InputContext *inputContext,
     layoutGeometry_.update(style, items);
     inputContext_ = inputContext->watch();
     candidateList_ = std::move(candidateList);
-    candidate_ = candidate;
     candidateIndex_ = candidateIndex;
     actions_ = std::move(actions);
     visible_ = true;
@@ -162,18 +160,25 @@ CandidateMenu::selectionAt(int x, int y) const {
     if (index < 0 || actions_[index].isSeparator()) {
         return std::nullopt;
     }
-    return Selection{inputContext_, candidateList_, candidate_, candidateIndex_,
+    return Selection{inputContext_, candidateList_, candidateIndex_,
                      actions_[index].id()};
 }
 
 void CandidateMenu::Selection::activate() const {
     auto *context = inputContext.get();
-    if (!context || context->inputPanel().candidateList() != candidateList ||
-        nthCandidateIgnorePlaceholder(*candidateList, candidateIndex) !=
-            candidate) {
+    if (!context) {
         return;
     }
-    if (auto *actionable = candidateList->toActionable()) {
+    auto currentCandidateList = context->inputPanel().candidateList();
+    if (currentCandidateList != candidateList) {
+        return;
+    }
+    const auto *candidate =
+        nthCandidateIgnorePlaceholder(*currentCandidateList, candidateIndex);
+    if (!candidate) {
+        return;
+    }
+    if (auto *actionable = currentCandidateList->toActionable()) {
         actionable->triggerAction(*candidate, id);
     }
 }
