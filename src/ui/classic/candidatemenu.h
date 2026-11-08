@@ -35,7 +35,6 @@ public:
     struct Selection {
         TrackableObjectReference<InputContext> inputContext;
         std::shared_ptr<CandidateList> candidateList;
-        const CandidateWord *candidate;
         size_t candidateIndex;
         int id;
 
@@ -70,7 +69,6 @@ private:
     CandidateMenuLayout layoutGeometry_;
     TrackableObjectReference<InputContext> inputContext_;
     std::shared_ptr<CandidateList> candidateList_;
-    const CandidateWord *candidate_ = nullptr;
     size_t candidateIndex_ = 0;
     std::vector<CandidateAction> actions_;
     int hoveredIndex_ = -1;

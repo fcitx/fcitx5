@@ -55,26 +55,14 @@ void WaylandWindow::createWindow() {
 
 void WaylandWindow::setCurrentOutput(wayland::WlOutput *output) {
     outputDoneConn_.disconnect();
-    outputGeometryConn_.disconnect();
-    outputModeConn_.disconnect();
-    outputScaleConn_.disconnect();
     currentOutput_ = output;
     if (!output) {
         setOutputSize(0, 0);
         return;
     }
 
-    if (output->actualVersion() >= 2) {
-        outputDoneConn_ = output->done().connect(
-            [this, output]() { updateOutputInformation(output); });
-    } else {
-        auto update = [this, output](auto...) {
-            updateOutputInformation(output);
-        };
-        outputGeometryConn_ = output->geometry().connect(update);
-        outputModeConn_ = output->mode().connect(update);
-        outputScaleConn_ = output->scale().connect(update);
-    }
+    outputDoneConn_ = output->done().connect(
+        [this, output]() { updateOutputInformation(output); });
     updateOutputInformation(output);
 }
 
