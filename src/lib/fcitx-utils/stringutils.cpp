@@ -111,6 +111,16 @@ constexpr std::array<char, std::numeric_limits<uint8_t>::max()> unescapeMap =
         return table;
     }();
 
+template <SplitBehavior behavior>
+std::vector<std::string> splitImpl(std::string_view str,
+                                   std::string_view delim) {
+    std::vector<std::string> strings;
+    for (const auto part : splitView<behavior>(str, delim)) {
+        strings.emplace_back(part);
+    }
+    return strings;
+}
+
 } // namespace
 
 FCITXUTILS_DEPRECATED_EXPORT bool startsWith(const std::string &str,
@@ -178,30 +188,10 @@ std::vector<std::string> split(const std::string &str, const std::string &delim,
 
 std::vector<std::string> split(std::string_view str, std::string_view delim,
                                SplitBehavior behavior) {
-    std::vector<std::string> strings;
-    std::string::size_type lastPos;
-    std::string::size_type pos;
     if (behavior == SplitBehavior::SkipEmpty) {
-        lastPos = str.find_first_not_of(delim, 0);
-    } else {
-        lastPos = 0;
+        return splitImpl<SplitBehavior::SkipEmpty>(str, delim);
     }
-    pos = str.find_first_of(delim, lastPos);
-
-    while (std::string::npos != pos || std::string::npos != lastPos) {
-        strings.push_back(std::string(str.substr(lastPos, pos - lastPos)));
-        if (behavior == SplitBehavior::SkipEmpty) {
-            lastPos = str.find_first_not_of(delim, pos);
-        } else {
-            if (pos == std::string::npos) {
-                break;
-            }
-            lastPos = pos + 1;
-        }
-        pos = str.find_first_of(delim, lastPos);
-    }
-
-    return strings;
+    return splitImpl<SplitBehavior::KeepEmpty>(str, delim);
 }
 
 FCITXUTILS_DEPRECATED_EXPORT std::vector<std::string>
@@ -210,7 +200,7 @@ split(const std::string &str, const std::string &delim) {
 }
 
 std::vector<std::string> split(std::string_view str, std::string_view delim) {
-    return split(str, delim, SplitBehavior::SkipEmpty);
+    return splitImpl<SplitBehavior::SkipEmpty>(str, delim);
 }
 
 std::string replaceAll(std::string str, const std::string &before,

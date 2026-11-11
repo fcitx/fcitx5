@@ -7,19 +7,108 @@
 #ifndef _FCITX_UTILS_STRINGUTILS_DETAIL_H_
 #define _FCITX_UTILS_STRINGUTILS_DETAIL_H_
 
-// IWYU pragma: private, include <fcitx/stringutils.h>
+// IWYU pragma: private, include <fcitx-utils/stringutils.h>
 
 #include <cassert>
+#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <initializer_list>
+#include <iterator>
 #include <string>
 #include <string_view>
 #include <type_traits>
 #include <utility>
 #include <fcitx-utils/fcitxutils_export.h>
+#include <ranges>
 
 namespace fcitx::stringutils::details {
+
+template <bool KeepEmpty>
+class SplitView : public std::ranges::view_interface<SplitView<KeepEmpty>> {
+public:
+    class Iterator {
+    public:
+        using value_type = std::string_view;
+        using difference_type = std::ptrdiff_t;
+        using iterator_concept = std::forward_iterator_tag;
+        using iterator_category = std::input_iterator_tag;
+
+        constexpr Iterator() = default;
+
+        constexpr std::string_view operator*() const {
+            assert(tokenLen_ != std::string_view::npos);
+            return rest_.substr(0, tokenLen_);
+        }
+
+        constexpr Iterator &operator++() {
+            assert(tokenLen_ != std::string_view::npos);
+            if (tokenLen_ == rest_.size()) {
+                rest_ = {};
+                tokenLen_ = std::string_view::npos;
+            } else {
+                rest_.remove_prefix(tokenLen_ + 1);
+                advance();
+            }
+            return *this;
+        }
+
+        constexpr Iterator operator++(int) {
+            auto previous = *this;
+            ++*this;
+            return previous;
+        }
+
+        friend constexpr bool operator==(const Iterator &a, const Iterator &b) {
+            return a.tokenLen_ == b.tokenLen_ &&
+                   a.rest_.data() == b.rest_.data() &&
+                   a.rest_.size() == b.rest_.size();
+        }
+
+        friend constexpr bool operator==(const Iterator &it,
+                                         std::default_sentinel_t /*unused*/) {
+            return it.tokenLen_ == std::string_view::npos;
+        }
+
+    private:
+        friend class SplitView;
+
+        constexpr Iterator(std::string_view str, std::string_view delim)
+            : rest_(str), delim_(delim) {
+            advance();
+        }
+
+        constexpr void advance() {
+            if constexpr (!KeepEmpty) {
+                const auto start = rest_.find_first_not_of(delim_);
+                if (start == std::string_view::npos) {
+                    rest_ = {};
+                    tokenLen_ = std::string_view::npos;
+                    return;
+                }
+                rest_.remove_prefix(start);
+            }
+            // When KeepEmpty is true and str is initially empty, end is npos
+            // and tokenLen_ becomes 0, yielding a single empty string_view
+            // before reaching sentinel on ++ (matching split() behavior).
+            const auto end = rest_.find_first_of(delim_);
+            tokenLen_ = end == std::string_view::npos ? rest_.size() : end;
+        }
+
+        std::string_view rest_;
+        std::string_view delim_;
+        std::size_t tokenLen_ = std::string_view::npos;
+    };
+
+    constexpr SplitView(std::string_view str, std::string_view delim)
+        : first_(str, delim) {}
+
+    constexpr Iterator begin() const noexcept { return first_; }
+    constexpr std::default_sentinel_t end() const noexcept { return {}; }
+
+private:
+    Iterator first_;
+};
 
 template <typename T>
 struct UniversalPieceHelper {
@@ -123,5 +212,9 @@ FCITXUTILS_EXPORT std::string concatPathPieces(
     std::initializer_list<std::pair<const char *, std::size_t>> list);
 
 } // namespace fcitx::stringutils::details
+
+template <bool KeepEmpty>
+inline constexpr bool std::ranges::enable_borrowed_range<
+    fcitx::stringutils::details::SplitView<KeepEmpty>> = true;
 
 #endif // _FCITX_UTILS_STRINGUTILS_DETAIL_H_
