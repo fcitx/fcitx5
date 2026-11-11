@@ -5,9 +5,12 @@
  *
  */
 
+#include <algorithm>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
+#include <ranges>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
@@ -139,6 +142,125 @@ void testBasic() {
     FCITX_ASSERT(str == "c");
 }
 
+void testSplitView() {
+    using stringutils::SplitBehavior;
+    using SkipView = decltype(stringutils::splitView("", ""));
+    using KeepView =
+        decltype(stringutils::splitView<SplitBehavior::KeepEmpty>("", ""));
+    static_assert(std::ranges::view<SkipView>);
+    static_assert(std::ranges::forward_range<SkipView>);
+    static_assert(std::ranges::forward_range<const SkipView>);
+    static_assert(std::ranges::view<KeepView>);
+    static_assert(std::ranges::forward_range<KeepView>);
+    static_assert(std::ranges::forward_range<const KeepView>);
+    static_assert(std::ranges::borrowed_range<SkipView>);
+    static_assert(std::ranges::borrowed_range<KeepView>);
+    static_assert([] {
+        const auto view = stringutils::splitView("a,,b", ",");
+        if (view.empty() || view.front() != "a") {
+            return false;
+        }
+        auto it = view.begin();
+        if (*it++ != "a" || *it++ != "b") {
+            return false;
+        }
+        return it == view.end();
+    }());
+
+    struct {
+        std::string_view input;
+        std::string_view delim;
+        std::vector<std::string_view> skipEmpty;
+        std::vector<std::string_view> keepEmpty;
+    } cases[] = {
+        {"a  b c", FCITX_WHITESPACE, {"a", "b", "c"}, {"a", "", "b", "c"}},
+        {",dvorak,,", ",", {"dvorak"}, {"", "dvorak", "", ""}},
+        {"abc", ",", {"abc"}, {"abc"}},
+        {"", ",", {}, {""}},
+        {std::string_view{}, ",", {}, {""}},
+        {",,", ",", {}, {"", "", ""}},
+        {"abc", "", {"abc"}, {"abc"}},
+        {"", "", {}, {""}},
+        {std::string_view{}, std::string_view{}, {}, {""}},
+        {"abc", std::string_view{}, {"abc"}, {"abc"}},
+        {"a,b;c", ",;", {"a", "b", "c"}, {"a", "b", "c"}},
+        {std::string_view("a\0b,c", 5),
+         std::string_view("\0,", 2),
+         {"a", "b", "c"},
+         {"a", "b", "c"}},
+    };
+
+    for (const auto &c : cases) {
+        const auto skip = stringutils::splitView(c.input, c.delim);
+        const auto keep =
+            stringutils::splitView<SplitBehavior::KeepEmpty>(c.input, c.delim);
+        FCITX_ASSERT(std::ranges::equal(skip, c.skipEmpty));
+        FCITX_ASSERT(std::ranges::equal(keep, c.keepEmpty));
+        FCITX_ASSERT(std::ranges::equal(
+            skip,
+            stringutils::split(c.input, c.delim, SplitBehavior::SkipEmpty)));
+        FCITX_ASSERT(std::ranges::equal(
+            keep,
+            stringutils::split(c.input, c.delim, SplitBehavior::KeepEmpty)));
+
+        std::vector<std::string_view> fields;
+        for (auto part : skip) {
+            fields.push_back(part);
+        }
+        FCITX_ASSERT(fields == c.skipEmpty);
+        FCITX_ASSERT(std::ranges::equal(skip, fields));
+    }
+
+    std::string input = "_a,b_";
+    const auto views =
+        stringutils::splitView(std::string_view(input).substr(1, 3), ",");
+    auto first = views.begin();
+    auto copy = first;
+    auto previous = first++;
+    FCITX_ASSERT(previous == copy);
+    FCITX_ASSERT(first != copy);
+    FCITX_ASSERT(*copy == "a");
+    FCITX_ASSERT((*copy).data() == input.data() + 1);
+    FCITX_ASSERT(*first == "b");
+    FCITX_ASSERT((*first).data() == input.data() + 3);
+    ++first;
+    FCITX_ASSERT(first == views.end());
+    FCITX_ASSERT(views.end() == first);
+    FCITX_ASSERT(first == SkipView::Iterator{});
+    FCITX_ASSERT(SkipView::Iterator{} == SkipView::Iterator{});
+    FCITX_ASSERT(SkipView::Iterator{} == views.end());
+    FCITX_ASSERT(*copy == "a");
+    input[1] = 'c';
+    FCITX_ASSERT(*copy == "c");
+
+    auto toMove = stringutils::splitView("a,b", ",");
+    auto beforeMove = toMove.begin();
+    auto moved = std::move(toMove);
+    FCITX_ASSERT(*beforeMove == "a");
+    ++beforeMove;
+    FCITX_ASSERT(*beforeMove == "b");
+    FCITX_ASSERT(
+        std::ranges::equal(moved, std::vector<std::string_view>{"a", "b"}));
+    auto rvalueIt = stringutils::splitView("x=y", "=").begin();
+    FCITX_ASSERT(*rvalueIt == "x");
+    auto foundIt = std::ranges::find(stringutils::splitView("a,b,c", ","), "b");
+    FCITX_ASSERT(*foundIt == "b");
+    FCITX_ASSERT(stringutils::join(stringutils::splitView("a,,b,c", ","),
+                                   "-") == "a-b-c");
+    FCITX_ASSERT(std::ranges::equal(stringutils::splitView("a,,b,c", ",") |
+                                        std::views::drop(1) |
+                                        std::views::take(1),
+                                    std::vector<std::string_view>{"b"}));
+
+    int count = 0;
+    for (auto part : stringutils::splitView(",a,b,", ",")) {
+        FCITX_ASSERT(part == "a");
+        ++count;
+        break;
+    }
+    FCITX_ASSERT(count == 1);
+}
+
 void testEscape() {
 
     FCITX_ASSERT(stringutils::escapeForValue("\"") == R"("\"")");
@@ -241,6 +363,7 @@ void testEscape() {
 
 int main() {
     testBasic();
+    testSplitView();
     testEscape();
     return 0;
 }

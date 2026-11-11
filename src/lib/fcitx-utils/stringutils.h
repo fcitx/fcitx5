@@ -70,11 +70,42 @@ FCITXUTILS_EXPORT std::string trim(std::string_view str);
 FCITXUTILS_EXPORT std::vector<std::string> split(std::string_view str,
                                                  std::string_view delim);
 
-enum class SplitBehavior { KeepEmpty, SkipEmpty };
+enum class SplitBehavior {
+    /// Keep empty fields. Note that splitting an empty string yields {""}.
+    KeepEmpty,
+    /// Skip empty fields. Splitting an empty string yields an empty result.
+    SkipEmpty,
+};
 
-/// \brief Split the string by delim.
+/**
+ * \brief Split the string by delim.
+ *
+ * Note that when str is empty, SplitBehavior::SkipEmpty returns an empty
+ * vector, whereas SplitBehavior::KeepEmpty returns a vector containing a single
+ * empty string {""}.
+ */
 FCITXUTILS_EXPORT std::vector<std::string>
 split(std::string_view str, std::string_view delim, SplitBehavior behavior);
+
+/**
+ * \brief Split the string into a lazy range of views by any character in delim.
+ *
+ * Splitting does not allocate memory. The storage referenced by str and delim
+ * must remain valid during iteration. The returned string views refer to str.
+ *
+ * Consistent with split(), when str is empty, SplitBehavior::SkipEmpty yields
+ * an empty range, whereas SplitBehavior::KeepEmpty yields a range containing a
+ * single empty string_view.
+ *
+ * \tparam behavior Whether to keep or skip empty fields.
+ *
+ * \see split
+ * \since 5.1.23
+ */
+template <SplitBehavior behavior = SplitBehavior::SkipEmpty>
+constexpr auto splitView(std::string_view str, std::string_view delim) {
+    return details::SplitView<behavior == SplitBehavior::KeepEmpty>(str, delim);
+}
 
 /// \brief Replace all substring appearance of before with after.
 FCITXUTILS_EXPORT std::string replaceAll(std::string str,
@@ -105,14 +136,14 @@ FCITXUTILS_EXPORT size_t backwardSearch(const std::string &haystack,
                                         const std::string &needle, size_t from);
 
 /// \brief Join a range of string with delim.
-template <typename Iter, typename T>
-inline std::string join(Iter start, Iter end, T &&delim) {
+template <typename Iter, typename Sentinel, typename T>
+inline std::string join(Iter start, Sentinel end, T &&delim) {
     std::string result;
     if (start != end) {
         result += (*start);
-        start++;
+        ++start;
     }
-    for (; start != end; start++) {
+    for (; start != end; ++start) {
         result += (delim);
         result += (*start);
     }
