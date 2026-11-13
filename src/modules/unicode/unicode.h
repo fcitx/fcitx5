@@ -20,7 +20,7 @@
 #include "unicode_public.h"
 #include "unicodetempmode.h"
 
-namespace fcitx {
+namespace fcitx::unicode {
 
 FCITX_CONFIGURATION(
     UnicodeConfig, KeyListOption triggerKey{this,
@@ -70,6 +70,6 @@ private:
     KeyList selectionKeys_;
     UnicodeTempMode tempMode_;
 };
-} // namespace fcitx
+} // namespace fcitx::unicode
 
 #endif // _FCITX_MODULES_UNICODE_UNICODE_H_

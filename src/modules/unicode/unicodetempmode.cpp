@@ -32,7 +32,7 @@
 #include "clipboard_public.h"
 #include "unicode.h"
 
-namespace fcitx {
+namespace fcitx::unicode {
 
 namespace {
 
@@ -418,4 +418,4 @@ void UnicodeTempMode::updateUI(InputContext *inputContext, bool trigger) {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-} // namespace fcitx
+} // namespace fcitx::unicode

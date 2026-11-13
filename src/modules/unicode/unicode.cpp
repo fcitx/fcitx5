@@ -13,7 +13,7 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/tempmodemanager.h"
 
-namespace fcitx {
+namespace fcitx::unicode {
 
 Unicode::Unicode(Instance *instance) : instance_(instance), tempMode_(this) {
     KeySym syms[] = {
@@ -35,11 +35,17 @@ bool Unicode::trigger(InputContext *inputContext) {
     return tempMode_.trigger(inputContext);
 }
 
+namespace {
+
 class UnicodeModuleFactory : public AddonFactory {
+public:
     AddonInstance *create(AddonManager *manager) override {
         return new Unicode(manager->instance());
     }
 };
-} // namespace fcitx
 
-FCITX_ADDON_FACTORY_V2(unicode, fcitx::UnicodeModuleFactory);
+} // namespace
+
+} // namespace fcitx::unicode
+
+FCITX_ADDON_FACTORY_V2(unicode, fcitx::unicode::UnicodeModuleFactory);

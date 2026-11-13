@@ -10,11 +10,10 @@
 
 #include <string_view>
 #include "fcitx-utils/inputbuffer.h"
-#include "fcitx-utils/key.h"
 #include "fcitx/event.h"
 #include "fcitx/tempmode.h"
 
-namespace fcitx {
+namespace fcitx::unicode {
 
 class Unicode;
 
@@ -56,6 +55,6 @@ private:
     Unicode *unicode_;
 };
 
-} // namespace fcitx
+} // namespace fcitx::unicode
 
 #endif // _FCITX_MODULES_UNICODE_UNICODETEMPMODE_H_
