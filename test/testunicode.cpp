@@ -17,16 +17,16 @@
 
 using namespace fcitx;
 
-void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
-    dispatcher->schedule([instance]() {
+void scheduleEvent(Instance *instance) {
+    instance->eventDispatcher().schedule([instance]() {
         auto *unicode = instance->addonManager().addon("unicode", true);
         FCITX_ASSERT(unicode);
     });
-    dispatcher->schedule([dispatcher, instance]() {
+    instance->eventDispatcher().schedule([instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("🍏");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("’");
-        testfrontend->call<ITestFrontend::pushCommitExpectation>(" ");
+        testfrontend->call<ITestFrontend::pushCommitExpectation>("␢");
         auto uuid =
             testfrontend->call<ITestFrontend::createInputContext>("testapp");
         testfrontend->call<ITestFrontend::keyEvent>(
@@ -72,20 +72,19 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
 
         // U+2422 is the sixth See Also entry for U+0020 SPACE. This verifies
         // that entries beyond those reachable with a two-byte stride are
-        // indexed.
+        // returned.
         testfrontend->call<ITestFrontend::keyEvent>(
             uuid, Key("Control+Alt+Shift+u"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("U"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("plus"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("0"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("0"), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
-        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("4"), false);
-        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
-        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
-        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Alt+2"), false);
-
-        dispatcher->schedule([dispatcher, instance]() {
-            dispatcher->detach();
-            instance->exit();
-        });
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("0"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Down"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Alt+3"), false);
     });
+    instance->eventDispatcher().schedule([instance]() { instance->exit(); });
 }
 
 int main() {
@@ -99,9 +98,7 @@ int main() {
     char *argv[] = {arg0, arg1, arg2};
     Instance instance(FCITX_ARRAY_SIZE(argv), argv);
     instance.addonManager().registerDefaultLoader(nullptr);
-    EventDispatcher dispatcher;
-    dispatcher.attach(&instance.eventLoop());
-    scheduleEvent(&dispatcher, &instance);
+    scheduleEvent(&instance);
     instance.exec();
     return 0;
 }

@@ -13,30 +13,31 @@
 //
 
 #include "charselectdata.h"
-#include <fcntl.h>
-#include <strings.h>
-#include <sys/stat.h>
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <exception>
 #include <iterator>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 #include <format>
+#include <span>
 #include "fcitx-utils/charutils.h"
-#include "fcitx-utils/endian_p.h"
-#include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/macros.h"
-#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpaths.h"
 #include "fcitx-utils/stringutils.h"
+#include "littleendianserialization.h"
 
-using namespace fcitx;
+namespace fcitx::unicode {
+
+namespace {
 
 /* constants for hangul (de)composition, see UAX #15 */
 #define SBase 0xAC00
@@ -49,33 +50,92 @@ using namespace fcitx;
 #define NCount (VCount * TCount)
 #define SCount (LCount * NCount)
 
-static const char JAMO_L_TABLE[][4] = {"G", "GG", "N", "D",  "DD", "R", "M",
-                                       "B", "BB", "S", "SS", "",   "J", "JJ",
-                                       "C", "K",  "T", "P",  "H"};
+const char JAMO_L_TABLE[][4] = {
+    "G",  "GG", "N", "D",  "DD", "R", "M", "B", "BB", "S",
+    "SS", "",   "J", "JJ", "C",  "K", "T", "P", "H",
+};
 
-static const char JAMO_V_TABLE[][4] = {
+const char JAMO_V_TABLE[][4] = {
     "A",  "AE", "YA", "YAE", "EO", "E",  "YEO", "YE", "O",  "WA", "WAE",
-    "OE", "YO", "U",  "WEO", "WE", "WI", "YU",  "EU", "YI", "I"};
+    "OE", "YO", "U",  "WEO", "WE", "WI", "YU",  "EU", "YI", "I",
+};
 
-static const char JAMO_T_TABLE[][4] = {"",   "G",  "GG", "GS", "N",  "NJ", "NH",
-                                       "D",  "L",  "LG", "LM", "LB", "LS", "LT",
-                                       "LP", "LH", "M",  "B",  "BS", "S",  "SS",
-                                       "NG", "J",  "C",  "K",  "T",  "P",  "H"};
+const char JAMO_T_TABLE[][4] = {
+    "",   "G",  "GG", "GS", "N",  "NJ", "NH", "D", "L",  "LG",
+    "LM", "LB", "LS", "LT", "LP", "LH", "M",  "B", "BS", "S",
+    "SS", "NG", "J",  "C",  "K",  "T",  "P",  "H",
+};
 
-std::string FormatCode(uint32_t code, int length, const char *prefix);
-
-uint16_t FromLittleEndian16(const char *d) {
-    const auto *data = reinterpret_cast<const uint8_t *>(d);
-    uint16_t t;
-    memcpy(&t, data, sizeof(t));
-    return le16toh(t);
+std::string FormatCode(uint32_t code, int length, const char *prefix) {
+    return std::format("{0}{1:0{2}x}", prefix, code, length);
 }
+
+int viewCaseCompare(std::string_view s1, std::string_view s2) noexcept {
+    const size_t minSize = std::min(s1.size(), s2.size());
+    for (size_t i = 0; i < minSize; ++i) {
+        const auto c1 = static_cast<unsigned char>(charutils::tolower(s1[i]));
+        const auto c2 = static_cast<unsigned char>(charutils::tolower(s2[i]));
+        if (c1 != c2) {
+            return static_cast<int>(c1) - static_cast<int>(c2);
+        }
+    }
+    if (s1.size() != s2.size()) {
+        return s1.size() < s2.size() ? -1 : 1;
+    }
+    return 0;
+}
+
+std::string Simplified(const std::string &src) {
+    std::string result = src;
+    auto s = result.begin();
+    auto p = s;
+    int lastIsSpace = 0;
+    while (s != result.end()) {
+        char c = *s;
+
+        if (charutils::isspace(c)) {
+            if (!lastIsSpace) {
+                *p = ' ';
+                p++;
+            }
+            lastIsSpace = 1;
+        } else {
+            *p = c;
+            p++;
+            lastIsSpace = 0;
+        }
+        s++;
+    }
+    result.erase(p, result.end());
+    return result;
+}
+
+bool IsHexString(const std::string &s) {
+    if (s.size() < 6) {
+        return false;
+    }
+    if (!(s.starts_with("0x") || s.starts_with("0X") || s.starts_with("u+") ||
+          s.starts_with("U+"))) {
+        return false;
+    }
+
+    auto i = s.begin() + 2;
+    while (i != s.end()) {
+        if (!charutils::isxdigit(*i)) {
+            return false;
+        }
+        i++;
+    }
+    return true;
+}
+
+} // namespace
 
 CharSelectData::CharSelectData() = default;
 
 bool CharSelectData::load() {
     if (loaded_) {
-        return loadResult_;
+        return data_.has_value();
     }
     loaded_ = true;
     auto file = StandardPaths::global().open(StandardPathsType::PkgData,
@@ -84,104 +144,65 @@ bool CharSelectData::load() {
         return false;
     }
 
-    struct stat s;
-    if (fstat(file.fd(), &s) < 0) {
+    try {
+        data_.emplace(file);
+    } catch (const std::exception &) {
         return false;
     }
-    auto size = s.st_size;
-    data_.resize(size);
-    if (size != fs::safeRead(file.fd(), data_.data(), size)) {
+    if (!createIndex()) {
+        data_.reset();
         return false;
-    };
-
-    createIndex();
-
-    loadResult_ = true;
+    }
     return true;
 }
 
+std::optional<std::string_view> CharSelectData::readString(size_t offset,
+                                                           size_t end) const {
+    if (offset >= end || end > data_->size()) {
+        return std::nullopt;
+    }
+    const auto *begin = reinterpret_cast<const char *>(data_->data() + offset);
+    const size_t maxLen = end - offset;
+    const auto *nul =
+        static_cast<const char *>(std::memchr(begin, '\0', maxLen));
+    if (!nul) {
+        return std::nullopt;
+    }
+    return std::string_view(begin, static_cast<size_t>(nul - begin));
+}
+
 std::vector<std::string> CharSelectData::unihanInfo(uint32_t unicode) const {
-    if (!loadResult_) {
+    if (!data_) {
         return {};
     }
 
     std::vector<std::string> res;
 
-    const char *data = data_.data();
-    const uint32_t offsetBegin = FromLittleEndian32(data + 36);
-    const uint32_t offsetEnd = data_.size();
-
-    ptrdiff_t min = 0;
-    ptrdiff_t mid;
-    ptrdiff_t max = ((offsetEnd - offsetBegin) / 32) - 1;
-
-    while (max >= min) {
-        mid = (min + max) / 2;
-        const uint32_t midUnicode =
-            FromLittleEndian16(data + offsetBegin + (mid * 32));
-        if (unicode > midUnicode) {
-            min = mid + 1;
-        } else if (unicode < midUnicode) {
-            max = mid - 1;
-        } else {
-            for (ptrdiff_t i = 0; i < 7; i++) {
-                uint32_t offset = FromLittleEndian32(data + offsetBegin +
-                                                     (mid * 32) + 4 + (i * 4));
-                if (offset != 0) {
-                    const char *r = data + offset;
-                    res.emplace_back(r);
-                } else {
-                    res.emplace_back("");
-                }
-            }
-            return res;
-        }
+    const auto iter = std::ranges::lower_bound(
+        leUnihan_, unicode, {}, [](const CharselectDataUnihan &entry) {
+            return entry.unicode.value();
+        });
+    if (iter == leUnihan_.end() || iter->unicode.value() != unicode) {
+        return res;
     }
 
+    res.reserve(7);
+    const uint32_t unihanStringsBegin = header_->unihanStringsBegin.value();
+    const uint32_t unihanOffsetsBegin = header_->unihanOffsetsBegin.value();
+    for (const uint32_t offset : iter->offsets()) {
+        if (offset >= unihanStringsBegin && offset < unihanOffsetsBegin) {
+            if (auto str = readString(offset, unihanOffsetsBegin)) {
+                res.emplace_back(*str);
+                continue;
+            }
+        }
+        res.emplace_back();
+    }
     return res;
 }
 
-uint32_t CharSelectData::findDetailIndex(uint32_t unicode) const {
-    const char *data = data_.data();
-    // Convert from little-endian, so that this code works on PPC too.
-    // http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=482286
-    const uint32_t offsetBegin = FromLittleEndian32(data + 12);
-    const uint32_t offsetEnd = FromLittleEndian32(data + 16);
-
-    ptrdiff_t min = 0;
-    ptrdiff_t mid;
-    ptrdiff_t max = ((offsetEnd - offsetBegin) / 29) - 1;
-
-    static uint32_t most_recent_searched;
-    static uint32_t most_recent_result;
-
-    if (unicode == most_recent_searched) {
-        return most_recent_result;
-    }
-
-    most_recent_searched = unicode;
-
-    while (max >= min) {
-        mid = (min + max) / 2;
-        const uint32_t midUnicode =
-            FromLittleEndian16(data + offsetBegin + (mid * 29));
-        if (unicode > midUnicode) {
-            min = mid + 1;
-        } else if (unicode < midUnicode) {
-            max = mid - 1;
-        } else {
-            most_recent_result = offsetBegin + (mid * 29);
-
-            return most_recent_result;
-        }
-    }
-
-    most_recent_result = 0;
-    return 0;
-}
-
 std::string CharSelectData::name(uint32_t unicode) const {
-    if (!loadResult_) {
+    if (!data_) {
         return {};
     }
 
@@ -227,34 +248,23 @@ std::string CharSelectData::name(uint32_t unicode) const {
         } else if ((unicode >= 0x17000 && unicode <= 0x187F7) ||
                    (unicode >= 0x18D00 && unicode <= 0x18D08)) {
             result = _("TANGUT IDEOGRAPH-{0:X}", unicode);
-            ;
         } else if (unicode >= 0xF0000 && unicode <= 0xFFFFD) {
             result = _("<Plane 15 Private Use>");
         } else if (unicode >= 0x100000 && unicode <= 0x10FFFD) {
             result = _("<Plane 16 Private Use>");
         } else {
-
-            const char *data = data_.data();
-            const uint32_t offsetBegin = FromLittleEndian32(data + 4);
-            const uint32_t offsetEnd = FromLittleEndian32(data + 8);
-
-            ptrdiff_t min = 0;
-            ptrdiff_t mid;
-            ptrdiff_t max = ((offsetEnd - offsetBegin) / 8) - 1;
-
-            while (max >= min) {
-                mid = (min + max) / 2;
-                const uint32_t midUnicode =
-                    FromLittleEndian32(data + offsetBegin + (mid * 8));
-                if (unicode > midUnicode) {
-                    min = mid + 1;
-                } else if (unicode < midUnicode) {
-                    max = mid - 1;
-                } else {
-                    uint32_t offset =
-                        FromLittleEndian32(data + offsetBegin + (mid * 8) + 4);
-                    result = (data_.data() + offset + 1);
-                    break;
+            const auto iter = std::ranges::lower_bound(
+                leNames_, unicode, {}, [](const CharselectDataName &entry) {
+                    return entry.unicode.value();
+                });
+            if (iter != leNames_.end() && iter->unicode.value() == unicode) {
+                const uint32_t offset = iter->offset.value();
+                if (offset >= header_->namesStringsBegin.value() &&
+                    offset < header_->namesOffsetsBegin.value()) {
+                    if (auto str = readString(
+                            offset + 1, header_->namesOffsetsBegin.value())) {
+                        result = *str;
+                    }
                 }
             }
         }
@@ -266,52 +276,8 @@ std::string CharSelectData::name(uint32_t unicode) const {
     return result;
 }
 
-std::string Simplified(const std::string &src) {
-    std::string result = src;
-    auto s = result.begin();
-    auto p = s;
-    int lastIsSpace = 0;
-    while (s != result.end()) {
-        char c = *s;
-
-        if (charutils::isspace(c)) {
-            if (!lastIsSpace) {
-                *p = ' ';
-                p++;
-            }
-            lastIsSpace = 1;
-        } else {
-            *p = c;
-            p++;
-            lastIsSpace = 0;
-        }
-        s++;
-    }
-    result.erase(p, result.end());
-    return result;
-}
-
-bool IsHexString(const std::string &s) {
-    if (s.size() < 6) {
-        return false;
-    }
-    if (!((s[0] == '0' && s[1] == 'x') || (s[0] == '0' && s[1] == 'X') ||
-          (s[0] == 'u' && s[1] == '+') || (s[0] == 'U' && s[1] == '+'))) {
-        return false;
-    }
-
-    auto i = s.begin() + 2;
-    while (i != s.end()) {
-        if (!charutils::isxdigit(*i)) {
-            return 0;
-        }
-        i++;
-    }
-    return 1;
-}
-
 std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
-    if (!loadResult_) {
+    if (!data_) {
         return {};
     }
 
@@ -322,7 +288,8 @@ std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
     auto searchStrings = stringutils::split(simplified, FCITX_WHITESPACE);
 
     if (simplified.size() == 1) {
-        auto format = FormatCode(simplified[0], 4, "U+");
+        auto format =
+            FormatCode(static_cast<unsigned char>(simplified[0]), 4, "U+");
         searchStrings.clear();
         searchStrings.push_back(format);
     }
@@ -331,13 +298,20 @@ std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
         return returnRes;
     }
 
+    auto appendUnique = [](std::vector<uint32_t> &vec, uint32_t value) {
+        if (std::ranges::find(vec, value) == vec.end()) {
+            vec.push_back(value);
+        }
+    };
+
     for (auto &s : searchStrings) {
-        auto convertAndPush = [&returnRes](const std::string &str, int base) {
+        auto convertAndPush = [&returnRes, &appendUnique](
+                                  const std::string &str, int base) {
             try {
                 size_t end;
-                uint32_t uni = (uint32_t)std::stoul(str, &end, base);
+                auto uni = static_cast<uint32_t>(std::stoul(str, &end, base));
                 if (end == str.size()) {
-                    returnRes.push_back(uni);
+                    appendUnique(returnRes, uni);
                 }
             } catch (const std::exception &) {
             }
@@ -348,6 +322,13 @@ std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
             convertAndPush(sub, 10);
         } else {
             convertAndPush(s, 10);
+        }
+    }
+
+    const size_t directCount = returnRes.size();
+    for (size_t i = 0; i < directCount; ++i) {
+        for (const auto seeAlsoCode : seeAlso(returnRes[i])) {
+            appendUnique(returnRes, seeAlsoCode);
         }
     }
 
@@ -382,17 +363,17 @@ std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
     return returnRes;
 }
 
-std::set<uint32_t> CharSelectData::matchingChars(const std::string &s) const {
+std::set<uint32_t> CharSelectData::matchingChars(std::string_view s) const {
     std::set<uint32_t> result;
     auto iter = std::ranges::lower_bound(
         indexList_, s,
         [](const auto &lhs, const auto &rhs) {
-            return strcasecmp(lhs.c_str(), rhs.c_str()) < 0;
+            return viewCaseCompare(lhs, rhs) < 0;
         },
-        [](const auto &value) -> const std::string & { return value->first; });
+        [](const auto &value) { return value->first; });
 
-    while (iter != indexList_.end() &&
-           strncasecmp(s.c_str(), (*iter)->first.c_str(), s.size()) == 0) {
+    while (iter != indexList_.end() && (*iter)->first.size() >= s.size() &&
+           viewCaseCompare(s, (*iter)->first.substr(0, s.size())) == 0) {
         for (auto c : (*iter)->second) {
             result.insert(c);
         }
@@ -402,73 +383,39 @@ std::set<uint32_t> CharSelectData::matchingChars(const std::string &s) const {
     return result;
 }
 
-std::vector<std::string>
-CharSelectData::findStringResult(uint32_t unicode, size_t countOffset,
-                                 size_t offsetOfOffset) const {
-    std::vector<std::string> result;
-    const int detailIndex = findDetailIndex(unicode);
-    if (detailIndex == 0) {
+std::vector<uint32_t> CharSelectData::seeAlso(uint32_t unicode) const {
+    std::vector<uint32_t> result;
+    const auto iter = std::ranges::lower_bound(
+        leDetails_, unicode, {}, [](const CharselectDataDetail &detail) {
+            return detail.unicode.value();
+        });
+    if (iter == leDetails_.end() || iter->unicode.value() != unicode) {
         return result;
     }
 
-    const char *data = data_.data();
-    const uint8_t count = *(uint8_t *)(data + detailIndex + countOffset);
-    uint32_t offset = FromLittleEndian32(data + detailIndex + offsetOfOffset);
+    const uint32_t offset = iter->seeAlsoOffset.value();
+    const uint8_t count = iter->seeAlsoCount.value();
+    const uint32_t stringsBegin = header_->detailsStringsBegin.value();
+    const uint32_t offsetsBegin = header_->detailsOffsetsBegin.value();
+    if (count == 0 || offset < stringsBegin ||
+        static_cast<size_t>(offset) +
+                (static_cast<size_t>(count) * sizeof(LittleEndian<uint32_t>)) >
+            offsetsBegin) {
+        return result;
+    }
 
-    int i;
-    for (i = 0; i < count; i++) {
-        const char *r = data + offset;
-        result.emplace_back(r);
-        offset += result.back().size() + 1;
+    const std::span leSeeAlso(reinterpret_cast<const LittleEndian<uint32_t> *>(
+                                  data_->data() + offset),
+                              count);
+    result.reserve(count);
+    for (const auto &entry : leSeeAlso) {
+        result.push_back(entry.value());
     }
     return result;
 }
 
-std::vector<std::string> CharSelectData::aliases(uint32_t unicode) const {
-    return findStringResult(unicode, 8, 4);
-}
-
-std::vector<std::string> CharSelectData::notes(uint32_t unicode) const {
-    return findStringResult(unicode, 13, 9);
-}
-
-std::vector<uint32_t> CharSelectData::seeAlso(uint32_t unicode) const {
-    std::vector<uint32_t> seeAlso;
-    const int detailIndex = findDetailIndex(unicode);
-    if (detailIndex == 0) {
-        return seeAlso;
-    }
-
-    const char *data = data_.data();
-    const uint8_t count = *(uint8_t *)(data + detailIndex + 28);
-    uint32_t offset = FromLittleEndian32(data + detailIndex + 24);
-
-    int i;
-    for (i = 0; i < count; i++) {
-        uint32_t c = FromLittleEndian32(data + offset);
-        seeAlso.push_back(c);
-        offset += sizeof(uint32_t);
-    }
-
-    return seeAlso;
-}
-
-std::vector<std::string> CharSelectData::equivalents(uint32_t unicode) const {
-    return findStringResult(unicode, 23, 19);
-}
-
-std::vector<std::string>
-CharSelectData::approximateEquivalents(uint32_t unicode) const {
-    return findStringResult(unicode, 18, 14);
-}
-
-std::string FormatCode(uint32_t code, int length, const char *prefix) {
-    return std::format("{0}{1:0{2}x}", prefix, code, length);
-}
-
-void CharSelectData::appendToIndex(uint32_t unicode, const std::string &str) {
-    auto strings = stringutils::split(str, FCITX_WHITESPACE);
-    for (auto &s : strings) {
+void CharSelectData::appendToIndex(uint32_t unicode, std::string_view str) {
+    for (std::string_view s : stringutils::splitView(str, FCITX_WHITESPACE)) {
         auto iter = index_.find(s);
         if (iter == index_.end()) {
             iter = index_.emplace(s, std::vector<uint32_t>()).first;
@@ -477,112 +424,103 @@ void CharSelectData::appendToIndex(uint32_t unicode, const std::string &str) {
     }
 }
 
-void CharSelectData::createIndex() {
+bool CharSelectData::createIndex() {
+    if (data_->size() < sizeof(CharselectDataHeader)) {
+        return false;
+    }
+    const std::byte *data = data_->data();
+    const auto *header = reinterpret_cast<const CharselectDataHeader *>(data);
+    const auto headerOffsets = header->offsets();
+    if (headerOffsets.front() < sizeof(CharselectDataHeader) ||
+        headerOffsets.back() > data_->size() ||
+        !std::ranges::is_sorted(headerOffsets)) {
+        return false;
+    }
+    header_ = header;
+
     // character names
-    const char *data = data_.data();
-    const uint32_t nameOffsetBegin = FromLittleEndian32(data + 4);
-    const uint32_t nameOffsetEnd = FromLittleEndian32(data + 8);
+    const uint32_t namesStringsBegin = header_->namesStringsBegin.value();
+    const uint32_t nameOffsetBegin = header_->namesOffsetsBegin.value();
+    const uint32_t nameOffsetEnd = header_->detailsStringsBegin.value();
+    leNames_ = std::span(
+        reinterpret_cast<const CharselectDataName *>(data + nameOffsetBegin),
+        (nameOffsetEnd - nameOffsetBegin) / sizeof(CharselectDataName));
 
-    int max = ((nameOffsetEnd - nameOffsetBegin) / 8) - 1;
-
-    for (ptrdiff_t pos = 0; pos <= max; pos++) {
-        const uint32_t unicode =
-            FromLittleEndian32(data + nameOffsetBegin + (pos * 8));
-        uint32_t offset =
-            FromLittleEndian32(data + nameOffsetBegin + (pos * 8) + 4);
-        // TODO
-        appendToIndex(unicode, (data + offset + 1));
-    }
-
-    // details
-    const uint32_t detailsOffsetBegin = FromLittleEndian32(data + 12);
-    const uint32_t detailsOffsetEnd = FromLittleEndian32(data + 16);
-
-    max = ((detailsOffsetEnd - detailsOffsetBegin) / 29) - 1;
-    for (ptrdiff_t pos = 0; pos <= max; pos++) {
-        const uint32_t unicode =
-            FromLittleEndian32(data + detailsOffsetBegin + (pos * 29));
-
-        // aliases
-        const uint8_t aliasCount =
-            *(uint8_t *)(data + detailsOffsetBegin + (pos * 29) + 8);
-        uint32_t aliasOffset =
-            FromLittleEndian32(data + detailsOffsetBegin + (pos * 29) + 4);
-
-        for (ptrdiff_t j = 0; j < aliasCount; j++) {
-            appendToIndex(unicode, data + aliasOffset);
-            aliasOffset += std::strlen(data + aliasOffset) + 1;
-        }
-
-        // notes
-        const uint8_t notesCount =
-            *(uint8_t *)(data + detailsOffsetBegin + (pos * 29) + 13);
-        uint32_t notesOffset =
-            FromLittleEndian32(data + detailsOffsetBegin + (pos * 29) + 9);
-
-        for (ptrdiff_t j = 0; j < notesCount; j++) {
-            appendToIndex(unicode, data + notesOffset);
-            notesOffset += std::strlen(data + notesOffset) + 1;
-        }
-
-        // approximate equivalents
-        const uint8_t apprCount =
-            *(uint8_t *)(data + detailsOffsetBegin + (pos * 29) + 18);
-        uint32_t apprOffset =
-            FromLittleEndian32(data + detailsOffsetBegin + (pos * 29) + 14);
-
-        for (ptrdiff_t j = 0; j < apprCount; j++) {
-            appendToIndex(unicode, data + apprOffset);
-            apprOffset += strlen(data + apprOffset) + 1;
-        }
-
-        // equivalents
-        const uint8_t equivCount =
-            *(uint8_t *)(data + detailsOffsetBegin + (pos * 29) + 23);
-        uint32_t equivOffset =
-            FromLittleEndian32(data + detailsOffsetBegin + (pos * 29) + 19);
-
-        for (ptrdiff_t j = 0; j < equivCount; j++) {
-            appendToIndex(unicode, data + equivOffset);
-            equivOffset += strlen(data + equivOffset) + 1;
-        }
-
-        // see also - convert to string (hex)
-        const uint8_t seeAlsoCount =
-            *(uint8_t *)(data + detailsOffsetBegin + (pos * 29) + 28);
-        uint32_t seeAlsoOffset =
-            FromLittleEndian32(data + detailsOffsetBegin + (pos * 29) + 24);
-
-        for (ptrdiff_t j = 0; j < seeAlsoCount; j++) {
-            uint32_t seeAlso = FromLittleEndian32(data + seeAlsoOffset);
-            auto code = FormatCode(seeAlso, 4, "");
-            appendToIndex(unicode, code);
-            seeAlsoOffset += sizeof(uint32_t);
-        }
-    }
-
-    // unihan data
-    // temporary disabled due to the huge amount of data
-    const uint32_t unihanOffsetBegin = FromLittleEndian32(data + 36);
-    const uint32_t unihanOffsetEnd = data_.size();
-    max = ((unihanOffsetEnd - unihanOffsetBegin) / 32) - 1;
-
-    for (ptrdiff_t pos = 0; pos <= max; pos++) {
-        const uint32_t unicode =
-            FromLittleEndian32(data + unihanOffsetBegin + (pos * 32));
-        for (ptrdiff_t j = 0; j < 7; j++) {
-            uint32_t offset = FromLittleEndian32(data + unihanOffsetBegin +
-                                                 (pos * 32) + 4 + (j * 4));
-            if (offset != 0) {
-                appendToIndex(unicode, (data + offset));
+    for (const auto &leName : leNames_) {
+        const uint32_t offset = leName.offset.value();
+        if (offset >= namesStringsBegin && offset < nameOffsetBegin) {
+            if (auto name = readString(offset + 1, nameOffsetBegin)) {
+                appendToIndex(leName.unicode.value(), *name);
             }
         }
     }
 
+    // details
+    const uint32_t detailsStringsBegin = header_->detailsStringsBegin.value();
+    const uint32_t detailsOffsetBegin = header_->detailsOffsetsBegin.value();
+    const uint32_t detailsOffsetEnd = header_->blocksStringsBegin.value();
+
+    leDetails_ = std::span(
+        reinterpret_cast<const CharselectDataDetail *>(data +
+                                                       detailsOffsetBegin),
+        (detailsOffsetEnd - detailsOffsetBegin) / sizeof(CharselectDataDetail));
+    auto appendDetailStrings =
+        [this, detailsStringsBegin,
+         detailsOffsetBegin](uint32_t unicode, uint32_t offset, uint8_t count) {
+            if (count == 0 || offset < detailsStringsBegin) {
+                return;
+            }
+            size_t cur = offset;
+            for (uint8_t i = 0; i < count; i++) {
+                auto str = readString(cur, detailsOffsetBegin);
+                if (!str) {
+                    break;
+                }
+                appendToIndex(unicode, *str);
+                cur += str->size() + 1;
+            }
+        };
+    for (const auto &detail : leDetails_) {
+        const uint32_t unicode = detail.unicode.value();
+        appendDetailStrings(unicode, detail.aliasesOffset.value(),
+                            detail.aliasesCount.value());
+        appendDetailStrings(unicode, detail.notesOffset.value(),
+                            detail.notesCount.value());
+        appendDetailStrings(unicode,
+                            detail.approximateEquivalentsOffset.value(),
+                            detail.approximateEquivalentsCount.value());
+        appendDetailStrings(unicode, detail.equivalentsOffset.value(),
+                            detail.equivalentsCount.value());
+    }
+
+    // unihan data
+    const uint32_t unihanStringsBegin = header_->unihanStringsBegin.value();
+    const uint32_t unihanOffsetBegin = header_->unihanOffsetsBegin.value();
+    const size_t unihanOffsetEnd = data_->size();
+    leUnihan_ = std::span(
+        reinterpret_cast<const CharselectDataUnihan *>(data +
+                                                       unihanOffsetBegin),
+        (unihanOffsetEnd - unihanOffsetBegin) / sizeof(CharselectDataUnihan));
+
+    for (const auto &leUnihan : leUnihan_) {
+        const uint32_t unicode = leUnihan.unicode.value();
+        for (const uint32_t offset : leUnihan.offsets()) {
+            if (offset >= unihanStringsBegin && offset < unihanOffsetBegin) {
+                if (auto str = readString(offset, unihanOffsetBegin)) {
+                    appendToIndex(unicode, *str);
+                }
+            }
+        }
+    }
+
+    indexList_.reserve(index_.size());
     for (auto &p : index_) {
         indexList_.push_back(&p);
     }
     std::ranges::sort(indexList_, [](auto lhs, auto rhs) {
-        return strcasecmp(lhs->first.c_str(), rhs->first.c_str()) < 0;
+        return viewCaseCompare(lhs->first, rhs->first) < 0;
     });
+    return true;
 }
+
+} // namespace fcitx::unicode
