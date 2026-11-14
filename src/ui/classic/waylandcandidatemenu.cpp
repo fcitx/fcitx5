@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */
 #include "waylandcandidatemenu.h"
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <utility>
-#include <vector>
 #include <cairo.h>
 #include "fcitx-utils/rect.h"
 #include "candidatemenuplacement.h"
@@ -165,32 +165,35 @@ bool WaylandCandidateMenu::createSubsurface() {
 }
 
 void WaylandCandidateMenu::clear() {
+    const bool wasVisible = visible_;
     if (visible_ && window_) {
         window_->hide();
     }
     visible_ = false;
     scroll_ = 0;
     menu_.clear();
+    if (wasVisible) {
+        hidden_();
+    }
 }
 
-void WaylandCandidateMenu::show(InputContext *inputContext,
-                                const std::vector<Rect> &candidateRegions,
-                                int x, int y) {
+bool WaylandCandidateMenu::show(InputContext *inputContext,
+                                size_t candidateIndex, const Rect &anchor) {
     clear();
-    const Rect anchor = Rect().setPosition(x, y).setSize(1, 1);
-    if (!menu_.show(inputContext, candidateRegions, x, y, 0, 0)) {
-        return;
+    if (!menu_.show(inputContext, candidateIndex, 0, 0)) {
+        return false;
     }
     positionAnchor_ = anchor;
     if (!createSubsurface()) {
         clear();
-        return;
+        return false;
     }
     visible_ = true;
     window_->resize(menu_.width(), menu_.height());
     updateBlur();
     repaint();
     position();
+    return true;
 }
 
 void WaylandCandidateMenu::position() {

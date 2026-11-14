@@ -98,7 +98,7 @@ public:
 class InputWindow {
 public:
     InputWindow(ClassicUI *parent);
-    ~InputWindow() = default;
+    virtual ~InputWindow() = default;
     std::pair<int, int> update(InputContext *inputContext);
     void paint(cairo_t *cr, double width, double height);
     void hide();
@@ -109,6 +109,9 @@ public:
 
 protected:
     enum class TextType { Label, Regular, Comment };
+
+    int candidateIndexAt(int x, int y) const;
+    virtual bool setMenuCandidateIndex(int index);
 
     // Override the font DPI in cairo/pango context. If less-equal than zero, it
     // will restore to font map default dpi.
@@ -161,6 +164,8 @@ protected:
 
 private:
     std::pair<unsigned int, unsigned int> sizeHint();
+
+    int menuCandidateIndex_ = -1;
 
     using YGNodePtr = fcitx::UniqueCPtr<YGNode, YGNodeFree>;
     YGNodePtr rootNode_;

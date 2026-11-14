@@ -7,6 +7,7 @@
 #ifndef _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 
+#include <cstddef>
 #include <memory>
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
@@ -31,8 +32,11 @@ public:
 
     void updateDPI(InputContext *inputContext);
 
+protected:
+    bool setMenuCandidateIndex(int index) override;
+
 private:
-    bool showCandidateMenu(int x, int y, int rootX, int rootY);
+    bool showCandidateMenu(size_t candidateIndex, const Rect &anchor);
     void clearCandidateMenu();
     void repaint();
     const Rect *getClosestScreen(const Rect &cursorRect) const;

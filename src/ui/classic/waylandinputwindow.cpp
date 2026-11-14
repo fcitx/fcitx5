@@ -6,6 +6,7 @@
  */
 #include "waylandinputwindow.h"
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -42,6 +43,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
     window_->createWindow();
     candidateMenu_ = std::make_unique<WaylandCandidateMenu>(ui_, window_.get());
+    candidateMenu_->hidden().connect([this]() { clearCandidateMenu(); });
     window_->repaint().connect([this]() {
         if (auto *ic = repaintIC_.get()) {
             if (ic->hasFocus()) {
@@ -56,13 +58,12 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             }
             if (button == BTN_RIGHT) {
                 if (candidateMenu_->visible()) {
-                    candidateMenu_->clear();
-                } else {
-                    candidateMenu_->show(inputContext_.get(), candidateRegions_,
-                                         x, y);
+                    clearCandidateMenu();
+                } else if (int idx = candidateIndexAt(x, y); idx >= 0) {
+                    showCandidateMenu(idx, candidateRegions_[idx]);
                 }
             } else if (button == BTN_LEFT) {
-                candidateMenu_->clear();
+                clearCandidateMenu();
                 click(x, y);
             }
         });
@@ -77,7 +78,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
         }
     });
     window_->touchDown().connect([this](int x, int y) {
-        candidateMenu_->clear();
+        clearCandidateMenu();
         click(x, y);
     });
     window_->touchUp().connect([](int, int) {
@@ -166,15 +167,37 @@ void WaylandInputWindow::updateScale() {
     candidateMenu_->updateScale();
 }
 
-void WaylandInputWindow::resetPanel() {
+bool WaylandInputWindow::setMenuCandidateIndex(int index) {
+    if (InputWindow::setMenuCandidateIndex(index)) {
+        repaint();
+        return true;
+    }
+    return false;
+}
+
+void WaylandInputWindow::clearCandidateMenu() {
     candidateMenu_->clear();
+    setMenuCandidateIndex(-1);
+}
+
+bool WaylandInputWindow::showCandidateMenu(size_t candidateIndex,
+                                           const Rect &anchor) {
+    if (!candidateMenu_->show(inputContext_.get(), candidateIndex, anchor)) {
+        return false;
+    }
+    setMenuCandidateIndex(static_cast<int>(candidateIndex));
+    return true;
+}
+
+void WaylandInputWindow::resetPanel() {
+    clearCandidateMenu();
     panelSurface_.reset();
 }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
-    candidateMenu_->clear();
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
+    clearCandidateMenu();
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
                       << " for IC program:"
                       << (ic ? ic->program() : std::string("-"))
