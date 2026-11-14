@@ -5,9 +5,23 @@
  */
 #include "candidatemenu.h"
 #include <algorithm>
+#include <cstddef>
+#include <optional>
 #include <utility>
+#include <vector>
+#include <cairo.h>
+#include <pango/pango-context.h>
+#include <pango/pango-font.h>
+#include <pango/pango-fontmap.h>
+#include <pango/pango-layout.h>
+#include <pango/pango-types.h>
 #include <pango/pangocairo.h>
+#include "fcitx-utils/rect.h"
+#include "fcitx/candidateaction.h"
+#include "fcitx/candidatelist.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/misc_p.h"
+#include "candidatemenulayout.h"
 #include "classicui.h"
 #include "theme.h"
 
@@ -45,7 +59,7 @@ void CandidateMenu::clear() {
 
 bool CandidateMenu::show(InputContext *inputContext,
                          const std::vector<Rect> &candidateRegions, int x,
-                         int y, int maximumWidth) {
+                         int y, int maximumWidth, int maximumHeight) {
     clear();
     if (!inputContext || !context_ || !layout_) {
         return false;
@@ -93,12 +107,24 @@ bool CandidateMenu::show(InputContext *inputContext,
     pango_layout_set_single_paragraph_mode(layout_.get(), true);
 
     CandidateMenuLayout::Style style;
-    style.content = {*content.marginLeft, *content.marginRight,
-                     *content.marginTop, *content.marginBottom};
-    style.text = {*text.marginLeft, *text.marginRight, *text.marginTop,
-                  *text.marginBottom};
-    style.highlight = {*highlight.marginLeft, *highlight.marginRight,
-                       *highlight.marginTop, *highlight.marginBottom};
+    style.content = {
+        .left = *content.marginLeft,
+        .right = *content.marginRight,
+        .top = *content.marginTop,
+        .bottom = *content.marginBottom,
+    };
+    style.text = {
+        .left = *text.marginLeft,
+        .right = *text.marginRight,
+        .top = *text.marginTop,
+        .bottom = *text.marginBottom,
+    };
+    style.highlight = {
+        .left = *highlight.marginLeft,
+        .right = *highlight.marginRight,
+        .top = *highlight.marginTop,
+        .bottom = *highlight.marginBottom,
+    };
     style.spacing = *menu.spacing;
     style.separatorHeight = separator.isPattern() ? 2 : separator.height();
     if (std::ranges::any_of(actions, [](const auto &action) {
@@ -119,8 +145,13 @@ bool CandidateMenu::show(InputContext *inputContext,
                                   action.text().size());
             pango_layout_get_pixel_size(layout_.get(), &textWidth, &textHeight);
         }
-        items.push_back({textWidth, textHeight, action.isSeparator()});
+        items.push_back({
+            .textWidth = textWidth,
+            .textHeight = textHeight,
+            .separator = action.isSeparator(),
+        });
     }
+    setMaximumHeight(maximumHeight);
     layoutGeometry_.update(style, items);
     inputContext_ = inputContext->watch();
     candidateList_ = std::move(candidateList);
@@ -160,8 +191,12 @@ CandidateMenu::selectionAt(int x, int y) const {
     if (index < 0 || actions_[index].isSeparator()) {
         return std::nullopt;
     }
-    return Selection{inputContext_, candidateList_, candidateIndex_,
-                     actions_[index].id()};
+    return Selection{
+        .inputContext = inputContext_,
+        .candidateList = candidateList_,
+        .candidateIndex = candidateIndex_,
+        .id = actions_[index].id(),
+    };
 }
 
 void CandidateMenu::Selection::activate() const {

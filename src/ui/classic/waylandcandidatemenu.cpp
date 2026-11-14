@@ -8,7 +8,9 @@
 #include <cstdint>
 #include <memory>
 #include <utility>
+#include <vector>
 #include <cairo.h>
+#include "fcitx-utils/rect.h"
 #include "candidatemenuplacement.h"
 #include "ext_background_effect_manager_v1.h"
 #include "theme.h"
@@ -184,21 +186,10 @@ void WaylandCandidateMenu::show(InputContext *inputContext,
                                 int x, int y) {
     clear();
     const Rect anchor = Rect().setPosition(x, y).setSize(1, 1);
-    int maxWidth = candidateMenuAvailableWidth(x, parentWindow_->width());
-    if (const int outputWidth = parentWindow_->outputWidth(); outputWidth > 0) {
-        maxWidth = std::min(maxWidth, outputWidth);
-    }
-    maxWidth = std::max(1, maxWidth);
-    if (!menu_.show(inputContext, candidateRegions, x, y, maxWidth)) {
+    if (!menu_.show(inputContext, candidateRegions, x, y, 0, 0)) {
         return;
     }
     positionAnchor_ = anchor;
-    int maxHeight = candidateMenuAvailableHeight(y, parentWindow_->height());
-    if (const int outputHeight = parentWindow_->outputHeight();
-        outputHeight > 0) {
-        maxHeight = std::min(maxHeight, outputHeight);
-    }
-    menu_.setMaximumHeight(std::max(1, maxHeight));
     if (!createSubsurface()) {
         clear();
         return;
