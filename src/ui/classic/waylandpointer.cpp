@@ -29,6 +29,7 @@ WaylandPointer::WaylandPointer(WaylandUI *ui, wayland::WlSeat *seat)
             initTouch();
         } else if (!(caps & WL_SEAT_CAPABILITY_TOUCH) && touch_) {
             touch_.reset();
+            clearTouchFocus();
         }
     });
 }
@@ -77,26 +78,53 @@ void WaylandPointer::initPointer() {
 
 void WaylandPointer::initTouch() {
     touch_->down().connect([this](uint32_t, uint32_t,
-                                  wayland::WlSurface *surface, int,
+                                  wayland::WlSurface *surface, int32_t id,
                                   wl_fixed_t sx, wl_fixed_t sy) {
-        // TODO handle id for multiple touch
+        // Keep one active touch so a different contact's up cannot activate
+        // this touch's selection.
+        if (touchActive_) {
+            return;
+        }
         auto *window = static_cast<WaylandWindow *>(surface->userData());
         if (!window) {
             return;
         }
         touchFocus_ = window->watch();
+        touchFocusId_ = id;
+        touchActive_ = true;
         touchFocusX_ = wl_fixed_to_int(sx);
         touchFocusY_ = wl_fixed_to_int(sy);
         window->touchDown()(touchFocusX_, touchFocusY_);
     });
-    touch_->up().connect([this](uint32_t, uint32_t, int) {
-        // TODO handle id for multiple touch
+    touch_->motion().connect(
+        [this](uint32_t, int32_t id, wl_fixed_t sx, wl_fixed_t sy) {
+            if (!touchActive_ || id != touchFocusId_) {
+                return;
+            }
+            if (auto *window = touchFocus_.get()) {
+                touchFocusX_ = wl_fixed_to_int(sx);
+                touchFocusY_ = wl_fixed_to_int(sy);
+                window->hover()(touchFocusX_, touchFocusY_);
+            }
+        });
+    touch_->up().connect([this](uint32_t, uint32_t, int32_t id) {
+        if (!touchActive_ || id != touchFocusId_) {
+            return;
+        }
         if (auto *window = touchFocus_.get()) {
             window->touchUp()(touchFocusX_, touchFocusY_);
-            touchFocus_.unwatch();
-            window->leave()();
         }
+        clearTouchFocus();
     });
+    touch_->cancel().connect([this]() { clearTouchFocus(); });
+}
+
+void WaylandPointer::clearTouchFocus() {
+    if (auto *window = touchFocus_.get()) {
+        window->leave()();
+    }
+    touchFocus_.unwatch();
+    touchActive_ = false;
 }
 
 } // namespace fcitx::classicui

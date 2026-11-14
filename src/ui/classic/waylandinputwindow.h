@@ -21,10 +21,12 @@ namespace fcitx::classicui {
 
 class WaylandUI;
 class WaylandWindow;
+class WaylandCandidateMenu;
 
 class WaylandInputWindow : public InputWindow {
 public:
     WaylandInputWindow(WaylandUI *ui);
+    ~WaylandInputWindow();
 
     void initPanel();
     void resetPanel();
@@ -43,6 +45,7 @@ private:
     TrackableObjectReference<InputContext> v2IC_;
     std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> panelSurfaceV2_;
     std::unique_ptr<WaylandWindow> window_;
+    std::unique_ptr<WaylandCandidateMenu> candidateMenu_;
     TrackableObjectReference<InputContext> repaintIC_;
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;

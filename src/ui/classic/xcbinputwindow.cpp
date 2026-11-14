@@ -30,7 +30,15 @@ namespace fcitx::classicui {
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
-          ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
+          ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)),
+      candidateMenu_(std::make_unique<XCBCandidateMenu>(ui)) {}
+
+void XCBInputWindow::clearCandidateMenu() { candidateMenu_->hide(); }
+
+bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
+    return candidateMenu_->show(inputContext_.get(), candidateRegions_, x, y,
+                                rootX, rootY);
+}
 
 void XCBInputWindow::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_COMBO &&
@@ -174,6 +182,7 @@ void XCBInputWindow::updateDPI(InputContext *inputContext) {
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {
+    clearCandidateMenu();
     if (!wid_) {
         return;
     }
@@ -255,7 +264,16 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         if (buttonPress->event != wid_) {
             break;
         }
-        if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
+        if (buttonPress->detail == XCB_BUTTON_INDEX_3) {
+            if (candidateMenu_->visible()) {
+                clearCandidateMenu();
+            } else {
+                showCandidateMenu(logicalFromPhysical(buttonPress->event_x),
+                                  logicalFromPhysical(buttonPress->event_y),
+                                  buttonPress->root_x, buttonPress->root_y);
+            }
+        } else if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
+            clearCandidateMenu();
             click(logicalFromPhysical(buttonPress->event_x),
                   logicalFromPhysical(buttonPress->event_y));
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_4) {

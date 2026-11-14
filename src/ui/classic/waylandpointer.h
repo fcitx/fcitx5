@@ -40,6 +40,7 @@ public:
 private:
     void initPointer();
     void initTouch();
+    void clearTouchFocus();
     WaylandUI *ui_;
     wayland::Display *display_;
     std::unique_ptr<wayland::WlPointer> pointer_;
@@ -48,6 +49,8 @@ private:
     std::unique_ptr<wayland::WlTouch> touch_;
     TrackableObjectReference<WaylandWindow> touchFocus_;
     int touchFocusX_ = 0, touchFocusY_ = 0;
+    int32_t touchFocusId_ = 0;
+    bool touchActive_ = false;
     ScopedConnection capConn_;
     uint32_t enterSerial_ = 0;
     std::unique_ptr<WaylandCursor> cursor_;

@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <vector>
 #include <wayland-client-protocol.h>
 #include <wayland-util.h>
 #include "fcitx-utils/eventloopinterface.h"
@@ -21,6 +22,10 @@
 #include "wp_fractional_scale_v1.h"
 #include "wp_viewport.h"
 #include "wp_viewporter.h"
+
+namespace fcitx::wayland {
+class WlOutput;
+}
 
 namespace fcitx::classicui {
 
@@ -40,6 +45,8 @@ public:
                          : lastOutputScale_ * ScaleDominator;
     }
     int32_t outputScale() const { return lastOutputScale_; }
+    int outputWidth() const { return outputWidth_; }
+    int outputHeight() const { return outputHeight_; }
     wl_output_transform transform() const { return transform_; }
     bool setScaleAndTransform(int32_t scale, wl_output_transform transform) {
         if (lastOutputScale_ != scale || transform_ != transform) {
@@ -59,6 +66,7 @@ public:
 
     auto &touchDown() { return touchDown_; }
     auto &touchUp() { return touchUp_; }
+    auto &outputSizeChanged() { return outputSizeChanged_; }
 
     void updateScale();
 
@@ -66,6 +74,10 @@ protected:
     WaylandUI *ui_;
     std::unique_ptr<wayland::WlSurface> surface_;
     fcitx::ScopedConnection enterConn_;
+    fcitx::ScopedConnection leaveConn_;
+    fcitx::ScopedConnection outputDoneConn_;
+    wayland::WlOutput *currentOutput_ = nullptr;
+    std::vector<wayland::WlOutput *> enteredOutputs_;
     Signal<void()> repaint_;
     Signal<void(int, int)> hover_;
     Signal<void(int, int, uint32_t, uint32_t)> click_;
@@ -74,11 +86,14 @@ protected:
 
     Signal<void(int, int)> touchDown_;
     Signal<void(int, int)> touchUp_;
+    Signal<void()> outputSizeChanged_;
 
     Rect serverAllocation_;
     Rect allocation_;
 
     int32_t lastOutputScale_ = 1;
+    int outputWidth_ = 0;
+    int outputHeight_ = 0;
     unsigned int lastFractionalScale_ = ScaleDominator;
     wl_output_transform transform_ = WL_OUTPUT_TRANSFORM_NORMAL;
 
@@ -91,6 +106,9 @@ protected:
     std::unique_ptr<EventSource> repaintEvent_;
 
 private:
+    void setCurrentOutput(wayland::WlOutput *output);
+    void updateOutputInformation(wayland::WlOutput *output);
+    void setOutputSize(int width, int height);
     void resetFractionalScale();
     // Avoid repaint being done too much.
     // For input window, since it will re-created frequently, the initial scale

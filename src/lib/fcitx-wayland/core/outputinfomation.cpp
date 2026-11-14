@@ -11,16 +11,16 @@ namespace fcitx::wayland {
 
 class OutputInfomationData {
 public:
-    int32_t x_, y_;
-    int32_t width_, height_;
-    int32_t refreshRate_;
-    int32_t physicalWidth_;
-    int32_t physicalHeight_;
-    wl_output_subpixel subpixel_;
+    int32_t x_ = 0, y_ = 0;
+    int32_t width_ = 0, height_ = 0;
+    int32_t refreshRate_ = 0;
+    int32_t physicalWidth_ = 0;
+    int32_t physicalHeight_ = 0;
+    wl_output_subpixel subpixel_ = WL_OUTPUT_SUBPIXEL_UNKNOWN;
     std::string make_;
     std::string model_;
-    wl_output_transform transform_;
-    int32_t scale_;
+    wl_output_transform transform_ = WL_OUTPUT_TRANSFORM_NORMAL;
+    int32_t scale_ = 1;
 };
 
 class OutputInfomationPrivate {
