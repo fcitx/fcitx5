@@ -5,9 +5,15 @@
  */
 #include "candidatemenulayout.h"
 #include <algorithm>
+#include <cstddef>
+#include <vector>
+#include <yoga/YGEnums.h>
+#include <yoga/YGNode.h>
 #include <yoga/YGNodeLayout.h>
 #include <yoga/YGNodeStyle.h>
+#include <yoga/YGValue.h>
 #include <yoga/Yoga.h>
+#include "fcitx-utils/rect.h"
 
 namespace fcitx::classicui {
 
@@ -78,30 +84,38 @@ void CandidateMenuLayout::update(const Style &style,
         const int left = static_cast<int>(YGNodeLayoutGetLeft(node));
         const int top = static_cast<int>(YGNodeLayoutGetTop(node));
         if (items[i].separator) {
-            rows_.push_back({Rect().setPosition(left, top).setSize(
-                                 itemWidth + style.text.left + style.text.right,
-                                 style.separatorHeight),
-                             Rect(), Rect(), true});
+            rows_.push_back({
+                .region = Rect().setPosition(left, top).setSize(
+                    itemWidth + style.text.left + style.text.right,
+                    style.separatorHeight),
+                .check = Rect(),
+                .text = Rect(),
+                .separator = true,
+            });
         } else {
             const int rowTop = top - style.text.top;
             const int rowHeight =
                 itemHeight + style.text.top + style.text.bottom;
-            rows_.push_back(
-                {Rect()
-                     .setPosition(left - style.text.left, rowTop)
-                     .setSize(itemWidth + style.text.left + style.text.right,
-                              rowHeight),
-                 Rect()
-                     .setPosition(left,
-                                  rowTop + (rowHeight - style.checkHeight) / 2)
-                     .setSize(checkWidth, style.checkHeight),
-                 Rect()
-                     .setPosition(left + checkWidth,
-                                  rowTop +
-                                      (rowHeight - items[i].textHeight) / 2)
-                     .setSize(std::min(items[i].textWidth, maxTextWidth),
-                              items[i].textHeight),
-                 false});
+            rows_.push_back({
+                .region =
+                    Rect()
+                        .setPosition(left - style.text.left, rowTop)
+                        .setSize(itemWidth + style.text.left + style.text.right,
+                                 rowHeight),
+                .check = Rect()
+                             .setPosition(
+                                 left,
+                                 rowTop + ((rowHeight - style.checkHeight) / 2))
+                             .setSize(checkWidth, style.checkHeight),
+                .text =
+                    Rect()
+                        .setPosition(
+                            left + checkWidth,
+                            rowTop + ((rowHeight - items[i].textHeight) / 2))
+                        .setSize(std::min(items[i].textWidth, maxTextWidth),
+                                 items[i].textHeight),
+                .separator = false,
+            });
         }
     }
 }

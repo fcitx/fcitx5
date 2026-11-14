@@ -14,8 +14,10 @@
 #include <pango/pango-context.h>
 #include <pango/pango-fontmap.h>
 #include <pango/pango-layout.h>
+#include <pango/pango-types.h>
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx/candidateaction.h"
 #include "fcitx/candidatelist.h"
 #include "candidatemenulayout.h"
 #include "common.h"
@@ -48,7 +50,7 @@ public:
     PangoContext *fontContext() const { return context_.get(); }
     bool show(InputContext *inputContext,
               const std::vector<Rect> &candidateRegions, int x, int y,
-              int maximumWidth = 0);
+              int maximumWidth = 0, int maximumHeight = 0);
     void clear();
     bool hover(int x, int y);
     std::optional<Selection> selectionAt(int x, int y) const;

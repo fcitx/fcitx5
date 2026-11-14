@@ -44,9 +44,15 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
     }
     const double scale = scaleForDPI(ui_->dpiByPosition(rootX, rootY));
     const int maximumWidth =
-        closestScreen ? static_cast<int>(closestScreen->width() / scale) : 0;
+        closestScreen
+            ? static_cast<int>(logicalFromPhysical(closestScreen->width()))
+            : 0;
+    const int maximumHeight =
+        closestScreen
+            ? static_cast<int>(logicalFromPhysical(closestScreen->height()))
+            : 0;
     ui_->fontOption().setupPangoContext(menu_.fontContext());
-    if (!menu_.show(inputContext, regions, x, y, maximumWidth)) {
+    if (!menu_.show(inputContext, regions, x, y, maximumWidth, maximumHeight)) {
         return false;
     }
     if (wid_ && vid_ != ui_->visualId()) {
@@ -56,10 +62,6 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
         createWindow(ui_->visualId());
     }
     setScale(scale);
-    if (closestScreen) {
-        menu_.setMaximumHeight(std::max(
-            1, static_cast<int>(logicalFromPhysical(closestScreen->height()))));
-    }
     resize(menu_.width(), menu_.height());
     updateBlur();
     repaint();
