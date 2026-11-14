@@ -19,6 +19,7 @@
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/endian_p.h"
+#include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
@@ -352,6 +353,22 @@ void NotificationItem::setRegistered(bool registered) {
             eventHandlers_.emplace_back(instance_->watchEvent(
                 type, EventWatcherPhase::Default, updateIconAndTitle));
         }
+        eventHandlers_.emplace_back(instance_->watchEvent(
+            EventType::InputContextDestroyed, EventWatcherPhase::Default,
+            [this](Event &event) {
+                auto *ic =
+                    static_cast<InputContextEvent &>(event).inputContext();
+                if (menu_->lastRelevantIc() != ic) {
+                    return;
+                }
+                // Tracked context references expire after the destroy event.
+                instance_->eventDispatcher().scheduleWithContext(
+                    lifeTimeTracker_.watch(), [this]() {
+                        menu_->updateMenu(nullptr);
+                        newIcon();
+                        newToolTip();
+                    });
+            }));
         eventHandlers_.emplace_back(instance_->watchEvent(
             EventType::InputContextFlushUI, EventWatcherPhase::Default,
             [updateIconAndTitle](Event &event) {

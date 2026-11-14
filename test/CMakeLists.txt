@@ -195,3 +195,20 @@ add_dependencies(testxim copy-addon xim testui testfrontend testim)
 #    add_test(NAME testxim COMMAND XvfbWrapper "${XVFB_BIN}" "${CMAKE_CURRENT_BINARY_DIR}/testxim")
 #endif()
 endif()
+
+if (ENABLE_DBUS AND ENABLE_KEYBOARD AND DBUS_DAEMON_BIN)
+    add_executable(testnotificationitem testnotificationitem.cpp)
+    target_link_libraries(testnotificationitem Fcitx5::Core Fcitx5::Module::TestFrontend Fcitx5::Module::NotificationItem keyboard)
+    add_dependencies(testnotificationitem copy-addon testfrontend dbus notificationitem dbus.conf.in-fmt notificationitem.conf.in-fmt)
+    add_custom_command(TARGET testnotificationitem POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/notification-test/addon
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${PROJECT_BINARY_DIR}/src/modules/dbus/dbus.conf
+            ${PROJECT_BINARY_DIR}/src/modules/notificationitem/notificationitem.conf
+            ${CMAKE_CURRENT_BINARY_DIR}/notification-test/addon)
+    foreach(mode gtk kde)
+        add_test(NAME testnotificationitem_${mode}
+            COMMAND DBusWrapper "${DBUS_DAEMON_BIN}" "$<TARGET_FILE:testnotificationitem>" ${mode})
+        set_tests_properties(testnotificationitem_${mode} PROPERTIES TIMEOUT 15)
+    endforeach()
+endif()
