@@ -11,6 +11,7 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <vector>
 #include <cairo.h>
 #include <xcb/xcb.h>
@@ -23,6 +24,7 @@
 #include "inputwindow.h"
 #include "theme.h"
 #include "xcb_public.h"
+#include "xcbcandidatemenu.h"
 #include "xcbui.h"
 #include "xcbwindow.h"
 
@@ -162,9 +164,7 @@ int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
 
             // If after flip, top is out of the screen, we still prefer the top
             // edge to be always with in screen.
-            if (newY < closestScreen->top()) {
-                newY = closestScreen->top();
-            }
+            newY = std::max(newY, closestScreen->top());
         }
 
         y = newY;

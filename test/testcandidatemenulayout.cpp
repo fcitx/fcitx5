@@ -11,14 +11,20 @@ using namespace fcitx::classicui;
 
 int main() {
     CandidateMenuLayout layout;
-    CandidateMenuLayout::Style style;
-    style.content = {5, 7, 11, 13};
-    style.text = {3, 4, 2, 3};
-    style.spacing = 6;
-    style.checkWidth = 8;
-    style.checkHeight = 8;
-    style.separatorHeight = 2;
-    layout.update(style, {{20, 10, false}, {0, 0, true}, {12, 14, false}});
+    CandidateMenuLayout::Style style{
+        .content = {.left = 5, .right = 7, .top = 11, .bottom = 13},
+        .text = {.left = 3, .right = 4, .top = 2, .bottom = 3},
+        .highlight = {.left = 3, .right = 4, .top = 2, .bottom = 3},
+        .spacing = 6,
+        .checkWidth = 8,
+        .checkHeight = 8,
+        .separatorHeight = 2,
+    };
+    layout.update(style, {
+                             {.textWidth = 20, .textHeight = 10},
+                             {.separator = true},
+                             {.textWidth = 12, .textHeight = 14},
+                         });
 
     FCITX_ASSERT(layout.width() == 47);
     FCITX_ASSERT(layout.height() == 76);
@@ -28,45 +34,70 @@ int main() {
     FCITX_ASSERT(layout.indexAt(6, 37) == -1);
     FCITX_ASSERT(layout.indexAt(6, 45) == 2);
 
-    style.content = {0, 0, 0, 0};
-    style.text = {0, 0, 0, 0};
-    style.spacing = 0;
-    style.checkWidth = 0;
-    style.checkHeight = 0;
-    layout.update(style, {{12, 10, false}});
+    // Matching TextMargin and Highlight/Margin (as in the default theme)
+    // produces adjacent, non-overlapping highlight regions inside
+    // ContentMargin.
+    style = {
+        .content = {.left = 2, .right = 2, .top = 2, .bottom = 2},
+        .text = {.left = 5, .right = 5, .top = 5, .bottom = 5},
+        .highlight = {.left = 5, .right = 5, .top = 5, .bottom = 5},
+    };
+    layout.update(style, {
+                             {.textWidth = 40, .textHeight = 18},
+                             {.textWidth = 40, .textHeight = 18},
+                         });
+    FCITX_ASSERT(layout.row(0).region.left() == 2);
+    FCITX_ASSERT(layout.row(0).region.right() == layout.width() - 2);
+    FCITX_ASSERT(layout.row(0).region.top() == 2);
+    FCITX_ASSERT(layout.row(0).region.bottom() == layout.row(1).region.top());
+    FCITX_ASSERT(layout.row(1).region.bottom() == layout.height() - 2);
+
+    style = {};
+    layout.update(style, {{.textWidth = 12, .textHeight = 10}});
 
     FCITX_ASSERT(layout.width() == 12);
     FCITX_ASSERT(layout.height() == 10);
     FCITX_ASSERT(layout.indexAt(1, 1) == 0);
     FCITX_ASSERT(layout.indexAt(6, 45) == -1);
 
-    layout.update(style, {{12, 10, false}, {12, 10, false}});
+    layout.update(style, {
+                             {.textWidth = 12, .textHeight = 10},
+                             {.textWidth = 12, .textHeight = 10},
+                         });
     FCITX_ASSERT(layout.indexAt(1, 10) == 1);
     FCITX_ASSERT(layout.indexAt(12, 1) == -1);
 
-    style.content = {3, 4, 2, 3};
-    style.highlight = {4, 5, 3, 4};
-    layout.update(style, {{12, 10, false}, {12, 10, false}});
+    style = {
+        .content = {.left = 3, .right = 4, .top = 2, .bottom = 3},
+        .highlight = {.left = 4, .right = 5, .top = 3, .bottom = 4},
+    };
+    layout.update(style, {
+                             {.textWidth = 12, .textHeight = 10},
+                             {.textWidth = 12, .textHeight = 10},
+                         });
     FCITX_ASSERT(layout.indexAt(0, 0) == 0);
     FCITX_ASSERT(layout.indexAt(16, 20) == 1);
     FCITX_ASSERT(layout.indexAt(20, 20) == -1);
     FCITX_ASSERT(layout.indexAt(-1, -1) == -1);
 
-    style.content = {0, 0, 0, 0};
-    style.text = {0, 0, 1, 5};
-    style.highlight = {};
-    style.checkWidth = 8;
-    style.checkHeight = 8;
-    layout.update(style, {{12, 10, false}});
+    style = {
+        .text = {.top = 1, .bottom = 5},
+        .checkWidth = 8,
+        .checkHeight = 8,
+    };
+    layout.update(style, {{.textWidth = 12, .textHeight = 10}});
     const auto &row = layout.row(0);
     FCITX_ASSERT(row.check.top() ==
                  row.region.top() + (row.region.height() - 8) / 2);
     FCITX_ASSERT(row.text.top() ==
                  row.region.top() + (row.region.height() - 10) / 2);
 
-    style = {};
-    style.maxHeight = 20;
-    layout.update(style, {{20, 10, false}, {20, 10, false}, {20, 10, false}});
+    style = {.maxHeight = 20};
+    layout.update(style, {
+                             {.textWidth = 20, .textHeight = 10},
+                             {.textWidth = 20, .textHeight = 10},
+                             {.textWidth = 20, .textHeight = 10},
+                         });
     FCITX_ASSERT(layout.height() == 20);
     FCITX_ASSERT(layout.indexAt(1, 15) == 1);
     FCITX_ASSERT(layout.scroll(10));
@@ -76,16 +107,23 @@ int main() {
     FCITX_ASSERT(layout.scroll(-10));
     FCITX_ASSERT(layout.scrollOffset() == 0);
 
-    style = {};
-    style.maxHeight = 100;
-    layout.update(style, {{20, 10, false}, {20, 10, false}, {20, 10, false}});
+    style = {.maxHeight = 100};
+    layout.update(style, {
+                             {.textWidth = 20, .textHeight = 10},
+                             {.textWidth = 20, .textHeight = 10},
+                             {.textWidth = 20, .textHeight = 10},
+                         });
     FCITX_ASSERT(layout.height() == 30);
     FCITX_ASSERT(!layout.scroll(10));
 
-    style = {};
-    style.checkWidth = 8;
-    style.maxWidth = 30;
-    layout.update(style, {{100, 10, false}, {5, 10, false}});
+    style = {
+        .checkWidth = 8,
+        .maxWidth = 30,
+    };
+    layout.update(style, {
+                             {.textWidth = 100, .textHeight = 10},
+                             {.textWidth = 5, .textHeight = 10},
+                         });
     FCITX_ASSERT(layout.width() == 30);
     FCITX_ASSERT(layout.row(0).text.width() == 22);
     FCITX_ASSERT(layout.row(1).text.width() == 5);

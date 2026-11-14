@@ -21,7 +21,6 @@ CandidateMenuLayout::CandidateMenuLayout() : rootNode_(YGNodeNew()) {}
 
 void CandidateMenuLayout::update(const Style &style,
                                  const std::vector<Item> &items) {
-    highlight_ = style.highlight;
     YGNodeRemoveAllChildren(rootNode_.get());
     itemNodes_.clear();
     rows_.clear();
@@ -94,27 +93,25 @@ void CandidateMenuLayout::update(const Style &style,
                 .separator = true,
             });
         } else {
-            const int rowTop = top - style.text.top;
-            const int rowHeight =
-                itemHeight + style.text.top + style.text.bottom;
             rows_.push_back({
-                .region =
-                    Rect()
-                        .setPosition(left - style.text.left, rowTop)
-                        .setSize(itemWidth + style.text.left + style.text.right,
-                                 rowHeight),
-                .check = Rect()
-                             .setPosition(
-                                 left,
-                                 rowTop + ((rowHeight - style.checkHeight) / 2))
-                             .setSize(checkWidth, style.checkHeight),
-                .text =
+                .region = Rect()
+                              .setPosition(left - style.highlight.left,
+                                           top - style.highlight.top)
+                              .setSize(itemWidth + style.highlight.left +
+                                           style.highlight.right,
+                                       itemHeight + style.highlight.top +
+                                           style.highlight.bottom),
+                .check =
                     Rect()
                         .setPosition(
-                            left + checkWidth,
-                            rowTop + ((rowHeight - items[i].textHeight) / 2))
-                        .setSize(std::min(items[i].textWidth, maxTextWidth),
-                                 items[i].textHeight),
+                            left, top + ((itemHeight - style.checkHeight) / 2))
+                        .setSize(checkWidth, style.checkHeight),
+                .text = Rect()
+                            .setPosition(
+                                left + checkWidth,
+                                top + ((itemHeight - items[i].textHeight) / 2))
+                            .setSize(std::min(items[i].textWidth, maxTextWidth),
+                                     items[i].textHeight),
                 .separator = false,
             });
         }
@@ -138,10 +135,8 @@ int CandidateMenuLayout::indexAt(int x, int y) const {
     y += scrollOffset_;
     for (size_t i = 0; i < rows_.size(); i++) {
         const auto &region = rows_[i].region;
-        if (!rows_[i].separator && x >= region.left() - highlight_.left &&
-            x < region.right() + highlight_.right &&
-            y >= region.top() - highlight_.top &&
-            y < region.bottom() + highlight_.bottom) {
+        if (!rows_[i].separator && x >= region.left() && x < region.right() &&
+            y >= region.top() && y < region.bottom()) {
             return static_cast<int>(i);
         }
     }

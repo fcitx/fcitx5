@@ -8,6 +8,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <yoga/YGConfig.h>
 #include <yoga/YGNode.h>
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
@@ -24,9 +25,9 @@ public:
     };
 
     struct Style {
-        Margins content;
-        Margins text;
-        Margins highlight;
+        Margins content{};
+        Margins text{};
+        Margins highlight{};
         int spacing = 0;
         int checkWidth = 0;
         int checkHeight = 0;
@@ -36,16 +37,16 @@ public:
     };
 
     struct Item {
-        int textWidth;
-        int textHeight;
-        bool separator;
+        int textWidth = 0;
+        int textHeight = 0;
+        bool separator = false;
     };
 
     struct Row {
         Rect region;
         Rect check;
         Rect text;
-        bool separator;
+        bool separator = false;
     };
 
     CandidateMenuLayout();
@@ -59,7 +60,6 @@ public:
 
 private:
     std::vector<Row> rows_;
-    Margins highlight_;
     std::vector<UniqueCPtr<YGNode, YGNodeFree>> itemNodes_;
     UniqueCPtr<YGNode, YGNodeFree> rootNode_;
     int width_ = 0;

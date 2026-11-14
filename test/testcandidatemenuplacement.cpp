@@ -5,6 +5,7 @@
  */
 
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/rect.h"
 #include "candidatemenuplacement.h"
 
 using namespace fcitx;
