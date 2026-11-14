@@ -41,10 +41,6 @@ void CandidateMenu::setFontDPI(int dpi) {
     pango_cairo_context_set_resolution(context_.get(), dpi);
 }
 
-void CandidateMenu::setMaximumHeight(int height) {
-    layoutGeometry_.setMaximumHeight(height);
-}
-
 bool CandidateMenu::scroll(int offset) {
     return layoutGeometry_.scroll(offset);
 }
@@ -134,6 +130,7 @@ bool CandidateMenu::show(InputContext *inputContext,
         style.checkHeight = checkBox.height();
     }
     style.maxWidth = maximumWidth;
+    style.maxHeight = maximumHeight;
 
     std::vector<CandidateMenuLayout::Item> items;
     items.reserve(actions.size());
@@ -151,7 +148,6 @@ bool CandidateMenu::show(InputContext *inputContext,
             .separator = action.isSeparator(),
         });
     }
-    setMaximumHeight(maximumHeight);
     layoutGeometry_.update(style, items);
     inputContext_ = inputContext->watch();
     candidateList_ = std::move(candidateList);
@@ -218,7 +214,7 @@ void CandidateMenu::Selection::activate() const {
     }
 }
 
-void CandidateMenu::paint(cairo_t *cr) {
+void CandidateMenu::paint(cairo_t *cr, double width, double height) {
     if (!visible_) {
         return;
     }
@@ -228,9 +224,9 @@ void CandidateMenu::paint(cairo_t *cr) {
 
     auto &theme = parent_->theme();
     const auto &menu = *theme.menu;
-    theme.paint(cr, *menu.background, 0, 0, width(), height(), 1.0);
+    theme.paint(cr, *menu.background, 0, 0, width, height, 1.0);
     cairo_save(cr);
-    cairo_rectangle(cr, 0, 0, width(), height());
+    cairo_rectangle(cr, 0, 0, width, height);
     cairo_clip(cr);
     cairo_translate(cr, 0, -layoutGeometry_.scrollOffset());
     for (size_t i = 0; i < actions_.size(); i++) {
@@ -238,7 +234,9 @@ void CandidateMenu::paint(cairo_t *cr) {
         const auto &row = layoutGeometry_.row(i);
         if (action.isSeparator()) {
             theme.paint(cr, *menu.separator, row.region.left(),
-                        row.region.top(), row.region.width(),
+                        row.region.top(),
+                        std::max(0.0, width - *menu.contentMargin->marginLeft -
+                                          *menu.contentMargin->marginRight),
                         row.region.height(), 1.0);
             continue;
         }

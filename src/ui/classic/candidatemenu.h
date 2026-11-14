@@ -45,7 +45,6 @@ public:
 
     explicit CandidateMenu(ClassicUI *parent);
     void setFontDPI(int dpi);
-    void setMaximumHeight(int height);
     bool scroll(int offset);
     PangoContext *fontContext() const { return context_.get(); }
     bool show(InputContext *inputContext,
@@ -54,7 +53,7 @@ public:
     void clear();
     bool hover(int x, int y);
     std::optional<Selection> selectionAt(int x, int y) const;
-    void paint(cairo_t *cr);
+    void paint(cairo_t *cr, double width, double height);
 
     bool visible() const { return visible_; }
     int width() const { return layoutGeometry_.width(); }

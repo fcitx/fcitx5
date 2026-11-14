@@ -43,6 +43,7 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
         }
     }
     const double scale = scaleForDPI(ui_->dpiByPosition(rootX, rootY));
+    setScale(scale);
     const int maximumWidth =
         closestScreen
             ? static_cast<int>(logicalFromPhysical(closestScreen->width()))
@@ -61,7 +62,6 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
     if (!wid_) {
         createWindow(ui_->visualId());
     }
-    setScale(scale);
     resize(menu_.width(), menu_.height());
     updateBlur();
     repaint();
@@ -200,7 +200,9 @@ void XCBCandidateMenu::repaint() {
     }
     if (auto *surface = prerender()) {
         auto *cr = cairo_create(surface);
-        menu_.paint(cr);
+        auto surfaceWidth = cairo_image_surface_get_width(surface);
+        auto surfaceHeight = cairo_image_surface_get_height(surface);
+        menu_.paint(cr, surfaceWidth / scale_, surfaceHeight / scale_);
         cairo_destroy(cr);
         render();
     }

@@ -31,14 +31,6 @@ inline int candidateMenuPositionY(int cursorY, int menuHeight,
                       std::max(screen.top(), screen.bottom() - menuHeight));
 }
 
-inline int candidateMenuAvailableWidth(int x, int panelWidth) {
-    return std::max(x, panelWidth - x);
-}
-
-inline int candidateMenuAvailableHeight(int y, int panelHeight) {
-    return std::max(y, panelHeight - y);
-}
-
 // Keep the menu inside the visible input panel. Wayland does not expose the
 // panel's absolute screen position, so this is the available placement area.
 inline Rect candidateMenuPosition(const Rect &anchor, int panelWidth,
