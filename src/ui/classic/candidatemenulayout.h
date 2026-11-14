@@ -32,6 +32,7 @@ public:
         int checkHeight = 0;
         int separatorHeight = 0;
         int maxWidth = 0;
+        int maxHeight = 0;
     };
 
     struct Item {
@@ -49,7 +50,6 @@ public:
 
     CandidateMenuLayout();
     void update(const Style &style, const std::vector<Item> &items);
-    void setMaximumHeight(int height);
     bool scroll(int offset);
     int width() const { return width_; }
     int height() const { return viewportHeight_; }

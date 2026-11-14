@@ -141,7 +141,9 @@ void XCBWindow::destroyWindow() {
 void XCBWindow::setScale(double scale) {
     if (scale_ != scale && scale > 0) {
         scale_ = scale;
-        cairo_surface_set_device_scale(surface_.get(), scale_, scale_);
+        if (surface_) {
+            cairo_surface_set_device_scale(surface_.get(), scale_, scale_);
+        }
     }
 }
 

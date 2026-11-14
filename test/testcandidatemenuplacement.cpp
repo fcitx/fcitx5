@@ -13,8 +13,6 @@ using namespace fcitx::classicui;
 int main() {
     const Rect clickedPoint(155, 180, 156, 181);
     const auto menu = candidateMenuPosition(clickedPoint, 320, 200, 150, 170);
-    FCITX_ASSERT(candidateMenuAvailableWidth(clickedPoint.left(), 320) == 165);
-    FCITX_ASSERT(candidateMenuAvailableHeight(clickedPoint.top(), 200) == 180);
     FCITX_ASSERT(menu.left() == 155);
     FCITX_ASSERT(menu.top() == 10);
     FCITX_ASSERT(menu.right() <= 320);

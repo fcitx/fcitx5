@@ -65,8 +65,8 @@ int main() {
                  row.region.top() + (row.region.height() - 10) / 2);
 
     style = {};
+    style.maxHeight = 20;
     layout.update(style, {{20, 10, false}, {20, 10, false}, {20, 10, false}});
-    layout.setMaximumHeight(20);
     FCITX_ASSERT(layout.height() == 20);
     FCITX_ASSERT(layout.indexAt(1, 15) == 1);
     FCITX_ASSERT(layout.scroll(10));
@@ -77,8 +77,8 @@ int main() {
     FCITX_ASSERT(layout.scrollOffset() == 0);
 
     style = {};
+    style.maxHeight = 100;
     layout.update(style, {{20, 10, false}, {20, 10, false}, {20, 10, false}});
-    layout.setMaximumHeight(100);
     FCITX_ASSERT(layout.height() == 30);
     FCITX_ASSERT(!layout.scroll(10));
 

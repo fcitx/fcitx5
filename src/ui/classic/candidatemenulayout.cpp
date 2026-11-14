@@ -76,7 +76,8 @@ void CandidateMenuLayout::update(const Style &style,
                           YGDirectionLTR);
     width_ = static_cast<int>(YGNodeLayoutGetWidth(rootNode_.get()));
     height_ = static_cast<int>(YGNodeLayoutGetHeight(rootNode_.get()));
-    viewportHeight_ = height_;
+    viewportHeight_ =
+        style.maxHeight > 0 ? std::min(height_, style.maxHeight) : height_;
     scrollOffset_ = 0;
 
     for (size_t i = 0; i < items.size(); i++) {
@@ -118,11 +119,6 @@ void CandidateMenuLayout::update(const Style &style,
             });
         }
     }
-}
-
-void CandidateMenuLayout::setMaximumHeight(int height) {
-    viewportHeight_ = height > 0 ? std::min(height_, height) : height_;
-    scrollOffset_ = std::clamp(scrollOffset_, 0, height_ - viewportHeight_);
 }
 
 bool CandidateMenuLayout::scroll(int offset) {

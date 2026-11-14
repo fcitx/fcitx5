@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */
 #include "waylandcandidatemenu.h"
-#include <algorithm>
 #include <cstdint>
 #include <memory>
 #include <utility>
@@ -35,13 +34,6 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
                                            WaylandWindow *parentWindow)
     : ui_(ui), parentWindow_(parentWindow), window_(ui->newWindow()),
       menu_(ui->parent()) {
-    // The menu is sized against the current output in show(); dismiss it when
-    // those bounds change so it cannot remain oversized on the new output.
-    outputSizeConn_ = parentWindow_->outputSizeChanged().connect([this]() {
-        if (visible_) {
-            clear();
-        }
-    });
     createWindow();
     window_->repaint().connect([this]() { repaint(); });
     window_->click().connect(
@@ -234,11 +226,17 @@ void WaylandCandidateMenu::repaint() {
     }
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
+        auto surfaceWidth = cairo_image_surface_get_width(surface);
+        auto surfaceHeight = cairo_image_surface_get_height(surface);
         cairo_surface_set_device_scale(
             cairo_get_target(c),
             window_->bufferScale() / WaylandWindow::ScaleDominatorF,
             window_->bufferScale() / WaylandWindow::ScaleDominatorF);
-        menu_.paint(c);
+        menu_.paint(c,
+                    surfaceWidth * WaylandWindow::ScaleDominatorF /
+                        window_->bufferScale(),
+                    surfaceHeight * WaylandWindow::ScaleDominatorF /
+                        window_->bufferScale());
         cairo_destroy(c);
         window_->render();
     }

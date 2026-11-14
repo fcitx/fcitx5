@@ -10,7 +10,6 @@
 #include <memory>
 #include <vector>
 #include "fcitx-utils/rect.h"
-#include "fcitx-utils/signals.h"
 #include "candidatemenu.h"
 #include "ext_background_effect_manager_v1.h"
 #include "ext_background_effect_surface_v1.h"
@@ -53,7 +52,6 @@ private:
     WaylandWindow *parentWindow_;
     std::unique_ptr<WaylandWindow> window_;
     std::unique_ptr<wayland::WlSubsurface> subsurface_;
-    fcitx::ScopedConnection outputSizeConn_;
     std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blurManager_;
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
     CandidateMenu menu_;
