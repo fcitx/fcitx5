@@ -15,7 +15,6 @@
 #include <pango/pango-fontmap.h>
 #include <pango/pango-layout.h>
 #include <pango/pango-types.h>
-#include "fcitx-utils/rect.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/candidateaction.h"
 #include "fcitx/candidatelist.h"
@@ -62,8 +61,6 @@ public:
     int height() const { return layoutGeometry_.height(); }
 
 private:
-    Rect highlightRegion(const Rect &region) const;
-
     ClassicUI *parent_;
     GObjectUniquePtr<PangoFontMap> fontMap_;
     double fontMapDefaultDPI_ = 96.0;

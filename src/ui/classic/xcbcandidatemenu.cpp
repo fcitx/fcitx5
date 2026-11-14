@@ -9,8 +9,10 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <vector>
 #include <cairo.h>
+#include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>

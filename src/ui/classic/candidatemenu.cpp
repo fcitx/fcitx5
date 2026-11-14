@@ -149,15 +149,6 @@ bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
     return true;
 }
 
-Rect CandidateMenu::highlightRegion(const Rect &region) const {
-    const auto &margin = *parent_->theme().menu->highlight->margin;
-    return Rect()
-        .setPosition(region.left() - *margin.marginLeft,
-                     region.top() - *margin.marginTop)
-        .setSize(region.width() + *margin.marginLeft + *margin.marginRight,
-                 region.height() + *margin.marginTop + *margin.marginBottom);
-}
-
 bool CandidateMenu::hover(int x, int y) {
     if (!visible_) {
         return false;
@@ -232,10 +223,10 @@ void CandidateMenu::paint(cairo_t *cr, double width, double height) {
                         row.region.height(), 1.0);
             continue;
         }
-        if (hoveredIndex_ == static_cast<int>(i)) {
-            const auto highlight = highlightRegion(row.region);
-            theme.paint(cr, *menu.highlight, highlight.left(), highlight.top(),
-                        highlight.width(), highlight.height(), 1.0);
+        if (std::cmp_equal(hoveredIndex_, i)) {
+            theme.paint(cr, *menu.highlight, row.region.left(),
+                        row.region.top(), row.region.width(),
+                        row.region.height(), 1.0);
         }
         if (action.isChecked()) {
             theme.paint(cr, *menu.checkBox, row.check.left(), row.check.top(),

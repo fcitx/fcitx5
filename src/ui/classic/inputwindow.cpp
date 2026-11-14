@@ -30,6 +30,7 @@
 #include <yoga/YGNode.h>
 #include <yoga/YGNodeLayout.h>
 #include <yoga/YGNodeStyle.h>
+#include <yoga/YGValue.h>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
@@ -206,12 +207,17 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
         color = parent_->theme().inputPanelHighlightText();
     } else {
         Color table[2][3] = {
-            {parent_->theme().inputPanelCandidateLabelText(),
-             parent_->theme().inputPanelText(),
-             parent_->theme().inputPanelCandidateCommentText()},
-            {parent_->theme().inputPanelHighlightCandidateLabelText(),
-             parent_->theme().inputPanelHighlightCandidateText(),
-             parent_->theme().inputPanelHighlightCandidateCommentText()}};
+            {
+                parent_->theme().inputPanelCandidateLabelText(),
+                parent_->theme().inputPanelText(),
+                parent_->theme().inputPanelCandidateCommentText(),
+            },
+            {
+                parent_->theme().inputPanelHighlightCandidateLabelText(),
+                parent_->theme().inputPanelHighlightCandidateText(),
+                parent_->theme().inputPanelHighlightCandidateCommentText(),
+            },
+        };
         color = table[highlight][static_cast<int>(type)];
     }
     const auto scale = std::numeric_limits<uint16_t>::max();

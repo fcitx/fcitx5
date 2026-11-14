@@ -8,9 +8,11 @@
 
 #include <cstddef>
 #include <xcb/xcb.h>
+#include <xcb/xproto.h>
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/signals.h"
 #include "candidatemenu.h"
+#include "xcbui.h"
 #include "xcbwindow.h"
 
 namespace fcitx::classicui {
