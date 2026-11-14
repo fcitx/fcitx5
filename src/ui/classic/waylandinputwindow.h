@@ -7,8 +7,10 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDINPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDINPUTWINDOW_H_
 
+#include <cstddef>
 #include <memory>
 #include <wayland-util.h>
+#include "fcitx-utils/rect.h"
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/inputcontext.h"
 #include "ext_background_effect_manager_v1.h"
@@ -36,7 +38,12 @@ public:
     setBlurManager(std::shared_ptr<wayland::ExtBackgroundEffectManagerV1> blur);
     void updateScale();
 
+protected:
+    bool setMenuCandidateIndex(int index) override;
+
 private:
+    bool showCandidateMenu(size_t candidateIndex, const Rect &anchor);
+    void clearCandidateMenu();
     void updateBlur();
 
     WaylandUI *ui_;

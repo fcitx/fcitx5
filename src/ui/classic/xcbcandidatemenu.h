@@ -6,8 +6,10 @@
 #ifndef _FCITX_UI_CLASSIC_XCBCANDIDATEMENU_H_
 #define _FCITX_UI_CLASSIC_XCBCANDIDATEMENU_H_
 
-#include <vector>
+#include <cstddef>
 #include <xcb/xcb.h>
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/signals.h"
 #include "candidatemenu.h"
 #include "xcbwindow.h"
 
@@ -16,10 +18,11 @@ namespace fcitx::classicui {
 class XCBCandidateMenu : public XCBWindow {
 public:
     explicit XCBCandidateMenu(XCBUI *ui);
-    bool show(InputContext *inputContext, const std::vector<Rect> &regions,
-              int x, int y, int rootX, int rootY);
+    bool show(InputContext *inputContext, size_t candidateIndex,
+              const Rect &anchor);
     void hide();
     bool visible() const { return visible_; }
+    auto &hidden() { return hidden_; }
     bool filterEvent(xcb_generic_event_t *event) override;
     void postCreateWindow() override;
 
@@ -28,6 +31,7 @@ private:
     void updateBlur();
 
     CandidateMenu menu_;
+    Signal<void()> hidden_;
     xcb_atom_t atomBlur_;
     bool visible_ = false;
 };

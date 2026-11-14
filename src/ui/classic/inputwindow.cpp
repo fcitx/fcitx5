@@ -341,6 +341,7 @@ void InputWindow::setTextToLayout(
 
 std::pair<int, int> InputWindow::update(InputContext *inputContext) {
     hoverIndex_ = -1;
+    menuCandidateIndex_ = -1;
     if ((parent_->suspended() &&
          parent_->instance()->currentUI() != "kimpanel") ||
         !inputContext) {
@@ -761,14 +762,11 @@ void InputWindow::click(int x, int y) {
             return;
         }
     }
-    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-        if (candidateRegions_[idx].contains(x, y)) {
-            const auto *candidate =
-                nthCandidateIgnorePlaceholder(*candidateList, idx);
-            if (candidate) {
-                candidate->select(inputContext);
-            }
-            break;
+    if (int idx = candidateIndexAt(x, y); idx >= 0) {
+        const auto *candidate =
+            nthCandidateIgnorePlaceholder(*candidateList, idx);
+        if (candidate) {
+            candidate->select(inputContext);
         }
     }
 }
@@ -815,9 +813,32 @@ void InputWindow::setFontDPI(int dpi) {
     pango_cairo_context_set_resolution(context_.get(), dpi);
 }
 
+int InputWindow::candidateIndexAt(int x, int y) const {
+    for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(x, y)) {
+            return idx;
+        }
+    }
+    return -1;
+}
+
+bool InputWindow::setMenuCandidateIndex(int index) {
+    if (menuCandidateIndex_ == index) {
+        return false;
+    }
+    const auto oldHighlight = highlight();
+    menuCandidateIndex_ = index;
+    return oldHighlight != highlight();
+}
+
 int InputWindow::highlight() const {
-    int highlightIndex = (hoverIndex_ >= 0) ? hoverIndex_ : candidateIndex_;
-    return highlightIndex;
+    if (menuCandidateIndex_ >= 0) {
+        return menuCandidateIndex_;
+    }
+    if (hoverIndex_ >= 0) {
+        return hoverIndex_;
+    }
+    return candidateIndex_;
 }
 
 bool InputWindow::hover(int x, int y) {
@@ -832,12 +853,7 @@ bool InputWindow::hover(int x, int y) {
     if (!prevHovered) {
         nextHovered = nextRegion_.contains(x, y);
         if (!nextHovered) {
-            for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-                if (candidateRegions_[idx].contains(x, y)) {
-                    hoverIndex_ = idx;
-                    break;
-                }
-            }
+            hoverIndex_ = candidateIndexAt(x, y);
         }
     }
 

@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 #include <cairo.h>
@@ -31,13 +32,30 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
           ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)),
-      candidateMenu_(std::make_unique<XCBCandidateMenu>(ui)) {}
+      candidateMenu_(std::make_unique<XCBCandidateMenu>(ui)) {
+    candidateMenu_->hidden().connect([this]() { clearCandidateMenu(); });
+}
 
-void XCBInputWindow::clearCandidateMenu() { candidateMenu_->hide(); }
+bool XCBInputWindow::setMenuCandidateIndex(int index) {
+    if (InputWindow::setMenuCandidateIndex(index)) {
+        repaint();
+        return true;
+    }
+    return false;
+}
 
-bool XCBInputWindow::showCandidateMenu(int x, int y, int rootX, int rootY) {
-    return candidateMenu_->show(inputContext_.get(), candidateRegions_, x, y,
-                                rootX, rootY);
+void XCBInputWindow::clearCandidateMenu() {
+    candidateMenu_->hide();
+    setMenuCandidateIndex(-1);
+}
+
+bool XCBInputWindow::showCandidateMenu(size_t candidateIndex,
+                                       const Rect &anchor) {
+    if (!candidateMenu_->show(inputContext_.get(), candidateIndex, anchor)) {
+        return false;
+    }
+    setMenuCandidateIndex(static_cast<int>(candidateIndex));
+    return true;
 }
 
 void XCBInputWindow::postCreateWindow() {
@@ -60,7 +78,7 @@ void XCBInputWindow::postCreateWindow() {
         ui_->connection(), wid_,
         XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
             XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_EXPOSURE |
-            XCB_EVENT_MASK_LEAVE_WINDOW);
+            XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
 }
 
 const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
@@ -182,8 +200,8 @@ void XCBInputWindow::updateDPI(InputContext *inputContext) {
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {
-    clearCandidateMenu();
     if (!wid_) {
+        clearCandidateMenu();
         return;
     }
     auto oldVisible = visible();
@@ -191,6 +209,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
         updateDPI(inputContext);
     }
     auto [width, height] = InputWindow::update(inputContext);
+    clearCandidateMenu();
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);
@@ -268,9 +287,16 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             if (candidateMenu_->visible()) {
                 clearCandidateMenu();
             } else {
-                showCandidateMenu(logicalFromPhysical(buttonPress->event_x),
-                                  logicalFromPhysical(buttonPress->event_y),
-                                  buttonPress->root_x, buttonPress->root_y);
+                const int x = logicalFromPhysical(buttonPress->event_x);
+                const int y = logicalFromPhysical(buttonPress->event_y);
+                if (int idx = candidateIndexAt(x, y); idx >= 0) {
+                    const Rect anchor =
+                        physicalFromLogical(candidateRegions_[idx])
+                            .translated(
+                                buttonPress->root_x - buttonPress->event_x,
+                                buttonPress->root_y - buttonPress->event_y);
+                    showCandidateMenu(idx, anchor);
+                }
             }
         } else if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
             clearCandidateMenu();
@@ -282,6 +308,17 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             wheel(/*up=*/false);
         }
         return true;
+    }
+    case XCB_ENTER_NOTIFY: {
+        auto *enter = reinterpret_cast<xcb_enter_notify_event_t *>(event);
+        if (enter->event == wid_) {
+            if (hover(logicalFromPhysical(enter->event_x),
+                      logicalFromPhysical(enter->event_y))) {
+                repaint();
+            }
+            return true;
+        }
+        break;
     }
     case XCB_MOTION_NOTIFY: {
         auto *motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);

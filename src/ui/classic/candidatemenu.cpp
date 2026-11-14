@@ -53,9 +53,8 @@ void CandidateMenu::clear() {
     hoveredIndex_ = -1;
 }
 
-bool CandidateMenu::show(InputContext *inputContext,
-                         const std::vector<Rect> &candidateRegions, int x,
-                         int y, int maximumWidth, int maximumHeight) {
+bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
+                         int maximumWidth, int maximumHeight) {
     clear();
     if (!inputContext || !context_ || !layout_) {
         return false;
@@ -65,15 +64,8 @@ bool CandidateMenu::show(InputContext *inputContext,
         return false;
     }
 
-    const CandidateWord *candidate = nullptr;
-    size_t candidateIndex = 0;
-    for (size_t idx = 0; idx < candidateRegions.size(); idx++) {
-        if (candidateRegions[idx].contains(x, y)) {
-            candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
-            candidateIndex = idx;
-            break;
-        }
-    }
+    const CandidateWord *candidate =
+        nthCandidateIgnorePlaceholder(*candidateList, candidateIndex);
     auto *actionable = candidateList->toActionable();
     if (!candidate || !actionable || !actionable->hasAction(*candidate)) {
         return false;

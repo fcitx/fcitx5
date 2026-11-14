@@ -11,37 +11,39 @@
 
 namespace fcitx::classicui {
 
-inline int candidateMenuPositionX(int cursorX, int menuWidth,
+inline int candidateMenuPositionX(const Rect &anchor, int menuWidth,
                                   const Rect &screen) {
-    int x = cursorX + 1;
+    int x = anchor.left();
     if (x + menuWidth > screen.right()) {
-        x = cursorX - menuWidth;
+        x = anchor.right() - menuWidth;
     }
     return std::clamp(x, screen.left(),
                       std::max(screen.left(), screen.right() - menuWidth));
 }
 
-inline int candidateMenuPositionY(int cursorY, int menuHeight,
+inline int candidateMenuPositionY(const Rect &anchor, int menuHeight,
                                   const Rect &screen) {
-    int y = cursorY;
+    int y = anchor.bottom();
     if (y + menuHeight > screen.bottom()) {
-        y = cursorY - menuHeight;
+        y = anchor.top() - menuHeight;
     }
     return std::clamp(y, screen.top(),
                       std::max(screen.top(), screen.bottom() - menuHeight));
 }
 
-// Keep the menu inside the visible input panel. Wayland does not expose the
-// panel's absolute screen position, so this is the available placement area.
+// Keep the menu aligned to the candidate region. Flip within the visible input
+// panel only when the flipped side fits without crossing the top or left edge.
 inline Rect candidateMenuPosition(const Rect &anchor, int panelWidth,
                                   int panelHeight, int menuWidth,
                                   int menuHeight) {
-    const int x = anchor.left() > panelWidth - anchor.left()
-                      ? anchor.left() - menuWidth
-                      : anchor.left();
-    const int y = anchor.top() > panelHeight - anchor.top()
+    const int x =
+        (anchor.left() + menuWidth > panelWidth && anchor.right() >= menuWidth)
+            ? anchor.right() - menuWidth
+            : anchor.left();
+    const int y = (anchor.bottom() + menuHeight > panelHeight &&
+                   anchor.top() >= menuHeight)
                       ? anchor.top() - menuHeight
-                      : anchor.top();
+                      : anchor.bottom();
     return Rect().setPosition(x, y).setSize(menuWidth, menuHeight);
 }
 

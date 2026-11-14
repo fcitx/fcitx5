@@ -47,8 +47,7 @@ public:
     void setFontDPI(int dpi);
     bool scroll(int offset);
     PangoContext *fontContext() const { return context_.get(); }
-    bool show(InputContext *inputContext,
-              const std::vector<Rect> &candidateRegions, int x, int y,
+    bool show(InputContext *inputContext, size_t candidateIndex,
               int maximumWidth = 0, int maximumHeight = 0);
     void clear();
     bool hover(int x, int y);
@@ -56,6 +55,9 @@ public:
     void paint(cairo_t *cr, double width, double height);
 
     bool visible() const { return visible_; }
+    int candidateIndex() const {
+        return visible_ ? static_cast<int>(candidateIndex_) : -1;
+    }
     int width() const { return layoutGeometry_.width(); }
     int height() const { return layoutGeometry_.height(); }
 

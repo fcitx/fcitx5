@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 #include <cairo.h>
@@ -29,20 +30,20 @@ XCBCandidateMenu::XCBCandidateMenu(XCBUI *ui)
       atomBlur_(ui->parent()->xcb()->call<IXCBModule::atom>(
           ui->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
-bool XCBCandidateMenu::show(InputContext *inputContext,
-                            const std::vector<Rect> &regions, int x, int y,
-                            int rootX, int rootY) {
+bool XCBCandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
+                            const Rect &anchor) {
     hide();
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
     for (const auto &[screen, unused] : ui_->screenRects()) {
-        const int distance = screen.distance(rootX, rootY);
+        const int distance = screen.distance(anchor.left(), anchor.top());
         if (distance < shortestDistance) {
             shortestDistance = distance;
             closestScreen = &screen;
         }
     }
-    const double scale = scaleForDPI(ui_->dpiByPosition(rootX, rootY));
+    const double scale =
+        scaleForDPI(ui_->dpiByPosition(anchor.left(), anchor.top()));
     setScale(scale);
     const int maximumWidth =
         closestScreen
@@ -53,7 +54,8 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
             ? static_cast<int>(logicalFromPhysical(closestScreen->height()))
             : 0;
     ui_->fontOption().setupPangoContext(menu_.fontContext());
-    if (!menu_.show(inputContext, regions, x, y, maximumWidth, maximumHeight)) {
+    if (!menu_.show(inputContext, candidateIndex, maximumWidth,
+                    maximumHeight)) {
         return false;
     }
     if (wid_ && vid_ != ui_->visualId()) {
@@ -66,11 +68,11 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
     updateBlur();
     repaint();
 
-    int menuX = rootX + 1;
-    int menuY = rootY;
+    int menuX = anchor.left();
+    int menuY = anchor.bottom();
     if (closestScreen) {
-        menuX = candidateMenuPositionX(rootX, physicalWidth_, *closestScreen);
-        menuY = candidateMenuPositionY(rootY, physicalHeight_, *closestScreen);
+        menuX = candidateMenuPositionX(anchor, physicalWidth_, *closestScreen);
+        menuY = candidateMenuPositionY(anchor, physicalHeight_, *closestScreen);
     }
     xcb_params_configure_window_t config;
     config.x = menuX;
@@ -87,6 +89,7 @@ bool XCBCandidateMenu::show(InputContext *inputContext,
 }
 
 void XCBCandidateMenu::hide() {
+    const bool wasVisible = visible_;
     if (visible_) {
         visible_ = false;
         xcb_unmap_window(ui_->connection(), wid_);
@@ -95,6 +98,9 @@ void XCBCandidateMenu::hide() {
         }
     }
     menu_.clear();
+    if (wasVisible) {
+        hidden_();
+    }
 }
 
 bool XCBCandidateMenu::filterEvent(xcb_generic_event_t *event) {
