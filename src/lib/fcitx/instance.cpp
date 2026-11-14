@@ -147,6 +147,7 @@ bool shouldSwitchIM(const CapabilityFlags &oldFlags,
            isInputMethodDisabled(newFlags, allowInputMethodForPassword);
 }
 
+#ifdef ENABLE_KEYBOARD
 // While key state in most case is same as xkb state, we'd still prefer to
 // sanitize the key state because there are private bits.
 uint32_t keyStatesToXkbMask(KeyStates states) {
@@ -169,6 +170,7 @@ uint32_t keyStatesToXkbMask(KeyStates states) {
     states = states.unset(KeyStates(0x1F00U));
     return static_cast<uint32_t>(states);
 }
+#endif
 
 } // namespace
 
