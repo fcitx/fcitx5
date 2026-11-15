@@ -157,22 +157,21 @@ bool WaylandCandidateMenu::createSubsurface() {
     }
     subsurface_.reset(subcompositor->getSubsurface(window_->surface(),
                                                    parentWindow_->surface()));
-    if (!subsurface_) {
-        return false;
-    }
-    subsurface_->setDesync();
-    return true;
+    return subsurface_ != nullptr;
 }
 
 void WaylandCandidateMenu::clear() {
     const bool wasVisible = visible_;
-    if (visible_ && window_) {
-        window_->hide();
-    }
     visible_ = false;
     scroll_ = 0;
     menu_.clear();
     if (wasVisible) {
+        if (window_) {
+            window_->hide();
+        }
+        if (parentWindow_->surface()) {
+            parentWindow_->surface()->commit();
+        }
         hidden_();
     }
 }
@@ -183,7 +182,6 @@ bool WaylandCandidateMenu::show(InputContext *inputContext,
     if (!menu_.show(inputContext, candidateIndex, 0, 0)) {
         return false;
     }
-    positionAnchor_ = anchor;
     if (!createSubsurface()) {
         clear();
         return false;
@@ -191,21 +189,12 @@ bool WaylandCandidateMenu::show(InputContext *inputContext,
     visible_ = true;
     window_->resize(menu_.width(), menu_.height());
     updateBlur();
+    const auto pos = candidateMenuPosition(anchor, parentWindow_->width(),
+                                           parentWindow_->height(),
+                                           menu_.width(), menu_.height());
+    subsurface_->setPosition(pos.left(), pos.top());
     repaint();
-    position();
     return true;
-}
-
-void WaylandCandidateMenu::position() {
-    if (!visible_ || !subsurface_ || !parentWindow_->surface()) {
-        return;
-    }
-    const auto position = candidateMenuPosition(
-        positionAnchor_, parentWindow_->width(), parentWindow_->height(),
-        menu_.width(), menu_.height());
-    subsurface_->setPosition(position.left(), position.top());
-    // Subsurface position changes are double-buffered on the parent.
-    parentWindow_->surface()->commit();
 }
 
 bool WaylandCandidateMenu::hover(int x, int y) {
@@ -242,6 +231,9 @@ void WaylandCandidateMenu::repaint() {
                         window_->bufferScale());
         cairo_destroy(c);
         window_->render();
+        if (parentWindow_->surface()) {
+            parentWindow_->surface()->commit();
+        }
     }
 }
 
