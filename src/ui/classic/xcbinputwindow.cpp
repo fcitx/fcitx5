@@ -80,7 +80,7 @@ void XCBInputWindow::postCreateWindow() {
         ui_->connection(), wid_,
         XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
             XCB_EVENT_MASK_POINTER_MOTION | XCB_EVENT_MASK_EXPOSURE |
-            XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW);
+            XCB_EVENT_MASK_LEAVE_WINDOW);
 }
 
 const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
@@ -309,17 +309,6 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             wheel(/*up=*/false);
         }
         return true;
-    }
-    case XCB_ENTER_NOTIFY: {
-        auto *enter = reinterpret_cast<xcb_enter_notify_event_t *>(event);
-        if (enter->event == wid_) {
-            if (hover(logicalFromPhysical(enter->event_x),
-                      logicalFromPhysical(enter->event_y))) {
-                repaint();
-            }
-            return true;
-        }
-        break;
     }
     case XCB_MOTION_NOTIFY: {
         auto *motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
