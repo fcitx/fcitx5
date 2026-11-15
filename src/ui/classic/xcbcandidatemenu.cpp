@@ -105,6 +105,16 @@ void XCBCandidateMenu::hide() {
     }
 }
 
+void XCBCandidateMenu::raise() {
+    if (!visible_ || !wid_) {
+        return;
+    }
+    xcb_params_configure_window_t config;
+    config.stack_mode = XCB_STACK_MODE_ABOVE;
+    xcb_aux_configure_window(ui_->connection(), wid_,
+                             XCB_CONFIG_WINDOW_STACK_MODE, &config);
+}
+
 bool XCBCandidateMenu::filterEvent(xcb_generic_event_t *event) {
     switch (event->response_type & ~0x80) {
     case XCB_EXPOSE: {
