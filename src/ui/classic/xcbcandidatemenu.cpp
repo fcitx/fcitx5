@@ -5,7 +5,6 @@
  */
 #include "xcbcandidatemenu.h"
 #include <unistd.h>
-#include <algorithm>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
@@ -35,31 +34,11 @@ XCBCandidateMenu::XCBCandidateMenu(XCBUI *ui)
 bool XCBCandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
                             const Rect &anchor) {
     hide();
-    const Rect *closestScreen = nullptr;
-    int shortestDistance = INT_MAX;
-    for (const auto &[screen, unused] : ui_->screenRects()) {
-        const int distance = screen.distance(anchor.left(), anchor.top());
-        if (distance < shortestDistance) {
-            shortestDistance = distance;
-            closestScreen = &screen;
-        }
-    }
-    const double scale =
-        scaleForDPI(ui_->dpiByPosition(anchor.left(), anchor.top()));
-    setScale(scale);
-    const int maximumWidth =
-        closestScreen
-            ? static_cast<int>(logicalFromPhysical(closestScreen->width()))
-            : 0;
-    const int maximumHeight =
-        closestScreen
-            ? static_cast<int>(logicalFromPhysical(closestScreen->height()))
-            : 0;
     ui_->fontOption().setupPangoContext(menu_.fontContext());
-    if (!menu_.show(inputContext, candidateIndex, maximumWidth,
-                    maximumHeight)) {
+    if (!menu_.show(inputContext, candidateIndex)) {
         return false;
     }
+    setScale(scaleForDPI(ui_->dpiByPosition(anchor.left(), anchor.top())));
     if (wid_ && vid_ != ui_->visualId()) {
         destroyWindow();
     }
@@ -70,6 +49,15 @@ bool XCBCandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
     updateBlur();
     repaint();
 
+    const Rect *closestScreen = nullptr;
+    int shortestDistance = INT_MAX;
+    for (const auto &[screen, unused] : ui_->screenRects()) {
+        const int distance = screen.distance(anchor.left(), anchor.top());
+        if (distance < shortestDistance) {
+            shortestDistance = distance;
+            closestScreen = &screen;
+        }
+    }
     int menuX = anchor.left();
     int menuY = anchor.bottom();
     if (closestScreen) {
@@ -138,18 +126,6 @@ bool XCBCandidateMenu::filterEvent(xcb_generic_event_t *event) {
         auto *button = reinterpret_cast<xcb_button_press_event_t *>(event);
         if (button->event != wid_ || !visible_) {
             break;
-        }
-        if (button->detail == XCB_BUTTON_INDEX_4 ||
-            button->detail == XCB_BUTTON_INDEX_5) {
-            constexpr int scrollStep = 40;
-            const int offset =
-                button->detail == XCB_BUTTON_INDEX_4 ? -scrollStep : scrollStep;
-            if (menu_.scroll(offset)) {
-                menu_.hover(logicalFromPhysical(button->event_x),
-                            logicalFromPhysical(button->event_y));
-                repaint();
-            }
-            return true;
         }
         auto selection =
             button->detail == XCB_BUTTON_INDEX_1

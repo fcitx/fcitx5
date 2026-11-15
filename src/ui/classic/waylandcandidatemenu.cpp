@@ -47,26 +47,6 @@ WaylandCandidateMenu::WaylandCandidateMenu(WaylandUI *ui,
                 clear();
             }
         });
-    window_->axis().connect(
-        [this](int x, int y, uint32_t axis, wl_fixed_t value) {
-            if (!visible_ || axis != WL_POINTER_AXIS_VERTICAL_SCROLL) {
-                return;
-            }
-            scroll_ += value;
-            bool changed = false;
-            while (scroll_ >= 2560) {
-                scroll_ -= 2560;
-                changed |= menu_.scroll(10);
-            }
-            while (scroll_ <= -2560) {
-                scroll_ += 2560;
-                changed |= menu_.scroll(-10);
-            }
-            if (changed) {
-                menu_.hover(x, y);
-                repaint();
-            }
-        });
     window_->hover().connect([this](int x, int y) {
         if (hover(x, y)) {
             repaint();
@@ -163,7 +143,6 @@ bool WaylandCandidateMenu::createSubsurface() {
 void WaylandCandidateMenu::clear() {
     const bool wasVisible = visible_;
     visible_ = false;
-    scroll_ = 0;
     menu_.clear();
     if (wasVisible) {
         if (window_) {
@@ -179,7 +158,7 @@ void WaylandCandidateMenu::clear() {
 bool WaylandCandidateMenu::show(InputContext *inputContext,
                                 size_t candidateIndex, const Rect &anchor) {
     clear();
-    if (!menu_.show(inputContext, candidateIndex, 0, 0)) {
+    if (!menu_.show(inputContext, candidateIndex)) {
         return false;
     }
     if (!createSubsurface()) {

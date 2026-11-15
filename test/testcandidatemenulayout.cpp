@@ -91,41 +91,5 @@ int main() {
                  row.region.top() + (row.region.height() - 8) / 2);
     FCITX_ASSERT(row.text.top() ==
                  row.region.top() + (row.region.height() - 10) / 2);
-
-    style = {.maxHeight = 20};
-    layout.update(style, {
-                             {.textWidth = 20, .textHeight = 10},
-                             {.textWidth = 20, .textHeight = 10},
-                             {.textWidth = 20, .textHeight = 10},
-                         });
-    FCITX_ASSERT(layout.height() == 20);
-    FCITX_ASSERT(layout.indexAt(1, 15) == 1);
-    FCITX_ASSERT(layout.scroll(10));
-    FCITX_ASSERT(layout.scrollOffset() == 10);
-    FCITX_ASSERT(layout.indexAt(1, 15) == 2);
-    FCITX_ASSERT(!layout.scroll(10));
-    FCITX_ASSERT(layout.scroll(-10));
-    FCITX_ASSERT(layout.scrollOffset() == 0);
-
-    style = {.maxHeight = 100};
-    layout.update(style, {
-                             {.textWidth = 20, .textHeight = 10},
-                             {.textWidth = 20, .textHeight = 10},
-                             {.textWidth = 20, .textHeight = 10},
-                         });
-    FCITX_ASSERT(layout.height() == 30);
-    FCITX_ASSERT(!layout.scroll(10));
-
-    style = {
-        .checkWidth = 8,
-        .maxWidth = 30,
-    };
-    layout.update(style, {
-                             {.textWidth = 100, .textHeight = 10},
-                             {.textWidth = 5, .textHeight = 10},
-                         });
-    FCITX_ASSERT(layout.width() == 30);
-    FCITX_ASSERT(layout.row(0).text.width() == 22);
-    FCITX_ASSERT(layout.row(1).text.width() == 5);
     return 0;
 }
