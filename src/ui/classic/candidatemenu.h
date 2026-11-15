@@ -44,10 +44,8 @@ public:
 
     explicit CandidateMenu(ClassicUI *parent);
     void setFontDPI(int dpi);
-    bool scroll(int offset);
     PangoContext *fontContext() const { return context_.get(); }
-    bool show(InputContext *inputContext, size_t candidateIndex,
-              int maximumWidth = 0, int maximumHeight = 0);
+    bool show(InputContext *inputContext, size_t candidateIndex);
     void clear();
     bool hover(int x, int y);
     std::optional<Selection> selectionAt(int x, int y) const;

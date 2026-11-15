@@ -7,7 +7,6 @@
 #define _FCITX_UI_CLASSIC_WAYLANDCANDIDATEMENU_H_
 
 #include <cstddef>
-#include <cstdint>
 #include <memory>
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/signals.h"
@@ -57,7 +56,6 @@ private:
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
     CandidateMenu menu_;
     Signal<void()> hidden_;
-    int32_t scroll_ = 0;
     bool visible_ = false;
 };
 

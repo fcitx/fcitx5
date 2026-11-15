@@ -14,7 +14,6 @@
 #include <pango/pango-font.h>
 #include <pango/pango-fontmap.h>
 #include <pango/pango-layout.h>
-#include <pango/pango-types.h>
 #include <pango/pangocairo.h>
 #include "fcitx-utils/rect.h"
 #include "fcitx/candidateaction.h"
@@ -41,10 +40,6 @@ void CandidateMenu::setFontDPI(int dpi) {
     pango_cairo_context_set_resolution(context_.get(), dpi);
 }
 
-bool CandidateMenu::scroll(int offset) {
-    return layoutGeometry_.scroll(offset);
-}
-
 void CandidateMenu::clear() {
     visible_ = false;
     inputContext_ = {};
@@ -53,8 +48,7 @@ void CandidateMenu::clear() {
     hoveredIndex_ = -1;
 }
 
-bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
-                         int maximumWidth, int maximumHeight) {
+bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex) {
     clear();
     if (!inputContext || !context_ || !layout_) {
         return false;
@@ -90,9 +84,6 @@ bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
     pango_layout_set_font_description(layout_.get(), fontDescription);
     pango_font_description_free(fontDescription);
     pango_layout_context_changed(layout_.get());
-    pango_layout_set_width(layout_.get(), -1);
-    pango_layout_set_ellipsize(layout_.get(), PANGO_ELLIPSIZE_NONE);
-    pango_layout_set_single_paragraph_mode(layout_.get(), true);
 
     CandidateMenuLayout::Style style;
     style.content = {
@@ -121,8 +112,6 @@ bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex,
         style.checkWidth = checkBox.width();
         style.checkHeight = checkBox.height();
     }
-    style.maxWidth = maximumWidth;
-    style.maxHeight = maximumHeight;
 
     std::vector<CandidateMenuLayout::Item> items;
     items.reserve(actions.size());
@@ -208,10 +197,6 @@ void CandidateMenu::paint(cairo_t *cr, double width, double height) {
     auto &theme = parent_->theme();
     const auto &menu = *theme.menu;
     theme.paint(cr, *menu.background, 0, 0, width, height, 1.0);
-    cairo_save(cr);
-    cairo_rectangle(cr, 0, 0, width, height);
-    cairo_clip(cr);
-    cairo_translate(cr, 0, -layoutGeometry_.scrollOffset());
     for (size_t i = 0; i < actions_.size(); i++) {
         const auto &action = actions_[i];
         const auto &row = layoutGeometry_.row(i);
@@ -234,8 +219,6 @@ void CandidateMenu::paint(cairo_t *cr, double width, double height) {
         }
         pango_layout_set_text(layout_.get(), action.text().c_str(),
                               action.text().size());
-        pango_layout_set_width(layout_.get(), row.text.width() * PANGO_SCALE);
-        pango_layout_set_ellipsize(layout_.get(), PANGO_ELLIPSIZE_END);
         cairo_save(cr);
         cairoSetSourceColor(cr, hoveredIndex_ == static_cast<int>(i)
                                     ? theme.menuSelectedItemText()
@@ -244,9 +227,6 @@ void CandidateMenu::paint(cairo_t *cr, double width, double height) {
         pango_cairo_show_layout(cr, layout_.get());
         cairo_restore(cr);
     }
-    pango_layout_set_width(layout_.get(), -1);
-    pango_layout_set_ellipsize(layout_.get(), PANGO_ELLIPSIZE_NONE);
-    cairo_restore(cr);
 }
 
 } // namespace fcitx::classicui
