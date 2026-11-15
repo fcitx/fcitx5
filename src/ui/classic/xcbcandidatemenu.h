@@ -23,6 +23,7 @@ public:
     bool show(InputContext *inputContext, size_t candidateIndex,
               const Rect &anchor);
     void hide();
+    void raise();
     bool visible() const { return visible_; }
     auto &hidden() { return hidden_; }
     bool filterEvent(xcb_generic_event_t *event) override;

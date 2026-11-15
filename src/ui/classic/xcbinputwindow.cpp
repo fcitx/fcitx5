@@ -191,6 +191,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
                              XCB_CONFIG_WINDOW_STACK_MODE |
                                  XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y,
                              &wc);
+    candidateMenu_->raise();
 }
 
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
