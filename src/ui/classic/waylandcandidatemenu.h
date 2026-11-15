@@ -34,7 +34,6 @@ public:
     void clear();
     bool visible() const { return visible_; }
     auto &hidden() { return hidden_; }
-    void position();
     void resetSubsurface();
     void createWindow();
     void destroyWindow();
@@ -58,7 +57,6 @@ private:
     std::unique_ptr<wayland::ExtBackgroundEffectSurfaceV1> blur_;
     CandidateMenu menu_;
     Signal<void()> hidden_;
-    Rect positionAnchor_;
     int32_t scroll_ = 0;
     bool visible_ = false;
 };
