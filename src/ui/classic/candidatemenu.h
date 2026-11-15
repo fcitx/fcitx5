@@ -17,13 +17,13 @@
 #include <pango/pango-types.h>
 #include "fcitx-utils/trackableobject.h"
 #include "fcitx/candidateaction.h"
-#include "fcitx/candidatelist.h"
 #include "candidatemenulayout.h"
 #include "common.h"
 
 namespace fcitx {
+class CandidateList;
 class InputContext;
-}
+} // namespace fcitx
 
 namespace fcitx::classicui {
 
@@ -35,7 +35,7 @@ class CandidateMenu {
 public:
     struct Selection {
         TrackableObjectReference<InputContext> inputContext;
-        std::shared_ptr<CandidateList> candidateList;
+        std::weak_ptr<CandidateList> candidateList;
         size_t candidateIndex;
         int id;
 
@@ -52,9 +52,6 @@ public:
     void paint(cairo_t *cr, double width, double height);
 
     bool visible() const { return visible_; }
-    int candidateIndex() const {
-        return visible_ ? static_cast<int>(candidateIndex_) : -1;
-    }
     int width() const { return layoutGeometry_.width(); }
     int height() const { return layoutGeometry_.height(); }
 
@@ -66,7 +63,7 @@ private:
     GObjectUniquePtr<PangoLayout> layout_;
     CandidateMenuLayout layoutGeometry_;
     TrackableObjectReference<InputContext> inputContext_;
-    std::shared_ptr<CandidateList> candidateList_;
+    std::weak_ptr<CandidateList> candidateList_;
     size_t candidateIndex_ = 0;
     std::vector<CandidateAction> actions_;
     int hoveredIndex_ = -1;
