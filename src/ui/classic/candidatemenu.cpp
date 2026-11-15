@@ -6,6 +6,7 @@
 #include "candidatemenu.h"
 #include <algorithm>
 #include <cstddef>
+#include <memory>
 #include <optional>
 #include <utility>
 #include <vector>
@@ -131,7 +132,7 @@ bool CandidateMenu::show(InputContext *inputContext, size_t candidateIndex) {
     }
     layoutGeometry_.update(style, items);
     inputContext_ = inputContext->watch();
-    candidateList_ = std::move(candidateList);
+    candidateList_ = candidateList;
     candidateIndex_ = candidateIndex;
     actions_ = std::move(actions);
     visible_ = true;
@@ -173,7 +174,7 @@ void CandidateMenu::Selection::activate() const {
         return;
     }
     auto currentCandidateList = context->inputPanel().candidateList();
-    if (currentCandidateList != candidateList) {
+    if (!currentCandidateList || currentCandidateList != candidateList.lock()) {
         return;
     }
     const auto *candidate =
@@ -220,7 +221,7 @@ void CandidateMenu::paint(cairo_t *cr, double width, double height) {
         pango_layout_set_text(layout_.get(), action.text().c_str(),
                               action.text().size());
         cairo_save(cr);
-        cairoSetSourceColor(cr, hoveredIndex_ == static_cast<int>(i)
+        cairoSetSourceColor(cr, std::cmp_equal(hoveredIndex_, i)
                                     ? theme.menuSelectedItemText()
                                     : theme.menuText());
         cairo_move_to(cr, row.text.left(), row.text.top());
