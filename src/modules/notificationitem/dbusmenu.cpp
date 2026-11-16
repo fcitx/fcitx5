@@ -497,7 +497,7 @@ void DBusMenu::updateMenu(InputContext *icNeedUpdate) {
             }
         }
 
-        if (!icNeedUpdate || icNeedUpdate == lastRelevantIc_.get()) {
+        if (!icNeedUpdate || icNeedUpdate == lastRelevantIc()) {
             layoutUpdated(revision_, 0);
         }
     }
