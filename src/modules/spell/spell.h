@@ -30,16 +30,17 @@ struct NotEmptyProvider {
     void dumpDescription(RawConfig &) const {}
 };
 
-FCITX_CONFIGURATION(SpellConfig,
-                    fcitx::Option<std::vector<SpellProvider>, NotEmptyProvider,
-                                  DefaultMarshaller<std::vector<SpellProvider>>,
-                                  SpellProviderI18NAnnotation>
-                        providerOrder{this,
-                                      "ProviderOrder",
-                                      _("Backends"),
-                                      {SpellProvider::Presage,
-                                       SpellProvider::Custom,
-                                       SpellProvider::Enchant}};);
+FCITX_CONFIGURATION(
+    SpellConfig,
+    fcitx::Option<
+        std::vector<SpellProvider>, NotEmptyProvider,
+        DefaultMarshaller<std::vector<SpellProvider>>,
+        ComposedAnnotation<OrderedAnnotation, SpellProviderI18NAnnotation>>
+        providerOrder{this,
+                      "ProviderOrder",
+                      _("Backends"),
+                      {SpellProvider::Presage, SpellProvider::Custom,
+                       SpellProvider::Enchant}};);
 
 class SpellBackend;
 

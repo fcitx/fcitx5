@@ -78,6 +78,11 @@ void testBasics() {
 
     RawConfig rawDescConfig;
     config.dumpDescription(rawDescConfig);
+    FCITX_ASSERT(*rawDescConfig.valueByPath(
+                     "TestConfig/StringVectorOption/Ordered") == "True");
+    FCITX_ASSERT(
+        *rawDescConfig.valueByPath("TestConfig/StringVectorOption/Tooltip") ==
+        "List tooltip");
     writeAsIni(rawDescConfig, stdout);
 
     auto intOption = rawConfig.get("IntOption")->detach();
