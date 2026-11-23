@@ -1027,10 +1027,14 @@ Instance::Instance(int argc, char **argv) {
                              << " keycode: " << keyEvent.origKey().code()
                              << " program: " << ic->program();
 
-            if (keyEvent.isRelease()) {
-                return;
+            if (!keyEvent.isRelease() && !keyEvent.key().isModifier()) {
+                // Actively hide input method info when user type a key, since
+                // it is likely that user has seen the info and want to type
+                // something.
+                // But ignore key release or modifier key so there is less UI
+                // flicker when it is just left over key from switching.
+                inputState->hideInputMethodInfo();
             }
-            inputState->hideInputMethodInfo();
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent,
