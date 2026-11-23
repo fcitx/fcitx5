@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 #include <cairo.h>
+#include <pango/pango.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/color.h"
@@ -248,7 +249,104 @@ void ClassicUI::reloadTheme() {
     }
 #endif
 
+#ifdef ENABLE_DBUS
+    auto parseDesktopFont = [this](const dbus::Variant &variant) {
+        if (variant.signature() == "s") {
+            auto font = variant.dataAs<std::string>();
+            if (desktopFont_ != font) {
+                desktopFont_ = font;
+                CLASSICUI_DEBUG() << "XDG Portal DesktopFont changed "
+                                     "font: "
+                                  << desktopFont_;
+                deferedReloadTheme_->setOneShot();
+            }
+        }
+    };
+
+    auto parseTextScalingFactor = [this](const dbus::Variant &variant) {
+        if (variant.signature() == "d") {
+            auto factor = variant.dataAs<double>();
+            if (factor > 0 && textScalingFactor_ != factor) {
+                textScalingFactor_ = factor;
+                CLASSICUI_DEBUG() << "XDG Portal TextScalingFactor changed "
+                                     "factor: "
+                                  << textScalingFactor_;
+                deferedReloadTheme_->setOneShot();
+            }
+        }
+    };
+
+    if (dbus()) {
+        if (*config_.useDesktopFont) {
+            if (!desktopFontEntry_ && settingMonitor_) {
+                desktopFontEntry_ = settingMonitor_->watch(
+                    "org.gnome.desktop.interface", "font-name",
+                    parseDesktopFont);
+            }
+            if (!textScalingFactorEntry_ && settingMonitor_) {
+                textScalingFactorEntry_ = settingMonitor_->watch(
+                    "org.gnome.desktop.interface", "text-scaling-factor",
+                    parseTextScalingFactor);
+            }
+        } else {
+            desktopFontEntry_.reset();
+            textScalingFactorEntry_.reset();
+            desktopFont_.clear();
+            textScalingFactor_ = 1.0;
+        }
+    }
+#endif
+
     theme_.populateColor(accentColor_);
+}
+
+std::string ClassicUI::font() const { return effectiveFont(*config_.font); }
+
+std::string ClassicUI::menuFont() const {
+    return effectiveFont(*config_.menuFont);
+}
+
+std::string ClassicUI::effectiveFont(const std::string &configuredFont) const {
+    if (!*config_.useDesktopFont || desktopFont_.empty()) {
+        return configuredFont;
+    }
+
+    // The desktop font reported via the settings portal is a Pango font
+    // description string, e.g. "Adwaita Sans 11". Use its family and style
+    // as-is, and scale its size by the desktop text scaling factor.
+    PangoFontDescription *desc =
+        pango_font_description_from_string(desktopFont_.c_str());
+    if (!desc) {
+        return configuredFont;
+    }
+    int size = pango_font_description_get_size(desc);
+    bool isAbsolute = pango_font_description_get_size_is_absolute(desc);
+    if (size <= 0) {
+        // The desktop font does not carry a size, keep the configured one.
+        PangoFontDescription *configuredDesc =
+            pango_font_description_from_string(configuredFont.c_str());
+        if (configuredDesc) {
+            size = pango_font_description_get_size(configuredDesc);
+            isAbsolute =
+                pango_font_description_get_size_is_absolute(configuredDesc);
+            pango_font_description_free(configuredDesc);
+        }
+    }
+    if (size > 0 && textScalingFactor_ != 1.0) {
+        size = static_cast<int>(size * textScalingFactor_ + 0.5);
+    }
+    if (size > 0) {
+        if (isAbsolute) {
+            pango_font_description_set_absolute_size(desc, size);
+        } else {
+            pango_font_description_set_size(desc, size);
+        }
+    }
+    char *fontString = pango_font_description_to_string(desc);
+    std::string result = fontString ? fontString : configuredFont;
+    g_free(fontString);
+    pango_font_description_free(desc);
+    return result;
 }
 
 void ClassicUI::suspend() {
