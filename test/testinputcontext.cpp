@@ -45,7 +45,16 @@ public:
                      const std::string &program = {})
         : InputContext(manager, program) {}
 
-    ~TestInputContext() { destroy(); }
+    ~TestInputContext() {
+        if (!destroyed_) {
+            destroy();
+        }
+    }
+
+    void manualDestroy() {
+        destroy();
+        destroyed_ = true;
+    }
 
     const char *frontend() const override { return "test"; }
 
@@ -54,6 +63,9 @@ public:
                                    unsigned int /*size*/) override {}
     void forwardKeyImpl(const ForwardKeyEvent & /*key*/) override {}
     void updatePreeditImpl() override {}
+
+private:
+    bool destroyed_ = false;
 };
 
 class TestInputContextV2 : public InputContextV2 {
@@ -141,6 +153,24 @@ void test_simple() {
 
         ic[1]->setCapabilityFlags(CapabilityFlag::Digit);
         FCITX_ASSERT(ic[1]->capabilityFlags() == CapabilityFlag::Digit);
+    }
+
+    {
+        FocusGroup group("", manager);
+        auto ic1 = std::make_unique<TestInputContext>(manager);
+        ic1->setFocusGroup(&group);
+        ic1->focusIn();
+        FCITX_ASSERT(manager.mostRecentInputContext() == ic1.get());
+        ic1->manualDestroy();
+        FCITX_ASSERT(manager.mostRecentInputContext() == nullptr);
+
+        auto ic2 = std::make_unique<TestInputContext>(manager);
+        ic2->setFocusGroup(&group);
+        ic2->focusIn();
+        ic2->focusOut();
+        FCITX_ASSERT(manager.mostRecentInputContext() == ic2.get());
+        ic2->manualDestroy();
+        FCITX_ASSERT(manager.mostRecentInputContext() == nullptr);
     }
 
     {
