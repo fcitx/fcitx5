@@ -356,6 +356,9 @@ void InputContextManager::unregisterInputContext(InputContext &inputContext) {
         d->focusedInputContexts_.erase(
             d->focusedInputContexts_.iterator_to(inputContext));
     }
+    if (d->mostRecentInputContext_.get() == &inputContext) {
+        d->mostRecentInputContext_.unwatch();
+    }
 }
 
 void InputContextManager::registerFocusGroup(FocusGroup &group) {
