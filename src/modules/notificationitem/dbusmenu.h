@@ -13,6 +13,7 @@
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx/event.h"
 #include "fcitx/icontheme.h"
 #include "fcitx/inputcontext.h"
 
@@ -31,7 +32,7 @@ public:
     DBusMenu(NotificationItem *item);
     ~DBusMenu();
 
-    void updateMenu(InputContext *icNeedUpdate);
+    void updateMenu(Event &event);
     InputContext *lastRelevantIc();
     void reset();
 
@@ -95,6 +96,24 @@ private:
     uint32_t revision_ = 2;
     NotificationItem *parent_;
     std::unique_ptr<EventSourceTime> timeEvent_;
+    // Tracks the InputContext associated with the tray menu.
+    //
+    // There are two modes depending on whether the host sends top-level
+    // Event(0, "opened") / Event(0, "closed") (sendEventToTopLevel_):
+    // 1. Standard hosts (sendEventToTopLevel_ == true, e.g. KDE / GNOME):
+    //    - When the menu is closed, lastRelevantIc_ is empty (unwatched), so
+    //      lastRelevantIc() falls back to mostRecentInputContext() and follows
+    //      focus changes. updateMenu() does not need to emit layoutUpdated on
+    //      focus changes because the host honors aboutToShow(0) returning true.
+    //    - When the menu is about to open, aboutToShow(0) pins
+    //      mostRecentInputContext() into lastRelevantIc_ so the menu and tray
+    //      icon stay fixed to that IC even if the popup menu steals focus,
+    //      until Event(0, "closed") unwatches it.
+    // 2. libdbusmenu-gtk (sendEventToTopLevel_ == false):
+    //    - Never sends top-level opened/closed events and ignores the return
+    //      value of aboutToShow(0), relying on layoutUpdated signals instead.
+    //    - updateMenu() refreshes lastRelevantIc_ to mostRecentInputContext()
+    //      and emits layoutUpdated when the relevant IC changes.
     TrackableObjectReference<InputContext> lastRelevantIc_;
     std::unordered_set<int32_t> requestedMenus_;
     std::unique_ptr<EventSource> deferEvent_;

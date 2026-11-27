@@ -338,17 +338,14 @@ void NotificationItem::setRegistered(bool registered) {
 
     if (registered_) {
         auto updateIconAndTitle = [this](Event &e) {
-            InputContext *ic = nullptr;
-            if (e.isInputContextEvent()) {
-                ic = dynamic_cast<InputContextEvent &>(e).inputContext();
-            }
-            menu_->updateMenu(ic);
+            menu_->updateMenu(e);
             newIcon();
             newToolTip();
         };
-        for (auto type : {EventType::InputContextFocusIn,
-                          EventType::InputContextSwitchInputMethod,
-                          EventType::InputMethodGroupChanged}) {
+        for (auto type :
+             {EventType::InputContextFocusIn, EventType::InputContextDestroyed,
+              EventType::InputContextSwitchInputMethod,
+              EventType::InputMethodGroupChanged}) {
             eventHandlers_.emplace_back(instance_->watchEvent(
                 type, EventWatcherPhase::Default, updateIconAndTitle));
         }

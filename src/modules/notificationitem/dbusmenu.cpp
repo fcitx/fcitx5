@@ -25,6 +25,7 @@
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/action.h"
+#include "fcitx/event.h"
 #include "fcitx/icontheme.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
@@ -126,6 +127,16 @@ void DBusMenu::event(int32_t id, const std::string &type, const dbus::Variant &,
     if (id == 0 && type == "closed") {
         lastRelevantIc_.unwatch();
         requestedMenus_.clear();
+        if (!timeEvent_) {
+            timeEvent_ = parent_->instance()->eventLoop().addTimeEvent(
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
+                [this](EventSourceTime *, uint64_t) {
+                    parent_->newIcon();
+                    parent_->newToolTip();
+                    timeEvent_.reset();
+                    return true;
+                });
+        }
     }
 
     if (type != "clicked") {
@@ -479,8 +490,13 @@ InputContext *DBusMenu::lastRelevantIc() {
 
 bool DBusMenu::aboutToShow(int32_t id) {
     if (id == 0) {
+        // Pin the current mostRecentInputContext when the top-level menu is
+        // about to be shown, so subsequent layout requests and menu actions
+        // operate on this IC even if opening the menu steals focus.
         if (auto *ic = parent_->instance()->mostRecentInputContext()) {
             lastRelevantIc_ = ic->watch();
+        } else {
+            lastRelevantIc_.unwatch();
         }
         requestedMenus_.clear();
         return true;
@@ -488,18 +504,48 @@ bool DBusMenu::aboutToShow(int32_t id) {
     return !requestedMenus_.contains(id);
 }
 
-void DBusMenu::updateMenu(InputContext *icNeedUpdate) {
-    if (isRegistered()) {
-        ++revision_;
-        if (!sendEventToTopLevel_) {
-            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
-                lastRelevantIc_ = ic->watch();
-            }
-        }
+void DBusMenu::updateMenu(Event &event) {
+    if (!isRegistered()) {
+        return;
+    }
+    InputContext *icNeedUpdate = nullptr;
+    if (event.isInputContextEvent()) {
+        icNeedUpdate = static_cast<InputContextEvent &>(event).inputContext();
+    }
+    auto *oldRelevantIc = lastRelevantIc_.get();
+    if (event.type() == EventType::InputContextDestroyed &&
+        icNeedUpdate == oldRelevantIc) {
+        lastRelevantIc_.unwatch();
+    }
 
-        if (!icNeedUpdate || icNeedUpdate == lastRelevantIc_.get()) {
-            layoutUpdated(revision_, 0);
+    // If the tray implementation does not send top-level opened/closed
+    // events (e.g. libdbusmenu-gtk), it also ignores aboutToShow(0)'s
+    // return value and never resets lastRelevantIc_ on menu close, so we
+    // need to keep updating lastRelevantIc_ and emitting layoutUpdated.
+    // When sendEventToTopLevel_ is true, lastRelevantIc_ is only pinned
+    // while the menu is open (and unwatched on close), and the host will
+    // re-fetch the layout on aboutToShow(0).
+    if (!sendEventToTopLevel_) {
+        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+            lastRelevantIc_ = ic->watch();
+        } else {
+            lastRelevantIc_.unwatch();
         }
+    }
+
+    // Emit layoutUpdated in three cases:
+    // 1. oldRelevantIc != lastRelevantIc_.get(): The tracked IC itself changed
+    //    (e.g. focus moved to another IC when !sendEventToTopLevel_, or the
+    //    tracked IC was destroyed).
+    // 2. !icNeedUpdate: Global state changed without a specific IC (e.g.
+    //    InputMethodGroupChanged).
+    // 3. icNeedUpdate == lastRelevantIc_.get(): The currently tracked IC
+    //    updated its own state (e.g. InputContextSwitchInputMethod or
+    //    InputContextFlushUI for StatusArea).
+    if (oldRelevantIc != lastRelevantIc_.get() || !icNeedUpdate ||
+        icNeedUpdate == lastRelevantIc_.get()) {
+        ++revision_;
+        layoutUpdated(revision_, 0);
     }
 }
 
