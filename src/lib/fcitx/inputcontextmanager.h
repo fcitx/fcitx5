@@ -7,6 +7,7 @@
 #ifndef _FCITX_INPUTCONTEXTMANAGER_H_
 #define _FCITX_INPUTCONTEXTMANAGER_H_
 
+#include <functional>
 #include <memory>
 #include <fcitx-config/enum.h>
 #include <fcitx-utils/macros.h>
@@ -19,7 +20,7 @@ class InputContextManagerPrivate;
 class FocusGroup;
 class Instance;
 class InputContextProperty;
-typedef std::function<bool(FocusGroup *ic)> FocusGroupVisitor;
+using FocusGroupVisitor = std::function<bool(FocusGroup *ic)>;
 
 FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, No);
 
