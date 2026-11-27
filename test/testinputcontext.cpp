@@ -366,6 +366,25 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
             ic->updateUserInterface(UserInterfaceComponent::InputPanel, true);
             FCITX_ASSERT(customUICallbackCalled);
         }
+        {
+            FocusGroup group("test", instance->inputContextManager());
+            ic->setFocusGroup(&group);
+            ic->focusIn();
+            FCITX_ASSERT(instance->mostRecentInputContext() == ic);
+            bool destroyedCalled = false;
+            auto watcher = instance->watchEvent(
+                EventType::InputContextDestroyed, EventWatcherPhase::Default,
+                [instance, ic, uuid, &destroyedCalled](Event &event) {
+                    auto &icEvent = static_cast<InputContextEvent &>(event);
+                    FCITX_ASSERT(icEvent.inputContext() == ic);
+                    FCITX_ASSERT(instance->mostRecentInputContext() != ic);
+                    FCITX_ASSERT(
+                        instance->inputContextManager().findByUUID(uuid) == ic);
+                    destroyedCalled = true;
+                });
+            testfrontend->call<ITestFrontend::destroyInputContext>(uuid);
+            FCITX_ASSERT(destroyedCalled);
+        }
 
         dispatcher->schedule([dispatcher, instance]() {
             dispatcher->detach();

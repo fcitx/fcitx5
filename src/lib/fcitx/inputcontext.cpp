@@ -30,6 +30,7 @@
 #include "focusgroup.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
+#include "inputcontextmanager_p.h"
 #include "inputcontextproperty.h"
 #include "instance.h"
 #include "misc_p.h"
@@ -112,6 +113,7 @@ void InputContext::destroy() {
     if (d->group_) {
         d->group_->removeInputContext(this);
     }
+    d->manager_.d_func()->resetMostRecentInputContext(*this);
     d->emplaceEvent<InputContextDestroyedEvent>(this);
     d->manager_.unregisterInputContext(*this);
     d->destroyed_ = true;
