@@ -45,6 +45,8 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(imselector, instance_->addonManager());
     DBusMenu *menu() { return menu_.get(); }
+    void newIcon();
+    void newToolTip();
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
@@ -55,8 +57,6 @@ private:
 
     void maybeScheduleRegister();
     void cleanUp();
-    void newIcon();
-    void newToolTip();
 
     Instance *instance_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
